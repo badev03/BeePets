@@ -17,6 +17,14 @@ function App() {
           <Route path='blog' element={<BlogList/>}/>
           <Route path='blogdetails' element={<BlogDetails/>}/>
           <Route path='servicerdetails' element={<ServiceDetails/>}/>
+          <Route path='user/dashbroad' element={<Dashboard/>}/>
+          <Route path='user/changepassword' element={<ChangePassword/>}/>
+          <Route path='user/profilesetting' element={<ProfileSetting/>}/>
+          <Route path='user/information' element={<Information/>}/>
+          <Route path='doctor' element={<Search/>}/>
+          <Route path='booking' element={<Booking/>}/>
+          <Route path='booking/success' element={<BookingSuccess/>}/>
+          <Route path='doctor/profile' element={<DoctorProfile/>}/>
         </Route>          
       </Routes>
     </Router>
