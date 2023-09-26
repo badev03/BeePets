@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\ServiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,5 +13,19 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
+//
+Route::prefix('admin')->group(function () {
+    $objects = [
+        'service-categories' => \App\Http\Controllers\Admin\ServiceCategorieController::class,
+    ];
+    foreach ($objects as $key => $controller) {
+     Route::resource($key, $controller);
+
+
+}
+
+});
 
 
