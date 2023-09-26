@@ -15,14 +15,17 @@ use App\Http\Controllers\Admin\ServiceController;
 */
 
 
-
+//
 Route::prefix('admin')->group(function () {
     $objects = [
-        'serviceCategories' => \App\Http\Controllers\Admin\ServiceCategorieController::class,
+        'service-categories' => \App\Http\Controllers\Admin\ServiceCategorieController::class,
     ];
     foreach ($objects as $key => $controller) {
-     Route::resource($key, $controller); 
+     Route::resource($key, $controller);
+
+
 }
 
 });
-   
+
+

@@ -11,7 +11,7 @@ class ServiceCategorieController extends BaseAdminController
 {
     public $model = Service_categorie::class;
     public $pathView = 'admin.serviceCategories.';
-    public $urlbase = 'serviceCategories.';
+    public $urlbase = 'service-categories.';
     public $fieldImage = 'cate_image';
     public $folderImage = 'image/serCateImage';
     public $titleIndex = 'Danh sách Dịch vụ';
@@ -24,6 +24,6 @@ class ServiceCategorieController extends BaseAdminController
         'slug' => 'Slug',
         'description' => 'mô tả',
         'cate_image'=>'Ảnh'
-        
+
     ];
 }

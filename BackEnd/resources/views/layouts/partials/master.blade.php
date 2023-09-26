@@ -1,84 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <meta charset="utf-8"/>
-    <title> @yield('title','Dashboard | Heal Pets') </title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description"/>
-    <meta content="Coderthemes" name="author"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <!-- App favicon -->
-    <link rel="shortcut icon" href="{{asset('backend/assets/images/favicon.ico')}}">
+    <meta name="description" content="The responsive professional Doccure template offers many features, like scheduling appointments with  top doctors, clinics, and hospitals via voice, video call & chat.">
+    <meta name="keywords" content="practo clone, doccure, doctor appointment, Practo clone html template, doctor booking template">
+    <meta name="author" content="Practo Clone HTML Template - Doctor Booking Template">
+    <meta property="og:url" content="https://doccure.dreamguystech.com/html/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Doctors Appointment HTML Website Templates | Doccure">
+    <meta property="og:description" content="The responsive professional Doccure template offers many features, like scheduling appointments with  top doctors, clinics, and hospitals via voice, video call & chat.">
+    <meta property="og:image" content="assets/img/preview-banner.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:domain" content="https://doccure.dreamguystech.com/html/">
+    <meta property="twitter:url" content="https://doccure.dreamguystech.com/html/">
+    <meta name="twitter:title" content="Doctors Appointment HTML Website Templates | Doccure">
+    <meta name="twitter:description" content="The responsive professional Doccure template offers many features, like scheduling appointments with  top doctors, clinics, and hospitals via voice, video call & chat.">
+    <meta name="twitter:image" content="assets/img/preview-banner.html">
+    <title>Doccure - Dashboard</title>
 
-    <!-- App css -->
+    <link rel="shortcut icon" type="image/x-icon" href="{{asset('backend/assets/img/favicon.png')}}">
 
-    <link href="{{asset('backend/assets/css/app.min.css')}}" rel="stylesheet" type="text/css" id="app-style"/>
+    <link rel="stylesheet" href="{{asset('backend/assets/css/bootstrap.min.css')}}">
 
-    <!-- icons -->
-    <link href="{{asset('backend/assets/css/icons.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="{{asset('backend/assets/plugins/fontawesome/css/fontawesome.min.css')}}">
+    <link rel="stylesheet" href="{{asset('backend/assets/plugins/fontawesome/css/all.min.css')}}">
+
+    <link rel="stylesheet" href="{{asset('backend/assets/css/feathericon.min.css')}}">
+    <link rel="stylesheet" href="{{asset('backend/assets/plugins/morris/morris.css')}}">
+
+    <link rel="stylesheet" href="{{asset('backend/assets/css/custom.css')}}">
 
     @stack('style')
-
 </head>
+<body>
 
+<div class="main-wrapper">
+@include('layouts.partials.header')
 
-<!-- Topbar Start -->
-@include('layouts.partials.topbar')
-
-<!-- end Topbar -->
-<!-- ========== Left Sidebar Start ========== -->
-@include('layouts.partials.Lsidebar')
-
-<!-- Left Sidebar End -->
-<!-- ============================================================== -->
-<!-- Start Page Content here -->
-<!-- ============================================================== -->
-<div class="content-page">
-
-    <div class="content">
-
-        @yield('content')
-
-    </div> <!-- container-fluid -->
-</div> <!-- content -->
-<!-- Footer Start -->
-@include('layouts.partials.footer')
-<!-- end Footer -->
+    @include('layouts.partials.sidebar')
+    <div class="page-wrapper">
+        <div class="content container-fluid">
+@yield('content')
+            </div>
+    </div>
 
 </div>
-<!-- ============================================================== -->
-<!-- End Page content -->
-<!-- ============================================================== -->
-</div>
-<!-- END wrapper -->
-<!-- Right Sidebar -->
-@include('layouts.partials.Rsidebar')
 
-<!-- /Right-bar -->
-<!-- Right bar overlay-->
-<div class="rightbar-overlay"></div>
 
-<!-- Vendor -->
-<script src="{{asset('backend/assets/libs/jquery/jquery.min.js')}}"></script>
-<script src="{{asset('backend/assets/libs/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-<script src="{{asset('backend/assets/libs/simplebar/simplebar.min.js')}}"></script>
-<script src="{{asset('backend/assets/libs/node-waves/waves.min.js')}}"></script>
-<script src="{{asset('backend/assets/libs/waypoints/lib/jquery.waypoints.min.js')}}"></script>
-<script src="{{asset('backend/assets/libs/jquery.counterup/jquery.counterup.min.js')}}"></script>
-<script src="{{asset('backend/assets/libs/feather-icons/feather.min.js')}}"></script>
+<script src="{{asset('backend/assets/js/jquery-3.7.0.min.js')}}"></script>
 
-<!-- knob plugin -->
-{{--chua biet cai nay de lam gi nen chua chia--}}
-<script src="{{asset('backend/assets/libs/jquery-knob/jquery.knob.min.js')}}"></script>
+<script src="{{asset('backend/assets/js/bootstrap.bundle.min.js')}}"></script>
 
-<!-- App js-->
-<script src="{{asset('backend/assets/js/app.min.js')}}"></script>
+<script src="{{asset('backend/assets/plugins/slimscroll/jquery.slimscroll.min.js')}}"></script>
+<script src="{{asset('backend/assets/plugins/raphael/raphael.min.js')}}"></script>
+{{--<script src="{{asset('backend/assets/plugins/morris/morris.min.js')}}"></script>--}}
+<script src="{{asset('backend/assets/js/chart.morris.js')}}"></script>
+
+<script src="{{asset('backend/assets/js/script.js')}}"></script>
 
 @stack('script')
-
-
-
-
 </body>
+
+<!-- Mirrored from doccure.dreamguystech.com/html/template/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 09 Sep 2023 14:19:12 GMT -->
 </html>
