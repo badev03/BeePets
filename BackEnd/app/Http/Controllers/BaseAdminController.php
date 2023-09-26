@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class BaseAdminController extends Controller
 {
-    
+
      /**
      * @var \Illuminate\Database\Eloquent\Builder $model
      */
@@ -24,6 +24,8 @@ class BaseAdminController extends Controller
     public $titleCreate;
     public $titleShow;
     public $titleEdit;
+    public $slug;
+    protected $title;
 
     public function __construct()
     {
@@ -37,7 +39,8 @@ class BaseAdminController extends Controller
         return view($this->pathView . __FUNCTION__, compact('data'))
             ->with('title', $this->titleIndex)
             ->with('colums', $this->colums)
-            ->with('urlbase', $this->urlbase);
+            ->with('urlbase', $this->urlbase)
+            ->with('title_web', $this->title);
     }
 
     /**
@@ -48,7 +51,11 @@ class BaseAdminController extends Controller
         return view($this->pathView . __FUNCTION__)
             ->with('title', $this->titleCreate)
             ->with('colums', $this->colums)
-            ->with('urlbase', $this->urlbase);
+            ->with('urlbase', $this->urlbase)
+            ->with('title_web', $this->title);
+    }
+    public function createSlug($name) {
+        return Str::slug($name);
     }
 
     /**
@@ -56,23 +63,22 @@ class BaseAdminController extends Controller
      */
     public function store(Request $request)
     {
-        // $validator = $this->validateStore($request);
+        $validator = $this->validateStore($request);
 
-        // if ($validator->fails()) {
-        //     return back()->withErrors($validator)->withInput();
-        // }
-
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
         $model = new $this->model;
 
-        $model->fill($request->except([$this->fieldImage]));
+        $model->fill($request->except([$this->fieldImage,$this->slug]));
 
         if ($request->hasFile($this->fieldImage)) {
             $tmpPath = Storage::put($this->folderImage, $request->{$this->fieldImage});
-
             $model->{$this->fieldImage} = 'storage/' . $tmpPath;
         }
-
-
+        if($request->has('name')) {
+            $model->{$this->slug} = $this->createSlug($request->name);
+        }
         $model->save();
 
         return back()->with('success', 'Thao tac thanh cong');

@@ -12,11 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('newcs', function (Blueprint $table) {
-            $table->id('title');
+            $table->id();
+            $table->string('name');
             $table->string('slug');
             $table->text('content');
             $table->date('public_date');
-            $table->string('new_image');
+            $table->string('image');
             $table->unsignedBigInteger('new_categorie_id');
 
             $table->foreign('new_categorie_id')->references('id')->on('new_categories');
