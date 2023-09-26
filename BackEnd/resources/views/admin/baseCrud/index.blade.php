@@ -7,6 +7,11 @@
 @section('content')
     <div class="row">
         <div class="col-sm-12">
+            @if(session()->has('success_delete'))
+                <div class="alert-success alert">
+                    {{ session('success_delete') }}
+                </div>
+            @endif
             <div class="card">
                 <div class="card-header">
                     <div class="row">
@@ -22,30 +27,31 @@
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="datatable table table-stripped">
-
                             <thead>
+                            <td>#ID</td>
                             @foreach ($colums as $colum=>$name)
                                 <td>{{$name}}</td>
                             @endforeach
                             <td>Hành động</td>
                             </thead>
                             <tbody>
-                            @foreach ($data as $item)
+                            @foreach ($data as $key=>$item)
                                 <tr>
+                                    <td>{{ $key + 1 }}</td>
                                     @foreach ($colums as $colum=>$name)
-
                                         <td>
                                             @if(in_array($colum, FIELD_IMAGE))
-                                                <img src="{{ asset($item->$colum)?? '123'}}" width="50px" alt="">
+                                                <img src="{{ asset($item->$colum)?? '123'}}" width="100px" alt="">
+                                            @elseif(in_array($colum , FIELD_DESC))
+                                                {!! $item->$colum !!}
                                             @else
                                                 {{ $item->$colum}}
                                             @endif
 
-
                                         </td>
 
                                     @endforeach
-                                    <td>
+                                    <td class="d-flex" style="grid-gap:1rem">
                                         <button class="btn btn-warning">
 
                                             <a style="color: white" href="{{ route($urlbase . 'show', $item) }}">Xem</a>
