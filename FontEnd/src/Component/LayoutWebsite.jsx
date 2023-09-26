@@ -8,6 +8,7 @@ const LayoutWebsite = () => {
     <>
       <div className="main-wrapper home-twelve">
         <Header />
+        
         <Outlet />
         <Footer />
       </div>
