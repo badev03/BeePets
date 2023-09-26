@@ -26,6 +26,7 @@ class BaseAdminController extends Controller
     public $titleEdit;
     public $slug;
     protected $title;
+    protected $tester;
 
     public function __construct()
     {
