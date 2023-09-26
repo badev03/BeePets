@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const BlogList = () => {
   return (
@@ -26,7 +27,7 @@ const BlogList = () => {
                 <div className="col-md-6 col-sm-12">
                   <div className="blog grid-blog">
                     <div className="blog-image">
-                      <a href="blog-details.html"><img className="img-fluid" src="../src/assets/img/blog/blog-01.jpg" alt="Post Image" /></a>
+                      <Link to={"/blogdetails"}><img className="img-fluid" src="../src/assets/img/blog/blog-01.jpg" alt="Post Image" /></Link>
                     </div>
                     <div className="blog-content">
                       <ul className="entry-meta meta-item">
@@ -37,7 +38,7 @@ const BlogList = () => {
                         </li>
                         <li><i className="far fa-clock" /> 4 Dec 2023</li>
                       </ul>
-                      <h3 className="blog-title"><a href="blog-details.html">Doccure – Making your clinic painless visit?</a></h3>
+                      <h3 className="blog-title"><Link to={"/blogdetails"}>Doccure – Making your clinic painless visit?</Link></h3>
                       <p className="mb-0">Lorem ipsum dolor sit amet, consectetur em adipiscing elit, sed do eiusmod tempor.</p>
                     </div>
                   </div>
@@ -45,7 +46,7 @@ const BlogList = () => {
                 <div className="col-md-6 col-sm-12">
                   <div className="blog grid-blog">
                     <div className="blog-image">
-                      <a href="blog-details.html"><img className="img-fluid" src="../src/assets/img/blog/blog-02.jpg" alt="Post Image" /></a>
+                      <Link to={"blogdetails"}><img className="img-fluid" src="../src/assets/img/blog/blog-02.jpg" alt="Post Image" /></Link>
                     </div>
                     <div className="blog-content">
                       <ul className="entry-meta meta-item">
@@ -56,7 +57,7 @@ const BlogList = () => {
                         </li>
                         <li><i className="far fa-clock" /> 3 Dec 2023</li>
                       </ul>
-                      <h3 className="blog-title"><a href="blog-details.html">What are the benefits of Online Doctor Booking?</a></h3>
+                      <h3 className="blog-title"><Link to={"blogdetails"}>What are the benefits of Online Doctor Booking?</Link></h3>
                       <p className="mb-0">Lorem ipsum dolor sit amet, consectetur em adipiscing elit, sed do eiusmod tempor.</p>
                     </div>
                   </div>

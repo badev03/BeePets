@@ -4,6 +4,7 @@ import LayoutWebsite from './Component/LayoutWebsite'
 import Content from './Component/Content'
 import BlogList from './Component/Blog/BlogList'
 import BlogDetails from './Component/Blog/BlogDetails'
+import ServiceDetails from './Component/Servicer/ServiceDetails'
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <Route path='' element={<Content/>}/>
           <Route path='blog' element={<BlogList/>}/>
           <Route path='blogdetails' element={<BlogDetails/>}/>
+          <Route path='servicerdetails' element={<ServiceDetails/>}/>
         </Route>          
       </Routes>
     </Router>
