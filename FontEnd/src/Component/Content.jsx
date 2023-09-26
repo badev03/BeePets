@@ -5,7 +5,7 @@ const Content = () => {
   return (
     <div>
       <Banner />
-      <h1>hehe</h1>
+      
   <section className="services-section-fourteen">
     <div className="floating-bg">
       <img src="../src/assets/img/bg/big-paw.png" alt="paw-image" />
