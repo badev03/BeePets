@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->float('price');
             $table->integer('quantity');
-            $table->string('pr_image')->nullable();
+            $table->string('image')->nullable();
             $table->unsignedBigInteger('product_categorie_id');
             $table->foreign('product_categorie_id')->references('id')->on('product_categories');
             $table->timestamps();

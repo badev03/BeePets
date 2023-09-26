@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('slug');
             $table->text('content');
             $table->date('public_date');
-            $table->string('new_image');
+            $table->string('image');
             $table->unsignedBigInteger('new_categorie_id');
 
             $table->foreign('new_categorie_id')->references('id')->on('new_categories');

@@ -17,7 +17,7 @@
     <meta name="twitter:title" content="Doctors Appointment HTML Website Templates | Doccure">
     <meta name="twitter:description" content="The responsive professional Doccure template offers many features, like scheduling appointments with  top doctors, clinics, and hospitals via voice, video call & chat.">
     <meta name="twitter:image" content="assets/img/preview-banner.html">
-    <title>Doccure - Dashboard</title>
+    <title>Dashboard</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('backend/assets/img/favicon.png')}}">
 
@@ -58,7 +58,7 @@
 <script src="{{asset('backend/assets/js/chart.morris.js')}}"></script>
 
 <script src="{{asset('backend/assets/js/script.js')}}"></script>
-
+@include('layouts.partials.script')
 @stack('script')
 </body>
 

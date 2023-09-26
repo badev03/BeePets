@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->text('description');
             $table->integer('price');
-            $table->string('ser_image')->nullable();
+            $table->string('image')->nullable();
             $table->unsignedBigInteger('service_categorie_id');
             $table->timestamps();
             $table->foreign('service_categorie_id')->references('id')->on('service_categories')->onDelete('cascade');;

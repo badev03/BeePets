@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class BaseAdminController extends Controller
 {
-    
+
      /**
      * @var \Illuminate\Database\Eloquent\Builder $model
      */
@@ -25,6 +25,7 @@ class BaseAdminController extends Controller
     public $titleShow;
     public $titleEdit;
     public $slug;
+    protected $title;
 
     public function __construct()
     {
@@ -38,7 +39,8 @@ class BaseAdminController extends Controller
         return view($this->pathView . __FUNCTION__, compact('data'))
             ->with('title', $this->titleIndex)
             ->with('colums', $this->colums)
-            ->with('urlbase', $this->urlbase);
+            ->with('urlbase', $this->urlbase)
+            ->with('title_web', $this->title);
     }
 
     /**
@@ -49,7 +51,8 @@ class BaseAdminController extends Controller
         return view($this->pathView . __FUNCTION__)
             ->with('title', $this->titleCreate)
             ->with('colums', $this->colums)
-            ->with('urlbase', $this->urlbase);
+            ->with('urlbase', $this->urlbase)
+            ->with('title_web', $this->title);
     }
     public function createSlug($name) {
         return Str::slug($name);
@@ -60,6 +63,11 @@ class BaseAdminController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = $this->validateStore($request);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
         $model = new $this->model;
 
         $model->fill($request->except([$this->fieldImage,$this->slug]));
@@ -170,3 +178,6 @@ class BaseAdminController extends Controller
         return [];
     }
 }
+
+
+
