@@ -9,22 +9,21 @@
 </head>
 <body>
 <h1>{{ $title }}</h1>
-
 <form action="{{ route($urlbase . 'store') }}" method="POST" enctype="multipart/form-data">
     @csrf
 
     @foreach($colums as $colum => $name)
-  
+
         <div>
             <label for="{{ $colum }}">{{ $name }}</label>
-            @if($colum == FIELD_IMAGE)
+            @if(in_array($colum,FIELD_IMAGE))
                 <input type="file" name="{{ $colum }}" id="{{ $colum }}">
-            @elseif($colum ==FIELD_DESC)
+            @elseif(in_array($colum,FIELD_DESC))
            <textarea name="{{ $colum }}" id="{{ $colum }}" cols="30" rows="10"></textarea>
            @else
            <input type="text" name="{{ $colum }}" id="{{ $colum }}">
             @endif
-           
+
         </div>
     @endforeach
 
@@ -32,3 +31,6 @@
 </form>
 </body>
 </html>
+
+
+{{--Lấy form trong components để làm nhé--}}

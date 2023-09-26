@@ -56,7 +56,7 @@ class BaseAdminController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = $this->validateStore($request);
+        // $validator = $this->validateStore($request);
 
         // if ($validator->fails()) {
         //     return back()->withErrors($validator)->withInput();
@@ -64,14 +64,14 @@ class BaseAdminController extends Controller
 
         $model = new $this->model;
 
-        
-        $params = $model->fill($request->except([$this->fieldImage]));
-        if ($request->hasFile($this->fieldImage)) {
-            // $tmpPath = Storage::put($this->folderImage, $request->{$this->fieldImage});
-            // $model->{$this->fieldImage} = 'storage/' . $tmpPath;
-            $params[$this->fieldImage] = uploadFile($this->folderImage,$request->{$this->fieldImage});
+        $model->fill($request->except([$this->fieldImage]));
 
+        if ($request->hasFile($this->fieldImage)) {
+            $tmpPath = Storage::put($this->folderImage, $request->{$this->fieldImage});
+
+            $model->{$this->fieldImage} = 'storage/' . $tmpPath;
         }
+
 
         $model->save();
 
