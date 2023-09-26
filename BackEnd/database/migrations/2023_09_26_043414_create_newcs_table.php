@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('newcs', function (Blueprint $table) {
-            $table->id('title');
+            $table->id();
+            $table->string('name');
             $table->string('slug');
             $table->text('content');
             $table->date('public_date');
