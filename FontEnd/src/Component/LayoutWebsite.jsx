@@ -2,14 +2,13 @@ import React from "react";
 import Header from "./Header";
 import { Outlet } from "react-router-dom";
 import Footer from "./Footer";
-import Banner from "./Banner";
 
 const LayoutWebsite = () => {
   return (
     <>
       <div className="main-wrapper home-twelve">
         <Header />
-        <Banner />
+        
         <Outlet />
         <Footer />
       </div>

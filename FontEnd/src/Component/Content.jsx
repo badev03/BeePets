@@ -1,8 +1,10 @@
 import React from 'react'
+import Banner from "./Banner";
 
 const Content = () => {
   return (
     <div>
+      <Banner />
   <section className="services-section-fourteen">
     <div className="floating-bg">
       <img src="../src/assets/img/bg/big-paw.png" alt="paw-image" />
