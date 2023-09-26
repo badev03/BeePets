@@ -24,6 +24,7 @@ class BaseAdminController extends Controller
     public $titleCreate;
     public $titleShow;
     public $titleEdit;
+    public $slug;
 
     public function __construct()
     {
@@ -50,29 +51,26 @@ class BaseAdminController extends Controller
             ->with('colums', $this->colums)
             ->with('urlbase', $this->urlbase);
     }
+    public function createSlug($name) {
+        return Str::slug($name);
+    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        // $validator = $this->validateStore($request);
-
-        // if ($validator->fails()) {
-        //     return back()->withErrors($validator)->withInput();
-        // }
-
         $model = new $this->model;
 
-        $model->fill($request->except([$this->fieldImage]));
+        $model->fill($request->except([$this->fieldImage,$this->slug]));
 
         if ($request->hasFile($this->fieldImage)) {
             $tmpPath = Storage::put($this->folderImage, $request->{$this->fieldImage});
-
             $model->{$this->fieldImage} = 'storage/' . $tmpPath;
         }
-
-
+        if($request->has('name')) {
+            $model->{$this->slug} = $this->createSlug($request->name);
+        }
         $model->save();
 
         return back()->with('success', 'Thao tac thanh cong');
@@ -172,6 +170,3 @@ class BaseAdminController extends Controller
         return [];
     }
 }
-
-
-
