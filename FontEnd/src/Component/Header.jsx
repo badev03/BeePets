@@ -13,17 +13,17 @@ const Header = () => {
                 <span></span>
               </span>
             </a>
-            <Link to={"/"} className="navbar-brand logo">
+            <a href={"/"} className="navbar-brand logo">
               <img
                 src="../src/assets/img/logo.jpg"
                 className="img-fluid"
                 alt="Logo"
               />
-            </Link>
+            </a>
           </div>
           <div className="main-menu-wrapper">
             <div className="menu-header">
-              <a href="index.html" className="menu-logo">
+              <a href="/" className="menu-logo">
                 <img
                   src="../src/assets/img/logo.png"
                   className="img-fluid"
@@ -36,18 +36,18 @@ const Header = () => {
             </div>
             <ul className="main-nav">
               <li className="has-submenu megamenu active">
-                <Link to={"/"}>TRANG CHỦ </Link>
+                <a href={"/"}>TRANG CHỦ </a>
               </li>
               <li className="has-submenu">
-                <a href="#">BÁC SĨ </a>
+                <a href="/doctor">BÁC SĨ </a>
               </li>
               <li className="has-submenu">
-                <a href="#">
-                  GIỚI THIỆU <i className="fas fa-chevron-down"></i>
+                <a href="abouts">
+                  GIỚI THIỆU
                 </a>
               </li>
               <li className="has-submenu">
-                <Link to={"blog"}>TIN TỨC </Link>
+                <a href={"blog"}>TIN TỨC </a>
               </li>
             </ul>
           </div>
@@ -68,16 +68,16 @@ const Header = () => {
               </div>
             </li>
             <li className="login-link">
-              <a href="login-email.html">Đăng nhập / Đăng kí</a>
+              <a href="login">Đăng nhập / Đăng kí</a>
             </li>
             <li className="login-in-fourteen">
-              <a href="login-email.html" className="btn reg-btn">
+              <a href="login" className="btn reg-btn">
                 <i className="feather-user me-2"></i>Đăng nhập
               </a>
             </li>
             <li className="login-in-fourteen">
               <a
-                href="signup.html"
+                href="register"
                 className="btn btn-primary reg-btn reg-btn-fourteen"
               >
                 <i className="feather-user me-2"></i>Đăng kí

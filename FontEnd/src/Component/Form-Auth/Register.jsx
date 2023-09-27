@@ -32,10 +32,6 @@ const Register = () => {
                       <Link to="/login" className="/login">Bạn đã có tài khoản ?</Link>
                     </div>
                     <Link to="/login"> <button className="btn btn-primary w-100 btn-lg login-btn" type="submit">Đăng ký</button> </Link>
-                    <div className="login-or">
-                      <span className="or-line" />
-                      <span className="span-or">or</span>
-                    </div>
                     {/* <div className="row social-login">
                   <div className="col-6">
                     <a href="#" className="btn btn-facebook w-100"><i className="fab fa-facebook-f me-1" /> Đăng nhập</a>
@@ -44,7 +40,6 @@ const Register = () => {
                     <a href="#" className="btn btn-google w-100"><i className="fab fa-google me-1" /> Đăng nhập</a>
                   </div>
                 </div> */}
-                    <Link to="/login"><button className="btn btn-danger w-100 btn-lg login-btn" type="submit">Đăng nhập</button></Link>
                   </form>
                 </div>
               </div>
