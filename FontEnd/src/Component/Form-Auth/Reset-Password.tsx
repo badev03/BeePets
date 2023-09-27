@@ -1,6 +1,6 @@
 import React from "react";
 
-const Reset_Password = () => {
+const ResetPassword = () => {
   return (
     <div className="content top-space">
       <div className="container-fluid">
@@ -54,4 +54,4 @@ const Reset_Password = () => {
   );
 };
 
-export default Reset_Password;
+export default ResetPassword;

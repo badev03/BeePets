@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 /// COPPY HTML -> PASTE -> CONVERT TO JSX -> PASTE CSS,JS VAO INDEX.HTML
 
-const Create_Password = () => {
+const CreatePassword = () => {
   return (
     <div className="content top-space">
       <div className="container-fluid">
@@ -48,4 +48,4 @@ const Create_Password = () => {
   )
 }
 
-export default Create_Password
+export default CreatePassword
