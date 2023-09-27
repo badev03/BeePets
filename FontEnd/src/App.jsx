@@ -31,7 +31,7 @@ import Login from './Component/Form-Auth/Login'
 import LoginDoctor from './Component/Form-Auth/Login-Doctor'
 import ForgotPasswordDoctor from './Component/Form-Auth/Forgot-Password-Doctor'
 import ResetPassword from './Component/Form-Auth/Reset-Password'
-import ResetPasswordDoctor from './Component/Form-Auth/Reset_Password-Doctor'
+import ResetPasswordDoctor from './Component/Form-Auth/Reset-Password-Doctor'
 import CreatePassword from './Component/Form-Auth/Create-Password'
 import ForgotPassword from './Component/Form-Auth/Forgot-Password'
 
