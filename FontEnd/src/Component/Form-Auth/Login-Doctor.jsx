@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-const Forgot_Password = () => {
+const LoginDoctor = () => {
     return (
         <div className="content top-space">
             <div className="container-fluid">
@@ -13,31 +13,31 @@ const Forgot_Password = () => {
                                 </div>
                                 <div className="col-md-12 col-lg-6 login-right">
                                     <div className="login-header">
-                                        <h2>Quên mật khẩu ? <a href="doctor-register.html"></a></h2>
-                                        <p>Nhập SĐT của bạn để nhận link đặt lại mật khẩu</p>
+                                        <h2>ĐĂNG NHẬP (doctor)</h2>
+                                        <Link to="/login" >Đăng nhập với tư cách là user</Link>
                                     </div>
                                     <form action="https://doccure.dreamguystech.com/html/template/patient-register-step1.html">
                                         <div className="mb-3 form-focus">
                                             <input type="text" className="form-control floating" />
-                                            <label className="focus-label">Nhập SĐT</label>
+                                            <label className="focus-label">Nhập số điện thoại</label>
+                                        </div>
+                                        <div className="mb-3 form-focus">
+                                            <input type="password" className="form-control floating" />
+                                            <label className="focus-label">Mật khẩu</label>
                                         </div>
                                         <div className="text-end">
-                                            <Link className="forgot-link" to="/login">Đăng nhập nếu bạn đã có tài khoản ?</Link>
-
+                                            <Link to="/forgot-password-doctor" className="forgot-link" href="forgot-password-Doctor">Quên mật khẩu ?</Link>
                                         </div>
-                                        <Link to="/confirm_otp"> <button className="btn btn-primary w-100 btn-lg login-btn" type="submit"> Đặt lại mật khẩu</button></Link>
-                                        <div className="login-or"></div>
-                                        <div className="login-or">
-                                        </div>
+                                        <Link to="/"><button className="btn btn-danger w-100 btn-lg login-btn" type="submit"> Đăng nhập</button></Link>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     )
 }
 
-export default Forgot_Password
+export default LoginDoctor

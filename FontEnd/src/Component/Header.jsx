@@ -71,13 +71,13 @@ const Header = () => {
               <a href="login-email.html">Đăng nhập / Đăng kí</a>
             </li>
             <li className="login-in-fourteen">
-              <a href="login-email.html" className="btn reg-btn">
+              <a href="/login" className="btn reg-btn">
                 <i className="feather-user me-2"></i>Đăng nhập
               </a>
             </li>
             <li className="login-in-fourteen">
               <a
-                href="signup.html"
+                href="/register"
                 className="btn btn-primary reg-btn reg-btn-fourteen"
               >
                 <i className="feather-user me-2"></i>Đăng kí

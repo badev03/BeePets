@@ -1,6 +1,7 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-const Confirm_OTP = () => {
+import React from "react"
+import { Link } from "react-router-dom"
+
+const ForgotPasswordDoctor = () => {
     return (
         <div className="content top-space">
             <div className="container-fluid">
@@ -13,20 +14,18 @@ const Confirm_OTP = () => {
                                 </div>
                                 <div className="col-md-12 col-lg-6 login-right">
                                     <div className="login-header">
-                                        <h2>Xác nhận OTP</h2>
-                                        <p>Chúng tôi đã gửi mã xác nhận về số điện thoại của bạn</p>
+                                        <h2>Quên mật khẩu ? <a href="doctor-register.html"></a></h2>
+                                        <p>Nhập SĐT của bạn để nhận link đặt lại mật khẩu</p>
                                     </div>
                                     <form action="https://doccure.dreamguystech.com/html/template/patient-register-step1.html">
                                         <div className="mb-3 form-focus">
-                                            <input type="text" className="form-control floating w-50" />
-                                            <label className="focus-label ">Nhập mã OTP tại đây</label>
+                                            <input type="text" className="form-control floating" />
+                                            <label className="focus-label">Nhập SĐT</label>
                                         </div>
                                         <div className="text-end">
-                                            <Link className="forgot-link" to="/login">Gửi lại mã OTP  ?</Link>
-
+                                            <Link to="/login-doctor" className="forgot-link">Đăng nhập nếu bạn đã có tài khoản ?</Link>
                                         </div>
-                                        <Link to="/create_password"><button className="btn btn-primary w-100 btn-lg login-btn" type="submit">Xác nhận</button></Link>
-
+                                        <Link to="/login-doctor"> <button className="btn btn-primary w-100 btn-lg login-btn" type="submit"> Đặt lại mật khẩu</button></Link>
                                         <div className="login-or">
                                         </div>
                                     </form>
@@ -40,4 +39,4 @@ const Confirm_OTP = () => {
     )
 }
 
-export default Confirm_OTP
+export default ForgotPasswordDoctor
