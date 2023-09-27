@@ -44,6 +44,8 @@
                                                 <img src="{{ asset($item->$colum)?? '123'}}" width="100px" alt="">
                                             @elseif(in_array($colum , FIELD_DESC))
                                                 {!! $item->$colum !!}
+                                            @elseif(in_array($colum , FIELD_CHECK_FOR))
+                                                {!! $item->Categories->name !!}
                                             @else
                                                 {{ $item->$colum}}
                                             @endif
@@ -52,24 +54,18 @@
 
                                     @endforeach
                                     <td class="d-flex" style="grid-gap:1rem">
-                                        <button class="btn btn-warning">
-
-                                            <a style="color: white" href="{{ route($urlbase . 'show', $item) }}">Xem</a>
-                                        </button>
-
-                                        <button class="btn btn-success">
-                                            <a style="color: white" href="{{ route($urlbase . 'edit', $item) }}">Sửa</a>
-                                        </button>
-
-                                        <form action="{{ route($urlbase . 'destroy', $item) }}" method="post">
-                                            @csrf
-                                            @method('DELETE')
-
-                                            <button class="btn btn-danger"
-                                                    onclick=" return confirm('Bạn có chắc muốn xóa không?  Hành động này của bạn có thể dẫn đến mất dữ liệu')"
-                                                    type="submit">Xóa
+                                        <div class="actions">
+                                            <button href="#viewer" class="btn btn-sm bg-info-light buttonView"
+                                                    data-bs-check="{{ $item->id }}" data-bs-toggle="modal">
+                                                <i class="far fa-eye"></i> Xem
                                             </button>
-                                        </form>
+                                            <a class="btn btn-sm bg-success-light" href="{{ route($urlbase . 'edit', $item) }}">
+                                                <i class="fe fe-pencil"></i> Edit
+                                            </a>
+                                            <a data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
+                                                <i class="fe fe-trash"></i> Delete
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
 
@@ -82,9 +78,60 @@
             </div>
         </div>
     </div>
+
+    {{--view--}}
+    @include('admin.baseCrud.view')
+    @if(count($data)>0)
+    <div class="modal fade" id="delete_modal" aria-hidden="true" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-content p-2">
+                        <h4 class="modal-title">Delete</h4>
+                        <p class="mb-4">Bạn có chắc chắn muốn xóa</p>
+                        <div class="d-flex justify-content-center" style="gap: 1rem">
+                            <form action="{{ route($urlbase . 'destroy', $item) }}" method="post">
+                                @csrf
+                                @method('DELETE')
+
+                                <button class="btn bg-success-light"
+                                        type="submit">Xóa
+                                </button>
+                            </form>
+                            <button type="button" class="btn bg-danger-light" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    @endif
 @endsection
 @push('script')
     <script src="{{asset('backend/assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('backend/assets/plugins/datatables/datatables.min.js')}}"></script>
 
+    <script>
+        $(document).ready(function() {
+            $('.buttonView').click(function() {
+                var dataBsToggleValue = $(this).data('bs-check');
+                var assetUrl = "{{ asset('') }}";
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ route($urlbase.'show', '') }}" + '/' +dataBsToggleValue,
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#name').val(data.name);
+                        $('#slug').val(data.slug);
+                        $('#description').val(data.description);
+                        $('#image').attr('src', assetUrl + data.image);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
 @endpush
