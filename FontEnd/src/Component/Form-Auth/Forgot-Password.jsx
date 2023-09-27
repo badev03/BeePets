@@ -1,7 +1,6 @@
-import React from "react"
-import { Link } from "react-router-dom"
-
-const Forgot_Password_Doctor = () => {
+import React from 'react'
+import { Link } from 'react-router-dom'
+const ForgotPassword = () => {
     return (
         <div className="content top-space">
             <div className="container-fluid">
@@ -23,9 +22,11 @@ const Forgot_Password_Doctor = () => {
                                             <label className="focus-label">Nhập SĐT</label>
                                         </div>
                                         <div className="text-end">
-                                            <Link to="/login_doctor" className="forgot-link">Đăng nhập nếu bạn đã có tài khoản ?</Link>
+                                            <Link className="forgot-link" to="/login">Đăng nhập nếu bạn đã có tài khoản ?</Link>
+
                                         </div>
-                                        <Link to="/login_doctor"> <button className="btn btn-primary w-100 btn-lg login-btn" type="submit"> Đặt lại mật khẩu</button></Link>
+                                        <Link to="/Create-Password"> <button className="btn btn-primary w-100 btn-lg login-btn" type="submit"> Đặt lại mật khẩu</button></Link>
+                                        <div className="login-or"></div>
                                         <div className="login-or">
                                         </div>
                                     </form>
@@ -39,4 +40,4 @@ const Forgot_Password_Doctor = () => {
     )
 }
 
-export default Forgot_Password_Doctor
+export default ForgotPassword

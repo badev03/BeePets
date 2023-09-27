@@ -1,5 +1,5 @@
 import './App.css'
-import {BrowserRouter as Router, Route, Routes} from "react-router-dom"
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 import LayoutWebsite from './Component/LayoutWebsite'
 import Content from './Component/Content'
 import Search from './Component/Serch/Search'
@@ -25,16 +25,17 @@ import Editprescription from './Component/doctors/Edit-prescription'
 import Addbill from './Component/doctors/Add-bill'
 import Editbill from './Component/doctors/Edit-bill'
 import Abouts from './Component/Abouts/Abouts'
+
+
+
 import Register from './Component/Form-Auth/Register'
 import Login from './Component/Form-Auth/Login'
-import Login_Doctor from './Component/Form-Auth/Login_Doctor'
-import Forgot_Password from './Component/Form-Auth/Forgot_Password'
-import Confirm_OTP from './Component/Form-Auth/Confirm_OTP'
-import Create_Password from './Component/Form-Auth/Create_Password'
-import PrescriptionDetails from './Component/User/PrescriptionDetails'
-import AppointmentDetail from './Component/User/AppointmentDetail'
-import BillDetail from './Component/User/BillDetail'
-
+import LoginDoctor from './Component/Form-Auth/Login-Doctor'
+import ForgotPasswordDoctor from './Component/Form-Auth/Forgot-Password-Doctor'
+import ResetPassword from './Component/Form-Auth/Reset-Password'
+import ResetPasswordDoctor from './Component/Form-Auth/Reset-Password-Doctor'
+import CreatePassword from './Component/Form-Auth/Create-Password'
+import ForgotPassword from './Component/Form-Auth/Forgot-Password'
 
 
 function App() {
@@ -42,44 +43,46 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<LayoutWebsite/>}>
-          <Route path='' element={<Content/>}/>
-          <Route path='abouts' element={<Abouts/>}/>
-          <Route path='doctor' element={<Search/>}/>
-          <Route path='booking' element={<Booking/>}/>
-          <Route path='booking/success' element={<BookingSuccess/>}/>
-          <Route path='doctor/profile' element={<DoctorProfile/>}/>
-          <Route path='blog' element={<BlogList/>}/>
-          <Route path='blogdetails' element={<BlogDetails/>}/>
-          <Route path='servicerdetails' element={<ServiceDetails/>}/>
-          <Route path='user/dashbroad' element={<Dashboard/>}/>
-          <Route path='user/changepassword' element={<ChangePassword/>}/>
-          <Route path='user/profilesetting' element={<ProfileSetting/>}/>
-          <Route path='user/prescription' element={<PrescriptionDetails/>}/>
-          <Route path='user/appointment' element={<AppointmentDetail/>}/>
-          <Route path='user/billdetail' element={<BillDetail/>}/>
-          <Route path='informationuser' element={<Information/>}/>
-          
-          <Route path='doctors' element={<Dashboarddoctors/>}/>
-          <Route path='doctors/profile' element={<Profile/>}/>
-          <Route path='doctors/review' element={<Review/>}/>
-          <Route path='doctors/appointments' element={<Appointments/>}/>
-          <Route path='doctors/change-password' element={<Changepassword/>}/>
-          <Route path='doctors/patients' element={<Mypatients/>}/>
-          <Route path='doctors/patient-profile' element={<Patientprofile/>}/>
-          <Route path='doctors/add-prescription' element={<Addprescription/>}/>
-          <Route path='doctors/edit-prescription' element={<Editprescription/>}/>
-          <Route path='doctors/add-bill' element={<Addbill/>}/>
-          <Route path='doctors/edit-bill' element={<Editbill/>}/>
+        <Route path='/' element={<LayoutWebsite />}>
+          <Route path='' element={<Content />} />
+          <Route path='abouts' element={<Abouts />} />
+          <Route path='doctor' element={<Search />} />
+          <Route path='booking' element={<Booking />} />
+          <Route path='booking/success' element={<BookingSuccess />} />
+          <Route path='doctor/profile' element={<DoctorProfile />} />
+          <Route path='blog' element={<BlogList />} />
+          <Route path='blogdetails' element={<BlogDetails />} />
+          <Route path='servicerdetails' element={<ServiceDetails />} />
+          <Route path='user/dashbroad' element={<Dashboard />} />
+          <Route path='user/changepassword' element={<ChangePassword />} />
+          <Route path='user/profilesetting' element={<ProfileSetting />} />
+          <Route path='informationuser' element={<Information />} />
 
-          <Route path='register' element={<Register/>}/>
-          <Route path='login' element={<Login/>}/>
-          <Route path='logindoctor' element={<Login_Doctor/>}/>
-          <Route path='forgetpassword' element={<Forgot_Password/>}/>
-          <Route path='otp' element={<Confirm_OTP/>}/>
-          <Route path='createpass' element={<Create_Password/>}/>
+          <Route path='doctors' element={<Dashboarddoctors />} />
+          <Route path='doctors/profile' element={<Profile />} />
+          <Route path='doctors/review' element={<Review />} />
+          <Route path='doctors/appointments' element={<Appointments />} />
+          <Route path='doctors/change-password' element={<Changepassword />} />
+          <Route path='doctors/patients' element={<Mypatients />} />
+          <Route path='doctors/patient-profile' element={<Patientprofile />} />
+          <Route path='doctors/add-prescription' element={<Addprescription />} />
+          <Route path='doctors/edit-prescription' element={<Editprescription />} />
+          <Route path='doctors/add-bill' element={<Addbill />} />
+          <Route path='doctors/edit-bill' element={<Editbill />} />
 
-        </Route>          
+
+          <Route path='Register' element={<Register />} />
+          <Route path='Login' element={<Login />} />
+          <Route path='Forgot-Password' element={<ForgotPassword />} />
+          <Route path='Reset-Password' element={<ResetPassword />} />
+          <Route path='Login-Doctor' element={<LoginDoctor />} />
+          <Route path='Forgot-Password-Doctor' element={<ForgotPasswordDoctor />} />
+          <Route path='Reset-Password-Doctor' element={<ResetPasswordDoctor />} />
+          <Route path='Create-Password' element={<CreatePassword />} />
+
+
+
+        </Route>
       </Routes>
     </Router>
   )
