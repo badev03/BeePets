@@ -31,6 +31,9 @@ import Login_Doctor from './Component/Form-Auth/Login_Doctor'
 import Forgot_Password from './Component/Form-Auth/Forgot_Password'
 import Confirm_OTP from './Component/Form-Auth/Confirm_OTP'
 import Create_Password from './Component/Form-Auth/Create_Password'
+import PrescriptionDetails from './Component/User/PrescriptionDetails'
+import AppointmentDetail from './Component/User/AppointmentDetail'
+import BillDetail from './Component/User/BillDetail'
 
 
 
@@ -52,6 +55,9 @@ function App() {
           <Route path='user/dashbroad' element={<Dashboard/>}/>
           <Route path='user/changepassword' element={<ChangePassword/>}/>
           <Route path='user/profilesetting' element={<ProfileSetting/>}/>
+          <Route path='user/prescription' element={<PrescriptionDetails/>}/>
+          <Route path='user/appointment' element={<AppointmentDetail/>}/>
+          <Route path='user/billdetail' element={<BillDetail/>}/>
           <Route path='informationuser' element={<Information/>}/>
           
           <Route path='doctors' element={<Dashboarddoctors/>}/>

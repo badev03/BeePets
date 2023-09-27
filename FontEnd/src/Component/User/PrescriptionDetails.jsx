@@ -1,19 +1,17 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-
-
-const ProfileSetting = () => {
+const PrescriptionDetails = () => {
   return (
-    <div><div className="breadcrumb-bar-two">
+    <div>    <div><div className="breadcrumb-bar-two">
     <div className="container">
       <div className="row align-items-center inner-banner">
         <div className="col-md-12 col-12 text-center">
-          <h2 className="breadcrumb-title">Thông tin cá nhân</h2>
+          <h2 className="breadcrumb-title">Chi tiết đơn thuốc</h2>
           <nav aria-label="breadcrumb" className="page-breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
-              <li className="breadcrumb-item" aria-current="page">Thông tin cá nhân</li>
+              <li className="breadcrumb-item" aria-current="page">Chi tiết đơn thuốc</li>
             </ol>
           </nav>
         </div>
@@ -31,9 +29,9 @@ const ProfileSetting = () => {
                   <img src="../src/assets/img/patients/patient.jpg" alt="User Image" />
                 </a>
                 <div className="profile-det-info">
-                  <h3>Richard Wilson</h3>
+                  <h3>Tạ Anh Quý</h3>
                   <div className="patient-details">
-                    <h5><i className="fas fa-birthday-cake" /> 24 Jul 1983, 38 years</h5>
+                    <h5><i className="fas fa-birthday-cake" /> 24 Jul 2003, 18 years</h5>
                     <h5 className="mb-0"><i className="fas fa-map-marker-alt" /> Newyork, USA</h5>
                   </div>
                 </div>
@@ -42,13 +40,13 @@ const ProfileSetting = () => {
             <div className="dashboard-widget">
               <nav className="dashboard-menu">
                 <ul>
-                  <li >
+                  <li className="active">
                     <Link to={"/user/dashbroad"}><i className="fas fa-columns" />
                       <span>Bảng điều khiển</span></Link>
                     
                   </li>
                   
-                  <li className="active">
+                  <li>
                   <Link to={"/user/profilesetting"}><i className="fas fa-user-cog" />
                       <span>Thông Tin Cá Nhân</span></Link>
                  
@@ -70,58 +68,85 @@ const ProfileSetting = () => {
           </div>
         </div>
         <div className="col-md-7 col-lg-8 col-xl-9">
-          <div className="card">
+       
+        <div className="card">
             <div className="card-body">
               <form>
                 <div className="row">
+               <hr />
+                  <div className="col-12 col-md-6">
+                    <div className="mb-3">
+                      <label className="mb-2">Tên loại thuốc</label>
+                      <input type="text" className="form-control" />
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-6">
+                    <div className="mb-3">
+                      <label className="mb-2">Số lượng</label>
+                      <input type="text" className="form-control"  />
+                    </div>
+                  </div>
                   <div className="col-12 col-md-12">
                     <div className="mb-3">
-                      <div className="change-avatar">
-                        <div className="profile-img">
-                          <img src="../src/assets/img/patients/patient.jpg" alt="User Image" />
-                        </div>
-                        <div className="upload-img">
-                          <div className="change-photo-btn">
-                            <span><i className="fa fa-upload" />Tải ảnh lên</span>
-                            <input type="file" className="upload" />
-                          </div>
-                          
-                        </div>
-                      </div>
+                      <label className="mb-2">Hướng dẫn dử dụng</label>
+                     
+                        <textarea type="text" className="form-control datetimepicker" />
+                      
+                    </div>
+                  </div>
+                 
+                  
+  
+                </div>
+                <div className="row">
+               <hr />
+                  <div className="col-12 col-md-6">
+                    <div className="mb-3">
+                      <label className="mb-2">Tên loại thuốc</label>
+                      <input type="text" className="form-control" />
                     </div>
                   </div>
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
-                      <label className="mb-2">Họ</label>
-                      <input type="text" className="form-control" defaultValue="Richard" />
+                      <label className="mb-2">Số lượng</label>
+                      <input type="text" className="form-control"  />
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-12">
+                    <div className="mb-3">
+                      <label className="mb-2">Hướng dẫn dử dụng</label>
+                     
+                        <textarea type="text" className="form-control datetimepicker" />
+                      
+                    </div>
+                  </div>
+                 
+                  
+  
+                </div>
+                <div className="row">
+               <hr />
+                  <div className="col-12 col-md-6">
+                    <div className="mb-3">
+                      <label className="mb-2">Tên loại thuốc</label>
+                      <input type="text" className="form-control" />
                     </div>
                   </div>
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
-                      <label className="mb-2">Tên</label>
-                      <input type="text" className="form-control" defaultValue="Wilson" />
+                      <label className="mb-2">Số lượng</label>
+                      <input type="text" className="form-control"  />
                     </div>
                   </div>
-                  <div className="col-12 col-md-6">
+                  <div className="col-12 col-md-12">
                     <div className="mb-3">
-                      <label className="mb-2">Ngày sinh</label>
-                      <div className="cal-icon">
-                        <input type="text" className="form-control datetimepicker" defaultValue="24-07-1983" />
-                      </div>
+                      <label className="mb-2">Hướng dẫn dử dụng</label>
+                     
+                        <textarea type="text" className="form-control datetimepicker" />
+                      
                     </div>
                   </div>
-                  <div className="col-12 col-md-6">
-                    <div className="mb-3">
-                      <label className="mb-2">Số điện thoại</label>
-                      <input type="text" defaultValue="+1 202-555-0125" className="form-control" />
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-6">
-                    <div className="mb-3">
-                      <label className="mb-2">Email</label>
-                      <input type="email" className="form-control" defaultValue="richard@example.com" />
-                    </div>
-                  </div>
+                 
                   
   
                 </div>
@@ -131,12 +156,13 @@ const ProfileSetting = () => {
               </form>
             </div>
           </div>
+          
         </div>
       </div>
     </div>
-  </div></div>
-
+  </div>
+</div></div>
   )
 }
 
-export default ProfileSetting
+export default PrescriptionDetails

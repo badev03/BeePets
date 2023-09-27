@@ -3,17 +3,17 @@ import { Link } from 'react-router-dom'
 
 
 
-const ProfileSetting = () => {
+const BillDetail = () => {
   return (
-    <div><div className="breadcrumb-bar-two">
+    <div>    <div><div className="breadcrumb-bar-two">
     <div className="container">
       <div className="row align-items-center inner-banner">
         <div className="col-md-12 col-12 text-center">
-          <h2 className="breadcrumb-title">Thông tin cá nhân</h2>
+          <h2 className="breadcrumb-title">Chi tiết hóa đơn</h2>
           <nav aria-label="breadcrumb" className="page-breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
-              <li className="breadcrumb-item" aria-current="page">Thông tin cá nhân</li>
+              <li className="breadcrumb-item" aria-current="page">Chi tiết hóa đơn</li>
             </ol>
           </nav>
         </div>
@@ -31,9 +31,9 @@ const ProfileSetting = () => {
                   <img src="../src/assets/img/patients/patient.jpg" alt="User Image" />
                 </a>
                 <div className="profile-det-info">
-                  <h3>Richard Wilson</h3>
+                  <h3>Tạ Anh Quý</h3>
                   <div className="patient-details">
-                    <h5><i className="fas fa-birthday-cake" /> 24 Jul 1983, 38 years</h5>
+                    <h5><i className="fas fa-birthday-cake" /> 24 Jul 2003, 18 years</h5>
                     <h5 className="mb-0"><i className="fas fa-map-marker-alt" /> Newyork, USA</h5>
                   </div>
                 </div>
@@ -42,13 +42,13 @@ const ProfileSetting = () => {
             <div className="dashboard-widget">
               <nav className="dashboard-menu">
                 <ul>
-                  <li >
+                  <li className="active">
                     <Link to={"/user/dashbroad"}><i className="fas fa-columns" />
                       <span>Bảng điều khiển</span></Link>
                     
                   </li>
                   
-                  <li className="active">
+                  <li>
                   <Link to={"/user/profilesetting"}><i className="fas fa-user-cog" />
                       <span>Thông Tin Cá Nhân</span></Link>
                  
@@ -70,73 +70,92 @@ const ProfileSetting = () => {
           </div>
         </div>
         <div className="col-md-7 col-lg-8 col-xl-9">
-          <div className="card">
+       
+        <div className="card">
             <div className="card-body">
               <form>
                 <div className="row">
-                  <div className="col-12 col-md-12">
+               
+                  <div className="col-12 col-md-6">
                     <div className="mb-3">
-                      <div className="change-avatar">
-                        <div className="profile-img">
-                          <img src="../src/assets/img/patients/patient.jpg" alt="User Image" />
-                        </div>
-                        <div className="upload-img">
-                          <div className="change-photo-btn">
-                            <span><i className="fa fa-upload" />Tải ảnh lên</span>
-                            <input type="file" className="upload" />
-                          </div>
-                          
-                        </div>
-                      </div>
+                    <img
+                src="../src/assets/img/logo.jpg"
+                className="img-fluid"
+                alt="Logo"
+              />
                     </div>
                   </div>
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
-                      <label className="mb-2">Họ</label>
-                      <input type="text" className="form-control" defaultValue="Richard" />
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-6">
-                    <div className="mb-3">
-                      <label className="mb-2">Tên</label>
-                      <input type="text" className="form-control" defaultValue="Wilson" />
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-6">
-                    <div className="mb-3">
-                      <label className="mb-2">Ngày sinh</label>
-                      <div className="cal-icon">
-                        <input type="text" className="form-control datetimepicker" defaultValue="24-07-1983" />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-6">
-                    <div className="mb-3">
-                      <label className="mb-2">Số điện thoại</label>
-                      <input type="text" defaultValue="+1 202-555-0125" className="form-control" />
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-6">
-                    <div className="mb-3">
-                      <label className="mb-2">Email</label>
-                      <input type="email" className="form-control" defaultValue="richard@example.com" />
+                      <label className="mb-2">Mã hóa đơn: MH001</label><br />
+                      <label className="mb-2">Ngày: 16-09-2023</label>
+                
                     </div>
                   </div>
                   
-  
                 </div>
-                <div className="submit-section">
-                  <button type="submit" className="btn btn-primary submit-btn">Lưu</button>
-                </div>
+                <div className="table-responsive">
+                        <table className="table table-hover table-center mb-0">
+                          <thead>
+                            <tr>
+                              <th>Số thứ tự</th>
+                              <th>Tên dịch vụ</th>
+                              <th>Số lượng</th>
+                              <th>Đơn giá</th>
+                     
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                            <td>#1</td>
+                              <td>Khám chữa bệnh</td>
+                              <td>1</td>
+                            
+                              <td>300.000 VND</td>
+                              
+                            </tr>
+                            <tr>
+                            <td>#2</td>
+                              <td>Đơn thuốc</td>
+                              <td>1</td>
+                            
+                              <td>500.000 VND</td>
+                              
+                            </tr>
+                           
+                           
+                          
+
+                          </tbody>
+                        </table>
+                      </div>
+                      <div className="col-12 col-md-12">
+                    <div className="mb-3 pt-5">
+                      <label className="mb-2"><h1 >Tổng tiền : 800.000 VND</h1> </label>
+                     
+                    
+                      
+                    </div>
+                  </div>
+                      <div className="col-12 col-md-12">
+                    <div className="mb-3">
+                      <label className="mb-2">Ghi chú</label>
+                     
+                        <textarea type="text" className="form-control datetimepicker" />
+                      
+                    </div>
+                  </div>
+              
               </form>
             </div>
           </div>
+          
         </div>
       </div>
     </div>
-  </div></div>
-
+  </div>
+</div></div>
   )
 }
 
-export default ProfileSetting
+export default BillDetail

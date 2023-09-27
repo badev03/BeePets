@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 
 const Dashboard = () => {
@@ -41,23 +42,20 @@ const Dashboard = () => {
               <nav className="dashboard-menu">
                 <ul>
                   <li className="active">
-                    <a href="/user/dashbroad">
-                      <i className="fas fa-columns" />
-                      <span>Bảng điều khiển</span>
-                    </a>
+                    <Link to={"/user/dashbroad"}><i className="fas fa-columns" />
+                      <span>Bảng điều khiển</span></Link>
+                    
                   </li>
                   
                   <li>
-                    <a href="profile-settings.html">
-                      <i className="fas fa-user-cog" />
-                      <span>Thông Tin Cá Nhân</span>
-                    </a>
+                  <Link to={"/user/profilesetting"}><i className="fas fa-user-cog" />
+                      <span>Thông Tin Cá Nhân</span></Link>
+                 
                   </li>
                   <li>
-                    <a href="change-password.html">
-                      <i className="fas fa-lock" />
-                      <span>Thay Đổi Mật Khẩu</span>
-                    </a>
+                  <Link to={"/user/changepassword"}><i className="fas fa-lock" />
+                      <span>Thay Đổi Mật Khẩu</span></Link>
+                  
                   </li>
                   <li>
                     <a href="login.html">
@@ -122,9 +120,10 @@ const Dashboard = () => {
                               <td>
                                 <div className="table-action">
                                   
-                                  <a href="#" className="btn btn-sm bg-info-light">
-                                    <i className="far fa-eye" /> View
-                                  </a>
+                                  <button className="btn btn-sm bg-info-light">
+                                    <Link to={"/user/appointment"}> <i className="far fa-eye" /> View</Link>
+                                   
+                                  </button>
                                 </div>
                               </td>
                             </tr>
@@ -143,11 +142,12 @@ const Dashboard = () => {
                               <td><span className="badge rounded-pill bg-danger-light">Cancelled</span></td>
 
                               <td>
-                                <div className="table-action">
+                              <div className="table-action">
                                   
-                                  <a href="#" className="btn btn-sm bg-info-light">
-                                    <i className="far fa-eye" /> View
-                                  </a>
+                                  <button className="btn btn-sm bg-info-light">
+                                    <Link to={"/user/appointment"}> <i className="far fa-eye" /> View</Link>
+                                   
+                                  </button>
                                 </div>
                               </td>
                             </tr>
@@ -166,11 +166,12 @@ const Dashboard = () => {
                               <td><span className="badge rounded-pill bg-warning-light">Pending</span></td>
 
                               <td>
-                                <div className="table-action">
+                              <div className="table-action">
                                   
-                                  <a href="#" className="btn btn-sm bg-info-light">
-                                    <i className="far fa-eye" /> View
-                                  </a>
+                                  <button className="btn btn-sm bg-info-light">
+                                    <Link to={"/user/appointment"}> <i className="far fa-eye" /> View</Link>
+                                   
+                                  </button>
                                 </div>
                               </td>
                             </tr>
@@ -188,11 +189,12 @@ const Dashboard = () => {
                             
                               <td><span className="badge rounded-pill bg-success-light">Confirm</span></td>
                               <td>
-                                <div className="table-action">
+                              <div className="table-action">
                                   
-                                  <a href="#" className="btn btn-sm bg-info-light">
-                                    <i className="far fa-eye" /> View
-                                  </a>
+                                  <button className="btn btn-sm bg-info-light">
+                                    <Link to={"/user/appointment"}> <i className="far fa-eye" /> View</Link>
+                                   
+                                  </button>
                                 </div>
                               </td>
                             </tr>
@@ -211,11 +213,12 @@ const Dashboard = () => {
                               <td><span className="badge rounded-pill bg-danger-light">Cancelled</span></td>
 
                               <td>
-                                <div className="table-action">
+                              <div className="table-action">
                                   
-                                  <a href="#" className="btn btn-sm bg-info-light">
-                                    <i className="far fa-eye" /> View
-                                  </a>
+                                  <button className="btn btn-sm bg-info-light">
+                                    <Link to={"/user/appointment"}> <i className="far fa-eye" /> View</Link>
+                                   
+                                  </button>
                                 </div>
                               </td>
                             </tr>
@@ -234,11 +237,12 @@ const Dashboard = () => {
                               <td><span className="badge rounded-pill bg-warning-light">Pending</span></td>
 
                               <td>
-                                <div className="table-action">
+                              <div className="table-action">
                                   
-                                  <a href="#" className="btn btn-sm bg-info-light">
-                                    <i className="far fa-eye" /> View
-                                  </a>
+                                  <button className="btn btn-sm bg-info-light">
+                                    <Link to={"/user/appointment"}> <i className="far fa-eye" /> View</Link>
+                                   
+                                  </button>
                                 </div>
                               </td>
                             </tr>
@@ -256,11 +260,12 @@ const Dashboard = () => {
                             
                               <td><span className="badge rounded-pill bg-success-light">Confirm</span></td>
                               <td>
-                                <div className="table-action">
+                              <div className="table-action">
                                   
-                                  <a href="#" className="btn btn-sm bg-info-light">
-                                    <i className="far fa-eye" /> View
-                                  </a>
+                                  <button className="btn btn-sm bg-info-light">
+                                    <Link to={"/user/appointment"}> <i className="far fa-eye" /> View</Link>
+                                   
+                                  </button>
                                 </div>
                               </td>
                             </tr>
@@ -279,11 +284,12 @@ const Dashboard = () => {
                               <td><span className="badge rounded-pill bg-danger-light">Cancelled</span></td>
 
                               <td>
-                                <div className="table-action">
+                              <div className="table-action">
                                   
-                                  <a href="#" className="btn btn-sm bg-info-light">
-                                    <i className="far fa-eye" /> View
-                                  </a>
+                                  <button className="btn btn-sm bg-info-light">
+                                    <Link to={"/user/appointment"}> <i className="far fa-eye" /> View</Link>
+                                   
+                                  </button>
                                 </div>
                               </td>
                             </tr>
@@ -302,11 +308,12 @@ const Dashboard = () => {
                               <td><span className="badge rounded-pill bg-warning-light">Pending</span></td>
 
                               <td>
-                                <div className="table-action">
+                              <div className="table-action">
                                   
-                                  <a href="#" className="btn btn-sm bg-info-light">
-                                    <i className="far fa-eye" /> View
-                                  </a>
+                                  <button className="btn btn-sm bg-info-light">
+                                    <Link to={"/user/appointment"}> <i className="far fa-eye" /> View</Link>
+                                   
+                                  </button>
                                 </div>
                               </td>
                             </tr>
@@ -347,11 +354,12 @@ const Dashboard = () => {
                                 </h2>
                               </td>
                               <td>
-                                <div className="table-action">
+                              <div className="table-action">
                                   
-                                  <a href="javascript:void(0);" className="btn btn-sm bg-info-light">
-                                    <i className="far fa-eye" /> View
-                                  </a>
+                                  <button className="btn btn-sm bg-info-light">
+                                    <Link to={"/user/prescription"}> <i className="far fa-eye" /> View</Link>
+                                   
+                                  </button>
                                 </div>
                               </td>
                             </tr>
@@ -369,11 +377,12 @@ const Dashboard = () => {
                                 </h2>
                               </td>
                               <td>
-                                <div className="table-action">
+                              <div className="table-action">
                                   
-                                  <a href="javascript:void(0);" className="btn btn-sm bg-info-light">
-                                    <i className="far fa-eye" /> View
-                                  </a>
+                                  <button className="btn btn-sm bg-info-light">
+                                    <Link to={"/user/prescription"}> <i className="far fa-eye" /> View</Link>
+                                   
+                                  </button>
                                 </div>
                               </td>
                             </tr>
@@ -391,11 +400,12 @@ const Dashboard = () => {
                                 </h2>
                               </td>
                               <td>
-                                <div className="table-action">
+                              <div className="table-action">
                                   
-                                  <a href="javascript:void(0);" className="btn btn-sm bg-info-light">
-                                    <i className="far fa-eye" /> View
-                                  </a>
+                                  <button className="btn btn-sm bg-info-light">
+                                    <Link to={"/user/prescription"}> <i className="far fa-eye" /> View</Link>
+                                   
+                                  </button>
                                 </div>
                               </td>
                             </tr>
@@ -413,11 +423,12 @@ const Dashboard = () => {
                                 </h2>
                               </td>
                               <td>
-                                <div className="table-action">
+                              <div className="table-action">
                                   
-                                  <a href="javascript:void(0);" className="btn btn-sm bg-info-light">
-                                    <i className="far fa-eye" /> View
-                                  </a>
+                                  <button className="btn btn-sm bg-info-light">
+                                    <Link to={"/user/prescription"}> <i className="far fa-eye" /> View</Link>
+                                   
+                                  </button>
                                 </div>
                               </td>
                             </tr>
@@ -435,11 +446,12 @@ const Dashboard = () => {
                                 </h2>
                               </td>
                               <td>
-                                <div className="table-action">
+                              <div className="table-action">
                                   
-                                  <a href="javascript:void(0);" className="btn btn-sm bg-info-light">
-                                    <i className="far fa-eye" /> View
-                                  </a>
+                                  <button className="btn btn-sm bg-info-light">
+                                    <Link to={"/user/prescription"}> <i className="far fa-eye" /> View</Link>
+                                   
+                                  </button>
                                 </div>
                               </td>
                             </tr>
@@ -457,11 +469,12 @@ const Dashboard = () => {
                                 </h2>
                               </td>
                               <td>
-                                <div className="table-action">
+                              <div className="table-action">
                                   
-                                  <a href="javascript:void(0);" className="btn btn-sm bg-info-light">
-                                    <i className="far fa-eye" /> View
-                                  </a>
+                                  <button className="btn btn-sm bg-info-light">
+                                    <Link to={"/user/prescription"}> <i className="far fa-eye" /> View</Link>
+                                   
+                                  </button>
                                 </div>
                               </td>
                             </tr>
@@ -479,11 +492,12 @@ const Dashboard = () => {
                                 </h2>
                               </td>
                               <td>
-                                <div className="table-action">
+                              <div className="table-action">
                                   
-                                  <a href="javascript:void(0);" className="btn btn-sm bg-info-light">
-                                    <i className="far fa-eye" /> View
-                                  </a>
+                                  <button className="btn btn-sm bg-info-light">
+                                    <Link to={"/user/prescription"}> <i className="far fa-eye" /> View</Link>
+                                   
+                                  </button>
                                 </div>
                               </td>
                             </tr>
@@ -523,11 +537,12 @@ const Dashboard = () => {
                                 </h2>
                               </td>
                               <td>
-                                <div className="table-action">
-                                  <a href="#" className="btn btn-sm bg-info-light">
-                                    <i className="far fa-eye" /> View
-                                  </a>
+                              <div className="table-action">
                                   
+                                  <button className="btn btn-sm bg-info-light">
+                                    <Link to={"/user/billdetail"}> <i className="far fa-eye" /> View</Link>
+                                   
+                                  </button>
                                 </div>
                               </td>
                             </tr>
@@ -545,11 +560,12 @@ const Dashboard = () => {
                                 </h2>
                               </td>
                               <td>
-                                <div className="table-action">
-                                  <a href="#" className="btn btn-sm bg-info-light">
-                                    <i className="far fa-eye" /> View
-                                  </a>
+                              <div className="table-action">
                                   
+                                  <button className="btn btn-sm bg-info-light">
+                                    <Link to={"/user/billdetail"}> <i className="far fa-eye" /> View</Link>
+                                   
+                                  </button>
                                 </div>
                               </td>
                             </tr>
@@ -567,11 +583,12 @@ const Dashboard = () => {
                                 </h2>
                               </td>
                               <td>
-                                <div className="table-action">
-                                  <a href="#" className="btn btn-sm bg-info-light">
-                                    <i className="far fa-eye" /> View
-                                  </a>
+                              <div className="table-action">
                                   
+                                  <button className="btn btn-sm bg-info-light">
+                                    <Link to={"/user/billdetail"}> <i className="far fa-eye" /> View</Link>
+                                   
+                                  </button>
                                 </div>
                               </td>
                             </tr>
@@ -589,11 +606,12 @@ const Dashboard = () => {
                                 </h2>
                               </td>
                               <td>
-                                <div className="table-action">
-                                  <a href="#" className="btn btn-sm bg-info-light">
-                                    <i className="far fa-eye" /> View
-                                  </a>
+                              <div className="table-action">
                                   
+                                  <button className="btn btn-sm bg-info-light">
+                                    <Link to={"/user/billdetail"}> <i className="far fa-eye" /> View</Link>
+                                   
+                                  </button>
                                 </div>
                               </td>
                             </tr>
@@ -611,11 +629,12 @@ const Dashboard = () => {
                                 </h2>
                               </td>
                               <td>
-                                <div className="table-action">
-                                  <a href="#" className="btn btn-sm bg-info-light">
-                                    <i className="far fa-eye" /> View
-                                  </a>
+                              <div className="table-action">
                                   
+                                  <button className="btn btn-sm bg-info-light">
+                                    <Link to={"/user/billdetail"}> <i className="far fa-eye" /> View</Link>
+                                   
+                                  </button>
                                 </div>
                               </td>
                             </tr>
@@ -633,11 +652,12 @@ const Dashboard = () => {
                                 </h2>
                               </td>
                               <td>
-                                <div className="table-action">
-                                  <a href="#" className="btn btn-sm bg-info-light">
-                                    <i className="far fa-eye" /> View
-                                  </a>
+                              <div className="table-action">
                                   
+                                  <button className="btn btn-sm bg-info-light">
+                                    <Link to={"/user/billdetail"}> <i className="far fa-eye" /> View</Link>
+                                   
+                                  </button>
                                 </div>
                               </td>
                             </tr>

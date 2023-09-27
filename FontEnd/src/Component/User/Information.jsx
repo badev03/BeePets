@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 
 
@@ -20,7 +21,7 @@ const Information = () => {
             <h4 className="paitent-title">Thông tin</h4>
           </div>
           <div className="paitent-appointment">
-            <form action="">
+            <form action="/booking/success">
               
               <div className="forms-block">
                 <label className="form-group-title">Họ và tên </label>
@@ -36,19 +37,14 @@ const Information = () => {
               </div>
               <div className="forms-block">
                 <label className="form-group-title">Chọn dịch vụ</label>
-                <input type="text" className="form-control"  />
+                <select className="form-select form-control">
+                                                    <option></option>
+                                                    <option>Khám chữa bệnh</option>
+                                                    <option>Cắt tỉa lông</option>
+                                                    <option>Tiêm phòng</option>
+                                                </select>
               </div>
- <div className="col-lg-12">
-  <div className="mb-3">
-    <select className="select">
-      <option disabled selected>Blood Type</option>
-      <option>O+ve</option>
-      <option>O-ve</option>
-      <option>B+ve</option>
-      <option>B-ve</option>
-    </select>
-  </div>
-</div>
+
 
               <div className="forms-block">
                 <label className="form-group-title">Ghi chú</label>
@@ -87,7 +83,8 @@ const Information = () => {
                 <div className="booking-doctor-right">
                   <p>
                     <i className="fas fa-circle-check" />
-                    <a href="doctor-profile-settings.html">Sửa</a>
+                    <Link to="/doctor">Sửa</Link>
+
                   </p>
                 </div>
               </div>
@@ -104,7 +101,8 @@ const Information = () => {
                 </div>
                 <div className="booking-doctor-right">
                   <p>
-                    <a href="booking.html">Sửa</a>
+                  <Link to="/booking">Sửa</Link>
+           
                   </p>
                 </div>
               </div>
