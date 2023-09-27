@@ -1,6 +1,6 @@
 import React from "react";
 
-const Reset_Password_Doctor = () => {
+const ResetPasswordDoctor = () => {
   return (
     <div className="content top-space">
       <div className="container-fluid">
@@ -55,4 +55,4 @@ const Reset_Password_Doctor = () => {
   );
 };
 
-export default Reset_Password_Doctor;
+export default ResetPasswordDoctor;

@@ -1,6 +1,7 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-const Forgot_Password = () => {
+import React from "react"
+import { Link } from "react-router-dom"
+
+const ForgotPasswordDoctor = () => {
     return (
         <div className="content top-space">
             <div className="container-fluid">
@@ -14,7 +15,7 @@ const Forgot_Password = () => {
                                 <div className="col-md-12 col-lg-6 login-right">
                                     <div className="login-header">
                                         <h2>Quên mật khẩu ? <a href="doctor-register.html"></a></h2>
-                                        <p>Nhập SĐT của bạn đặt lại mật khẩu</p>
+                                        <p>Nhập SĐT của bạn để nhận link đặt lại mật khẩu</p>
                                     </div>
                                     <form action="https://doccure.dreamguystech.com/html/template/patient-register-step1.html">
                                         <div className="mb-3 form-focus">
@@ -22,11 +23,9 @@ const Forgot_Password = () => {
                                             <label className="focus-label">Nhập SĐT</label>
                                         </div>
                                         <div className="text-end">
-                                            <Link className="forgot-link" to="/login">Đăng nhập nếu bạn đã có tài khoản ?</Link>
-
+                                            <Link to="/login-doctor" className="forgot-link">Đăng nhập nếu bạn đã có tài khoản ?</Link>
                                         </div>
-                                        <Link to="/otp"> <button className="btn btn-primary w-100 btn-lg login-btn" type="submit"> Đặt lại mật khẩu</button></Link>
-                                        <div className="login-or"></div>
+                                        <Link to="/login-doctor"> <button className="btn btn-primary w-100 btn-lg login-btn" type="submit"> Đặt lại mật khẩu</button></Link>
                                         <div className="login-or">
                                         </div>
                                     </form>
@@ -40,4 +39,4 @@ const Forgot_Password = () => {
     )
 }
 
-export default Forgot_Password
+export default ForgotPasswordDoctor
