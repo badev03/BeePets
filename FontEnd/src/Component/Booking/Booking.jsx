@@ -181,11 +181,12 @@ const Booking = () => {
 
             </div>
           </div>
-          <div class="booking-btn">
-<a href="paitent-details.html" class="btn btn-primary prime-btn justify-content-center align-items-center">
-Tiếp tục <i class="feather-arrow-right-circle"></i>
-</a>
+ <div className="booking-btn">
+  <a href="/user/information" className="btn btn-primary prime-btn justify-content-center align-items-center">
+    Tiếp tục <i className="feather-arrow-right-circle" />
+  </a>
 </div>
+
         </div>
       </div>
     </div>
