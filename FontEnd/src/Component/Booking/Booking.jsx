@@ -181,8 +181,8 @@ const Booking = () => {
 
             </div>
           </div>
- <div className="booking-btn">
-  <a href="/user/information" className="btn btn-primary prime-btn justify-content-center align-items-center">
+          <div className="booking-btn">
+  <a href="informationuser" className="btn btn-primary prime-btn justify-content-center align-items-center">
     Tiếp tục <i className="feather-arrow-right-circle" />
   </a>
 </div>

@@ -38,9 +38,21 @@ const Information = () => {
                 <label className="form-group-title">Chọn dịch vụ</label>
                 <input type="text" className="form-control"  />
               </div>
+ <div className="col-lg-12">
+  <div className="mb-3">
+    <select className="select">
+      <option disabled selected>Blood Type</option>
+      <option>O+ve</option>
+      <option>O-ve</option>
+      <option>B+ve</option>
+      <option>B-ve</option>
+    </select>
+  </div>
+</div>
+
               <div className="forms-block">
                 <label className="form-group-title">Ghi chú</label>
-                <input type="text" className="form-control"  />
+                <textarea type="text" className="form-control"  />
               </div>
               <div className="forms-block mb-0">
                 <div className="booking-btn">
@@ -50,6 +62,8 @@ const Information = () => {
                 </div>
               </div>
             </form>
+
+
           </div>
         </div>
         <div className="col-lg-4 col-md-12">

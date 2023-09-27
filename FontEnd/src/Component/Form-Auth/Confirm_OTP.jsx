@@ -25,7 +25,7 @@ const Confirm_OTP = () => {
                                             <Link className="forgot-link" to="/login">Gửi lại mã OTP  ?</Link>
 
                                         </div>
-                                        <Link to="/create_password"><button className="btn btn-primary w-100 btn-lg login-btn" type="submit">Xác nhận</button></Link>
+                                        <Link to="/createpass"><button className="btn btn-primary w-100 btn-lg login-btn" type="submit">Xác nhận</button></Link>
 
                                         <div className="login-or">
                                         </div>
