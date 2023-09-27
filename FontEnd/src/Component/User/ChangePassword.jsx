@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 
 
@@ -42,23 +43,20 @@ const ChangePassword = () => {
               <nav className="dashboard-menu">
                 <ul>
                   <li >
-                    <a href="/user/dashbroad">
-                      <i className="fas fa-columns" />
-                      <span>Bảng điều khiển</span>
-                    </a>
+                    <Link to={"/user/dashbroad"}><i className="fas fa-columns" />
+                      <span>Bảng điều khiển</span></Link>
+                    
                   </li>
                   
                   <li>
-                    <a href="profile-settings.html">
-                      <i className="fas fa-user-cog" />
-                      <span>Thông Tin Cá Nhân</span>
-                    </a>
+                  <Link to={"/user/profilesetting"}><i className="fas fa-user-cog" />
+                      <span>Thông Tin Cá Nhân</span></Link>
+                 
                   </li>
                   <li className="active">
-                    <a href="change-password.html">
-                      <i className="fas fa-lock" />
-                      <span>Thay Đổi Mật Khẩu</span>
-                    </a>
+                  <Link to={"/user/changepassword"}><i className="fas fa-lock" />
+                      <span>Thay Đổi Mật Khẩu</span></Link>
+                  
                   </li>
                   <li>
                     <a href="login.html">
