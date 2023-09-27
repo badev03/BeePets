@@ -44,28 +44,15 @@ const Review = () => {
                         <i className="fas fa-star" />
                       </div>
                     </div>
-                    <p className="recommended"><i className="far fa-thumbs-up" /> Tôi khuyên bạn nên
-                      bác sĩ</p>
+                    {/* <p className="recommended"><i className="far fa-thumbs-up" /> Tôi khuyên bạn nên
+                      bác sĩ</p> */}
                     <p className="comment-content">
                       Việc chăm sóc bệnh nhân là rất quan trọng.
                       nhưng vào thời điểm đó chúng xảy ra như một cơn lao động và đau đớn lớn lao.
                       Để đi đến chi tiết nhỏ nhất, bài tập của chúng ta là gì?
                       Tôi Không nghĩ có thời gian dành cho người hâm mộ
                     </p>
-                    <div className="comment-reply">
-                      <Link className="comment-btn" to="#">
-                        <i className="fas fa-reply" /> Phản hồi
-                      </Link>
-                      <p className="recommend-btn">
-                        <span>Gợi ý?</span>
-                        <Link to="#" className="like-btn">
-                          <i className="far fa-thumbs-up" /> Có
-                        </Link>
-                        <Link to="#" className="dislike-btn">
-                          <i className="far fa-thumbs-down" /> Không
-                        </Link>
-                      </p>
-                    </div>
+                    
                   </div>
                 </div>
                 <ul className="comments-reply">
@@ -82,9 +69,7 @@ const Review = () => {
 
                         </p>
                         <div className="comment-reply">
-                          <Link className="comment-btn" to="#">
-                            <i className="fas fa-reply" /> Phản hồi
-                          </Link>
+                          ink>
                         </div>
                       </div>
                     </div> */}
@@ -112,20 +97,7 @@ const Review = () => {
                       Để đi đến chi tiết nhỏ nhất, bài tập của chúng ta là gì?
                       Tôi Không nghĩ có thời gian dành cho người hâm mộ
                     </p>
-                    <div className="comment-reply">
-                      <Link className="comment-btn" to="#">
-                        <i className="fas fa-reply" /> Phản hồi
-                      </Link>
-                      <p className="recommend-btn">
-                        <span>Gợi ý?</span>
-                        <Link to="#" className="like-btn">
-                          <i className="far fa-thumbs-up" /> Có
-                        </Link>
-                        <Link to="#" className="dislike-btn">
-                          <i className="far fa-thumbs-down" /> Không
-                        </Link>
-                      </p>
-                    </div>
+                    
                   </div>
                 </div>
               </li>
@@ -150,20 +122,7 @@ const Review = () => {
                       Để đi đến chi tiết nhỏ nhất, bài tập của chúng ta là gì?
                       Tôi Không nghĩ có thời gian dành cho người hâm mộ
                     </p>
-                    <div className="comment-reply">
-                      <Link className="comment-btn" to="#">
-                        <i className="fas fa-reply" /> Phản hồi
-                      </Link>
-                      <p className="recommend-btn">
-                        <span>Gợi ý?</span>
-                        <Link to="#" className="like-btn">
-                          <i className="far fa-thumbs-up" /> Có
-                        </Link>
-                        <Link to="#" className="dislike-btn">
-                          <i className="far fa-thumbs-down" /> Không
-                        </Link>
-                      </p>
-                    </div>
+                    
                   </div>
                 </div>
               </li>
@@ -188,20 +147,7 @@ const Review = () => {
                       Để đi đến chi tiết nhỏ nhất, bài tập của chúng ta là gì?
                       Tôi Không nghĩ có thời gian dành cho người hâm mộ
                     </p>
-                    <div className="comment-reply">
-                      <Link className="comment-btn" to="#">
-                        <i className="fas fa-reply" /> Phản hồi
-                      </Link>
-                      <p className="recommend-btn">
-                        <span>Gợi ý?</span>
-                        <Link to="#" className="like-btn">
-                          <i className="far fa-thumbs-up" /> Có
-                        </Link>
-                        <Link to="#" className="dislike-btn">
-                          <i className="far fa-thumbs-down" /> Không
-                        </Link>
-                      </p>
-                    </div>
+                    
                   </div>
                 </div>
               </li>
@@ -226,20 +172,7 @@ const Review = () => {
                       Để đi đến chi tiết nhỏ nhất, bài tập của chúng ta là gì?
                       Tôi Không nghĩ có thời gian dành cho người hâm mộ
                     </p>
-                    <div className="comment-reply">
-                      <Link className="comment-btn" to="#">
-                        <i className="fas fa-reply" /> Phản hồi
-                      </Link>
-                      <p className="recommend-btn">
-                        <span>Gợi ý?</span>
-                        <Link to="#" className="like-btn">
-                          <i className="far fa-thumbs-up" /> Có
-                        </Link>
-                        <Link to="#" className="dislike-btn">
-                          <i className="far fa-thumbs-down" /> Không
-                        </Link>
-                      </p>
-                    </div>
+                    
                   </div>
                 </div>
               </li>
@@ -264,20 +197,7 @@ const Review = () => {
                       Để đi đến chi tiết nhỏ nhất, bài tập của chúng ta là gì?
                       Tôi Không nghĩ có thời gian dành cho người hâm mộ
                     </p>
-                    <div className="comment-reply">
-                      <Link className="comment-btn" to="#">
-                        <i className="fas fa-reply" /> Phản hồi
-                      </Link>
-                      <p className="recommend-btn">
-                        <span>Gợi ý?</span>
-                        <Link to="#" className="like-btn">
-                          <i className="far fa-thumbs-up" /> Có
-                        </Link>
-                        <Link to="#" className="dislike-btn">
-                          <i className="far fa-thumbs-down" /> Không
-                        </Link>
-                      </p>
-                    </div>
+                    
                   </div>
                 </div>
               </li>
@@ -302,20 +222,7 @@ const Review = () => {
                       Để đi đến chi tiết nhỏ nhất, bài tập của chúng ta là gì?
                       Tôi Không nghĩ có thời gian dành cho người hâm mộ
                     </p>
-                    <div className="comment-reply">
-                      <Link className="comment-btn" to="#">
-                        <i className="fas fa-reply" /> Phản hồi
-                      </Link>
-                      <p className="recommend-btn">
-                        <span>Gợi ý?</span>
-                        <Link to="#" className="like-btn">
-                          <i className="far fa-thumbs-up" /> Có
-                        </Link>
-                        <Link to="#" className="dislike-btn">
-                          <i className="far fa-thumbs-down" /> Không
-                        </Link>
-                      </p>
-                    </div>
+                    
                   </div>
                 </div>
               </li>
