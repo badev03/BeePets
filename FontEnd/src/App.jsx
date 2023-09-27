@@ -24,6 +24,13 @@ import Addprescription from './Component/doctors/Add-prescription'
 import Editprescription from './Component/doctors/Edit-prescription'
 import Addbill from './Component/doctors/Add-bill'
 import Editbill from './Component/doctors/Edit-bill'
+import Abouts from './Component/Abouts/Abouts'
+import Register from './Component/Form-Auth/Register'
+import Login from './Component/Form-Auth/Login'
+import Login_Doctor from './Component/Form-Auth/Login_Doctor'
+import Forgot_Password from './Component/Form-Auth/Forgot_Password'
+import Confirm_OTP from './Component/Form-Auth/Confirm_OTP'
+import Create_Password from './Component/Form-Auth/Create_Password'
 
 
 
@@ -34,6 +41,7 @@ function App() {
       <Routes>
         <Route path='/' element={<LayoutWebsite/>}>
           <Route path='' element={<Content/>}/>
+          <Route path='abouts' element={<Abouts/>}/>
           <Route path='doctor' element={<Search/>}/>
           <Route path='booking' element={<Booking/>}/>
           <Route path='booking/success' element={<BookingSuccess/>}/>
@@ -44,11 +52,7 @@ function App() {
           <Route path='user/dashbroad' element={<Dashboard/>}/>
           <Route path='user/changepassword' element={<ChangePassword/>}/>
           <Route path='user/profilesetting' element={<ProfileSetting/>}/>
-          <Route path='user/information' element={<Information/>}/>
-          <Route path='doctor' element={<Search/>}/>
-          <Route path='booking' element={<Booking/>}/>
-          <Route path='booking/success' element={<BookingSuccess/>}/>
-          <Route path='doctor/profile' element={<DoctorProfile/>}/>
+          <Route path='informationuser' element={<Information/>}/>
           
           <Route path='doctors' element={<Dashboarddoctors/>}/>
           <Route path='doctors/profile' element={<Profile/>}/>
@@ -61,6 +65,14 @@ function App() {
           <Route path='doctors/edit-prescription' element={<Editprescription/>}/>
           <Route path='doctors/add-bill' element={<Addbill/>}/>
           <Route path='doctors/edit-bill' element={<Editbill/>}/>
+
+          <Route path='register' element={<Register/>}/>
+          <Route path='login' element={<Login/>}/>
+          <Route path='logindoctor' element={<Login_Doctor/>}/>
+          <Route path='forgetpassword' element={<Forgot_Password/>}/>
+          <Route path='otp' element={<Confirm_OTP/>}/>
+          <Route path='createpass' element={<Create_Password/>}/>
+
         </Route>          
       </Routes>
     </Router>

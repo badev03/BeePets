@@ -14,7 +14,7 @@ const Forgot_Password = () => {
                                 <div className="col-md-12 col-lg-6 login-right">
                                     <div className="login-header">
                                         <h2>Quên mật khẩu ? <a href="doctor-register.html"></a></h2>
-                                        <p>Nhập SĐT của bạn để nhận link đặt lại mật khẩu</p>
+                                        <p>Nhập SĐT của bạn đặt lại mật khẩu</p>
                                     </div>
                                     <form action="https://doccure.dreamguystech.com/html/template/patient-register-step1.html">
                                         <div className="mb-3 form-focus">
@@ -25,7 +25,7 @@ const Forgot_Password = () => {
                                             <Link className="forgot-link" to="/login">Đăng nhập nếu bạn đã có tài khoản ?</Link>
 
                                         </div>
-                                        <Link to="/confirm_otp"> <button className="btn btn-primary w-100 btn-lg login-btn" type="submit"> Đặt lại mật khẩu</button></Link>
+                                        <Link to="/otp"> <button className="btn btn-primary w-100 btn-lg login-btn" type="submit"> Đặt lại mật khẩu</button></Link>
                                         <div className="login-or"></div>
                                         <div className="login-or">
                                         </div>

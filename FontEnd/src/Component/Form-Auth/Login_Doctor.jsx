@@ -13,8 +13,8 @@ const Login_Doctor = () => {
                                 </div>
                                 <div className="col-md-12 col-lg-6 login-right">
                                     <div className="login-header">
-                                        <h2>ĐĂNG NHẬP (doctor)</h2>
-                                        <Link to="/login" >Đăng nhập với tư cách là user</Link>
+                                        <h2>ĐĂNG NHẬP (Bác Sĩ)</h2>
+                                        <Link to="/login" >Đăng nhập với tư cách là khách hàng</Link>
                                     </div>
                                     <form action="https://doccure.dreamguystech.com/html/template/patient-register-step1.html">
                                         <div className="mb-3 form-focus">
