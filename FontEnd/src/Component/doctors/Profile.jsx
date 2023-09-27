@@ -106,7 +106,7 @@ const Profile = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="card">
+                            {/* <div className="card">
                                 <div className="card-body">
                                     <h4 className="card-title">Thông tin phòng khám</h4>
                                     <div className="row">
@@ -189,12 +189,12 @@ const Profile = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> */}
                                     {/* <div className="add-more">
                 <Link to="javascript:void(0);" className="add-education"><i className="fa fa-plus-circle" /> Add More</Link>
               </div> */}
-                                </div>
-                            </div>
+                                {/* </div>
+                            </div> */}
                             <ul className="nav nav-tabs nav-tabs-solid nav-tabs-rounded">
                                 <div class="submit-section">
                                     <button type="submit" class="btn btn-primary submit-btn">Lưu thông tin</button>
