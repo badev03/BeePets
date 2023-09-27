@@ -7,6 +7,7 @@ use Eloquent;
 use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class BaseAdminController extends Controller
 {
@@ -26,6 +27,7 @@ class BaseAdminController extends Controller
     public $titleEdit;
     public $slug;
     protected $title;
+    protected $tester;
 
     public function __construct()
     {
@@ -35,7 +37,6 @@ class BaseAdminController extends Controller
     public function index()
     {
         $data = $this->model->all();
-
         return view($this->pathView . __FUNCTION__, compact('data'))
             ->with('title', $this->titleIndex)
             ->with('colums', $this->colums)
@@ -48,11 +49,13 @@ class BaseAdminController extends Controller
      */
     public function create()
     {
+        $categories = $this->addData();
         return view($this->pathView . __FUNCTION__)
             ->with('title', $this->titleCreate)
             ->with('colums', $this->colums)
             ->with('urlbase', $this->urlbase)
-            ->with('title_web', $this->title);
+            ->with('title_web', $this->title)
+            ->with('categories', $categories);
     }
     public function createSlug($name) {
         return Str::slug($name);
@@ -63,25 +66,26 @@ class BaseAdminController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = $this->validateStore($request);
-
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
         $model = new $this->model;
+        $validateStore = $this->validateStore($request);
+
+        if($validateStore) {
+            return back()->withErrors($validateStore)->withInput();
+        }
 
         $model->fill($request->except([$this->fieldImage,$this->slug]));
 
         if ($request->hasFile($this->fieldImage)) {
-            $tmpPath = Storage::put($this->folderImage, $request->{$this->fieldImage});
-            $model->{$this->fieldImage} = 'storage/' . $tmpPath;
+            $tmpPath = Storage::put('public/'.$this->folderImage, $request->{$this->fieldImage});
+            $path = str_replace('public/','',  $tmpPath);
+            $model->{$this->fieldImage} = 'storage/' . $path;
         }
         if($request->has('name')) {
-            $model->{$this->slug} = $this->createSlug($request->name);
+            $model->slug = $this->createSlug($request->name);
         }
         $model->save();
 
-        return back()->with('success', 'Thao tac thanh cong');
+        return back()->with('success', 'Thao tác thành công');
     }
 
     /**
@@ -91,10 +95,7 @@ class BaseAdminController extends Controller
     {
         $model = $this->model->findOrFail($id);
 
-        return view($this->pathView . __FUNCTION__, compact('model'))
-            ->with('title', $this->titleShow)
-            ->with('colums', $this->colums)
-            ->with('urlbase', $this->urlbase);
+        return response()->json($model);
     }
 
     /**
@@ -103,11 +104,13 @@ class BaseAdminController extends Controller
     public function edit(string $id)
     {
         $model = $this->model->findOrFail($id);
-
+        $categories = $this->addData();
         return view($this->pathView . __FUNCTION__, compact('model'))
             ->with('title', $this->titleEdit)
             ->with('colums', $this->colums)
-            ->with('urlbase', $this->urlbase);
+            ->with('urlbase', $this->urlbase)
+            ->with('title_web', $this->title)
+            ->with('categories', $categories);
     }
 
     /**
@@ -117,7 +120,7 @@ class BaseAdminController extends Controller
     {
         $validator = $this->validateUpdate($request);
 
-        if ($validator->fails()) {
+        if ($validator) {
             return back()->withErrors($validator)->withInput();
         }
 
@@ -128,9 +131,9 @@ class BaseAdminController extends Controller
         if ($request->hasFile($this->fieldImage)) {
             $oldImage = $model->{$this->fieldImage};
 
-            $tmpPath = Storage::put($this->folderImage, $request->{$this->fieldImage});
-
-            $model->{$this->fieldImage} = 'storage/' . $tmpPath;
+            $tmpPath = Storage::put('public/'.$this->folderImage, $request->{$this->fieldImage});
+            $path = str_replace('public/','',  $tmpPath);
+            $model->{$this->fieldImage} = 'storage/' . $path;
         }
 
         $model->save();
@@ -140,7 +143,7 @@ class BaseAdminController extends Controller
             Storage::delete($oldImage);
         }
 
-        return back()->with('success', 'Thao tac thanh cong');
+        return back()->with('success', 'Thao tác thành công');
     }
 
     /**
@@ -151,16 +154,16 @@ class BaseAdminController extends Controller
         $model = $this->model->findOrFail($id);
 
         $model->delete();
-
-        if (Storage::exists($model->{$this->fieldImage})) {
+        if($model->image) {
             $image = str_replace('storage/', '', $model->{$this->fieldImage});
             Storage::delete($image);
         }
+        return back()->with('success_delete', 'Đã xóa thành công');
     }
 
     public function import()
     {
-
+        return back()->with('success_delete', 'Đã xóa thành công');
     }
 
     public function export()
@@ -177,6 +180,11 @@ class BaseAdminController extends Controller
     {
         return [];
     }
+
+    public function addData() {
+
+    }
+
 }
 
 

@@ -6,13 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Service;
 use App\Models\Service_categorie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ServiceController extends BaseAdminController
 {
     public $model = Service::class;
     public $pathView = 'admin.baseCrud.';
     public $urlbase = 'service.';
-    public $fieldImage = 'cate_image';
+    public $fieldImage = 'image';
     public $folderImage = 'image/serCateImage';
 
 
@@ -31,6 +32,30 @@ class ServiceController extends BaseAdminController
         'name' => 'Tên dịch vụ',
         'slug' => 'Slug',
         'description' => 'mô tả',
-        'cate_image'=>'Ảnh'
+        'price'=>'Giá',
+        'image' => 'ảnh',
+        'service_categorie_id' => 'Danh mục dịch vụ'
     ];
+
+    public function validateStore($request)
+    {
+        $this->validate($request,[
+            'name' => 'required',
+            'description' => 'required' ,
+            'price' => 'required|numeric|min:1'
+        ],
+            [
+                'name.required' => 'Tên danh mục dịch vụ không được để trống',
+                'description.required' => 'Mô tả danh mục dịch vụ không được để trống',
+                'price.required' => 'Giá danh mục dịch vụ không được để trống',
+                'price.numeric' => 'Giá phải là số',
+                'price.min' => 'Giá phải lớn hơn 0',
+            ]
+        );
+    }
+
+    public function addData() {
+        $serviceCategorie = DB::table('service_categories')->get();
+        return $serviceCategorie;
+    }
 }

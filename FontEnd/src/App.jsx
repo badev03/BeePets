@@ -34,6 +34,10 @@ function App() {
       <Routes>
         <Route path='/' element={<LayoutWebsite/>}>
           <Route path='' element={<Content/>}/>
+          <Route path='doctor' element={<Search/>}/>
+          <Route path='booking' element={<Booking/>}/>
+          <Route path='booking/success' element={<BookingSuccess/>}/>
+          <Route path='doctor/profile' element={<DoctorProfile/>}/>
           <Route path='blog' element={<BlogList/>}/>
           <Route path='blogdetails' element={<BlogDetails/>}/>
           <Route path='servicerdetails' element={<ServiceDetails/>}/>
