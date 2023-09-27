@@ -54,6 +54,20 @@
                                                 @endif
                                             </div>
                                         </div>
+                                    @elseif(in_array($key , FIELD_CHECK_FOR))
+                                        <div class="row">
+                                            <div class="col-md-8 mb-3">
+                                                <label class="mb-2" for="validationCustom01">{{ $item }}</label>
+                                                <select class="form-select" name="{{ $key }}">
+                                                    @foreach($categories as $keyCat=>$itemCat)
+                                                        <option value="{{ $itemCat->id }}">{{ $itemCat->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @if($errors->has($key))
+                                                    <div class="error text-danger mt-2">{{ $errors->first($key) }}</div>
+                                                @endif
+                                            </div>
+                                        </div>
                                     @else
                                         <div class="row">
                                             <div class="col-md-8 mb-3">

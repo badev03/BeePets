@@ -37,7 +37,6 @@ class BaseAdminController extends Controller
     public function index()
     {
         $data = $this->model->all();
-
         return view($this->pathView . __FUNCTION__, compact('data'))
             ->with('title', $this->titleIndex)
             ->with('colums', $this->colums)
@@ -50,11 +49,13 @@ class BaseAdminController extends Controller
      */
     public function create()
     {
+        $categories = $this->addData();
         return view($this->pathView . __FUNCTION__)
             ->with('title', $this->titleCreate)
             ->with('colums', $this->colums)
             ->with('urlbase', $this->urlbase)
-            ->with('title_web', $this->title);
+            ->with('title_web', $this->title)
+            ->with('categories', $categories);
     }
     public function createSlug($name) {
         return Str::slug($name);
@@ -84,7 +85,7 @@ class BaseAdminController extends Controller
         }
         $model->save();
 
-        return back()->with('success', 'Thao tac thanh cong');
+        return back()->with('success', 'Thao tác thành công');
     }
 
     /**
@@ -94,10 +95,7 @@ class BaseAdminController extends Controller
     {
         $model = $this->model->findOrFail($id);
 
-        return view($this->pathView . __FUNCTION__, compact('model'))
-            ->with('title', $this->titleShow)
-            ->with('colums', $this->colums)
-            ->with('urlbase', $this->urlbase);
+        return response()->json($model);
     }
 
     /**
@@ -106,11 +104,13 @@ class BaseAdminController extends Controller
     public function edit(string $id)
     {
         $model = $this->model->findOrFail($id);
-
+        $categories = $this->addData();
         return view($this->pathView . __FUNCTION__, compact('model'))
             ->with('title', $this->titleEdit)
             ->with('colums', $this->colums)
-            ->with('urlbase', $this->urlbase);
+            ->with('urlbase', $this->urlbase)
+            ->with('title_web', $this->title)
+            ->with('categories', $categories);
     }
 
     /**
@@ -120,7 +120,7 @@ class BaseAdminController extends Controller
     {
         $validator = $this->validateUpdate($request);
 
-        if ($validator->fails()) {
+        if ($validator) {
             return back()->withErrors($validator)->withInput();
         }
 
@@ -131,9 +131,9 @@ class BaseAdminController extends Controller
         if ($request->hasFile($this->fieldImage)) {
             $oldImage = $model->{$this->fieldImage};
 
-            $tmpPath = Storage::put($this->folderImage, $request->{$this->fieldImage});
-
-            $model->{$this->fieldImage} = 'storage/' . $tmpPath;
+            $tmpPath = Storage::put('public/'.$this->folderImage, $request->{$this->fieldImage});
+            $path = str_replace('public/','',  $tmpPath);
+            $model->{$this->fieldImage} = 'storage/' . $path;
         }
 
         $model->save();
@@ -143,7 +143,7 @@ class BaseAdminController extends Controller
             Storage::delete($oldImage);
         }
 
-        return back()->with('success', 'Thao tac thanh cong');
+        return back()->with('success', 'Thao tác thành công');
     }
 
     /**
@@ -180,6 +180,11 @@ class BaseAdminController extends Controller
     {
         return [];
     }
+
+    public function addData() {
+
+    }
+
 }
 
 
