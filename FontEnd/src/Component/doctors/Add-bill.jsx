@@ -1,10 +1,10 @@
 import React from 'react'
 import Menudashboard from './Menu-dashboard'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const Addbill = () => {
-  return (
-    <div>
+    return (
+        <div>
             <div className="breadcrumb-bar-two">
                 <div className="container">
                     <div className="row align-items-center inner-banner">
@@ -25,28 +25,28 @@ const Addbill = () => {
                     <div className="row">
                         <div className="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
                             <div className="card widget-profile pat-widget-profile">
-                            <div className="card-body">
-                <Menudashboard/>
-              <div className="pro-widget-content">
-                <div className="profile-info-widget">
-                  <Link to="#" className="booking-doc-img">
-                    <img src="/img/patients/patient.jpg" alt="User Image" />
-                  </Link>
-                  <div className="profile-det-info">
-                    <h3>Richard Wilson</h3>
-                    <div className="patient-details">
-                      <h5><b>Patient ID :</b> PT0016</h5>
-                      
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="patient-info">
-                <ul>
-                  <li>SĐT <span>+1 952 001 8563</span></li>
-                </ul>
-              </div>
-            </div>
+                                <div className="card-body">
+                                    <Menudashboard />
+                                    <div className="pro-widget-content">
+                                        <div className="profile-info-widget">
+                                            <Link to="#" className="booking-doc-img">
+                                                <img src="/img/patients/patient.jpg" alt="User Image" />
+                                            </Link>
+                                            <div className="profile-det-info">
+                                                <h3>Richard Wilson</h3>
+                                                <div className="patient-details">
+                                                    <h5><b>Patient ID :</b> PT0016</h5>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="patient-info">
+                                        <ul>
+                                            <li>SĐT <span>+1 952 001 8563</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div className="col-md-7 col-lg-8 col-xl-9">
@@ -65,6 +65,15 @@ const Addbill = () => {
                                             <div className="billing-info">
                                                 <h4 className="d-block">1 November 2023</h4>
                                                 <span className="d-block text-muted">#INV0001</span>
+                                            </div>
+                                        </div>
+                                        <div className="card">
+                                            <div className="card-body">
+                                                <h4 className="card-title">Kết quả</h4>
+                                                <div className="mb-0">
+                                                    {/* <label className="mb-2">Tiểu sử</label> */}
+                                                    <textarea className="form-control" rows={5} defaultValue={""} />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -96,7 +105,7 @@ const Addbill = () => {
                                                                 <input className="form-control" type="text" />
                                                             </td>
                                                             <td>
-                                                            <input className="form-control" type="text" />
+                                                                <input className="form-control" type="text" />
                                                             </td>
                                                             <td>
                                                                 <Link to="#" className="btn bg-danger-light trash"><i className="far fa-trash-alt" /></Link>
@@ -113,7 +122,7 @@ const Addbill = () => {
                                                                 <input className="form-control" type="text" />
                                                             </td>
                                                             <td>
-                                                            <input className="form-control" type="text" />
+                                                                <input className="form-control" type="text" />
                                                             </td>
                                                             <td>
                                                                 <Link to="#" className="btn bg-danger-light trash"><i className="far fa-trash-alt" /></Link>
@@ -130,7 +139,7 @@ const Addbill = () => {
                                                                 <input className="form-control" type="text" />
                                                             </td>
                                                             <td>
-                                                            <input className="form-control" type="text" />
+                                                                <input className="form-control" type="text" />
                                                             </td>
                                                             <td>
                                                                 <Link to="#" className="btn bg-danger-light trash"><i className="far fa-trash-alt" /></Link>
@@ -142,13 +151,13 @@ const Addbill = () => {
                                         </div>
                                     </div>
                                     <div className="row">
-                                       
+
                                     </div>
                                     <div className="row">
                                         <div className="col-md-12">
                                             <div className="submit-section">
                                                 <button type="submit" className="btn btn-primary submit-btn">Lưu</button>
-                                               <Link to='/doctors/patient-profile'>    <button type="reset" className="btn btn-secondary submit-btn">Quay lại</button></Link> 
+                                                <Link to='/doctors/patient-profile'>    <button type="reset" className="btn btn-secondary submit-btn">Quay lại</button></Link>
                                             </div>
                                         </div>
                                     </div>
@@ -159,7 +168,7 @@ const Addbill = () => {
                 </div>
             </div>
         </div>
-  )
+    )
 }
 
 export default Addbill
