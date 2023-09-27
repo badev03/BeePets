@@ -13,7 +13,7 @@ class ServiceCategorieController extends BaseAdminController
     public $model = Service_categorie::class;
     public $pathView = 'admin.baseCrud.';
     public $urlbase = 'service-categories.';
-    public $fieldImage = 'cate_image';
+    public $fieldImage = 'image';
     public $folderImage = 'image/serCateImage';
     public $titleIndex = 'Danh sách Dịch vụ';
     public $titleCreate = 'Thêm mới Dịch vụ';
@@ -32,10 +32,12 @@ class ServiceCategorieController extends BaseAdminController
     public function validateStore($request)
     {
         $this->validate($request,[
-            'name' => 'required|unique:categories,name',
+            'name' => 'required',
+            'description' => 'required'
         ],
-            ['name.required' => 'Tên danh mục không được để trống',
-                'name.unique' => 'Tên danh mục đã tồn tại',
+            [
+                'name.required' => 'Tên danh mục dịch vụ không được để trống',
+                'description.required' => 'Mô tả danh mục dịch vụ không được để trống'
             ]
         );
     }
