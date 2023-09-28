@@ -68,6 +68,15 @@ const Editbill = () => {
                                             </div>
                                         </div>
                                     </div>
+                                    <div className="card">
+                                            <div className="card-body">
+                                                <h4 className="card-title">Kết quả</h4>
+                                                <div className="mb-0">
+                                                    {/* <label className="mb-2">Tiểu sử</label> */}
+                                                    <textarea className="form-control" rows={5} defaultValue={""} />
+                                                </div>
+                                            </div>
+                                        </div>
                                     <div className="add-more-item text-end">
                                         <Link to="javascript:void(0);" className="add-prescription"><i className="fas fa-plus-circle" /> Thêm hóa đơn</Link>
                                     </div>
