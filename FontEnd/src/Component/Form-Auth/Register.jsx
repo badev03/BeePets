@@ -31,7 +31,7 @@ const Register = () => {
                     <div className="text-end">
                       <Link to="/login" className="/login">Bạn đã có tài khoản ?</Link>
                     </div>
-                    <Link to="/login"> <button className="btn btn-primary w-100 btn-lg login-btn" type="submit">Đăng ký</button> </Link>
+                    <Link to="/create-password"> <button className="btn btn-primary w-100 btn-lg login-btn" type="submit">Đăng ký</button> </Link>
                     <div className="login-or">
                       <span className="or-line" />
                       <span className="span-or">or</span>
