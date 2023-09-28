@@ -35,7 +35,7 @@ const Appointments = () => {
                   <img src="/img/patients/patient.jpg" alt="User Image" />
                 </Link>
                 <div className="profile-det-info">
-                  <h3><Link to="patient-profile.html">Richard Wilson</Link></h3>
+                  <h3><Link to="/doctors/detail-appointments">Richard Wilson</Link></h3>
                   <div className="patient-details">
                     <h5><i className="far fa-clock" /> 14 Nov 2023, 10.00 AM</h5>
                     
@@ -44,7 +44,7 @@ const Appointments = () => {
                 </div>
               </div>
               <div className="appointment-action">
-                <Link to="#" className="btn btn-sm bg-info-light" data-bs-toggle="modal" data-bs-target="#appt_details">
+                <Link to="/doctors/detail-appointments" className="btn btn-sm bg-info-light" >
                   <i className="far fa-eye" /> View
                 </Link>
                 
