@@ -130,16 +130,18 @@ const BillDetail = () => {
                         </table>
                       </div>
                       <div className="col-12 col-md-12">
-                    <div className="mb-3 pt-5">
-                      <label className="mb-2"><h1 >Tổng tiền : 800.000 VND</h1> </label>
+                    
+                    <div className="mb-3 pt-5" >
+                    <label className="mb-2 " style={{ float:"right" , marginRight:"50px" }} ><th  >Tổng tiền : 800.000 VND</th> </label>
+                    
                      
                     
                       
                     </div>
                   </div>
                       <div className="col-12 col-md-12">
-                    <div className="mb-3">
-                      <label className="mb-2">Ghi chú</label>
+                    <div className="mt-5">
+                      <label className="mb-2"><th>Ghi chú</th></label>
                      
                         <textarea type="text" className="form-control datetimepicker" />
                       
