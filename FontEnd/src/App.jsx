@@ -24,6 +24,7 @@ import Addprescription from './Component/doctors/Add-prescription'
 import Editprescription from './Component/doctors/Edit-prescription'
 import Addbill from './Component/doctors/Add-bill'
 import Editbill from './Component/doctors/Edit-bill'
+import DetailAppointment from './Component/doctors/Detail-appointments'
 
 
 
@@ -57,6 +58,7 @@ function App() {
           <Route path='doctors/edit-prescription' element={<Editprescription/>}/>
           <Route path='doctors/add-bill' element={<Addbill/>}/>
           <Route path='doctors/edit-bill' element={<Editbill/>}/>
+          <Route path='doctors/detail-appointments' element={<DetailAppointment/>}/>
         </Route>          
       </Routes>
     </Router>

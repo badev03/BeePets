@@ -118,10 +118,10 @@ const Patientprofile = () => {
                             <tr>
                               <td>
                                 <h2 className="table-avatar">
-                                  <Link to="doctor-profile.html" className="avatar avatar-sm me-2">
+                                  <Link to="/doctors/detail-appointments" className="avatar avatar-sm me-2">
                                     <img className="avatar-img rounded-circle" src="/img/doctors/doctor-thumb-02.jpg" alt="User Image" />
                                   </Link>
-                                  <Link to="doctor-profile.html">Dr. Darren Elder
+                                  <Link to="/doctors/detail-appointments">Dr. Darren Elder
                                     <span>Dental</span></Link>
                                 </h2>
                               </td>
@@ -134,8 +134,8 @@ const Patientprofile = () => {
                               </td>
                               <td>
                                 <div className="table-action">
-                                  <Link to="javascript:void(0);" className="btn btn-sm bg-success-light">
-                                    <i className="far fa-edit" /> Edit
+                                <Link to="/doctors/detail-appointments" className="btn btn-sm bg-info-light">
+                                    <i className="far fa-eye" /> View
                                   </Link>
                                 </div>
                               </td>
@@ -156,13 +156,13 @@ const Patientprofile = () => {
                               <td>$250</td>
                               <td><span className="badge rounded-pill bg-success-light">Confirm</span>
                               </td>
-                              <td>
+                              {/* <td>
                                 <div className="table-action">
                                   <Link to="javascript:void(0);" className="btn btn-sm bg-success-light">
                                     <i className="far fa-edit" /> Edit
                                   </Link>
                                 </div>
-                              </td>
+                              </td> */}
                             </tr>
                             <tr>
                               <td>
@@ -179,13 +179,13 @@ const Patientprofile = () => {
                               <td>$400</td>
                               <td><span className="badge rounded-pill bg-danger-light">Cancelled</span>
                               </td>
-                              <td>
+                              {/* <td>
                                 <div className="table-action">
                                   <Link to="javascript:void(0);" className="btn btn-sm bg-success-light">
                                     <i className="far fa-edit" /> Edit
                                   </Link>
                                 </div>
-                              </td>
+                              </td> */}
                             </tr>
                             
                           </tbody>
@@ -225,10 +225,8 @@ const Patientprofile = () => {
                               </td>
                               <td>
                                 <div className="table-action">
-                                  <Link to="javascript:void(0);" className="btn btn-sm bg-primary-light">
-                                    <i className="fas fa-print" /> Print
-                                  </Link>
-                                  <Link to="javascript:void(0);" className="btn btn-sm bg-info-light">
+                                  
+                                  <Link to="/doctors/edit-prescription" className="btn btn-sm bg-info-light">
                                     <i className="far fa-eye" /> View
                                   </Link>
                                 </div>
@@ -248,10 +246,8 @@ const Patientprofile = () => {
                               </td>
                               <td>
                                 <div className="table-action">
-                                  <Link to="javascript:void(0);" className="btn btn-sm bg-primary-light">
-                                    <i className="fas fa-print" /> Print
-                                  </Link>
-                                  <Link to="javascript:void(0);" className="btn btn-sm bg-info-light">
+                                  
+                                  <Link to="/doctors/edit-prescription;" className="btn btn-sm bg-info-light">
                                     <i className="far fa-eye" /> View
                                   </Link>
                                   <Link to="/doctors/edit-prescription" className="btn btn-sm bg-success-light">
