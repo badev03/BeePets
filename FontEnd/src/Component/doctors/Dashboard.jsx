@@ -121,7 +121,7 @@ const Dashboarddoctors = () => {
                                     <Link to="/doctors/detail-appointments" className="btn btn-sm bg-info-light">
                                       <i className="far fa-eye" /> View
                                     </Link>
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-success-light">
+                                    <Link to="javascript:void(0);"  className="btn btn-sm bg-success-light">
                                       <i className="fas fa-check" /> Accept
                                     </Link>
                                     <Link to="javascript:void(0);" className="btn btn-sm bg-danger-light">

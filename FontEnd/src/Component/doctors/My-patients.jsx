@@ -38,7 +38,7 @@ const Mypatients = () => {
                         <img src="/img/patients/patient.jpg" alt="User Image" />
                       </Link>
                       <div className="profile-det-info">
-                        <h3><Link to="/doctor/patient-profile">Richard Wilson</Link></h3>
+                        <h3><Link to="/doctors/patient-profile">Richard Wilson</Link></h3>
                         <div className="patient-details">
                           <h5><b>Mã bệnh nhân :</b> P0016</h5>
         
