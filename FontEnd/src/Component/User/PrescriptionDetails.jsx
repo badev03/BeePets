@@ -150,9 +150,7 @@ const PrescriptionDetails = () => {
                   
   
                 </div>
-                <div className="submit-section">
-                  <button type="submit" className="btn btn-primary submit-btn">Lưu</button>
-                </div>
+               
               </form>
             </div>
           </div>

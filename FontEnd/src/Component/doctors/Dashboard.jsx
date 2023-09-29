@@ -118,7 +118,7 @@ const Dashboarddoctors = () => {
                                 <td>Khám bệnh</td>
                                 <td>
                                   <div className="table-action">
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-info-light">
+                                    <Link to="/doctors/detail-appointments" className="btn btn-sm bg-info-light">
                                       <i className="far fa-eye" /> View
                                     </Link>
                                     <Link to="javascript:void(0);" className="btn btn-sm bg-success-light">
@@ -144,7 +144,7 @@ const Dashboarddoctors = () => {
                                
                                 <td>
                                   <div className="table-action">
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-info-light">
+                                    <Link to="/doctors/detail-appointments" className="btn btn-sm bg-info-light">
                                       <i className="far fa-eye" /> View
                                     </Link>
                                     <Link to="javascript:void(0);" className="btn btn-sm bg-success-light">
@@ -170,7 +170,7 @@ const Dashboarddoctors = () => {
                                 
                                 <td>
                                   <div className="table-action">
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-info-light">
+                                    <Link to="/doctors/detail-appointments" className="btn btn-sm bg-info-light">
                                       <i className="far fa-eye" /> View
                                     </Link>
                                     <Link to="javascript:void(0);" className="btn btn-sm bg-success-light">

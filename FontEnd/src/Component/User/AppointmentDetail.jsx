@@ -80,25 +80,25 @@ const AppointmentDetail = () => {
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
                       <label className="mb-2">Tên bác sĩ</label>
-                      <input type="text" className="form-control" />
+                      <input type="text" className="form-control" defaultValue={"Vũ Anh Pá"}/>
                     </div>
                   </div>
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
                       <label className="mb-2">Loại thú cưng</label>
-                      <input type="text" className="form-control"  />
+                      <input type="text" className="form-control" defaultValue={"Vũ Anh Pá"} />
                     </div>
                   </div>
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
                       <label className="mb-2">Ngày đặt lịch</label>
-                      <input type="text" className="form-control"  />
+                      <input type="text" className="form-control" defaultValue={"28/09/2003"}/>
                     </div>
                   </div>
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
                       <label className="mb-2">Lịch khám</label>
-                      <input type="text" className="form-control"  />
+                      <input type="text" className="form-control" defaultValue={"8:00 - 9:00"}  />
                     </div>
                   </div>
                  
@@ -106,7 +106,7 @@ const AppointmentDetail = () => {
                     <div className="mb-3">
                       <label className="mb-2">Ghi chú</label>
                      
-                        <textarea type="text" className="form-control datetimepicker" />
+                        <textarea type="text" className="form-control datetimepicker" defaultValue={"Vũ Anh Pá"} />
                       
                     </div>
                   </div>
@@ -114,9 +114,7 @@ const AppointmentDetail = () => {
                   
   
                 </div>
-                <div className="submit-section">
-                  <button type="submit" className="btn btn-primary submit-btn">Lưu</button>
-                </div>
+                
               </form>
             </div>
           </div>
