@@ -33,7 +33,12 @@ const Information = () => {
               </div>
               <div className="forms-block">
                 <label className="form-group-title">Loại thú cưng</label>
-                <input type="text" className="form-control"  />
+                <select className="form-select form-control">
+                                                    <option></option>
+                                                    <option>Chó</option>
+                                                    <option>Mèo</option>
+                                                    <option>Chuột</option>
+                                                </select>
               </div>
               <div className="forms-block">
                 <label className="form-group-title">Chọn dịch vụ</label>

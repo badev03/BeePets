@@ -17,7 +17,7 @@ const Login = () => {
                                         <h2>ĐĂNG NHẬP</h2>
                                         <Link to="/login-doctor">Đăng nhập với tư cách là bác sĩ?</Link>
                                     </div>
-                                    <form action="https://doccure.dreamguystech.com/html/template/patient-register-step1.html">
+                                    <form action="/user/dashbroad">
                                         <div className="mb-3 form-focus">
                                             <input type="text" className="form-control floating" />
                                             <label className="focus-label">Nhập số điện thoại</label>
@@ -29,7 +29,7 @@ const Login = () => {
                                         <div className="text-end">
                                             <Link className="forgot-link" to="/Forgot-password">Quên mật khẩu ?</Link>
                                         </div>
-                                        <Link to="/"> <button className="btn btn-danger w-100 btn-lg login-btn" type="submit"> Đăng nhập</button></Link>
+                                        <button className="btn btn-danger w-100 btn-lg login-btn" type="submit"> Đăng nhập</button>
                                         <div className="login-or">
                                             <span className="or-line" />
                                             <span className="span-or">or</span>
