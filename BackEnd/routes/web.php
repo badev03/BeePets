@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,5 +13,22 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
+//
+Route::prefix('admin')->group(function () {
+    $objects = [
+        'service-categories' => \App\Http\Controllers\Admin\ServiceCategorieController::class,
+        'service' => \App\Http\Controllers\Admin\ServiceController::class,
+    ];
+    foreach ($objects as $key => $controller) {
+     Route::resource($key, $controller);
+     Route::get('dashboard', [HomeController::class , 'index'])->name('dashboard');
+
+
+
+}
+
+});
 
 
