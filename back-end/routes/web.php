@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\admin\PermissionController;
+use \App\Http\Controllers\admin\roleController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
