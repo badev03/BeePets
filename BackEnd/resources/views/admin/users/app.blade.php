@@ -17,7 +17,7 @@
     <meta name="twitter:title" content="Doctors Appointment HTML Website Templates | Doccure">
     <meta name="twitter:description" content="The responsive professional Doccure template offers many features, like scheduling appointments with  top doctors, clinics, and hospitals via voice, video call & chat.">
     <meta name="twitter:image" content="assets/img/preview-banner.html">
-    <title>Dashboard</title>
+    <title>Doccure - Login</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('backend/assets/img/favicon.png')}}">
 
@@ -26,41 +26,23 @@
     <link rel="stylesheet" href="{{asset('backend/assets/plugins/fontawesome/css/fontawesome.min.css')}}">
     <link rel="stylesheet" href="{{asset('backend/assets/plugins/fontawesome/css/all.min.css')}}">
 
-    <link rel="stylesheet" href="{{asset('backend/assets/css/feathericon.min.css')}}">
-    <link rel="stylesheet" href="{{asset('backend/assets/plugins/morris/morris.css')}}">
-
     <link rel="stylesheet" href="{{asset('backend/assets/css/custom.css')}}">
-
-    @stack('style')
 </head>
 <body>
 
-<div class="main-wrapper">
-@include('layouts.partials.header')
-
-    @include('layouts.partials.sidebar')
-    <div class="page-wrapper">
-        <div class="content container-fluid">
-@yield('content')
-            </div>
+<div class="main-wrapper login-body">
+    <div class="login-wrapper">
+        <div class="container">
+            @yield('content')
+        </div>
     </div>
-
 </div>
-
 
 <script src="{{asset('backend/assets/js/jquery-3.7.0.min.js')}}"></script>
 
 <script src="{{asset('backend/assets/js/bootstrap.bundle.min.js')}}"></script>
 
-<script src="{{asset('backend/assets/plugins/slimscroll/jquery.slimscroll.min.js')}}"></script>
-<script src="{{asset('backend/assets/plugins/raphael/raphael.min.js')}}"></script>
-<script src="{{asset('backend/assets/plugins/morris/morris.min.js')}}"></script>
-<script src="{{asset('backend/assets/js/chart.morris.js')}}"></script>
-
-@include('layouts.partials.script')
-@stack('script')
 <script src="{{asset('backend/assets/js/script.js')}}"></script>
 </body>
 
-<!-- Mirrored from doccure.dreamguystech.com/html/template/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 09 Sep 2023 14:19:12 GMT -->
 </html>
