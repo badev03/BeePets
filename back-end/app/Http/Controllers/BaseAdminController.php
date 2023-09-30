@@ -66,12 +66,9 @@ class BaseAdminController extends Controller
      */
     public function store(Request $request)
     {
-        $model = new $this->model;
-        $validateStore = $this->validateStore($request);
 
-        if($validateStore) {
-            return back()->withErrors($validateStore)->withInput();
-        }
+        $model = new $this->model;
+//         $this->validateStore($request);
 
         $model->fill($request->except([$this->fieldImage,$this->slug]));
 
@@ -182,7 +179,7 @@ class BaseAdminController extends Controller
     }
 
     public function addData() {
-
+        return [];
     }
 
 }

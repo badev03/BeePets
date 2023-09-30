@@ -21,6 +21,7 @@ Route::prefix('admin')->group(function () {
         'service-categories' => \App\Http\Controllers\Admin\ServiceCategorieController::class,
         'service' => \App\Http\Controllers\Admin\ServiceController::class,
         'product-categories' => \App\Http\Controllers\Admin\ProductCategoryController::class,
+        'products' => \App\Http\Controllers\Admin\ProductController::class,
     ];
     foreach ($objects as $key => $controller) {
      Route::resource($key, $controller);
