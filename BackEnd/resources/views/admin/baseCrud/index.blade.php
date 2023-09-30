@@ -46,7 +46,7 @@
 
                                     @endforeach
                                     <td>
-                                        <button class="btn btn-warning">
+                                        <button class="btn btn-info">
 
                                             <a style="color: white" href="{{ route($urlbase . 'show', $item) }}">Xem</a>
                                         </button>
@@ -55,7 +55,7 @@
                                             <a style="color: white" href="{{ route($urlbase . 'edit', $item) }}">Sửa</a>
                                         </button>
 
-                                        <form action="{{ route($urlbase . 'destroy', $item) }}" method="post">
+                                        <form action="{{ route($urlbase . 'destroy', $item) }}" method="post" class="d-inline-block">
                                             @csrf
                                             @method('DELETE')
 

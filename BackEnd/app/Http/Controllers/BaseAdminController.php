@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminat\Database\Eloquent\Builder;
 use Eloquent;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
@@ -54,20 +55,16 @@ class BaseAdminController extends Controller
             ->with('urlbase', $this->urlbase)
             ->with('title_web', $this->title);
     }
-    public function createSlug($name) {
-        return Str::slug($name);
-    }
+
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        $validator = $this->validateStore($request);
+         $this->validateStore($request);
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
+
         $model = new $this->model;
 
         $model->fill($request->except([$this->fieldImage,$this->slug]));
@@ -82,6 +79,9 @@ class BaseAdminController extends Controller
         $model->save();
 
         return back()->with('success', 'Thao tac thanh cong');
+    }
+    public function createSlug($name) {
+        return Str::slug($name);
     }
 
     /**
@@ -107,6 +107,7 @@ class BaseAdminController extends Controller
         return view($this->pathView . __FUNCTION__, compact('model'))
             ->with('title', $this->titleEdit)
             ->with('colums', $this->colums)
+            ->with('title_web', $this->title)
             ->with('urlbase', $this->urlbase);
     }
 
@@ -115,15 +116,10 @@ class BaseAdminController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $validator = $this->validateUpdate($request);
-
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
 
         $model = $this->model->findOrFail($id);
-
-        $model->fill($request->except([$this->fieldImage]));
+        $this->validateStore($request, $id);
+        $model->update($request->except([$this->fieldImage,$this->slug]));
 
         if ($request->hasFile($this->fieldImage)) {
             $oldImage = $model->{$this->fieldImage};
@@ -131,6 +127,9 @@ class BaseAdminController extends Controller
             $tmpPath = Storage::put($this->folderImage, $request->{$this->fieldImage});
 
             $model->{$this->fieldImage} = 'storage/' . $tmpPath;
+        }
+        if($request->has('name')) {
+            $model->{$this->slug} = $this->createSlug($request->name);
         }
 
         $model->save();
@@ -140,8 +139,10 @@ class BaseAdminController extends Controller
             Storage::delete($oldImage);
         }
 
+
         return back()->with('success', 'Thao tac thanh cong');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -173,11 +174,8 @@ class BaseAdminController extends Controller
         return [];
     }
 
-    public function validateUpdate($request)
+    public function validateUpdate($request, $id)
     {
         return [];
     }
 }
-
-
-

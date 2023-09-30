@@ -20,6 +20,15 @@
                         <li><a class="{{ request()->routeIs('service.*') ? 'active' : '' }}" href="{{ route('service.index') }}">Dịch vụ</a></li>
                     </ul>
                 </li>
+                <li class="submenu">
+                    <a href="#">
+                        <i class="fa-brands fa-product-hunt"></i>
+                        <span>Sản Phẩm</span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        <li><a class="{{ request()->routeIs('product-categories.*') ? 'active' : '' }}" href="{{ route('product-categories.index') }}">Danh mục sản phẩm</a></li>
+                    </ul>
+                </li>
+
                 <li>
                     <a href="specialities.html"><i class="fe fe-users"></i> <span>Specialities</span></a>
                 </li>
