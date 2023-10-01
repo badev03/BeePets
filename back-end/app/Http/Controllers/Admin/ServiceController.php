@@ -14,13 +14,10 @@ class ServiceController extends BaseAdminController
     public $pathView = 'admin.baseCrud.';
     public $urlbase = 'service.';
     public $fieldImage = 'image';
-    public $folderImage = 'image/serCateImage';
+    public $folderImage = 'image/service';
 
 
-    public $titleIndex = 'Danh sách Dịch vụ';
-    public $titleCreate = 'Thêm mới Dịch vụ';
-    public $titleShow = 'Xem chi tiết Dịch vụ';
-    public $titleEdit = 'Cập nhật Dịch vụ';
+
 
     protected $title = 'Dịch vụ';
     protected $permissionCheckCrud = 'service';
@@ -42,7 +39,7 @@ class ServiceController extends BaseAdminController
 
     public $listIndex = ['Categories'];
 
-    public function validateStore($request)
+    public function validateStore($request , $id=null)
     {
         $this->validate($request,[
             'name' => 'required',
@@ -65,4 +62,8 @@ class ServiceController extends BaseAdminController
         ];
         return $dataForMergeArray;
     }
+
+    /**
+     * select mặc định phải gán với tên là ids and name
+    */
 }

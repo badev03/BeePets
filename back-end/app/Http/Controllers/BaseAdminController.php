@@ -165,7 +165,7 @@ class BaseAdminController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $validator = $this->validateUpdate($request);
+        $validator = $this->validateStore($request);
 
         if ($validator) {
             return back()->withErrors($validator)->withInput();
@@ -182,7 +182,9 @@ class BaseAdminController extends Controller
             $path = str_replace('public/','',  $tmpPath);
             $model->{$this->fieldImage} = 'storage/' . $path;
         }
-
+        if($request->has('name') && $this->checkerNameSlug == true) {
+            $model->slug = $this->createSlug($request->name);
+        }
         $model->save();
 
         if ($request->hasFile($this->fieldImage)) {
@@ -225,7 +227,7 @@ class BaseAdminController extends Controller
 
     }
 
-    public function validateStore($request)
+    public function validateStore($request , $id = null)
     {
         $rules = [];
         $keyForErrorMessage = [];

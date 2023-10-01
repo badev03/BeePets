@@ -69,7 +69,7 @@ class roleController extends BaseAdminController
         $title_web = $this->title;
         $urlbase = $this->urlbase;
         $permission = Permission::all()->groupBy('group');
-        return view('admin.peopleAccount.create' , compact('title_web' , 'urlbase'))
+        return view('admin.role.create' , compact('title_web' , 'urlbase'))
             ->with('colums', $this->colums)
             ->with('permission' , $permission);
     }
@@ -82,7 +82,7 @@ class roleController extends BaseAdminController
 //        $permission = Permission::all();
         $permission = Permission::all()->groupBy('group');
         $permissionsArray = $permissions->pluck('name')->toArray();
-        return view('admin.peopleAccount.edit' , compact('model'))
+        return view('admin.role.edit' , compact('model'))
             ->with('colums', $this->colums)
             ->with('urlbase', $this->urlbase)
             ->with('permissions', $permissions)

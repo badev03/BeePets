@@ -62,12 +62,10 @@
                                     @endforeach
                                     <td class="d-flex" style="grid-gap:1rem">
                                         <div class="actions">
-                                            @if(1==2)
-                                                <button href="#viewer" class="btn btn-sm bg-info-light buttonView"
-                                                        data-bs-check="{{ $item->id }}" data-bs-toggle="modal">
-                                                    <i class="far fa-eye"></i> Xem
-                                                </button>
-                                            @endif
+                                            <button href="#viewer" class="btn btn-sm bg-info-light buttonView"
+                                                    data-bs-check="{{ $item->id }}" data-bs-toggle="modal">
+                                                <i class="far fa-eye"></i> Xem
+                                            </button>
                                             <a class="btn btn-sm bg-success-light" href="{{ route($urlbase . 'edit', $item) }}">
                                                 <i class="fe fe-pencil"></i> Edit
                                             </a>
