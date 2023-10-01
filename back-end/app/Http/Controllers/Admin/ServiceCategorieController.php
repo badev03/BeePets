@@ -29,7 +29,7 @@ class ServiceCategorieController extends BaseAdminController
         'image'=>'Ảnh'
     ];
 
-    public function validateStore($request)
+    public function validateStore($request , $id = null)
     {
         $this->validate($request,[
             'name' => 'required',

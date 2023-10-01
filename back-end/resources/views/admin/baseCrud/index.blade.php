@@ -45,13 +45,20 @@
                                             @elseif(in_array($colum , FIELD_DESC))
                                                 {!! $item->$colum !!}
                                             @elseif(in_array($colum , FIELD_CHECK_FOR))
-                                                {!! $item->Categories->name !!}
+                                                @foreach($listIndex as $keyListIndex=>$valueListIndex)
+                                                    {!! $item->$valueListIndex->name !!}
+                                                @endforeach
+                                            @elseif(array_key_exists($colum , FIELD_SELECT_CUSTOM))
+                                                @foreach(FIELD_SELECT_CUSTOM[$colum] as $keyCustom=>$valueCustom)
+                                                    @if($keyCustom==$item->$colum)
+                                                        {{ $valueCustom }}
+                                                    @endif
+                                                @endforeach
                                             @else
                                                 {{ $item->$colum}}
                                             @endif
 
                                         </td>
-
                                     @endforeach
                                     <td class="d-flex" style="grid-gap:1rem">
                                         <div class="actions">
@@ -84,33 +91,34 @@
     {{--view--}}
     @include('admin.baseCrud.view')
     @if(count($data)>0)
-    <div class="modal fade" id="delete_modal" aria-hidden="true" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="form-content p-2">
-                        <h4 class="modal-title">Delete</h4>
-                        <p class="mb-4">Bạn có chắc chắn muốn xóa</p>
-                        <div class="d-flex justify-content-center" style="gap: 1rem">
-                            <form action="{{ route($urlbase . 'destroy', $item) }}" method="post">
-                                @csrf
-                                @method('DELETE')
+        <div class="modal fade" id="delete_modal" aria-hidden="true" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="form-content p-2">
+                            <h4 class="modal-title">Delete</h4>
+                            <p class="mb-4">Bạn có chắc chắn muốn xóa</p>
+                            <div class="d-flex justify-content-center" style="gap: 1rem">
+                                <form action="{{ route($urlbase . 'destroy', $item) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
 
-                                <button class="btn bg-success-light"
-                                        type="submit">Xóa
-                                </button>
-                            </form>
-                            <button type="button" class="btn bg-danger-light" data-bs-dismiss="modal">Close</button>
+                                    <button class="btn bg-success-light"
+                                            type="submit">Xóa
+                                    </button>
+                                </form>
+                                <button type="button" class="btn bg-danger-light" data-bs-dismiss="modal">Close</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    </div>
+        </div>
     @endif
 @endsection
 @push('script')
+
     <script src="{{asset('backend/assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('backend/assets/plugins/datatables/datatables.min.js')}}"></script>
 
