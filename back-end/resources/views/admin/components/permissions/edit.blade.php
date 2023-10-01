@@ -13,7 +13,7 @@
                 @endforeach
             </div>
         @endforeach
-    @elseif(request()->routeIs('peopleAccount.edit*'))
+    @elseif(request()->routeIs('people-account.edit*'))
         @php
             $i = 0;
         @endphp
