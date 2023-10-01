@@ -31,7 +31,7 @@
                                     @csrf
                                     @method('PUT')
                                     @foreach($colums as $key=>$item)
-                                        @if(in_array($key , FIELD_IMAGE))
+                                        @if(IMAGES_FIELD === $key)
                                             <div class="row">
                                                 <div class="col-md-8 mb-3">
                                                     <label class="mb-2" for="validationCustom01">{{ $item }}</label>
@@ -60,27 +60,13 @@
                                                     @endif
                                                 </div>
                                             </div>
-                                        @elseif(in_array($key , $FIELD_SELECT_CUSTOM_CONTROLLER) && isset($addDataSelect))
+                                        @elseif(in_array($key , FIELD_CHECK_FOR))
                                             <div class="row">
                                                 <div class="col-md-8 mb-3">
                                                     <label class="mb-2" for="validationCustom01">{{ $item }}</label>
                                                     <select class="form-select" name="{{ $key }}">
-                                                        @foreach($addDataSelect[$key] as $keyDataAction=>$valueAction )
-                                                            <option value="{{ $valueAction->ids }}" @if($valueAction->ids == $model->$key) selected @endif>{{ $valueAction->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    @if($errors->has($key))
-                                                        <div class="error text-danger mt-2">{{ $errors->first($key) }}</div>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        @elseif(array_key_exists($key , FIELD_SELECT_CUSTOM))
-                                            <div class="row">
-                                                <div class="col-md-8 mb-3">
-                                                    <label class="mb-2" for="validationCustom01">{{ $item }}</label>
-                                                    <select class="form-select" name="{{ $key }}">
-                                                        @foreach(FIELD_SELECT_CUSTOM[$key] as $keyCustom=>$itemCustom)
-                                                            <option value="{{ $keyCustom }}" @if($keyCustom == $model->$key) selected @endif>{{ $itemCustom }}</option>
+                                                        @foreach($categories as $keyCat => $itemCat)
+                                                            <option value="{{ $itemCat->id }}" @if($itemCat->id == $model->$key) selected @endif>{{ $itemCat->name }}</option>
                                                         @endforeach
                                                     </select>
                                                     @if($errors->has($key))
@@ -100,13 +86,6 @@
                                             </div>
                                         @endif
                                     @endforeach
-                                    @if(request()->routeIs('peopleAccount.create'))
-                                        @include('admin.components.permissions.create')
-                                    @elseif(request()->routeIs('peopleAccount.edit*'))
-                                        @include('admin.components.permissions.edit')
-                                    @elseif(request()->routeIs('permission.create') || request()->routeIs('permission.edit*'))
-                                        @include('admin.components.role.create')
-                                    @endif
                                     <button class="btn btn-primary" type="submit">Update {{ $title_web }}</button>
                                 </form>
                             </div>
