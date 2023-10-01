@@ -14,20 +14,20 @@ class ServiceController extends BaseAdminController
     public $pathView = 'admin.baseCrud.';
     public $urlbase = 'service.';
     public $fieldImage = 'image';
-    public $folderImage = 'image/serCateImage';
+    public $folderImage = 'image/service';
 
 
-    public $titleIndex = 'Danh sách Dịch vụ';
-    public $titleCreate = 'Thêm mới Dịch vụ';
-    public $titleShow = 'Xem chi tiết Dịch vụ';
-    public $titleEdit = 'Cập nhật Dịch vụ';
+
 
     protected $title = 'Dịch vụ';
-    /*
+    protected $permissionCheckCrud = 'service';
+
+    /**
      * Chỉ cần để title ở đây rồi customer tiền tố ở view base là ok nhé
      * Nếu để tilteIndex và $titleCreate ... thì phải viết lại nhiều lần cái này tùy nhé
-     * */
+     */
 
+    protected $FIELD_SELECT_CUSTOM_CONTROLLER = ['service_categorie_id'];
     public $colums = [
         'name' => 'Tên dịch vụ',
         'slug' => 'Slug',
@@ -37,7 +37,9 @@ class ServiceController extends BaseAdminController
         'service_categorie_id' => 'Danh mục dịch vụ'
     ];
 
-    public function validateStore($request)
+    public $listIndex = ['Categories'];
+
+    public function validateStore($request , $id=null)
     {
         $this->validate($request,[
             'name' => 'required',
@@ -53,9 +55,15 @@ class ServiceController extends BaseAdminController
             ]
         );
     }
-
-    public function addData() {
-        $serviceCategorie = DB::table('service_categories')->get();
-        return $serviceCategorie;
+    public function addDataSelect() {
+        $serviceCategorie = DB::table('service_categories')->select('id as ids' , 'name')->get();
+        $dataForMergeArray = [
+            'service_categorie_id' => $serviceCategorie,
+        ];
+        return $dataForMergeArray;
     }
+
+    /**
+     * select mặc định phải gán với tên là ids and name
+    */
 }

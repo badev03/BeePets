@@ -48,46 +48,6 @@
                                                     @endif
                                                 </div>
                                             </div>
-                                        @elseif(DESC_FIELD === $key)
-                                            <div class="row">
-                                                <div class="col-md-8 mb-3">
-                                                    <label class="mb-2" for="validationCustom01">{{ $item }}</label>
-                                                    <textarea id="editor" name="description">
-                                                        {{ $model->$key }}
-                                                    </textarea>
-                                                    @if($errors->has($key))
-                                                        <div class="error text-danger mt-2">{{ $errors->first($key) }}</div>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        @elseif(in_array($key , $FIELD_SELECT_CUSTOM_CONTROLLER) && isset($addDataSelect))
-                                            <div class="row">
-                                                <div class="col-md-8 mb-3">
-                                                    <label class="mb-2" for="validationCustom01">{{ $item }}</label>
-                                                    <select class="form-select" name="{{ $key }}">
-                                                        @foreach($addDataSelect[$key] as $keyDataAction=>$valueAction )
-                                                            <option value="{{ $valueAction->ids }}" @if($valueAction->ids == $model->$key) selected @endif>{{ $valueAction->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    @if($errors->has($key))
-                                                        <div class="error text-danger mt-2">{{ $errors->first($key) }}</div>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        @elseif(array_key_exists($key , FIELD_SELECT_CUSTOM))
-                                            <div class="row">
-                                                <div class="col-md-8 mb-3">
-                                                    <label class="mb-2" for="validationCustom01">{{ $item }}</label>
-                                                    <select class="form-select" name="{{ $key }}">
-                                                        @foreach(FIELD_SELECT_CUSTOM[$key] as $keyCustom=>$itemCustom)
-                                                            <option value="{{ $keyCustom }}" @if($keyCustom == $model->$key) selected @endif>{{ $itemCustom }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    @if($errors->has($key))
-                                                        <div class="error text-danger mt-2">{{ $errors->first($key) }}</div>
-                                                    @endif
-                                                </div>
-                                            </div>
                                         @else
                                             <div class="row">
                                                 <div class="col-md-8 mb-3">
@@ -100,13 +60,7 @@
                                             </div>
                                         @endif
                                     @endforeach
-                                    @if(request()->routeIs('peopleAccount.create'))
-                                        @include('admin.components.permissions.create')
-                                    @elseif(request()->routeIs('peopleAccount.edit*'))
-                                        @include('admin.components.permissions.edit')
-                                    @elseif(request()->routeIs('permission.create') || request()->routeIs('permission.edit*'))
-                                        @include('admin.components.role.create')
-                                    @endif
+                                    @include('admin.components.permissions.edit')
                                     <button class="btn btn-primary" type="submit">Update {{ $title_web }}</button>
                                 </form>
                             </div>
@@ -142,3 +96,4 @@
     <script src="{{asset('backend/assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('backend/assets/plugins/datatables/datatables.min.js')}}"></script>
 @endpush
+
