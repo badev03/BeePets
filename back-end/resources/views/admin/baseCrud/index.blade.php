@@ -45,20 +45,13 @@
                                             @elseif(in_array($colum , FIELD_DESC))
                                                 {!! $item->$colum !!}
                                             @elseif(in_array($colum , FIELD_CHECK_FOR))
-                                                @foreach($listIndex as $keyListIndex=>$valueListIndex)
-                                                    {!! $item->$valueListIndex->name !!}
-                                                @endforeach
-                                            @elseif(array_key_exists($colum , FIELD_SELECT_CUSTOM))
-                                                @foreach(FIELD_SELECT_CUSTOM[$colum] as $keyCustom=>$valueCustom)
-                                                    @if($keyCustom==$item->$colum)
-                                                        {{ $valueCustom }}
-                                                    @endif
-                                                @endforeach
+                                                {!! $item->Categories->name !!}
                                             @else
                                                 {{ $item->$colum}}
                                             @endif
 
                                         </td>
+
                                     @endforeach
                                     <td class="d-flex" style="grid-gap:1rem">
                                         <div class="actions">
@@ -116,7 +109,6 @@
     @endif
 @endsection
 @push('script')
-
     <script src="{{asset('backend/assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('backend/assets/plugins/datatables/datatables.min.js')}}"></script>
 
