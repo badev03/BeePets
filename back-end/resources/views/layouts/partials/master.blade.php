@@ -54,12 +54,12 @@
 
 <script src="{{asset('backend/assets/plugins/slimscroll/jquery.slimscroll.min.js')}}"></script>
 <script src="{{asset('backend/assets/plugins/raphael/raphael.min.js')}}"></script>
-<script src="{{asset('backend/assets/plugins/morris/morris.min.js')}}"></script>
+{{--<script src="{{asset('backend/assets/plugins/morris/morris.min.js')}}"></script>--}}
 <script src="{{asset('backend/assets/js/chart.morris.js')}}"></script>
 
+<script src="{{asset('backend/assets/js/script.js')}}"></script>
 @include('layouts.partials.script')
 @stack('script')
-<script src="{{asset('backend/assets/js/script.js')}}"></script>
 </body>
 
 <!-- Mirrored from doccure.dreamguystech.com/html/template/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 09 Sep 2023 14:19:12 GMT -->
