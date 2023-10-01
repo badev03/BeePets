@@ -23,14 +23,11 @@ class ServiceController extends BaseAdminController
     public $titleEdit = 'Cập nhật Dịch vụ';
 
     protected $title = 'Dịch vụ';
-    protected $permissionCheckCrud = 'service';
-
-    /**
+    /*
      * Chỉ cần để title ở đây rồi customer tiền tố ở view base là ok nhé
      * Nếu để tilteIndex và $titleCreate ... thì phải viết lại nhiều lần cái này tùy nhé
-     */
+     * */
 
-    protected $FIELD_SELECT_CUSTOM_CONTROLLER = ['service_categorie_id'];
     public $colums = [
         'name' => 'Tên dịch vụ',
         'slug' => 'Slug',
@@ -39,8 +36,6 @@ class ServiceController extends BaseAdminController
         'image' => 'ảnh',
         'service_categorie_id' => 'Danh mục dịch vụ'
     ];
-
-    public $listIndex = ['Categories'];
 
     public function validateStore($request)
     {
@@ -58,11 +53,9 @@ class ServiceController extends BaseAdminController
             ]
         );
     }
-    public function addDataSelect() {
-        $serviceCategorie = DB::table('service_categories')->select('id as ids' , 'name')->get();
-        $dataForMergeArray = [
-            'service_categorie_id' => $serviceCategorie,
-        ];
-        return $dataForMergeArray;
+
+    public function addData() {
+        $serviceCategorie = DB::table('service_categories')->get();
+        return $serviceCategorie;
     }
 }

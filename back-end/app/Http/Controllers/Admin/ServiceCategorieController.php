@@ -28,6 +28,18 @@ class ServiceCategorieController extends BaseAdminController
         'description' => 'mô tả',
         'image'=>'Ảnh'
     ];
-    protected $permissionCheckCrud = 'service-categories';
+
+    public function validateStore($request)
+    {
+        $this->validate($request,[
+            'name' => 'required',
+            'description' => 'required'
+        ],
+            [
+                'name.required' => 'Tên danh mục dịch vụ không được để trống',
+                'description.required' => 'Mô tả danh mục dịch vụ không được để trống'
+            ]
+        );
+    }
 
 }
