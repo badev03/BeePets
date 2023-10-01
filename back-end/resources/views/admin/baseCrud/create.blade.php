@@ -30,14 +30,14 @@
                             <form action="{{ route($urlbase.'store') }}" class="needs-validation" novalidate="" enctype="multipart/form-data" method="POST">
                                 @csrf
                                 @foreach($colums as $key=>$item)
-                                    @if(IMAGES_FIELD === $key)
+                                    @if(in_array($key , FIELD_IMAGE))
                                         <div class="row">
                                             <div class="col-md-8 mb-3">
                                                 <label class="mb-2" for="validationCustom01">{{ $item }}</label>
                                                 <input type="file" class="form-control" id="image" name="{{ $key }}" required="">
-                                                <div class="valid-feedback">
-                                                    Looks good!
-                                                </div>
+                                                @if($errors->has($key))
+                                                    <div class="error text-danger mt-2">{{ $errors->first($key) }}</div>
+                                                @endif
                                             </div>
                                             <div class="col-4">
                                                 <img style="width: 300px" src="https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg" alt="" id="image_prev">
@@ -54,15 +54,40 @@
                                                 @endif
                                             </div>
                                         </div>
-                                    @elseif(in_array($key , FIELD_CHECK_FOR))
+                                    @elseif(in_array($key , $FIELD_SELECT_CUSTOM_CONTROLLER) && isset($dataSelect))
+                                        <div class="row">
+                                            <div class="col-md-8 mb-3">
+                                                <label class="mb-2" for="validationCustom01">{{ $item }}</label>
+                                                    <select class="form-select" name="{{ $key }}">
+                                                        @foreach($dataSelect[$key] as $keyDataAction=>$valueAction )
+                                                            <option value="{{ $valueAction->ids }}">{{ $valueAction->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                @if($errors->has($key))
+                                                    <div class="error text-danger mt-2">{{ $errors->first($key) }}</div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @elseif(array_key_exists($key , FIELD_SELECT_CUSTOM))
                                         <div class="row">
                                             <div class="col-md-8 mb-3">
                                                 <label class="mb-2" for="validationCustom01">{{ $item }}</label>
                                                 <select class="form-select" name="{{ $key }}">
-                                                    @foreach($categories as $keyCat=>$itemCat)
-                                                        <option value="{{ $itemCat->id }}">{{ $itemCat->name }}</option>
+                                                    @foreach(FIELD_SELECT_CUSTOM[$key] as $keyCustom=>$itemCustom)
+                                                        <option value="{{ $keyCustom }}">{{ $itemCustom }}</option>
                                                     @endforeach
                                                 </select>
+                                                @if($errors->has($key))
+                                                    <div class="error text-danger mt-2">{{ $errors->first($key) }}</div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @elseif(in_array($key , FIELD_DATE))
+                                        <div class="row">
+                                            <div class="col-md-8 mb-3">
+                                                <label class="mb-2" for="validationCustom01">{{ $item }}</label>
+                                                <input type="text" id="date" class="form-control" name="{{ $key }}">
+                                                <span class="form-text text-muted">dd/mm/yyyy</span>
                                                 @if($errors->has($key))
                                                     <div class="error text-danger mt-2">{{ $errors->first($key) }}</div>
                                                 @endif
@@ -72,7 +97,7 @@
                                         <div class="row">
                                             <div class="col-md-8 mb-3">
                                                 <label class="mb-2" for="validationCustom01">{{ $item }}</label>
-                                                <input type="text" class="form-control" id="validationCustom01" name="{{ $key }}" required="">
+                                                <input type="text" class="form-control" id="validationCustom01" name="{{ $key }}" value="{{ old($key) }}">
                                                 @if($errors->has($key))
                                                     <div class="error text-danger mt-2">{{ $errors->first($key) }}</div>
                                                 @endif
@@ -80,6 +105,11 @@
                                         </div>
                                     @endif
                                 @endforeach
+                                @if(request()->routeIs('peopleAccount.create') || request()->routeIs('peopleAccount.edit*'))
+                                    @include('admin.components.permissions.create')
+                                @elseif(request()->routeIs('permission.create') || request()->routeIs('permission.edit*'))
+                                    @include('admin.components.role.create')
+                                @endif
                                 <button class="btn btn-primary" type="submit">Thêm {{ $title_web }}</button>
                             </form>
                         </div>
@@ -113,4 +143,6 @@
     </script>
     <script src="{{asset('backend/assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('backend/assets/plugins/datatables/datatables.min.js')}}"></script>
+    <script src="{{asset('backend/assets/js/jquery.maskedinput.min.js')}}"></script>
+    <script src="{{asset('backend/assets/js/mask.js')}}"></script>>
 @endpush

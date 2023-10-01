@@ -47,9 +47,17 @@
                 <li class="menu-title">
                     <span>Pages</span>
                 </li>
-                <li>
-                    <a href="profile.html"><i class="fe fe-user-plus"></i> <span>Profile</span></a>
+                @role('Admin')
+                <li class="submenu">
+                    <a href="#"><i class="fe fe-user-plus"></i> <span> Tài khoản </span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        <li><a class="{{ request()->routeIs('doctorAccount.*') ? 'active' : '' }}" href="{{ route('doctorAccount.index') }}"> Doctor </a></li>
+                        <li><a class="{{ request()->routeIs('peopleAccount.*') ? 'active' : '' }}" href="{{ route('peopleAccount.index') }}"> People </a></li>
+                        <li><a class="{{ request()->routeIs('role.*') ? 'active' : '' }}" href="{{route('role.index')}}"> Role </a></li>
+                        <li><a class="{{ request()->routeIs('permission.*') ? 'active' : '' }}" href="{{route('permission.index')}}"> Permission </a></li>
+                    </ul>
                 </li>
+                @endrole
                 <li class="submenu">
                     <a href="#"><i class="fe fe-document"></i> <span> Authentication </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">

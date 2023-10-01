@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminat\Database\Eloquent\Builder;
 use Eloquent;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Permission;
 
 class BaseAdminController extends Controller
 {
@@ -16,9 +20,9 @@ class BaseAdminController extends Controller
      * @var \Illuminate\Database\Eloquent\Builder $model
      */
     public $model;
-    public $pathView;
+    public $pathView = 'admin.baseCrud.';
     public $urlbase;
-    public $fieldImage;
+    public $fieldImage='image';
     public $folderImage;
     public $colums = [];
     public $titleIndex;
@@ -28,6 +32,15 @@ class BaseAdminController extends Controller
     public $slug;
     protected $title;
     protected $tester;
+    protected $checkerNameSlug=true;
+    protected $removeColumns= [];
+    protected $FIELD_SELECT_CUSTOM_CONTROLLER = [];
+    public $listIndex = [];
+    protected $checkRolePermission = '';
+    protected $checkerReturnView = true;
+    protected $addForDataViewer = [];
+    protected $permissionCheckCrud = '';
+    private $teseterr = '111';
 
     public function __construct()
     {
@@ -41,7 +54,8 @@ class BaseAdminController extends Controller
             ->with('title', $this->titleIndex)
             ->with('colums', $this->colums)
             ->with('urlbase', $this->urlbase)
-            ->with('title_web', $this->title);
+            ->with('title_web', $this->title)
+            ->with('listIndex', $this->listIndex);
     }
 
     /**
@@ -49,14 +63,34 @@ class BaseAdminController extends Controller
      */
     public function create()
     {
-        $categories = $this->addData();
-        return view($this->pathView . __FUNCTION__)
-            ->with('title', $this->titleCreate)
-            ->with('colums', $this->colums)
-            ->with('urlbase', $this->urlbase)
-            ->with('title_web', $this->title)
-            ->with('categories', $categories);
+        if (auth()->user()->can(['create-'.$this->permissionCheckCrud])) {
+            if(auth()->user()->hasPermissionTo('create-service')) {
+                $dataSelect = $this->addDataSelect();
+                $dataViewer = [
+                    'title' => $this->titleCreate,
+                    'colums' => $this->colums,
+                    'urlbase' => $this->urlbase,
+                    'title_web' => $this->title,
+                    'dataSelect' => $dataSelect,
+                    'FIELD_SELECT_CUSTOM_CONTROLLER' => $this->FIELD_SELECT_CUSTOM_CONTROLLER,
+                ];
+                if($this->checkerReturnView === true) {
+                    return view($this->pathView . __FUNCTION__)
+                        ->with(array_merge($dataViewer, $this->addForDataViewer));
+                }
+                else {
+                    $this->addFunctionData();
+                    return view($this->pathView . __FUNCTION__)
+                        ->with(array_merge($dataViewer, $this->addForDataViewer));
+                }
+            }
+        } else {
+            return view(admin_403);
+        }
+
     }
+
+
     public function createSlug($name) {
         return Str::slug($name);
     }
@@ -66,10 +100,11 @@ class BaseAdminController extends Controller
      */
     public function store(Request $request)
     {
-
         $model = new $this->model;
-//         $this->validateStore($request);
-
+        $validateStore = $this->validateStore($request);
+        if($validateStore) {
+            return back()->withErrors($validateStore)->withInput();
+        }
         $model->fill($request->except([$this->fieldImage,$this->slug]));
 
         if ($request->hasFile($this->fieldImage)) {
@@ -77,10 +112,13 @@ class BaseAdminController extends Controller
             $path = str_replace('public/','',  $tmpPath);
             $model->{$this->fieldImage} = 'storage/' . $path;
         }
-        if($request->has('name')) {
+        if($request->has('name') && $this->checkerNameSlug == true) {
             $model->slug = $this->createSlug($request->name);
         }
         $model->save();
+        if($this->checkRolePermission==false) {
+            $model->assignRole($request->role);
+        }
 
         return back()->with('success', 'Thao tác thành công');
     }
@@ -101,13 +139,25 @@ class BaseAdminController extends Controller
     public function edit(string $id)
     {
         $model = $this->model->findOrFail($id);
-        $categories = $this->addData();
-        return view($this->pathView . __FUNCTION__, compact('model'))
-            ->with('title', $this->titleEdit)
-            ->with('colums', $this->colums)
-            ->with('urlbase', $this->urlbase)
-            ->with('title_web', $this->title)
-            ->with('categories', $categories);
+        $addDataSelect = $this->addDataSelect();
+        $dataViewer = [
+            'title' => $this->titleEdit,
+            'colums' => $this->colums,
+            'urlbase' => $this->urlbase,
+            'title_web' => $this->title,
+            'addDataSelect' => $addDataSelect,
+            'listIndex' => $this->listIndex,
+            'FIELD_SELECT_CUSTOM_CONTROLLER' => $this->FIELD_SELECT_CUSTOM_CONTROLLER,
+        ];
+        if($this->checkerReturnView === true) {
+            return view($this->pathView . __FUNCTION__, compact('model'))
+                ->with($dataViewer);
+        }
+        else {
+            $this->addFunctionDataEdit($id);
+            return view($this->pathView . __FUNCTION__, compact('model'))
+                ->with(array_merge($dataViewer, $this->addForDataViewer));
+        }
     }
 
     /**
@@ -140,6 +190,13 @@ class BaseAdminController extends Controller
             Storage::delete($oldImage);
         }
 
+        if($this->checkRolePermission==='role') {
+            $model->assignRole($request->role);
+        }
+        else {
+            User::find($id)->syncPermissions($request->permissions);
+        }
+
         return back()->with('success', 'Thao tác thành công');
     }
 
@@ -170,7 +227,18 @@ class BaseAdminController extends Controller
 
     public function validateStore($request)
     {
-        return [];
+        $rules = [];
+        $keyForErrorMessage = [];
+        foreach ($this->colums as $key=>$item) {
+            $rules[$key] = 'required';
+        }
+        if($this->removeColumns) {
+            $rules = array_diff_key($rules, array_flip($this->removeColumns));
+        }
+        foreach ($rules as $keyForError=>$value) {
+            $keyForErrorMessage[$keyForError.'.required'] = 'Trường '.$keyForError.' không được để trống';
+        }
+        $this->validate($request, $rules, $keyForErrorMessage);
     }
 
     public function validateUpdate($request)
@@ -178,10 +246,21 @@ class BaseAdminController extends Controller
         return [];
     }
 
-    public function addData() {
-        return [];
+    public function addDataSelect() {
+
     }
 
+    public function givePermission() {
+
+    }
+
+    public function addFunctionData() {
+
+    }
+
+    public function addFunctionDataEdit($id) {
+
+    }
 }
 
 
