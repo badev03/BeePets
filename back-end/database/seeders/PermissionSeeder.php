@@ -20,6 +20,12 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'update-service' , 'group' => 'service']);
         Permission::create(['name' => 'delete-service' , 'group' => 'service']);
 
+        
+        Permission::create(['name' => 'create-doctors' , 'group' => 'doctors']);
+        Permission::create(['name' => 'read-doctors' , 'group' => 'doctors']);
+        Permission::create(['name' => 'update-doctors' , 'group' => 'doctors']);
+        Permission::create(['name' => 'delete-doctors' , 'group' => 'service']);
+
         // Tạo các quyền (permissions) cho CRUD của Category Service
         Permission::create(['name' => 'create-category-service' , 'group' => 'category-service']);
         Permission::create(['name' => 'read-category-service' , 'group' => 'category-service']);
@@ -53,10 +59,7 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'update-PeopleAccount' , 'group' => 'PeopleAccount']);
         Permission::create(['name' => 'delete-PeopleAccount' , 'group' => 'PeopleAccount']);
 
-        Permission::create(['name' => 'create-DoctorAccount' , 'group' => 'DoctorAccount']);
-        Permission::create(['name' => 'read-DoctorAccount' , 'group' => 'DoctorAccount']);
-        Permission::create(['name' => 'update-DoctorAccount' , 'group' => 'DoctorAccount']);
-        Permission::create(['name' => 'delete-DoctorAccount' , 'group' => 'DoctorAccount']);
+  
 
         // Tạo vai trò (roles)
         $user = \App\Models\User::find(1);
@@ -72,7 +75,8 @@ class PermissionSeeder extends Seeder
                 'create-role', 'read-role', 'update-role', 'delete-role',
                 'create-permission', 'read-permission', 'update-permission', 'delete-permission',
                 'create-PeopleAccount', 'read-PeopleAccount', 'update-PeopleAccount', 'delete-PeopleAccount',
-                'create-DoctorAccount', 'read-DoctorAccount', 'update-DoctorAccount', 'delete-DoctorAccount',
+               
+                'create-doctors','read-doctors','update-doctors','delete-doctors'
             ]);
         }
 
