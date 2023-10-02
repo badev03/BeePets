@@ -8,8 +8,8 @@
                 <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
                     <a href="{{ route('dashboard') }}"><i class="fe fe-home"></i> <span>Dashboard</span></a>
                 </li>
-                <li>
-                    <a href="appointment-list.html"><i class="fe fe-layout"></i> <span>Appointments</span></a>
+                <li class="{{ request()->routeIs('appointment*') ? 'active' : '' }}">
+                    <a href="{{ route('appointment.index') }}"><i class="fe fe-layout"></i> <span>Cuộc hẹn</span></a>
                 </li>
                 <li class="submenu">
                     <a href="#">

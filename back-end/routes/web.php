@@ -29,6 +29,7 @@ Route::middleware(['role:Admin'])->group(function () {
             'permission' => PermissionController::class,
             'product-categories' => \App\Http\Controllers\Admin\ProductCategoryController::class,
             'products' => \App\Http\Controllers\Admin\ProductController::class,
+            'appointment' => \App\Http\Controllers\Admin\AppointmentController::class,
         ];
         foreach ($objects as $key => $controller) {
             Route::resource($key, $controller);
