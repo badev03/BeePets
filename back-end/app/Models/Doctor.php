@@ -14,6 +14,7 @@ class Doctor extends Model
         'password',
         'phone',
         'address',
+        'description',
         'avatar',
         'status',
         'role_id',

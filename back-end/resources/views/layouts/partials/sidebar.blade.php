@@ -51,7 +51,7 @@
                 <li class="submenu">
                     <a href="#"><i class="fe fe-user-plus"></i> <span> Tài khoản </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
-                        <li><a class="{{ request()->routeIs('doctorAccount.*') ? 'active' : '' }}" href="{{ route('doctorAccount.index') }}"> Doctor </a></li>
+                        <li><a class="{{ request()->routeIs('doctors.*') ? 'active' : '' }}" href="{{ route('doctors.index') }}"> Doctor </a></li>
                         <li><a class="{{ request()->routeIs('people-account.*') ? 'active' : '' }}" href="{{ route('people-account.index') }}"> People </a></li>
                         <li><a class="{{ request()->routeIs('role.*') ? 'active' : '' }}" href="{{route('role.index')}}"> Role </a></li>
                         <li><a class="{{ request()->routeIs('permission.*') ? 'active' : '' }}" href="{{route('permission.index')}}"> Permission </a></li>
