@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -17,8 +18,8 @@ return new class extends Migration
             $table->string('slug');
             $table->string('phone',10)->unique();
             $table->string('email')->nullable();;
-            $table->string('password');
-            $table->string('address');
+            $table->string('password')->default(Hash::make('doctor123'));
+            $table->string('address')->nullable();
             $table->text('description')->nullable();
             $table->string('gender')->nullable();
             $table->date('birthday')->nullable();
