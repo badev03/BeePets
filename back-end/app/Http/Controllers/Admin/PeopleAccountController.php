@@ -14,10 +14,11 @@ use Spatie\Permission\Models\Role;
 class PeopleAccountController extends BaseAdminController
 {
     public $model = User::class;
-    public $urlbase = 'peopleAccount.';
+    public $urlbase = 'people-account.';
     public $folderImage = 'image/peopleAccount';
     public $title = 'Tài khoản người dùng';
     public $listIndex = ['Role'];
+    public $fieldImage = 'avatar';
     public $colums = [
         'name' => 'Tên người dùng',
         'email' => 'Email',
@@ -27,9 +28,9 @@ class PeopleAccountController extends BaseAdminController
         'avatar' => 'Ảnh người dùng',
         'status' => 'Trạng thái',
         'gender' => 'Giới tính',
-        'role' => 'Vai trò'
+        'role_id' => 'Vai trò'
     ];
-    protected $FIELD_SELECT_CUSTOM_CONTROLLER = ['role'];
+    protected $FIELD_SELECT_CUSTOM_CONTROLLER = ['role_id'];
     protected $addForDataViewer = [];
 
     public $checkerNameSlug = false;
@@ -41,9 +42,9 @@ class PeopleAccountController extends BaseAdminController
      * còn ở các controller khác thì chỉ cần lấy hàm name và chuẩn id thành ids là ok
      */
     public function addDataSelect() {
-        $role = Role::select('name', 'name AS ids' , 'id')->get();
+        $role = Role::select('name' , 'id')->get();
         $dataSelectPush = [
-            'role' => $role,
+            'role_id' => $role,
         ];
         return $dataSelectPush;
     }
@@ -74,5 +75,10 @@ class PeopleAccountController extends BaseAdminController
             'permissionsArray' => $permissionsArray,
             'permissionOfPeople' => $permissionOfPeople
         ];
+    }
+
+    public function selectDataIndex()
+    {
+        return Role::all();
     }
 }

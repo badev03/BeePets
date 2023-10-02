@@ -19,8 +19,8 @@ return new class extends Migration
             $table->unsignedBigInteger('bill_id')->nullable();
 
             $table->timestamps();
-            
-            
+
+
 
 
 

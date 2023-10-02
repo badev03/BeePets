@@ -7,6 +7,7 @@ use App\Models\Service;
 use App\Models\Service_categorie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 
 class ServiceController extends BaseAdminController
 {
@@ -56,7 +57,7 @@ class ServiceController extends BaseAdminController
         );
     }
     public function addDataSelect() {
-        $serviceCategorie = DB::table('service_categories')->select('id as ids' , 'name')->get();
+        $serviceCategorie = DB::table('service_categories')->select('id' , 'name')->get();
         $dataForMergeArray = [
             'service_categorie_id' => $serviceCategorie,
         ];
@@ -66,4 +67,5 @@ class ServiceController extends BaseAdminController
     /**
      * select mặc định phải gán với tên là ids and name
     */
+
 }

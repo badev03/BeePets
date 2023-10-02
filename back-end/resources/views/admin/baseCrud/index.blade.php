@@ -44,7 +44,7 @@
                                                 <img src="{{ asset($item->$colum)?? '123'}}" width="100px" alt="">
                                             @elseif(in_array($colum , FIELD_DESC))
                                                 {!! $item->$colum !!}
-                                            @elseif(in_array($colum , FIELD_CHECK_FOR))
+                                            @elseif(in_array($colum , $FIELD_SELECT_CUSTOM_CONTROLLER))
                                                 @foreach($listIndex as $keyListIndex=>$valueListIndex)
                                                     {!! $item->$valueListIndex->name !!}
                                                 @endforeach

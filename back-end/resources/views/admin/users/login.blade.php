@@ -54,7 +54,7 @@
                                 <input class="form-control" type="text" placeholder="Email" name="email">
                             </div>
                             <div class="mb-3">
-                                <input class="form-control" type="text" placeholder="Password" name="password">
+                                <input class="form-control" type="password" placeholder="Password" name="password">
                             </div>
                             <div class="mb-3">
                                 <button class="btn btn-primary w-100" type="submit">Login</button>

@@ -24,6 +24,13 @@ class PermissionController extends BaseAdminController
     protected $permissionCheckCrud = 'permission';
     protected $checkerReturnView = false;
 
+    public function addFunctionDataEdit($id) {
+        $this->checkerReturnView = true;
+        $role = Role::all();
+        $this->addForDataViewer = [
+            'role' => $role
+        ];
+    }
     public function addFunctionData()
     {
         $this->checkerReturnView = true;
@@ -47,9 +54,17 @@ class PermissionController extends BaseAdminController
         );
         $model->fill($request->except([$this->fieldImage,$this->slug]));
         $model->save();
-        $role = Role::where('name', $request->role)->first();
-        if ($role) {
-            $role->givePermissionTo($request->name);
+
+
+        $roles = $request->input('role', []);
+
+        $model->roles()->detach();
+
+        foreach ($roles as $roleName) {
+            $role = Role::where('name', $roleName)->first();
+            if ($role) {
+                $role->givePermissionTo($model->name);
+            }
         }
         return back()->with('success', 'Thao tác thành công');
     }
@@ -69,14 +84,23 @@ class PermissionController extends BaseAdminController
             ]
         );
         $model->fill($request->except([$this->fieldImage,$this->slug]));
-        if($request->name) {
-            $model->group = $this->permissionCheckCrud;
-        }
         $model->save();
-        $role = Role::where('name', $request->role)->first();
-        if ($role) {
-            $role->syncPermissions($request->name);
+        $permission = Permission::findByName($request->name);
+
+        if ($permission) {
+
+            $roles = $request->input('role', []);
+
+            $permission->roles()->detach();
+
+            foreach ($roles as $roleName) {
+                $role = Role::where('name', $roleName)->first();
+                if ($role) {
+                    $role->givePermissionTo($permission->name);
+                }
+            }
         }
         return back()->with('success', 'Thao tác thành công');
     }
+
 }

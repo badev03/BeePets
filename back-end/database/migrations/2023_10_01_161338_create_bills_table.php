@@ -26,7 +26,7 @@ return new class extends Migration
             $table->unsignedBigInteger('prescription_id')->nullable();
             $table->unsignedBigInteger('promotion_id')->nullable();
 
-            
+
 
 
 

@@ -21,7 +21,7 @@ class ServiceCategorieController extends BaseAdminController
     public $titleEdit = 'Cập nhật Dịch vụ';
 
     public $title = 'Danh mục dịch vụ';
-
+    protected $permissionCheckCrud = 'category-service';
     public $colums = [
         'name' => 'Tên dịch vụ',
         'slug' => 'Slug',

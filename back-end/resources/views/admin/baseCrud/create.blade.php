@@ -60,7 +60,7 @@
                                                     <label class="mb-2" for="validationCustom01">{{ $item }}</label>
                                                     <select class="form-select" name="{{ $key }}">
                                                         @foreach($dataSelect[$key] as $keyDataAction=>$valueAction )
-                                                            <option value="{{ $valueAction->ids }}">{{ $valueAction->name }}</option>
+                                                            <option value="{{ $valueAction->id }}">{{ $valueAction->name }}</option>
                                                         @endforeach
                                                     </select>
                                                     @if($errors->has($key))

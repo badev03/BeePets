@@ -66,7 +66,7 @@
                                                     <label class="mb-2" for="validationCustom01">{{ $item }}</label>
                                                     <select class="form-select" name="{{ $key }}">
                                                         @foreach($addDataSelect[$key] as $keyDataAction=>$valueAction )
-                                                            <option value="{{ $valueAction->ids }}" @if($valueAction->ids == $model->$key) selected @endif>{{ $valueAction->name }}</option>
+                                                            <option value="{{ $valueAction->id }}" @if($valueAction->id == $model->$key) selected @endif>{{ $valueAction->name }}</option>
                                                         @endforeach
                                                     </select>
                                                     @if($errors->has($key))
@@ -88,6 +88,16 @@
                                                     @endif
                                                 </div>
                                             </div>
+                                        @elseif(in_array($key , ['password']))
+                                            <div class="row">
+                                                <div class="col-md-8 mb-3">
+                                                    <label class="mb-2" for="validationCustom01">{{ $item }}</label>
+                                                    <input type="password" class="form-control" id="validationCustom01" name="{{ $key }}" value="{{ $model->$key }}">
+                                                    @if($errors->has($key))
+                                                        <div class="error text-danger mt-2">{{ $errors->first($key) }}</div>
+                                                    @endif
+                                                </div>
+                                            </div>
                                         @else
                                             <div class="row">
                                                 <div class="col-md-8 mb-3">
@@ -100,9 +110,9 @@
                                             </div>
                                         @endif
                                     @endforeach
-                                    @if(request()->routeIs('peopleAccount.create'))
+                                    @if(request()->routeIs('people-account.create'))
                                         @include('admin.components.permissions.create')
-                                    @elseif(request()->routeIs('peopleAccount.edit*'))
+                                    @elseif(request()->routeIs('people-account.edit*'))
                                         @include('admin.components.permissions.edit')
                                     @elseif(request()->routeIs('permission.create') || request()->routeIs('permission.edit*'))
                                         @include('admin.components.role.create')

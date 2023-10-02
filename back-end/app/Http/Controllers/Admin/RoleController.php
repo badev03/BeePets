@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class roleController extends BaseAdminController
+class RoleController extends BaseAdminController
 {
     public $model = Role::class;
     public $urlbase = 'role.';

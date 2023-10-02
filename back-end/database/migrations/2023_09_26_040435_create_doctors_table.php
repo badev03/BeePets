@@ -18,10 +18,12 @@ return new class extends Migration
             $table->string('phone',10)->unique();
             $table->string('email')->nullable();;
             $table->string('password');
-            $table->text('description')->nullable();;
+            $table->string('address');
+            $table->text('description')->nullable();
             $table->string('gender')->nullable();
-            $table->date('birthday')->nullable();;
-            $table->string('doct_image')->nullable();;
+            $table->date('birthday')->nullable();
+            $table->string('image')->nullable();
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }

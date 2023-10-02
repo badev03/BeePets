@@ -7,11 +7,13 @@ use Illuminat\Database\Eloquent\Builder;
 use Eloquent;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class BaseAdminController extends Controller
 {
@@ -36,7 +38,7 @@ class BaseAdminController extends Controller
     protected $removeColumns= [];
     protected $FIELD_SELECT_CUSTOM_CONTROLLER = [];
     public $listIndex = [];
-    protected $checkRolePermission = '';
+    protected $checkRolePermission = true;
     protected $checkerReturnView = true;
     protected $addForDataViewer = [];
     protected $permissionCheckCrud = '';
@@ -49,13 +51,19 @@ class BaseAdminController extends Controller
 
     public function index()
     {
-        $data = $this->model->all();
-        return view($this->pathView . __FUNCTION__, compact('data'))
-            ->with('title', $this->titleIndex)
-            ->with('colums', $this->colums)
-            ->with('urlbase', $this->urlbase)
-            ->with('title_web', $this->title)
-            ->with('listIndex', $this->listIndex);
+        if (auth()->user()->can(['read-'.$this->permissionCheckCrud])) {
+            $data = $this->model->all();
+            return view($this->pathView . __FUNCTION__, compact('data'))
+                ->with('title', $this->titleIndex)
+                ->with('colums', $this->colums)
+                ->with('urlbase', $this->urlbase)
+                ->with('title_web', $this->title)
+                ->with('FIELD_SELECT_CUSTOM_CONTROLLER', $this->FIELD_SELECT_CUSTOM_CONTROLLER)
+                ->with('listIndex', $this->listIndex);
+        }
+        else {
+            return view(admin_403);
+        }
     }
 
     /**
@@ -106,7 +114,6 @@ class BaseAdminController extends Controller
             return back()->withErrors($validateStore)->withInput();
         }
         $model->fill($request->except([$this->fieldImage,$this->slug]));
-
         if ($request->hasFile($this->fieldImage)) {
             $tmpPath = Storage::put('public/'.$this->folderImage, $request->{$this->fieldImage});
             $path = str_replace('public/','',  $tmpPath);
@@ -115,6 +122,7 @@ class BaseAdminController extends Controller
         if($request->has('name') && $this->checkerNameSlug == true) {
             $model->slug = $this->createSlug($request->name);
         }
+        $this->createAndUpdatePassWord($request->password);
         $model->save();
         if($this->checkRolePermission==false) {
             $model->assignRole($request->role);
@@ -155,8 +163,19 @@ class BaseAdminController extends Controller
         }
         else {
             $this->addFunctionDataEdit($id);
-            return view($this->pathView . __FUNCTION__, compact('model'))
-                ->with(array_merge($dataViewer, $this->addForDataViewer));
+            if($this->permissionCheckCrud === 'permission') {
+                $permission = Permission::findByName($model->name);
+                $permissionWasCheck = $permission->roles->pluck('name')->toArray();
+                $permissionArray = [
+                    'permissionWasCheck' => $permissionWasCheck
+                ];
+                return view($this->pathView . __FUNCTION__, compact('model'))
+                    ->with(array_merge($dataViewer, $this->addForDataViewer ,$permissionArray));
+            }
+            else {
+                return view($this->pathView . __FUNCTION__, compact('model'))
+                    ->with(array_merge($dataViewer, $this->addForDataViewer));
+            }
         }
     }
 
@@ -165,41 +184,49 @@ class BaseAdminController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $validator = $this->validateStore($request);
+        if (auth()->user()->can(['update-'.$this->permissionCheckCrud])) {
+            $model = $this->model->findOrFail($id);
+            if ($model->avatar || $model->image) {
+                $this->removeColumns = ['image', 'avatar'];
+            }
+            $validator = $this->validateStore($request);
+            if ($validator) {
+                return back()->withErrors($validator)->withInput();
+            }
 
-        if ($validator) {
-            return back()->withErrors($validator)->withInput();
-        }
 
-        $model = $this->model->findOrFail($id);
+            $check = $model->fill($request->except([$this->fieldImage]));
 
-        $model->fill($request->except([$this->fieldImage]));
+            if ($request->hasFile($this->fieldImage)) {
+                $oldImage = $model->{$this->fieldImage};
 
-        if ($request->hasFile($this->fieldImage)) {
-            $oldImage = $model->{$this->fieldImage};
+                $tmpPath = Storage::put('public/' . $this->folderImage, $request->{$this->fieldImage});
+                $path = str_replace('public/', '', $tmpPath);
+                $model->{$this->fieldImage} = 'storage/' . $path;
+            }
+            if ($request->has('name') && $this->checkerNameSlug == true) {
+                $model->slug = $this->createSlug($request->name);
+            }
+            $this->createAndUpdatePassWord($request->password);
+            $model->save();
 
-            $tmpPath = Storage::put('public/'.$this->folderImage, $request->{$this->fieldImage});
-            $path = str_replace('public/','',  $tmpPath);
-            $model->{$this->fieldImage} = 'storage/' . $path;
-        }
-        if($request->has('name') && $this->checkerNameSlug == true) {
-            $model->slug = $this->createSlug($request->name);
-        }
-        $model->save();
+            if ($request->hasFile($this->fieldImage)) {
+                $oldImage = str_replace('storage/', '', $oldImage);
+                Storage::delete($oldImage);
+            }
 
-        if ($request->hasFile($this->fieldImage)) {
-            $oldImage = str_replace('storage/', '', $oldImage);
-            Storage::delete($oldImage);
-        }
+            if ($this->permissionCheckCrud === 'PeopleAccount') {
+                $role = Role::where('id', $request->role_id)->first();
+                $user = User::find($id);
+                User::find($id)->syncPermissions($request->permissions);
+                $user->syncRoles([$role]);
+            }
 
-        if($this->checkRolePermission==='role') {
-            $model->assignRole($request->role);
+            return back()->with('success', 'Thao tác thành công');
         }
         else {
-            User::find($id)->syncPermissions($request->permissions);
+            return view(admin_403);
         }
-
-        return back()->with('success', 'Thao tác thành công');
     }
 
     /**
@@ -207,14 +234,19 @@ class BaseAdminController extends Controller
      */
     public function destroy(string $id)
     {
-        $model = $this->model->findOrFail($id);
+        if (auth()->user()->can(['delete-'.$this->permissionCheckCrud])) {
+            $model = $this->model->findOrFail($id);
 
-        $model->delete();
-        if($model->image) {
-            $image = str_replace('storage/', '', $model->{$this->fieldImage});
-            Storage::delete($image);
+            $model->delete();
+            if ($model->image) {
+                $image = str_replace('storage/', '', $model->{$this->fieldImage});
+                Storage::delete($image);
+            }
+            return back()->with('success_delete', 'Đã xóa thành công');
         }
-        return back()->with('success_delete', 'Đã xóa thành công');
+        else {
+            return view(admin_403);
+        }
     }
 
     public function import()
@@ -263,6 +295,24 @@ class BaseAdminController extends Controller
     public function addFunctionDataEdit($id) {
 
     }
+
+    public function selectDataIndex() {
+
+    }
+
+    public function checkPermissionsAndRole() {
+        if($this->permissionCheckCrud === 'permission') {
+
+        }
+    }
+
+    public function createAndUpdatePassWord($password) {
+        if($password) {
+            $password = Hash::make($password);
+            return $password;
+        }
+    }
+
 }
 
 
