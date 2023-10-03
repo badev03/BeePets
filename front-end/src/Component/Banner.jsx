@@ -1,6 +1,21 @@
-import React from 'react'
+import { Link } from 'react-router-dom'
+import { DatePicker,  Select } from 'antd';
+import moment from 'moment';
+import 'moment/locale/vi';
+import locale from 'antd/es/date-picker/locale/vi_VN'; 
+moment.locale('vi');
 
 const Banner = () => {
+  const today = moment();
+
+  const handleChange = (value) => {
+    console.log(`selected ${value}`);
+  };
+
+  const onChange = (date, dateString) => {
+    console.log(date, dateString);
+  };
+
   return (
     <div>
   <div>
@@ -12,7 +27,7 @@ const Banner = () => {
       <div className="container">
         <div className="row">
           <div className="col-lg-6">
-            <div className="banner-img banner-img-twelve aos" data-aos="fade-up">
+            <div className="banner-img banner-img-twelve aos" >
               <img src="../src/assets/img/bg/home-12-banner-1.png" className="img-fluid" alt="dog-image" />
               <img src="../src/assets/img/bg/home-12-banner-2.png" className="img-fluid" alt="cat-image" />
               <div className="banner-banner-img-twelve-bg">
@@ -24,25 +39,56 @@ const Banner = () => {
             </div>
           </div>
           <div className="col-lg-6">
-            <div className="banner-content banner-content-fourteen aos" data-aos="fade-up">
+            <div className="banner-content banner-content-fourteen aos" >
               <h1>Hãy để chúng tôi <span>chăm sóc thú cưng của bạn</span></h1>
             </div>
-            <div className="search-box-fourteen aos" data-aos="fade-up">
+            <div className="search-box-fourteen aos" >
               <form action="https://doccure.dreamguystech.com/html/template/search.html" className="form-block d-flex">
                 <div className="search-input">
-                  <div className="forms-block">
-                    <label className="mb-0">Date</label>
-                    <input type="text" className="form-control datetimepicker" placeholder="Thu, Mar 24, 2023" />
+                <div className="forms-block">
+                  <label className="mb-0">Chọn Ngày</label>
+                  <div className="input-group" >
+                  <DatePicker 
+                    onChange={onChange} 
+                    style={{
+                      height: 35,
+                    }}
+                    defaultValue={today}
+                    placeholder='Chọn Ngày'
+                    locale={locale}
+                  />
                   </div>
+                      </div>
                 </div>
                 <div className="search-input">
                   <div className="forms-block mb-0">
-                    <label className="location-icon">Location</label>
-                    <input type="text" className="form-control" placeholder="San Diego Branch" />
+                    <label className="location-icon">Chọn Dịch Vụ</label>
+                    <Select
+                      defaultValue="Khám Bệnh"
+                      style={{
+                        width: 130,
+                        height: 35,
+                      }}
+                      onChange={handleChange}
+                      options={[
+                        {
+                          value: 'Khám Bệnh',
+                          label: 'Khám Bệnh',
+                        },
+                        {
+                          value: 'Chữa Bệnh',
+                          label: 'Chữa Bệnh',
+                        },
+                        {
+                          value: 'Spa',
+                          label: 'Spa',
+                        },
+                      ]}
+                    />
                   </div>
                 </div>
                 <div className="search-btn">
-                  <button className="btn btn-primary" type="submit">Book Now</button>
+                  <Link to={'booking'}><button className="btn btn-primary" type="submit">Đặt Lịch Nhanh</button></Link>
                 </div>
               </form>
             </div>

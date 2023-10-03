@@ -87,8 +87,6 @@ function App() {
           <Route path='Reset-Password-Doctor' element={<ResetPasswordDoctor />} />
           <Route path='Create-Password' element={<CreatePassword />} />
 
-
-
         </Route>
       </Routes>
     </Router>
