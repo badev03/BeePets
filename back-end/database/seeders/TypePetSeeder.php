@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\Type_pet;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
+use Faker\Factory as Faker;
 class TypePetSeeder extends Seeder
 {
     /**
@@ -13,10 +13,6 @@ class TypePetSeeder extends Seeder
      */
     public function run(): void
     {
-        Type_pet::create([
-            'name' => fake()->name,
-            'slug' => fake()->slug,
-        ]);
         $faker = Faker::create();
         $data = [];
         for ($i=0; $i < 10; $i++) {

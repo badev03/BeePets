@@ -20,7 +20,7 @@ class Service_categorieFactory extends Factory
             'name' => $this->faker->name(),
             'slug' => $this->faker->slug(),
             'description' => $this->faker->text(),
-            'cate_image' => $this->faker->imageUrl(),
+            'image' => $this->faker->imageUrl(),
         ];
     }
 }

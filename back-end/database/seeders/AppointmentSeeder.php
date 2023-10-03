@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\Appointment;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
+use Faker\Factory as Faker;
 class AppointmentSeeder extends Seeder
 {
     /**

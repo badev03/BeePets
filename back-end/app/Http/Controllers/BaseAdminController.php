@@ -43,6 +43,7 @@ class BaseAdminController extends Controller
     protected $addForDataViewer = [];
     protected $permissionCheckCrud = '';
     private $teseterr = '111';
+    protected $special = [];
 
     public function __construct()
     {
@@ -52,13 +53,19 @@ class BaseAdminController extends Controller
     public function index()
     {
         if (auth()->user()->can(['read-'.$this->permissionCheckCrud])) {
-            $data = $this->model->all();
+            if(empty($this->QuerySpecialIndex())) {
+                $data = $this->model->all();
+            }
+            else{
+                $data = $this->QuerySpecialIndex();
+            }
             return view($this->pathView . __FUNCTION__, compact('data'))
                 ->with('title', $this->titleIndex)
                 ->with('colums', $this->colums)
                 ->with('urlbase', $this->urlbase)
                 ->with('title_web', $this->title)
                 ->with('FIELD_SELECT_CUSTOM_CONTROLLER', $this->FIELD_SELECT_CUSTOM_CONTROLLER)
+                ->with('special', $this->special)
                 ->with('listIndex', $this->listIndex);
         }
         else {
@@ -311,6 +318,10 @@ class BaseAdminController extends Controller
             $password = Hash::make($password);
             return $password;
         }
+    }
+
+    public function QuerySpecialIndex() {
+
     }
 
 }

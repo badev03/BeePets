@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('day_of_week');
             $table->integer('word_shift');
+            $table->date('day');
             $table->time('start_time');
             $table->time('end_time');
             $table->unsignedBigInteger('doctor_id');

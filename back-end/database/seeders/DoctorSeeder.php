@@ -19,7 +19,10 @@ class DoctorSeeder extends Seeder
             'password' => Hash::make('doctor123456'),
             'phone' => '124561',
             'gender' => 'male',
-            'name' => 'doctor'
+            'name' => 'doctor',
+            'slug' => fake()->slug(),
+            'address' => fake()->address,
+            'status' => 1,
         ]);
     }
 }

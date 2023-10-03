@@ -20,4 +20,8 @@ class Doctor extends Model
         'role_id',
         'gender',
     ];
+
+    public function Appointment(){
+        return $this->belongsTo(Appointment::class , 'doctor_id');
+    }
 }

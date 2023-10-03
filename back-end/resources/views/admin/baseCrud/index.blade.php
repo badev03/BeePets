@@ -44,10 +44,18 @@
                                                 <img src="{{ asset($item->$colum)?? '123'}}" width="100px" alt="">
                                             @elseif(in_array($colum , FIELD_DESC))
                                                 {!! $item->$colum !!}
-                                            @elseif(in_array($colum , $FIELD_SELECT_CUSTOM_CONTROLLER))
+                                            @elseif(in_array($colum , $FIELD_SELECT_CUSTOM_CONTROLLER) && empty($special))
                                                 @foreach($listIndex as $keyListIndex=>$valueListIndex)
-                                                    {!! $item->$valueListIndex->name !!}
+                                                    @if($colum===$FIELD_SELECT_CUSTOM_CONTROLLER[$keyListIndex])
+                                                        {!! $item->$valueListIndex->name !!}
+                                                    @endif
                                                 @endforeach
+{{--                                            @elseif(in_array($colum , $special))--}}
+{{--                                                @foreach($checkSpecial as $keySpecialIndex=>$valueSpecialIndex)--}}
+{{--                                                    @if($colum===$special[$keySpecialIndex])--}}
+{{--                                                        {!! $valueSpecialIndex->$colum !!}--}}
+{{--                                                    @endif--}}
+{{--                                                @endforeach--}}
                                             @elseif(array_key_exists($colum , FIELD_SELECT_CUSTOM))
                                                 @foreach(FIELD_SELECT_CUSTOM[$colum] as $keyCustom=>$valueCustom)
                                                     @if($keyCustom==$item->$colum)
@@ -68,7 +76,7 @@
                                                     <i class="far fa-eye"></i> Xem
                                                 </button>
                                             @endif
-                                            <a class="btn btn-sm bg-success-light" href="{{ route($urlbase . 'edit', $item) }}">
+                                            <a class="btn btn-sm bg-success-light" href="{{ route($urlbase . 'edit', $item->id) }}">
                                                 <i class="fe fe-pencil"></i> Edit
                                             </a>
                                             <a data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
@@ -79,7 +87,6 @@
                                 </tr>
 
                             @endforeach
-
                             </tbody>
                         </table>
                     </div>
@@ -99,7 +106,7 @@
                             <h4 class="modal-title">Delete</h4>
                             <p class="mb-4">Bạn có chắc chắn muốn xóa</p>
                             <div class="d-flex justify-content-center" style="gap: 1rem">
-                                <form action="{{ route($urlbase . 'destroy', $item) }}" method="post">
+                                <form action="{{ route($urlbase . 'destroy', $item->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
 

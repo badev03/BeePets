@@ -64,8 +64,4 @@ class ServiceController extends BaseAdminController
         return $dataForMergeArray;
     }
 
-    /**
-     * select mặc định phải gán với tên là ids and name
-    */
-
 }

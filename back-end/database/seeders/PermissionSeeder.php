@@ -20,7 +20,7 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'update-service' , 'group' => 'service']);
         Permission::create(['name' => 'delete-service' , 'group' => 'service']);
 
-        
+
         Permission::create(['name' => 'create-doctors' , 'group' => 'doctors']);
         Permission::create(['name' => 'read-doctors' , 'group' => 'doctors']);
         Permission::create(['name' => 'update-doctors' , 'group' => 'doctors']);
@@ -59,7 +59,13 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'update-PeopleAccount' , 'group' => 'PeopleAccount']);
         Permission::create(['name' => 'delete-PeopleAccount' , 'group' => 'PeopleAccount']);
 
-  
+
+        Permission::create(['name' => 'create-appointment'  , 'group' => 'appointment']);
+        Permission::create(['name' => 'read-appointment' , 'group' => 'appointment']);
+        Permission::create(['name' => 'update-appointment' , 'group' => 'appointment']);
+        Permission::create(['name' => 'delete-appointment' , 'group' => 'appointment']);
+
+
 
         // Tạo vai trò (roles)
         $user = \App\Models\User::find(1);
@@ -75,8 +81,9 @@ class PermissionSeeder extends Seeder
                 'create-role', 'read-role', 'update-role', 'delete-role',
                 'create-permission', 'read-permission', 'update-permission', 'delete-permission',
                 'create-PeopleAccount', 'read-PeopleAccount', 'update-PeopleAccount', 'delete-PeopleAccount',
-               
-                'create-doctors','read-doctors','update-doctors','delete-doctors'
+
+                'create-doctors','read-doctors','update-doctors','delete-doctors',
+                'create-appointment','read-appointment','update-appointment','delete-appointment',
             ]);
         }
 
