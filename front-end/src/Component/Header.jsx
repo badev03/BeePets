@@ -1,8 +1,48 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+
 const Header = () => {
+  const initialActiveItems = JSON.parse(
+    localStorage.getItem("activeItems")
+  ) || ["TRANG CHỦ"];
+  const [activeItems, setActiveItems] = useState(initialActiveItems);
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  const handleItemClick = (itemName) => {
+    setActiveItems((prevActiveItems) => {
+      if (prevActiveItems.includes(itemName)) {
+        return prevActiveItems.filter((item) => item !== itemName);
+      } else {
+        return [itemName];
+      }
+    });
+  };
+
+  const handleScroll = () => {
+    const position = window.scrollY;
+    setScrollPosition(position);
+  };
+
+  const handleLogoClick = () => {
+    handleItemClick("TRANG CHỦ");
+  };
+
+  useEffect(() => {
+    localStorage.setItem("activeItems", JSON.stringify(activeItems));
+  }, [activeItems]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <header className="header header-fixed header-fourteen header-twelve">
+    <header
+      className="header header-fixed header-fourteen header-twelve"
+      style={{ backgroundColor: scrollPosition > 40 ? "#fff" : "transparent" }}
+    >
       <div className="container">
         <nav className="navbar navbar-expand-lg header-nav">
           <div className="navbar-header">
@@ -13,7 +53,11 @@ const Header = () => {
                 <span></span>
               </span>
             </a>
-            <a href={"/"} className="navbar-brand logo">
+            <a
+              href={"/"}
+              className="navbar-brand logo"
+              onClick={handleLogoClick}
+            >
               <img
                 src="../src/assets/img/logo.jpg"
                 className="img-fluid"
@@ -34,20 +78,39 @@ const Header = () => {
                 <i className="fas fa-times"></i>
               </a>
             </div>
+
             <ul className="main-nav">
-              <li className="has-submenu megamenu active">
-                <a href={"/"}>TRANG CHỦ </a>
+              <li
+                className={`has-submenu megamenu ${
+                  activeItems.includes("TRANG CHỦ") ? "active" : ""
+                }`}
+                onClick={() => handleItemClick("TRANG CHỦ")}
+              >
+                <a href="/">TRANG CHỦ </a>
               </li>
-              <li className="has-submenu">
+              <li
+                className={`has-submenu ${
+                  activeItems.includes("BÁC SĨ") ? "active" : ""
+                }`}
+                onClick={() => handleItemClick("BÁC SĨ")}
+              >
                 <a href="/doctor">BÁC SĨ </a>
               </li>
-              <li className="has-submenu">
-                <a href="abouts">
-                  GIỚI THIỆU
-                </a>
+              <li
+                className={`has-submenu ${
+                  activeItems.includes("GIỚI THIỆU") ? "active" : ""
+                }`}
+                onClick={() => handleItemClick("GIỚI THIỆU")}
+              >
+                <a href="/abouts">GIỚI THIỆU </a>
               </li>
-              <li className="has-submenu">
-                <a href={"blog"}>TIN TỨC </a>
+              <li
+                className={`has-submenu ${
+                  activeItems.includes("TIN TỨC") ? "active" : ""
+                }`}
+                onClick={() => handleItemClick("TIN TỨC")}
+              >
+                <a href="/blog">TIN TỨC </a>
               </li>
             </ul>
           </div>
