@@ -20,6 +20,9 @@ class Service extends Model
     public function Categories(){
         return $this->belongsTo(Service_categorie::class,'service_categorie_id');
     }
+  
 
-
+    public function doctors(){
+        return $this->belongsToMany(Doctor::class,'doctor_service','service_id','doctor_id');
+    }
 }
