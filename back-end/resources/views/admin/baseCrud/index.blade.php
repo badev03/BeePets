@@ -37,7 +37,7 @@
                             <tbody>
                             @foreach ($data as $key=>$item)
                                 <tr>
-                                    <td>{{ $key + 1 }}</td>
+                                    <td>{{ $item->id }}</td>
                                     @foreach ($colums as $colum=>$name)
                                         <td>
                                             @if(in_array($colum, FIELD_IMAGE))
@@ -79,13 +79,37 @@
                                             <a class="btn btn-sm bg-success-light" href="{{ route($urlbase . 'edit', $item->id) }}">
                                                 <i class="fe fe-pencil"></i> Edit
                                             </a>
-                                            <a data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
+                                            <a data-bs-toggle="modal" href="#delete_modal_{{$item->id}}" class="btn btn-sm bg-danger-light">
                                                 <i class="fe fe-trash"></i> Delete
                                             </a>
+                                            @if(count($data)>0)
+                                                <div class="modal fade" id="delete_modal_{{ $item->id }}" aria-hidden="true" role="dialog">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-body">
+                                                                <div class="form-content p-2">
+                                                                    <h4 class="modal-title text-center">Delete</h4>
+                                                                    <p class="mb-4 text-center">Bạn có chắc chắn muốn xóa</p>
+                                                                    <div class="d-flex justify-content-center" style="gap: 1rem">
+                                                                        <form action="{{ route($urlbase . 'destroy', $item->id) }}" method="post">
+                                                                            @csrf
+                                                                            @method('DELETE')
+
+                                                                            <button class="btn bg-success-light"
+                                                                                    type="submit">Xóa
+                                                                            </button>
+                                                                        </form>
+                                                                        <button type="button" class="btn bg-danger-light" data-bs-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
-
                             @endforeach
                             </tbody>
                         </table>
@@ -97,38 +121,10 @@
 
     {{--view--}}
     @include('admin.baseCrud.view')
-    @if(count($data)>0)
-        <div class="modal fade" id="delete_modal" aria-hidden="true" role="dialog">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <div class="form-content p-2">
-                            <h4 class="modal-title">Delete</h4>
-                            <p class="mb-4">Bạn có chắc chắn muốn xóa</p>
-                            <div class="d-flex justify-content-center" style="gap: 1rem">
-                                <form action="{{ route($urlbase . 'destroy', $item->id) }}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-
-                                    <button class="btn bg-success-light"
-                                            type="submit">Xóa
-                                    </button>
-                                </form>
-                                <button type="button" class="btn bg-danger-light" data-bs-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-    @endif
 @endsection
 @push('script')
-
     <script src="{{asset('backend/assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('backend/assets/plugins/datatables/datatables.min.js')}}"></script>
-
     <script>
         $(document).ready(function() {
             $('.buttonView').click(function() {

@@ -66,6 +66,7 @@ class BaseAdminController extends Controller
                 ->with('title_web', $this->title)
                 ->with('FIELD_SELECT_CUSTOM_CONTROLLER', $this->FIELD_SELECT_CUSTOM_CONTROLLER)
                 ->with('special', $this->special)
+                ->with('permission_crud', $this->permissionCheckCrud)
                 ->with('listIndex', $this->listIndex);
         }
         else {

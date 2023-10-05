@@ -10,6 +10,7 @@ use App\Http\Controllers\admin\PermissionController;
 use App\Http\Controllers\admin\PeopleAccountController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ServiceCategorieController;
+use App\Http\Controllers\Admin\AppointmentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,12 +35,16 @@ Route::middleware(['role:Admin'])->group(function () {
             'permission' => PermissionController::class,
             'product-categories' => ProductCategoryController::class,
             'products' => ProductController::class,
-            'appointment' => \App\Http\Controllers\Admin\AppointmentController::class,
+            'appointment' => AppointmentController::class,
         ];
         foreach ($objects as $key => $controller) {
             Route::resource($key, $controller);
         }
         Route::get('dashboard', [HomeController::class , 'index'])->name('dashboard');
+        Route::get('appointment/get-day/{day}/{id}', [AppointmentController::class , 'getDay'])->name('appointment.get-day');
+        Route::get('appointment/date-filter/{data}', [AppointmentController::class , 'FilterDate'])->name('appointment.filter-date');
+        Route::get('appointment/time-appointments/{data}', [AppointmentController::class , 'FilterTime'])->name('appointment.time');
+        Route::post('appointment/date-search/', [AppointmentController::class , 'FilterSearch'])->name('appointment.filter-search');
     });
 });
 Route::get('admin/login', [\App\Http\Controllers\AuthController::class , 'index'])->name('admin.login');

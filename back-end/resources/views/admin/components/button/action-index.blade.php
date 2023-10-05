@@ -3,9 +3,11 @@
         <a class="btn btn-sm bg-success-light" href="{{ route($urlbase . 'edit', $value->id) }}">
             <i class="fe fe-pencil"></i> Edit
         </a>
-        <a data-bs-toggle="modal" href="#delete_modal" class="btn btn-sm bg-danger-light">
-            <i class="fe fe-trash"></i> Delete
-        </a>
+        @can('delete-'.$permission_crud)
+            <a data-bs-toggle="modal" data-delete="{{ $value->id }}" href="#delete_modal" class="delete_data btn btn-sm bg-danger-light">
+                <i class="fe fe-trash"></i> Delete
+            </a>
+        @endcan
     </div>
 </td>
 
@@ -35,3 +37,16 @@
     </div>
     </div>
 @endif
+
+@push('script')
+
+    <script>
+        $(document).ready(function () {
+            $('.delete_data').click(function () {
+                alert(1111)
+                var id = $(this).data('delete');
+                console.log(1111);
+            })
+        })
+    </script>
+@endpush

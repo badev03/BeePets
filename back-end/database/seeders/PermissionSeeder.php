@@ -83,7 +83,7 @@ class PermissionSeeder extends Seeder
                 'create-PeopleAccount', 'read-PeopleAccount', 'update-PeopleAccount', 'delete-PeopleAccount',
 
                 'create-doctors','read-doctors','update-doctors','delete-doctors',
-                'create-appointment','read-appointment','update-appointment','delete-appointment',
+                'create-appointment','read-appointment','update-appointment',
             ]);
         }
 

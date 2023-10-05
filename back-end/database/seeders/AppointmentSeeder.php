@@ -21,6 +21,8 @@ class AppointmentSeeder extends Seeder
             $data['service_id'] = 1;
             $data['doctor_id'] = 1;
             $data['user_id'] = 1;
+            $data['day_appointments'] = '2023-10-03';
+            $data['shift_appointment'] = 2;
             $data['status'] = 1;
             Appointment::insert($data);
         }
