@@ -30,11 +30,7 @@ const Search = () => {
               <h4 className="card-title mb-0">Bộ lọc tìm kiếm</h4>
             </div>
             <div className="card-body">
-              <div className="filter-widget">
-                <div className="cal-icon">
-                  <input type="text" className="form-control datetimepicker" placeholder="Select Date" />
-                </div>
-              </div>
+            
 
               <div className="filter-widget">
                 <h4>Dịch vụ</h4>
