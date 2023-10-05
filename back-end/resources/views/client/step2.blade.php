@@ -1,7 +1,13 @@
 @extends('client.app')
 
 @section('content')
-    
+    @if(auth()->check())
+       <form action="{{route('logout')}}" method="post">
+        @csrf
+        <button type="submit" class="btn btn-danger">Logout</button>
+       </form>
+
+    @endif
     <form action="" method="post">
         @csrf
        <div class="mb-3">
@@ -24,7 +30,7 @@
 
         <label for="date">Chọn ngày</label>
         <input type="date" name="date" id="date" value="{{$date}}">
-    
+        
        </div>
   
 
@@ -64,10 +70,10 @@
        
        <div class="mb-3">
         <label for="">Nhập THông tin khách hàng</label><br>
-        <input type="text" placeholder="Họ và tên" name="name">
+        <input type="text" placeholder="Họ và tên" name="name" value="{{auth()->user()->name ?? old('name')}}">
        </div>
        <div class="mb-3">
-        <input type="text" placeholder="Số điện thoại" name="phone">
+        <input type="text" placeholder="Số điện thoại" name="phone" value="{{auth()->user()->phone ?? old('phone')}}">
        </div>
        <div class="mb-3">
         <label for="">Ghi chú</label><br>

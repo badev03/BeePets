@@ -11,9 +11,13 @@ class Work_schedule extends Model
     protected $fillable = [
         'date',
         'slot_time',
-        
         'start_time',
         'end_time',
         'doctor_id',
     ];
+    public function doctor()
+    {
+        return $this->belongsTo(Doctor::class);
+    }
+
 }
