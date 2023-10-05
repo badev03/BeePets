@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Type_pet extends Model
+class Schedule extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name','slug'
+        'date',
+        'time',
+        'doctor_id',
     ];
 }
