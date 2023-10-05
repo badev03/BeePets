@@ -50,10 +50,13 @@ Route::middleware(['role:Admin'])->group(function () {
     });
 });
 Route::get('/', [BookingController::class, 'index'])->name('index');
-Route::post('/save-info', [BookingController::class, 'saveInfo'])->name('store');
+Route::post('/', [BookingController::class, 'saveInfo'])->name('store');
 
 
 
+Route::get('/login', [\App\Http\Controllers\AuthController::class , 'login'])->name('login');
+Route::post('/login', [\App\Http\Controllers\AuthController::class , 'loginPost'])->name('login.post');
+Route::post('/logout', [\App\Http\Controllers\AuthController::class , 'formLogout'])->name('logout');
 
 Route::get('admin/login', [\App\Http\Controllers\AuthController::class , 'index'])->name('admin.login');
 Route::get('admin/logout', [\App\Http\Controllers\AuthController::class , 'logOut'])->name('admin.logout');

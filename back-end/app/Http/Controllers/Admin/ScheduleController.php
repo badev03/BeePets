@@ -11,8 +11,10 @@ class ScheduleController extends Controller
 {
     public function index()
     {
-        return view('admin.schedules.index');
+        $schedules = Work_schedule::all();
+        return view('admin.schedules.index', compact('schedules'));
     }
+
     public function create()
     {
         //lấy ra tên và id của tất cả các bác sĩ
@@ -23,19 +25,40 @@ class ScheduleController extends Controller
 
     public function store(Request $request)
     {
-    //    dd($request->all());
-        
-        $schedules = new Work_schedule([
-            'date' => $request->input('date'),
-            'slot_time' => $request->input('slot_time'),
-            'start_time' => $request->input('start_time'),
-            'end_time' => $request->input('end_time'),
-            'doctor_id' => $request->input('doctor_id'),
-            
+        $request->validate([
+            'date' => 'required',
+            'slot_time' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'doctor_id' => 'required',
+        ],
+            [
+                'date.required' => 'Vui lòng nhập ngày',
+                'slot_time.required' => 'Vui lòng nhập slot time',
+                'start_time.required' => 'Vui lòng nhập thời gian bắt đầu',
+                'end_time.required' => 'Vui lòng nhập thời gian kết thúc',
+                'doctor_id.required' => 'Vui lòng nhập bác sĩ',
         ]);
-        $schedules->save();
+        $schedules = Work_schedule::all();
+        foreach ($schedules as $key => $value) {
+            if($value->date == $request->date && $value->doctor_id == $request->doctor_id){
+                dd('Ngày này đã có lịch làm việc');
+            }
+        }
+
+
+        $schedule = new Work_schedule();
+        $schedule->fill($request->all());
+        $schedule->save();
+        return redirect()->route('schedules.index');
   
         }
 
+        public function destroy($id)
+    {
+        $schedule = Work_schedule::findOrFail($id);
+        $schedule->delete();
+        return redirect()->route('schedules.index');
+    }
     }
 
