@@ -23,10 +23,10 @@ const Footer = () => {
             <div className="footer-widget footer-menu">
             <h2 className="footer-title">BEE PETS</h2>
             <ul>
-            <li><a href="index-10.html">Trang Chủ</a></li>
-            <li><a href="#">Bác Sĩ</a></li>
-            <li><a href="#">Giới Thiệu</a></li>
-            <li><a href="#">Tin Tức</a></li>
+            <li><a href="/">Trang Chủ</a></li>
+            <li><a href="/doctor">Bác Sĩ</a></li>
+            <li><a href="/abouts">Giới Thiệu</a></li>
+            <li><a href="/blog">Tin Tức</a></li>
             </ul>
             </div>
             </div>
