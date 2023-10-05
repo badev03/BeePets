@@ -3807,4 +3807,87 @@ table.table-inbox tbody tr.checked {
   }
 }
 
+.accordion {
+  list-style-type: none;
+  padding: 0;
+}
+
+.accordion-item {
+  border-bottom: 1px solid #ddd;
+}
+
+.accordion-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  cursor: pointer;
+  background-color: #00d0f1;
+  font-size: 20px;
+  color: #fff;
+}
+
+.accordion-body {
+  display: none;
+  padding: 10px;
+}
+
+.accordion-list ul{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.accordion-list ul li{
+  list-style: none;
+  margin-left: 30px;
+  width: 16.66%; /* Set the width to 16.66% to display 6 items per row */
+  box-sizing: border-box;
+  padding: 5px;
+}
+
+.accordion-head{
+  margin-left: 15px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 18px;
+  color: #6499E9;
+}
+
+/* Icon cho cộng và trừ */
+.icon {
+  width: 20px;
+  height: 20px;
+  fill: #fff; /* Màu sắc của icon */
+  transition: transform 0.3s ease; /* Hiệu ứng chuyển động */
+}
+
+.rotate {
+  transform: rotate(180deg); /* Độ quay khi mở rộng */
+}
+
+.custom-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background: #6499E9;
+}
+
+/* Hiệu ứng khi hover vào button */
+.custom-button:hover {
+  background-color: #1565C0; /* Màu nền khi hover */
+}
+
+/* Icon checkmark từ Font Awesome */
+.custom-button i {
+  margin-right: 5px; /* Khoảng cách giữa icon và chữ */
+}
+
+.btn-permission{
+  text-align: center;
+}
 /*# sourceMappingURL=custom.css.map */

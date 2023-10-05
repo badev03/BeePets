@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Work_schedule;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,5 +17,6 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 //        $this->call([UserSeeder::class]);
         $this->call([RoleSeeder::class , PermissionSeeder::class]);
+    
     }
 }

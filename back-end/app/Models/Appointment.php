@@ -8,4 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Appointment extends Model
 {
     use HasFactory;
+    protected $fillable=[
+        'status',
+        'description',
+        'date',
+        'time',
+        'type_pet_id',
+        'service_id',
+        'doctor_id',
+        'user_id',
+    ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
