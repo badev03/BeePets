@@ -20,4 +20,8 @@ class Doctor extends Model
         'role_id',
         'gender',
     ];
+
+    public function Work_schedule(){
+        return $this->hasMany(Work_schedule::class);
+    }
 }
