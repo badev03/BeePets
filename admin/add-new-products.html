@@ -28,6 +28,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
 
+
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
 
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
@@ -38,6 +39,7 @@
     <link rel="stylesheet" href="assets/plugins/datatables/datatables.min.css">
 
     <link rel="stylesheet" href="assets/css/custom.css">
+
 </head>
 
 <body>
@@ -318,20 +320,17 @@
                 <div class="page-header">
                     <div class="row">
                         <div class="col-sm-12">
-                            <h3 class="page-title">List of Products</h3>
-                            <div class="search1-container">
+                            <h3 class="page-title">Add New Products</h3>
+                            <!-- <div class="search-container">
                                 <input type="text" id="search-input" placeholder="Tìm kiếm...">
                                 <button id="search-button">Tìm kiếm</button>
-                            </div>
+                            </div> -->
                             <div id="search-results">
                                 <!-- Kết quả tìm kiếm sẽ được hiển thị ở đây -->
                             </div>
-                            <!-- <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                                <li class="breadcrumb-item"><a href="javascript:(0);">Users</a></li>
-                                <li class="breadcrumb-item active">Patient</li>
-                            </ul> -->
+
                         </div>
+
                     </div>
                 </div>
 
@@ -342,192 +341,45 @@
                                 <div class="table-responsive">
                                     <div class="table-responsive">
                                         <table class="datatable table table-hover table-center mb-0">
-                                            <thead>
-                                                <tr>
-                                                    <th>Products ID</th>
-                                                    <th>Products Name</th>
-                                                    <th>Quantity</th>
-                                                    <th>Products Type</th>
-                                                    <th>Brand</th>
-                                                    <th>Image</th>
-                                                    <th>Price</th>
-                                                    <th>Status</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>#Products001</td>
-                                                    <td>
-                                                        <h2 class="table-avatar">
-                                                            <a href="profile.html">Thuốc ho </a>
-                                                        </h2>
-                                                    </td>
-                                                    <td>29</td>
-                                                    <td>Vỉ 14 viên</td>
-                                                    <td>Bảo thanh</td>
-                                                    <td>
-                                                        <h2 class="table-avatar">
-                                                            <a href="profile.html" class="avatar avatar-sm me-2"><img
-                                                                    class="avatar-img rounded-circle"
-                                                                    src="assets/img/thuoc-thu-y-1.jpg"
-                                                                    alt="User Image"></a>
-                                                            <!-- <a href="profile.html">Elsie Gilley</a> -->
-                                                        </h2>
-                                                    </td>
-                                                    <td>$100</td>
 
-                                                    <td>
-                                                        <label class="switch">
-                                                            <input type="checkbox" id="toggle_button_all_product_1"
-                                                                class="toggle-button" checked>
-                                                            <span class="slider round"></span>
-                                                        </label>
-                                                    </td>
+                                            <form id="product-form" class="form-controller">
+                                                <label for="product-name">Tên Sản phẩm:<span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" id="product-name" required>
 
-                                                    <td>
-                                                        <div class="custom-select">
-                                                            <select>
-                                                                <option value="" disabled selected>SELECT
-                                                                </option>
-                                                                <option value="edit">Sửa</option>
-                                                                <option value="delete">Xóa</option>
-                                                                <!-- Thêm các tùy chọn khác tại đây -->
-                                                            </select>
-                                                        </div>
-
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#Products001</td>
-                                                    <td>
-                                                        <h2 class="table-avatar">
-                                                            <a href="profile.html">Thuốc ho </a>
-                                                        </h2>
-                                                    </td>
-                                                    <td>29</td>
-                                                    <td>Vỉ 14 viên</td>
-                                                    <td>Bảo thanh</td>
-                                                    <td>
-                                                        <h2 class="table-avatar">
-                                                            <a href="profile.html" class="avatar avatar-sm me-2"><img
-                                                                    class="avatar-img rounded-circle"
-                                                                    src="assets/img/thuoc-thu-y-1.jpg"
-                                                                    alt="User Image"></a>
-                                                            <!-- <a href="profile.html">Elsie Gilley</a> -->
-                                                        </h2>
-                                                    </td>
-                                                    <td>$100</td>
-
-                                                    <td>
-                                                        <label class="switch">
-                                                            <input type="checkbox" id="toggle_button_all_product_1"
-                                                                class="toggle-button" checked>
-                                                            <span class="slider round"></span>
-                                                        </label>
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="custom-select">
-                                                            <select>
-                                                                <option value="" disabled selected>SELECT
-                                                                </option>
-                                                                <option value="edit">Sửa</option>
-                                                                <option value="delete">Xóa</option>
-                                                                <!-- Thêm các tùy chọn khác tại đây -->
-                                                            </select>
-                                                        </div>
-
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#Products001</td>
-                                                    <td>
-                                                        <h2 class="table-avatar">
-                                                            <a href="profile.html">Thuốc ho </a>
-                                                        </h2>
-                                                    </td>
-                                                    <td>29</td>
-                                                    <td>Vỉ 14 viên</td>
-                                                    <td>Bảo thanh</td>
-                                                    <td>
-                                                        <h2 class="table-avatar">
-                                                            <a href="profile.html" class="avatar avatar-sm me-2"><img
-                                                                    class="avatar-img rounded-circle"
-                                                                    src="assets/img/thuoc-thu-y-1.jpg"
-                                                                    alt="User Image"></a>
-                                                            <!-- <a href="profile.html">Elsie Gilley</a> -->
-                                                        </h2>
-                                                    </td>
-                                                    <td>$100</td>
-
-                                                    <td>
-                                                        <label class="switch">
-                                                            <input type="checkbox" id="toggle_button_all_product_1"
-                                                                class="toggle-button" checked>
-                                                            <span class="slider round"></span>
-                                                        </label>
-                                                    </td>
-
-                                                    <td>
-
-                                                        <div class="custom-select">
-                                                            <select>
-                                                                <option value="" disabled selected>SELECT
-                                                                </option>
-                                                                <option value="edit">Sửa</option>
-                                                                <option value="delete">Xóa</option>
-                                                                <!-- Thêm các tùy chọn khác tại đây -->
-                                                            </select>
-                                                        </div>
+                                                <label for="product-price">Giá Sản phẩm:</label>
+                                                <input type="number" id="product-price" required>
 
 
+                                                <label>Loại sản phẩm :
+                                                    <span class="text-danger">*</span></label>
+                                                <select class="mb-25 product_id" name="product_id" required>
+                                                    <option value="">Select</option>
+                                                    <option value="">Drugs</option>
+                                                    <option value="">Food</option>
 
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#Products001</td>
-                                                    <td>
-                                                        <h2 class="table-avatar">
-                                                            <a href="profile.html">Thuốc ho </a>
-                                                        </h2>
-                                                    </td>
-                                                    <td>29</td>
-                                                    <td>Vỉ 14 viên</td>
-                                                    <td>Bảo thanh</td>
-                                                    <td>
-                                                        <h2 class="table-avatar">
-                                                            <a href="profile.html" class="avatar avatar-sm me-2"><img
-                                                                    class="avatar-img rounded-circle"
-                                                                    src="assets/img/thuoc-thu-y-1.jpg"
-                                                                    alt="User Image"></a>
-                                                            <!-- <a href="profile.html">Elsie Gilley</a> -->
-                                                        </h2>
-                                                    </td>
-                                                    <td>$100</td>
+                                                </select>
+                                                <p></p>
+                                                <div class="mb-3">
+                                                    <label class="mb-2">Ảnh sản phẩm:
+                                                        <span class="text-danger">*</span>
+                                                    </label>
+                                                    <input type="file" class="form-control">
+                                                    <small class="text-secondary">Recommended image size is <b>150px x
+                                                            150px</b></small>
+                                                </div>
+                                                <span class="text-danger" id="error_product_id"></span>
 
-                                                    <td>
-                                                        <label class="switch">
-                                                            <input type="checkbox" id="toggle_button_all_product_1"
-                                                                class="toggle-button" checked>
-                                                            <span class="slider round"></span>
-                                                        </label>
-                                                    </td>
 
-                                                    <td>
-                                                        <div class="custom-select">
-                                                            <select>
-                                                                <option value="" disabled selected>SELECT
-                                                                </option>
-                                                                <option value="edit">Sửa</option>
-                                                                <option value="delete">Xóa</option>
-                                                                <!-- Thêm các tùy chọn khác tại đây -->
-                                                            </select>
-                                                        </div>
+                                                <label for="product-description">Mô tả Sản phẩm:</label>
+                                                <textarea id="product-description" rows="4" required></textarea>
 
-                                                    </td>
-                                                </tr>
-                                            </tbody>
+                                                <button type="submit">Thêm Sản phẩm</button>
+                                            </form>
+
+                                            <div id="success-message" class="hidden">
+                                                Sản phẩm đã được thêm thành công!
+                                            </div>
                                         </table>
                                     </div>
                                 </div>
@@ -551,7 +403,6 @@
     <script src="assets/plugins/datatables/datatables.min.js"></script>
 
     <script src="assets/js/script.js"></script>
-
 
 
 </body>

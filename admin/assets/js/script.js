@@ -3,6 +3,9 @@ Author       : Dreamguys
 Template Name: Doccure - Bootstrap Admin Template
 Version      : 1.3
 */
+
+
+
 // JavaScript để xử lý tìm kiếm
 const searchInput = document.getElementById('search-input');
 const searchButton = document.getElementById('search-button');

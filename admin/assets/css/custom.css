@@ -11,6 +11,75 @@
   -webkit-flex-wrap: wrap;
 }
 
+  h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-controller-form {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label,
+        input,
+        textarea {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+/* CSS cho biểu mẫu "Thêm Sản phẩm" */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
+}
+
+
+
+/* CSS cho thông báo thành công */
+.hidden {
+  display: none;
+  text-align: center;
+  margin-top: 20px;
+  color: #4CAF50;
+}
+
+/* CSS cho thông báo thành công */
+.hidden {
+  display: none;
+  text-align: center;
+  margin-top: 20px;
+  color: #4CAF50;
+}
+
+
+
 
 /* CSS cho thanh tìm kiếm */
 .search-container {
