@@ -89,6 +89,7 @@ class BaseAdminController extends Controller
                     'title_web' => $this->title,
                     'dataSelect' => $dataSelect,
                     'FIELD_SELECT_CUSTOM_CONTROLLER' => $this->FIELD_SELECT_CUSTOM_CONTROLLER,
+                    'permission_crud'=> $this->permissionCheckCrud
                 ];
                 if($this->checkerReturnView === true) {
                     return view($this->pathView . __FUNCTION__)
@@ -164,6 +165,7 @@ class BaseAdminController extends Controller
             'addDataSelect' => $addDataSelect,
             'listIndex' => $this->listIndex,
             'FIELD_SELECT_CUSTOM_CONTROLLER' => $this->FIELD_SELECT_CUSTOM_CONTROLLER,
+            'permission_crud'=> $this->permissionCheckCrud
         ];
         if($this->checkerReturnView === true) {
             return view($this->pathView . __FUNCTION__, compact('model'))

@@ -21,7 +21,11 @@ class Doctor extends Model
         'gender',
     ];
 
-    public function Appointment(){
-        return $this->belongsTo(Appointment::class , 'doctor_id');
+    public function Appointment()
+    {
+        return $this->belongsTo(Appointment::class, 'doctor_id');
+    }
+    public function Work_schedule(){
+        return $this->hasMany(Work_schedule::class);
     }
 }

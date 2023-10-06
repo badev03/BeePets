@@ -9,6 +9,7 @@ use App\Models\Doctor;
 use App\Models\Service;
 use App\Models\Type_pet;
 use App\Models\User;
+use Carbon\Carbon;
 use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -60,7 +61,15 @@ class AppointmentController extends BaseAdminController
 
     public function store(Request $request)
     {
-
+        $this->validate($request,[
+            'description' => 'required' ,
+        ],
+            [
+                'description.required' => 'Mô tả không được để trống',
+            ]
+        );
+        $this->tableQuery('appointments')->insert($request->except('_token'));
+        return back()->with('success', 'Thao tác thành công');
     }
 
     public function edit(string $id)
@@ -109,7 +118,7 @@ class AppointmentController extends BaseAdminController
             ->select('appointments.description' , 'doctors.name as doctor_id' , 'users.name as user_id',
                 'type_pets.name as type_pet_id' , 'services.name as service_id' , 'appointments.id',
                 'work_schedules.end_time' , 'appointments.doctor_id as id_doctor' , 'work_schedules.day'
-                , 'work_schedules.start_time', 'work_schedules.day_of_week', 'work_schedules.end_time', 'work_schedules.word_shift');
+                    , 'work_schedules.start_time', 'work_schedules.day_of_week', 'work_schedules.end_time', 'work_schedules.word_shift');
         return $query;
     }
 
@@ -184,5 +193,85 @@ class AppointmentController extends BaseAdminController
         $time_appointments = $this->QueryFilter()->where('appointments.shift_appointment' , '=' , $data)->get();
         return response()->json(['time_appointments'=> $time_appointments] , '200');
     }
+
+    public function FilterSearchPhone(Request $request) {
+        $searchPhone = $request->input('searchPhones');
+        $resultPhone = $this->tableQuery('users')
+            ->where('users.phone' , '=' , $searchPhone)
+            ->where('users.role_id' , '=' , 4)
+            ->get();
+        return response()->json([
+            'searchUser' => $resultPhone
+        ] , '200');
+    }
+
+    public function createData($id) {
+        $user = $this->tableQuery('users')->where('role_id' , '=' , 4)
+            ->where('id' , '=' , $id)
+            ->first();
+        $timeWork = $this->tableQuery('work_schedules')
+            ->where('doctor_id' , '=' , 1)
+            ->where('day' , '=' , date('Y-m-d'))
+            ->get();
+        $checkTime = $this->tableQuery('appointments')->where('day_appointments' , '=' , date('Y-m-d'))
+            ->where('doctor_id' , '=' , 1)
+            ->select('time')
+            ->get();
+        $timeCompare = [];
+        foreach ($checkTime as $keyCheckTime=>$valueCheckTime) {
+            $timeCompare[] = $valueCheckTime->time;
+        }
+        $outputArray = [];
+
+        foreach ($timeCompare as $time) {
+            $outputArray[] = substr($time, 0, 5);
+        }
+
+        $dataDoctor = $this->tableQuery('doctors')->get();
+        $dataService = $this->tableQuery('services')->get();
+        $dataTypePet = $this->tableQuery('type_pets')->get();
+        $dataTime = [];
+
+        foreach ($timeWork as $key => $item) {
+            $startTime = \Carbon\Carbon::parse($item->slot_time);
+            $endTime = \Carbon\Carbon::parse($item->end_time);
+
+            $timeSlots = [];
+
+            while ($startTime <= $endTime) {
+                $timeSlots[] = $startTime->format('H:i');
+                $startTime->addHour();
+            }
+
+            $dataTime[] = $timeSlots;
+        }
+
+        $mergedArray = [];
+        $mergedArray = array_merge(...$dataTime);
+
+        $this->colums = [
+            'doctor_id' => 'Tên bác sĩ',
+            'type_pet_id' => 'Loại thứ cưng',
+            'service_id' => 'Tên dịch vụ',
+            'description' => 'Mô tả',
+        ];
+        $dataViewer = [
+            'title' => $this->titleEdit,
+            'colums' => $this->colums,
+            'urlbase' => $this->urlbase,
+            'title_web' => $this->title,
+            'listIndex' => $this->listIndex,
+            'dataDoctor' => $dataDoctor,
+            'dataService' => $dataService,
+            'timeWork' => $timeWork,
+            'dataTypePet' => $dataTypePet,
+            'data_time_appointments' => $mergedArray,
+            'FIELD_SELECT_CUSTOM_CONTROLLER' => $this->FIELD_SELECT_CUSTOM_CONTROLLER,
+            'timeCompare' => $outputArray,
+        ];
+        return view($this->pathView.'create' , compact('user'))
+            ->with($dataViewer);
+    }
+
 
 }

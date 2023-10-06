@@ -16,11 +16,12 @@ return new class extends Migration
             $table->string('day_of_week');
             $table->integer('word_shift');
             $table->date('day');
+            $table->date('date')->nullable();
+            $table->time('slot_time')->nullable();
             $table->time('start_time');
             $table->time('end_time');
             $table->unsignedBigInteger('doctor_id');
             $table->timestamps();
-
             $table->foreign('doctor_id')->references('id')->on('doctors')->onDelete('cascade');;
 
         });

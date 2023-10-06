@@ -5,19 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Work_schedule extends Model
+class Schedule extends Model
 {
     use HasFactory;
     protected $fillable = [
         'date',
-        'slot_time',
-        'start_time',
-        'end_time',
+        'time',
         'doctor_id',
     ];
-    public function doctor()
-    {
-        return $this->belongsTo(Doctor::class);
-    }
-
 }

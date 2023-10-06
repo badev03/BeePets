@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Work_schedule;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,5 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call([RoleSeeder::class , PermissionSeeder::class , ServiceCateSeeder::class ,
             ServiceSeeder::class , TypePetSeeder::class
             , DoctorSeeder::class , WorkSchedulesSeeder::class ,  AppointmentSeeder::class ]);
+
     }
 }
