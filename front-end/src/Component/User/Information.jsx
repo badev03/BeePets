@@ -1,9 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-
+import { Select } from 'antd';
 
 
 const Information = () => {
+  const handleChange = (value) => {
+    console.log(`selected ${value}`);
+  };
+
+
   return (
 <div>
   <div className="doctor-content">
@@ -33,21 +38,53 @@ const Information = () => {
               </div>
               <div className="forms-block">
                 <label className="form-group-title">Loại thú cưng</label>
-                <select className="form-select form-control">
-                                                    <option></option>
-                                                    <option>Chó</option>
-                                                    <option>Mèo</option>
-                                                    <option>Chuột</option>
-                                                </select>
+                <Select
+                className="form-select form-control"
+                      // defaultValue="Khám Bệnh"
+                      style={{
+                       padding:0
+                      }}
+                      onChange={handleChange}
+                      options={[
+                        {
+                          value: 'Chó',
+                          label: 'Chó',
+                        },
+                        {
+                          value: 'Mèo',
+                          label: 'Mèo',
+                        },
+                        {
+                          value: 'Chuột',
+                          label: 'Chuột',
+                        },
+                      ]}
+                    />
               </div>
               <div className="forms-block">
                 <label className="form-group-title">Chọn dịch vụ</label>
-                <select className="form-select form-control">
-                                                    <option></option>
-                                                    <option>Khám chữa bệnh</option>
-                                                    <option>Cắt tỉa lông</option>
-                                                    <option>Tiêm phòng</option>
-                                                </select>
+                <Select
+                className="form-select form-control"
+                      // defaultValue="Khám Bệnh"
+                      style={{
+                       padding:0
+                      }}
+                      onChange={handleChange}
+                      options={[
+                        {
+                          value: 'Khám Bệnh',
+                          label: 'Khám Bệnh',
+                        },
+                        {
+                          value: 'Chữa Bệnh',
+                          label: 'Chữa Bệnh',
+                        },
+                        {
+                          value: 'Spa',
+                          label: 'Spa',
+                        },
+                      ]}
+                    />
               </div>
 
 
