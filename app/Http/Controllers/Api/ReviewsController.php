@@ -30,11 +30,11 @@ class ReviewsController extends BaseResponseApiController
         $validator = Validator::make($request->all(), [
             'doctor_id' => 'required',
             'user_id' => 'required',
-            'content' => 'required'
+            'contents' => 'required'
         ], [
             'doctor_id.required' => 'Trường bác sĩ không được để trống',
             'user_id.required' => 'Trường người đánh giá không được để trống',
-            'content.required' => 'Trường nội dung không được để trống'
+            'contents.required' => 'Trường nội dung không được để trống'
         ]);
 
         if ($validator->fails()) {
