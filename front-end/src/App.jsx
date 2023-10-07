@@ -55,7 +55,7 @@ function App() {
           <Route path='booking/success' element={<BookingSuccess />} />
           <Route path='doctor/profile' element={<DoctorProfile />} />
           <Route path='blog' element={<BlogList />} />
-          <Route path='blogdetails' element={<BlogDetails />} />
+          <Route path='blog/:id' element={<BlogDetails />} />
           <Route path='servicerdetails' element={<ServiceDetails />} />
           <Route path='user/dashbroad' element={<Dashboard />} />
           <Route path='user/changepassword' element={<ChangePassword />} />
