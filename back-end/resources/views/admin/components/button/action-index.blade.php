@@ -1,8 +1,10 @@
 <td class="d-flex" style="grid-gap:1rem">
     <div class="actions">
-        <a class="btn btn-sm bg-success-light" href="{{ route($urlbase . 'edit', $value->id) }}">
-            <i class="fe fe-pencil"></i> Edit
-        </a>
+        @can('edit-'.$permission_crud)
+            <a class="btn btn-sm bg-success-light" href="{{ route($urlbase . 'edit', $value->id) }}">
+                <i class="fe fe-pencil"></i> Edit
+            </a>
+        @endcan
         @can('delete-'.$permission_crud)
             <a data-bs-toggle="modal" data-delete="{{ $value->id }}" href="#delete_modal" class="delete_data btn btn-sm bg-danger-light">
                 <i class="fe fe-trash"></i> Delete

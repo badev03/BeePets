@@ -66,6 +66,12 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'delete-appointment' , 'group' => 'appointment']);
 
 
+        Permission::create(['name' => 'create-typePet'  , 'group' => 'typePet']);
+        Permission::create(['name' => 'read-typePet' , 'group' => 'typePet']);
+        Permission::create(['name' => 'update-typePet' , 'group' => 'typePet']);
+        Permission::create(['name' => 'delete-typePet' , 'group' => 'typePet']);
+
+
 
         // Tạo vai trò (roles)
         $user = \App\Models\User::find(1);
@@ -84,6 +90,8 @@ class PermissionSeeder extends Seeder
 
                 'create-doctors','read-doctors','update-doctors','delete-doctors',
                 'create-appointment','read-appointment','update-appointment',
+                'create-typePet','read-typePet','update-typePet','delete-typePet',
+                'create-doctors','read-doctors','update-doctors','delete-doctors'
             ]);
         }
 

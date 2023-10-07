@@ -55,6 +55,9 @@ class BaseAdminController extends Controller
         if (auth()->user()->can(['read-'.$this->permissionCheckCrud])) {
             if(empty($this->QuerySpecialIndex())) {
                 $data = $this->model->all();
+                if($this->removeColumns) {
+                    $this->colums = array_diff_key($this->colums, array_flip($this->removeColumns));
+                }
             }
             else{
                 $data = $this->QuerySpecialIndex();
@@ -89,6 +92,7 @@ class BaseAdminController extends Controller
                     'title_web' => $this->title,
                     'dataSelect' => $dataSelect,
                     'FIELD_SELECT_CUSTOM_CONTROLLER' => $this->FIELD_SELECT_CUSTOM_CONTROLLER,
+                    'permission_crud'=> $this->permissionCheckCrud
                 ];
                 if($this->checkerReturnView === true) {
                     return view($this->pathView . __FUNCTION__)
@@ -164,6 +168,7 @@ class BaseAdminController extends Controller
             'addDataSelect' => $addDataSelect,
             'listIndex' => $this->listIndex,
             'FIELD_SELECT_CUSTOM_CONTROLLER' => $this->FIELD_SELECT_CUSTOM_CONTROLLER,
+            'permission_crud'=> $this->permissionCheckCrud
         ];
         if($this->checkerReturnView === true) {
             return view($this->pathView . __FUNCTION__, compact('model'))

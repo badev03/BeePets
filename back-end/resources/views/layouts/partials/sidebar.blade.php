@@ -30,8 +30,19 @@
                     <a href="patient-list.html"><i class="fe fe-user"></i> <span>Patients</span></a>
                 </li>
                 <li>
-                    <a href="reviews.html"><i class="fe fe-star-o"></i> <span>Reviews</span></a>
+                    <a href="{{ route('reviews.index') }}"><i class="fe fe-star-o"></i> <span>Đánh giá</span></a>
                 </li>
+                @if(1==2)
+                <li class="submenu">
+                    <a href="#">
+                        <i class="fe fe-star-o"></i>
+                        <span> Đánh giá</span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        <li><a class="{{ request()->routeIs('service-categories.*') ? 'active' : '' }}" href="{{ route('service-categories.index') }}">Danh mục dịch vụ</a></li>
+                        <li><a class="{{ request()->routeIs('service.*') ? 'active' : '' }}" href="{{ route('service.index') }}">Dịch vụ</a></li>
+                    </ul>
+                </li>
+                @endif
                 <li>
                     <a href="transactions-list.html"><i class="fe fe-activity"></i> <span>Transactions</span></a>
                 </li>

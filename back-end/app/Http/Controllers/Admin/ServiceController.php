@@ -35,6 +35,7 @@ class ServiceController extends BaseAdminController
         'description' => 'mô tả',
         'price'=>'Giá',
         'image' => 'ảnh',
+        'icon_svg' => 'Icon',
         'service_categorie_id' => 'Danh mục dịch vụ'
     ];
 
@@ -64,4 +65,5 @@ class ServiceController extends BaseAdminController
         return $dataForMergeArray;
     }
 
+    public $removeColumns = ['icon_svg'];
 }

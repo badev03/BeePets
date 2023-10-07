@@ -10,7 +10,7 @@ class Service extends Model
 {
     use HasFactory;
     protected $fillable=[
-        'name','slug','description','price' , 'image' , 'service_categorie_id'
+        'name','slug','description','price' , 'image' , 'service_categorie_id' , 'icon_svg'
     ];
 
     public function serviceCategorie(){
@@ -22,4 +22,7 @@ class Service extends Model
     }
 
 
+    public function doctors(){
+        return $this->belongsToMany(Doctor::class,'doctor_service','service_id','doctor_id');
+    }
 }

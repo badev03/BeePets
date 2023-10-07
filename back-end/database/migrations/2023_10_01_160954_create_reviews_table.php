@@ -15,12 +15,10 @@ return new class extends Migration
             $table->id();
             $table->text('content');
             $table->integer('score');
-            $table->string('type');
-            $table->unsignedBigInteger('service_id');
+            $table->string('type')->nullable();
             $table->unsignedBigInteger('doctor_id');
             $table->unsignedBigInteger('user_id');
 
-            $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade');
             $table->foreign('doctor_id')->references('id')->on('doctors')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 

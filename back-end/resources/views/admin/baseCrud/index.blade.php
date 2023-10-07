@@ -19,6 +19,9 @@
                             <h4 class="card-title">Danh sách {{ $title_web }}</h4>
                             <div class='d-flex flex-wrap'>
                                 @include(BUTTON_HEADER_ADMIN_LINK)
+                                @if (route('doctors.index')==url()->current())
+                               <a href="{{route('schedules.index')}}" class="btn btn-info btn-sm mx-3 text-white">Lịch Làm việc</a> 
+                                @endif
                             </div>
                         </div>
 

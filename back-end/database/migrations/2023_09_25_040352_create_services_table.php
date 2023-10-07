@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->text('description');
-            $table->text('icon_svg');
+            $table->text('icon_svg')->nullable();
             $table->integer('price');
             $table->string('image')->nullable();
             $table->unsignedBigInteger('service_categorie_id');
