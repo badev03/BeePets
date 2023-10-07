@@ -1,14 +1,14 @@
 @extends('client.app')
 
 @section('content')
-   
+
     @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
         @endif
 <div class="row">
-    
+
     <div class="col">
         <div class="card">
             <div class="card-header">
@@ -16,7 +16,7 @@
             </div>
             <div class="card-body">
 
-                <form action="{{route('store')}}" method="post">
+                <form action="{{route('saveInfo.store')}}" method="post">
                         @csrf
                     <label for="date">Chọn Ngày:</label>
                     <input type="date" id="date" name="date" value="{{ now()->toDateString() }}">

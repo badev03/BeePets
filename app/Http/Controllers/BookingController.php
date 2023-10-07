@@ -17,12 +17,12 @@ class BookingController extends Controller
 {
     public function index()
     {
-         
+
         $sevices = Service::all();
         return view('client.index', compact('sevices'));
     }
     public function saveInfo(Request $request)
-    {   
+    {
         $request->validate([
             'date'=>'required',
             'service_id'=>'required',
@@ -30,7 +30,7 @@ class BookingController extends Controller
         [
             'date.required'=>'Vui lòng chọn ngày',
             'sevie_id.required'=>'Vui lòng chọn dịch vụ',]
-    );  
+    );
 
         $service = Service::all();
         $service_id = $request->service_id;
@@ -39,30 +39,30 @@ class BookingController extends Controller
         $doctor = Doctor::find($doctor_id);
         $doctors = Doctor::all();
         $typePets = Type_pet::all();
-      
 
 
-  
-     
+
+
+
         $workSchedule = Work_schedule::where('doctor_id', $doctor_id)
         ->where('date', $date)
         ->first();
-      
-       
+
+
     if ($workSchedule) {
         $slotTime = $workSchedule->slot_time;
-        
+
         // Chuyển đổi giờ và phút thành tổng số phút
         list($hours, $minutes, $seconds) = explode(':', $slotTime);
         $totalMinutes = ($hours * 60) + $minutes;
-    
+
         $interval = new DateInterval('PT' . $totalMinutes . 'M');
     } else {
         echo('Không có lịch làm việc');
     }
-     
+
         $schedules = $doctor->Work_schedule()->where('date', $date)->get();
-     
+
 
         $scheduleData = [];
         foreach ($schedules as $workSchedule) {
@@ -88,8 +88,8 @@ class BookingController extends Controller
                     'time' => $appointment->time,
                 ];
             }
-            
-           
+
+
 
             return view('client.step2', compact('service_id', 'date', 'service', 'doctor', 'doctors', 'scheduleData', 'typePets','times'));
 

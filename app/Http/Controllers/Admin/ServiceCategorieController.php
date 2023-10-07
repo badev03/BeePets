@@ -26,6 +26,7 @@ class ServiceCategorieController extends BaseAdminController
         'name' => 'Tên dịch vụ',
         'slug' => 'Slug',
         'description' => 'mô tả',
+        'status' => 'Status',
         'image'=>'Ảnh'
     ];
 

@@ -10,10 +10,26 @@ class ServiceController extends BaseResponseApiController
 {
     public $model = Service::class;
 
-    public function showHome() {
-        $data = Service::limit(4)->get();
+
+    public function index()
+    {
+        $data = Service::select('services.id' , 'services.name' , 'services.slug' , 'services.description')
+            ->join('service_categories' , 'service_categories.id' , '=' , 'services.service_categorie_id')
+            ->where('service_categories.status' , '=' , 1)
+            ->get();
         return response()->json([
-            'data' => $data],
+            'service' => $data],
+            '200');
+    }
+
+    public function showHome() {
+        $data = Service::limit(4)
+                ->select('services.id' , 'services.name' , 'services.slug' , 'services.description')
+                ->join('service_categories' , 'service_categories.id' , '=' , 'services.service_categorie_id')
+                ->where('service_categories.status' , '=' , 1)
+                ->get();
+        return response()->json([
+            'service' => $data],
             '200');
     }
 }

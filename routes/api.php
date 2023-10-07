@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\Api\ServiceController;
-
+use \App\Http\Controllers\Api\ReviewsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 $objects = [
     'service' => ServiceController::class,
+    'reviews' => ReviewsController::class,
 ];
 foreach ($objects as $key => $controller) {
     Route::apiResource($key, $controller);

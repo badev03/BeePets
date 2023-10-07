@@ -55,6 +55,9 @@ class BaseAdminController extends Controller
         if (auth()->user()->can(['read-'.$this->permissionCheckCrud])) {
             if(empty($this->QuerySpecialIndex())) {
                 $data = $this->model->all();
+                if($this->removeColumns) {
+                    $this->colums = array_diff_key($this->colums, array_flip($this->removeColumns));
+                }
             }
             else{
                 $data = $this->QuerySpecialIndex();
