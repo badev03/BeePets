@@ -56,6 +56,9 @@
                                                     <div class="error text-danger mt-2">{{ $errors->first($key) }}</div>
                                                 @endif
                                             </div>
+                                            <div class="col-4">
+                                                <img style="width: 300px" src="https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg" alt="" id="image_prev">
+                                            </div>
                                         </div>
                                     @else
                                         <div class="row">
