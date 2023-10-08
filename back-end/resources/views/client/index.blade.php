@@ -15,28 +15,13 @@
                 <h3>Đặt lịch</h3>
             </div>
             <div class="card-body">
-
-                <form action="{{route('store')}}" method="post">
-                        @csrf
-                    <label for="date">Chọn Ngày:</label>
-                    <input type="date" id="date" name="date" value="{{ now()->toDateString() }}">
-                    {{-- @dd(now()) --}}
-                    @error('date')
-                    <span class="text-danger">{{$message}}</span>
-                         @enderror
-                    <label for="service">Chọn dịch vụ:</label>
-
-                    <select name="service_id" id="service">
-                        @foreach($sevices as $sevice)
-                            <option value="{{ $sevice->id }}">{{ $sevice->name }}</option>
-                        @endforeach
-
-                    </select>
-                    @error('service_id')
-                    <span class="text-danger">{{$message}}</span>
-                @enderror
-                    <button type="submit">Đặt lịch ngay</button>
+                <form action="{{route('show.form')}}" method="post">
+                    <input type="hidden" name="doctor_id" value="1">
+                    <input type="hidden" name="date"  value="{{ now()->toDateString() }}">
+                    @csrf
+                    <button type="submit">Đặt lịch nhanh</button>
                 </form>
+              
             </div>
         </div>
     </div>

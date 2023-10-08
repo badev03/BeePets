@@ -1,8 +1,26 @@
 import React from 'react'
-
+import doctorsApi from '../../api/doctorsApi';
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 
 const Search = () => {
+  const [doctors, setDoctors] = useState([]);
+
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        const response = await doctorsApi.getAll();
+        setDoctors(response);
+        console.log(doctors);
+      } catch (error) {
+        console.error("Không có dữ liệu:", error);
+      }
+    };
+
+    fetchBlog();
+  }, []); 
+
   return (
     <div>
 <div>
@@ -60,18 +78,19 @@ const Search = () => {
           </div>
         </div>
         <div className="col-md-12 col-lg-8 col-xl-9">
-          <div className="card">
+        {doctors.map(doctor => (
+          <div  key={doctor.id} className="card">
             <div className="card-body">
               <div className="doctor-widget">
                 <div className="doc-info-left">
                   <div className="doctor-img">
                     <a href="doctor-profile.html">
-                      <img src="src/assets/img/doctors/doctor-thumb-01.jpg" className="img-fluid" alt="User Image" />
+                      <img src={doctor.image.profile} className="img-fluid" alt="User Image" />
                     </a>
                   </div>
                   <div className="doc-info-cont">
-                    <h4 className="doc-name"><a href="doctor-profile.html">Dr. Ruby Perrin</a></h4>
-                    <p className="doc-speciality">MDS - Periodontology and Oral Implantology, BDS
+                    <h4 className="doc-name"><a href="doctor-profile.html">{doctor.name}</a></h4>
+                    <p className="doc-speciality">{doctor.description.service}
                     </p>
                   
                     <div className="rating">
@@ -83,27 +102,26 @@ const Search = () => {
                       <span className="d-inline-block average-rating">(17)</span>
                     </div>
                     <div className="clinic-details">
-                      <p className="doc-location"><i className="fas fa-map-marker-alt" /> Florida,
-                        USA</p>
+                      <p className="doc-location"><i className="fas fa-map-marker-alt" />{doctor.address}</p>
                       <ul className="clinic-gallery">
                         <li>
-                          <a href="src/assets/img/features/feature-01.jpg" data-fancybox="gallery">
-                            <img src="src/assets/img/features/feature-01.jpg" alt="Feature" />
+                          <a href={doctor.image.anh1} data-fancybox="gallery">
+                            <img src={doctor.image.anh1} alt="Feature" />
                           </a>
                         </li>
                         <li>
-                          <a href="src/assets/img/features/feature-02.jpg" data-fancybox="gallery">
-                            <img src="src/assets/img/features/feature-02.jpg" alt="Feature" />
+                          <a href={doctor.image.anh2} data-fancybox="gallery">
+                            <img src={doctor.image.anh2} alt="Feature" />
                           </a>
                         </li>
                         <li>
-                          <a href="src/assets/img/features/feature-03.jpg" data-fancybox="gallery">
-                            <img src="src/assets/img/features/feature-03.jpg" alt="Feature" />
+                          <a href={doctor.image.anh3} data-fancybox="gallery">
+                            <img src={doctor.image.anh3} alt="Feature" />
                           </a>
                         </li>
                         <li>
-                          <a href="src/assets/img/features/feature-04.jpg" data-fancybox="gallery">
-                            <img src="src/assets/img/features/feature-04.jpg" alt="Feature" />
+                          <a href={doctor.image.anh4} data-fancybox="gallery">
+                            <img src={doctor.image.anh4} alt="Feature" />
                           </a>
                         </li>
                       </ul>
@@ -120,214 +138,18 @@ const Search = () => {
                     </ul>
                   </div>
                   <div className="clinic-booking">
-                  <a className="view-pro-btn" href="/doctor/profile">Xem hồ sơ</a>
-                    <a className="apt-btn" href="/booking">Đặt lịch hẹn</a>
+                    <Link className="view-pro-btn" to={`/doctor/profile/${doctor.id}`}>Xem hồ sơ</Link>
+                    <Link className="apt-btn" to={`/booking`}>Đặt lịch hẹn</Link>
+
+                  {/* <a className="view-pro-btn" href="/doctor/profile">Xem hồ sơ</a> */}
+                    {/* <a className="apt-btn" href="/booking">Đặt lịch hẹn</a> */}
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="card">
-            <div className="card-body">
-              <div className="doctor-widget">
-                <div className="doc-info-left">
-                  <div className="doctor-img">
-                    <a href="doctor-profile.html">
-                      <img src="src/assets/img/doctors/doctor-thumb-01.jpg" className="img-fluid" alt="User Image" />
-                    </a>
-                  </div>
-                  <div className="doc-info-cont">
-                    <h4 className="doc-name"><a href="doctor-profile.html">Dr. Ruby Perrin</a></h4>
-                    <p className="doc-speciality">MDS - Periodontology and Oral Implantology, BDS
-                    </p>
-                  
-                    <div className="rating">
-                      <i className="fas fa-star filled" />
-                      <i className="fas fa-star filled" />
-                      <i className="fas fa-star filled" />
-                      <i className="fas fa-star filled" />
-                      <i className="fas fa-star" />
-                      <span className="d-inline-block average-rating">(17)</span>
-                    </div>
-                    <div className="clinic-details">
-                      <p className="doc-location"><i className="fas fa-map-marker-alt" /> Florida,
-                        USA</p>
-                      <ul className="clinic-gallery">
-                        <li>
-                          <a href="src/assets/img/features/feature-01.jpg" data-fancybox="gallery">
-                            <img src="src/assets/img/features/feature-01.jpg" alt="Feature" />
-                          </a>
-                        </li>
-                        <li>
-                          <a href="src/assets/img/features/feature-02.jpg" data-fancybox="gallery">
-                            <img src="src/assets/img/features/feature-02.jpg" alt="Feature" />
-                          </a>
-                        </li>
-                        <li>
-                          <a href="src/assets/img/features/feature-03.jpg" data-fancybox="gallery">
-                            <img src="src/assets/img/features/feature-03.jpg" alt="Feature" />
-                          </a>
-                        </li>
-                        <li>
-                          <a href="src/assets/img/features/feature-04.jpg" data-fancybox="gallery">
-                            <img src="src/assets/img/features/feature-04.jpg" alt="Feature" />
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  
-                  </div>
-                </div>
-                <div className="doc-info-right">
-                  <div className="clini-infos">
-                    <ul>
-                      <li><i className="far fa-thumbs-up" /> 98%</li>
-                      <li><i className="far fa-comment" /> 17 Feedback</li>
-                      <li><i className="fas fa-map-marker-alt" /> Florida, USA</li>
-                    </ul>
-                  </div>
-                  <div className="clinic-booking">
-                    <a className="view-pro-btn" href="doctor-profile.html">Xem hồ sơ</a>
-                    <a className="apt-btn" href="booking.html">Đặt lịch hẹn</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="card">
-            <div className="card-body">
-              <div className="doctor-widget">
-                <div className="doc-info-left">
-                  <div className="doctor-img">
-                    <a href="doctor-profile.html">
-                      <img src="src/assets/img/doctors/doctor-thumb-01.jpg" className="img-fluid" alt="User Image" />
-                    </a>
-                  </div>
-                  <div className="doc-info-cont">
-                    <h4 className="doc-name"><a href="doctor-profile.html">Dr. Ruby Perrin</a></h4>
-                    <p className="doc-speciality">MDS - Periodontology and Oral Implantology, BDS
-                    </p>
-                  
-                    <div className="rating">
-                      <i className="fas fa-star filled" />
-                      <i className="fas fa-star filled" />
-                      <i className="fas fa-star filled" />
-                      <i className="fas fa-star filled" />
-                      <i className="fas fa-star" />
-                      <span className="d-inline-block average-rating">(17)</span>
-                    </div>
-                    <div className="clinic-details">
-                      <p className="doc-location"><i className="fas fa-map-marker-alt" /> Florida,
-                        USA</p>
-                      <ul className="clinic-gallery">
-                        <li>
-                          <a href="src/assets/img/features/feature-01.jpg" data-fancybox="gallery">
-                            <img src="src/assets/img/features/feature-01.jpg" alt="Feature" />
-                          </a>
-                        </li>
-                        <li>
-                          <a href="src/assets/img/features/feature-02.jpg" data-fancybox="gallery">
-                            <img src="src/assets/img/features/feature-02.jpg" alt="Feature" />
-                          </a>
-                        </li>
-                        <li>
-                          <a href="src/assets/img/features/feature-03.jpg" data-fancybox="gallery">
-                            <img src="src/assets/img/features/feature-03.jpg" alt="Feature" />
-                          </a>
-                        </li>
-                        <li>
-                          <a href="src/assets/img/features/feature-04.jpg" data-fancybox="gallery">
-                            <img src="src/assets/img/features/feature-04.jpg" alt="Feature" />
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  
-                  </div>
-                </div>
-                <div className="doc-info-right">
-                  <div className="clini-infos">
-                    <ul>
-                      <li><i className="far fa-thumbs-up" /> 98%</li>
-                      <li><i className="far fa-comment" /> 17 Feedback</li>
-                      <li><i className="fas fa-map-marker-alt" /> Florida, USA</li>
-                    </ul>
-                  </div>
-                  <div className="clinic-booking">
-                    <a className="view-pro-btn" href="/doctor/profile">Xem hồ sơ</a>
-                    <a className="apt-btn" href="/booking">Đặt lịch hẹn</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="card">
-            <div className="card-body">
-              <div className="doctor-widget">
-                <div className="doc-info-left">
-                  <div className="doctor-img">
-                    <a href="doctor-profile.html">
-                      <img src="src/assets/img/doctors/doctor-thumb-01.jpg" className="img-fluid" alt="User Image" />
-                    </a>
-                  </div>
-                  <div className="doc-info-cont">
-                    <h4 className="doc-name"><a href="doctor-profile.html">Dr. Ruby Perrin</a></h4>
-                    <p className="doc-speciality">MDS - Periodontology and Oral Implantology, BDS
-                    </p>
-                  
-                    <div className="rating">
-                      <i className="fas fa-star filled" />
-                      <i className="fas fa-star filled" />
-                      <i className="fas fa-star filled" />
-                      <i className="fas fa-star filled" />
-                      <i className="fas fa-star" />
-                      <span className="d-inline-block average-rating">(17)</span>
-                    </div>
-                    <div className="clinic-details">
-                      <p className="doc-location"><i className="fas fa-map-marker-alt" /> Florida,
-                        USA</p>
-                      <ul className="clinic-gallery">
-                        <li>
-                          <a href="src/assets/img/features/feature-01.jpg" data-fancybox="gallery">
-                            <img src="src/assets/img/features/feature-01.jpg" alt="Feature" />
-                          </a>
-                        </li>
-                        <li>
-                          <a href="src/assets/img/features/feature-02.jpg" data-fancybox="gallery">
-                            <img src="src/assets/img/features/feature-02.jpg" alt="Feature" />
-                          </a>
-                        </li>
-                        <li>
-                          <a href="src/assets/img/features/feature-03.jpg" data-fancybox="gallery">
-                            <img src="src/assets/img/features/feature-03.jpg" alt="Feature" />
-                          </a>
-                        </li>
-                        <li>
-                          <a href="src/assets/img/features/feature-04.jpg" data-fancybox="gallery">
-                            <img src="src/assets/img/features/feature-04.jpg" alt="Feature" />
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  
-                  </div>
-                </div>
-                <div className="doc-info-right">
-                  <div className="clini-infos">
-                    <ul>
-                      <li><i className="far fa-thumbs-up" /> 98%</li>
-                      <li><i className="far fa-comment" /> 17 Feedback</li>
-                      <li><i className="fas fa-map-marker-alt" /> Florida, USA</li>
-                    </ul>
-                  </div>
-                  <div className="clinic-booking">
-                    <a className="view-pro-btn" href="doctor-profile.html">Xem hồ sơ</a>
-                    <a className="apt-btn" href="booking.html">Đặt lịch hẹn</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          ))}
+
           
           <div className="load-more text-center">
             <a className="btn btn-primary btn-sm prime-btn" href="#">Xem thêm</a>
