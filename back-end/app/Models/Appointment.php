@@ -13,6 +13,7 @@ class Appointment extends Model
         'description',
         'date',
         'time',
+        'shift_name',
         'type_pet_id',
         'service_id',
         'doctor_id',

@@ -98,5 +98,476 @@
           "image":"https://dogily.vn/wp-content/uploads/2020/05/chim-ung-cach-nuoi-2.jpg",
           "new_categorie_id":"5"
       }
+  ],
+  "doctors":[
+    {
+        "id":1,"name":"Dr.Thành Đoàn",
+        "slug":"thanhdoan",
+        "phone":"0376732833",
+        "email":"thanhdoan@fpt.edu.vn",
+        "password":"doctor123",
+        "address":"Nhân Trai/Đông Lỗ/Ứng Hòa/Hà Nội",
+        "description":{
+            "service":"Front End",
+            "about":"Với nhiều năm kinh nghiệm khám chữa bệnh nội tiết. Có nhiều công trình nghiên cứu, bài báo khoa học về bệnh đái tháo đường, tuyến giáp, tuyến yên, rối loạn lipid máu… Bác sĩ cũng đang là 1 trong những báo cáo viên được giới chuyên môn quan tâm đánh giá cao tại các hội thảo khoa học, tọa đàm và đào tạo chia sẻ kinh nghiệm tại các bệnh viện tuyến quận, huyện, tỉnh.",
+            "education":[
+                {
+                    "title":"Tốt nghiệp liên đại học Bordeaux-Segalen II (Pháp)",
+                    "service":"Thú y",
+                    "year":"2020-2023"
+                },
+                {
+                    "title":" Tốt nghiệp Thạc sĩ chuyên ngành Thú y, Đại học Y Hà Nội (2023)",
+                    "service":"Thú y",
+                    "year":"2019-2023"
+                }
+            ],
+            "experience":[
+                {
+                    "title":"Phòng Khám Thú y Gia Đình Nụ Cười Rực Rỡ",
+                    "year":"2020-2023"
+                },
+                {
+                    "title":"Phòng Khám Thú y Thịt chó mắm tôm",
+                    "year":"2018-2020"
+                },
+                {
+                    "title":"Phòng Khám Thú y HeheMeme",
+                    "year":"2020-2023"
+                }
+            ],
+            "awards":[
+                {
+                    "title":"Giải thưởng nhân đạo",
+                    "year":"08/2023",
+                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
+                },
+                {
+                    "title":"Giấy chứng nhận hoạt động tình nguyện quốc tế",
+                    "year":"12/2023",
+                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
+                },
+                {
+                    "title":"Giải thưởng Chuyên gia Thú y của Năm",
+                    "year":"09/2023",
+                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
+                }
+            ]
+        },
+        "gender":"Nam",
+        "birthday":"21/06/2003",
+        "image":
+        {
+            "profile":"https://doccure.dreamguystech.com/angular/template/assets/img/doctors/doctor-thumb-02.jpg",
+            "anh1":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-01.jpg",
+            "anh2":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-02.jpg",
+            "anh3":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-03.jpg",
+            "anh4":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-04.jpg"
+        },
+        "status":0
+    },
+    {
+        "id":2,
+        "name":"Dr.Tạ Quí",
+        "slug":"taquy",
+        "phone":"0376732833",
+        "email":"taquy@fpt.edu.vn",
+        "password":"doctor123",
+        "address":"Phú Thọ",
+        "description":{
+            "service":"Front End",
+            "about":"Với nhiều năm kinh nghiệm khám chữa bệnh nội tiết. Có nhiều công trình nghiên cứu, bài báo khoa học về bệnh đái tháo đường, tuyến giáp, tuyến yên, rối loạn lipid máu… Bác sĩ cũng đang là 1 trong những báo cáo viên được giới chuyên môn quan tâm đánh giá cao tại các hội thảo khoa học, tọa đàm và đào tạo chia sẻ kinh nghiệm tại các bệnh viện tuyến quận, huyện, tỉnh.",
+            "education":[
+                {
+                    "title":"Tốt nghiệp liên đại học Bordeaux-Segalen II (Pháp)",
+                    "service":"Thú y",
+                    "year":"2020-2023"
+                },
+                {
+                    "title":" Tốt nghiệp Thạc sĩ chuyên ngành Thú y, Đại học Y Hà Nội (2023)",
+                    "service":"Thú y",
+                    "year":"2019-2023"
+                }
+            ],
+            "experience":[
+                {
+                    "title":"Phòng Khám Thú y Gia Đình Nụ Cười Rực Rỡ",
+                    "year":"2020-2023"
+                },
+                {
+                    "title":"Phòng Khám Thú y Thịt chó mắm tôm",
+                    "year":"2018-2020"
+                },
+                {
+                    "title":"Phòng Khám Thú y HeheMeme",
+                    "year":"2020-2023"
+                }
+            ],
+            "awards":[
+                {
+                    "title":"Giải thưởng nhân đạo",
+                    "year":"08/2023",
+                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
+                },
+                {
+                    "title":"Giấy chứng nhận hoạt động tình nguyện quốc tế",
+                    "year":"12/2023",
+                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
+                },
+                {
+                    "title":"Giải thưởng Chuyên gia Thú y của Năm",
+                    "year":"09/2023",
+                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
+                }
+            ]
+        },
+        "gender":"Nam",
+        "birthday":"21/06/2003",
+        "image":
+        {
+            "profile":"https://doccure.dreamguystech.com/angular/template/assets/img/doctors/doctor-13.jpg",
+            "anh1":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-01.jpg",
+            "anh2":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-02.jpg",
+            "anh3":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-03.jpg",
+            "anh4":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-04.jpg"
+        },
+        "status":0
+    }
+    ,
+    {
+        "id":3,
+        "name":"Dr.Vũ Bá",
+        "slug":"vuaba",
+        "phone":"0376732833",
+        "email":"vuba@fpt.edu.vn",
+        "password":"doctor123",
+        "address":"Thái Bìnk",
+        "description":{
+            "service":"Back End",
+            "about":"Với nhiều năm kinh nghiệm khám chữa bệnh nội tiết. Có nhiều công trình nghiên cứu, bài báo khoa học về bệnh đái tháo đường, tuyến giáp, tuyến yên, rối loạn lipid máu… Bác sĩ cũng đang là 1 trong những báo cáo viên được giới chuyên môn quan tâm đánh giá cao tại các hội thảo khoa học, tọa đàm và đào tạo chia sẻ kinh nghiệm tại các bệnh viện tuyến quận, huyện, tỉnh.",
+            "education":[
+                {
+                    "title":"Tốt nghiệp liên đại học Bordeaux-Segalen II (Pháp)",
+                    "service":"Thú y",
+                    "year":"2020-2023"
+                },
+                {
+                    "title":" Tốt nghiệp Thạc sĩ chuyên ngành Thú y, Đại học Y Hà Nội (2023)",
+                    "service":"Thú y",
+                    "year":"2019-2023"
+                }
+            ],
+            "experience":[
+                {
+                    "title":"Phòng Khám Thú y Gia Đình Nụ Cười Rực Rỡ",
+                    "year":"2020-2023"
+                },
+                {
+                    "title":"Phòng Khám Thú y Thịt chó mắm tôm",
+                    "year":"2018-2020"
+                },
+                {
+                    "title":"Phòng Khám Thú y HeheMeme",
+                    "year":"2020-2023"
+                }
+            ],
+            "awards":[
+                {
+                    "title":"Giải thưởng nhân đạo",
+                    "year":"08/2023",
+                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
+                },
+                {
+                    "title":"Giấy chứng nhận hoạt động tình nguyện quốc tế",
+                    "year":"12/2023",
+                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
+                },
+                {
+                    "title":"Giải thưởng Chuyên gia Thú y của Năm",
+                    "year":"09/2023",
+                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
+                }
+            ]
+        },
+        "gender":"Nam",
+        "birthday":"21/06/2003",
+        "image":
+        {
+            "profile":"https://doccure.dreamguystech.com/angular/template/assets/img/doctors/doctor-14.jpg",
+            "anh1":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-01.jpg",
+            "anh2":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-02.jpg",
+            "anh3":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-03.jpg",
+            "anh4":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-04.jpg"
+        },
+        "status":0
+    },
+    {
+        "id":4,
+        "name":"Dr.Huy Đạt",
+        "slug":"huydat",
+        "phone":"0376732833",
+        "email":"huydat@fpt.edu.vn",
+        "password":"doctor123",
+        "address":"Thank Hóa",
+        "description":{
+            "service":"Back End",
+            "about":"Với nhiều năm kinh nghiệm khám chữa bệnh nội tiết. Có nhiều công trình nghiên cứu, bài báo khoa học về bệnh đái tháo đường, tuyến giáp, tuyến yên, rối loạn lipid máu… Bác sĩ cũng đang là 1 trong những báo cáo viên được giới chuyên môn quan tâm đánh giá cao tại các hội thảo khoa học, tọa đàm và đào tạo chia sẻ kinh nghiệm tại các bệnh viện tuyến quận, huyện, tỉnh.",
+            "education":[
+                {
+                    "title":"Tốt nghiệp liên đại học Bordeaux-Segalen II (Pháp)",
+                    "service":"Thú y",
+                    "year":"2020-2023"
+                },
+                {
+                    "title":" Tốt nghiệp Thạc sĩ chuyên ngành Thú y, Đại học Y Hà Nội (2023)",
+                    "service":"Thú y",
+                    "year":"2019-2023"
+                }
+            ],
+            "experience":[
+                {
+                    "title":"Phòng Khám Thú y Gia Đình Nụ Cười Rực Rỡ",
+                    "year":"2020-2023"
+                },
+                {
+                    "title":"Phòng Khám Thú y Thịt chó mắm tôm",
+                    "year":"2018-2020"
+                },
+                {
+                    "title":"Phòng Khám Thú y HeheMeme",
+                    "year":"2020-2023"
+                }
+            ],
+            "awards":[
+                {
+                    "title":"Giải thưởng nhân đạo",
+                    "year":"08/2023",
+                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
+                },
+                {
+                    "title":"Giấy chứng nhận hoạt động tình nguyện quốc tế",
+                    "year":"12/2023",
+                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
+                },
+                {
+                    "title":"Giải thưởng Chuyên gia Thú y của Năm",
+                    "year":"09/2023",
+                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
+                }
+            ]
+        },
+        "gender":"Nam",
+        "birthday":"21/06/2003",
+        "image":
+        {
+            "profile":"https://doccure.dreamguystech.com/angular/template/assets/img/doctors/doctor-16.jpg",
+            "anh1":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-01.jpg",
+            "anh2":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-02.jpg",
+            "anh3":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-03.jpg",
+            "anh4":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-04.jpg"
+        },
+        "status":0
+    },
+    {
+        "id":5,
+        "name":"Dr.Pahm Khánh",
+        "slug":"pahmkhanh",
+        "phone":"0376732833",
+        "email":"pahmkhanh@fpt.edu.vn",
+        "password":"doctor123",
+        "address":"Thái Bìnk",
+        "description":{
+            "service":"Back End",
+            "about":"Với nhiều năm kinh nghiệm khám chữa bệnh nội tiết. Có nhiều công trình nghiên cứu, bài báo khoa học về bệnh đái tháo đường, tuyến giáp, tuyến yên, rối loạn lipid máu… Bác sĩ cũng đang là 1 trong những báo cáo viên được giới chuyên môn quan tâm đánh giá cao tại các hội thảo khoa học, tọa đàm và đào tạo chia sẻ kinh nghiệm tại các bệnh viện tuyến quận, huyện, tỉnh.",
+            "education":[
+                {
+                    "title":"Tốt nghiệp liên đại học Bordeaux-Segalen II (Pháp)",
+                    "service":"Thú y",
+                    "year":"2020-2023"
+                },
+                {
+                    "title":" Tốt nghiệp Thạc sĩ chuyên ngành Thú y, Đại học Y Hà Nội (2023)",
+                    "service":"Thú y",
+                    "year":"2019-2023"
+                }
+            ],
+            "experience":[
+                {
+                    "title":"Phòng Khám Thú y Gia Đình Nụ Cười Rực Rỡ",
+                    "year":"2020-2023"
+                },
+                {
+                    "title":"Phòng Khám Thú y Thịt chó mắm tôm",
+                    "year":"2018-2020"
+                },
+                {
+                    "title":"Phòng Khám Thú y HeheMeme",
+                    "year":"2020-2023"
+                }
+            ],
+            "awards":[
+                {
+                    "title":"Giải thưởng nhân đạo",
+                    "year":"08/2023",
+                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
+                },
+                {
+                    "title":"Giấy chứng nhận hoạt động tình nguyện quốc tế",
+                    "year":"12/2023",
+                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
+                },
+                {
+                    "title":"Giải thưởng Chuyên gia Thú y của Năm",
+                    "year":"09/2023",
+                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
+                }
+            ]
+        },
+        "gender":"Nam",
+        "birthday":"21/06/2003",
+        "image":
+        {
+            "profile":"https://doccure.dreamguystech.com/angular/template/assets/img/doctors/doctor-27.png",
+            "anh1":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-01.jpg",
+            "anh2":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-02.jpg",
+            "anh3":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-03.jpg",
+            "anh4":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-04.jpg"
+        },
+        "status":0
+    },
+    {
+        "id":6,
+        "name":"Dr.Thiều Dương",
+        "slug":"thieuduong",
+        "phone":"0376732833",
+        "email":"thieuduong@fpt.edu.vn",
+        "password":"doctor123",
+        "address":"Ngọc Trục/Đông Lỗ/Ứng Hòa/Hà Nội",
+        "description":{
+            "service":"Front End",
+            "about":"Với nhiều năm kinh nghiệm khám chữa bệnh nội tiết. Có nhiều công trình nghiên cứu, bài báo khoa học về bệnh đái tháo đường, tuyến giáp, tuyến yên, rối loạn lipid máu… Bác sĩ cũng đang là 1 trong những báo cáo viên được giới chuyên môn quan tâm đánh giá cao tại các hội thảo khoa học, tọa đàm và đào tạo chia sẻ kinh nghiệm tại các bệnh viện tuyến quận, huyện, tỉnh.",
+            "education":[
+                {
+                    "title":"Tốt nghiệp liên đại học Bordeaux-Segalen II (Pháp)",
+                    "service":"Thú y",
+                    "year":"2020-2023"
+                },
+                {
+                    "title":" Tốt nghiệp Thạc sĩ chuyên ngành Thú y, Đại học Y Hà Nội (2023)",
+                    "service":"Thú y",
+                    "year":"2019-2023"
+                }
+            ],
+            "experience":[
+                {
+                    "title":"Phòng Khám Thú y Gia Đình Nụ Cười Rực Rỡ",
+                    "year":"2020-2023"
+                },
+                {
+                    "title":"Phòng Khám Thú y Thịt chó mắm tôm",
+                    "year":"2018-2020"
+                },
+                {
+                    "title":"Phòng Khám Thú y HeheMeme",
+                    "year":"2020-2023"
+                }
+            ],
+            "awards":[
+                {
+                    "title":"Giải thưởng nhân đạo",
+                    "year":"08/2023",
+                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
+                },
+                {
+                    "title":"Giấy chứng nhận hoạt động tình nguyện quốc tế",
+                    "year":"12/2023",
+                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
+                },
+                {
+                    "title":"Giải thưởng Chuyên gia Thú y của Năm",
+                    "year":"09/2023",
+                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
+                }
+            ]
+        },
+        "gender":"Nam",
+        "birthday":"21/06/2003",
+        "image":
+        {
+            "profile":"https://doccure.dreamguystech.com/angular/template/assets/img/doctors/doctor-21.jpg",
+            "anh1":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-01.jpg",
+            "anh2":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-02.jpg",
+            "anh3":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-03.jpg",
+            "anh4":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-04.jpg"
+        },
+        "status":0
+    },
+    {
+        "id":7,
+        "name":"Dr.Thành Đạt",
+        "slug":"thankdat",
+        "phone":"0376732833",
+        "email":"thankdat@fpt.edu.vn",
+        "password":"doctor123",
+        "address":"Nghệ An",
+        "description":{
+            "service":"Front End",
+            "about":"Với nhiều năm kinh nghiệm khám chữa bệnh nội tiết. Có nhiều công trình nghiên cứu, bài báo khoa học về bệnh đái tháo đường, tuyến giáp, tuyến yên, rối loạn lipid máu… Bác sĩ cũng đang là 1 trong những báo cáo viên được giới chuyên môn quan tâm đánh giá cao tại các hội thảo khoa học, tọa đàm và đào tạo chia sẻ kinh nghiệm tại các bệnh viện tuyến quận, huyện, tỉnh.",
+            "education":[
+                {
+                    "title":"Tốt nghiệp liên đại học Bordeaux-Segalen II (Pháp)",
+                    "service":"Thú y",
+                    "year":"2020-2023"
+                },
+                {
+                    "title":" Tốt nghiệp Thạc sĩ chuyên ngành Thú y, Đại học Y Hà Nội (2023)",
+                    "service":"Thú y",
+                    "year":"2019-2023"
+                }
+            ],
+            "experience":[
+                {
+                    "title":"Phòng Khám Thú y Gia Đình Nụ Cười Rực Rỡ",
+                    "year":"2020-2023"
+                },
+                {
+                    "title":"Phòng Khám Thú y Thịt chó mắm tôm",
+                    "year":"2018-2020"
+                },
+                {
+                    "title":"Phòng Khám Thú y HeheMeme",
+                    "year":"2020-2023"
+                }
+            ],
+            "awards":[
+                {
+                    "title":"Giải thưởng nhân đạo",
+                    "year":"08/2023",
+                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
+                },
+                {
+                    "title":"Giấy chứng nhận hoạt động tình nguyện quốc tế",
+                    "year":"12/2023",
+                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
+                },
+                {
+                    "title":"Giải thưởng Chuyên gia Thú y của Năm",
+                    "year":"09/2023",
+                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
+                }
+            ]
+        },
+        "gender":"Nam",
+        "birthday":"21/06/2003",
+        "image":
+        {
+            "profile":"https://doccure.dreamguystech.com/angular/template/assets/img/doctors/doctor-thumb-05.jpg",
+            "anh1":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-01.jpg",
+            "anh2":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-02.jpg",
+            "anh3":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-03.jpg",
+            "anh4":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-04.jpg"
+        },
+        "status":0
+    }
   ]
 }

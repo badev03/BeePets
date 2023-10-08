@@ -58,6 +58,8 @@ Route::middleware(['role:Admin'])->group(function () {
 });
 Route::get('/', [BookingController::class, 'index'])->name('index');
 Route::post('/', [BookingController::class, 'saveInfo'])->name('saveInfo.store');
+Route::post('/booking', [BookingController::class, 'showForm'])->name('show.form');
+Route::post('/booking-save', [BookingController::class, 'save'])->name('booking.store');
 
 
 
