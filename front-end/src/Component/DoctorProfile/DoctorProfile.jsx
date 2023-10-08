@@ -1,6 +1,26 @@
 import React from 'react';
-
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
+import doctorsApi from '../../api/doctorsApi';
 const DoctorProfile = () => {
+  const { id } = useParams();
+  const [doctor, setDoctors] = useState(null);
+
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        const response = await doctorsApi.get(id);
+        setDoctors(response);
+      } catch (error) {
+        console.error("Không có dữ liệu:", error);
+      }
+    };
+
+    fetchBlog();
+  }, []);
+  if (!doctor) {
+    return <div>Loading...</div>;
+  }
   return (
     <div>
 <div>
@@ -26,11 +46,11 @@ const DoctorProfile = () => {
           <div className="doctor-widget">
             <div className="doc-info-left">
               <div className="doctor-img">
-                <img src="../src/assets/img/doctors/doctor-thumb-02.jpg" className="img-fluid" alt="User Image" />
+                <img src={doctor.image.profile} className="img-fluid" alt="User Image" />
               </div>
               <div className="doc-info-cont">
-                <h4 className="doc-name">Dr. Tạ Anh Quí</h4>
-                <p className="doc-speciality">Chuyên khoa : Bác sĩ fullstack</p>
+                <h4 className="doc-name">{doctor.name}</h4>
+                <p className="doc-speciality">{doctor.description.service}</p>
                 <div className="rating">
                   <i className="fas fa-star filled" />
                   <i className="fas fa-star filled" />
@@ -42,26 +62,26 @@ const DoctorProfile = () => {
                 <div className="clinic-details">
                   <p className="doc-location"><i className="fas fa-map-marker-alt" /> BeePets Nam Từ Liêm</p>
                   <ul className="clinic-gallery">
-                    <li>
-                      <a href="../src/assets/img/features/feature-01.jpg" data-fancybox="gallery">
-                        <img src="../src/assets/img/features/feature-01.jpg" alt="Feature" />
-                      </a>
-                    </li>
-                    <li>
-                      <a href="../src/assets/img/features/feature-02.jpg" data-fancybox="gallery">
-                        <img src="../src/assets/img/features/feature-02.jpg" alt="Feature Image" />
-                      </a>
-                    </li>
-                    <li>
-                      <a href="../src/assets/img/features/feature-03.jpg" data-fancybox="gallery">
-                        <img src="../src/assets/img/features/feature-03.jpg" alt="Feature" />
-                      </a>
-                    </li>
-                    <li>
-                      <a href="../src/assets/img/features/feature-04.jpg" data-fancybox="gallery">
-                        <img src="../src/assets/img/features/feature-04.jpg" alt="Feature" />
-                      </a>
-                    </li>
+                  <li>
+                          <a href={doctor.image.anh1} data-fancybox="gallery">
+                            <img src={doctor.image.anh1} alt="Feature" />
+                          </a>
+                        </li>
+                        <li>
+                          <a href={doctor.image.anh2} data-fancybox="gallery">
+                            <img src={doctor.image.anh2} alt="Feature" />
+                          </a>
+                        </li>
+                        <li>
+                          <a href={doctor.image.anh3} data-fancybox="gallery">
+                            <img src={doctor.image.anh3} alt="Feature" />
+                          </a>
+                        </li>
+                        <li>
+                          <a href={doctor.image.anh4} data-fancybox="gallery">
+                            <img src={doctor.image.anh4} alt="Feature" />
+                          </a>
+                        </li>
                   </ul>
                 </div>
                 
@@ -72,7 +92,7 @@ const DoctorProfile = () => {
                 <ul>
                   <li><i className="far fa-thumbs-up" /> 99%</li>
                   <li><i className="far fa-comment" /> 35 Feedback</li>
-                  <li><i className="fas fa-map-marker-alt" /> Newyork, USA</li>
+                  <li><i className="fas fa-map-marker-alt" /> {doctor.address}</li>
                  
                 </ul>
               </div>
@@ -104,36 +124,28 @@ const DoctorProfile = () => {
                 <div className="col-md-12 col-lg-9">
                   <div className="widget about-widget">
                     <h4 className="widget-title">Giới thiệu bản thân</h4>
-                    <p>Bác sĩ Tạ Anh QuÍ với nhiều năm kinh nghiệm khám chữa bệnh nội tiết. Có nhiều công trình nghiên cứu, bài báo khoa học về bệnh đái tháo đường, tuyến giáp, tuyến yên, rối loạn lipid máu… Bác sĩ cũng đang là 1 trong những báo cáo viên được giới chuyên môn quan tâm đánh giá cao tại các hội thảo khoa học, tọa đàm và đào tạo chia sẻ kinh nghiệm tại các bệnh viện tuyến quận, huyện, tỉnh.</p>
+                    <p>{doctor.description.about}</p>
                   </div>
                   <div className="widget education-widget">
                     <h4 className="widget-title">Học vấn</h4>
                     <div className="experience-box">
                       <ul className="experience-list">
-                        <li>
+                        {doctor.description.education.map(edication=>(
+                          <li>
                           <div className="experience-user">
                             <div className="before-circle" />
                           </div>
                           <div className="experience-content">
                             <div className="timeline-content">
-                              <a href="#/" className="name">American Dental Medical University</a>
-                              <div>BDS</div>
-                              <span className="time">1998 - 2003</span>
+                              <a  className="name">{edication.title}</a>
+                              <div>{edication.service}</div>
+                              <span className="time">{edication.year}</span>
                             </div>
                           </div>
-                        </li>
-                        <li>
-                          <div className="experience-user">
-                            <div className="before-circle" />
-                          </div>
-                          <div className="experience-content">
-                            <div className="timeline-content">
-                              <a href="#/" className="name">American Dental Medical University</a>
-                              <div>MDS</div>
-                              <span className="time">2003 - 2005</span>
-                            </div>
-                          </div>
-                        </li>
+                          </li>
+                        ))}
+                       
+                        
                       </ul>
                     </div>
                   </div>
@@ -141,39 +153,19 @@ const DoctorProfile = () => {
                     <h4 className="widget-title">Kinh nghiệm làm việc</h4>
                     <div className="experience-box">
                       <ul className="experience-list">
+                      {doctor.description.experience.map(experience=>(
                         <li>
                           <div className="experience-user">
                             <div className="before-circle" />
                           </div>
                           <div className="experience-content">
                             <div className="timeline-content">
-                              <a href="#/" className="name">Glowing Smiles Family Dental Clinic</a>
-                              <span className="time">2010 - Present (5 years)</span>
+                              <a href="#/" className="name">{experience.title}</a>
+                              <span className="time">{experience.year}</span>
                             </div>
                           </div>
                         </li>
-                        <li>
-                          <div className="experience-user">
-                            <div className="before-circle" />
-                          </div>
-                          <div className="experience-content">
-                            <div className="timeline-content">
-                              <a href="#/" className="name">Comfort Care Dental Clinic</a>
-                              <span className="time">2007 - 2010 (3 years)</span>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="experience-user">
-                            <div className="before-circle" />
-                          </div>
-                          <div className="experience-content">
-                            <div className="timeline-content">
-                              <a href="#/" className="name">Dream Smile Dental Practice</a>
-                              <span className="time">2005 - 2007 (2 years)</span>
-                            </div>
-                          </div>
-                        </li>
+                        ))}
                       </ul>
                     </div>
                   </div>
@@ -181,42 +173,23 @@ const DoctorProfile = () => {
                     <h4 className="widget-title">Giải thưởng</h4>
                     <div className="experience-box">
                       <ul className="experience-list">
+                      {doctor.description.awards.map(awards=>(
+
                         <li>
                           <div className="experience-user">
                             <div className="before-circle" />
                           </div>
                           <div className="experience-content">
                             <div className="timeline-content">
-                              <p className="exp-year">July 2023</p>
-                              <h4 className="exp-title">Humanitarian Award</h4>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a ipsum tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+                              <p className="exp-year">{awards.year}</p>
+                              <h4 className="exp-title">{awards.title}</h4>
+                              <p>{awards.content}</p>
                             </div>
                           </div>
                         </li>
-                        <li>
-                          <div className="experience-user">
-                            <div className="before-circle" />
-                          </div>
-                          <div className="experience-content">
-                            <div className="timeline-content">
-                              <p className="exp-year">March 2011</p>
-                              <h4 className="exp-title">Certificate for International Volunteer Service</h4>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a ipsum tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="experience-user">
-                            <div className="before-circle" />
-                          </div>
-                          <div className="experience-content">
-                            <div className="timeline-content">
-                              <p className="exp-year">May 2008</p>
-                              <h4 className="exp-title">The Dental Professional of The Year Award</h4>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a ipsum tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
-                            </div>
-                          </div>
-                        </li>
+                        ))}
+
+                      
                       </ul>
                     </div>
                   </div>
