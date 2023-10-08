@@ -18,6 +18,7 @@
     <meta name="twitter:description" content="The responsive professional Doccure template offers many features, like scheduling appointments with  top doctors, clinics, and hospitals via voice, video call & chat.">
     <meta name="twitter:image" content="assets/img/preview-banner.html">
     <title>Dashboard</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('backend/assets/img/favicon.png')}}">
 
@@ -57,9 +58,10 @@
 {{--<script src="{{asset('backend/assets/plugins/morris/morris.min.js')}}"></script>--}}
 <script src="{{asset('backend/assets/js/chart.morris.js')}}"></script>
 
-<script src="{{asset('backend/assets/js/script.js')}}"></script>
 @include('layouts.partials.script')
 @stack('script')
+
+<script src="{{asset('backend/assets/js/script.js')}}"></script>
 </body>
 
 <!-- Mirrored from doccure.dreamguystech.com/html/template/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 09 Sep 2023 14:19:12 GMT -->
