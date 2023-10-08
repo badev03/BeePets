@@ -2,12 +2,8 @@
 @push('css')
     
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
+  
+/* 
     .container {
         width: 100%;
         height: 100vh;
@@ -15,7 +11,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-    }
+    } */
 
     .label-form {
         background-color: #ffffff;
@@ -44,7 +40,7 @@
        </form>
 
     @endif
-    <form action="" method="post" id="form-booking">
+    <form action="{{route('booking.store')}}" method="post" id="form-booking">
         @csrf
        <div class="mb-3">
         <label for="service">Chọn dịch vụ</label>
@@ -54,6 +50,8 @@
             @endforeach
         </select>
        </div>
+
+
        <div class="mb-3">
         <label for="">Chọn Bác sĩ</label>
         <select name="doctor_id" id="doctor">
@@ -73,7 +71,8 @@
      <div class="mb-3">
         <label for="">Chọn thời gian</label>
         <div>
-          
+          {{-- lưu thời gian hiện tại --}}
+            <input type="hidden" name="time" value="{{date('H:i:s')}}">
                 {{-- Hiển thị thời gian trong biến scheduleData --}}
                @foreach ($workSchedule as $item)
               
@@ -136,15 +135,15 @@
         });
     </script>
  <script>
-        document.getElementById('doctor').addEventListener('change', function() {
-            document.getElementById('form-booking').submit();
-        });
-        document.getElementById('service').addEventListener('change', function() {
-            document.getElementById('form-booking').submit();
-        });
-        document.getElementById('date').addEventListener('change', function() {
-            document.getElementById('form-booking').submit();
-        });
+        // document.getElementById('doctor').addEventListener('change', function() {
+        //     document.getElementById('form-booking').submit();
+        // });
+        // document.getElementById('service').addEventListener('change', function() {
+        //     document.getElementById('form-booking').submit();
+        // });
+        // document.getElementById('date').addEventListener('change', function() {
+        //     document.getElementById('form-booking').submit();
+        // });
 
 
 </script>
