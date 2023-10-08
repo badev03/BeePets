@@ -24,4 +24,8 @@ class Doctor extends Model
     public function Work_schedule(){
         return $this->hasMany(Work_schedule::class);
     }
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class, 'doctor_id', 'id');
+    }
 }

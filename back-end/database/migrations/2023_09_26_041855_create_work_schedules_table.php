@@ -14,13 +14,12 @@ return new class extends Migration
         Schema::create('work_schedules', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->time('slot_time');
+            $table->string('shift_name');
             $table->time('start_time');
             $table->time('end_time');
             $table->unsignedBigInteger('doctor_id');
             $table->timestamps();
             $table->foreign('doctor_id')->references('id')->on('doctors')->onDelete('cascade');;
-
         });
     }
 
