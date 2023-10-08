@@ -10,7 +10,7 @@ class Work_schedule extends Model
     use HasFactory;
     protected $fillable = [
         'date',
-        'slot_time',
+        'shift_name',
         'start_time',
         'end_time',
         'doctor_id',
