@@ -1,573 +1,648 @@
 {
-  "news_categories":[
-      {
-          "id":1,"name":"Chó","slug":"dog","description":"Tin tức về những chú chó"
-      },
-      {
-          "id":2,"name":"Mèo","slug":"cat","description":"Tin tức về những chú mèo"
-      },
-      {
-          "id":3,"name":"Thịt Chó","slug":"eat_dog","description":"Tin tức về những hình phat khi ăn thit chó"
-      },
-      {
-          "id":4,"name":"Phim","slug":"story","description":"Tin tức về phim Cậu Vàng"
-      },
-      {
-          "id":5,"name":"Chim","slug":"bird","description":"Tin tức về những chú chó"
-      }
-  ],
-  "news":[
-      {
-          "id":1,
-          "name":"Narwhal – chú cún kì lạ với chiếc đuôi trên mặt",
-          "slug":"dog",
-          "content":"Mới đây nhất trên mạng xã hội bỗng dưng xuất hiện một chú cún con có chiếc đuôi mọc ở ngay trên mặt. Chú cún sở hữu bộ lông màu vàng, hiện đang sinh sống tại Mỹ và có cái tên vô cùng ấn tượng là “Narwhal” có nghĩa là Kỳ Lân. Dịch vụ cứu hộ Mac’s Mission tại Mỹ đã tìm thấy một chú chó nhỏ đang đi lang thang trong cái thời tiết lạnh cóng ở quận Jackson. Họ phát hiện ra chú cún con này đang bị thương ở một bàn chân và có một cái đuôi nhỏ mọc ngay trên trán. Họ không thể hiểu vì sao chú chó lại có cái đuôi nằm ngay vị trí đắc địa như thế. Vì vậy, họ đã đưa chú cún con đến thú y để tìm hiểu về nguồn gốc về chiếc đuôi. Theo thông tin từ dịch vụ cứu hộ, kết quả chụp X-Quang cho thấy cái đuôi nhỏ kì lạ này không liên quan đến bất kì bộ phận nào. Nó không gây phiền toái đến Narwhal hay cản trở sự nhanh nhẹn. Các bác sĩ thú y cũng không cần phải loại bỏ cái đuôi đó ngay lập tức.Các sự kiện nổi tiếng đã ghi nhận những trường hợp đặc biệt như cái mũi đỏ được hư cấu của chú tuần lộc Rudolph. Và cái đuôi mọc ở chỗ kì lạ này cũng đã đưa Narwhal vào danh sách nổi tiếng ấy.Bức ảnh đăng tải chú cún trên Facebook được dịch vụ cứu hộ đăng vào ngày 13/11 đã có hơn 8.000 lượt like và hàng loạt lời cổ động đến từ những người yêu chó.Một người hâm mộ chú cún kỳ lạ này bày tỏ: “Tôi cảm thấy rất vui khi thấy chú cún được chăm sóc ở một nơi an toàn, ấm áp và được yêu thương như vậy”.Thế nhưng cũng có một câu hỏi đang dấy lên từ những người quan tâm đến chú chó đó là cái đuôi đó có bình thường như cái đuôi khác hay không? Câu trả lời là không, nó không phải là một cái đuôi với những chức năng bình thường.“Nếu cái đuôi đó vẫy được chắc chắn nó sẽ đánh sập mạng Internet” một người vui vẻ bình luận.Dù nhận được nhiều sự quan tâm và ủng hộ từ mọi người nhưng Narwhal vẫn chưa thể ổn định được mái ấm của mình. Vì dịch vụ cứu hộ Mac’s Mission đã lên kế hoạch để giữ chú cún kì lạ này lại chăm sóc cho đến khi trưởng thành. Nhằm đảm bảo cái đuôi trên trán ấy không gây cản trở tầm nhìn trong tương lai."
-          ,"public_date":"12/12/2022",
-          "image":"https://dogily.vn/wp-content/uploads/2019/12/c%C3%A1i-%C4%91u%C3%B4i-k%C3%AC-l%E1%BA%A1-tr%C3%AAn-%C4%91%E1%BA%A7u-c%E1%BB%A7a-ch%C3%BA-ch%C3%B3.jpeg",
-          "new_categorie_id":"1"
-      },
-      {
-          "id":2,
-          "name":"Sau 6 năm thất lạc, chú cún trở về trước lễ giáng sinh",
-          "slug":"dog",
-          "content":"Gặp lại chú cún cưng của mình sau 6 năm bị thất lạc trước đêm giáng sinh như một món quà vô cùng ý nghĩa đối với anh Francoir. Một chú chó giống Springer Spaniel tên Houston sinh sống tại Bỉ bị lạc hồi 6 năm trước vừa về đoàn tụ với chủ nhân trước đêm Giáng sinh.Vào tháng 8/2013 chú cún Houston biến mất mặc dù anh Francoir đã cố gắng tìm kiếm. Nhưng chú chó vẫn “bật vô âm tính” và khoảng thời gian về sau anh vẫn không nhận được bất cứ thông tin gì chú cún của mình.Mới đây nhất, một người sinh sống tại khu vực Brussels đã phát hiện ra một chú chó lạ ngồi cạnh cửa hàng của mình nên đã gọi điện thông báo cho cảnh sát. Do chú cún được gắn chip điện tử nên việc xác định thông tin địa chỉ chủ nhân của nó được cảnh sát tìm ra nhanh chóng.Chủ nhân của Houston vui mừng kể lại: “Tôi ghi địa chỉ nhà và số điện thoại lên con chip để gắn trên người chú cún của mình. Nhưng khi nhận được cuộc gọi từ cảnh sát, tôi nghĩ rằng có lẽ xe hơi của mình đỗ không đúng chỗ quy định. Tuy nhiên, họ lại thông báo cho tôi việc tìm thấy Houston”, anh Francoir, chủ nhân của chú chó vui mừng kể lại.Khi trở về nhà sau 6 năm thất lạc, Houston ngay lập tức nhận ra chủ và những thành viên trong gia đình. Tuy nhiên, chú cún con lại tỏ ra sợ hãi đối với người lạ và thường nấp phía sau cánh cửa."
-          ,"public_date":"12/12/2022",
-          "image":"https://dogily.vn/wp-content/uploads/2019/12/cun-cung-tr%E1%BB%9F-v%E1%BB%81.jpg",
-          "new_categorie_id":"1"
-      },
-      {
-          "id":3,
-          "name":"Paisley, chú mèo béo nhất nước Anh không thể liếm lông mình.",
-          "slug":"cat",
-          "content":"Một chú mèo sống ở Anh, có tên là Paisley không thể tự làm vệ sinh mà cần phải có người trợ giúp. Vì sở hữu thân hình béo mụp nên Paisley không thể tự mình liếm lông làm sạch cơ thể.Paisley tuy mới được 4 tuổi nhưng đã nặng lên đến 9.5kg. Với số cân nặng này khiến cho chú mèo Paisley nặng gấp đôi số cân của một chú mèo khỏe mạnh. Vào cuối tháng 10, người chủ của Paisley mang chú đến trung tâm cứu hộ vì không thể tiếp tục nuôi dưỡng.Tại đây, nhân viên ở trung tâm cứu hộ mèo Tây Sussex cho biết Paisley chính là con mèo béo nhất nước Anh. Theo bà Tania, nguyên nhân khiến chú mèo Paisley béo phì là do chủ nhân cũ không biết cách chăm sóc, lượng thức ăn nạp vào cơ thể quá nhiều nhưng không để nó vận động.Phó quản lý trung tâm – bà Tania Marsh nói rằng: “Tôi không thể tin khi gặp Paisley. Nó là con mèo béo nhất tôi từng thấy suốt 13 năm làm công việc cứu trợ mèo”.Nhận thấy Paisley vận động khó khăn các nhân viên cứu hộ đã tiến hành cắt giảm khẩu phần ăn của chú. Hiện tại, chú mèo cảnh này đã giảm cân hiệu quả và đã khỏe mạnh hơn trước nhiều.Trong thời gian tới, Paisley sẽ được chuyển đến ngôi nhà mới sinh sống. Tuy nhiên, chú mèo béo này vẫn phải đối mặt với hàng loạt các nguy cơ bệnh tật như tiểu đường, vấn đề tim mạch. Vì thế, Paisley vẫn phải thực hiện chế độ ăn kiêng đặc biệt và cần kiểm tra sức khỏe định kỳ.Qua câu chuyện của chú mèo Paisley, bà Tania khuyến cáo những ai nuôi mèo chỉ nên cho chúng ăn 2 lần một ngày, hạn chế tối đa các đồ ăn vặt hoặc nếu cho ăn vặt thì bạn phải cắt giảm bớt khẩu phần ăn. Đặc biệt, dành nhiều thời gian chơi với chúng để chúng hoạt động tránh bị béo phì giống như Paisley.Bà Tania khuyên: “Nếu không thể sờ thấy xương sườn mèo, đã đến lúc bạn giúp chúng giảm cân”.",
-          "public_date":"14/12/2022",
-          "image":"https://dogily.vn/wp-content/uploads/2019/12/%C4%91%C3%A3-r%C3%A9ize.jpg",
-          "new_categorie_id":"2"
-      },
-      {
-          "id":4,
-          "name":"Chỉ người nuôi mèo mới hiểu những chuyện cười ra nước mắt này",
-          "slug":"cat",
-          "content":"Bạn có phải là người nuôi mèo cảnh? Bạn đã bao giờ đúc kết loạt hành động oái oăm mà “Boss” đã làm? Hãy thử xem chúng có tương đồng với top 7 điều cười-ra-nước-mắt do Dogily tổng hợp dưới đây hay không nhé.Chỉ người nuôi mèo mới biết “hoàng thượng” chảnh thế nào.Chắc hẳn những người nuôi mèo một thời gian đều phải công nhận một điều, cụm từ “chảnh chó” đáng lẽ phải đổi lại thành “chảnh mòe” mới đúng. Rõ ràng các chú cún đều rất thân thiện, quấn chủ, biết nghe lời, còn mèo thì ngược lại. Chúng chẳng những lờ lớ lơ mỗi khi bạn muốn nựng một chút, mà thậm chí còn sẵn sàng ịn mông vào mặt chủ để thể hiện tình cảm.Người nuôi mèo chuẩn bị cho các Boss nào là chăn ấm, nệm êm, giường rộng, võng xịn. Thế nhưng chúng lại tỏ ra ghét bỏ những món đồ này, thay vào đó chỉ thích nằm thùng carton hay chiếm chỗ ngủ của bạn và chú chó tội nghiệp. Mèo cũng chẳng thèm uống nước trong bát của chúng mà cứ “thị tẩm” lọ hoa hoặc cốc nước bạn đang dùng.Đặc biệt, người nuôi mèo hãy làm quen với việc bị Boss xoay mông vào mặt mỗi khi đi làm về thay vì mừng rỡ rối rít như các chú cún. Đừng tổn thương hay thất vọng trước việc này vì bạn sẽ còn phải tổn thương dài dài.Cũng đừng trông chờ vào việc các “quàng thượng” sẽ chơi đùa với người nuôi mèo mỗi khi họ muốn. Chúng phớt lờ mọi sự quan tâm, lấy lòng, chỉ một mực nằm ngủ hoặc ngồi ngẩn ra phơi nắng. Ngược lại, đến khi bạn đang bận sấp mặt thì Boss lại xuất hiện như một vị thần, ngồi lên laptop hay nghịch cây lau nhà của bạn. Tóm lại, chỉ có chúng được “bơ” bạn còn bạn thì không có quyền đó đâu.",
-          "public_date":"14/12/2022",
-          "image":"https://dogily.vn/wp-content/uploads/2020/05/nguoi-nuoi-meo-moi-hieu-.jpg",
-          "new_categorie_id":"2"
-      },
-      {
-          "id":5,
-          "name":"Sang Đài Loan làm việc nhóm người Việt bị phạt nặng vì ăn thịt chó",
-          "slug":"eat_dog",
-          "content":"Một nhóm người Việt sau khi đi xuất khẩu lao động sang Đài Loan đã bị tòa án phạt tổng cộng một triệu đài tệ. Nguyên nhân là do họ đã giết và ăn thịt một con chó. Theo phán quyết được tòa án đưa ra vào cuối tháng 12 và công bố hôm 07/01/2020. Bốn lao động người Việt Nam làm việc cho nhà máy xử lý nước ở quận Phong Nguyên, thành phố Đài Trung, đã giết chết một con chó đen vào ngày 25/10/2018 để làm thức ăn cho 12 người Việt khác.Bốn nghi phạm Nguyen Qua Ng, Vu Van Truyen, Giap Van Hong 53 tuổi và Nguyen Van Nang, 37 tuổi. Trong đó, Nguyen Qua Ng và Vu Van Truyen đã bỏ trốn. Hai nghi phạm còn lại mỗi người bị phạt 200.000 Đài tệ ( khoảng 6.650 USD). Theo Luật Bảo vệ Động vật họ đã vi phạm pháp luật và bị giam 40 – 30 ngày.Thông tin theo như toàn án, bốn người trên đã bắt con chó đen được nuôi ở ký túc xá của công nhân. Họ giết và hầm thịt chó ngay trong bếp của nhà máy. Sau khi nhận được thông tin về sự việc cảnh sát và các quan chức bảo vệ động vật địa phương đã có mặt tại hiện trường và bắt giữ các nghi phạm.Cảnh sát đã tiến hành tịch thu số thịt chó sống còn lại, một con dao làm bếp và dụng cụ thui chó. Nguyen Van Nang và Giap Van Hong đã nhận tội, 12 người ăn thịt chó cũng bị phạt mỗi người là 50.000 Đài tệ (1.664 USD). Tổng số tiền phạt đối với nhóm lao động người Việt lên đến một triệu Đài tệ.16 lao động Việt khai rằng họ đã được những môi giới lao động cảnh báo việc giết và ăn thịt chó bị cấm ở Đài Loan. Giữa năm 2018, Luật Bảo vệ Động vật của Đài Loan được sửa đổi nghiêm cấm việc giết và ăn thịt chó, mèo. Đồng thời, hình phạt đối với các trường hợp vi phạm cũng tăng cường thêm."
-          ,"public_date":"14/12/2022",
-          "image":"https://dogily.vn/wp-content/uploads/2020/01/dai-dien-cac-nhom-bao-ve-cho-bieu-tinh.png",
-          "new_categorie_id":"3"
-      },
-      {
-          "id":6,
-          "name":"Thịt chó đóng hộp & phản ứng gay gắt từ dư luận",
-          "slug":"eat_dog",
-          "content":"Hiện nay, vụ xưởng sản xuất thịt chó đóng hộp đang nhận được nhiều ý kiến trái chiều từ cộng đồng mạng. Luật sư Trương Xuân Tám cho rằng: “Loài chó không nằm trong danh sách những loài động vật quý hiếm cần được bảo vệ”.Vào ngày 19/12 có thông tin, những sản phẩm thịt chó đóng hộp được sản xuất tại một xưởng ở tỉnh Ninh Bình, Việt Nam. Tuy nhiên, ông Hoàng Trung Kiên – Giám đốc Sở Công thương tỉnh Ninh Bình đã bác bỏ thông tin về việc tỉnh Ninh Bình có công ty sản xuất đồ hộp thịt chó.Giám đốc Sở Công thương tỉnh Ninh Bình nói rằng: “Tỉnh Ninh Bình chưa từng có đơn vị nào sản xuất đóng hộp thịt chó và cũng không có doanh nghiệp nào đang xin phép kinh doanh loại này”.Chủ nhiệm đoàn luật sư tỉnh Bà Rịa-Vũng Tàu – luật sư Trương Xuân Tám (trao đổi với báo Đất Việt) cho rằng, xét theo luật thì nếu có việc xưởng sản xuất thịt chó đóng hộp là không hề sai.Luật sư Tám nói: “Dư luận có nhiều người không ăn được thịt chó nên họ lên tiếng phản đối. Trước đây, không ai nhắc đến xưởng sản xuất thịt chó đóng hộp, giờ xuất hiện thông tin này nên nhiều người đã lên tiếng phản đối như vậy.Trong luật không có điều khoản nào cấm giết chó bởi thịt chó cũng như gà, trâu, bò. Chỉ có luật cấm giết mổ loài động vật quý hiếm, chứ chó không được liệt kê vào những loài quý hiếm đó”.Những đồ hộp đóng thịt chó được gắn với những nhãn mác bằng chữ tiếng Việt và tiếng Anh trên bao bì. Trên bao bì còn được ghi rõ loại thịt chó đóng hộp được sản xuất tại Nhà Máy Đồ Hộp Ninh Bình. Chiếc hộp với mẫu mã bắt mắt kèm dòng chữ “Đặc sản thịt chó” và được sản xuất theo công nghệ của Đức. Những hộp thịt chó này còn được cho là xuất khẩu ra nước ngoài.Tuy nhiên, những hình ảnh này đã được lan truyền từ đầu năm 2018, cách đây gần 2 năm. Nhưng rất khó để tìm thấy những loại thịt chó đóng hộp ở các siêu thị hay cửa hàng tiện lợi. Thế nên, vẫn chưa có thông tin chính xác về việc thực sự có loại thịt chó đóng hộp đang được bày bán trên thị trường hay không?Dù như thế nào thì Dogily Petshop thật sự phản đối việc sản xuất thịt chó đóng hộp. Vì nó làm mất đi tính vô nhân đạo và không an toàn cho sức khỏe người sử dụng. Thường những con chó sẽ bị đánh bả cho dễ bắt trộm nên khi ăn trúng những con chó bị đánh bả sẽ ảnh hưởng đến sức khỏe.Chúng thường canh giữ nhà cửa cho chúng ta. Thậm chí, chúng còn là người bạn đồng hành của con người vì thế Dogily phản đối kịch liệt hành động không có tính nhân văn này."
-          ,"public_date":"10/12/2022",
-          "image":"https://dogily.vn/wp-content/uploads/2019/12/rezzi.jpg",
-          "new_categorie_id":"3"
-      },
-      {
-          "id":7,
-          "name":"Dự án phim điện ảnh Cậu Vàng được đông đảo nghệ sĩ tên tuổi tham gia",
-          "slug":"story",
-          "content":"Bộ phim “Cậu Vàng” theo truyện Nam Cao đã quy tụ được đông đảo các NSDN, NSUT và dàn diễn viên trẻ tham gia. Theo đó, trong phim gồm nhiều nghệ sĩ như NSUT Hữu Châu, NSUT Chiều Xuân, Viết Liên, Thanh Hoa, Will 365,…Sau thời gian casting, bộ phim “Cậu Vàng” của đạo diễn Trần Vũ Thủy đã chính thức tổ chức họp báo ngay tại bối cảnh chính của phim ở tỉnh Ninh Bình với sự tham dự của nhiều diễn viên.Ngay khi buổi họp báo kết thúc, Cậu Vàng đã nhận được đông dảo sự quan tâm từ phía công chúng và giới truyền thông. Nhà sản xuất đã chính thức giới thiệu dàn diễn viên giữa khung cảnh đẹp như tranh của Cố Viên Lầu. Nơi đây cũng chính là nơi được đoàn làm phim chọn làm bối cảnh chính cho bộ phim.Dàn diễn viên chính thức gồm: NSƯT Hữu Châu, NSƯT Chiều Xuân, Viết Liên, Trần Lê Nam, Khánh Huyền, Thanh Hoa, Chiến Thắng, Thanh Bình, Phương Nam.Ngoài ra, trong phim còn sở hữu dàn diễn viên trẻ tuổi thu hút nhiều sự quan tâm của khán giả như: Băng Di, Will, Phương Nam, Bích Ngọc, Trần Doãn Hoàng,…Đặc biệt, trong phần kỹ thuật của bộ phim “Cậu Vàng” sẽ được đạo diễn hình ảnh Phi Tiến Sơn và Thành Toại đảm nhiệm."
-          ,"public_date":"10/12/2022",
-          "image":"https://dogily.vn/wp-content/uploads/2019/12/a124b22b7ea887f6deb9.jpg",
-          "new_categorie_id":"4"
-      },
-      {
-          "id":8,
-          "name":"Cậu Vàng và tranh luận gay gắt chó ta hay chó Nhật?",
-          "slug":"story",
-          "content":"Mới đây một bộ phim được phóng tác từ truyện ngắn Việt Nam nổi tiếng “Lão Hạc” đã thu hút được nhiều sự quan tâm của quý khán giả. Bên cạnh đó, cũng có nhiều ý kiến trái chiều xung quanh việc một chú chó Shiba Inu gốc Nhật Bản được lựa chọn vào vai “cậu Vàng” trong phim. Có nhiều ý kiến cho rằng có sự “phân biệt đối xử” giữa chó Tây và chó ta.Dư luận dậy sóng chuyện “lão Hạc” nuôi chó ngoạiDù chưa bấm máy nhưng bộ phim “Cậu Vàng” chuyển thể từ tác phẩm nổi tiếng “Lão Hạc” của Nam Cao đã nhận được nhiều sự quan tâm của cộng đồng. Mới đây nhất, nhà sản xuất đã thông báo tìm được diễn viên chính là chú chó mang tên Vàng. Chú chó Vàng này thuộc giống chó Shiba Inu, chú chó này đáp ứng được các tiêu chí làm phim hơn cả chó cỏ của Việt Nam. Chính điều này đã gây nên làn sóng dữ dội trên các trang mạng xã hội.Trong phim ảnh Việt Nam, những chú chó cũng thường xuyên được xuất hiện. Ví dụ như những bộ phim “Cánh đồng hoang”, “Chờ em đến ngày mai”, “Kẻ trộm chó”,… đều có sự góp mặt của những chú chó. Nhưng phim điện ảnh đầu tiên để chú chó trở thành nhân vật trung tâm thì chính là bộ phim “Cậu Vàng”.Tuy nhiên, “Lão Hạc” chính là dòng văn học hiện thực, phản ánh hiện trạng xã hội Việt Nam trong giai đoạn trước Cách mạng tháng Tám. Thế nên, vai diễn “Cậu Vàng” không thể là chó ngoại mà phải là một chú chó Việt. Có rất nhiều phân tích về những điểm bất hợp lý trong bộ phim này. Theo đó, những ai đã đọc tác phẩm này sẽ đều suy nghĩ “cậu Vàng” phải là một chú chó ta. Với bối cảnh đói khổ lúc bấy giờ của lão Hạc thì không thể nào nuôi một chú chó Shiba Inu đắt tiền. Song song đó, giống chó cảnh này cũng chỉ mới du nhập và phổ biến ở Việt Nam sau này, nói về lịch sử thì cũng không khớp. Tài khoản Tấn Nguyễn cho biết: “Mình không tin trong hàng triệu con chó Phú Quốc, chó Lài,… thuần chủng, không tìm được một con đủ đẹp và thông minh vào vai “cậu Vàng”. Trong khi đó, đoàn phim cũng cho biết đã tìm được 2 con chó cỏ phù hợp, nhưng chỉ để hỗ trợ “diễn viên” Shiba. Mình cảm thấy từ lâu luôn có sự phân biệt chó ta, chó Tây, ngay cả trong bộ phim thuần Việt này”. Sự bất công giữa chó ta – chó ngoại cũng được nhiều người bức xúc thông qua câu chuyện này. Tại Việt Nam, tình trạng chó cỏ đang bị đối xử thiếu công bằng ở nhiều nơi: Cấm mang chó cỏ vào lễ hội chó, quán cà phê cho chó cảnh vào trừ chó cỏ,… Nhiều ý kiến cho rằng, chúng ta nên tận dụng cơ hội này để giới thiệu về 4 loại chó cỏ thuần chủng đẹp và thông minh ở Việt Nam. Bên cạnh đó, truyển tải thông điệp ý thức về vấn nạn trộm chó và ăn thịt chó đến tất cả mọi người. Cũng có ý kiến cho rằng, đây là bộ phim phóng tác nên sẽ xuất hiện các yếu tố sáng tạo so với phiên bản gốc. Thế nên, miễn là giữ được tinh thần muốn truyền tải trong câu chuyện là được. Việc tìm một chú chó có thể đóng phim là rất khó, bởi chúng phải hội tụ nhiều yếu tố khác nhau từ kĩ năng, biểu cảm và vóc dáng của chúng. Chú chó Vàng tại buổi casting đã xuất sắc hơn tất cả những chú chó khác và đã đáp ứng tất cả những tiêu chí đề ra trước đó."
-          ,"public_date":"10/12/2022",
-          "image":"https://dogily.vn/wp-content/uploads/2019/12/ch%C3%BA-ch%C3%B3-2-tu%E1%BB%95i-1.jpg",
-          "new_categorie_id":"4"
-      },
-      {
-          "id":9,
-          "name":"Cách nuôi chim ưng Ấn Độ, ưng Shikra và ưng Lửa",
-          "slug":"bird",
-          "content":"Chim ưng là tuyển thủ săn mồi số một, số hai trên bầu trời. Thế nên việc thuần hóa loài thú dữ này là công việc không hề đơn giản. Hy vọng qua bài viết này của Dogily, các bạn có thể nắm được những kiến thức cơ bản để nuôi chim ưng và biến chúng thành chim cảnh nhà mình nhé.Khái niệm chim ưngChim ưng có tên tiếng Anh là Falcon, là một loài chim thuộc bộ Ưng cùng với đại bàng, diều hâu, kền kền v.v… Chúng đều có tập tính săn mồi và ăn thịt.Vào năm 1758, nhà khoa học Linnaeus chính thức phát hiện và đặt tên cho loài chim dữ này. Hiện chúng gồm hơn 40 giống khác nhau, sống phân bổ trên khắp thế giới, Tuy nhiên tại nước ta, về cơ bản chỉ có 3 giống chim ưng Ấn Độ, chim ưng Shikra và chim ưng Lửa là được nuôi phổ biến như chim cảnhĐặc trưng ngoại hình của chim ưngChim ưng có hình dạng tương tự như đại bàng – 1 giống chim cùng thuộc bộ Ưng – nhưng kích cỡ nhỏ hơn. Khi đã đến tuổi trưởng thành, chúng có thể dài từ 25 đến 70cm, tương ứng với cân nặng nằm trong khoảng 0.5 – 4kg. Chim ưng mái có kích cỡ to hơn chim trống rất nhiều, thậm chí còn nặng hơn gấp đôi. Về hình dạng, ta dễ dàng nhận thấy phần đầu chim ưng khá bé và nhọn, chiếm một tỷ lệ nhỏ trên toàn bộ cơ thể. Vì là loài chim săn mồi nên mắt của chúng rất sáng và to, thị lực cực tốt. Chiếc mỏ thì to và cứng, phần trên dài và quặp vào, đảm bảo cắp ngay được con mồi chỉ trong một cú mổ. Nằm giữa mỏ và mắt chính là lỗ mũi to tròn. Chiếc cổ dài nhỏ nối liền đầu với phần còn lại của cơ thể, bộ phận này rất chắc khỏe và dẻo dai, có thể rướn ra, rụt vào tùy ý.Chim ưng có bộ ngực nở nang, săn chắc, phần lưng bằng phẳng. Vì phải săn mồi với tốc độ chớp nhoáng nên chúng không có bụng và tỷ lệ mỡ thừa trong cơ thể gần như là zero.Sải cánh của chim ưng dài và mỏng, có thể dễ dàng mượn sức gió để bay lượn giữa không trung hoặc tăng tốc đột ngột. Phần đuôi dài, chắc chắn, có tác dụng góp phần giữ thăng bằng và điều chỉnh hướng bay. Đôi chân cực kỳ chắc khỏe với bộ móng vuốt sắc nhọn, giúp chúng giữ cứng được con mồi hay bám vào vách đá cheo leo.Chim ưng thường có lông màu nâu, phần ngực – bụng nhạt nhất với màu trắng sữa. Đầu cổ và vùng cánh đậm màu hơn, nhất là phần đuôi chuyển sang sắc nâu đậm đi kèm với các vệt đen. Bộ lông của chúng được tạo thành từ 2 lớp, bao gồm lớp lông mềm và nhẹ ở bên trong, và lớp lông vũ dày, cứng nằm bên ngoài.Chim ưng có đặc tính gì?Đây là loài chim có tuổi thọ trung bình cao, tầm hơn 20 tuổi. Là sát thủ trên không, tốc độ của chim ưng có thể đạt đến 320km/giờ. Chúng cũng sở hữu thị lực siêu tốt, gấp 2.6 lần so với loài người, có thể nhìn thấy con mồi ngay trong bóng tối. Thức ăn và cách săn mồi của chim ưng.Chim ưng là loài động vật ăn thịt hoàn toàn. Thức ăn của chúng bao gồm các loài thú nhỏ sống trên mặt đất như gà, thỏ, chuột, rắn; các loài chim nhỏ bay trên trời và một số động vật thuộc bộ móng guốc như hươu, nai v.v…"
-          ,"public_date":"10/12/2022",
-          "image":"https://dogily.vn/wp-content/uploads/2020/05/chim-ung-cach-nuoi-2.jpg",
-          "new_categorie_id":"5"
-      }
-  ],
-  "doctors":[
-    {
-        "id":1,"name":"Dr.Thành Đoàn",
-        "slug":"thanhdoan",
-        "phone":"0376732833",
-        "email":"thanhdoan@fpt.edu.vn",
-        "password":"doctor123",
-        "address":"Nhân Trai/Đông Lỗ/Ứng Hòa/Hà Nội",
-        "description":{
-            "service":"Front End",
-            "about":"Với nhiều năm kinh nghiệm khám chữa bệnh nội tiết. Có nhiều công trình nghiên cứu, bài báo khoa học về bệnh đái tháo đường, tuyến giáp, tuyến yên, rối loạn lipid máu… Bác sĩ cũng đang là 1 trong những báo cáo viên được giới chuyên môn quan tâm đánh giá cao tại các hội thảo khoa học, tọa đàm và đào tạo chia sẻ kinh nghiệm tại các bệnh viện tuyến quận, huyện, tỉnh.",
-            "education":[
-                {
-                    "title":"Tốt nghiệp liên đại học Bordeaux-Segalen II (Pháp)",
-                    "service":"Thú y",
-                    "year":"2020-2023"
-                },
-                {
-                    "title":" Tốt nghiệp Thạc sĩ chuyên ngành Thú y, Đại học Y Hà Nội (2023)",
-                    "service":"Thú y",
-                    "year":"2019-2023"
-                }
-            ],
-            "experience":[
-                {
-                    "title":"Phòng Khám Thú y Gia Đình Nụ Cười Rực Rỡ",
-                    "year":"2020-2023"
-                },
-                {
-                    "title":"Phòng Khám Thú y Thịt chó mắm tôm",
-                    "year":"2018-2020"
-                },
-                {
-                    "title":"Phòng Khám Thú y HeheMeme",
-                    "year":"2020-2023"
-                }
-            ],
-            "awards":[
-                {
-                    "title":"Giải thưởng nhân đạo",
-                    "year":"08/2023",
-                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
-                },
-                {
-                    "title":"Giấy chứng nhận hoạt động tình nguyện quốc tế",
-                    "year":"12/2023",
-                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
-                },
-                {
-                    "title":"Giải thưởng Chuyên gia Thú y của Năm",
-                    "year":"09/2023",
-                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
-                }
-            ]
-        },
-        "gender":"Nam",
-        "birthday":"21/06/2003",
-        "image":
+    "news_categories": [
         {
-            "profile":"https://doccure.dreamguystech.com/angular/template/assets/img/doctors/doctor-thumb-02.jpg",
-            "anh1":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-01.jpg",
-            "anh2":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-02.jpg",
-            "anh3":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-03.jpg",
-            "anh4":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-04.jpg"
+            "id": 1,
+            "name": "Chó",
+            "slug": "dog",
+            "description": "Tin tức về những chú chó"
         },
-        "status":0
-    },
-    {
-        "id":2,
-        "name":"Dr.Tạ Quí",
-        "slug":"taquy",
-        "phone":"0376732833",
-        "email":"taquy@fpt.edu.vn",
-        "password":"doctor123",
-        "address":"Phú Thọ",
-        "description":{
-            "service":"Front End",
-            "about":"Với nhiều năm kinh nghiệm khám chữa bệnh nội tiết. Có nhiều công trình nghiên cứu, bài báo khoa học về bệnh đái tháo đường, tuyến giáp, tuyến yên, rối loạn lipid máu… Bác sĩ cũng đang là 1 trong những báo cáo viên được giới chuyên môn quan tâm đánh giá cao tại các hội thảo khoa học, tọa đàm và đào tạo chia sẻ kinh nghiệm tại các bệnh viện tuyến quận, huyện, tỉnh.",
-            "education":[
-                {
-                    "title":"Tốt nghiệp liên đại học Bordeaux-Segalen II (Pháp)",
-                    "service":"Thú y",
-                    "year":"2020-2023"
-                },
-                {
-                    "title":" Tốt nghiệp Thạc sĩ chuyên ngành Thú y, Đại học Y Hà Nội (2023)",
-                    "service":"Thú y",
-                    "year":"2019-2023"
-                }
-            ],
-            "experience":[
-                {
-                    "title":"Phòng Khám Thú y Gia Đình Nụ Cười Rực Rỡ",
-                    "year":"2020-2023"
-                },
-                {
-                    "title":"Phòng Khám Thú y Thịt chó mắm tôm",
-                    "year":"2018-2020"
-                },
-                {
-                    "title":"Phòng Khám Thú y HeheMeme",
-                    "year":"2020-2023"
-                }
-            ],
-            "awards":[
-                {
-                    "title":"Giải thưởng nhân đạo",
-                    "year":"08/2023",
-                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
-                },
-                {
-                    "title":"Giấy chứng nhận hoạt động tình nguyện quốc tế",
-                    "year":"12/2023",
-                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
-                },
-                {
-                    "title":"Giải thưởng Chuyên gia Thú y của Năm",
-                    "year":"09/2023",
-                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
-                }
-            ]
-        },
-        "gender":"Nam",
-        "birthday":"21/06/2003",
-        "image":
         {
-            "profile":"https://doccure.dreamguystech.com/angular/template/assets/img/doctors/doctor-13.jpg",
-            "anh1":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-01.jpg",
-            "anh2":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-02.jpg",
-            "anh3":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-03.jpg",
-            "anh4":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-04.jpg"
+            "id": 2,
+            "name": "Mèo",
+            "slug": "cat",
+            "description": "Tin tức về những chú mèo"
         },
-        "status":0
-    }
-    ,
-    {
-        "id":3,
-        "name":"Dr.Vũ Bá",
-        "slug":"vuaba",
-        "phone":"0376732833",
-        "email":"vuba@fpt.edu.vn",
-        "password":"doctor123",
-        "address":"Thái Bìnk",
-        "description":{
-            "service":"Back End",
-            "about":"Với nhiều năm kinh nghiệm khám chữa bệnh nội tiết. Có nhiều công trình nghiên cứu, bài báo khoa học về bệnh đái tháo đường, tuyến giáp, tuyến yên, rối loạn lipid máu… Bác sĩ cũng đang là 1 trong những báo cáo viên được giới chuyên môn quan tâm đánh giá cao tại các hội thảo khoa học, tọa đàm và đào tạo chia sẻ kinh nghiệm tại các bệnh viện tuyến quận, huyện, tỉnh.",
-            "education":[
-                {
-                    "title":"Tốt nghiệp liên đại học Bordeaux-Segalen II (Pháp)",
-                    "service":"Thú y",
-                    "year":"2020-2023"
-                },
-                {
-                    "title":" Tốt nghiệp Thạc sĩ chuyên ngành Thú y, Đại học Y Hà Nội (2023)",
-                    "service":"Thú y",
-                    "year":"2019-2023"
-                }
-            ],
-            "experience":[
-                {
-                    "title":"Phòng Khám Thú y Gia Đình Nụ Cười Rực Rỡ",
-                    "year":"2020-2023"
-                },
-                {
-                    "title":"Phòng Khám Thú y Thịt chó mắm tôm",
-                    "year":"2018-2020"
-                },
-                {
-                    "title":"Phòng Khám Thú y HeheMeme",
-                    "year":"2020-2023"
-                }
-            ],
-            "awards":[
-                {
-                    "title":"Giải thưởng nhân đạo",
-                    "year":"08/2023",
-                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
-                },
-                {
-                    "title":"Giấy chứng nhận hoạt động tình nguyện quốc tế",
-                    "year":"12/2023",
-                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
-                },
-                {
-                    "title":"Giải thưởng Chuyên gia Thú y của Năm",
-                    "year":"09/2023",
-                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
-                }
-            ]
-        },
-        "gender":"Nam",
-        "birthday":"21/06/2003",
-        "image":
         {
-            "profile":"https://doccure.dreamguystech.com/angular/template/assets/img/doctors/doctor-14.jpg",
-            "anh1":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-01.jpg",
-            "anh2":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-02.jpg",
-            "anh3":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-03.jpg",
-            "anh4":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-04.jpg"
+            "id": 3,
+            "name": "Thịt Chó",
+            "slug": "eat_dog",
+            "description": "Tin tức về những hình phat khi ăn thit chó"
         },
-        "status":0
-    },
-    {
-        "id":4,
-        "name":"Dr.Huy Đạt",
-        "slug":"huydat",
-        "phone":"0376732833",
-        "email":"huydat@fpt.edu.vn",
-        "password":"doctor123",
-        "address":"Thank Hóa",
-        "description":{
-            "service":"Back End",
-            "about":"Với nhiều năm kinh nghiệm khám chữa bệnh nội tiết. Có nhiều công trình nghiên cứu, bài báo khoa học về bệnh đái tháo đường, tuyến giáp, tuyến yên, rối loạn lipid máu… Bác sĩ cũng đang là 1 trong những báo cáo viên được giới chuyên môn quan tâm đánh giá cao tại các hội thảo khoa học, tọa đàm và đào tạo chia sẻ kinh nghiệm tại các bệnh viện tuyến quận, huyện, tỉnh.",
-            "education":[
-                {
-                    "title":"Tốt nghiệp liên đại học Bordeaux-Segalen II (Pháp)",
-                    "service":"Thú y",
-                    "year":"2020-2023"
-                },
-                {
-                    "title":" Tốt nghiệp Thạc sĩ chuyên ngành Thú y, Đại học Y Hà Nội (2023)",
-                    "service":"Thú y",
-                    "year":"2019-2023"
-                }
-            ],
-            "experience":[
-                {
-                    "title":"Phòng Khám Thú y Gia Đình Nụ Cười Rực Rỡ",
-                    "year":"2020-2023"
-                },
-                {
-                    "title":"Phòng Khám Thú y Thịt chó mắm tôm",
-                    "year":"2018-2020"
-                },
-                {
-                    "title":"Phòng Khám Thú y HeheMeme",
-                    "year":"2020-2023"
-                }
-            ],
-            "awards":[
-                {
-                    "title":"Giải thưởng nhân đạo",
-                    "year":"08/2023",
-                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
-                },
-                {
-                    "title":"Giấy chứng nhận hoạt động tình nguyện quốc tế",
-                    "year":"12/2023",
-                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
-                },
-                {
-                    "title":"Giải thưởng Chuyên gia Thú y của Năm",
-                    "year":"09/2023",
-                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
-                }
-            ]
-        },
-        "gender":"Nam",
-        "birthday":"21/06/2003",
-        "image":
         {
-            "profile":"https://doccure.dreamguystech.com/angular/template/assets/img/doctors/doctor-16.jpg",
-            "anh1":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-01.jpg",
-            "anh2":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-02.jpg",
-            "anh3":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-03.jpg",
-            "anh4":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-04.jpg"
+            "id": 4,
+            "name": "Phim",
+            "slug": "story",
+            "description": "Tin tức về phim Cậu Vàng"
         },
-        "status":0
-    },
-    {
-        "id":5,
-        "name":"Dr.Pahm Khánh",
-        "slug":"pahmkhanh",
-        "phone":"0376732833",
-        "email":"pahmkhanh@fpt.edu.vn",
-        "password":"doctor123",
-        "address":"Thái Bìnk",
-        "description":{
-            "service":"Back End",
-            "about":"Với nhiều năm kinh nghiệm khám chữa bệnh nội tiết. Có nhiều công trình nghiên cứu, bài báo khoa học về bệnh đái tháo đường, tuyến giáp, tuyến yên, rối loạn lipid máu… Bác sĩ cũng đang là 1 trong những báo cáo viên được giới chuyên môn quan tâm đánh giá cao tại các hội thảo khoa học, tọa đàm và đào tạo chia sẻ kinh nghiệm tại các bệnh viện tuyến quận, huyện, tỉnh.",
-            "education":[
-                {
-                    "title":"Tốt nghiệp liên đại học Bordeaux-Segalen II (Pháp)",
-                    "service":"Thú y",
-                    "year":"2020-2023"
-                },
-                {
-                    "title":" Tốt nghiệp Thạc sĩ chuyên ngành Thú y, Đại học Y Hà Nội (2023)",
-                    "service":"Thú y",
-                    "year":"2019-2023"
-                }
-            ],
-            "experience":[
-                {
-                    "title":"Phòng Khám Thú y Gia Đình Nụ Cười Rực Rỡ",
-                    "year":"2020-2023"
-                },
-                {
-                    "title":"Phòng Khám Thú y Thịt chó mắm tôm",
-                    "year":"2018-2020"
-                },
-                {
-                    "title":"Phòng Khám Thú y HeheMeme",
-                    "year":"2020-2023"
-                }
-            ],
-            "awards":[
-                {
-                    "title":"Giải thưởng nhân đạo",
-                    "year":"08/2023",
-                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
-                },
-                {
-                    "title":"Giấy chứng nhận hoạt động tình nguyện quốc tế",
-                    "year":"12/2023",
-                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
-                },
-                {
-                    "title":"Giải thưởng Chuyên gia Thú y của Năm",
-                    "year":"09/2023",
-                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
-                }
-            ]
-        },
-        "gender":"Nam",
-        "birthday":"21/06/2003",
-        "image":
         {
-            "profile":"https://doccure.dreamguystech.com/angular/template/assets/img/doctors/doctor-27.png",
-            "anh1":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-01.jpg",
-            "anh2":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-02.jpg",
-            "anh3":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-03.jpg",
-            "anh4":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-04.jpg"
-        },
-        "status":0
-    },
-    {
-        "id":6,
-        "name":"Dr.Thiều Dương",
-        "slug":"thieuduong",
-        "phone":"0376732833",
-        "email":"thieuduong@fpt.edu.vn",
-        "password":"doctor123",
-        "address":"Ngọc Trục/Đông Lỗ/Ứng Hòa/Hà Nội",
-        "description":{
-            "service":"Front End",
-            "about":"Với nhiều năm kinh nghiệm khám chữa bệnh nội tiết. Có nhiều công trình nghiên cứu, bài báo khoa học về bệnh đái tháo đường, tuyến giáp, tuyến yên, rối loạn lipid máu… Bác sĩ cũng đang là 1 trong những báo cáo viên được giới chuyên môn quan tâm đánh giá cao tại các hội thảo khoa học, tọa đàm và đào tạo chia sẻ kinh nghiệm tại các bệnh viện tuyến quận, huyện, tỉnh.",
-            "education":[
-                {
-                    "title":"Tốt nghiệp liên đại học Bordeaux-Segalen II (Pháp)",
-                    "service":"Thú y",
-                    "year":"2020-2023"
-                },
-                {
-                    "title":" Tốt nghiệp Thạc sĩ chuyên ngành Thú y, Đại học Y Hà Nội (2023)",
-                    "service":"Thú y",
-                    "year":"2019-2023"
-                }
-            ],
-            "experience":[
-                {
-                    "title":"Phòng Khám Thú y Gia Đình Nụ Cười Rực Rỡ",
-                    "year":"2020-2023"
-                },
-                {
-                    "title":"Phòng Khám Thú y Thịt chó mắm tôm",
-                    "year":"2018-2020"
-                },
-                {
-                    "title":"Phòng Khám Thú y HeheMeme",
-                    "year":"2020-2023"
-                }
-            ],
-            "awards":[
-                {
-                    "title":"Giải thưởng nhân đạo",
-                    "year":"08/2023",
-                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
-                },
-                {
-                    "title":"Giấy chứng nhận hoạt động tình nguyện quốc tế",
-                    "year":"12/2023",
-                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
-                },
-                {
-                    "title":"Giải thưởng Chuyên gia Thú y của Năm",
-                    "year":"09/2023",
-                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
-                }
-            ]
-        },
-        "gender":"Nam",
-        "birthday":"21/06/2003",
-        "image":
+            "id": 5,
+            "name": "Chim",
+            "slug": "bird",
+            "description": "Tin tức về những chú chó"
+        }
+    ],
+    "news": [
         {
-            "profile":"https://doccure.dreamguystech.com/angular/template/assets/img/doctors/doctor-21.jpg",
-            "anh1":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-01.jpg",
-            "anh2":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-02.jpg",
-            "anh3":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-03.jpg",
-            "anh4":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-04.jpg"
+            "id": 1,
+            "name": "Narwhal – chú cún kì lạ với chiếc đuôi trên mặt",
+            "slug": "dog",
+            "content": "Mới đây nhất trên mạng xã hội bỗng dưng xuất hiện một chú cún con có chiếc đuôi mọc ở ngay trên mặt. Chú cún sở hữu bộ lông màu vàng, hiện đang sinh sống tại Mỹ và có cái tên vô cùng ấn tượng là “Narwhal” có nghĩa là Kỳ Lân. Dịch vụ cứu hộ Mac’s Mission tại Mỹ đã tìm thấy một chú chó nhỏ đang đi lang thang trong cái thời tiết lạnh cóng ở quận Jackson. Họ phát hiện ra chú cún con này đang bị thương ở một bàn chân và có một cái đuôi nhỏ mọc ngay trên trán. Họ không thể hiểu vì sao chú chó lại có cái đuôi nằm ngay vị trí đắc địa như thế. Vì vậy, họ đã đưa chú cún con đến thú y để tìm hiểu về nguồn gốc về chiếc đuôi. Theo thông tin từ dịch vụ cứu hộ, kết quả chụp X-Quang cho thấy cái đuôi nhỏ kì lạ này không liên quan đến bất kì bộ phận nào. Nó không gây phiền toái đến Narwhal hay cản trở sự nhanh nhẹn. Các bác sĩ thú y cũng không cần phải loại bỏ cái đuôi đó ngay lập tức.Các sự kiện nổi tiếng đã ghi nhận những trường hợp đặc biệt như cái mũi đỏ được hư cấu của chú tuần lộc Rudolph. Và cái đuôi mọc ở chỗ kì lạ này cũng đã đưa Narwhal vào danh sách nổi tiếng ấy.Bức ảnh đăng tải chú cún trên Facebook được dịch vụ cứu hộ đăng vào ngày 13/11 đã có hơn 8.000 lượt like và hàng loạt lời cổ động đến từ những người yêu chó.Một người hâm mộ chú cún kỳ lạ này bày tỏ: “Tôi cảm thấy rất vui khi thấy chú cún được chăm sóc ở một nơi an toàn, ấm áp và được yêu thương như vậy”.Thế nhưng cũng có một câu hỏi đang dấy lên từ những người quan tâm đến chú chó đó là cái đuôi đó có bình thường như cái đuôi khác hay không? Câu trả lời là không, nó không phải là một cái đuôi với những chức năng bình thường.“Nếu cái đuôi đó vẫy được chắc chắn nó sẽ đánh sập mạng Internet” một người vui vẻ bình luận.Dù nhận được nhiều sự quan tâm và ủng hộ từ mọi người nhưng Narwhal vẫn chưa thể ổn định được mái ấm của mình. Vì dịch vụ cứu hộ Mac’s Mission đã lên kế hoạch để giữ chú cún kì lạ này lại chăm sóc cho đến khi trưởng thành. Nhằm đảm bảo cái đuôi trên trán ấy không gây cản trở tầm nhìn trong tương lai.",
+            "public_date": "12/12/2022",
+            "image": "https://dogily.vn/wp-content/uploads/2019/12/c%C3%A1i-%C4%91u%C3%B4i-k%C3%AC-l%E1%BA%A1-tr%C3%AAn-%C4%91%E1%BA%A7u-c%E1%BB%A7a-ch%C3%BA-ch%C3%B3.jpeg",
+            "new_categorie_id": "1"
         },
-        "status":0
-    },
-    {
-        "id":7,
-        "name":"Dr.Thành Đạt",
-        "slug":"thankdat",
-        "phone":"0376732833",
-        "email":"thankdat@fpt.edu.vn",
-        "password":"doctor123",
-        "address":"Nghệ An",
-        "description":{
-            "service":"Front End",
-            "about":"Với nhiều năm kinh nghiệm khám chữa bệnh nội tiết. Có nhiều công trình nghiên cứu, bài báo khoa học về bệnh đái tháo đường, tuyến giáp, tuyến yên, rối loạn lipid máu… Bác sĩ cũng đang là 1 trong những báo cáo viên được giới chuyên môn quan tâm đánh giá cao tại các hội thảo khoa học, tọa đàm và đào tạo chia sẻ kinh nghiệm tại các bệnh viện tuyến quận, huyện, tỉnh.",
-            "education":[
-                {
-                    "title":"Tốt nghiệp liên đại học Bordeaux-Segalen II (Pháp)",
-                    "service":"Thú y",
-                    "year":"2020-2023"
-                },
-                {
-                    "title":" Tốt nghiệp Thạc sĩ chuyên ngành Thú y, Đại học Y Hà Nội (2023)",
-                    "service":"Thú y",
-                    "year":"2019-2023"
-                }
-            ],
-            "experience":[
-                {
-                    "title":"Phòng Khám Thú y Gia Đình Nụ Cười Rực Rỡ",
-                    "year":"2020-2023"
-                },
-                {
-                    "title":"Phòng Khám Thú y Thịt chó mắm tôm",
-                    "year":"2018-2020"
-                },
-                {
-                    "title":"Phòng Khám Thú y HeheMeme",
-                    "year":"2020-2023"
-                }
-            ],
-            "awards":[
-                {
-                    "title":"Giải thưởng nhân đạo",
-                    "year":"08/2023",
-                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
-                },
-                {
-                    "title":"Giấy chứng nhận hoạt động tình nguyện quốc tế",
-                    "year":"12/2023",
-                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
-                },
-                {
-                    "title":"Giải thưởng Chuyên gia Thú y của Năm",
-                    "year":"09/2023",
-                    "content":"Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng." 
-                }
-            ]
-        },
-        "gender":"Nam",
-        "birthday":"21/06/2003",
-        "image":
         {
-            "profile":"https://doccure.dreamguystech.com/angular/template/assets/img/doctors/doctor-thumb-05.jpg",
-            "anh1":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-01.jpg",
-            "anh2":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-02.jpg",
-            "anh3":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-03.jpg",
-            "anh4":"https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-04.jpg"
+            "id": 2,
+            "name": "Sau 6 năm thất lạc, chú cún trở về trước lễ giáng sinh",
+            "slug": "dog",
+            "content": "Gặp lại chú cún cưng của mình sau 6 năm bị thất lạc trước đêm giáng sinh như một món quà vô cùng ý nghĩa đối với anh Francoir. Một chú chó giống Springer Spaniel tên Houston sinh sống tại Bỉ bị lạc hồi 6 năm trước vừa về đoàn tụ với chủ nhân trước đêm Giáng sinh.Vào tháng 8/2013 chú cún Houston biến mất mặc dù anh Francoir đã cố gắng tìm kiếm. Nhưng chú chó vẫn “bật vô âm tính” và khoảng thời gian về sau anh vẫn không nhận được bất cứ thông tin gì chú cún của mình.Mới đây nhất, một người sinh sống tại khu vực Brussels đã phát hiện ra một chú chó lạ ngồi cạnh cửa hàng của mình nên đã gọi điện thông báo cho cảnh sát. Do chú cún được gắn chip điện tử nên việc xác định thông tin địa chỉ chủ nhân của nó được cảnh sát tìm ra nhanh chóng.Chủ nhân của Houston vui mừng kể lại: “Tôi ghi địa chỉ nhà và số điện thoại lên con chip để gắn trên người chú cún của mình. Nhưng khi nhận được cuộc gọi từ cảnh sát, tôi nghĩ rằng có lẽ xe hơi của mình đỗ không đúng chỗ quy định. Tuy nhiên, họ lại thông báo cho tôi việc tìm thấy Houston”, anh Francoir, chủ nhân của chú chó vui mừng kể lại.Khi trở về nhà sau 6 năm thất lạc, Houston ngay lập tức nhận ra chủ và những thành viên trong gia đình. Tuy nhiên, chú cún con lại tỏ ra sợ hãi đối với người lạ và thường nấp phía sau cánh cửa.",
+            "public_date": "12/12/2022",
+            "image": "https://dogily.vn/wp-content/uploads/2019/12/cun-cung-tr%E1%BB%9F-v%E1%BB%81.jpg",
+            "new_categorie_id": "1"
         },
-        "status":0
-    }
-  ]
+        {
+            "id": 3,
+            "name": "Paisley, chú mèo béo nhất nước Anh không thể liếm lông mình.",
+            "slug": "cat",
+            "content": "Một chú mèo sống ở Anh, có tên là Paisley không thể tự làm vệ sinh mà cần phải có người trợ giúp. Vì sở hữu thân hình béo mụp nên Paisley không thể tự mình liếm lông làm sạch cơ thể.Paisley tuy mới được 4 tuổi nhưng đã nặng lên đến 9.5kg. Với số cân nặng này khiến cho chú mèo Paisley nặng gấp đôi số cân của một chú mèo khỏe mạnh. Vào cuối tháng 10, người chủ của Paisley mang chú đến trung tâm cứu hộ vì không thể tiếp tục nuôi dưỡng.Tại đây, nhân viên ở trung tâm cứu hộ mèo Tây Sussex cho biết Paisley chính là con mèo béo nhất nước Anh. Theo bà Tania, nguyên nhân khiến chú mèo Paisley béo phì là do chủ nhân cũ không biết cách chăm sóc, lượng thức ăn nạp vào cơ thể quá nhiều nhưng không để nó vận động.Phó quản lý trung tâm – bà Tania Marsh nói rằng: “Tôi không thể tin khi gặp Paisley. Nó là con mèo béo nhất tôi từng thấy suốt 13 năm làm công việc cứu trợ mèo”.Nhận thấy Paisley vận động khó khăn các nhân viên cứu hộ đã tiến hành cắt giảm khẩu phần ăn của chú. Hiện tại, chú mèo cảnh này đã giảm cân hiệu quả và đã khỏe mạnh hơn trước nhiều.Trong thời gian tới, Paisley sẽ được chuyển đến ngôi nhà mới sinh sống. Tuy nhiên, chú mèo béo này vẫn phải đối mặt với hàng loạt các nguy cơ bệnh tật như tiểu đường, vấn đề tim mạch. Vì thế, Paisley vẫn phải thực hiện chế độ ăn kiêng đặc biệt và cần kiểm tra sức khỏe định kỳ.Qua câu chuyện của chú mèo Paisley, bà Tania khuyến cáo những ai nuôi mèo chỉ nên cho chúng ăn 2 lần một ngày, hạn chế tối đa các đồ ăn vặt hoặc nếu cho ăn vặt thì bạn phải cắt giảm bớt khẩu phần ăn. Đặc biệt, dành nhiều thời gian chơi với chúng để chúng hoạt động tránh bị béo phì giống như Paisley.Bà Tania khuyên: “Nếu không thể sờ thấy xương sườn mèo, đã đến lúc bạn giúp chúng giảm cân”.",
+            "public_date": "14/12/2022",
+            "image": "https://dogily.vn/wp-content/uploads/2019/12/%C4%91%C3%A3-r%C3%A9ize.jpg",
+            "new_categorie_id": "2"
+        },
+        {
+            "id": 4,
+            "name": "Chỉ người nuôi mèo mới hiểu những chuyện cười ra nước mắt này",
+            "slug": "cat",
+            "content": "Bạn có phải là người nuôi mèo cảnh? Bạn đã bao giờ đúc kết loạt hành động oái oăm mà “Boss” đã làm? Hãy thử xem chúng có tương đồng với top 7 điều cười-ra-nước-mắt do Dogily tổng hợp dưới đây hay không nhé.Chỉ người nuôi mèo mới biết “hoàng thượng” chảnh thế nào.Chắc hẳn những người nuôi mèo một thời gian đều phải công nhận một điều, cụm từ “chảnh chó” đáng lẽ phải đổi lại thành “chảnh mòe” mới đúng. Rõ ràng các chú cún đều rất thân thiện, quấn chủ, biết nghe lời, còn mèo thì ngược lại. Chúng chẳng những lờ lớ lơ mỗi khi bạn muốn nựng một chút, mà thậm chí còn sẵn sàng ịn mông vào mặt chủ để thể hiện tình cảm.Người nuôi mèo chuẩn bị cho các Boss nào là chăn ấm, nệm êm, giường rộng, võng xịn. Thế nhưng chúng lại tỏ ra ghét bỏ những món đồ này, thay vào đó chỉ thích nằm thùng carton hay chiếm chỗ ngủ của bạn và chú chó tội nghiệp. Mèo cũng chẳng thèm uống nước trong bát của chúng mà cứ “thị tẩm” lọ hoa hoặc cốc nước bạn đang dùng.Đặc biệt, người nuôi mèo hãy làm quen với việc bị Boss xoay mông vào mặt mỗi khi đi làm về thay vì mừng rỡ rối rít như các chú cún. Đừng tổn thương hay thất vọng trước việc này vì bạn sẽ còn phải tổn thương dài dài.Cũng đừng trông chờ vào việc các “quàng thượng” sẽ chơi đùa với người nuôi mèo mỗi khi họ muốn. Chúng phớt lờ mọi sự quan tâm, lấy lòng, chỉ một mực nằm ngủ hoặc ngồi ngẩn ra phơi nắng. Ngược lại, đến khi bạn đang bận sấp mặt thì Boss lại xuất hiện như một vị thần, ngồi lên laptop hay nghịch cây lau nhà của bạn. Tóm lại, chỉ có chúng được “bơ” bạn còn bạn thì không có quyền đó đâu.",
+            "public_date": "14/12/2022",
+            "image": "https://dogily.vn/wp-content/uploads/2020/05/nguoi-nuoi-meo-moi-hieu-.jpg",
+            "new_categorie_id": "2"
+        },
+        {
+            "id": 5,
+            "name": "Sang Đài Loan làm việc nhóm người Việt bị phạt nặng vì ăn thịt chó",
+            "slug": "eat_dog",
+            "content": "Một nhóm người Việt sau khi đi xuất khẩu lao động sang Đài Loan đã bị tòa án phạt tổng cộng một triệu đài tệ. Nguyên nhân là do họ đã giết và ăn thịt một con chó. Theo phán quyết được tòa án đưa ra vào cuối tháng 12 và công bố hôm 07/01/2020. Bốn lao động người Việt Nam làm việc cho nhà máy xử lý nước ở quận Phong Nguyên, thành phố Đài Trung, đã giết chết một con chó đen vào ngày 25/10/2018 để làm thức ăn cho 12 người Việt khác.Bốn nghi phạm Nguyen Qua Ng, Vu Van Truyen, Giap Van Hong 53 tuổi và Nguyen Van Nang, 37 tuổi. Trong đó, Nguyen Qua Ng và Vu Van Truyen đã bỏ trốn. Hai nghi phạm còn lại mỗi người bị phạt 200.000 Đài tệ ( khoảng 6.650 USD). Theo Luật Bảo vệ Động vật họ đã vi phạm pháp luật và bị giam 40 – 30 ngày.Thông tin theo như toàn án, bốn người trên đã bắt con chó đen được nuôi ở ký túc xá của công nhân. Họ giết và hầm thịt chó ngay trong bếp của nhà máy. Sau khi nhận được thông tin về sự việc cảnh sát và các quan chức bảo vệ động vật địa phương đã có mặt tại hiện trường và bắt giữ các nghi phạm.Cảnh sát đã tiến hành tịch thu số thịt chó sống còn lại, một con dao làm bếp và dụng cụ thui chó. Nguyen Van Nang và Giap Van Hong đã nhận tội, 12 người ăn thịt chó cũng bị phạt mỗi người là 50.000 Đài tệ (1.664 USD). Tổng số tiền phạt đối với nhóm lao động người Việt lên đến một triệu Đài tệ.16 lao động Việt khai rằng họ đã được những môi giới lao động cảnh báo việc giết và ăn thịt chó bị cấm ở Đài Loan. Giữa năm 2018, Luật Bảo vệ Động vật của Đài Loan được sửa đổi nghiêm cấm việc giết và ăn thịt chó, mèo. Đồng thời, hình phạt đối với các trường hợp vi phạm cũng tăng cường thêm.",
+            "public_date": "14/12/2022",
+            "image": "https://dogily.vn/wp-content/uploads/2020/01/dai-dien-cac-nhom-bao-ve-cho-bieu-tinh.png",
+            "new_categorie_id": "3"
+        },
+        {
+            "id": 6,
+            "name": "Thịt chó đóng hộp & phản ứng gay gắt từ dư luận",
+            "slug": "eat_dog",
+            "content": "Hiện nay, vụ xưởng sản xuất thịt chó đóng hộp đang nhận được nhiều ý kiến trái chiều từ cộng đồng mạng. Luật sư Trương Xuân Tám cho rằng: “Loài chó không nằm trong danh sách những loài động vật quý hiếm cần được bảo vệ”.Vào ngày 19/12 có thông tin, những sản phẩm thịt chó đóng hộp được sản xuất tại một xưởng ở tỉnh Ninh Bình, Việt Nam. Tuy nhiên, ông Hoàng Trung Kiên – Giám đốc Sở Công thương tỉnh Ninh Bình đã bác bỏ thông tin về việc tỉnh Ninh Bình có công ty sản xuất đồ hộp thịt chó.Giám đốc Sở Công thương tỉnh Ninh Bình nói rằng: “Tỉnh Ninh Bình chưa từng có đơn vị nào sản xuất đóng hộp thịt chó và cũng không có doanh nghiệp nào đang xin phép kinh doanh loại này”.Chủ nhiệm đoàn luật sư tỉnh Bà Rịa-Vũng Tàu – luật sư Trương Xuân Tám (trao đổi với báo Đất Việt) cho rằng, xét theo luật thì nếu có việc xưởng sản xuất thịt chó đóng hộp là không hề sai.Luật sư Tám nói: “Dư luận có nhiều người không ăn được thịt chó nên họ lên tiếng phản đối. Trước đây, không ai nhắc đến xưởng sản xuất thịt chó đóng hộp, giờ xuất hiện thông tin này nên nhiều người đã lên tiếng phản đối như vậy.Trong luật không có điều khoản nào cấm giết chó bởi thịt chó cũng như gà, trâu, bò. Chỉ có luật cấm giết mổ loài động vật quý hiếm, chứ chó không được liệt kê vào những loài quý hiếm đó”.Những đồ hộp đóng thịt chó được gắn với những nhãn mác bằng chữ tiếng Việt và tiếng Anh trên bao bì. Trên bao bì còn được ghi rõ loại thịt chó đóng hộp được sản xuất tại Nhà Máy Đồ Hộp Ninh Bình. Chiếc hộp với mẫu mã bắt mắt kèm dòng chữ “Đặc sản thịt chó” và được sản xuất theo công nghệ của Đức. Những hộp thịt chó này còn được cho là xuất khẩu ra nước ngoài.Tuy nhiên, những hình ảnh này đã được lan truyền từ đầu năm 2018, cách đây gần 2 năm. Nhưng rất khó để tìm thấy những loại thịt chó đóng hộp ở các siêu thị hay cửa hàng tiện lợi. Thế nên, vẫn chưa có thông tin chính xác về việc thực sự có loại thịt chó đóng hộp đang được bày bán trên thị trường hay không?Dù như thế nào thì Dogily Petshop thật sự phản đối việc sản xuất thịt chó đóng hộp. Vì nó làm mất đi tính vô nhân đạo và không an toàn cho sức khỏe người sử dụng. Thường những con chó sẽ bị đánh bả cho dễ bắt trộm nên khi ăn trúng những con chó bị đánh bả sẽ ảnh hưởng đến sức khỏe.Chúng thường canh giữ nhà cửa cho chúng ta. Thậm chí, chúng còn là người bạn đồng hành của con người vì thế Dogily phản đối kịch liệt hành động không có tính nhân văn này.",
+            "public_date": "10/12/2022",
+            "image": "https://dogily.vn/wp-content/uploads/2019/12/rezzi.jpg",
+            "new_categorie_id": "3"
+        },
+        {
+            "id": 7,
+            "name": "Dự án phim điện ảnh Cậu Vàng được đông đảo nghệ sĩ tên tuổi tham gia",
+            "slug": "story",
+            "content": "Bộ phim “Cậu Vàng” theo truyện Nam Cao đã quy tụ được đông đảo các NSDN, NSUT và dàn diễn viên trẻ tham gia. Theo đó, trong phim gồm nhiều nghệ sĩ như NSUT Hữu Châu, NSUT Chiều Xuân, Viết Liên, Thanh Hoa, Will 365,…Sau thời gian casting, bộ phim “Cậu Vàng” của đạo diễn Trần Vũ Thủy đã chính thức tổ chức họp báo ngay tại bối cảnh chính của phim ở tỉnh Ninh Bình với sự tham dự của nhiều diễn viên.Ngay khi buổi họp báo kết thúc, Cậu Vàng đã nhận được đông dảo sự quan tâm từ phía công chúng và giới truyền thông. Nhà sản xuất đã chính thức giới thiệu dàn diễn viên giữa khung cảnh đẹp như tranh của Cố Viên Lầu. Nơi đây cũng chính là nơi được đoàn làm phim chọn làm bối cảnh chính cho bộ phim.Dàn diễn viên chính thức gồm: NSƯT Hữu Châu, NSƯT Chiều Xuân, Viết Liên, Trần Lê Nam, Khánh Huyền, Thanh Hoa, Chiến Thắng, Thanh Bình, Phương Nam.Ngoài ra, trong phim còn sở hữu dàn diễn viên trẻ tuổi thu hút nhiều sự quan tâm của khán giả như: Băng Di, Will, Phương Nam, Bích Ngọc, Trần Doãn Hoàng,…Đặc biệt, trong phần kỹ thuật của bộ phim “Cậu Vàng” sẽ được đạo diễn hình ảnh Phi Tiến Sơn và Thành Toại đảm nhiệm.",
+            "public_date": "10/12/2022",
+            "image": "https://dogily.vn/wp-content/uploads/2019/12/a124b22b7ea887f6deb9.jpg",
+            "new_categorie_id": "4"
+        },
+        {
+            "id": 8,
+            "name": "Cậu Vàng và tranh luận gay gắt chó ta hay chó Nhật?",
+            "slug": "story",
+            "content": "Mới đây một bộ phim được phóng tác từ truyện ngắn Việt Nam nổi tiếng “Lão Hạc” đã thu hút được nhiều sự quan tâm của quý khán giả. Bên cạnh đó, cũng có nhiều ý kiến trái chiều xung quanh việc một chú chó Shiba Inu gốc Nhật Bản được lựa chọn vào vai “cậu Vàng” trong phim. Có nhiều ý kiến cho rằng có sự “phân biệt đối xử” giữa chó Tây và chó ta.Dư luận dậy sóng chuyện “lão Hạc” nuôi chó ngoạiDù chưa bấm máy nhưng bộ phim “Cậu Vàng” chuyển thể từ tác phẩm nổi tiếng “Lão Hạc” của Nam Cao đã nhận được nhiều sự quan tâm của cộng đồng. Mới đây nhất, nhà sản xuất đã thông báo tìm được diễn viên chính là chú chó mang tên Vàng. Chú chó Vàng này thuộc giống chó Shiba Inu, chú chó này đáp ứng được các tiêu chí làm phim hơn cả chó cỏ của Việt Nam. Chính điều này đã gây nên làn sóng dữ dội trên các trang mạng xã hội.Trong phim ảnh Việt Nam, những chú chó cũng thường xuyên được xuất hiện. Ví dụ như những bộ phim “Cánh đồng hoang”, “Chờ em đến ngày mai”, “Kẻ trộm chó”,… đều có sự góp mặt của những chú chó. Nhưng phim điện ảnh đầu tiên để chú chó trở thành nhân vật trung tâm thì chính là bộ phim “Cậu Vàng”.Tuy nhiên, “Lão Hạc” chính là dòng văn học hiện thực, phản ánh hiện trạng xã hội Việt Nam trong giai đoạn trước Cách mạng tháng Tám. Thế nên, vai diễn “Cậu Vàng” không thể là chó ngoại mà phải là một chú chó Việt. Có rất nhiều phân tích về những điểm bất hợp lý trong bộ phim này. Theo đó, những ai đã đọc tác phẩm này sẽ đều suy nghĩ “cậu Vàng” phải là một chú chó ta. Với bối cảnh đói khổ lúc bấy giờ của lão Hạc thì không thể nào nuôi một chú chó Shiba Inu đắt tiền. Song song đó, giống chó cảnh này cũng chỉ mới du nhập và phổ biến ở Việt Nam sau này, nói về lịch sử thì cũng không khớp. Tài khoản Tấn Nguyễn cho biết: “Mình không tin trong hàng triệu con chó Phú Quốc, chó Lài,… thuần chủng, không tìm được một con đủ đẹp và thông minh vào vai “cậu Vàng”. Trong khi đó, đoàn phim cũng cho biết đã tìm được 2 con chó cỏ phù hợp, nhưng chỉ để hỗ trợ “diễn viên” Shiba. Mình cảm thấy từ lâu luôn có sự phân biệt chó ta, chó Tây, ngay cả trong bộ phim thuần Việt này”. Sự bất công giữa chó ta – chó ngoại cũng được nhiều người bức xúc thông qua câu chuyện này. Tại Việt Nam, tình trạng chó cỏ đang bị đối xử thiếu công bằng ở nhiều nơi: Cấm mang chó cỏ vào lễ hội chó, quán cà phê cho chó cảnh vào trừ chó cỏ,… Nhiều ý kiến cho rằng, chúng ta nên tận dụng cơ hội này để giới thiệu về 4 loại chó cỏ thuần chủng đẹp và thông minh ở Việt Nam. Bên cạnh đó, truyển tải thông điệp ý thức về vấn nạn trộm chó và ăn thịt chó đến tất cả mọi người. Cũng có ý kiến cho rằng, đây là bộ phim phóng tác nên sẽ xuất hiện các yếu tố sáng tạo so với phiên bản gốc. Thế nên, miễn là giữ được tinh thần muốn truyền tải trong câu chuyện là được. Việc tìm một chú chó có thể đóng phim là rất khó, bởi chúng phải hội tụ nhiều yếu tố khác nhau từ kĩ năng, biểu cảm và vóc dáng của chúng. Chú chó Vàng tại buổi casting đã xuất sắc hơn tất cả những chú chó khác và đã đáp ứng tất cả những tiêu chí đề ra trước đó.",
+            "public_date": "10/12/2022",
+            "image": "https://dogily.vn/wp-content/uploads/2019/12/ch%C3%BA-ch%C3%B3-2-tu%E1%BB%95i-1.jpg",
+            "new_categorie_id": "4"
+        },
+        {
+            "id": 9,
+            "name": "Cách nuôi chim ưng Ấn Độ, ưng Shikra và ưng Lửa",
+            "slug": "bird",
+            "content": "Chim ưng là tuyển thủ săn mồi số một, số hai trên bầu trời. Thế nên việc thuần hóa loài thú dữ này là công việc không hề đơn giản. Hy vọng qua bài viết này của Dogily, các bạn có thể nắm được những kiến thức cơ bản để nuôi chim ưng và biến chúng thành chim cảnh nhà mình nhé.Khái niệm chim ưngChim ưng có tên tiếng Anh là Falcon, là một loài chim thuộc bộ Ưng cùng với đại bàng, diều hâu, kền kền v.v… Chúng đều có tập tính săn mồi và ăn thịt.Vào năm 1758, nhà khoa học Linnaeus chính thức phát hiện và đặt tên cho loài chim dữ này. Hiện chúng gồm hơn 40 giống khác nhau, sống phân bổ trên khắp thế giới, Tuy nhiên tại nước ta, về cơ bản chỉ có 3 giống chim ưng Ấn Độ, chim ưng Shikra và chim ưng Lửa là được nuôi phổ biến như chim cảnhĐặc trưng ngoại hình của chim ưngChim ưng có hình dạng tương tự như đại bàng – 1 giống chim cùng thuộc bộ Ưng – nhưng kích cỡ nhỏ hơn. Khi đã đến tuổi trưởng thành, chúng có thể dài từ 25 đến 70cm, tương ứng với cân nặng nằm trong khoảng 0.5 – 4kg. Chim ưng mái có kích cỡ to hơn chim trống rất nhiều, thậm chí còn nặng hơn gấp đôi. Về hình dạng, ta dễ dàng nhận thấy phần đầu chim ưng khá bé và nhọn, chiếm một tỷ lệ nhỏ trên toàn bộ cơ thể. Vì là loài chim săn mồi nên mắt của chúng rất sáng và to, thị lực cực tốt. Chiếc mỏ thì to và cứng, phần trên dài và quặp vào, đảm bảo cắp ngay được con mồi chỉ trong một cú mổ. Nằm giữa mỏ và mắt chính là lỗ mũi to tròn. Chiếc cổ dài nhỏ nối liền đầu với phần còn lại của cơ thể, bộ phận này rất chắc khỏe và dẻo dai, có thể rướn ra, rụt vào tùy ý.Chim ưng có bộ ngực nở nang, săn chắc, phần lưng bằng phẳng. Vì phải săn mồi với tốc độ chớp nhoáng nên chúng không có bụng và tỷ lệ mỡ thừa trong cơ thể gần như là zero.Sải cánh của chim ưng dài và mỏng, có thể dễ dàng mượn sức gió để bay lượn giữa không trung hoặc tăng tốc đột ngột. Phần đuôi dài, chắc chắn, có tác dụng góp phần giữ thăng bằng và điều chỉnh hướng bay. Đôi chân cực kỳ chắc khỏe với bộ móng vuốt sắc nhọn, giúp chúng giữ cứng được con mồi hay bám vào vách đá cheo leo.Chim ưng thường có lông màu nâu, phần ngực – bụng nhạt nhất với màu trắng sữa. Đầu cổ và vùng cánh đậm màu hơn, nhất là phần đuôi chuyển sang sắc nâu đậm đi kèm với các vệt đen. Bộ lông của chúng được tạo thành từ 2 lớp, bao gồm lớp lông mềm và nhẹ ở bên trong, và lớp lông vũ dày, cứng nằm bên ngoài.Chim ưng có đặc tính gì?Đây là loài chim có tuổi thọ trung bình cao, tầm hơn 20 tuổi. Là sát thủ trên không, tốc độ của chim ưng có thể đạt đến 320km/giờ. Chúng cũng sở hữu thị lực siêu tốt, gấp 2.6 lần so với loài người, có thể nhìn thấy con mồi ngay trong bóng tối. Thức ăn và cách săn mồi của chim ưng.Chim ưng là loài động vật ăn thịt hoàn toàn. Thức ăn của chúng bao gồm các loài thú nhỏ sống trên mặt đất như gà, thỏ, chuột, rắn; các loài chim nhỏ bay trên trời và một số động vật thuộc bộ móng guốc như hươu, nai v.v…",
+            "public_date": "10/12/2022",
+            "image": "https://dogily.vn/wp-content/uploads/2020/05/chim-ung-cach-nuoi-2.jpg",
+            "new_categorie_id": "5"
+        }
+    ],
+    "doctors": [
+        {
+            "id": 1,
+            "name": "Dr.Thành Đoàn",
+            "slug": "thanhdoan",
+            "phone": "0376732833",
+            "email": "thanhdoan@fpt.edu.vn",
+            "password": "doctor123",
+            "address": "Nhân Trai/Đông Lỗ/Ứng Hòa/Hà Nội",
+            "description": {
+                "service": "Front End",
+                "about": "Với nhiều năm kinh nghiệm khám chữa bệnh nội tiết. Có nhiều công trình nghiên cứu, bài báo khoa học về bệnh đái tháo đường, tuyến giáp, tuyến yên, rối loạn lipid máu… Bác sĩ cũng đang là 1 trong những báo cáo viên được giới chuyên môn quan tâm đánh giá cao tại các hội thảo khoa học, tọa đàm và đào tạo chia sẻ kinh nghiệm tại các bệnh viện tuyến quận, huyện, tỉnh.",
+                "education": [
+                    {
+                        "title": "Tốt nghiệp liên đại học Bordeaux-Segalen II (Pháp)",
+                        "service": "Thú y",
+                        "year": "2020-2023"
+                    },
+                    {
+                        "title": " Tốt nghiệp Thạc sĩ chuyên ngành Thú y, Đại học Y Hà Nội (2023)",
+                        "service": "Thú y",
+                        "year": "2019-2023"
+                    }
+                ],
+                "experience": [
+                    {
+                        "title": "Phòng Khám Thú y Gia Đình Nụ Cười Rực Rỡ",
+                        "year": "2020-2023"
+                    },
+                    {
+                        "title": "Phòng Khám Thú y Thịt chó mắm tôm",
+                        "year": "2018-2020"
+                    },
+                    {
+                        "title": "Phòng Khám Thú y HeheMeme",
+                        "year": "2020-2023"
+                    }
+                ],
+                "awards": [
+                    {
+                        "title": "Giải thưởng nhân đạo",
+                        "year": "08/2023",
+                        "content": "Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng."
+                    },
+                    {
+                        "title": "Giấy chứng nhận hoạt động tình nguyện quốc tế",
+                        "year": "12/2023",
+                        "content": "Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng."
+                    },
+                    {
+                        "title": "Giải thưởng Chuyên gia Thú y của Năm",
+                        "year": "09/2023",
+                        "content": "Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng."
+                    }
+                ]
+            },
+            "gender": "Nam",
+            "birthday": "21/06/2003",
+            "image": {
+                "profile": "https://doccure.dreamguystech.com/angular/template/assets/img/doctors/doctor-thumb-02.jpg",
+                "anh1": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-01.jpg",
+                "anh2": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-02.jpg",
+                "anh3": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-03.jpg",
+                "anh4": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-04.jpg"
+            },
+            "status": 0
+        },
+        {
+            "id": 2,
+            "name": "Dr.Tạ Quí",
+            "slug": "taquy",
+            "phone": "0376732833",
+            "email": "taquy@fpt.edu.vn",
+            "password": "doctor123",
+            "address": "Phú Thọ",
+            "description": {
+                "service": "Front End",
+                "about": "Với nhiều năm kinh nghiệm khám chữa bệnh nội tiết. Có nhiều công trình nghiên cứu, bài báo khoa học về bệnh đái tháo đường, tuyến giáp, tuyến yên, rối loạn lipid máu… Bác sĩ cũng đang là 1 trong những báo cáo viên được giới chuyên môn quan tâm đánh giá cao tại các hội thảo khoa học, tọa đàm và đào tạo chia sẻ kinh nghiệm tại các bệnh viện tuyến quận, huyện, tỉnh.",
+                "education": [
+                    {
+                        "title": "Tốt nghiệp liên đại học Bordeaux-Segalen II (Pháp)",
+                        "service": "Thú y",
+                        "year": "2020-2023"
+                    },
+                    {
+                        "title": " Tốt nghiệp Thạc sĩ chuyên ngành Thú y, Đại học Y Hà Nội (2023)",
+                        "service": "Thú y",
+                        "year": "2019-2023"
+                    }
+                ],
+                "experience": [
+                    {
+                        "title": "Phòng Khám Thú y Gia Đình Nụ Cười Rực Rỡ",
+                        "year": "2020-2023"
+                    },
+                    {
+                        "title": "Phòng Khám Thú y Thịt chó mắm tôm",
+                        "year": "2018-2020"
+                    },
+                    {
+                        "title": "Phòng Khám Thú y HeheMeme",
+                        "year": "2020-2023"
+                    }
+                ],
+                "awards": [
+                    {
+                        "title": "Giải thưởng nhân đạo",
+                        "year": "08/2023",
+                        "content": "Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng."
+                    },
+                    {
+                        "title": "Giấy chứng nhận hoạt động tình nguyện quốc tế",
+                        "year": "12/2023",
+                        "content": "Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng."
+                    },
+                    {
+                        "title": "Giải thưởng Chuyên gia Thú y của Năm",
+                        "year": "09/2023",
+                        "content": "Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng."
+                    }
+                ]
+            },
+            "gender": "Nam",
+            "birthday": "21/06/2003",
+            "image": {
+                "profile": "https://doccure.dreamguystech.com/angular/template/assets/img/doctors/doctor-13.jpg",
+                "anh1": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-01.jpg",
+                "anh2": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-02.jpg",
+                "anh3": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-03.jpg",
+                "anh4": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-04.jpg"
+            },
+            "status": 0
+        },
+        {
+            "id": 3,
+            "name": "Dr.Vũ Bá",
+            "slug": "vuaba",
+            "phone": "0376732833",
+            "email": "vuba@fpt.edu.vn",
+            "password": "doctor123",
+            "address": "Thái Bìnk",
+            "description": {
+                "service": "Back End",
+                "about": "Với nhiều năm kinh nghiệm khám chữa bệnh nội tiết. Có nhiều công trình nghiên cứu, bài báo khoa học về bệnh đái tháo đường, tuyến giáp, tuyến yên, rối loạn lipid máu… Bác sĩ cũng đang là 1 trong những báo cáo viên được giới chuyên môn quan tâm đánh giá cao tại các hội thảo khoa học, tọa đàm và đào tạo chia sẻ kinh nghiệm tại các bệnh viện tuyến quận, huyện, tỉnh.",
+                "education": [
+                    {
+                        "title": "Tốt nghiệp liên đại học Bordeaux-Segalen II (Pháp)",
+                        "service": "Thú y",
+                        "year": "2020-2023"
+                    },
+                    {
+                        "title": " Tốt nghiệp Thạc sĩ chuyên ngành Thú y, Đại học Y Hà Nội (2023)",
+                        "service": "Thú y",
+                        "year": "2019-2023"
+                    }
+                ],
+                "experience": [
+                    {
+                        "title": "Phòng Khám Thú y Gia Đình Nụ Cười Rực Rỡ",
+                        "year": "2020-2023"
+                    },
+                    {
+                        "title": "Phòng Khám Thú y Thịt chó mắm tôm",
+                        "year": "2018-2020"
+                    },
+                    {
+                        "title": "Phòng Khám Thú y HeheMeme",
+                        "year": "2020-2023"
+                    }
+                ],
+                "awards": [
+                    {
+                        "title": "Giải thưởng nhân đạo",
+                        "year": "08/2023",
+                        "content": "Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng."
+                    },
+                    {
+                        "title": "Giấy chứng nhận hoạt động tình nguyện quốc tế",
+                        "year": "12/2023",
+                        "content": "Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng."
+                    },
+                    {
+                        "title": "Giải thưởng Chuyên gia Thú y của Năm",
+                        "year": "09/2023",
+                        "content": "Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng."
+                    }
+                ]
+            },
+            "gender": "Nam",
+            "birthday": "21/06/2003",
+            "image": {
+                "profile": "https://doccure.dreamguystech.com/angular/template/assets/img/doctors/doctor-14.jpg",
+                "anh1": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-01.jpg",
+                "anh2": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-02.jpg",
+                "anh3": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-03.jpg",
+                "anh4": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-04.jpg"
+            },
+            "status": 0
+        },
+        {
+            "id": 4,
+            "name": "Dr.Huy Đạt",
+            "slug": "huydat",
+            "phone": "0376732833",
+            "email": "huydat@fpt.edu.vn",
+            "password": "doctor123",
+            "address": "Thank Hóa",
+            "description": {
+                "service": "Back End",
+                "about": "Với nhiều năm kinh nghiệm khám chữa bệnh nội tiết. Có nhiều công trình nghiên cứu, bài báo khoa học về bệnh đái tháo đường, tuyến giáp, tuyến yên, rối loạn lipid máu… Bác sĩ cũng đang là 1 trong những báo cáo viên được giới chuyên môn quan tâm đánh giá cao tại các hội thảo khoa học, tọa đàm và đào tạo chia sẻ kinh nghiệm tại các bệnh viện tuyến quận, huyện, tỉnh.",
+                "education": [
+                    {
+                        "title": "Tốt nghiệp liên đại học Bordeaux-Segalen II (Pháp)",
+                        "service": "Thú y",
+                        "year": "2020-2023"
+                    },
+                    {
+                        "title": " Tốt nghiệp Thạc sĩ chuyên ngành Thú y, Đại học Y Hà Nội (2023)",
+                        "service": "Thú y",
+                        "year": "2019-2023"
+                    }
+                ],
+                "experience": [
+                    {
+                        "title": "Phòng Khám Thú y Gia Đình Nụ Cười Rực Rỡ",
+                        "year": "2020-2023"
+                    },
+                    {
+                        "title": "Phòng Khám Thú y Thịt chó mắm tôm",
+                        "year": "2018-2020"
+                    },
+                    {
+                        "title": "Phòng Khám Thú y HeheMeme",
+                        "year": "2020-2023"
+                    }
+                ],
+                "awards": [
+                    {
+                        "title": "Giải thưởng nhân đạo",
+                        "year": "08/2023",
+                        "content": "Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng."
+                    },
+                    {
+                        "title": "Giấy chứng nhận hoạt động tình nguyện quốc tế",
+                        "year": "12/2023",
+                        "content": "Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng."
+                    },
+                    {
+                        "title": "Giải thưởng Chuyên gia Thú y của Năm",
+                        "year": "09/2023",
+                        "content": "Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng."
+                    }
+                ]
+            },
+            "gender": "Nam",
+            "birthday": "21/06/2003",
+            "image": {
+                "profile": "https://doccure.dreamguystech.com/angular/template/assets/img/doctors/doctor-16.jpg",
+                "anh1": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-01.jpg",
+                "anh2": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-02.jpg",
+                "anh3": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-03.jpg",
+                "anh4": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-04.jpg"
+            },
+            "status": 0
+        },
+        {
+            "id": 5,
+            "name": "Dr.Pahm Khánh",
+            "slug": "pahmkhanh",
+            "phone": "0376732833",
+            "email": "pahmkhanh@fpt.edu.vn",
+            "password": "doctor123",
+            "address": "Thái Bìnk",
+            "description": {
+                "service": "Back End",
+                "about": "Với nhiều năm kinh nghiệm khám chữa bệnh nội tiết. Có nhiều công trình nghiên cứu, bài báo khoa học về bệnh đái tháo đường, tuyến giáp, tuyến yên, rối loạn lipid máu… Bác sĩ cũng đang là 1 trong những báo cáo viên được giới chuyên môn quan tâm đánh giá cao tại các hội thảo khoa học, tọa đàm và đào tạo chia sẻ kinh nghiệm tại các bệnh viện tuyến quận, huyện, tỉnh.",
+                "education": [
+                    {
+                        "title": "Tốt nghiệp liên đại học Bordeaux-Segalen II (Pháp)",
+                        "service": "Thú y",
+                        "year": "2020-2023"
+                    },
+                    {
+                        "title": " Tốt nghiệp Thạc sĩ chuyên ngành Thú y, Đại học Y Hà Nội (2023)",
+                        "service": "Thú y",
+                        "year": "2019-2023"
+                    }
+                ],
+                "experience": [
+                    {
+                        "title": "Phòng Khám Thú y Gia Đình Nụ Cười Rực Rỡ",
+                        "year": "2020-2023"
+                    },
+                    {
+                        "title": "Phòng Khám Thú y Thịt chó mắm tôm",
+                        "year": "2018-2020"
+                    },
+                    {
+                        "title": "Phòng Khám Thú y HeheMeme",
+                        "year": "2020-2023"
+                    }
+                ],
+                "awards": [
+                    {
+                        "title": "Giải thưởng nhân đạo",
+                        "year": "08/2023",
+                        "content": "Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng."
+                    },
+                    {
+                        "title": "Giấy chứng nhận hoạt động tình nguyện quốc tế",
+                        "year": "12/2023",
+                        "content": "Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng."
+                    },
+                    {
+                        "title": "Giải thưởng Chuyên gia Thú y của Năm",
+                        "year": "09/2023",
+                        "content": "Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng."
+                    }
+                ]
+            },
+            "gender": "Nam",
+            "birthday": "21/06/2003",
+            "image": {
+                "profile": "https://doccure.dreamguystech.com/angular/template/assets/img/doctors/doctor-27.png",
+                "anh1": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-01.jpg",
+                "anh2": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-02.jpg",
+                "anh3": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-03.jpg",
+                "anh4": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-04.jpg"
+            },
+            "status": 0
+        },
+        {
+            "id": 6,
+            "name": "Dr.Thiều Dương",
+            "slug": "thieuduong",
+            "phone": "0376732833",
+            "email": "thieuduong@fpt.edu.vn",
+            "password": "doctor123",
+            "address": "Ngọc Trục/Đông Lỗ/Ứng Hòa/Hà Nội",
+            "description": {
+                "service": "Front End",
+                "about": "Với nhiều năm kinh nghiệm khám chữa bệnh nội tiết. Có nhiều công trình nghiên cứu, bài báo khoa học về bệnh đái tháo đường, tuyến giáp, tuyến yên, rối loạn lipid máu… Bác sĩ cũng đang là 1 trong những báo cáo viên được giới chuyên môn quan tâm đánh giá cao tại các hội thảo khoa học, tọa đàm và đào tạo chia sẻ kinh nghiệm tại các bệnh viện tuyến quận, huyện, tỉnh.",
+                "education": [
+                    {
+                        "title": "Tốt nghiệp liên đại học Bordeaux-Segalen II (Pháp)",
+                        "service": "Thú y",
+                        "year": "2020-2023"
+                    },
+                    {
+                        "title": " Tốt nghiệp Thạc sĩ chuyên ngành Thú y, Đại học Y Hà Nội (2023)",
+                        "service": "Thú y",
+                        "year": "2019-2023"
+                    }
+                ],
+                "experience": [
+                    {
+                        "title": "Phòng Khám Thú y Gia Đình Nụ Cười Rực Rỡ",
+                        "year": "2020-2023"
+                    },
+                    {
+                        "title": "Phòng Khám Thú y Thịt chó mắm tôm",
+                        "year": "2018-2020"
+                    },
+                    {
+                        "title": "Phòng Khám Thú y HeheMeme",
+                        "year": "2020-2023"
+                    }
+                ],
+                "awards": [
+                    {
+                        "title": "Giải thưởng nhân đạo",
+                        "year": "08/2023",
+                        "content": "Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng."
+                    },
+                    {
+                        "title": "Giấy chứng nhận hoạt động tình nguyện quốc tế",
+                        "year": "12/2023",
+                        "content": "Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng."
+                    },
+                    {
+                        "title": "Giải thưởng Chuyên gia Thú y của Năm",
+                        "year": "09/2023",
+                        "content": "Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng."
+                    }
+                ]
+            },
+            "gender": "Nam",
+            "birthday": "21/06/2003",
+            "image": {
+                "profile": "https://doccure.dreamguystech.com/angular/template/assets/img/doctors/doctor-21.jpg",
+                "anh1": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-01.jpg",
+                "anh2": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-02.jpg",
+                "anh3": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-03.jpg",
+                "anh4": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-04.jpg"
+            },
+            "status": 0
+        },
+        {
+            "id": 7,
+            "name": "Dr.Thành Đạt",
+            "slug": "thankdat",
+            "phone": "0376732833",
+            "email": "thankdat@fpt.edu.vn",
+            "password": "doctor123",
+            "address": "Nghệ An",
+            "description": {
+                "service": "Front End",
+                "about": "Với nhiều năm kinh nghiệm khám chữa bệnh nội tiết. Có nhiều công trình nghiên cứu, bài báo khoa học về bệnh đái tháo đường, tuyến giáp, tuyến yên, rối loạn lipid máu… Bác sĩ cũng đang là 1 trong những báo cáo viên được giới chuyên môn quan tâm đánh giá cao tại các hội thảo khoa học, tọa đàm và đào tạo chia sẻ kinh nghiệm tại các bệnh viện tuyến quận, huyện, tỉnh.",
+                "education": [
+                    {
+                        "title": "Tốt nghiệp liên đại học Bordeaux-Segalen II (Pháp)",
+                        "service": "Thú y",
+                        "year": "2020-2023"
+                    },
+                    {
+                        "title": " Tốt nghiệp Thạc sĩ chuyên ngành Thú y, Đại học Y Hà Nội (2023)",
+                        "service": "Thú y",
+                        "year": "2019-2023"
+                    }
+                ],
+                "experience": [
+                    {
+                        "title": "Phòng Khám Thú y Gia Đình Nụ Cười Rực Rỡ",
+                        "year": "2020-2023"
+                    },
+                    {
+                        "title": "Phòng Khám Thú y Thịt chó mắm tôm",
+                        "year": "2018-2020"
+                    },
+                    {
+                        "title": "Phòng Khám Thú y HeheMeme",
+                        "year": "2020-2023"
+                    }
+                ],
+                "awards": [
+                    {
+                        "title": "Giải thưởng nhân đạo",
+                        "year": "08/2023",
+                        "content": "Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng."
+                    },
+                    {
+                        "title": "Giấy chứng nhận hoạt động tình nguyện quốc tế",
+                        "year": "12/2023",
+                        "content": "Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng."
+                    },
+                    {
+                        "title": "Giải thưởng Chuyên gia Thú y của Năm",
+                        "year": "09/2023",
+                        "content": "Khách hàng rất quan trọng, khách hàng sẽ được khách hàng theo đuổi. Từ chính mặt đất. Đôi khi cơn đói được mong đợi và trước đó nó là thứ đầu tiên chảy vào cổ họng."
+                    }
+                ]
+            },
+            "gender": "Nam",
+            "birthday": "21/06/2003",
+            "image": {
+                "profile": "https://doccure.dreamguystech.com/angular/template/assets/img/doctors/doctor-thumb-05.jpg",
+                "anh1": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-01.jpg",
+                "anh2": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-02.jpg",
+                "anh3": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-03.jpg",
+                "anh4": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-04.jpg"
+            },
+            "status": 0
+        }
+    ],
+    "services": [
+        {
+            "id": 1,
+            "name": "Khám bệnh",
+            "slug": "abc",
+            "description": "Nhưng để bạn có thể thấy tất cả những sai lầm sinh ra từ đâu của những người buộc tội niềm vui và ca ngợi nỗi đau, tôi sẽ mở ra toàn bộ vấn đề và giải thích chính những điều đã được nói bởi người khám phá ra sự thật và với tư cách là người kiến ​​tạo nên một hạnh phúc. mạng sống. Vì không ai khinh thường, ghét bỏ hay chạy trốn khỏi thú vui vì đó là thú vui, mà vì những người không biết cách theo đuổi thú vui bằng lý trí sẽ phải chịu những đau khổ lớn lao. Hơn nữa, cũng không có ai vì yêu nỗi đau nên theo đuổi nó, muốn đạt được nó, nhưng vì những lúc như vậy không bao giờ xảy ra khi anh ta tìm kiếm niềm vui lớn lao nào đó qua lao động và đau đớn. Để đi đến chi tiết nhỏ nhất, ai trong chúng ta thực hiện bất kỳ bài tập thể chất nào tốn nhiều công sức, ngoại trừ để thu được lợi ích nào đó từ nó? Nhưng ai có thể đổ lỗi chính đáng cho người muốn có được niềm vui mà không gây ra khó chịu, hay người trốn tránh nỗi đau mà trong đó không tạo ra niềm vui?",
+            "price": "Khoảng 1 triệu",
+            "image": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-04.jpg",
+            "service_categorie_id": 123,
+            "timestamps": ""
+        },
+        {
+            "id": 2,
+            "name": "Tắm thú cưng",
+            "slug": "abc",
+            "description": "Tắm thú cưng nè",
+            "price": "Khoảng 1 trăm",
+            "image": {
+                "profile": "https://doccure.dreamguystech.com/angular/template/assets/img/doctors/doctor-thumb-05.jpg",
+                "anh1": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-01.jpg",
+                "anh2": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-02.jpg",
+                "anh3": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-03.jpg",
+                "anh4": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-04.jpg"
+            },
+            "service_categorie_id": 1234,
+            "timestamps": ""
+        },
+        {
+            "id": 3,
+            "name": "Làm đẹp thú cưng",
+            "slug": "abc",
+            "description": "Làm đẹp nè",
+            "price": "Khoảng 1 triệu",
+            "image": {
+                "profile": "https://doccure.dreamguystech.com/angular/template/assets/img/doctors/doctor-thumb-05.jpg",
+                "anh1": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-01.jpg",
+                "anh2": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-02.jpg",
+                "anh3": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-03.jpg",
+                "anh4": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-04.jpg"
+            },
+            "service_categorie_id": 12345,
+            "timestamps": ""
+        },
+        {
+            "id": 4,
+            "name": "Tiêm phòng",
+            "slug": "abc",
+            "description": "Tiêm phòng nè",
+            "price": "Khoảng 1 triệu",
+            "image": {
+                "profile": "https://doccure.dreamguystech.com/angular/template/assets/img/doctors/doctor-thumb-05.jpg",
+                "anh1": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-01.jpg",
+                "anh2": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-02.jpg",
+                "anh3": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-03.jpg",
+                "anh4": "https://doccure.dreamguystech.com/angular/template/assets/img/features/feature-04.jpg"
+            },
+            "service_categorie_id": 123456,
+            "timestamps": ""
+        }
+    ],
+    "appointments": [
+        {
+            "id" : 1,
+            "status" : 1,
+            "description" : "là hệ sinh thái bao gồm cộng đồng các Top Developers."
+        }
+    ]
 }
