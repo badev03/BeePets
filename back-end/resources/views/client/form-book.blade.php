@@ -40,6 +40,11 @@
        </form>
 
     @endif
+  
+
+  
+  
+    
     <form action="{{route('booking.store')}}" method="post" id="form-booking">
         @csrf
        <div class="mb-3">
