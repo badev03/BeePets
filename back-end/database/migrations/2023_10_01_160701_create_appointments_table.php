@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('description');
             $table->date('date');
             $table->time('time');
+            $table->string('shift_name');
             $table->unsignedBigInteger('type_pet_id');
             $table->unsignedBigInteger('service_id');
             $table->unsignedBigInteger('doctor_id');

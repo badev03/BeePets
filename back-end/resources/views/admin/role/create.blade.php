@@ -43,6 +43,23 @@
                                                 <img style="width: 300px" src="https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg" alt="" id="image_prev">
                                             </div>
                                         </div>
+                                    @elseif(in_array($key , FIELD_CHECK_FOR))
+                                        <div class="row">
+                                            <div class="col-md-8 mb-3">
+                                                <label class="mb-2" for="validationCustom01">{{ $item }}</label>
+                                                <select class="form-select" name="{{ $key }}">
+                                                    @foreach($categories as $keyCat=>$itemCat)
+                                                        <option value="{{ $itemCat->id }}">{{ $itemCat->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @if($errors->has($key))
+                                                    <div class="error text-danger mt-2">{{ $errors->first($key) }}</div>
+                                                @endif
+                                            </div>
+                                            <div class="col-4">
+                                                <img style="width: 300px" src="https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg" alt="" id="image_prev">
+                                            </div>
+                                        </div>
                                     @else
                                         <div class="row">
                                             <div class="col-md-8 mb-3">
