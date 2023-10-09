@@ -24,7 +24,7 @@ class ServiceController extends BaseResponseApiController
 
     public function showHome() {
         $data = Service::limit(4)
-                ->select('services.id' , 'services.name' , 'services.slug' , 'services.description')
+                ->select('services.id' , 'services.name' , 'services.slug' , 'services.description' , 'services.icon_svg')
                 ->join('service_categories' , 'service_categories.id' , '=' , 'services.service_categorie_id')
                 ->where('service_categories.status' , '=' , 1)
                 ->get();
