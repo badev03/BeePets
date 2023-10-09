@@ -76,7 +76,7 @@ function App() {
           <Route path='doctors/edit-prescription' element={<Editprescription />} />
           <Route path='doctors/add-bill' element={<Addbill />} />
           <Route path='doctors/edit-bill' element={<Editbill />} />
-          <Route path='doctors/detail-appointments' element={<DetailAppointment/>}/>
+          <Route path='doctors/detail-appointments/:id' element={<DetailAppointment/>}/>
 
           <Route path='Register' element={<Register />} />
           <Route path='Login' element={<Login />} />
