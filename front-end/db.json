@@ -99,6 +99,42 @@
           "new_categorie_id":"5"
       }
   ],
+  "appointments":[
+    {
+        "id":1,
+        "name":"Đạt qưe",
+        "type":"cá sấu",
+        "date":"28/09/2023",
+        "schedule": "8:00 - 15:00",
+        "note": "bệnh abc"
+    }
+  ],
+    "billdetails":[
+    {
+        "id":1,
+        "date":"28/09/2023",
+        "bills":{
+            "number":"1",
+            "service_name":"Tắm",
+            "quantity":22,
+            "price": 500000
+        }
+    },
+        {
+        "id":2,
+        "date":"28/09/2003",
+         "bills":{
+            "number":"2",
+            "service_name":"Tỉa lông    ",
+            "quantity":22,
+            "price":400000 
+      }
+    }   
+    
+    
+  ],
+
+
   "doctors":[
     {
         "id":1,"name":"Dr.Thành Đoàn",

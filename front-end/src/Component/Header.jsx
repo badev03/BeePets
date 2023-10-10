@@ -59,7 +59,7 @@ const Header = () => {
               onClick={handleLogoClick}
             >
               <img
-                src="../src/assets/img/logo.jpg"
+                src="../../src/assets/img/logo.jpg"
                 className="img-fluid"
                 alt="Logo"
               />
@@ -69,7 +69,7 @@ const Header = () => {
             <div className="menu-header">
               <a href="/" className="menu-logo">
                 <img
-                  src="../src/assets/img/logo.png"
+                  src="../../src/assets/img/logo.png"
                   className="img-fluid"
                   alt="Logo"
                 />
@@ -81,33 +81,29 @@ const Header = () => {
 
             <ul className="main-nav">
               <li
-                className={`has-submenu megamenu ${
-                  activeItems.includes("TRANG CHỦ") ? "active" : ""
-                }`}
+                className={`has-submenu megamenu ${activeItems.includes("TRANG CHỦ") ? "active" : ""
+                  }`}
                 onClick={() => handleItemClick("TRANG CHỦ")}
               >
                 <a href="/">TRANG CHỦ </a>
               </li>
               <li
-                className={`has-submenu ${
-                  activeItems.includes("BÁC SĨ") ? "active" : ""
-                }`}
+                className={`has-submenu ${activeItems.includes("BÁC SĨ") ? "active" : ""
+                  }`}
                 onClick={() => handleItemClick("BÁC SĨ")}
               >
                 <a href="/doctor">BÁC SĨ </a>
               </li>
               <li
-                className={`has-submenu ${
-                  activeItems.includes("GIỚI THIỆU") ? "active" : ""
-                }`}
+                className={`has-submenu ${activeItems.includes("GIỚI THIỆU") ? "active" : ""
+                  }`}
                 onClick={() => handleItemClick("GIỚI THIỆU")}
               >
                 <a href="/abouts">GIỚI THIỆU </a>
               </li>
               <li
-                className={`has-submenu ${
-                  activeItems.includes("TIN TỨC") ? "active" : ""
-                }`}
+                className={`has-submenu ${activeItems.includes("TIN TỨC") ? "active" : ""
+                  }`}
                 onClick={() => handleItemClick("TIN TỨC")}
               >
                 <a href="/blog">TIN TỨC </a>

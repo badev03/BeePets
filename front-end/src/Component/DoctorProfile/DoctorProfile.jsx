@@ -131,6 +131,7 @@ const DoctorProfile = () => {
                     <div className="experience-box">
                       <ul className="experience-list">
                         {doctor.description.education.map(edication=>(
+                          // eslint-disable-next-line react/jsx-key
                           <li>
                           <div className="experience-user">
                             <div className="before-circle" />
@@ -154,6 +155,7 @@ const DoctorProfile = () => {
                     <div className="experience-box">
                       <ul className="experience-list">
                       {doctor.description.experience.map(experience=>(
+                        // eslint-disable-next-line react/jsx-key
                         <li>
                           <div className="experience-user">
                             <div className="before-circle" />
@@ -175,6 +177,7 @@ const DoctorProfile = () => {
                       <ul className="experience-list">
                       {doctor.description.awards.map(awards=>(
 
+                        // eslint-disable-next-line react/jsx-key
                         <li>
                           <div className="experience-user">
                             <div className="before-circle" />

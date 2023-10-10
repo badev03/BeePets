@@ -1,7 +1,6 @@
-import React from 'react'
-import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom';
-import doctorsApi from '../../api/doctorsApi';
+import { useEffect, useState } from "react";
+import doctorsApi from "../../api/doctorsApi";
+import { Link, useParams } from "react-router-dom";
 
 const HomepageDoctors = () => {
     const { id } = useParams();

@@ -60,9 +60,9 @@ function App() {
           <Route path='user/dashbroad' element={<Dashboard />} />
           <Route path='user/changepassword' element={<ChangePassword />} />
           <Route path='user/profilesetting' element={<ProfileSetting />} />
-          <Route path='user/appointment' element={<AppointmentDetail />} />
+          <Route path='user/appointment/:id' element={<AppointmentDetail />} />
           <Route path='user/prescription' element={<PrescriptionDetails />} />
-          <Route path='user/billdetail' element={<BillDetail />} />
+          <Route path='user/billdetail/:id' element={<BillDetail />} />
           <Route path='informationuser' element={<Information />} />
 
           <Route path='doctors' element={<Dashboarddoctors />} />
@@ -76,7 +76,7 @@ function App() {
           <Route path='doctors/edit-prescription' element={<Editprescription />} />
           <Route path='doctors/add-bill' element={<Addbill />} />
           <Route path='doctors/edit-bill' element={<Editbill />} />
-          <Route path='doctors/detail-appointments' element={<DetailAppointment/>}/>
+          <Route path='doctors/detail-appointments' element={<DetailAppointment />} />
 
           <Route path='Register' element={<Register />} />
           <Route path='Login' element={<Login />} />
