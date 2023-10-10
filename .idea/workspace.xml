@@ -5,13 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="45a53ba9-6ef3-41ae-87f6-4b989cb527d7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/BaseAdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/BaseAdminController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/app/Models/Product_categories.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Models/Product_categories.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/app/Models/Products.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Models/Products.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/helpers/const.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/helpers/const.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/DoctorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/DoctorController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Models/Doctor.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Models/Doctor.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +21,11 @@
     <execution />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="develop" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
@@ -260,24 +263,27 @@
     </include_path>
   </component>
   <component name="ProjectId" id="2VuhhQXDza3ZsemU1n74U22XaJR" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/phamn/OneDrive/Desktop/BeePets",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/phamn/OneDrive/Desktop/BeePets&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\lehuy\OneDrive\Desktop\project_graduate\BeePets\BackEnd\resources\views\layouts\partials" />
