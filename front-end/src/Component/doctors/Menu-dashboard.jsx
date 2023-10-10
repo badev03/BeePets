@@ -1,41 +1,10 @@
 import React from 'react'
-import {Link,NavLink} from 'react-router-dom'
-import { useEffect, useState } from "react";
+import {Link} from 'react-router-dom'
+
 
 const Menudashboard = () => {
-  const initialActiveItems = JSON.parse(
-    localStorage.getItem("activeItems")
-  ) || ["Bộ điều khiển"];
-  const [activeItems, setActiveItems] = useState(initialActiveItems);
-
-  const handleItemClick = (itemName) => {
-    setActiveItems((prevActiveItems) => {
-      if (prevActiveItems.includes(itemName)) {
-        return prevActiveItems.filter((item) => item !== itemName);
-      } else {
-        return [itemName];
-      }
-    });
-  };
-
-  const handleScroll = () => {
-    const position = window.scrollY;
-    setScrollPosition(position);
-  };
-
-  useEffect(() => {
-    localStorage.setItem("activeItems", JSON.stringify(activeItems));
-  }, [activeItems]);
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
   return (
-    <div className="profile-sidebar" >
+    <div className="profile-sidebar">
             <div className="widget-profile pro-widget-content">
               <div className="profile-info-widget">
                 <Link to="#" className="booking-doc-img">
@@ -52,28 +21,19 @@ const Menudashboard = () => {
             <div className="dashboard-widget">
               <nav className="dashboard-menu">
                 <ul>
-                  <li className={`has-submenu megamenu ${
-                  activeItems.includes("Bộ điều khiển") ? "active" : ""
-                }`}
-                onClick={() => handleItemClick("Bộ điều khiển")}>
+                  <li className="active">
                     <Link to="/doctors">
                       <i className="fas fa-columns" />
                       <span>Bộ điều khiển</span>
                     </Link>
                   </li>
-                  <li className={`has-submenu megamenu ${
-                  activeItems.includes("Cuộc hẹn") ? "active" : ""
-                }`}
-                onClick={() => handleItemClick("Cuộc hẹn")}>
+                  <li>
                     <Link to="/doctors/appointments">
                       <i className="fas fa-calendar-check" />
                       <span>Cuộc hẹn</span>
                     </Link>
                   </li>
-                  <li className={`has-submenu megamenu ${
-                  activeItems.includes("Khách hàng của tôi") ? "active" : ""
-                }`}
-                onClick={() => handleItemClick("Khách hàng của tôi")}>
+                  <li>
                     <Link to="/doctors/patients">
                       <i className="fas fa-user-injured" />
                       <span>Khách hàng của tôi</span>
@@ -81,10 +41,7 @@ const Menudashboard = () => {
                   </li>
                   
                   
-                  <li className={`has-submenu megamenu ${
-                  activeItems.includes("Đánh giá") ? "active" : ""
-                }`}
-                onClick={() => handleItemClick("Đánh giá")}>
+                  <li>
                     <Link to="/doctors/review">
                       <i className="fas fa-star" />
                       <span>Đánh Giá</span>
@@ -92,29 +49,20 @@ const Menudashboard = () => {
                   </li>
                   
                   
-                  <li className={`has-submenu megamenu ${
-                  activeItems.includes("Thông tin tài khoản") ? "active" : ""
-                }`}
-                onClick={() => handleItemClick("Thông tin tài khoản")}>
+                  <li>
                     <Link to="/doctors/profile">
                       <i className="fas fa-user-cog" />
                       <span>Thông tin tài khoản</span>
                     </Link>
                   </li>
                   
-                  <li className={`has-submenu megamenu ${
-                  activeItems.includes("Đổi mật khẩu") ? "active" : ""
-                }`}
-                onClick={() => handleItemClick("Đổi mật khẩu")}>
+                  <li>
                     <Link to="/doctors/change-password">
                       <i className="fas fa-lock" />
                       <span>Đổi mật khẩu</span>
                     </Link>
                   </li>
-                  <li className={`has-submenu megamenu ${
-                  activeItems.includes("Đăng xuất") ? "active" : ""
-                }`}
-                onClick={() => handleItemClick("Đăng xuất")}>
+                  <li>
                     <Link to="login.html">
                       <i className="fas fa-sign-out-alt" />
                       <span>Đăng xuất</span>
