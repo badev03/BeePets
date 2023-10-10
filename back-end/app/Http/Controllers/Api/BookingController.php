@@ -39,14 +39,14 @@ class BookingController extends Controller
 
             // So sánh thời gian kết thúc với thời gian hiện tại
             if ($now->greaterThan($end_time)) {
-                return response()->json(['message' => 'Thời gian hiện tại đã vượt qua thời gian của ca làm việc'], 404);
+                return response()->json(['message' => 'Thời gian hiện tại đã vượt qua thời gian của ca làm việc'], 400);
             }
         }
 
         // Nếu chưa qua thời gian kết thúc của tất cả các ca làm việc, cho phép đặt cuộc hẹn
         return response()->json(compact('service', 'typePets', 'doctors', 'workSchedule'));
     } else {
-        return response()->json(['message' => 'Không có lịch làm việc'], 404);
+        return response()->json(['message' => 'Không có lịch làm việc'], 400);
     }
 }
 
