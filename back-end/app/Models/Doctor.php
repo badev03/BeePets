@@ -33,4 +33,7 @@ class Doctor extends Authenticatable
     {
         return $this->hasMany(Appointment::class, 'doctor_id', 'id');
     }
+    public function services() {
+        return $this->belongsToMany(Service::class);
+    }
 }
