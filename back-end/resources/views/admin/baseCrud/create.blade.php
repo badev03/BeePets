@@ -43,12 +43,12 @@
                                                     <img style="width: 300px" src="https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg" alt="" id="image_prev">
                                                 </div>
                                             </div>
-                                        @elseif(DESC_FIELD === $key)
+                                        @elseif(in_array($key , FIELD_DESC))
                                             <div class="row">
                                                 <div class="col-md-8 mb-3">
                                                     <label class="mb-2" for="validationCustom01">{{ $item }}</label>
-                                                    <textarea id="editor" name="description">
-                                                </textarea>
+                                                    <textarea id="editor" name="{{ $key }}">
+                                                    </textarea>
                                                     @if($errors->has($key))
                                                         <div class="error text-danger mt-2">{{ $errors->first($key) }}</div>
                                                     @endif
