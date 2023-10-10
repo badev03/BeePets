@@ -6,7 +6,7 @@ const FIELD_IMAGE =["image" , "avatar"];
 
 
 
-const FIELD_DESC =["description"];
+const FIELD_DESC =["description" , 'content'];
 
 const BUTTON_HEADER_ADMIN_LINK = 'admin.components.button.button-header';
 

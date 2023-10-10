@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class BaseResponseApiController extends Controller
 {
     public $model;
-
+    public $title = '';
     public function __construct()
     {
         $this->model = app()->make($this->model);
@@ -20,5 +20,9 @@ class BaseResponseApiController extends Controller
         return response()->json([
             'data'=>$data
         ] , 200);
+    }
+
+    public function return404($data) {
+
     }
 }

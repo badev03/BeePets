@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\Api\ServiceController;
 use \App\Http\Controllers\Api\ReviewsController;
 use \App\Http\Controllers\Api\DoctorController;
+use App\Http\Controllers\Api\NewController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -26,11 +27,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 $objects = [
     'service' => ServiceController::class,
     'reviews' => ReviewsController::class,
+    'new' => NewController::class,
 ];
 foreach ($objects as $key => $controller) {
     Route::apiResource($key, $controller);
 }
 Route::get('service-show', [ServiceController::class , 'showHome']);
+Route::get('new-post', [NewController::class , 'postNew']);
+Route::get('new-categories', [NewController::class , 'categoriesNew']);
+Route::get('new-search/{name}', [NewController::class , 'searchNew']);
+Route::get('new-home', [NewController::class , 'showNew']);
 
 Route::post('/form', [BookingController::class, 'showForm']);
 Route::post('/save', [BookingController::class, 'save']);

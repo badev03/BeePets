@@ -48,11 +48,11 @@
                                                     @endif
                                                 </div>
                                             </div>
-                                        @elseif(DESC_FIELD === $key)
+                                        @elseif(in_array($key , FIELD_DESC))
                                             <div class="row">
                                                 <div class="col-md-8 mb-3">
                                                     <label class="mb-2" for="validationCustom01">{{ $item }}</label>
-                                                    <textarea id="editor" name="description">
+                                                    <textarea id="editor" name="{{ $key }}">
                                                         {{ $model->$key }}
                                                     </textarea>
                                                     @if($errors->has($key))

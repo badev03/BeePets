@@ -134,6 +134,11 @@ class BaseAdminController extends Controller
         if($request->has('name') && $this->checkerNameSlug == true) {
             $model->slug = $this->createSlug($request->name);
         }
+        $dataModel = $request->all();
+        if($this->dataStoreAndUpdate($dataModel)) {
+            $currentDate = today();
+            $model->public_date =$currentDate->format('Y-m-d');
+        }
         $this->createAndUpdatePassWord($request->password);
         $model->save();
         if($this->checkRolePermission==false) {
@@ -329,6 +334,11 @@ class BaseAdminController extends Controller
     public function QuerySpecialIndex() {
 
     }
+
+    public function dataStoreAndUpdate($data) {
+
+    }
+
 
 }
 

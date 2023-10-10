@@ -15,6 +15,8 @@ use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ServiceCategorieController;
 use App\Http\Controllers\Admin\AppointmentController;
 use \App\Http\Controllers\Admin\ReviewController;
+use \App\Http\Controllers\Admin\NewCategorieController;
+use \App\Http\Controllers\Admin\NewController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,7 +43,9 @@ Route::middleware(['role:Admin'])->group(function () {
             'products' => ProductController::class,
             'appointment' => AppointmentController::class,
             'reviews' => ReviewController::class,
-            'type-pet' => TypePetController::class
+            'type-pet' => TypePetController::class,
+            'new-categories' => NewCategorieController::class,
+            'new' => NewController::class,
         ];
         foreach ($objects as $key => $controller) {
             Route::resource($key, $controller);
@@ -75,4 +79,6 @@ Route::post('admin/login', [\App\Http\Controllers\AuthController::class , 'check
 Route::get('admin' , function () {
     return redirect()->route('admin.login');
 });
+
+Route::post('uploadImg' , [HomeController::class , 'uploadImg'])->name('checkEditor.upload');
 
