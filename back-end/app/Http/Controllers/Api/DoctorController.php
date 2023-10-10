@@ -49,7 +49,7 @@ class DoctorController extends Controller
                 'doctor' => $doctor
             ]);
         }
-        
+       
     }
 
     

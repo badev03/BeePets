@@ -13,6 +13,7 @@ class Doctor extends Authenticatable
     use HasFactory, Notifiable;
     protected $table = 'doctors';
     protected $guard = 'doctors';
+    
     protected $fillable = [
         'name',
         'email',
@@ -36,4 +37,5 @@ class Doctor extends Authenticatable
     public function services() {
         return $this->belongsToMany(Service::class);
     }
+    
 }
