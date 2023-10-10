@@ -54,6 +54,8 @@ Route::get('/appoinment/{id}', [BookingController::class, 'getAppointment']);
 //câp nhật trạng thái lịch khám
 Route::put('/appoinment/{id}', [BookingController::class, 'updateStatus']);
 
+//lấy ra thông tin bác sĩ đang đăng nhập
+Route::get('/doctor-info', [DoctorController::class, 'getDoctor']);
 
 
 
