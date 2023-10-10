@@ -33,6 +33,7 @@ foreach ($objects as $key => $controller) {
     Route::apiResource($key, $controller);
 }
 Route::get('service-show', [ServiceController::class , 'showHome']);
+Route::get('service-filter', [ServiceController::class , 'filterService']);
 Route::get('new-post', [NewController::class , 'postNew']);
 Route::get('new-categories', [NewController::class , 'categoriesNew']);
 Route::get('new-search/{name}', [NewController::class , 'searchNew']);
