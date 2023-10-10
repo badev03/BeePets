@@ -58,5 +58,9 @@ Route::put('/appoinment/{id}', [BookingController::class, 'updateStatus']);
 Route::get('/doctor-info', [DoctorController::class, 'getDoctor']);
 
 
+//lấy ra danh sách khách hàng của bác sĩ
+Route::get('/list-customers', [DoctorController::class, 'listCustomer']);
 
+//lấy ra lịch sử khám của khách hàng
+Route::get('/history/{id}', [DoctorController::class, 'getHistoryByUser']);
 
