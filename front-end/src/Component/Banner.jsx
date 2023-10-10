@@ -74,7 +74,7 @@ const Banner = () => {
                   open={isModalOpen}
                   onOk={handleOk}
                   onCancel={handleCancel}
-                  width={900} 
+                  width={1000}
                   okText="Đặt Lịch"
                   cancelText="Hủy"
                 >
@@ -108,12 +108,12 @@ const Banner = () => {
                     </Col>
                   </Row>
                   <Row gutter={16}>
-                    <Col span={5}>
+                    <Col span={12}>
                     <Form.Item label="Chọn Ngày">
                       <DatePicker />
                     </Form.Item>
                     </Col>
-                    <Col span={19}>
+                    <Col span={12}>
                     <Form.Item label="Chọn Thời Gian">
                       <Radio.Group defaultValue="a" buttonStyle="solid">
                         <Radio.Button value="a">Ca 1 (08:00 - 12:00)</Radio.Button>
