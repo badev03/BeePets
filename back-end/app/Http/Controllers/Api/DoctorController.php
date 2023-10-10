@@ -34,19 +34,23 @@ class DoctorController extends Controller
     }
 
 
-    // lấy ra thông tin của bác sĩ đang đăng nhập
+    // lấy ra thông tin của bác sĩ  đã đăng nhập theo id
     public function getDoctor() {
-        $doctor = Auth::guard('doctors')->user();
-        return response()->json([
-            'success' => true,
-            'message' => 'Lấy thông tin bác sĩ thành công',
-            'doctor' => $doctor
-        ]);
-
+        if(!Auth::guard('doctors')->check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bạn chưa đăng nhập'
+            ]);
+        }else{
+            $doctor = Auth::guard('doctors')->user();
+            return response()->json([
+                'success' => true,
+                'message' => 'Lấy thông tin bác sĩ thành công',
+                'doctor' => $doctor
+            ]);
+        }
         
-
-
-
-
     }
+
+    
 }
