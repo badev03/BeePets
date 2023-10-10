@@ -43,6 +43,7 @@ class BaseAdminController extends Controller
     protected $addForDataViewer = [];
     protected $permissionCheckCrud = '';
     private $teseterr = '111';
+    protected $special = [];
 
     public function __construct()
     {
@@ -52,13 +53,23 @@ class BaseAdminController extends Controller
     public function index()
     {
         if (auth()->user()->can(['read-'.$this->permissionCheckCrud])) {
-            $data = $this->model->all();
+            if(empty($this->QuerySpecialIndex())) {
+                $data = $this->model->all();
+                if($this->removeColumns) {
+                    $this->colums = array_diff_key($this->colums, array_flip($this->removeColumns));
+                }
+            }
+            else{
+                $data = $this->QuerySpecialIndex();
+            }
             return view($this->pathView . __FUNCTION__, compact('data'))
                 ->with('title', $this->titleIndex)
                 ->with('colums', $this->colums)
                 ->with('urlbase', $this->urlbase)
                 ->with('title_web', $this->title)
                 ->with('FIELD_SELECT_CUSTOM_CONTROLLER', $this->FIELD_SELECT_CUSTOM_CONTROLLER)
+                ->with('special', $this->special)
+                ->with('permission_crud', $this->permissionCheckCrud)
                 ->with('listIndex', $this->listIndex);
         }
         else {
@@ -81,6 +92,7 @@ class BaseAdminController extends Controller
                     'title_web' => $this->title,
                     'dataSelect' => $dataSelect,
                     'FIELD_SELECT_CUSTOM_CONTROLLER' => $this->FIELD_SELECT_CUSTOM_CONTROLLER,
+                    'permission_crud'=> $this->permissionCheckCrud
                 ];
                 if($this->checkerReturnView === true) {
                     return view($this->pathView . __FUNCTION__)
@@ -156,6 +168,7 @@ class BaseAdminController extends Controller
             'addDataSelect' => $addDataSelect,
             'listIndex' => $this->listIndex,
             'FIELD_SELECT_CUSTOM_CONTROLLER' => $this->FIELD_SELECT_CUSTOM_CONTROLLER,
+            'permission_crud'=> $this->permissionCheckCrud
         ];
         if($this->checkerReturnView === true) {
             return view($this->pathView . __FUNCTION__, compact('model'))
@@ -311,6 +324,10 @@ class BaseAdminController extends Controller
             $password = Hash::make($password);
             return $password;
         }
+    }
+
+    public function QuerySpecialIndex() {
+
     }
 
 }

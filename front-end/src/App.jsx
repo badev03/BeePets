@@ -53,10 +53,15 @@ function App() {
           <Route path='doctor' element={<Search />} />
           <Route path='booking' element={<Booking />} />
           <Route path='booking/success' element={<BookingSuccess />} />
+          <Route path='doctor/profile' element={<DoctorProfile />} />
+
           <Route path='doctor/profile/:id' element={<DoctorProfile />} />
           <Route path='blog' element={<BlogList />} />
           <Route path='blog/:id' element={<BlogDetails />} />
           <Route path='services/details/:id' element={<ServiceDetails />} />
+          <Route path='blogs/category/:categoryId' element={<BlogList />} />
+
+         
           <Route path='user/dashbroad' element={<Dashboard />} />
           <Route path='user/changepassword' element={<ChangePassword />} />
           <Route path='user/profilesetting' element={<ProfileSetting />} />
