@@ -32,4 +32,21 @@ class DoctorController extends Controller
             ]);
         }
     }
+
+
+    // lấy ra thông tin của bác sĩ đang đăng nhập
+    public function getDoctor() {
+        $doctor = Auth::guard('doctors')->user();
+        return response()->json([
+            'success' => true,
+            'message' => 'Lấy thông tin bác sĩ thành công',
+            'doctor' => $doctor
+        ]);
+
+        
+
+
+
+
+    }
 }
