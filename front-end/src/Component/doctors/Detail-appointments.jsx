@@ -1,30 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Menudashboard from './Menu-dashboard'
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
-import appointmentsApi from '../../api/appointments';
+
 
 
 const DetailAppointment = () => {
-  const { id } = useParams();
-    const [appointments, setAppointments] = useState(null);
-
-    useEffect(() => {
-        const fetchAppointments = async () => {
-            try {
-                const response = await appointmentsApi.get(id);
-                setAppointments(response);
-            } catch (error) {
-                console.error("Không có dữ liệu:", error);
-            }
-        };
-
-        fetchAppointments();
-    }, []);
-    if (!appointments) {
-        return <div>Loading...</div>;
-    }
   return (
     <div>    <div><div className="breadcrumb-bar-two">
     <div className="container">
@@ -54,9 +34,9 @@ const DetailAppointment = () => {
                     <img src="/img/patients/patient.jpg" alt="User Image" />
                   </Link>
                   <div className="profile-det-info">
-                    <h3>{appointments.user}</h3>
+                    <h3>Richard Wilson</h3>
                     <div className="patient-details">
-                      <h5><b>Patient ID :</b> {appointments.user_id}</h5>
+                      <h5><b>Patient ID :</b> PT0016</h5>
                       
                     </div>
                   </div>
@@ -112,25 +92,25 @@ const DetailAppointment = () => {
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
                       <label className="mb-2">Tên bác sĩ</label>
-                      <input type="text" className="form-control" value={appointments.doctor_name} />
+                      <input type="text" className="form-control" />
                     </div>
                   </div>
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
                       <label className="mb-2">Loại thú cưng</label>
-                      <input type="text" className="form-control" value={appointments.type_pet_id}  />
+                      <input type="text" className="form-control"  />
                     </div>
                   </div>
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
                       <label className="mb-2">Ngày đặt lịch</label>
-                      <input type="text" className="form-control" value={appointments.date} />
+                      <input type="text" className="form-control"  />
                     </div>
                   </div>
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
                       <label className="mb-2">Lịch khám</label>
-                      <input type="text" className="form-control" value={appointments.time} />
+                      <input type="text" className="form-control"  />
                     </div>
                   </div>
                  
@@ -138,7 +118,7 @@ const DetailAppointment = () => {
                     <div className="mb-3">
                       <label className="mb-2">Ghi chú</label>
                      
-                        <textarea type="text" className="form-control datetimepicker" value={appointments.description} />
+                        <textarea type="text" className="form-control datetimepicker" />
                       
                     </div>
                   </div>
