@@ -8,7 +8,7 @@ const Search = () => {
   const [doctors, setDoctors] = useState([]);
 
   useEffect(() => {
-    const fetchBlog = async () => {
+    const fetchDoctor = async () => {
       try {
         const response = await doctorsApi.getAll();
         setDoctors(response);
@@ -18,7 +18,7 @@ const Search = () => {
       }
     };
 
-    fetchBlog();
+    fetchDoctor();
   }, []); 
 
   return (
