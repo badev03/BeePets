@@ -63,4 +63,14 @@ class ServiceController extends BaseResponseApiController
             'service-detail' => $data ,'service-related' => $relatedService ],
             '200');
     }
+
+    public function filterService() {
+        $service = $this->tableQuery('services')->get();
+        if(!$service) {
+            return response()->json(['message' => 'Dịch vụ không tồn tại'], 404);
+        }
+        return response()->json([
+            'service' => $service ],
+            '200');
+    }
 }

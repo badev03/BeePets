@@ -16,7 +16,8 @@ class NewController extends BaseResponseApiController
     public function index()
     {
         $data = $this->tableQuery('newcs')
-            ->select('newcs.id', 'newcs.name', 'newcs.slug', 'newcs.content' , 'newcs.image' , 'newcs.public_date')
+            ->select('newcs.id', 'newcs.name', 'newcs.slug', 'newcs.content' , 'newcs.image' , 'newcs.public_date'
+                , 'new_categories.name as nameCategories')
             ->join('new_categories' , 'new_categories.id' , '=' , 'newcs.new_categorie_id')
             ->where('new_categories.status' , '=' , 1)
             ->paginate(4);
@@ -30,7 +31,8 @@ class NewController extends BaseResponseApiController
 
     public function showNew() {
         $data = $this->tableQuery('newcs')
-            ->select('newcs.id', 'newcs.name', 'newcs.slug', 'newcs.content' , 'newcs.image' , 'newcs.public_date')
+            ->select('newcs.id', 'newcs.name', 'newcs.slug', 'newcs.content' , 'newcs.image' , 'newcs.public_date'
+                , 'new_categories.name as nameCategories')
             ->join('new_categories' , 'new_categories.id' , '=' , 'newcs.new_categorie_id')
             ->where('new_categories.status' , '=' , 1)
             ->limit(3)
@@ -45,7 +47,8 @@ class NewController extends BaseResponseApiController
 
     public function postNew() {
         $data = $this->tableQuery('newcs')
-            ->select('newcs.id', 'newcs.name', 'newcs.slug', 'newcs.content' , 'newcs.image' , 'newcs.public_date')
+            ->select('newcs.id', 'newcs.name', 'newcs.slug', 'newcs.content' , 'newcs.image' , 'newcs.public_date'
+                , 'new_categories.name as nameCategories')
             ->join('new_categories' , 'new_categories.id' , '=' , 'newcs.new_categorie_id')
             ->where('new_categories.status', '=', 1)
             ->orderBy('newcs.created_at', 'desc')
@@ -74,7 +77,8 @@ class NewController extends BaseResponseApiController
 
     public function searchNew($name) {
         $data = $this->tableQuery('newcs')
-            ->select('newcs.id', 'newcs.name', 'newcs.slug', 'newcs.content' , 'newcs.image' , 'newcs.public_date')
+            ->select('newcs.id', 'newcs.name', 'newcs.slug', 'newcs.content' , 'newcs.image' , 'newcs.public_date'
+                , 'new_categories.name as nameCategories')
             ->join('new_categories' , 'new_categories.id' , '=' , 'newcs.new_categorie_id')
             ->where('new_categories.status', '=', 1)
             ->where('newcs.name', 'like', '%'.$name.'%')
@@ -89,7 +93,8 @@ class NewController extends BaseResponseApiController
 
     public function show(string $id) {
         $data = $this->tableQuery('newcs')
-            ->select('newcs.id', 'newcs.name', 'newcs.slug', 'newcs.content' , 'newcs.image' , 'newcs.public_date')
+            ->select('newcs.id', 'newcs.name', 'newcs.slug', 'newcs.content' , 'newcs.image' , 'newcs.public_date'
+                , 'new_categories.name as nameCategories')
             ->join('new_categories' , 'new_categories.id' , '=' , 'newcs.new_categorie_id')
             ->where('new_categories.status', '=', 1)
             ->where('newcs.id', '=', $id)
