@@ -1,8 +1,30 @@
+//thong tin tk
 import React from 'react'
 import Menudashboard from './Menu-dashboard'
 import {Link} from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
+import doctorsApi from '../../api/doctorsApi'
 
 const Profile = () => {
+    const { id } = useParams();
+    const [doctor, setDoctor] = useState(null);
+
+    useEffect(() => {
+        const fetchBlog = async () => {
+            try {
+                const response = await doctorsApi.get(1);
+                setDoctor(response);
+            } catch (error) {
+                console.error("Không có dữ liệu:", error);
+            }
+        };
+
+        fetchBlog();
+    }, []);
+    if (!doctor) {
+        return <div>Loading...</div>;
+    }
     return (
         <div>
             <div className="breadcrumb-bar-two">
@@ -48,41 +70,42 @@ const Profile = () => {
                                                 </div>
                                             </div>
                                         </div>
+                                        
                                         <div className="col-md-6">
                                             <div className="mb-3">
                                                 <label className="mb-2">Tên người dùng <span className="text-danger">*</span></label>
-                                                <input type="text" className="form-control" readOnly />
+                                                <input type="text" className="form-control" readOnly value={doctor.name} />
                                             </div>
                                         </div>
                                         <div className="col-md-6">
                                             <div className="mb-3">
                                                 <label className="mb-2">Email <span className="text-danger">*</span></label>
-                                                <input type="email" className="form-control" readOnly />
+                                                <input type="email" className="form-control" readOnly value={doctor.email}/>
                                             </div>
                                         </div>
                                         <div className="col-md-6">
                                             <div className="mb-3">
                                                 <label className="mb-2">Họ  <span className="text-danger">*</span></label>
-                                                <input type="text" className="form-control" />
+                                                <input type="text" className="form-control" value={doctor.name}/>
                                             </div>
                                         </div>
                                         <div className="col-md-6">
                                             <div className="mb-3">
                                                 <label className="mb-2">Tên <span className="text-danger">*</span></label>
-                                                <input type="text" className="form-control" />
+                                                <input type="text" className="form-control" value={doctor.name} />
                                             </div>
                                         </div>
                                         <div className="col-md-6">
                                             <div className="mb-3">
                                                 <label className="mb-2">Số điện thoại</label>
-                                                <input type="text" className="form-control" />
+                                                <input type="text" className="form-control" value={doctor.phone}/>
                                             </div>
                                         </div>
                                         <div className="col-md-6">
                                             <div className="mb-3">
                                                 <label className="mb-2">Giới tính</label>
                                                 <select className="form-select form-control">
-                                                    <option></option>
+                                                    <option>{doctor.gender}</option>
                                                     <option>Nam</option>
                                                     <option>Nữ</option>
                                                 </select>
@@ -91,7 +114,7 @@ const Profile = () => {
                                         <div className="col-md-6">
                                             <div className="mb-0">
                                                 <label className="mb-2">Ngày sinh</label>
-                                                <input type="text" className="form-control" />
+                                                <input type="text" className="form-control" value={doctor.birthday}/>
                                             </div>
                                         </div>
                                     </div>
@@ -102,7 +125,7 @@ const Profile = () => {
                                     <h4 className="card-title">Về tôi</h4>
                                     <div className="mb-0">
                                         <label className="mb-2">Tiểu sử</label>
-                                        <textarea className="form-control" rows={5} defaultValue={""} />
+                                        <textarea className="form-control" rows={5} value={doctor.description.about} defaultValue={""}  />
                                     </div>
                                 </div>
                             </div>

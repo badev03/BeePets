@@ -106,7 +106,6 @@ class NewController extends BaseResponseApiController
             ->select('newcs.id', 'newcs.name')
             ->join('newcs' , 'newcs.id' , '=' , 'new.new_categorie_id')
             ->toRawSql();
-        dd($relatedNew);
         return response()->json([
             'new-detail' => $data ,'new-related' => $relatedNew ],
             '200');
