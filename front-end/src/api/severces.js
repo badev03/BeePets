@@ -2,27 +2,27 @@ import instance from "./instance";
 
 const severcesApi = {
   getAll(params) {
-    const url = "/severces";
+    const url = "/service";
     return instance.get(url, { params });
   },
 
   get(id) {
-    const url = `/severces/${id}`;
+    const url = `/service/${id}`;
     return instance.get(url);
   },
   
   add(data) {
-    const url = "/severces";
+    const url = "/service";
     return instance.post(url, data);
   },
 
   update(data) {
-    const url = `/severces/${data.id}`;
+    const url = `/service/${data.id}`;
     return instance.patch(url, data);
   },
 
   remove(id) {
-    const url = `/severces/${id}`;
+    const url = `/service/${id}`;
     return instance.delete(url);
   },
 };
