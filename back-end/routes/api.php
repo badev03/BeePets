@@ -30,7 +30,7 @@ $objects = [
     'service' => ServiceController::class,
     'reviews' => ReviewsController::class,
     'new' => NewController::class,
-    'doctors' => DoctorUserController::class,
+    'doctors-clients' => DoctorUserController::class,
 ];
 foreach ($objects as $key => $controller) {
     Route::apiResource($key, $controller);
