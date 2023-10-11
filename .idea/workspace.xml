@@ -5,8 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="45a53ba9-6ef3-41ae-87f6-4b989cb527d7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/DoctorUserController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/database/migrations/2023_10_11_105849_create_table_reviews.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/src/Component/Booking.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/src/api/booking.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_11_2023_12_35_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_11_2023_12_35_PM__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api.md" beforeDir="false" afterPath="$PROJECT_DIR$/api.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/BookingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/BookingController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/DoctorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/DoctorController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/NewController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/NewController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/ReviewsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/ReviewsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/ServiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/ServiceController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Models/Review.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Models/Review.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Component/Banner.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/Banner.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Component/Form-Auth/Login-Doctor.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/Form-Auth/Login-Doctor.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Component/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/Header.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Context/ContextAuth.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Context/ContextAuth.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/api/blogApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/api/blogApi.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/composer.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -21,7 +43,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="develop" />
+        <entry key="$PROJECT_DIR$" value="hot_fix_api" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -307,6 +329,10 @@
       <workItem from="1695691992682" duration="15281000" />
       <workItem from="1696084040868" duration="1738000" />
       <workItem from="1697001471251" duration="630000" />
+      <workItem from="1697014314047" duration="9989000" />
+      <workItem from="1697009349282" duration="214000" />
+      <workItem from="1697009568903" duration="156000" />
+      <workItem from="1697033023648" duration="939000" />
       <workItem from="1697009349282" duration="214000" />
       <workItem from="1697009568903" duration="156000" />
     </task>
