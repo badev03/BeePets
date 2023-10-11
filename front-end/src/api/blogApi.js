@@ -2,27 +2,27 @@ import instance from "./instance";
 
 const blogApi = {
   getAll(params) {
-    const url = "/news";
+    const url = "/new-post";
     return instance.get(url, { params });
   },
 
   get(id) {
-    const url = `/news/${id}`;
+    const url = `/new-post/${id}`;
     return instance.get(url);
   },
   
   add(data) {
-    const url = "/news";
+    const url = "/new-post";
     return instance.post(url, data);
   },
 
   update(data) {
-    const url = `/news/${data.id}`;
+    const url = `/new-post/${data.id}`;
     return instance.patch(url, data);
   },
 
   remove(id) {
-    const url = `/news/${id}`;
+    const url = `/new-post/${id}`;
     return instance.delete(url);
   },
 };
