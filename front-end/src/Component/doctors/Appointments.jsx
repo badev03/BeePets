@@ -34,7 +34,6 @@ const Appointments = () => {
                   <li className="breadcrumb-item" aria-current="page">Lịch hẹn</li>
                 </ol>
               </nav>
-              {/* test */}
             </div>
           </div>
         </div>
