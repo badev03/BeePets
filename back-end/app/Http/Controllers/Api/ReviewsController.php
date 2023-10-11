@@ -18,11 +18,14 @@ class ReviewsController extends BaseResponseApiController
         $data = $this->tableQuery('reviews')
             ->join('users' , 'users.id' , '=' , 'reviews.user_id')
             ->join('doctors' , 'doctors.id' , '=' , 'reviews.doctor_id')
-            ->select('reviews.*' , 'users.name as user_id' , 'users.avatar' , 'doctors.name as doctor_id')
+            ->select('reviews.*' , 'users.name as user_name' , 'users.avatar'
+                , 'doctors.name as doctor_name' , 'doctors.id as doctors_id' , 'users.id as users_id')
             ->where('users.role_id' , '=' , 4)
             ->get();
-        return response()->json([
-            'reviews' => $data],
+        return response()->json(
+            [
+                'reviews' => $data
+            ],
             '200');
     }
 
@@ -55,4 +58,6 @@ class ReviewsController extends BaseResponseApiController
             ], 200);
         }
     }
+
+    
 }
