@@ -18,12 +18,17 @@ class BookingController extends Controller
 {
 
 
+    // lấy ra id , name , price của tất cả dịch vụ và id , name bác sĩ làm được dịch vụ đó
     public function services()
     {
-        $data = Service::select('id', 'name','price')->get();
-        
+        $data = Service::select('id', 'name', 'price')->with('doctors:id,name')->get();
         return response()->json(['message' => 'Lấy danh sách dịch vụ thành công', 'data' => $data], 200);
     }
+
+   
+
+
+
     public function typePets()
     {
         $data = Type_pet::select('id', 'name')->get();
