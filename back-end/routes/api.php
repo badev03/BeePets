@@ -9,6 +9,7 @@ use \App\Http\Controllers\Api\ReviewsController;
 use \App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\NewController;
 use App\Http\Controllers\Api\AuthController;
+use \App\Http\Controllers\Api\DoctorUserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,6 +30,7 @@ $objects = [
     'service' => ServiceController::class,
     'reviews' => ReviewsController::class,
     'new' => NewController::class,
+    'doctors' => DoctorUserController::class,
 ];
 foreach ($objects as $key => $controller) {
     Route::apiResource($key, $controller);
