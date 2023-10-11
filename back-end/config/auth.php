@@ -46,8 +46,9 @@ return [
             'hash' => false,
         ],
         'doctors' => [
-            'driver' => 'sanctum',
+            'driver' => 'session',
             'provider' => 'doctors',
+            'hash' => false,
         ],
     ],
 

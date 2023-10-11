@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="45a53ba9-6ef3-41ae-87f6-4b989cb527d7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/BeePets.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/BeePets.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/app/Models/Doctor.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Models/Doctor.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/composer.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/composer.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/config/auth.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/config/auth.php" afterDir="false" />
@@ -309,7 +307,7 @@
       <updated>1695691991164</updated>
       <workItem from="1695691992682" duration="15281000" />
       <workItem from="1696084040868" duration="1738000" />
-      <workItem from="1696997744444" duration="1234000" />
+      <workItem from="1697001471251" duration="630000" />
     </task>
     <servers />
   </component>
