@@ -6,14 +6,14 @@ import userBillDetailApi from '../../api/userBillDetailApi';
 const User_BillDetail = () => {
     const { id } = useParams();
     // console.log(id);
-    const [bill, setBills] = useState(null);
+    const [bills, setBills] = useState(null);
 
     useEffect(() => {
         const fetchBlog = async () => {
             try {
                 const response = await userBillDetailApi.get(id);
                 setBills(response);
-                console.log(bill.id)
+                // console.log(bill.id)
             } catch (error) {
                 console.error("Không có dữ liệu:", error);
             }
@@ -22,7 +22,7 @@ const User_BillDetail = () => {
 
         fetchBlog();
     }, []);
-    if (!bill) {
+    if (!bills) {
         return <div>Loading...</div>;
     }
 
@@ -44,8 +44,8 @@ const User_BillDetail = () => {
                         </div>
                         <div className="col-12 col-md-6">
                             <div className="mb-3">
-                                <label className="mb-2">Mã hóa đơn: {bill.id}</label><br />
-                                <label className="mb-2">Ngày: {bill.date}</label>
+                                <label className="mb-2">Mã hóa đơn: {bills.id}</label><br />
+                                <label className="mb-2">Ngày: {bills.date}</label>
                             </div>
                         </div>
 
@@ -66,18 +66,18 @@ const User_BillDetail = () => {
 
 
                             <tbody >
-                                {/* {bill.map(bill => ( */}
-                                <tr key={bill.id}>
-                                    <td>{bill.bills.number}</td>
-                                    <td>{bill.bills.service_name}</td>
-                                    <td>{bill.bills.quantity}</td>
+                                {bills.bills.map(bill => (
+                                    <tr key={bill.id}>
+                                        <td>{bill.number}</td>
+                                        <td>{bill.service_name}</td>
+                                        <td>{bill.quantity}</td>
 
-                                    <td>{bill.bills.price} VNĐ</td>
+                                        <td>{bill.price} VNĐ</td>
 
-                                </tr>
+                                    </tr>
 
 
-                                {/* ))} */}
+                                ))}
 
                                 {/* lỗi vòng lặp map, hàm tổng tiền */}
 

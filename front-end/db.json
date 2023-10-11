@@ -113,12 +113,20 @@
     {
         "id":1,
         "date":"28/09/2023",
-        "bills":{
+        "bills":[
+            {
             "number":"1",
             "service_name":"Tắm",
             "quantity":22,
             "price": 500000
+        },
+        {
+             "number":"2",
+            "service_name":"tỉa",
+            "quantity":22,
+            "price": 34340
         }
+    ]
     },
         {
         "id":2,
