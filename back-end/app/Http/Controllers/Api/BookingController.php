@@ -20,10 +20,10 @@ class BookingController extends Controller
 
     public function services()
     {
-        $data = Service::select('id', 'name','price')->get();
-        
+        $data = Service::select('id', 'name', 'price')->with('doctors:id,name')->get();
         return response()->json(['message' => 'Lấy danh sách dịch vụ thành công', 'data' => $data], 200);
     }
+
     public function typePets()
     {
         $data = Type_pet::select('id', 'name')->get();
@@ -34,7 +34,7 @@ class BookingController extends Controller
     {
 
         $service_id = $request->input('service_id');
-        $doctors = Doctor::select('id','name')->whereHas('services', function ($query) use ($service_id) {
+        $doctors = Doctor::select('id', 'name')->whereHas('services', function ($query) use ($service_id) {
             $query->where('service_id', $service_id);
         })->get();
         if ($doctors->isEmpty()) {
@@ -59,26 +59,26 @@ class BookingController extends Controller
 
     // thêm name và phone của khách hàng từ input còn nếu đang đăng nhập thì lấy thông tin của khách hàng đó
     public function addNamePhone(Request $request)
-{
-    $user = null;
+    {
+        $user = null;
 
-    if (!auth()->check()) {
-        $user = User::create([
-            'name' => $request->input('name'),
-            'phone' => $request->input('phone'),
-            'password' => bcrypt('123456'),
-            'status' => 0,
-        ]);
-    } else if (auth()->user()->phone == $request->input('phone') && auth()->user()->status == 0) {
-        return response()->json(['message' => 'Số điện thoại đã được đặt trước ']);
-    } else if (auth()->user()->phone == $request->input('phone') && auth()->user()->status == 1) {
-        return response()->json(['message' => 'hãy đăng nhập để đặt lịch khám']);
-    } else {
-        $user = auth()->user();
+        if (!auth()->check()) {
+            $user = User::create([
+                'name' => $request->input('name'),
+                'phone' => $request->input('phone'),
+                'password' => bcrypt('123456'),
+                'status' => 0,
+            ]);
+        } else if (auth()->user()->phone == $request->input('phone') && auth()->user()->status == 0) {
+            return response()->json(['message' => 'Số điện thoại đã được đặt trước ']);
+        } else if (auth()->user()->phone == $request->input('phone') && auth()->user()->status == 1) {
+            return response()->json(['message' => 'hãy đăng nhập để đặt lịch khám']);
+        } else {
+            $user = auth()->user();
+        }
+
+        return response()->json(['message' => 'Thêm tên và số điện thoại thành công', 'data' => $user], 200);
     }
-
-    return response()->json(['message' => 'Thêm tên và số điện thoại thành công', 'data' => $user], 200);
-}
 
 
     // lưu dữ liệu đã chọn vào bảng appointment
@@ -89,20 +89,20 @@ class BookingController extends Controller
             $user = auth()->user();
             $model = new Appointment();
             $model->fill($request->all());
-    
+
             if ($user) {
                 $model->user_id = $user->id;
             }
-    
+
             $model->save();
-           
+
             return response()->json(['message' => 'Đã tạo cuộc hẹn thành công'], 201);
         } catch (QueryException $e) {
             // dd($e->getMessage());
             return response()->json(['message' => 'Lưu dữ liệu thất bại.'], 500);
         }
     }
-    
+
 
     private function validateBookingRequest(Request $request)
     {
