@@ -25,6 +25,11 @@ const blogApi = {
     const url = `/new-post/${id}`;
     return instance.delete(url);
   },
+
+  search(params) {
+    const url = "/new-search";
+    return instance.get(url, { params });
+  },
 };
 
 export default blogApi;
