@@ -1,8 +1,24 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
-
+import doctorsApi from '../../api/doctorsApi';
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const Menudashboard = () => {
+  const [doctor, setDoctors] = useState([]);
+
+  useEffect(() => {
+    const fetchDoctor = async () => {
+      try {
+        const response = await doctorsApi.getDoctor();
+        setDoctors(response.doctor);
+        console.log(response);
+      } catch (error) {
+        console.error("Không có dữ liệu:", error);
+      }
+    };
+
+    fetchDoctor();
+  }, []); 
   return (
     <div className="profile-sidebar">
             <div className="widget-profile pro-widget-content">
