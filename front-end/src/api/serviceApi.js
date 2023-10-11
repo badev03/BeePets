@@ -14,7 +14,7 @@ const serviceApi = {
     const url = `/service/${id}`;
     return instance.get(url);
   },
-  
+
   add(data) {
     const url = "/service";
     return instance.post(url, data);
