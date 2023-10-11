@@ -72,10 +72,16 @@ Route::put('/appoinment/{id}', [BookingController::class, 'updateStatus']);
 //lấy ra thông tin bác sĩ đang đăng nhập
 Route::get('/doctor-info', [DoctorController::class, 'getDoctor']);
 
+Route::middleware('auth:sanctum')->group(function () {
+
+});
 
 //lấy ra danh sách khách hàng của bác sĩ
 Route::get('/list-customers', [DoctorController::class, 'listCustomer']);
 
 //lấy ra lịch sử khám của khách hàng
 Route::get('/history/{id}', [DoctorController::class, 'getHistoryByUser']);
+
+//  lấy ra hóa đơn của khách hàng
+Route::get('/bill/{id}', [DoctorController::class, 'getBillByUser']);
 

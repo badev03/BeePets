@@ -5,11 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="45a53ba9-6ef3-41ae-87f6-4b989cb527d7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/DoctorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/DoctorController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Middleware/VerifyCsrfToken.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Middleware/VerifyCsrfToken.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Models/Appointment.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Models/Appointment.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Models/Bill.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Models/Bill.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Models/Prescription.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Models/Prescription.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Models/User.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/config/auth.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/config/auth.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +28,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="develop" />
+        <entry key="$PROJECT_DIR$" value="hot_fix_api" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -308,6 +313,7 @@
       <workItem from="1695691992682" duration="15281000" />
       <workItem from="1696084040868" duration="1738000" />
       <workItem from="1697001471251" duration="630000" />
+      <workItem from="1697014314047" duration="9989000" />
     </task>
     <servers />
   </component>
