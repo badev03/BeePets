@@ -72,7 +72,7 @@ Route::post('reset-password', [AuthController::class, 'ResetPassword']);
 
 
 //lấy ra danh sách dịch vụ
-Route::get('/services-booking', [BookingController::class, 'services']);
+Route::get('/services-doctor', [BookingController::class, 'services']);
 //lấy ra danh sách loại thú cưng
 Route::get('/type-pets', [BookingController::class, 'typePets']);
 //lấy ra danh sách bác sĩ theo dịch vụ
