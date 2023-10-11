@@ -60,7 +60,7 @@ function App() {
           <Route path='blog/:id' element={<BlogDetails />} />
           <Route path="blogs/category/:categoryId" element={<BlogList />} />
 
-          <Route path='servicesdetails/:id' element={<ServiceDetails />} />
+          <Route path='services/details/:id' element={<ServiceDetails />} />
           <Route path='user/dashbroad' element={<Dashboard />} />
           <Route path='user/changepassword' element={<ChangePassword />} />
           <Route path='user/profilesetting' element={<ProfileSetting />} />
