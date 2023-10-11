@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\AppointmentController;
 use \App\Http\Controllers\Admin\ReviewController;
 use \App\Http\Controllers\Admin\NewCategorieController;
 use \App\Http\Controllers\Admin\NewController;
+use App\Http\Controllers\Api\AuthController as ApiAuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -84,4 +85,7 @@ Route::get('admin' , function () {
 });
 
 Route::post('uploadImg' , [HomeController::class , 'uploadImg'])->name('checkEditor.upload');
+Route::get('login-tester' , [ApiAuthController::class , 'checkPhone']);
+Route::get('filter-service' , [\App\Http\Controllers\Api\ServiceController::class , 'filterServiceDoctor']);
+Route::post('filter-service' , [\App\Http\Controllers\Api\ServiceController::class , 'filterServiceDoctorPost'])->name('filter-service-doctor');
 

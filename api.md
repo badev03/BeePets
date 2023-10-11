@@ -10,3 +10,8 @@
 2. http://127.0.0.1:8000/api/new-categories :: lấy ra danh mục bài viết 
 3. http://127.0.0.1:8000/api/new-search/{name} :: name là giá trị được gửi lên tìm kiếm tên bài viết 
 4. http://127.0.0.1:8000/api/new-home/ :: lấy ra tối đa 3 dữ liệu ở trang home 
+- Api về Authentication
+1. http://127.0.0.1:8000/api/new-post  :: check số điện thoại 
+2. http://127.0.0.1:8000/api/new-post  :: quên mật khẩu
+3. http://127.0.0.1:8000/api/new-post  :: đăng ký
+4. http://127.0.0.1:8000/api/new-post  :: đăng nhập bằng otp hoặc đng ký 
