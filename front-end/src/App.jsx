@@ -60,7 +60,7 @@ function App() {
           <Route path='blog/:id' element={<BlogDetails />} />
           <Route path="blogs/category/:categoryId" element={<BlogList />} />
 
-          <Route path='servicerdetails' element={<ServiceDetails />} />
+          <Route path='servicesdetails/:id' element={<ServiceDetails />} />
           <Route path='user/dashbroad' element={<Dashboard />} />
           <Route path='user/changepassword' element={<ChangePassword />} />
           <Route path='user/profilesetting' element={<ProfileSetting />} />
@@ -80,7 +80,7 @@ function App() {
           <Route path='doctors/edit-prescription' element={<Editprescription />} />
           <Route path='doctors/add-bill' element={<Addbill />} />
           <Route path='doctors/edit-bill' element={<Editbill />} />
-          <Route path='doctors/detail-appointments' element={<DetailAppointment/>}/>
+          <Route path='doctors/detail-appointments' element={<DetailAppointment />} />
 
           <Route path='Register' element={<Register />} />
           <Route path='Login' element={<Login />} />

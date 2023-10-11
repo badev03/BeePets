@@ -2,7 +2,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import servicesApi from '../../api/severces';
+import servicesDetailApi from '../../api/servicesDetailApi';
 const ServiceDetails = () => {
     const { id } = useParams();
     const [services, setServices] = useState(null);
@@ -10,7 +10,7 @@ const ServiceDetails = () => {
     useEffect(() => {
         const fetchBlog = async () => {
             try {
-                const response = await servicesApi.get(id);
+                const response = await servicesDetailApi.get(id);
                 setServices(response);
             } catch (error) {
                 console.error("Không có dữ liệu:", error);
@@ -47,27 +47,17 @@ const ServiceDetails = () => {
                         <div className="col-lg-8 col-md-12">
                             <div className="blog-view">
                                 <div className="blog blog-single-post">
-                                    <h3 className="blog-title">{services.name}</h3>
+                                    <h3 className="blog-title">{services['service-detail'].name}</h3>
                                     <div className="blog-image">
-                                        <a href="" ><img alt="blog-image" src={services.image} className="img-fluid" /></a>
+                                        <a href="" ><img alt="blog-image" src={services['service-detail'].image} className="img-fluid" /></a>
 
                                     </div>
                                     <div className="blog-info clearfix">
-                                        {/* <div className="post-left">
-                    <ul>
-                        <li>
-                        <div className="post-author">
-                            <a href="doctor-profile.html"><img src="../src/assets/img/doctors/doctor-thumb-02.jpg" alt="Post Author" /> <span>Dr. Darren Elder</span></a>
-                        </div>
-                        </li>
-                        <li><i className="far fa-calendar" />4 Dec 2023</li>
-                        <li><i className="far fa-comments" />12 Comments</li>
-                        <li><i className="fa fa-tags" />Health Tips</li>
-                    </ul>
-                    </div> */}
+
                                     </div>
                                     <div className="blog-content">
-                                        <p>{services.description}</p>
+                                        {services['service-detail'].description}
+
                                     </div>
                                 </div>
                             </div>
