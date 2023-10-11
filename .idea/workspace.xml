@@ -29,6 +29,7 @@
       <change beforePath="$PROJECT_DIR$/front-end/src/Component/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/Header.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/Context/ContextAuth.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Context/ContextAuth.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/api/blogApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/api/blogApi.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/composer.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -332,6 +333,8 @@
       <workItem from="1697009349282" duration="214000" />
       <workItem from="1697009568903" duration="156000" />
       <workItem from="1697033023648" duration="939000" />
+      <workItem from="1697009349282" duration="214000" />
+      <workItem from="1697009568903" duration="156000" />
     </task>
     <servers />
   </component>

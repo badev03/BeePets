@@ -101,7 +101,6 @@ Route::put('/appoinment/{id}', [BookingController::class, 'updateStatus']);
 //lấy ra thông tin bác sĩ đang đăng nhập
 Route::get('/doctor-info', [DoctorController::class, 'getDoctor']);
 
-
 //lấy ra danh sách khách hàng của bác sĩ
 Route::get('/list-customers', [DoctorController::class, 'listCustomer']);
 
