@@ -27,6 +27,13 @@ class ServiceController extends BaseResponseApiController
             '200');
     }
 
+    //lấy ra tất cả dịch vụ
+  
+
+
+
+
+
     public function showHome() {
         $data = Service::limit(4)
                 ->select('services.id' , 'services.name' , 'services.slug' , 'services.description' , 'services.icon_svg')
