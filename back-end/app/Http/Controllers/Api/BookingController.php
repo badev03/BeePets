@@ -16,85 +16,93 @@ use Illuminate\Database\QueryException;
 
 class BookingController extends Controller
 {
-    public function showForm(Request $request)
+
+
+    public function services()
     {
-        $services = Service::all();
-        $typePets = Type_pet::all();
-    
+        $data = Service::select('id', 'name', 'price')->with('doctors:id,name')->get();
+        return response()->json(['message' => 'Lấy danh sách dịch vụ thành công', 'data' => $data], 200);
+    }
+
+    public function typePets()
+    {
+        $data = Type_pet::select('id', 'name')->get();
+        return response()->json(['message' => 'Lấy danh sách loại thú cưng thành công', 'data' => $data], 200);
+    }
+
+    public function doctors(Request $request)
+    {
+
         $service_id = $request->input('service_id');
-        $doctors = Doctor::whereHas('services', function ($query) use ($service_id) {
+        $doctors = Doctor::select('id', 'name')->whereHas('services', function ($query) use ($service_id) {
             $query->where('service_id', $service_id);
         })->get();
-    
         if ($doctors->isEmpty()) {
             return response()->json(['message' => 'Không có bác sĩ nào có thể làm dịch vụ này'], 400);
         }
-    
+        return response()->json(['message' => 'Lấy danh sách bác sĩ thành công', 'data' => $doctors], 200);
+    }
+
+    // lấy ra lịch làm việc của bác sĩ theo ngày
+    public function workSchedule(Request $request)
+    {
         $doctor_id = $request->input('doctor_id');
         $date = $request->input('date');
-    
-        $workSchedule = Work_schedule::where('doctor_id', $doctor_id)->where('date', $date)->get();
-    
-        if ($workSchedule->isEmpty()) {
-            return response()->json(['message' => 'Không có lịch làm việc cho bác sĩ này vào ngày này'], 400);
+        $work_schedule = Work_schedule::where('doctor_id', $doctor_id)->where('date', $date)->get();
+        if ($work_schedule->isEmpty()) {
+            return response()->json(['message' => 'Không có lịch làm việc của bác sĩ này'], 400);
         }
-    
-        $now = now(); 
-        foreach ($workSchedule as $item) {
-            $end_time = Carbon::parse($item->end_time);
-    
-            if ($now->greaterThan($end_time)) {
-                return response()->json(['message' => 'Thời gian hiện tại đã vượt qua thời gian của ca làm việc'], 400);
-            }
-        }
-    
-      
-    
-        return response()->json([
-            'message' => 'Lấy dữ liệu thành công',
-            'data' => [
-                'services' => $services,
-                'type_pets' => $typePets,
-                'doctors' => $doctors,
-                'work_schedule' => $workSchedule,
-            ]
-        ], 200);
-       
+        return response()->json(['message' => 'Lấy danh sách lịch làm việc thành công', 'data' => $work_schedule], 200);
     }
-    
+
+
+
+    // thêm name và phone của khách hàng từ input còn nếu đang đăng nhập thì lấy thông tin của khách hàng đó
+    public function addNamePhone(Request $request)
+    {
+        $user = null;
+
+        if (!auth()->check()) {
+            $user = User::create([
+                'name' => $request->input('name'),
+                'phone' => $request->input('phone'),
+                'password' => bcrypt('123456'),
+                'status' => 0,
+            ]);
+        } else if (auth()->user()->phone == $request->input('phone') && auth()->user()->status == 0) {
+            return response()->json(['message' => 'Số điện thoại đã được đặt trước ']);
+        } else if (auth()->user()->phone == $request->input('phone') && auth()->user()->status == 1) {
+            return response()->json(['message' => 'hãy đăng nhập để đặt lịch khám']);
+        } else {
+            $user = auth()->user();
+        }
+
+        return response()->json(['message' => 'Thêm tên và số điện thoại thành công', 'data' => $user], 200);
+    }
+
+
+    // lưu dữ liệu đã chọn vào bảng appointment
     public function save(Request $request)
     {
         try {
             $this->validateBookingRequest($request);
-    
-            
-            if (!auth()->check()) {
-                $user = User::create([
-                    'name' => $request->input('name'),
-                    'phone' => $request->input('phone'),
-                    'password' => bcrypt('123456'),
-                    'status' => 0,
-                ]);
-            } else if (auth()->user()->phone == $request->input('phone')) {
-                return response()->json(['message' => 'Số điện thoại đã được đặt trước đó']);
-                
-            } else {
-                $user = auth()->user();
-            }
-
-    
+            $user = auth()->user();
             $model = new Appointment();
             $model->fill($request->all());
-            $model->user_id = $user->id;
+
+            if ($user) {
+                $model->user_id = $user->id;
+            }
+
             $model->save();
-    
+
             return response()->json(['message' => 'Đã tạo cuộc hẹn thành công'], 201);
         } catch (QueryException $e) {
-            dd($e->getMessage());
+            // dd($e->getMessage());
             return response()->json(['message' => 'Lưu dữ liệu thất bại.'], 500);
         }
     }
-    
+
 
     private function validateBookingRequest(Request $request)
     {
@@ -114,10 +122,9 @@ class BookingController extends Controller
 
     public function getAppointments()
     {
-        
+
         $data = Appointment::where('status', 1)->get();
         return response()->json(['message' => 'Lấy danh sách cuộc hẹn thành công', 'data' => $data], 200);
-
     }
     // lấy ra danh sách các cuộc hẹn có status = 0
     public function getAppointmentByStatus()
@@ -148,10 +155,4 @@ class BookingController extends Controller
 
         return response()->json(['message' => 'Cập nhật trạng thái thành công'], 200);
     }
-
-
-
-    
-
-
 }

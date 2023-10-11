@@ -5,16 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="45a53ba9-6ef3-41ae-87f6-4b989cb527d7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/DoctorUserController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/database/migrations/2023_10_11_105849_create_table_reviews.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/src/Component/Booking.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/src/api/booking.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_11_2023_12_35_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_11_2023_12_35_PM__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api.md" beforeDir="false" afterPath="$PROJECT_DIR$/api.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/BookingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/BookingController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/DoctorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/DoctorController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Kernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Middleware/VerifyCsrfToken.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Middleware/VerifyCsrfToken.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/app/Models/Appointment.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Models/Appointment.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/app/Models/Bill.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Models/Bill.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/app/Models/Prescription.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Models/Prescription.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/config/auth.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/config/auth.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/NewController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/NewController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/ReviewsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/ReviewsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/ServiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/ServiceController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Models/Review.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Models/Review.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/composer.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Component/Banner.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/Banner.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Component/Form-Auth/Login-Doctor.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/Form-Auth/Login-Doctor.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Component/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/Header.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Context/ContextAuth.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Context/ContextAuth.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/api/blogApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/api/blogApi.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -280,7 +294,8 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/phamn/OneDrive/Desktop/BeePets&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/quynh/OneDrive/Desktop/BeePets&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -314,6 +329,9 @@
       <workItem from="1696084040868" duration="1738000" />
       <workItem from="1697001471251" duration="630000" />
       <workItem from="1697014314047" duration="9989000" />
+      <workItem from="1697009349282" duration="214000" />
+      <workItem from="1697009568903" duration="156000" />
+      <workItem from="1697033023648" duration="939000" />
     </task>
     <servers />
   </component>

@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../Context/ContextAuth";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, onLogout  } = useAuth();
+  const navigate = useNavigate(); 
+  
+  const handleLogout = () => {
+    onLogout();
+    navigate('/');
+  };
 
 
   const initialActiveItems = JSON.parse(
@@ -285,6 +292,9 @@ const Header = () => {
                       </a>
                     </div>
                   </li>
+                  <a className="dropdown-item" onClick={handleLogout}>
+                        Logout
+                      </a>
                 </>
               ) : (
                 <>

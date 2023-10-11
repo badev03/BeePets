@@ -102,10 +102,10 @@ class NewController extends BaseResponseApiController
         if(!$data) {
             return response()->json(['message' => $this->title.'không tồn tại'], 404);
         }
-        $relatedNew = $this->tableQuery('new')
+        $relatedNew = $this->tableQuery('newcs')
             ->select('newcs.id', 'newcs.name')
-            ->join('newcs' , 'newcs.id' , '=' , 'new.new_categorie_id')
-            ->toRawSql();
+            ->join('new_categories' , 'new_categories.id' , '=' , 'newcs.new_categorie_id')
+            ->get();
         return response()->json([
             'new-detail' => $data ,'new-related' => $relatedNew ],
             '200');

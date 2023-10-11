@@ -119,29 +119,67 @@ class DoctorController extends Controller
     }
 
     //lấy ra hóa đơn theo bác sĩ và người dùng
-    public function getBillByUser($id)
-    {
-        if (Auth::guard('doctors')->check()) {
-            $doctor_id = Auth::guard('doctors')->user()->id;
-//            $bills = Bill::where('bills.user_id', $id)
-//                ->join('appointments', 'bills.appointment_id', '=', 'appointments.id')
-//                ->join('doctors', 'appointments.doctor_id', '=', 'doctors.id')
-//                ->where('doctors.id', $doctor_id)
-//                ->select('bills.code', 'doctors.name', 'bills.total_amount', 'bills.status', 'bills.created_at')
-//                ->get();
-            $bills = Bill::all();
-            return response()->json([
-                'success' => true,
-                'message' => 'Lấy danh sách hóa đơn thành công',
-                'bills' => $bills
-            ]);
-        } else {
+//    public function getBillByUser($id)
+//    {
+//        if (Auth::guard('doctors')->check()) {
+//            $doctor_id = Auth::guard('doctors')->user()->id;
+////            $bills = Bill::where('bills.user_id', $id)
+////                ->join('appointments', 'bills.appointment_id', '=', 'appointments.id')
+////                ->join('doctors', 'appointments.doctor_id', '=', 'doctors.id')
+////                ->where('doctors.id', $doctor_id)
+////                ->select('bills.code', 'doctors.name', 'bills.total_amount', 'bills.status', 'bills.created_at')
+////                ->get();
+//            $bills = Bill::all();
+//            return response()->json([
+//                'success' => true,
+//                'message' => 'Lấy danh sách hóa đơn thành công',
+//                'bills' => $bills
+//            ]);
+//        } else {
+//            return response()->json([
+//                'success' => false,
+//                'message' => 'Bạn chưa đăng nhập',
+//            ]);
+//        }
+//    }
+
+    public function changePassworDoctor(Request $request) {
+        try {
+            if (Auth::guard('doctors')->check()) {
+                $request->validate([
+                    'password' => 'required',
+                    'new_password' => 'required',
+                    'confirm_password' => 'required|same:new_password'
+                ],
+                    [
+                        'password.required' => 'Vui lòng nhập mật khẩu',
+                        'new_password.required' => 'Vui lòng nhập mật khẩu mới',
+                        'confirm_password.required' => 'Vui lòng nhập lại mật khẩu mới',
+                        'confirm_password.same' => 'Mật khẩu nhập lại không khớp'
+                    ]);
+                $doctor = Auth::guard('doctors')->user();
+                $doctor->password = Hash::make(request()->new_password);
+                $doctor->save();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Đổi mật khẩu thành công',
+                    'doctor' => $doctor
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Bạn chưa đăng nhập',
+                ]);
+            }
+        } catch (\Exception $exception) {
             return response()->json([
                 'success' => false,
-                'message' => 'Bạn chưa đăng nhập',
+                'message' => 'Lỗi',
+                'error' => $exception->getMessage()
             ]);
         }
     }
+
 
 
 }
