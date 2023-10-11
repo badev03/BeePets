@@ -1,9 +1,30 @@
+//doi mk
 import React from 'react'
 import Menudashboard from './Menu-dashboard'
 import {Link} from 'react-router-dom'
-
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
+import doctorsApi from '../../api/doctorsApi'
 
 const Changepassword = () => {
+  const { id } = useParams();
+    const [doctor, setDoctor] = useState(null);
+
+    useEffect(() => {
+        const fetchBlog = async () => {
+            try {
+                const response = await doctorsApi.get(1);
+                setDoctor(response);
+            } catch (error) {
+                console.error("Không có dữ liệu:", error);
+            }
+        };
+
+        fetchBlog();
+    }, []);
+    if (!doctor) {
+        return <div>Loading...</div>;
+    }
   return (
     <div>
   <div className="breadcrumb-bar-two">
@@ -35,7 +56,7 @@ const Changepassword = () => {
                   <form>
                     <div className="mb-3">
                       <label className="mb-2">Mật khẩu cũ</label>
-                      <input type="password" className="form-control" />
+                      <input type="password" className="form-control" value={doctor.password}/>
                     </div>
                     <div className="mb-3">
                       <label className="mb-2">Mật khẩu mới</label>
