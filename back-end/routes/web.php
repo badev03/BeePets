@@ -37,7 +37,7 @@ Route::middleware(['role:Admin'])->group(function () {
             'service' => ServiceController::class,
             'role' => RoleController::class,
             'people-account' => PeopleAccountController::class,
-            'doctors' => DoctorController::class,
+           
             'permission' => PermissionController::class,
             'product-categories' => ProductCategoryController::class,
             'products' => ProductController::class,
@@ -50,6 +50,7 @@ Route::middleware(['role:Admin'])->group(function () {
         foreach ($objects as $key => $controller) {
             Route::resource($key, $controller);
         }
+        
         Route::get('dashboard', [HomeController::class , 'index'])->name('dashboard');
         Route::get('appointment/get-day/{day}/{id}', [AppointmentController::class , 'getDay'])->name('appointment.get-day');
         Route::get('appointment/date-filter/{data}', [AppointmentController::class , 'FilterDate'])->name('appointment.filter-date');
@@ -58,6 +59,8 @@ Route::middleware(['role:Admin'])->group(function () {
         Route::post('appointment/date-search-phone/', [AppointmentController::class , 'FilterSearchPhone'])->name('appointment.filter-search-phone');
         Route::get('appointment/create-data/{data}', [AppointmentController::class , 'createData'])->name('appointment.create-data');
         Route::resource('schedules', ScheduleController::class);
+        Route::resource('doctors', DoctorController::class);
+
     });
 });
 Route::get('/', [BookingController::class, 'index'])->name('index');

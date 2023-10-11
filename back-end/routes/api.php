@@ -33,6 +33,7 @@ foreach ($objects as $key => $controller) {
     Route::apiResource($key, $controller);
 }
 Route::get('service-show', [ServiceController::class , 'showHome']);
+Route::get('service-filter', [ServiceController::class , 'filterService']);
 Route::get('new-post', [NewController::class , 'postNew']);
 Route::get('new-categories', [NewController::class , 'categoriesNew']);
 Route::get('new-search/{name}', [NewController::class , 'searchNew']);
@@ -40,4 +41,26 @@ Route::get('new-home', [NewController::class , 'showNew']);
 
 Route::post('/form', [BookingController::class, 'showForm']);
 Route::post('/save', [BookingController::class, 'save']);
+
 Route::post('/doctor/login', [DoctorController::class, 'login']);
+//lấy tất cả các lịch khám đã được chấp nhận
+Route::get('/appoinments', [BookingController::class, 'getAppointments']);
+//lấy ra các lịch khám trạng thái chưa xác nhận
+Route::get('/appoinments-status', [BookingController::class, 'getAppointmentByStatus']);
+
+//lấy ra 1 lịch khám
+Route::get('/appoinment/{id}', [BookingController::class, 'getAppointment']);
+
+//câp nhật trạng thái lịch khám
+Route::put('/appoinment/{id}', [BookingController::class, 'updateStatus']);
+
+//lấy ra thông tin bác sĩ đang đăng nhập
+Route::get('/doctor-info', [DoctorController::class, 'getDoctor']);
+
+
+//lấy ra danh sách khách hàng của bác sĩ
+Route::get('/list-customers', [DoctorController::class, 'listCustomer']);
+
+//lấy ra lịch sử khám của khách hàng
+Route::get('/history/{id}', [DoctorController::class, 'getHistoryByUser']);
+

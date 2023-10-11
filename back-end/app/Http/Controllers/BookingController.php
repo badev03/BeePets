@@ -85,9 +85,6 @@ class BookingController extends Controller
             $user = auth()->user();
         }
 
-
-
-
         $model = new Appointment();
         $model->fill($request->all());
         $model->user_id = $user->id;
@@ -96,4 +93,7 @@ class BookingController extends Controller
 
         return redirect()->route('index')->with('success', 'Đã tạo cuộc hẹn thành công');
     }
+
+
+   
 }
