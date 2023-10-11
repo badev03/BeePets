@@ -11,7 +11,7 @@ const BlogDetails = () => {
     const fetchBlogDetails = async () => {
       try {
         const response = await blogApi.get(id);
-        setBlog(response);
+        setBlog(response.new);
       } catch (error) {
         console.error("Error fetching blog details:", error);
       }

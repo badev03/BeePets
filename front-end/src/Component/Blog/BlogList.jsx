@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import blogApi from "../../api/BlogApi";
+import ReactPaginate from "react-paginate";
 import BlogSideBar from "./BlogSideBar";
+import blogApi from "../../api/blogApi";
 
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
   const { categoryId } = useParams();
+  const [currentPage, setCurrentPage] = useState(0);
+  const [postsPerPage] = useState(2);
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await blogApi.getAll({new_categorie_id: categoryId});
-        setBlogs(response);
+        const response = await blogApi.getAll({ new_categorie_id: categoryId });
+        // console.log(response.new[0]);
+        setBlogs(response.new);
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
@@ -27,6 +31,15 @@ const BlogList = () => {
     }
     return truncatedText;
   }
+
+  const indexOfLastPost = (currentPage + 1) * postsPerPage;
+  const indexOfFirstPost = currentPage * postsPerPage;
+  const currentPosts = blogs.slice(indexOfFirstPost, indexOfLastPost);
+
+  const handlePageClick = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
 
   return (
     <>
@@ -85,7 +98,30 @@ const BlogList = () => {
               <div className="row">
                 <div className="col-md-12">
                   <div className="blog-pagination">
-                    <nav>
+                    <ReactPaginate
+                      pageCount={Math.ceil(blogs.length / postsPerPage)}
+                      pageRangeDisplayed={3}
+                      marginPagesDisplayed={1}
+                      onPageChange={handlePageClick}
+                      containerClassName={"pagination"}
+                      activeClassName={"active"}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <BlogSideBar />
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default BlogList;
+
+{
+  /* <nav>
                       <ul className="pagination justify-content-center">
                         <li className="page-item disabled">
                           <a className="page-link" href="#" tabIndex={-1}>
@@ -113,17 +149,5 @@ const BlogList = () => {
                           </a>
                         </li>
                       </ul>
-                    </nav>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <BlogSideBar />
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};
-
-export default BlogList;
+                    </nav> */
+}

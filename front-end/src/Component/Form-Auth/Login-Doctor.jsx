@@ -46,7 +46,7 @@ const LoginDoctor = () => {
   const handleConfirmSuccess = () => {
     setShowSuccessAlert(false);
     if (isRedirecting) {
-      navigate("/");
+      navigate("/doctors");
     }
   };
 

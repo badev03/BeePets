@@ -9,7 +9,8 @@ const BlogTopList = () => {
     const fetchBlog = async () => {
       try {
         const response = await blogApi.getAll();
-        const randomItems = displayRandomItems(response, 5);
+        const newTop = response.new
+        const randomItems = displayRandomItems(newTop, 5);
         setBlogs(randomItems);
         randomItems.forEach((item) => {
           // console.log(item);
