@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\AppointmentController;
 use \App\Http\Controllers\Admin\ReviewController;
 use \App\Http\Controllers\Admin\NewCategorieController;
 use \App\Http\Controllers\Admin\NewController;
+use App\Http\Controllers\Api\AuthController as ApiAuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,7 +38,7 @@ Route::middleware(['role:Admin'])->group(function () {
             'service' => ServiceController::class,
             'role' => RoleController::class,
             'people-account' => PeopleAccountController::class,
-           
+
             'permission' => PermissionController::class,
             'product-categories' => ProductCategoryController::class,
             'products' => ProductController::class,
@@ -50,7 +51,7 @@ Route::middleware(['role:Admin'])->group(function () {
         foreach ($objects as $key => $controller) {
             Route::resource($key, $controller);
         }
-        
+
         Route::get('dashboard', [HomeController::class , 'index'])->name('dashboard');
         Route::get('appointment/get-day/{day}/{id}', [AppointmentController::class , 'getDay'])->name('appointment.get-day');
         Route::get('appointment/date-filter/{data}', [AppointmentController::class , 'FilterDate'])->name('appointment.filter-date');
@@ -84,4 +85,10 @@ Route::get('admin' , function () {
 });
 
 Route::post('uploadImg' , [HomeController::class , 'uploadImg'])->name('checkEditor.upload');
+Route::get('login-tester' , [ApiAuthController::class , 'checkPhone']);
+Route::get('filter-service' , [\App\Http\Controllers\Api\ServiceController::class , 'filterServiceDoctor']);
+Route::post('filter-service' , [\App\Http\Controllers\Api\ServiceController::class , 'filterServiceDoctorPost'])->name('filter-service-doctor');
 
+Route::get('/test/env', function () {
+    dd(env('DB_DATABASE'));
+});

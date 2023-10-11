@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Review extends Model
+class OtpToken extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'doctor_id' ,
-        'user_id',
-        'content',
-        'score'
+        'phone' ,
+        'otp_code' ,
+        'expires_at' ,
+        'user_id' ,
     ];
 }

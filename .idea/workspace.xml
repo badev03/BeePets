@@ -5,11 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="45a53ba9-6ef3-41ae-87f6-4b989cb527d7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/DoctorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/DoctorController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Kernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/app/Models/Doctor.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Models/Doctor.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/composer.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -275,7 +273,8 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/phamn/OneDrive/Desktop/BeePets&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/quynh/OneDrive/Desktop/BeePets&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -307,6 +306,9 @@
       <updated>1695691991164</updated>
       <workItem from="1695691992682" duration="15281000" />
       <workItem from="1696084040868" duration="1738000" />
+      <workItem from="1697001471251" duration="630000" />
+      <workItem from="1697009349282" duration="214000" />
+      <workItem from="1697009568903" duration="156000" />
     </task>
     <servers />
   </component>

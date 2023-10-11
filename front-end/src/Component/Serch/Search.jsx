@@ -2,6 +2,7 @@ import React from 'react'
 import doctorsApi from '../../api/doctorsApi';
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import FilterService from './FilterService';
 
 
 const Search = () => {
@@ -11,8 +12,8 @@ const Search = () => {
     const fetchDoctor = async () => {
       try {
         const response = await doctorsApi.getAll();
-        setDoctors(response);
-        console.log(doctors);
+        setDoctors(response.doctor);
+        console.log(response);
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
@@ -43,39 +44,7 @@ const Search = () => {
     <div className="container">
       <div className="row">
         <div className="col-md-12 col-lg-4 col-xl-3 theiaStickySidebar">
-          <div className="card search-filter">
-            <div className="card-header">
-              <h4 className="card-title mb-0">Bộ lọc tìm kiếm</h4>
-            </div>
-            <div className="card-body">
-            
-
-              <div className="filter-widget">
-                <h4>Dịch vụ</h4>
-                <div>
-                  <label className="custom_check">
-                    <input type="checkbox" name="select_specialist" defaultChecked />
-                    <span className="checkmark" /> Khám bệnh
-                  </label>
-                </div>
-                <div>
-                  <label className="custom_check">
-                    <input type="checkbox" name="select_specialist" defaultChecked />
-                    <span className="checkmark" /> Chăm sóc và làm đẹp
-                  </label>
-                </div>
-                <div>
-                  <label className="custom_check">
-                    <input type="checkbox" name="select_specialist" />
-                    <span className="checkmark" /> Tiêm phòng
-                  </label>
-                </div>
-              </div>
-              <div className="btn-search">
-                <button type="button" className="btn w-100">Tìm kiếm</button>
-              </div>
-            </div>
-          </div>
+        <FilterService/>
         </div>
         <div className="col-md-12 col-lg-8 col-xl-9">
         {doctors.map(doctor => (

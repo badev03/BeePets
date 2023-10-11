@@ -48,6 +48,7 @@ return [
         'doctors' => [
             'driver' => 'session',
             'provider' => 'doctors',
+            'hash' => false,
         ],
     ],
 

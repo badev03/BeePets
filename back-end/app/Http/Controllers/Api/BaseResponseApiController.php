@@ -9,10 +9,6 @@ class BaseResponseApiController extends Controller
 {
     public $model;
     public $title = '';
-    public function __construct()
-    {
-        $this->model = app()->make($this->model);
-    }
 
     public function index()
     {
@@ -22,7 +18,9 @@ class BaseResponseApiController extends Controller
         ] , 200);
     }
 
-    public function return404($data) {
-
+    public function return404() {
+        return response()->json(['message' => $this->title.'không tồn tại'], 404);
     }
+
+
 }

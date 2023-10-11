@@ -29,11 +29,13 @@ const LoginDoctor = () => {
     try {
       const response = await loginDoctor.add(formData);
 
-      if (response.doctor) {
+      console.log(response);
+
+      if (response.doctor ?? response.access_token) {
         setShowSuccessAlert(true);
         setIsRedirecting(true);
 
-        onLoginSuccess();
+        onLoginSuccess(response.access_token);
       } else {
         setShowErrorAlert(true);
       }
@@ -46,7 +48,7 @@ const LoginDoctor = () => {
   const handleConfirmSuccess = () => {
     setShowSuccessAlert(false);
     if (isRedirecting) {
-      navigate("/");
+      navigate("/doctors");
     }
   };
 

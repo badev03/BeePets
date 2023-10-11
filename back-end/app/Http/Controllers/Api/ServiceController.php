@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Service;
 use App\Traits\QueryCommon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ServiceController extends BaseResponseApiController
 {
@@ -25,6 +26,13 @@ class ServiceController extends BaseResponseApiController
             'service' => $data],
             '200');
     }
+
+    //lấy ra tất cả dịch vụ
+  
+
+
+
+
 
     public function showHome() {
         $data = Service::limit(4)
@@ -72,5 +80,32 @@ class ServiceController extends BaseResponseApiController
         return response()->json([
             'service' => $service ],
             '200');
+    }
+
+    public function filterServiceDoctor() {
+        return view('api.filter');
+    }
+
+    public function filterServiceDoctorPost(Request $request) {
+        dd($request->all());
+    }
+
+    public function filterDoctorService(Request $request){
+        $service = $request->input('service');
+        $service = json_decode($service, true);
+        if($service) {
+            $checkService = $this->tableQuery('doctor_service')
+                ->select('doctors.name' , 'doctors.address' , 'doctors.image' , DB::raw('GROUP_CONCAT(services.name) AS chuyenkhoa'))
+                ->join('services' , 'services.id' , '=' , 'doctor_service.service_id')
+                ->join('doctors' , 'doctors.id' , '=' , 'doctor_service.doctor_id')
+                ->join('service_categories' , 'service_categories.id' , '=' , 'services.service_categorie_id')
+                ->where('service_categories.status' , '=' , 1)
+                ->whereIn('doctor_service.service_id' ,$service )
+                ->groupBy('doctors.name' , 'doctors.address' , 'doctors.image')
+                ->get();
+            return response()->json([
+                'service' => $checkService ],
+                '200');
+        }
     }
 }
