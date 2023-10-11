@@ -1,8 +1,27 @@
 import React from 'react'
 import Menudashboard from './Menu-dashboard'
 import {Link} from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import reviewsApi from '../../api/reviews';
+
+
 
 const Review = () => {
+  const [reviews, setReviews] = useState([]);
+
+    useEffect(() => {
+        const fetchBlog = async () => {
+            try {
+                const response = await reviewsApi.getAll();
+                setReviews(response);
+                console.log(services);
+            } catch (error) {
+                console.error("Không có dữ liệu:", error);
+            }
+        };
+
+        fetchBlog();
+    }, []);
   return (
     <div>
   <div className="breadcrumb-bar-two">
@@ -28,7 +47,9 @@ const Review = () => {
         </div>
         <div className="col-md-7 col-lg-8 col-xl-9">
           <div className="doc-review review-listing">
+
             <ul className="comments-list">
+              
               <li>
                 <div className="comment">
                   <img className="avatar rounded-circle" alt="User Image" src="/img/patients/patient.jpg" />
@@ -55,178 +76,12 @@ const Review = () => {
                     
                   </div>
                 </div>
-                <ul className="comments-reply">
-                  <li>
-                    {/* <div className="comment">
-                      <img className="avatar rounded-circle" alt="User Image" src="/img/doctors/doctor-thumb-02.jpg" />
-                      <div className="comment-body">
-                        <div className="meta-data">
-                          <span className="comment-author">Dr. Darren Elder</span>
-                          <span className="comment-date">Đánh giá 3 ngày trước</span>
-                        </div>
-                        <p className="comment-content">
-                        Điều quan trọng là phải tự chăm sóc nỗi đau, sau đó là sự trưởng thành của bệnh nhân, nhưng đồng thời cũng sẽ có rất nhiều công việc và nỗi đau. Trong những năm qua, tôi sẽ đến. Tôi Không nghĩ có thời gian dành cho người hâm mộ
-
-                        </p>
-                        <div className="comment-reply">
-                          ink>
-                        </div>
-                      </div>
-                    </div> */}
-                  </li>
-                </ul>
+                
               </li>
-              <li>
-                <div className="comment">
-                  <img className="avatar rounded-circle" alt="User Image" src="/img/patients/patient2.jpg" />
-                  <div className="comment-body">
-                    <div className="meta-data">
-                      <span className="comment-author">Travis Trimble</span>
-                      <span className="comment-date">Đánh giá 4 ngày trước</span>
-                      <div className="review-count rating">
-                        <i className="fas fa-star filled" />
-                        <i className="fas fa-star filled" />
-                        <i className="fas fa-star filled" />
-                        <i className="fas fa-star filled" />
-                        <i className="fas fa-star filled" />
-                      </div>
-                    </div>
-                    <p className="comment-content">
-                      Việc chăm sóc bệnh nhân là rất quan trọng.
-                      nhưng vào thời điểm đó chúng xảy ra như một cơn lao động và đau đớn lớn lao.
-                      Để đi đến chi tiết nhỏ nhất, bài tập của chúng ta là gì?
-                      Tôi Không nghĩ có thời gian dành cho người hâm mộ
-                    </p>
-                    
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div className="comment">
-                  <img className="avatar rounded-circle" alt="User Image" src="/img/patients/patient3.jpg" />
-                  <div className="comment-body">
-                    <div className="meta-data">
-                      <span className="comment-author">Carl Kelly</span>
-                      <span className="comment-date">Đánh giá 5 ngày trước</span>
-                      <div className="review-count rating">
-                        <i className="fas fa-star filled" />
-                        <i className="fas fa-star filled" />
-                        <i className="fas fa-star filled" />
-                        <i className="fas fa-star filled" />
-                        <i className="fas fa-star filled" />
-                      </div>
-                    </div>
-                    <p className="comment-content">
-                      Việc chăm sóc bệnh nhân là rất quan trọng.
-                      nhưng vào thời điểm đó chúng xảy ra như một cơn lao động và đau đớn lớn lao.
-                      Để đi đến chi tiết nhỏ nhất, bài tập của chúng ta là gì?
-                      Tôi Không nghĩ có thời gian dành cho người hâm mộ
-                    </p>
-                    
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div className="comment">
-                  <img className="avatar rounded-circle" alt="User Image" src="/img/patients/patient4.jpg" />
-                  <div className="comment-body">
-                    <div className="meta-data">
-                      <span className="comment-author">Michelle Fairfax</span>
-                      <span className="comment-date">Đánh giá 6 ngày trước</span>
-                      <div className="review-count rating">
-                        <i className="fas fa-star filled" />
-                        <i className="fas fa-star filled" />
-                        <i className="fas fa-star filled" />
-                        <i className="fas fa-star filled" />
-                        <i className="fas fa-star filled" />
-                      </div>
-                    </div>
-                    <p className="comment-content">
-                      Việc chăm sóc bệnh nhân là rất quan trọng.
-                      nhưng vào thời điểm đó chúng xảy ra như một cơn lao động và đau đớn lớn lao.
-                      Để đi đến chi tiết nhỏ nhất, bài tập của chúng ta là gì?
-                      Tôi Không nghĩ có thời gian dành cho người hâm mộ
-                    </p>
-                    
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div className="comment">
-                  <img className="avatar rounded-circle" alt="User Image" src="/img/patients/patient5.jpg" />
-                  <div className="comment-body">
-                    <div className="meta-data">
-                      <span className="comment-author">Gina Moore</span>
-                      <span className="comment-date">Đánh giá 1 Week trước</span>
-                      <div className="review-count rating">
-                        <i className="fas fa-star filled" />
-                        <i className="fas fa-star filled" />
-                        <i className="fas fa-star filled" />
-                        <i className="fas fa-star filled" />
-                        <i className="fas fa-star filled" />
-                      </div>
-                    </div>
-                    <p className="comment-content">
-                      Việc chăm sóc bệnh nhân là rất quan trọng.
-                      nhưng vào thời điểm đó chúng xảy ra như một cơn lao động và đau đớn lớn lao.
-                      Để đi đến chi tiết nhỏ nhất, bài tập của chúng ta là gì?
-                      Tôi Không nghĩ có thời gian dành cho người hâm mộ
-                    </p>
-                    
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div className="comment">
-                  <img className="avatar rounded-circle" alt="User Image" src="/img/patients/patient9.jpg" />
-                  <div className="comment-body">
-                    <div className="meta-data">
-                      <span className="comment-author">Walter Roberson</span>
-                      <span className="comment-date">Đánh giá 1 Week trước</span>
-                      <div className="review-count rating">
-                        <i className="fas fa-star filled" />
-                        <i className="fas fa-star filled" />
-                        <i className="fas fa-star filled" />
-                        <i className="fas fa-star filled" />
-                        <i className="fas fa-star filled" />
-                      </div>
-                    </div>
-                    <p className="comment-content">
-                      Việc chăm sóc bệnh nhân là rất quan trọng.
-                      nhưng vào thời điểm đó chúng xảy ra như một cơn lao động và đau đớn lớn lao.
-                      Để đi đến chi tiết nhỏ nhất, bài tập của chúng ta là gì?
-                      Tôi Không nghĩ có thời gian dành cho người hâm mộ
-                    </p>
-                    
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div className="comment">
-                  <img className="avatar rounded-circle" alt="User Image" src="/img/patients/patient8.jpg" />
-                  <div className="comment-body">
-                    <div className="meta-data">
-                      <span className="comment-author">Daniel Griffing</span>
-                      <span className="comment-date">Đánh giá on 1 Nov 2023</span>
-                      <div className="review-count rating">
-                        <i className="fas fa-star filled" />
-                        <i className="fas fa-star filled" />
-                        <i className="fas fa-star filled" />
-                        <i className="fas fa-star filled" />
-                        <i className="fas fa-star filled" />
-                      </div>
-                    </div>
-                    <p className="comment-content">
-                      Việc chăm sóc bệnh nhân là rất quan trọng.
-                      nhưng vào thời điểm đó chúng xảy ra như một cơn lao động và đau đớn lớn lao.
-                      Để đi đến chi tiết nhỏ nhất, bài tập của chúng ta là gì?
-                      Tôi Không nghĩ có thời gian dành cho người hâm mộ
-                    </p>
-                    
-                  </div>
-                </div>
-              </li>
+              
+              
             </ul>
+
           </div>
         </div>
       </div>
