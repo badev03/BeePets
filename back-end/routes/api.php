@@ -106,6 +106,3 @@ Route::get('/list-customers', [DoctorController::class, 'listCustomer']);
 
 //lấy ra lịch sử khám của khách hàng
 Route::get('/history/{id}', [DoctorController::class, 'getHistoryByUser']);
-
-//change password
-Route::post('/change-password', [DoctorController::class, 'changePassworDoctor']);

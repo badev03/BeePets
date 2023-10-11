@@ -46,7 +46,7 @@ return [
             'hash' => false,
         ],
         'doctors' => [
-            'driver' => 'sanctum',
+            'driver' => 'session',
             'provider' => 'doctors',
             'hash' => false,
         ],
@@ -111,12 +111,6 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
-        'doctors' => [
-            'provider' => 'doctors',
-            'table' => 'password_reset_tokens',
-            'expire' => 60,
-            'throttle' => 60,
-        ]
     ],
 
     /*
