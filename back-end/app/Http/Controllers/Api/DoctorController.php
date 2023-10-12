@@ -86,6 +86,32 @@ class DoctorController extends Controller
             ]);
         }
     }
+    public function getCustomerByID($id) {
+        try {
+            if (Auth::guard('doctors')->check()) {
+                $customer = Appointment::where('user_id', $id)
+                    ->join('users', 'users.id', '=', 'appointments.user_id')
+                    ->select('users.id','users.name', 'users.phone', 'users.email', 'users.address')
+                    ->first();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Lấy thông tin khách hàng thành công',
+                    'customer' => $customer
+                ]);
+            }else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Bạn chưa đăng nhập',
+                ]);
+            }
+        }catch (\Exception $exception) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Lỗi',
+                'error' => $exception->getMessage()
+            ]);
+        }
+    }
 
     public function getAppiontment($id)
     {
@@ -163,7 +189,6 @@ class DoctorController extends Controller
             ]);
         }
     }
-    
 
 
 }

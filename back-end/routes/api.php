@@ -112,6 +112,10 @@ Route::get('/doctor-info', [DoctorController::class, 'getDoctor']);
 //lấy ra danh sách khách hàng của bác sĩ
 Route::get('/list-customers', [DoctorController::class, 'listCustomer']);
 
+//lấy ra khách hàng của bác sĩ theo id
+Route::get('/get-customer/{id}', [DoctorController::class, 'getCustomerByID']);
+
+
 //lấy ra lịch sử khám của khách hàng
 Route::get('/list-appiontment/{id}', [DoctorController::class, 'getAppiontment']);
 
