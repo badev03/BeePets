@@ -78,26 +78,15 @@ class BookingController extends Controller
 
 
     // thêm name và phone của khách hàng từ input còn nếu đang đăng nhập thì lấy thông tin của khách hàng đó
-    public function addNamePhone(Request $request)
+    public function inforMember()
     {
-        $user = null;
 
-        if (!auth()->check()) {
-            $user = User::create([
-                'name' => $request->input('name'),
-                'phone' => $request->input('phone'),
-                'password' => bcrypt('123456'),
-                'status' => 0,
-            ]);
-        } else if (auth()->user()->phone == $request->input('phone') && auth()->user()->status == 0) {
-            return response()->json(['message' => 'Số điện thoại đã được đặt trước ']);
-        } else if (auth()->user()->phone == $request->input('phone') && auth()->user()->status == 1) {
-            return response()->json(['message' => 'hãy đăng nhập để đặt lịch khám']);
-        } else {
+        if (auth()->check()) {
+            // lấy ra id tên va số điện thoại của khách hàng đang đăng nhập
             $user = auth()->user();
+            $data = User::where('id', $user->id)->select('id', 'name', 'phone')->first();
+            return response()->json(['message' => 'Lấy thông tin thành công', 'user' => $data], 200);
         }
-
-        return response()->json(['message' => 'Thêm tên và số điện thoại thành công', 'data' => $user], 200);
     }
 
 
@@ -106,13 +95,27 @@ class BookingController extends Controller
     {
         try {
             $this->validateBookingRequest($request);
-            $user = auth()->user();
-            $model = new Appointment();
-            $model->fill($request->all());
+            $name = $request->input('name');
+            $phone = $request->input('phone');
 
-            if ($user) {
-                $model->user_id = $user->id;
+            if (User::where('phone', $phone)->exists()) {
+                $user = User::where('phone', $phone)->first();
+                $user_id = $user->id;
+            } else {
+                $user = new User();
+                $user->name = $name;
+                $user->phone = $phone;
+                $user->password = bcrypt('123456');
+                $user->status = 1;
+                $user->role_id = 4;
+                $user->save();
+                $user_id = $user->id;
             }
+            $model = new Appointment();
+            $model->fill(array_merge($request->all(), [
+                'user_id' => $user_id,
+                'status' => 0,
+            ]));
 
             $model->save();
 

@@ -88,8 +88,7 @@ Route::get('/type-pets', [BookingController::class, 'typePets']);
 Route::post('/doctors-service', [BookingController::class, 'doctors']);
 //lấy ra danh sách lịch làm việc của bác sĩ
 Route::get('/work-schedule', [BookingController::class, 'workSchedule']);
-//thêm tên và số điện thoại của khách hàng
-Route::post('/infor-customer', [BookingController::class, 'addNamePhone']);
+
 // lưu dữ liệu đã chọn vào bảng appointment
 Route::post('/save', [BookingController::class, 'save']);
 
@@ -99,6 +98,9 @@ Route::post('/add-booking', [BookingController::class, 'addBooking']);
 Route::middleware('auth:sanctum')->group(function () {
 //lấy ra các lịch khám trạng thái chưa xác nhận
 Route::get('/appoinments-status', [BookingController::class, 'getAppointmentByStatus']);
+
+
+Route::post('/infor-member', [BookingController::class, 'inforMember']);
 
 //lấy ra 1 lịch khám
 Route::get('/appoinment/{id}', [BookingController::class, 'getAppointment']);
