@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import Menudashboard from './Menu-dashboard'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import appointmentsApi from '../../api/appointments';
+import appointmentsApi from '../../api/appointmentsApi';
 
 
 const DetailAppointment = () => {
@@ -16,6 +16,7 @@ const DetailAppointment = () => {
             try {
                 const response = await appointmentsApi.get(id);
                 setAppointments(response);
+                console.log(response.data);
             } catch (error) {
                 console.error("Không có dữ liệu:", error);
             }

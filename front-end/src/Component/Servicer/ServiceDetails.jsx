@@ -2,7 +2,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import servicesDetailApi from '../../api/servicesDetailApi';
+import servicesDetailApi from '../../api/serviceApi';
 const ServiceDetails = () => {
     const { id } = useParams();
     const [services, setServices] = useState(null);

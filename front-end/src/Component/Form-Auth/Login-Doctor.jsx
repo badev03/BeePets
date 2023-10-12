@@ -36,6 +36,7 @@ const LoginDoctor = () => {
         setIsRedirecting(true);
 
         onLoginSuccess(response.access_token);
+   
       } else {
         setShowErrorAlert(true);
       }

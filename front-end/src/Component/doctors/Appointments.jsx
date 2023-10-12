@@ -2,7 +2,7 @@
 import React from 'react'
 import Menudashboard from './Menu-dashboard'
 import { Link } from 'react-router-dom'
-import appointmentsApi from '../../api/appointments';
+import appointmentsApi from '../../api/appointmentsApi';
 import { useEffect, useState } from 'react'
 
 
