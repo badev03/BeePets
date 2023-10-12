@@ -89,6 +89,3 @@ Route::get('login-tester' , [ApiAuthController::class , 'checkPhone']);
 Route::get('filter-service' , [\App\Http\Controllers\Api\ServiceController::class , 'filterServiceDoctor']);
 Route::post('filter-service' , [\App\Http\Controllers\Api\ServiceController::class , 'filterServiceDoctorPost'])->name('filter-service-doctor');
 
-Route::get('/test/env', function () {
-    dd(env('DB_DATABASE'));
-});

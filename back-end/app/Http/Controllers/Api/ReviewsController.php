@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Review;
 use App\Traits\QueryCommon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ReviewsController extends BaseResponseApiController
@@ -59,5 +60,5 @@ class ReviewsController extends BaseResponseApiController
         }
     }
 
-    
+
 }

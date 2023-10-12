@@ -89,19 +89,16 @@
                                     @endforeach
                                     <div class="col-md-10 mb-3">
                                         <label class="col-form-label col-md-2 text-success">Chọn ngày</label>
-                                        <input type="date" class="form-control api_day_create" name="day_appointments" value="{{ date('Y-m-d') }}"/>
+                                        <input type="date" class="form-control api_day_create" name="date" value="{{ date('Y-m-d') }}"/>
                                     </div>
                                     <div class="mb-3 row checker">
-                                        <label class="col-form-label text-success">Chọn giờ </label>
-                                            <div class="col-md-2 time_shift">
-                                                @if(1==2)
-                                                <label class="col-form-label text-success">Ca </label>
-                                                @endif
+                                        <label class="col-form-label text-success">Chọn Ca </label>
+                                            <div class="col-md-6 time_shift">
                                                 <div class="checkbox" id="">
                                                     <label class="d-flex align-items-center" style="gap: 0.5rem">
-                                                        @if(!empty($data_time_appointments))
-                                                            @foreach($data_time_appointments as $key=>$value)
-                                                                <input @if(in_array($value , $timeCompare)) disabled @endif name="time" type="radio"  value="{{ $value }}">{{ $value }}
+                                                        @if(!empty($getDayDefault))
+                                                            @foreach($getDayDefault as $key=>$value)
+                                                                <input name="shift_name" type="radio"  value="{{ $value->shift_name }}">{{ $value->shift_name }}
                                                             @endforeach
                                                         @endif
                                                     </label>
@@ -150,47 +147,48 @@
 
         $(document).ready(function() {
             $('.api_day_create').change(function() {
-                {{--    var day = $(this).val();--}}
-                {{--    var id = {{ $model->id }}; --}}
-                {{--    var url = "{{ route($urlbase.'get-day', ['day' => ':day', 'id' => ':id']) }}".replace(':day', day).replace(':id', id);--}}
-                {{--    $.ajax({--}}
-                {{--        type: 'GET',--}}
-                {{--        url: url,--}}
-                {{--        dataType: 'json',--}}
-                {{--        success: function(data) {--}}
-                {{--            $('.time_shift').remove();--}}
-                {{--            var newTimeShiftContainer = $('<div class="time_shift d-flex"></div>');--}}
-                {{--            // var timeSetupData = JSON.parse($('#timeSetupData').text());--}}
-                {{--            $.each(data.time_work_shift, function(key, value) {--}}
-                {{--                var div = $('<div class="col-md-2"></div>');--}}
-                {{--                var label = $('<label class="col-form-label col-md-2 text-success">Ca ' + (key + 1) + '</label>');--}}
-                {{--                var checkboxDiv = $('<div class="checkbox"></div>');--}}
-                {{--                var checkboxLabel = $('<label class="d-flex align-items-center" style="gap: 0.5rem"></label>');--}}
-                {{--                var input = $('<input type="radio" name="shift_appointment" value="' + (key + 1) + '">');--}}
-                {{--                if((key + 1) === 1) {--}}
-                {{--                    var text = '9:00:00 - 11:00:00 AM';--}}
-                {{--                }--}}
-                {{--                else if ((key + 1) === 2) {--}}
-                {{--                    var text = '11:00:00 - 13:00:00 AM';--}}
-                {{--                }--}}
-                {{--                else if ((key + 1) === 3) {--}}
-                {{--                    var text = '13:00:00 - 15:00:00 AM';--}}
-                {{--                }--}}
+                    var day = $(this).val();
+                    console.log(day);
+                    var id = {{ $user->id }};
+                    var url = "{{ route($urlbase.'get-day', ['day' => ':day', 'id' => ':id']) }}".replace(':day', day).replace(':id', id);
+                    $.ajax({
+                        type: 'GET',
+                        url: url,
+                        dataType: 'json',
+                        success: function(data) {
+                            $('.time_shift').remove();
+                            var newTimeShiftContainer = $('<div class="time_shift d-flex"></div>');
+                            // var timeSetupData = JSON.parse($('#timeSetupData').text());
+                            $.each(data.time_work_shift, function(key, value) {
+                                var div = $('<div class="col-md-2"></div>');
+                                var label = $('<label class="col-form-label col-md-2 text-success">Ca ' + (key + 1) + '</label>');
+                                var checkboxDiv = $('<div class="checkbox"></div>');
+                                var checkboxLabel = $('<label class="d-flex align-items-center" style="gap: 0.5rem"></label>');
+                                var input = $('<input type="radio" name="shift_appointment" value="' + (key + 1) + '">');
+                                if((key + 1) === 1) {
+                                    var text = '9:00:00 - 11:00:00 AM';
+                                }
+                                else if ((key + 1) === 2) {
+                                    var text = '11:00:00 - 13:00:00 AM';
+                                }
+                                else if ((key + 1) === 3) {
+                                    var text = '13:00:00 - 15:00:00 AM';
+                                }
 
-                {{--                checkboxLabel.append(input);--}}
-                {{--                checkboxLabel.append(text);--}}
-                {{--                checkboxDiv.append(checkboxLabel);--}}
-                {{--                div.append(label);--}}
-                {{--                div.append(checkboxDiv);--}}
-                {{--                newTimeShiftContainer.append(div);--}}
-                {{--            });--}}
+                                checkboxLabel.append(input);
+                                checkboxLabel.append(text);
+                                checkboxDiv.append(checkboxLabel);
+                                div.append(label);
+                                div.append(checkboxDiv);
+                                newTimeShiftContainer.append(div);
+                            });
 
-                {{--            $('.checker').append(newTimeShiftContainer);--}}
-                {{--        },--}}
-                {{--        error: function(xhr, status, error) {--}}
-                {{--            console.error(error);--}}
-                {{--        }--}}
-                {{--    });--}}
+                            $('.checker').append(newTimeShiftContainer);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
                 });
             });
     </script>

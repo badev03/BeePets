@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Newc;
 use App\Traits\QueryCommon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NewController extends BaseResponseApiController
 {

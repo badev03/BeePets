@@ -24,6 +24,10 @@ class AuthController extends BaseResponseApiController
     }
 
     public function checkerPhone(Request $request) {
+        $validator = $this->validateForm($request->all() , 'loginOtp');
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
         $phone_number = $request->input('phone');
         if($phone_number) {
             $check_exit_phone = $this->tableQuery('users')
@@ -62,11 +66,23 @@ class AuthController extends BaseResponseApiController
 //        $phone_number = $request->input('phone');
         $phone_number = '0981608298';
         if($phone_number) {
-            $check_exit_phone = $this->tableQuery('users')
+            $check_exit_phone = User::where('phone', $phone_number)
                 ->where('role_id' , '=' , 4)
-                ->where('phone' , '=' , $phone_number)->first();
+                ->first();
+//            $check_exit_phone = $this->tableQuery('users')
+//                ->where('role_id' , '=' , 4)
+//                ->where('phone' , '=' , $phone_number)->first();
+
             if($check_exit_phone) {
-                return response()->json(['users' => $check_exit_phone , 'msg' => 'oki đi đến verify'], 200);
+                Auth::login($check_exit_phone);
+                $user = Auth::user();
+                $token = $user->createToken('AccessToken', ['*'])->plainTextToken;
+//                $token = $check_exit_phone->createToken('AccessToken')->plainTextToken;
+                return response()->json([
+                    'users' => $user ,
+                    'token' => $token ,
+                    'msg' => 'oki đi đến verify'
+                ], 200);
             }
             else {
                 return response()->json(['msg' => 'Xin lỗi số điện thoai của bạn không hợp lê'], 400);
@@ -89,18 +105,22 @@ class AuthController extends BaseResponseApiController
         $password = $request->input('password');
         if($phone_number && $password) {
             if (Auth::guard('web')->attempt(['phone' => $phone_number, 'password' => $password])) {
+                $userToken = Auth::user();
+                $token = $userToken->createToken('AccessToken', ['*'])->plainTextToken;
                 $user = $this->tableQuery('users')->where('phone', '=', $phone_number)
                     ->where('role_id', '=', 4)->first();
-                return response()->json(['message' => 'Đăng nhập thành công', 'user' => $user], 200);
+                return response()->json(['message' => 'Đăng nhập thành công', 'user' => $userToken , 'token'=>$token], 200);
             } else {
                 return response()->json(['message' => 'Bạn đã sai tài khoản hoặc mật khẩu'], 400);
             }
         }
     }
 
-    public function LogoutUser() {
-        Auth::logout();
-        return response()->json(['msg' => 'Logout thành công']);
+    public function LogoutUser(Request $request) {
+        $request->user()->tokens->each(function ($token, $key) {
+            $token->delete();
+        });
+        return response()->json('Đăng xuất thành công');
     }
 
     public function RegisterUser(Request $request) {
@@ -180,21 +200,34 @@ class AuthController extends BaseResponseApiController
 
 
     public function CheckVerifyRegister(Request $request) {
+        $validator = $this->validateForm($request->all() , 'password_reset');
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
         $phone_number = $request->input('phone');
+        $existingUser = $this->tableQuery('users')
+            ->where('phone' , '=' , $phone_number)
+            ->where('role_id' , '=' , 4)
+            ->first();
         if($phone_number) {
-            $insert_user = $this->tableQuery('users')->insert(
-                [
-                    'name' => $phone_number,
-                    'phone' => $phone_number,
-                    'email' => $phone_number.'@gmail.com',
-                    'password' => Hash::make($phone_number),
-                    'status' => 1,
-                    'role_id' => 4,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]
-            );
-            return response()->json(['msg' => 'Thêm dữ liệu thành công oke'], 200);
+            if($existingUser) {
+                return response()->json(['msg' => 'Số điện thoại này đã được đăng ký'], 400);
+            }
+            else {
+                $insert_user = $this->tableQuery('users')->insert(
+                    [
+                        'name' => $phone_number,
+                        'phone' => $phone_number,
+                        'email' => $phone_number.'@gmail.com',
+                        'password' => Hash::make($phone_number),
+                        'status' => 1,
+                        'role_id' => 4,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]
+                );
+                return response()->json(['msg' => 'Thêm dữ liệu thành công oke'], 200);
+            }
         }
     }
 
