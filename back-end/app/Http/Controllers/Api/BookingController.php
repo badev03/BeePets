@@ -151,12 +151,13 @@ class BookingController extends Controller
     // lấy ra thông tin của một cuộc hẹn
     public function getAppointment($id)
     {
-        $data = Appointment::find($id)->select('id', 'status', 'date', 'shift_name', 'user_id', 'service_id', 'doctor_id', 'type_pet_id')->with('user:id,name,phone')->with('service:id,name')->with('type_pet:id,name')->first();
-
-        if (!$data) {
-            return response()->json(['message' => 'Không tìm thấy cuộc hẹn'], 404);
+        $data = Appointment::where('id', $id)->where('status', 0)->with('user:id,name,phone')->with('service:id,name')->with('type_pet:id,name')->get();
+     
+        if ($data->isEmpty()) {
+            return response()->json(['message' => 'Không có cuộc hẹn nào'], 400);
+        } else {
+            return response()->json(['message' => 'Lấy danh sách cuộc hẹn thành công', 'data' => $data], 200);
         }
-        return response()->json(['message' => 'Lấy thông tin cuộc hẹn thành công', 'data' => $data], 200);
     }
 
     public function getAppointmentAccept()
