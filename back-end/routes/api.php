@@ -57,17 +57,19 @@ Route::get('new-home', [NewController::class, 'showNew']);
 Route::post('/doctor/login', [DoctorController::class, 'login']);
 
 
-Route::post('send-opt-login', [AuthController::class, 'sendOtp']);
 Route::post('check-phone', [AuthController::class, 'checkerPhone'])->name('check-phone');
-Route::post('login-user', [AuthController::class, 'LoginUserOtp']);
 Route::post('check-verify', [AuthController::class, 'CheckVerify'])->name('check-verify');
-Route::post('check-verify-register', [AuthController::class, 'CheckVerifyRegister']);
+
 Route::post('check-login', [AuthController::class, 'CheckLogin']);
-Route::get('logout-user', [AuthController::class, 'LogoutUser']);
+
+Route::post('check-verify-register', [AuthController::class, 'CheckVerifyRegister']);
 Route::post('register-user', [AuthController::class, 'RegisterUser']);
+
 Route::post('forget-password', [AuthController::class, 'ForgetPassWord']);
 Route::post('check-verify-forget-password', [AuthController::class, 'CheckVerifyForgetPassword']);
 Route::post('reset-password', [AuthController::class, 'ResetPassword']);
+
+Route::post('login-user', [AuthController::class, 'LoginUserOtp']); //test thôi
 
 
 
@@ -114,3 +116,10 @@ Route::get('/list-customers', [DoctorController::class, 'listCustomer']);
 
 //lấy ra lịch sử khám của khách hàng
 Route::get('/history/{id}', [DoctorController::class, 'getHistoryByUser']);
+
+
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('reviews', [ReviewsController::class , 'index']);
+    Route::post('logout-user', [AuthController::class, 'LogoutUser']);
+});

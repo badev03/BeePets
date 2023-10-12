@@ -117,20 +117,20 @@
                                 @endforeach
                                 <div class="col-md-8 mb-3">
                                     <label class="col-form-label col-md-2 text-success">Chọn ngày</label>
-                                    <input type="date" class="form-control api_day" name="day_appointments" value="{{ $model->day }}"/>
+                                    <input type="date" class="form-control api_day" name="date" value="{{ $model->date }}"/>
                                 </div>
-                                <div class="mb-3 row checker">
-                                    @foreach($time_work_shift as $keyWork=>$valueWork)
-                                    <div class="col-md-2 time_shift">
-                                        <label class="col-form-label text-success">Ca {{ $keyWork+1 }}</label>
-                                        <div class="checkbox" id="">
-                                            <label class="d-flex align-items-center" style="gap: 0.5rem">
-                                                <input type="radio" @if($model->word_shift == $keyWork+1) checked @endif name="shift_appointment" value="{{ $keyWork+1 }}"> {{ $time_set_up_shift[$keyWork] }}
-                                            </label>
-                                        </div>
-                                    </div>
-                                    @endforeach
-                                </div>
+{{--                                <div class="mb-3 row checker">--}}
+{{--                                    @foreach($time_work_shift as $keyWork=>$valueWork)--}}
+{{--                                    <div class="col-md-2 time_shift">--}}
+{{--                                        <label class="col-form-label text-success">Ca {{ $keyWork+1 }}</label>--}}
+{{--                                        <div class="checkbox" id="">--}}
+{{--                                            <label class="d-flex align-items-center" style="gap: 0.5rem">--}}
+{{--                                                <input type="radio" @if($model->word_shift == $keyWork+1) checked @endif name="shift_appointment" value="{{ $keyWork+1 }}"> {{ $time_set_up_shift[$keyWork] }}--}}
+{{--                                            </label>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    @endforeach--}}
+{{--                                </div>--}}
                                 <button class="btn btn-primary" type="submit">Update {{ $title_web }}</button>
                             </form>
                         </div>
