@@ -3,7 +3,7 @@ import instance from "./instance";
 const appointmentsApi = {
   //lấy tất cả các lịch khám đã được chấp nhận
   getAll(params) {
-    const url = "/appoinments";
+    const url = "/list-appiontment-doctor";
     return instance.get(url,  params );
   },
   //lấy tất cả các lịch khám chưa được chấp nhận
@@ -12,7 +12,7 @@ const appointmentsApi = {
     return instance.get(url,  params );
   },
  
-  get(id) {
+  get(id ) {
     const url = `/appoinment/${id}`;
     return instance.get(url);
   },

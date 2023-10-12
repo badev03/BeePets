@@ -63,11 +63,11 @@ const Appointments = () => {
                         <img src="/img/patients/patient.jpg" alt="User Image" />
                       </Link>
                       <div className="profile-det-info">
-                        <h3><Link to={`/doctors/detail-appointments/${appointment.id}`}>{appointment.user}</Link></h3>
+                        <h3><Link to={`/doctors/detail-appointments/${appointment.id}`}>{appointment.user.name}</Link></h3>
                         <div className="patient-details">
                           <h5><i className="far fa-clock" /> {appointment.date}, {appointment.shift_name}</h5>
 
-                          <h5 className="mb-0"><i className="fas fa-phone" /> +1 923 782 4575</h5>
+                          <h5 className="mb-0"><i className="fas fa-phone" /> {appointment.user.phone}</h5>
                         </div>
                       </div>
                     </div>
