@@ -2,7 +2,7 @@ import './App.css'
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 import LayoutWebsite from './Component/LayoutWebsite'
 import Content from './Component/Content'
-import Search from './Component/Serch/Search'
+// import Search from './Component/Serch/Search'
 import Booking from './Component/Booking/Booking'
 import DoctorProfile from './Component/DoctorProfile/DoctorProfile'
 import BookingSuccess from './Component/Booking/BookingSuccess'
@@ -40,6 +40,7 @@ import ForgotPassword from './Component/Form-Auth/Forgot-Password'
 import AppointmentDetail from './Component/User/AppointmentDetail'
 import BillDetail from './Component/User/BillDetail'
 import PrescriptionDetails from './Component/User/PrescriptionDetails'
+import FilterService from './Component/Serch/FilterService'
 
 
 function App() {
@@ -50,7 +51,7 @@ function App() {
         <Route path='/' element={<LayoutWebsite />}>
           <Route path='' element={<Content />} />
           <Route path='abouts' element={<Abouts />} />
-          <Route path='doctor' element={<Search />} />
+          <Route path='doctor' element={<FilterService />} />
           <Route path='booking' element={<Booking />} />
           <Route path='booking/success' element={<BookingSuccess />} />
           <Route path='doctor/profile' element={<DoctorProfile />} />
