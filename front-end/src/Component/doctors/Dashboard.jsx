@@ -20,7 +20,8 @@ const Dashboarddoctors = () => {
             },
           }
         );
-        setAppointment(response.data);      
+        setAppointment(response.data);     
+        console.log(response.data);
         } catch (error) {
           console.error("Không có dữ liệu:", error);
         }
