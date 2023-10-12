@@ -9,9 +9,9 @@ const serviceApi = {
     const url = "/service-show";
     return instance.get(url, { params });
   },
-  filterDoctor([data]) {
+  filterDoctor(data) {
     const url = `/service-filter-doctor`;
-    return instance.post(url, data);
+    return instance.post(url, {data});
   },
   get(id) {
     const url = `/service/${id}`;

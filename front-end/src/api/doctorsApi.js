@@ -20,8 +20,8 @@ const doctorsApi = {
   },
 
   update(data) {
-    const url = `/doctors-clients/${data.id}`;
-    return instance.patch(url, data);
+    const url = `/doctors-clients`;
+    return instance.put(url, data);
   },
 
   remove(id) {

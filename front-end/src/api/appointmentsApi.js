@@ -23,7 +23,7 @@ const appointmentsApi = {
   },
 
   update(data) {
-    const url = `/appointments/${data.id}`;
+    const url = `/update-appointment/${data.id}?status=1`;
     return instance.patch(url, data);
   },
 

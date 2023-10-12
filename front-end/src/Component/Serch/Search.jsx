@@ -18,9 +18,9 @@ const Search = ({data}) => {
           setDoctors(response.doctor);
           console.log(response);
         }else { 
-          const response = await serviceApi.filterDoctor(data);
+          const response = await serviceApi.filterDoctor( {service :data});
           setDoctors(response.service);
-          console.log(response.service);
+          console.log(response);
         }
         
         } catch (error) {

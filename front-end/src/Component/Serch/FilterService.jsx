@@ -38,7 +38,8 @@ const FilterService = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     // Mảng selectedServices chứa các dịch vụ đã chọn
-    console.log(selectedServices);
+    // console.log(selectedServices);
+
   
   };
 
