@@ -133,7 +133,8 @@ class BookingController extends Controller
     // lấy ra danh sách các cuộc hẹn có status = 0
     public function getAppointmentByStatus()
     {
-        $data = Appointment::where('status', 0)->get();
+ 
+    $data = Appointment::select('id','date','shift_name','doctor_id','service_id','type_pet_id')->where('status', 0)->with('doctor:id,name')->with('service:id,name')->with('type_pet:id,name')->get();
         return response()->json(['message' => 'Lấy danh sách cuộc hẹn thành công', 'data' => $data], 200);
     }
     //lấy ra 1 cuộc hẹn
