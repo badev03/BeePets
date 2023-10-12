@@ -35,17 +35,15 @@ class BookingController extends Controller
 
     public function doctors(Request $request)
     {
-        $service_id = $request->input('service_id');
+        $doctor = $request->input('doctor_id');
         $date = $request->input('date');
-        $doctors = Doctor::select('id', 'name', 'status')->with(['work_schedule' => function ($query) use ($date) {
-            $query->where('date', $date);
-        }])->whereHas('services', function ($query) use ($service_id) {
-            $query->where('service_id', $service_id);
-        })->get();
-        if ($doctors->isEmpty()) {
-            return response()->json(['message' => 'Không có bác sĩ nào'], 400);
+        // lấy ra lịch làm việc của bác sĩ theo ngày
+        $work_schedule = Work_schedule::where('doctor_id', $doctor)->where('date', $date)->get();
+        if ($work_schedule->isEmpty()) {
+            return response()->json(['message' => 'Không có lịch làm việc của bác sĩ này'], 400);
+        }else{
+            return response()->json(['message' => 'Lấy danh sách lịch làm việc thành công', 'data' => $work_schedule], 200);
         }
-        return response()->json(['message' => 'Lấy danh sách bác sĩ thành công', 'data' => $doctors], 200);
     }
    
 

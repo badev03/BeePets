@@ -79,11 +79,11 @@ Route::post('reset-password', [AuthController::class, 'ResetPassword']);
 
 
 
-//lấy ra danh sách dịch vụ
+//lấy ra danh sách dịch vụ và các bác sĩ làm được dịch vụ đó
 Route::get('/services-doctor', [BookingController::class, 'services']);
 //lấy ra danh sách loại thú cưng
 Route::get('/type-pets', [BookingController::class, 'typePets']);
-//lấy ra danh sách bác sĩ theo dịch vụ
+//lấy ra danh sách bác sĩ theo dịch vụ và ngày
 Route::post('/doctors-service', [BookingController::class, 'doctors']);
 //lấy ra danh sách lịch làm việc của bác sĩ
 Route::get('/work-schedule', [BookingController::class, 'workSchedule']);
@@ -113,4 +113,8 @@ Route::get('/doctor-info', [DoctorController::class, 'getDoctor']);
 Route::get('/list-customers', [DoctorController::class, 'listCustomer']);
 
 //lấy ra lịch sử khám của khách hàng
-Route::get('/history/{id}', [DoctorController::class, 'getHistoryByUser']);
+Route::get('/list-appiontment/{id}', [DoctorController::class, 'getAppiontment']);
+
+//change password doctor
+Route::post('/change-password', [DoctorController::class, 'changePassword']);
+
