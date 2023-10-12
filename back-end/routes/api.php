@@ -124,7 +124,7 @@ Route::get('/get-customer/{id}', [DoctorController::class, 'getCustomerByID']);
 //lấy ra lịch sử khám của khách hàng
 Route::get('/history/{id}', [DoctorController::class, 'getHistoryByUser']);
 
-Route::get('reviews', [ReviewsController::class , 'index']);
+Route::get('reviews', [ReviewsController::class , 'store']);
 Route::post('logout-user', [AuthController::class, 'LogoutUser']);
 
 });
