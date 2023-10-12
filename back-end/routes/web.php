@@ -55,6 +55,8 @@ Route::middleware(['role:Admin'])->group(function () {
         Route::get('dashboard', [HomeController::class , 'index'])->name('dashboard');
         Route::get('appointment/get-day/{day}/{id}', [AppointmentController::class , 'getDay'])->name('appointment.get-day');
         Route::get('appointment/date-filter/{data}', [AppointmentController::class , 'FilterDate'])->name('appointment.filter-date');
+        Route::get('appointment/service-filter/{data}', [AppointmentController::class , 'FilterService'])->name('appointment.filter-service');
+        Route::get('appointment/doctor-filter/{data}', [AppointmentController::class , 'FilterDoctor'])->name('appointment.filter-doctor');
         Route::get('appointment/time-appointments/{data}', [AppointmentController::class , 'FilterTime'])->name('appointment.time');
         Route::post('appointment/date-search/', [AppointmentController::class , 'FilterSearch'])->name('appointment.filter-search');
         Route::post('appointment/date-search-phone/', [AppointmentController::class , 'FilterSearchPhone'])->name('appointment.filter-search-phone');
@@ -62,6 +64,10 @@ Route::middleware(['role:Admin'])->group(function () {
         Route::resource('schedules', ScheduleController::class);
         Route::resource('doctors', DoctorController::class);
 
+
+
+        Route::get('create-service/{id}' , [AppointmentController::class , 'getDoctor'])->name('get.doctor');
+        Route::get('create-doctor-shift/{id}/{day}' , [AppointmentController::class , 'getShiftDoctor'])->name('get.shift.doctor');
     });
 });
 Route::get('/', [BookingController::class, 'index'])->name('index');

@@ -64,10 +64,19 @@ class AppointmentController extends BaseAdminController
     public function store(Request $request)
     {
         $this->validate($request,[
-            'description' => 'required' ,
+            'description' => 'required',
+            'service_id' => 'required|nullable',
+            'doctor_id' => 'required',
+            'date' => 'required',
+            'shift_name' => 'required',
         ],
             [
-                'description.required' => 'Mô tả không được để trống',
+                'description.required' => 'Trường mô tả không được để trống',
+                'service_id.required' => 'Trường dịch vụ không được để trống',
+                'service_id.nullable' => 'Trường dịch vụ bắt buộc phải chọn',
+                'doctor_id.required' => 'Trường Bác sĩ không được để trống',
+                'date.required' => 'Trường ngày đặt không được để trống',
+                'shift_name.required' => 'Trường ca đặt không được để trống',
             ]
         );
         $data = [
@@ -75,8 +84,28 @@ class AppointmentController extends BaseAdminController
             'created_at' => $this->getTimestampQuery(),
             'updated_at' => $this->getTimestampQuery(),
         ];
-        $this->tableQuery('appointments')->insert(array_merge($request->except('_token') , $data));
-        return back()->with('success', 'Thao tác thành công');
+        $checkShift = $this->tableQuery('appointments')
+            ->where('user_id' , '=' , $request->user_id)
+            ->where('date' , '=' , $request->date)
+            ->where('shift_name' , '=' , $request->shift_name)
+            ->first();
+        if($checkShift) {
+            return back()->with('error', 'Xin lỗi lịch đặt của bạn đã bị trùng với lịch bạn đặt trước đó');
+        }
+        $checkPhone = $this->tableQuery('users')
+            ->where('role_id' , '=' , 4)
+            ->where('phone' , '=' , $request->user_id)
+            ->first();
+        if($checkPhone) {
+            $data['user_id'] = $checkPhone->id;
+            $this->tableQuery('appointments')->insert(array_merge($request->except('_token' , 'user_id') , $data));
+            return back()->with('success', 'Thao tác thành công');
+        }
+        else {
+            $data['user_id'] = $this->createUserAuto($request->user_id);
+            $this->tableQuery('appointments')->insert(array_merge($request->except('_token') , $data));
+            return back()->with('success', 'Thao tác thành công');
+        }
     }
 
     public function edit(string $id)
@@ -88,8 +117,12 @@ class AppointmentController extends BaseAdminController
             'description' => 'Mô tả',
         ];
         $model = $this->queryCommon()
+            ->where('appointments.id' , $id)
             ->first();
-        $time_work_shift = DB::table('work_schedules')
+        $user = $this->tableQuery('users')
+            ->where('id' , '=' , $model->id_user)
+            ->first();
+        $getDayDefault = $this->tableQuery('work_schedules')
             ->where('doctor_id' , '=' , $model->id_doctor)
             ->where('date' , '=' , $model->date)
             ->get();
@@ -103,14 +136,13 @@ class AppointmentController extends BaseAdminController
             'urlbase' => $this->urlbase,
             'title_web' => $this->title,
             'listIndex' => $this->listIndex,
-            'time_work_shift' => $time_work_shift,
             'time_set_up_shift' => $time_set_up_shift,
             'FIELD_SELECT_CUSTOM_CONTROLLER' => $this->FIELD_SELECT_CUSTOM_CONTROLLER,
             'dataDoctor' => $dataDoctor,
             'dataService' => $dataService,
             'dataTypePet' => $dataTypePet,
         ];
-        return view($this->pathView.__FUNCTION__ , compact('model'))
+        return view($this->pathView.__FUNCTION__ , compact('model' , 'user' , 'getDayDefault'))
             ->with($dataViewer);
 
     }
@@ -121,29 +153,81 @@ class AppointmentController extends BaseAdminController
             ->join('users', 'users.id', '=', 'appointments.user_id')
             ->join('type_pets', 'type_pets.id', '=', 'appointments.type_pet_id')
             ->join('services', 'services.id', '=', 'appointments.service_id')
-            ->select('appointments.description' , 'appointments.date'
-                , 'doctors.name as doctor_id' , 'users.name as user_id',
-                'type_pets.name as type_pet_id' , 'services.name as service_id' , 'appointments.id',
+            ->select('appointments.description' , 'appointments.date' , 'appointments.id'
+                , 'doctors.name as doctor_id' , 'users.name as user_id', 'users.id as id_user',
+                'type_pets.name as type_pet_id' , 'services.name as service_id' , 'appointments.shift_name',
                  'appointments.doctor_id as id_doctor');
         return $query;
     }
 
     public function update(Request $request, string $id)
     {
-        dd($request->all());
+        $this->validate($request,[
+            'description' => 'required',
+            'service_id' => 'required|nullable',
+            'doctor_id' => 'required',
+            'date' => 'required',
+            'shift_name' => 'required',
+            'user_id' => 'required',
+        ],
+            [
+                'description.required' => 'Trường mô tả không được để trống',
+                'service_id.required' => 'Trường dịch vụ không được để trống',
+                'service_id.nullable' => 'Trường dịch vụ bắt buộc phải chọn',
+                'doctor_id.required' => 'Trường Bác sĩ không được để trống',
+                'date.required' => 'Trường ngày đặt không được để trống',
+                'shift_name.required' => 'Trường ca đặt không được để trống',
+                'user_id.required' => 'Trường user đặt không được để trống',
+            ]
+        );
+        $phone = $request->user_id;
+        if($phone) {
+            $checkPhone = $this->tableQuery('users')
+                ->where('role_id' , '=' , 4)
+                ->where('phone' , '=' , $phone)
+                ->first();
+            if($checkPhone) {
+                $data = [
+                    'time' =>now(),
+                    'updated_at' => $this->getTimestampQuery(),
+                ];
+                $this->tableQuery('appointments')
+                    ->where('id' , '=' , $id)
+                    ->update(array_merge($request->except(['_token' , '_method' , 'user_id']) , $data));
+                return back()->with('success', 'Thao tác thành công');
+            }
+            else {
+                $id_user = $this->createUserAuto($phone);
+                $data = [
+                    'description' => $request->description,
+                    'date' => $request->date,
+                    'type_pet_id' => $request->type_pet_id,
+                    'service_id' => $request->service_id,
+                    'doctor_id' => $request->doctor_id,
+                    'user_id' => $id_user,
+                    'time' =>now(),
+                    'created_at' => $this->getTimestampQuery(),
+                    'updated_at' => $this->getTimestampQuery(),
+                ];
+                $this->tableQuery('appointments')
+                    ->where('id' , '=' , $id)
+                    ->update($data);
+                return back()->with('success', 'Thao tác thành công');
+            }
+        }
     }
 
     public function getDay($day , $id){
         $time_work_shift = DB::table('work_schedules')
         ->where('doctor_id' , '=' , $id)
-        ->where('day' , '=' ,$day)->get();
+        ->where('date' , '=' ,$day)->get();
         return response()->json([
             'time_work_shift' => $time_work_shift
         ] , '200');
     }
 
     public function FilterDate($data) {
-        $day_appointments = $this->QueryFilter()->where('appointments.day_appointments' , '=' , $data)->get();
+        $day_appointments = $this->QueryFilter()->where('appointments.date' , '=' , $data)->get();
         return response()->json(['day_appointments'=> $day_appointments] , '200');
     }
 
@@ -154,13 +238,13 @@ class AppointmentController extends BaseAdminController
 
     public function QueryFilter () {
         $query = DB::table('appointments')
-            ->join('doctors', 'doctor_id', '=', 'appointments.id')
+            ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
             ->join('users', 'users.id', '=', 'appointments.user_id')
             ->join('type_pets', 'type_pets.id', '=', 'appointments.type_pet_id')
             ->join('services', 'services.id', '=', 'appointments.service_id')
             ->select('appointments.description' , 'doctors.name as doctor_id' , 'users.name as user_id',
                 'type_pets.name as type_pet_id' , 'services.name as service_id' , 'appointments.id',
-                 'appointments.doctor_id as id_doctor' , 'appointments.shift_appointment' , 'appointments.day_appointments'
+                 'appointments.doctor_id as id_doctor'  , 'appointments.date'
                 );
         return $query;
     }
@@ -196,7 +280,7 @@ class AppointmentController extends BaseAdminController
     }
 
     public function FilterTime($data) {
-        $time_appointments = $this->QueryFilter()->where('appointments.shift_appointment' , '=' , $data)->get();
+        $time_appointments = $this->QueryFilter()->where('appointments.shift_name' , '=' , $data)->get();
         return response()->json(['time_appointments'=> $time_appointments] , '200');
     }
 
@@ -284,6 +368,56 @@ class AppointmentController extends BaseAdminController
 
         return view($this->pathView.'create' , compact('user'))
             ->with($dataViewer);
+    }
+
+    public function getDoctor($id) {
+        $checkService = $this->tableQuery('doctor_service')
+            ->select('doctors.name' , 'doctors.id')
+            ->join('services' , 'services.id' , '=' , 'doctor_service.service_id')
+            ->join('doctors' , 'doctors.id' , '=' , 'doctor_service.doctor_id')
+            ->join('service_categories' , 'service_categories.id' , '=' , 'services.service_categorie_id')
+            ->where('service_categories.status' , '=' , 1)
+            ->where('doctor_service.service_id' ,$id )
+            ->groupBy('doctors.name' , 'doctors.id')
+            ->get();
+        if($checkService) {
+            return response()->json([
+                'msg' => 'có dữ liệu',
+                'doctor' => $checkService,
+            ] , 200);
+        }
+        else {
+            return response()->json([
+                'msg' => 'Không có bác sĩ',
+            ] , 400);
+        }
+    }
+
+    public function getShiftDoctor($id , $day) {
+        $checkTime = $this->tableQuery('work_schedules')->where('date' , '=' , $day)
+            ->where('doctor_id' , '=' , $id)
+            ->get();
+        if($checkTime) {
+            return response()->json([
+                'msg' => 'có dữ liệu',
+                'shift_appointment' => $checkTime,
+            ] , 200);
+        }
+        else {
+            return response()->json([
+                'msg' => 'Không có bác sĩ',
+            ] , 400);
+        }
+    }
+
+    public function FilterService($data) {
+        $service = $this->QueryFilter()->where('appointments.service_id' , '=' , $data)->get();
+        return response()->json(['service'=> $service] , '200');
+    }
+
+    public function FilterDoctor($data) {
+        $doctor = $this->QueryFilter()->where('appointments.doctor_id' , '=' , $data)->get();
+        return response()->json(['doctor'=> $doctor] , '200');
     }
 
 
