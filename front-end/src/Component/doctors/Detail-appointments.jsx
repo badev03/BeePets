@@ -26,6 +26,8 @@ const DetailAppointment = () => {
         );
         setAppointments(response.data);     
         console.log(response.data);
+      
+
         } catch (error) {
           console.error("Không có dữ liệu:", error);
         }
@@ -33,6 +35,7 @@ const DetailAppointment = () => {
   
       fetchAppointment();
     }, []); 
+    console.log(appointments);
    }
     if (!appointments) {
         return <div>Loading...</div>;
@@ -66,9 +69,9 @@ const DetailAppointment = () => {
                     <img src="/img/patients/patient.jpg" alt="User Image" />
                   </Link>
                   <div className="profile-det-info">
-                    <h3>{appointments.user.name}</h3>
+                    <h3>{appointments[0].user.name}</h3>
                     <div className="patient-details">
-                      <h5><b>Patient ID :</b> {appointments.user_id}</h5>
+                      <h5><b>Patient ID :</b> {appointments[0].user_id}</h5>
                       
                     </div>
                   </div>
@@ -76,7 +79,7 @@ const DetailAppointment = () => {
               </div>
               <div className="patient-info">
                 <ul>
-                  <li>SĐT <span>{appointments.user.phone}</span></li>
+                  <li>SĐT <span>{appointments[0].user.phone}</span></li>
                 </ul>
               </div>
             </div>
@@ -124,37 +127,37 @@ const DetailAppointment = () => {
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
                       <label className="mb-2">Tên khách hàng</label>
-                      <input type="text" className="form-control" value={appointments.user.name} />
+                      <input type="text" className="form-control" value={appointments[0].user.name} />
                     </div>
                   </div>
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
                       <label className="mb-2">Số điện thoại</label>
-                      <input type="text" className="form-control" value={appointments.user.phone} />
+                      <input type="text" className="form-control" value={appointments[0].user.phone} />
                     </div>
                   </div>
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
                       <label className="mb-2">Loại thú cưng</label>
-                      <input type="text" className="form-control" value={appointments.type_pet.name}  />
+                      <input type="text" className="form-control" value={appointments[0].type_pet.name}  />
                     </div>
                   </div>
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
                       <label className="mb-2">Ngày đặt lịch</label>
-                      <input type="text" className="form-control" value={appointments.date} />
+                      <input type="text" className="form-control" value={appointments[0].date} />
                     </div>
                   </div>
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
                       <label className="mb-2">Lịch khám</label>
-                      <input type="text" className="form-control" value={appointments.shift_name} />
+                      <input type="text" className="form-control" value={appointments[0].shift_name} />
                     </div>
                   </div>
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
                       <label className="mb-2">Dịch vụ</label>
-                      <input type="text" className="form-control" value={appointments.service.name} />
+                      <input type="text" className="form-control" value={appointments[0].service.name} />
                     </div>
                   </div>
                  
@@ -162,7 +165,7 @@ const DetailAppointment = () => {
                     <div className="mb-3">
                       <label className="mb-2">Ghi chú</label>
                      
-                        <textarea type="text" className="form-control datetimepicker" value={appointments.description} />
+                        <textarea type="text" className="form-control datetimepicker" value={appointments[0].description} />
                       
                     </div>
                   </div>
