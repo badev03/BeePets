@@ -219,8 +219,8 @@ const Profile = () => {
                                 {/* </div>
                             </div> */}
                             <ul className="nav nav-tabs nav-tabs-solid nav-tabs-rounded">
-                                <div class="submit-section">
-                                    <button type="submit" class="btn btn-primary submit-btn">Lưu thông tin</button>
+                                <div className="submit-section">
+                                    <button type="submit" className="btn btn-primary submit-btn">Lưu thông tin</button>
                                 </div>
 
                             </ul>

@@ -13,7 +13,7 @@ const doctorsApi = {
     const url = `/doctors-clients/${id}`;
     return instance.get(url);
   },
-  
+
   add(data) {
     const url = "/doctors-clients";
     return instance.post(url, data);
