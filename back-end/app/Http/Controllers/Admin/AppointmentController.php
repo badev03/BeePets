@@ -9,6 +9,7 @@ use App\Models\Doctor;
 use App\Models\Service;
 use App\Models\Type_pet;
 use App\Models\User;
+use App\Traits\QueryCommon;
 use Carbon\Carbon;
 use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 
 class AppointmentController extends BaseAdminController
 {
+    use QueryCommon;
     public $model = Appointment::class;
     public $urlbase = 'appointment.';
     public $fieldImage = 'image';
@@ -68,7 +70,12 @@ class AppointmentController extends BaseAdminController
                 'description.required' => 'Mô tả không được để trống',
             ]
         );
-        $this->tableQuery('appointments')->insert($request->except('_token'));
+        $data = [
+            'time' =>now(),
+            'created_at' => $this->getTimestampQuery(),
+            'updated_at' => $this->getTimestampQuery(),
+        ];
+        $this->tableQuery('appointments')->insert(array_merge($request->except('_token') , $data));
         return back()->with('success', 'Thao tác thành công');
     }
 
@@ -84,7 +91,7 @@ class AppointmentController extends BaseAdminController
             ->first();
         $time_work_shift = DB::table('work_schedules')
             ->where('doctor_id' , '=' , $model->id_doctor)
-            ->where('day' , '=' , $model->day)
+            ->where('date' , '=' , $model->date)
             ->get();
         $dataDoctor = $this->tableQuery('doctors')->get();
         $dataService = $this->tableQuery('services')->get();
@@ -110,15 +117,14 @@ class AppointmentController extends BaseAdminController
 
     public function queryCommon() {
         $query = DB::table('appointments')
-            ->join('doctors', 'doctor_id', '=', 'appointments.id')
-            ->join('work_schedules', 'work_schedules.doctor_id', '=', 'doctors.id')
+            ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
             ->join('users', 'users.id', '=', 'appointments.user_id')
             ->join('type_pets', 'type_pets.id', '=', 'appointments.type_pet_id')
             ->join('services', 'services.id', '=', 'appointments.service_id')
-            ->select('appointments.description' , 'doctors.name as doctor_id' , 'users.name as user_id',
+            ->select('appointments.description' , 'appointments.date'
+                , 'doctors.name as doctor_id' , 'users.name as user_id',
                 'type_pets.name as type_pet_id' , 'services.name as service_id' , 'appointments.id',
-                'work_schedules.end_time' , 'appointments.doctor_id as id_doctor' , 'work_schedules.day'
-                    , 'work_schedules.start_time', 'work_schedules.day_of_week', 'work_schedules.end_time', 'work_schedules.word_shift');
+                 'appointments.doctor_id as id_doctor');
         return $query;
     }
 
@@ -211,9 +217,9 @@ class AppointmentController extends BaseAdminController
             ->first();
         $timeWork = $this->tableQuery('work_schedules')
             ->where('doctor_id' , '=' , 1)
-            ->where('day' , '=' , date('Y-m-d'))
+            ->where('date' , '=' , date('Y-m-d'))
             ->get();
-        $checkTime = $this->tableQuery('appointments')->where('day_appointments' , '=' , date('Y-m-d'))
+        $checkTime = $this->tableQuery('appointments')->where('date' , '=' , date('Y-m-d'))
             ->where('doctor_id' , '=' , 1)
             ->select('time')
             ->get();
@@ -255,6 +261,11 @@ class AppointmentController extends BaseAdminController
             'service_id' => 'Tên dịch vụ',
             'description' => 'Mô tả',
         ];
+        $dayDefault = date('Y-m-d');
+        $getTimeShift = $this->tableQuery('work_schedules')
+            ->where('date' , '=' , $dayDefault)
+            ->where('doctor_id' , '=' , 5 )
+            ->get();
         $dataViewer = [
             'title' => $this->titleEdit,
             'colums' => $this->colums,
@@ -268,7 +279,9 @@ class AppointmentController extends BaseAdminController
             'data_time_appointments' => $mergedArray,
             'FIELD_SELECT_CUSTOM_CONTROLLER' => $this->FIELD_SELECT_CUSTOM_CONTROLLER,
             'timeCompare' => $outputArray,
+            'getDayDefault' => $getTimeShift
         ];
+
         return view($this->pathView.'create' , compact('user'))
             ->with($dataViewer);
     }
