@@ -3,8 +3,8 @@ import instance from "./instance";
 const appointmentsApi = {
   //lấy tất cả các lịch khám đã được chấp nhận
   getAll(params) {
-    const url = "/appointments";
-    return instance.get(url, { params });
+    const url = "/appoinments";
+    return instance.get(url,  params );
   },
   //lấy tất cả các lịch khám chưa được chấp nhận
   getStatus(params) {

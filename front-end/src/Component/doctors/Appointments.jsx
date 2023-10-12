@@ -3,25 +3,33 @@ import React from 'react'
 import Menudashboard from './Menu-dashboard'
 import { Link } from 'react-router-dom'
 import appointmentsApi from '../../api/appointmentsApi';
-import { useEffect, useState } from 'react'
-
+import { useEffect, useState } from "react";
 
 const Appointments = () => {
-  const [appointmens, setAppointmens] = useState([]);
-
-  useEffect(() => {
-    const fetchAppointmens = async () => {
-      try {
-        const response = await appointmentsApi.getAll();
-        setAppointmens(response);
-        console.log(services);
-      } catch (error) {
-        console.error("Không có dữ liệu:", error);
-      }
-    };
-
-    fetchAppointmens();
-  }, []);
+  const [appointments, setAppointment] = useState([]);
+  
+  const token = localStorage.getItem('token');
+   if(token){
+     useEffect(() => {
+      const fetchAppointment = async () => {
+        try {
+         const response = await appointmentsApi.getAll(
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setAppointment(response.data);     
+        console.log(response);
+        } catch (error) {
+          console.error("Không có dữ liệu:", error);
+        }
+      };
+  
+      fetchAppointment();
+    }, []); 
+   }
   return (
     <div>
       <div className="breadcrumb-bar-two">
@@ -47,24 +55,24 @@ const Appointments = () => {
             </div>
             <div className="col-md-7 col-lg-8 col-xl-9">
               <div className="appointments">
-                {appointmens.map(appointmens => (
-                  <div className="appointment-list">
+                {appointments.map(appointment => (
+                  <div key={appointment.id} className="appointment-list">
 
                     <div className="profile-info-widget">
                       <Link to="patient-profile.html" className="booking-doc-img">
                         <img src="/img/patients/patient.jpg" alt="User Image" />
                       </Link>
                       <div className="profile-det-info">
-                        <h3><Link to={`/doctors/detail-appointments/${appointmens.id}`}>{appointmens.user}</Link></h3>
+                        <h3><Link to={`/doctors/detail-appointments/${appointment.id}`}>{appointment.user}</Link></h3>
                         <div className="patient-details">
-                          <h5><i className="far fa-clock" /> {appointmens.date}, {appointmens.time}</h5>
+                          <h5><i className="far fa-clock" /> {appointment.date}, {appointment.shift_name}</h5>
 
                           <h5 className="mb-0"><i className="fas fa-phone" /> +1 923 782 4575</h5>
                         </div>
                       </div>
                     </div>
                     <div className="appointment-action">
-                      <Link to={`/doctors/detail-appointments/${appointmens.id}`} className="btn btn-sm bg-info-light" >
+                      <Link to={`/doctors/detail-appointments/${appointment.id}`} className="btn btn-sm bg-info-light" >
                         <i className="far fa-eye" /> View
                       </Link>
 

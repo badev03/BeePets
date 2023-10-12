@@ -133,7 +133,7 @@ const Dashboarddoctors = () => {
                             </thead>
                             <tbody>
                               {appointments.map(appointment=>(
-                              <tr>
+                              <tr key={appointment.id}>
                               <td>
                                 <h2 className="table-avatar">
                                   <Link to="patient-profile.html" className="avatar avatar-sm me-2"><img className="avatar-img rounded-circle" src="img/patients/patient.jpg" alt="User Image" /></Link>
@@ -141,10 +141,10 @@ const Dashboarddoctors = () => {
                                     Wilson </Link>
                                 </h2>
                               </td>
-                              <td>{appointment.date}<span className="d-block text-info">{appointment.time}</span>
+                              <td>{appointment.date}<span className="d-block text-info">{appointment.shift_name}</span>
                               </td>
-                              <td>Khám bệnh</td>
-                              <td>Khám bệnh</td>
+                              <td>{appointment.service.name}</td>
+                              <td>{appointment.type_pet.name}</td>
                               <td>
                                 <div className="table-action">
                                 <Link to={`/doctors/detail-appointments/${appointment.id}`} className="btn btn-sm bg-info-light">

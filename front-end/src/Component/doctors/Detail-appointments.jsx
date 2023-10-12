@@ -15,7 +15,7 @@ const DetailAppointment = () => {
         const fetchAppointments = async () => {
             try {
                 const response = await appointmentsApi.get(id);
-                setAppointments(response);
+                setAppointments(response.data);
                 console.log(response.data);
             } catch (error) {
                 console.error("Không có dữ liệu:", error);
@@ -113,8 +113,14 @@ const DetailAppointment = () => {
                
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
-                      <label className="mb-2">Tên bác sĩ</label>
+                      <label className="mb-2">Tên khách hàng</label>
                       <input type="text" className="form-control" value={appointments.doctor_name} />
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-6">
+                    <div className="mb-3">
+                      <label className="mb-2">Số điện thoại</label>
+                      <input type="text" className="form-control" value={appointments.time} />
                     </div>
                   </div>
                   <div className="col-12 col-md-6">
@@ -132,6 +138,12 @@ const DetailAppointment = () => {
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
                       <label className="mb-2">Lịch khám</label>
+                      <input type="text" className="form-control" value={appointments.shift_name} />
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-6">
+                    <div className="mb-3">
+                      <label className="mb-2">Dịch vụ</label>
                       <input type="text" className="form-control" value={appointments.time} />
                     </div>
                   </div>
