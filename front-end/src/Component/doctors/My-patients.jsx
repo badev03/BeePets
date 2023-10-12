@@ -1,9 +1,50 @@
 import React from 'react'
 import Menudashboard from './Menu-dashboard'
 import {Link} from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import listCustomersApi from '../../api/listCustomers'
 
 
 const Mypatients = () => {
+  const [customers, setCustomers] = useState([]);
+  const token = localStorage.getItem('token');
+  console.log(token)
+  if(token){
+    useEffect(() => {
+     const fetchDoctor = async () => {
+       try {
+        const response = await listCustomersApi.getlistCustomers(
+         {
+           headers: {
+             Authorization: `Bearer ${token}`,
+           },
+         }
+       );
+       setCustomers(response.customers);
+         console.log(response);
+       
+       
+       } catch (error) {
+         console.error("Không có dữ liệu:", error);
+       }
+     };
+ 
+     fetchDoctor();
+   }, []); 
+  }
+    useEffect(() => {
+        const fetchCustomers = async () => {
+            try {
+                const response = await listCustomersApi.getHome();
+                setCustomers(response.customers);
+                console.log(response);
+            } catch (error) {
+                console.error("Không có dữ liệu:", error);
+            }
+        };
+
+        fetchCustomers();
+    }, []);
   return (
     <div>
   <div className="breadcrumb-bar-two">
@@ -29,317 +70,38 @@ const Mypatients = () => {
         </div>
         <div className="col-md-7 col-lg-8 col-xl-9">
           <div className="row row-grid">
+          {customers.map(customers => (
             <div className="col-md-6 col-lg-4 col-xl-3">
-              <div className="card widget-profile pat-widget-profile">
-                <div className="card-body">
-                  <div className="pro-widget-content">
-                    <div className="profile-info-widget">
-                      <Link to="/doctors/patient-profile" className="booking-doc-img">
-                        <img src="/img/patients/patient.jpg" alt="User Image" />
-                      </Link>
-                      <div className="profile-det-info">
-                        <h3><Link to="/doctors/patient-profile">Richard Wilson</Link></h3>
-                        <div className="patient-details">
-                          <h5><b>Mã bệnh nhân :</b> P0016</h5>
-        
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="patient-info">
-                    <ul>
-                      <li>SĐT <span>+1 952 001 8563</span></li>
-                      
-                    
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-6 col-lg-4 col-xl-3">
-              <div className="card widget-profile pat-widget-profile">
-                <div className="card-body">
-                  <div className="pro-widget-content">
-                    <div className="profile-info-widget">
-                      <Link to="patient-profile.html" className="booking-doc-img">
-                        <img src="/img/patients/patient1.jpg" alt="User Image" />
-                      </Link>
-                      <div className="profile-det-info">
-                        <h3><Link to="patient-profile.html">Charlene Reed</Link></h3>
-                        <div className="patient-details">
-                          <h5><b>Mã bệnh nhân :</b> P0001</h5>
-                          
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="patient-info">
-                    <ul>
-                      <li>SĐT <span>+1 828 632 9170</span></li>
-                      
-                                        </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-6 col-lg-4 col-xl-3">
-              <div className="card widget-profile pat-widget-profile">
-                <div className="card-body">
-                  <div className="pro-widget-content">
-                    <div className="profile-info-widget">
-                      <Link to="#" className="booking-doc-img">
-                        <img src="/img/patients/patient2.jpg" alt="User Image" />
-                      </Link>
-                      <div className="profile-det-info">
-                        <h3>Travis Trimble </h3>
-                        <div className="patient-details">
-                          <h5><b>Mã bệnh nhân :</b> PT0002</h5>
-
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="patient-info">
-                    <ul>
-                      <li>SĐT <span>+1 207 729 9974</span></li>
-                      
-                                        </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-6 col-lg-4 col-xl-3">
-              <div className="card widget-profile pat-widget-profile">
-                <div className="card-body">
-                  <div className="pro-widget-content">
-                    <div className="profile-info-widget">
-                      <Link to="#" className="booking-doc-img">
-                        <img src="/img/patients/patient3.jpg" alt="User Image" />
-                      </Link>
-                      <div className="profile-det-info">
-                        <h3>Carl Kelly</h3>
-                        <div className="patient-details">
-                          <h5><b>Mã bệnh nhân :</b> PT0003</h5>
-        
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="patient-info">
-                    <ul>
-                      <li>SĐT <span>+1 260 724 7769</span></li>
-                      
-                                        </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-6 col-lg-4 col-xl-3">
-              <div className="card widget-profile pat-widget-profile">
-                <div className="card-body">
-                  <div className="pro-widget-content">
-                    <div className="profile-info-widget">
-                      <Link to="#" className="booking-doc-img">
-                        <img src="/img/patients/patient4.jpg" alt="User Image" />
-                      </Link>
-                      <div className="profile-det-info">
-                        <h3>Michelle Fairfax</h3>
-                        <div className="patient-details">
-                          <h5><b>Mã bệnh nhân :</b> PT0004</h5>
-        
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="patient-info">
-                    <ul>
-                      <li>SĐT <span>+1 504 368 6874</span></li>
-                      
-                                        </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-6 col-lg-4 col-xl-3">
-              <div className="card widget-profile pat-widget-profile">
-                <div className="card-body">
-                  <div className="pro-widget-content">
-                    <div className="profile-info-widget">
-                      <Link to="#" className="booking-doc-img">
-                        <img src="/img/patients/patient5.jpg" alt="User Image" />
-                      </Link>
-                      <div className="profile-det-info">
-                        <h3>Gina Moore</h3>
-                        <div className="patient-details">
-                          <h5><b>Mã bệnh nhân :</b> PT0005</h5>
-        
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="patient-info">
-                    <ul>
-                      <li>SĐT <span>+1 954 820 7887</span></li>
-                      
-                    
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-6 col-lg-4 col-xl-3">
-              <div className="card widget-profile pat-widget-profile">
-                <div className="card-body">
-                  <div className="pro-widget-content">
-                    <div className="profile-info-widget">
-                      <Link to="#" className="booking-doc-img">
-                        <img src="/img/patients/patient6.jpg" alt="User Image" />
-                      </Link>
-                      <div className="profile-det-info">
-                        <h3>Elsie Gilley</h3>
-                        <div className="patient-details">
-                          <h5><b>Mã bệnh nhân :</b> PT0006</h5>
             
-                        </div>
+              <div className="card widget-profile pat-widget-profile">
+              <div className="card-body">
+                <div className="pro-widget-content">
+                  <div className="profile-info-widget">
+                    <Link to={`/doctors/patient-profile/${customers.id}`} className="booking-doc-img">
+                      <img src="/img/patients/patient.jpg" alt="User Image" />
+                    </Link>
+                    <div className="profile-det-info">
+                      <h3><Link to={`/doctors/patient-profile/${customers.id}`}>{customers.name}</Link></h3>
+                      <div className="patient-details">
+                        <h5><b>Mã bệnh nhân :</b> {customers.id}</h5>
+      
                       </div>
                     </div>
                   </div>
-                  <div className="patient-info">
-                    <ul>
-                      <li>SĐT <span>+1 315 384 4562</span></li>
-                      
-                                        </ul>
-                  </div>
                 </div>
-              </div>
-            </div>
-            <div className="col-md-6 col-lg-4 col-xl-3">
-              <div className="card widget-profile pat-widget-profile">
-                <div className="card-body">
-                  <div className="pro-widget-content">
-                    <div className="profile-info-widget">
-                      <Link to="#" className="booking-doc-img">
-                        <img src="/img/patients/patient7.jpg" alt="User Image" />
-                      </Link>
-                      <div className="profile-det-info">
-                        <h3>Joan Gardner</h3>
-                        <div className="patient-details">
-                          <h5><b>Mã bệnh nhân :</b> PT0007</h5>
-                                                </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="patient-info">
-                    <ul>
-                      <li>SĐT <span>+1 707 2202 603</span></li>
-                      
-                                        </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-6 col-lg-4 col-xl-3">
-              <div className="card widget-profile pat-widget-profile">
-                <div className="card-body">
-                  <div className="pro-widget-content">
-                    <div className="profile-info-widget">
-                      <Link to="#" className="booking-doc-img">
-                        <img src="/img/patients/patient8.jpg" alt="User Image" />
-                      </Link>
-                      <div className="profile-det-info">
-                        <h3>Daniel Griffing</h3>
-                        <div className="patient-details">
-                          <h5><b>Mã bệnh nhân :</b> PT0007</h5>
+                <div className="patient-info">
+                  <ul>
+                    <li>SĐT <span>{customers.phone}</span></li>
                     
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="patient-info">
-                    <ul>
-                      <li>SĐT <span>+1 973 773 9497</span></li>
-                      
-                                        </ul>
-                  </div>
+                  
+                  </ul>
                 </div>
               </div>
             </div>
-            <div className="col-md-6 col-lg-4 col-xl-3">
-              <div className="card widget-profile pat-widget-profile">
-                <div className="card-body">
-                  <div className="pro-widget-content">
-                    <div className="profile-info-widget">
-                      <Link to="#" className="booking-doc-img">
-                        <img src="/img/patients/patient9.jpg" alt="User Image" />
-                      </Link>
-                      <div className="profile-det-info">
-                        <h3>Walter Roberson</h3>
-                        <div className="patient-details">
-                          <h5><b>Mã bệnh nhân :</b> PT0009</h5>
-        
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="patient-info">
-                    <ul>
-                      <li>SĐT <span>+1 850 358 4445</span></li>
-                      
-                                        </ul>
-                  </div>
-                </div>
-              </div>
+              
             </div>
-            <div className="col-md-6 col-lg-4 col-xl-3">
-              <div className="card widget-profile pat-widget-profile">
-                <div className="card-body">
-                  <div className="pro-widget-content">
-                    <div className="profile-info-widget">
-                      <Link to="#" className="booking-doc-img">
-                        <img src="/img/patients/patient10.jpg" alt="User Image" />
-                      </Link>
-                      <div className="profile-det-info">
-                        <h3>Robert Rhodes</h3>
-                        <div className="patient-details">
-                          <h5><b>Mã bệnh nhân :</b> PT0010</h5>
-                                                </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="patient-info">
-                    <ul>
-                      <li>SĐT <span>+1 858 259 5285</span></li>
-                      
-                                        </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-6 col-lg-4 col-xl-3">
-              <div className="card widget-profile pat-widget-profile">
-                <div className="card-body">
-                  <div className="pro-widget-content">
-                    <div className="profile-info-widget">
-                      <Link to="#" className="booking-doc-img">
-                        <img src="/img/patients/patient11.jpg" alt="User Image" />
-                      </Link>
-                      <div className="profile-det-info">
-                        <h3>Harry Williams</h3>
-                        <div className="patient-details">
-                          <h5><b>Mã bệnh nhân :</b> PT0011</h5>
+            ))}
             
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="patient-info">
-                    <ul>
-                      <li>SĐT <span>+1 303 607 7075</span></li>
-                                                            </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
