@@ -118,3 +118,5 @@ Route::get('/list-appiontment/{id}', [DoctorController::class, 'getAppiontment']
 //change password doctor
 Route::post('/change-password', [DoctorController::class, 'changePassword']);
 
+//get bills
+Route::get('/bills/{id}', [DoctorController::class, 'billByUser']);
