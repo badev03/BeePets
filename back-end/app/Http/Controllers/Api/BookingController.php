@@ -29,7 +29,12 @@ class BookingController extends Controller
                     'id' => $service->id,
                     'name' => $service->name,
                     'price' => $service->price,
-                    'doctors' => $service->doctors->each->withoutPivot(),
+                    'doctors' => $service->doctors->map(function ($doctor) {
+                        return [
+                            'id' => $doctor->id,
+                            'name' => $doctor->name,
+                        ];
+                    }),
                 ];
             });
 
@@ -148,7 +153,7 @@ class BookingController extends Controller
             return response()->json(['message' => 'Lấy danh sách cuộc hẹn thành công', 'data' => $data], 200);
         }
     }
-    // lấy ra thông tin của một cuộc hẹn
+    // lấy ra thông tin của một cuộc hẹn với satus = 0
     public function getAppointment($id)
     {
         $data = Appointment::where('id', $id)->where('status', 0)->with('user:id,name,phone')->with('service:id,name')->with('type_pet:id,name')->get();
@@ -159,6 +164,7 @@ class BookingController extends Controller
             return response()->json(['message' => 'Lấy danh sách cuộc hẹn thành công', 'data' => $data], 200);
         }
     }
+   
 
     public function getAppointmentAccept()
     {
