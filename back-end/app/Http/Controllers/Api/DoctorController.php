@@ -7,6 +7,7 @@ use App\Models\Appointment;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class DoctorController extends Controller
@@ -142,8 +143,27 @@ class DoctorController extends Controller
             ]);
         }
     }
-
-
+    public function billByUser($id) {
+        if(Auth::guard('doctors')->check()) {
+            $result = DB::table('bills')
+                ->select('bills.code as bill_code', 'bills.created_at as bill_created_at', 'doctors.name as doctor_name', 'bills.total_amount')
+                ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
+                ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
+                ->where('appointments.user_id', $id)
+                ->get();
+            return response()->json([
+                'success' => true,
+                'message' => 'Lấy danh sách hóa đơn thành công',
+                'bills' => $result
+            ]);
+        }else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bạn chưa đăng nhập',
+            ]);
+        }
+    }
+    
 
 
 }
