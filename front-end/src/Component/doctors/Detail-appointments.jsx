@@ -4,25 +4,39 @@ import { Link } from 'react-router-dom'
 import Menudashboard from './Menu-dashboard'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import appointmentsApi from '../../api/appointments';
+import appointmentsApi from '../../api/appointmentsApi';
 
 
 const DetailAppointment = () => {
   const { id } = useParams();
     const [appointments, setAppointments] = useState(null);
 
-    useEffect(() => {
-        const fetchAppointments = async () => {
-            try {
-                const response = await appointmentsApi.get(id);
-                setAppointments(response);
-            } catch (error) {
-                console.error("Không có dữ liệu:", error);
-            }
-        };
+    const token = localStorage.getItem('token');
+  
+   if(token){
+     useEffect(() => {
+      const fetchAppointment = async () => {
+        try {
+         const response = await appointmentsApi.get(id,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setAppointments(response.data);     
+        console.log(response.data);
+      
 
-        fetchAppointments();
-    }, []);
+        } catch (error) {
+          console.error("Không có dữ liệu:", error);
+        }
+      };
+  
+      fetchAppointment();
+    }, []); 
+    console.log(appointments);
+   }
     if (!appointments) {
         return <div>Loading...</div>;
     }
@@ -55,9 +69,9 @@ const DetailAppointment = () => {
                     <img src="/img/patients/patient.jpg" alt="User Image" />
                   </Link>
                   <div className="profile-det-info">
-                    <h3>{appointments.user}</h3>
+                    <h3>{appointments[0].user.name}</h3>
                     <div className="patient-details">
-                      <h5><b>Patient ID :</b> {appointments.user_id}</h5>
+                      <h5><b>Patient ID :</b> {appointments[0].user_id}</h5>
                       
                     </div>
                   </div>
@@ -65,7 +79,7 @@ const DetailAppointment = () => {
               </div>
               <div className="patient-info">
                 <ul>
-                  <li>SĐT <span>+1 952 001 8563</span></li>
+                  <li>SĐT <span>{appointments[0].user.phone}</span></li>
                 </ul>
               </div>
             </div>
@@ -112,26 +126,38 @@ const DetailAppointment = () => {
                
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
-                      <label className="mb-2">Tên bác sĩ</label>
-                      <input type="text" className="form-control" value={appointments.doctor_name} />
+                      <label className="mb-2">Tên khách hàng</label>
+                      <input type="text" className="form-control" value={appointments[0].user.name} />
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-6">
+                    <div className="mb-3">
+                      <label className="mb-2">Số điện thoại</label>
+                      <input type="text" className="form-control" value={appointments[0].user.phone} />
                     </div>
                   </div>
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
                       <label className="mb-2">Loại thú cưng</label>
-                      <input type="text" className="form-control" value={appointments.type_pet_id}  />
+                      <input type="text" className="form-control" value={appointments[0].type_pet.name}  />
                     </div>
                   </div>
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
                       <label className="mb-2">Ngày đặt lịch</label>
-                      <input type="text" className="form-control" value={appointments.date} />
+                      <input type="text" className="form-control" value={appointments[0].date} />
                     </div>
                   </div>
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
                       <label className="mb-2">Lịch khám</label>
-                      <input type="text" className="form-control" value={appointments.time} />
+                      <input type="text" className="form-control" value={appointments[0].shift_name} />
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-6">
+                    <div className="mb-3">
+                      <label className="mb-2">Dịch vụ</label>
+                      <input type="text" className="form-control" value={appointments[0].service.name} />
                     </div>
                   </div>
                  
@@ -139,7 +165,7 @@ const DetailAppointment = () => {
                     <div className="mb-3">
                       <label className="mb-2">Ghi chú</label>
                      
-                        <textarea type="text" className="form-control datetimepicker" value={appointments.description} />
+                        <textarea type="text" className="form-control datetimepicker" value={appointments[0].description} />
                       
                     </div>
                   </div>

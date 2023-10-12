@@ -105,7 +105,7 @@ Route::get('/appoinment/{id}', [BookingController::class, 'getAppointment']);
 // lấy ra danh sách lịch khám của bác sĩ đã được chấp nhận
 Route::get('/list-appiontment-doctor', [BookingController::class, 'getAppointmentAccept']);
 //câp nhật trạng thái lịch khám
-Route::put('/appoinment/{id}', [BookingController::class, 'updateStatus']);
+Route::put('/update-appointment/{id}', [BookingController::class, 'updateStatus']);
 
 //lấy ra thông tin bác sĩ đang đăng nhập
 Route::get('/doctor-info', [DoctorController::class, 'getDoctor']);
@@ -131,4 +131,3 @@ Route::post('/change-password', [DoctorController::class, 'changePassword']);
 
 //get bills
 Route::get('/bills/{id}', [DoctorController::class, 'billByUser']);
-

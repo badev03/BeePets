@@ -1,8 +1,34 @@
 import React from 'react'
-import {Link,NavLink} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import { useEffect, useState } from "react";
-
+import doctorsApi from '../../api/doctorsApi';
 const Menudashboard = () => {
+
+  const [doctor, setDoctors] = useState([]);
+  
+  const token = localStorage.getItem('token');
+  
+   if(token){
+     useEffect(() => {
+      const fetchDoctor = async () => {
+        try {
+         const response = await doctorsApi.getDoctor(
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+          setDoctors(response.doctor);     
+        } catch (error) {
+          console.error("Không có dữ liệu:", error);
+        }
+      };
+  
+      fetchDoctor();
+    }, []); 
+   }
+
   const initialActiveItems = JSON.parse(
     localStorage.getItem("activeItems")
   ) || ["Bộ điều khiển"];
@@ -34,17 +60,19 @@ const Menudashboard = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  
+  
   return (
     <div className="profile-sidebar" >
             <div className="widget-profile pro-widget-content">
               <div className="profile-info-widget">
                 <Link to="#" className="booking-doc-img">
-                  <img src="/img/doctors/doctor-thumb-02.jpg" alt="User Image" />
+                  <img src={doctor.image} alt="User Image" />
                 </Link>
                 <div className="profile-det-info">
-                  <h3>Dr. Darren Elder</h3>
+                  <h3>{doctor.name}</h3>
                   <div className="patient-details">
-                    <h5 className="mb-0">Đẹp trai &amp; ahihi</h5>
+                    <h5 className="mb-0">{doctor.phone}</h5>
                   </div>
                 </div>
               </div>

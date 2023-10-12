@@ -1,9 +1,35 @@
 import React from 'react'
 import Menudashboard from './Menu-dashboard'
 import {Link} from 'react-router-dom'
-
+import appointmentsApi from '../../api/appointmentsApi';
+import { useEffect, useState } from "react";
 
 const Dashboarddoctors = () => {
+  const [appointments, setAppointment] = useState([]);
+  
+  const token = localStorage.getItem('token');
+  
+   if(token){
+     useEffect(() => {
+      const fetchAppointment = async () => {
+        try {
+         const response = await appointmentsApi.getStatus(
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setAppointment(response.data);     
+        console.log(response.data);
+        } catch (error) {
+          console.error("Không có dữ liệu:", error);
+        }
+      };
+  
+      fetchAppointment();
+    }, []); 
+   }
   return (
     <div>
   <div className="breadcrumb-bar-two">
@@ -101,165 +127,40 @@ const Dashboarddoctors = () => {
                                 <th>Tên bệnh nhân</th>
                                 <th>Thời gian</th>
                                 <th>Dịch vụ</th>
+                                <th>Loại thú cưng</th>
                                 <th>Trạng thái</th>
                               </tr>
                             </thead>
                             <tbody>
-                              <tr>
-                                <td>
-                                  <h2 className="table-avatar">
-                                    <Link to="patient-profile.html" className="avatar avatar-sm me-2"><img className="avatar-img rounded-circle" src="img/patients/patient.jpg" alt="User Image" /></Link>
-                                    <Link to="patient-profile.html">Richard
-                                      Wilson <span>#PT0016</span></Link>
-                                  </h2>
-                                </td>
-                                <td>11 Nov 2023 <span className="d-block text-info">10.00 AM</span>
-                                </td>
-                                <td>Khám bệnh</td>
-                                <td>
-                                  <div className="table-action">
-                                    <Link to="/doctors/detail-appointments" className="btn btn-sm bg-info-light">
-                                      <i className="far fa-eye" /> View
-                                    </Link>
-                                    <Link to="javascript:void(0);"  className="btn btn-sm bg-success-light">
-                                      <i className="fas fa-check" /> Accept
-                                    </Link>
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-danger-light">
-                                      <i className="fas fa-times" /> Cancel
-                                    </Link>
-                                  </div>
-                                </td>
+                              {appointments.map(appointment=>(
+                              <tr key={appointment.id}>
+                              <td>
+                                <h2 className="table-avatar">
+                                  <Link to="patient-profile.html" className="avatar avatar-sm me-2"><img className="avatar-img rounded-circle" src="img/patients/patient.jpg" alt="User Image" /></Link>
+                                  <Link to="patient-profile.html">{appointment.user.name} </Link>
+                                </h2>
+                              </td>
+                              <td>{appointment.date}<span className="d-block text-info">{appointment.shift_name}</span>
+                              </td>
+                              <td>{appointment.service.name}</td>
+                              <td>{appointment.type_pet.name}</td>
+                              <td>
+                                <div className="table-action">
+                                <Link to={`/doctors/detail-appointments/${appointment.id}`} className="btn btn-sm bg-info-light">
+                                  <i className="far fa-eye" /> View
+                                </Link>
+                                  <Link to={`/doctors/appointments`} className="btn btn-sm bg-success-light">
+                                    <i className="fas fa-check" /> Accept
+                                  </Link>
+                                  <Link to="javascript:void(0);" className="btn btn-sm bg-danger-light">
+                                    <i className="fas fa-times" /> Cancel
+                                  </Link>
+                                </div>
+                              </td>
                               </tr>
-                              <tr>
-                                <td>
-                                  <h2 className="table-avatar">
-                                    <Link to="patient-profile.html" className="avatar avatar-sm me-2"><img className="avatar-img rounded-circle" src="/img/patients/patient1.jpg" alt="User Image" /></Link>
-                                    <Link to="patient-profile.html">Charlene Reed
-                                      <span>#PT0001</span></Link>
-                                  </h2>
-                                </td>
-                                <td>3 Nov 2023 <span className="d-block text-info">11.00
-                                    AM</span></td>
-                                <td>Khám bệnh</td>
-                               
-                                <td>
-                                  <div className="table-action">
-                                    <Link to="/doctors/detail-appointments" className="btn btn-sm bg-info-light">
-                                      <i className="far fa-eye" /> View
-                                    </Link>
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-success-light">
-                                      <i className="fas fa-check" /> Accept
-                                    </Link>
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-danger-light">
-                                      <i className="fas fa-times" /> Cancel
-                                    </Link>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <h2 className="table-avatar">
-                                    <Link to="patient-profile.html" className="avatar avatar-sm me-2"><img className="avatar-img rounded-circle" src="img/patients/patient2.jpg" alt="User Image" /></Link>
-                                    <Link to="patient-profile.html">Travis
-                                      Trimble <span>#PT0002</span></Link>
-                                  </h2>
-                                </td>
-                                <td>1 Nov 2023 <span className="d-block text-info">1.00
-                                    PM</span></td>
-                                <td>Khám bệnh</td>
-                                
-                                <td>
-                                  <div className="table-action">
-                                    <Link to="/doctors/detail-appointments" className="btn btn-sm bg-info-light">
-                                      <i className="far fa-eye" /> View
-                                    </Link>
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-success-light">
-                                      <i className="fas fa-check" /> Accept
-                                    </Link>
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-danger-light">
-                                      <i className="fas fa-times" /> Cancel
-                                    </Link>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <h2 className="table-avatar">
-                                    <Link to="patient-profile.html" className="avatar avatar-sm me-2"><img className="avatar-img rounded-circle" src="img/patients/patient3.jpg" alt="User Image" /></Link>
-                                    <Link to="patient-profile.html">Carl Kelly
-                                      <span>#PT0003</span></Link>
-                                  </h2>
-                                </td>
-                                <td>30 Oct 2023 <span className="d-block text-info">9.00
-                                    AM</span></td>
-                                <td>Khám bệnh</td>
-                                
-                                <td>
-                                  <div className="table-action">
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-info-light">
-                                      <i className="far fa-eye" /> View
-                                    </Link>
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-success-light">
-                                      <i className="fas fa-check" /> Accept
-                                    </Link>
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-danger-light">
-                                      <i className="fas fa-times" /> Cancel
-                                    </Link>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <h2 className="table-avatar">
-                                    <Link to="patient-profile.html" className="avatar avatar-sm me-2"><img className="avatar-img rounded-circle" src="img/patients/patient4.jpg" alt="User Image" /></Link>
-                                    <Link to="patient-profile.html">Michelle
-                                      Fairfax <span>#PT0004</span></Link>
-                                  </h2>
-                                </td>
-                                <td>28 Oct 2023 <span className="d-block text-info">6.00
-                                    PM</span></td>
-                                <td>Khám bệnh</td>
-                                
-                                <td>
-                                  <div className="table-action">
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-info-light">
-                                      <i className="far fa-eye" /> View
-                                    </Link>
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-success-light">
-                                      <i className="fas fa-check" /> Accept
-                                    </Link>
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-danger-light">
-                                      <i className="fas fa-times" /> Cancel
-                                    </Link>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <h2 className="table-avatar">
-                                    <Link to="patient-profile.html" className="avatar avatar-sm me-2"><img className="avatar-img rounded-circle" src="img/patients/patient5.jpg" alt="User Image" /></Link>
-                                    <Link to="patient-profile.html">Gina Moore
-                                      <span>#PT0005</span></Link>
-                                  </h2>
-                                </td>
-                                <td>27 Oct 2023 <span className="d-block text-info">8.00
-                                    AM</span></td>
-                                <td>Khám bệnh</td>
-                                
-                                <td>
-                                  <div className="table-action">
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-info-light">
-                                      <i className="far fa-eye" /> View
-                                    </Link>
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-success-light">
-                                      <i className="fas fa-check" /> Accept
-                                    </Link>
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-danger-light">
-                                      <i className="fas fa-times" /> Cancel
-                                    </Link>
-                                  </div>
-                                </td>
-                              </tr>
+                              ))}
+                             
+                         
                             </tbody>
                           </table>
                         </div>
