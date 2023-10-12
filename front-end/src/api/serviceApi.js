@@ -1,33 +1,34 @@
 import instance from "./instance";
 
-const doctorsApi = {
+const serviceApi = {
   getAll(params) {
-    const url = "/doctors-clients";
+    const url = "/service";
     return instance.get(url, { params });
   },
-  getDoctor(params) {
-    const url = "/doctor-info";
+  getHome(params) {
+    const url = "/service-show";
     return instance.get(url, { params });
   },
+
   get(id) {
-    const url = `/doctors-clients/${id}`;
+    const url = `/service/${id}`;
     return instance.get(url);
   },
-  
+
   add(data) {
-    const url = "/doctors-clients";
+    const url = "/service";
     return instance.post(url, data);
   },
 
   update(data) {
-    const url = `/doctors-clients/${data.id}`;
+    const url = `/service/${data.id}`;
     return instance.patch(url, data);
   },
 
   remove(id) {
-    const url = `/doctors-clients/${id}`;
+    const url = `/service/${id}`;
     return instance.delete(url);
   },
 };
 
-export default doctorsApi;
+export default serviceApi;

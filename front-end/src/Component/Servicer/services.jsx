@@ -1,24 +1,24 @@
 //sevice
 import React from 'react'
 import { useEffect, useState } from 'react'
-import servicesApi from '../../api/severces';
 import { Link } from 'react-router-dom';
+import serviceApi from '../../api/serviceApi';
 
 const Services = () => {
     const [services, setServices] = useState([]);
 
     useEffect(() => {
-        const fetchBlog = async () => {
+        const fetchService = async () => {
             try {
-                const response = await servicesApi.getAll();
-                setServices(response);
-                console.log(services);
+                const response = await serviceApi.getHome();
+                setServices(response.service);
+                console.log(response);
             } catch (error) {
                 console.error("Không có dữ liệu:", error);
             }
         };
 
-        fetchBlog();
+        fetchService();
     }, []);
     return (
         <div className="container">
@@ -36,11 +36,12 @@ const Services = () => {
                 </div>
             </div>
             <div className="row row-gap justify-content-center">
-                {services.map(services => (
-                    <div className="col-lg-3 col-md-4 col-sm-12 d-flex">
+                {services.map(service => (
+
+                    <div className="col-lg-3 col-md-4 col-sm-12 d-flex" key={service.id}>
 
                         <div className="our-services-list w-100">
-                            <Link to={`/services/details/${services.id}`}>
+                            <Link to={`/services/details/${service.id}`}>
 
                                 <div className="service-icon">
                                     <img
@@ -49,9 +50,9 @@ const Services = () => {
                                     />
                                 </div>
 
-                                <h4>{services.name}</h4>
+                                <h4>{service.name}</h4>
                                 <p>
-                                    {services.slug}
+                                    {service.slug}
                                 </p>
                             </Link>
 
