@@ -22,18 +22,24 @@ class BookingController extends Controller
     public function services()
     {
         $data = Service::select('id', 'name', 'price')
-            ->with(['doctors:id,name'])
-            ->get()
-            ->map(function ($service) {
+    ->with(['doctors:id,name'])
+    ->get()
+    ->map(function ($service) {
+        return [
+            'id' => $service->id,
+            'name' => $service->name,
+            'price' => $service->price,
+            'doctors' => $service->doctors->map(function ($doctor) {
                 return [
-                    'id' => $service->id,
-                    'name' => $service->name,
-                    'price' => $service->price,
-                    'doctors' => $service->doctors->each->withoutPivot(),
+                    'id' => $doctor->id,
+                    'name' => $doctor->name,
                 ];
-            });
+            }),
+        ];
+    });
 
-        return response()->json(['message' => 'Lấy danh sách dịch vụ thành công', 'data' => $data], 200);
+return response()->json(['message' => 'Lấy danh sách dịch vụ thành công', 'data' => $data], 200);
+
     }
 
 
