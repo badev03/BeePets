@@ -13,38 +13,29 @@ class DoctorController extends Controller
 {
     public function login(Request $request)
     {
-        try {
-            $request->validate([
-                'phone' => 'required',
-                'password' => 'required'
-            ],
-                [
-                    'phone.required' => 'Vui lòng nhập số điện thoại',
-                    'password.required' => 'Vui lòng nhập mật khẩu'
-                ]);
-           $doctor = Doctor::where('phone', $request->phone)->first();
-           if (!Hash::check($request->password, $doctor->password)) {
-               return response()->json([
-                   'success' => false,
-                   'message' => 'Mật khẩu không chính xác'
-               ]);
-           } else {
-               $token = $doctor->createToken('auth_token')->plainTextToken;
-               return response()->json([
-                   'success' => true,
-                   'message' => 'Đăng nhập thành công',
-                   'token' => $token,
-                   'doctor' => $doctor
-               ]);
-           }
-
-        }catch (\Exception $exception) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Lỗi',
-                'error' => $exception->getMessage()
+        $request->validate([
+            'phone' => 'required',
+            'password' => 'required'
+        ],
+            [
+                'phone.required' => 'Vui lòng nhập số điện thoại',
+                'password.required' => 'Vui lòng nhập mật khẩu'
             ]);
-        }
+       $doctor = Doctor::where('phone', $request->phone)->first();
+       if (!Hash::check($request->password, $doctor->password)) {
+           return response()->json([
+               'success' => false,
+               'message' => 'Mật khẩu không chính xác'
+           ]);
+       } else {
+           return response()->json([
+               'success' => true,
+               'message' => 'Đăng nhập thành công',
+               'access_token' => $doctor->createToken('auth_token')->plainTextToken,
+               'token_type' => 'Bearer',
+                'doctor' => $doctor
+           ]);
+       }
     }
 
 
