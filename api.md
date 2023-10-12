@@ -20,7 +20,7 @@
 1. http://127.0.0.1:8000/api/doctors-clients  :: lấy ra tất cả bác sĩ ở trang clients , lấy ra detail bác sĩ và đánh giá 
 2. http://127.0.0.1:8000/api/service-filter-doctor :: phương thức sử dung là post thêm checkbox
 sumbit để lọc dữ liệu dữ liệu gửi lên là tn là service
-- Api Authentication user
+- Api Authentication user Đạt Writter
 1. http://127.0.0.1:8000/api/checkerPhone  :: case OTP khi send otp :: **POST**
 check kiểm tra xem số điện thoaại đã tồn tại hay rồi mới tiến hày verify
 2. http://127.0.0.1:8000/api/CheckVerify  :: case OTP kiểm tra xem nếu verify thay công  **POST**
@@ -35,3 +35,7 @@ check kiểm tra xem số điện thoaại đã tồn tại hay rồi mới ti�
 7. http://127.0.0.1:8000/api/CheckVerifyForgetPassword :: case OTP khi send otp **POST**
 lập tức update lại mật khẩu có người dùng luôn
 8. http://127.0.0.1:8000/api/ResetPassword :: case không OTP  nhập số điện thoại và mật khẩu **POST**
+
+1. http://127.0.0.1:8000/api/doctor/login :: đăng nhập bác sĩ (Post)
+2. http://127.0.0.1:8000/api/list-customers :: lấy ra danh sách khách hàng của bác sĩ (Get)
+3. http://127.0.0.1:8000/api/list-appiontment/{id} :: lấy ra danh sách lịch hẹn của khách hàng (Get) id là id của khách hàng

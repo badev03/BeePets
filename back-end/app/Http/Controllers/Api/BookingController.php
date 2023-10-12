@@ -35,17 +35,15 @@ class BookingController extends Controller
 
     public function doctors(Request $request)
     {
-        $service_id = $request->input('service_id');
+        $doctor = $request->input('doctor_id');
         $date = $request->input('date');
-        $doctors = Doctor::select('id', 'name', 'status')->with(['work_schedule' => function ($query) use ($date) {
-            $query->where('date', $date);
-        }])->whereHas('services', function ($query) use ($service_id) {
-            $query->where('service_id', $service_id);
-        })->get();
-        if ($doctors->isEmpty()) {
-            return response()->json(['message' => 'Không có bác sĩ nào'], 400);
+        // lấy ra lịch làm việc của bác sĩ theo ngày
+        $work_schedule = Work_schedule::where('doctor_id', $doctor)->where('date', $date)->get();
+        if ($work_schedule->isEmpty()) {
+            return response()->json(['message' => 'Không có lịch làm việc của bác sĩ này'], 400);
+        }else{
+            return response()->json(['message' => 'Lấy danh sách lịch làm việc thành công', 'data' => $work_schedule], 200);
         }
-        return response()->json(['message' => 'Lấy danh sách bác sĩ thành công', 'data' => $doctors], 200);
     }
    
 
@@ -135,20 +133,33 @@ class BookingController extends Controller
     // lấy ra danh sách các cuộc hẹn có status = 0
     public function getAppointmentByStatus()
     {
-        $data = Appointment::where('status', 0)->get();
+ 
+    $data = Appointment::select('id','date','shift_name','doctor_id','user_id','service_id','type_pet_id')->where('status', 0)->with('user:id,name')->with('service:id,name')->with('type_pet:id,name')->get();
+
+    if($data->isEmpty()){
+        return response()->json(['message' => 'Không có cuộc hẹn nào'], 400);
+    }else{
         return response()->json(['message' => 'Lấy danh sách cuộc hẹn thành công', 'data' => $data], 200);
     }
-    //lấy ra 1 cuộc hẹn
+
+    }
+    // lấy ra thông tin của một cuộc hẹn
     public function getAppointment($id)
     {
-        $data = Appointment::find($id);
+        $data = Appointment::find($id)->select('id','status','date','shift_name','user_id','service_id','doctor_id','type_pet_id')->with('user:id,name,phone')->with('service:id,name')->with('type_pet:id,name')->first();
+        
         if (!$data) {
             return response()->json(['message' => 'Không tìm thấy cuộc hẹn'], 404);
         }
-
-        return response()->json(['message' => 'Lấy cuộc hẹn thành công', 'data' => $data], 200);
+        return response()->json(['message' => 'Lấy thông tin cuộc hẹn thành công', 'data' => $data], 200);
+    }
+    
+    public function getAppointmentAccept(){
+        $data = Appointment::where('status', 1)->select('id','status','date','shift_name','user_id')->with('user:id,name,phone')->get();
+        return response()->json(['message' => 'Lấy danh sách cuộc hẹn thành công', 'data' => $data], 200);
     }
 
+    
     public function updateStatus(Request $request, $id)
     {
         $data = Appointment::find($id);

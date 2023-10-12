@@ -1,34 +1,30 @@
 import instance from "./instance";
 
-const serviceApi = {
+const reviewsApi = {
   getAll(params) {
-    const url = "/service";
-    return instance.get(url, { params });
-  },
-  getHome(params) {
-    const url = "/service-show";
+    const url = "/reviews";
     return instance.get(url, { params });
   },
 
   get(id) {
-    const url = `/service/${id}`;
+    const url = `/reviews/${id}`;
     return instance.get(url);
   },
-
+  
   add(data) {
-    const url = "/service";
+    const url = "/reviews";
     return instance.post(url, data);
   },
 
   update(data) {
-    const url = `/service/${data.id}`;
+    const url = `/reviews/${data.id}`;
     return instance.patch(url, data);
   },
 
   remove(id) {
-    const url = `/service/${id}`;
+    const url = `/reviews/${id}`;
     return instance.delete(url);
   },
 };
 
-export default serviceApi;
+export default reviewsApi;
