@@ -22,24 +22,23 @@ class BookingController extends Controller
     public function services()
     {
         $data = Service::select('id', 'name', 'price')
-    ->with(['doctors:id,name'])
-    ->get()
-    ->map(function ($service) {
-        return [
-            'id' => $service->id,
-            'name' => $service->name,
-            'price' => $service->price,
-            'doctors' => $service->doctors->map(function ($doctor) {
+            ->with(['doctors:id,name'])
+            ->get()
+            ->map(function ($service) {
                 return [
-                    'id' => $doctor->id,
-                    'name' => $doctor->name,
+                    'id' => $service->id,
+                    'name' => $service->name,
+                    'price' => $service->price,
+                    'doctors' => $service->doctors->map(function ($doctor) {
+                        return [
+                            'id' => $doctor->id,
+                            'name' => $doctor->name,
+                        ];
+                    }),
                 ];
-            }),
-        ];
-    });
+            });
 
-return response()->json(['message' => 'Lấy danh sách dịch vụ thành công', 'data' => $data], 200);
-
+        return response()->json(['message' => 'Lấy danh sách dịch vụ thành công', 'data' => $data], 200);
     }
 
 
@@ -154,16 +153,18 @@ return response()->json(['message' => 'Lấy danh sách dịch vụ thành công
             return response()->json(['message' => 'Lấy danh sách cuộc hẹn thành công', 'data' => $data], 200);
         }
     }
-    // lấy ra thông tin của một cuộc hẹn
+    // lấy ra thông tin của một cuộc hẹn với satus = 0
     public function getAppointment($id)
     {
-        $data = Appointment::find($id)->select('id', 'status', 'date', 'shift_name', 'user_id', 'service_id', 'doctor_id', 'type_pet_id')->with('user:id,name,phone')->with('service:id,name')->with('type_pet:id,name')->first();
-
-        if (!$data) {
-            return response()->json(['message' => 'Không tìm thấy cuộc hẹn'], 404);
+        $data = Appointment::where('id', $id)->where('status', 0)->with('user:id,name,phone')->with('service:id,name')->with('type_pet:id,name')->get();
+     
+        if ($data->isEmpty()) {
+            return response()->json(['message' => 'Không có cuộc hẹn nào'], 400);
+        } else {
+            return response()->json(['message' => 'Lấy danh sách cuộc hẹn thành công', 'data' => $data], 200);
         }
-        return response()->json(['message' => 'Lấy thông tin cuộc hẹn thành công', 'data' => $data], 200);
     }
+   
 
     public function getAppointmentAccept()
     {
