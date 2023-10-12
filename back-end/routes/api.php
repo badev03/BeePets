@@ -80,7 +80,6 @@ Route::post('login-user', [AuthController::class, 'LoginUserOtp']); //test thôi
 
 
 
-
 //lấy ra danh sách dịch vụ
 Route::get('/services-doctor', [BookingController::class, 'services']);
 //lấy ra danh sách loại thú cưng
