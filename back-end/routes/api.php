@@ -113,4 +113,10 @@ Route::get('/doctor-info', [DoctorController::class, 'getDoctor']);
 Route::get('/list-customers', [DoctorController::class, 'listCustomer']);
 
 //lấy ra lịch sử khám của khách hàng
-Route::get('/history/{id}', [DoctorController::class, 'getHistoryByUser']);
+Route::get('/list-appiontment/{id}', [DoctorController::class, 'getAppiontment']);
+
+//change password doctor
+Route::post('/change-password', [DoctorController::class, 'changePassword']);
+
+//get bills
+Route::get('/bills/{id}', [DoctorController::class, 'billByUser']);
