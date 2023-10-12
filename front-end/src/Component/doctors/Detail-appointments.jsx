@@ -11,19 +11,29 @@ const DetailAppointment = () => {
   const { id } = useParams();
     const [appointments, setAppointments] = useState(null);
 
-    useEffect(() => {
-        const fetchAppointments = async () => {
-            try {
-                const response = await appointmentsApi.get(id);
-                setAppointments(response.data);
-                console.log(response);
-            } catch (error) {
-                console.error("Không có dữ liệu:", error);
-            }
-        };
-
-        fetchAppointments();
-    }, []);
+    const token = localStorage.getItem('token');
+  
+   if(token){
+     useEffect(() => {
+      const fetchAppointment = async () => {
+        try {
+         const response = await appointmentsApi.get(id,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setAppointments(response.data);     
+        console.log(response.data);
+        } catch (error) {
+          console.error("Không có dữ liệu:", error);
+        }
+      };
+  
+      fetchAppointment();
+    }, []); 
+   }
     if (!appointments) {
         return <div>Loading...</div>;
     }
@@ -56,7 +66,7 @@ const DetailAppointment = () => {
                     <img src="/img/patients/patient.jpg" alt="User Image" />
                   </Link>
                   <div className="profile-det-info">
-                    <h3>{appointments.user}</h3>
+                    <h3>{appointments.user.name}</h3>
                     <div className="patient-details">
                       <h5><b>Patient ID :</b> {appointments.user_id}</h5>
                       
@@ -66,7 +76,7 @@ const DetailAppointment = () => {
               </div>
               <div className="patient-info">
                 <ul>
-                  <li>SĐT <span>+1 952 001 8563</span></li>
+                  <li>SĐT <span>{appointments.user.phone}</span></li>
                 </ul>
               </div>
             </div>
@@ -114,19 +124,19 @@ const DetailAppointment = () => {
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
                       <label className="mb-2">Tên khách hàng</label>
-                      <input type="text" className="form-control" value={appointments.doctor_name} />
+                      <input type="text" className="form-control" value={appointments.user.name} />
                     </div>
                   </div>
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
                       <label className="mb-2">Số điện thoại</label>
-                      <input type="text" className="form-control" value={appointments.time} />
+                      <input type="text" className="form-control" value={appointments.user.phone} />
                     </div>
                   </div>
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
                       <label className="mb-2">Loại thú cưng</label>
-                      <input type="text" className="form-control" value={appointments.type_pet_id}  />
+                      <input type="text" className="form-control" value={appointments.type_pet.name}  />
                     </div>
                   </div>
                   <div className="col-12 col-md-6">
@@ -144,7 +154,7 @@ const DetailAppointment = () => {
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
                       <label className="mb-2">Dịch vụ</label>
-                      <input type="text" className="form-control" value={appointments.time} />
+                      <input type="text" className="form-control" value={appointments.service.name} />
                     </div>
                   </div>
                  

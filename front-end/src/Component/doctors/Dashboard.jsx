@@ -137,8 +137,7 @@ const Dashboarddoctors = () => {
                               <td>
                                 <h2 className="table-avatar">
                                   <Link to="patient-profile.html" className="avatar avatar-sm me-2"><img className="avatar-img rounded-circle" src="img/patients/patient.jpg" alt="User Image" /></Link>
-                                  <Link to="patient-profile.html">Richard
-                                    Wilson </Link>
+                                  <Link to="patient-profile.html">{appointment.user.name} </Link>
                                 </h2>
                               </td>
                               <td>{appointment.date}<span className="d-block text-info">{appointment.shift_name}</span>

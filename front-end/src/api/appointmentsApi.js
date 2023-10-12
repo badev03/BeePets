@@ -12,9 +12,9 @@ const appointmentsApi = {
     return instance.get(url,  params );
   },
  
-  get(id ) {
+  get(id,params ) {
     const url = `/appoinment/${id}`;
-    return instance.get(url);
+    return instance.get(url,  params);
   },
   
   add(data) {
