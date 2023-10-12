@@ -57,18 +57,19 @@ Route::get('new-home', [NewController::class, 'showNew']);
 Route::post('/doctor/login', [DoctorController::class, 'login']);
 
 
-Route::post('send-opt-login', [AuthController::class, 'sendOtp']);
 Route::post('check-phone', [AuthController::class, 'checkerPhone'])->name('check-phone');
-Route::post('login-user', [AuthController::class, 'LoginUserOtp']);
 Route::post('check-verify', [AuthController::class, 'CheckVerify'])->name('check-verify');
-Route::post('check-verify-register', [AuthController::class, 'CheckVerifyRegister']);
+
 Route::post('check-login', [AuthController::class, 'CheckLogin']);
-Route::get('logout-user', [AuthController::class, 'LogoutUser']);
+
+Route::post('check-verify-register', [AuthController::class, 'CheckVerifyRegister']);
 Route::post('register-user', [AuthController::class, 'RegisterUser']);
+
 Route::post('forget-password', [AuthController::class, 'ForgetPassWord']);
 Route::post('check-verify-forget-password', [AuthController::class, 'CheckVerifyForgetPassword']);
 Route::post('reset-password', [AuthController::class, 'ResetPassword']);
 
+Route::post('login-user', [AuthController::class, 'LoginUserOtp']); //test thôi
 
 
 
@@ -79,12 +80,11 @@ Route::post('reset-password', [AuthController::class, 'ResetPassword']);
 
 
 
-//lấy ra danh sách dịch vụ và các bác sĩ làm được dịch vụ đó
 //lấy ra danh sách dịch vụ
 Route::get('/services-doctor', [BookingController::class, 'services']);
 //lấy ra danh sách loại thú cưng
 Route::get('/type-pets', [BookingController::class, 'typePets']);
-//lấy ra danh sách bác sĩ theo dịch vụ và ngày
+//lấy ra danh sách bác sĩ theo dịch vụ
 Route::post('/doctors-service', [BookingController::class, 'doctors']);
 //lấy ra danh sách lịch làm việc của bác sĩ
 Route::get('/work-schedule', [BookingController::class, 'workSchedule']);
@@ -96,14 +96,14 @@ Route::post('/save', [BookingController::class, 'save']);
 //thêm lịch khám
 Route::post('/add-booking', [BookingController::class, 'addBooking']);
 
-//lấy tất cả các lịch khám đã được chấp nhận
-Route::get('/appoinments', [BookingController::class, 'getAppointments']);
+Route::middleware('auth:sanctum')->group(function () {
 //lấy ra các lịch khám trạng thái chưa xác nhận
 Route::get('/appoinments-status', [BookingController::class, 'getAppointmentByStatus']);
 
 //lấy ra 1 lịch khám
 Route::get('/appoinment/{id}', [BookingController::class, 'getAppointment']);
-
+// lấy ra danh sách lịch khám của bác sĩ đã được chấp nhận
+Route::get('/list-appiontment-doctor', [BookingController::class, 'getAppointmentAccept']);
 //câp nhật trạng thái lịch khám
 Route::put('/appoinment/{id}', [BookingController::class, 'updateStatus']);
 
@@ -113,9 +113,22 @@ Route::get('/doctor-info', [DoctorController::class, 'getDoctor']);
 //lấy ra danh sách khách hàng của bác sĩ
 Route::get('/list-customers', [DoctorController::class, 'listCustomer']);
 
+//lấy ra khách hàng của bác sĩ theo id
+Route::get('/get-customer/{id}', [DoctorController::class, 'getCustomerByID']);
+
+
 //lấy ra lịch sử khám của khách hàng
+Route::get('/history/{id}', [DoctorController::class, 'getHistoryByUser']);
+
+Route::get('reviews', [ReviewsController::class , 'index']);
+Route::post('logout-user', [AuthController::class, 'LogoutUser']);
+
+});
 Route::get('/list-appiontment/{id}', [DoctorController::class, 'getAppiontment']);
 
 //change password doctor
 Route::post('/change-password', [DoctorController::class, 'changePassword']);
+
+//get bills
+Route::get('/bills/{id}', [DoctorController::class, 'billByUser']);
 

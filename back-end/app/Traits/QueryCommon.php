@@ -7,4 +7,13 @@ trait QueryCommon {
         $query = DB::table($table);
         return $query;
     }
+
+    /**
+     * @return string
+     */
+    public function getTimestampQuery()
+    {
+        $times = now()->format('Y-m-d H:i:s');
+        return $times;
+    }
 }

@@ -102,8 +102,8 @@
                                             <td>{{ $value->description }}</td>
                                             <td>
                                                 {{ '5 Nov 2023' }}
-                                                <span class="text-primary d-block">{{ $value->start_time }}
-                                                    - {{ $value->end_time }} AM</span>
+                                                <span class="text-primary d-block">{{ $value->date }}
+                                                    - {{ $value->date }} AM</span>
                                             </td>
                                         @include('admin.components.button.action-index')
                                         </tr>
