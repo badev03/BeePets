@@ -80,7 +80,6 @@ Route::post('login-user', [AuthController::class, 'LoginUserOtp']); //test thôi
 
 
 
-
 //lấy ra danh sách dịch vụ
 Route::get('/services-doctor', [BookingController::class, 'services']);
 //lấy ra danh sách loại thú cưng
@@ -89,27 +88,26 @@ Route::get('/type-pets', [BookingController::class, 'typePets']);
 Route::post('/doctors-service', [BookingController::class, 'doctors']);
 //lấy ra danh sách lịch làm việc của bác sĩ
 Route::get('/work-schedule', [BookingController::class, 'workSchedule']);
-//thêm tên và số điện thoại của khách hàng
-Route::post('/infor-customer', [BookingController::class, 'addNamePhone']);
+
 // lưu dữ liệu đã chọn vào bảng appointment
 Route::post('/save', [BookingController::class, 'save']);
 
 //thêm lịch khám
 Route::post('/add-booking', [BookingController::class, 'addBooking']);
 
-
 Route::middleware('auth:sanctum')->group(function () {
-  //lấy tất cả các lịch khám đã được chấp nhận
-Route::get('/appoinments', [BookingController::class, 'getAppointments']);
 //lấy ra các lịch khám trạng thái chưa xác nhận
 Route::get('/appoinments-status', [BookingController::class, 'getAppointmentByStatus']);
 
+
+Route::post('/infor-member', [BookingController::class, 'inforMember']);
+
 //lấy ra 1 lịch khám
 Route::get('/appoinment/{id}', [BookingController::class, 'getAppointment']);
-// lấy ra danh sách lịch khám của bác sĩ
+// lấy ra danh sách lịch khám của bác sĩ đã được chấp nhận
 Route::get('/list-appiontment-doctor', [BookingController::class, 'getAppointmentAccept']);
 //câp nhật trạng thái lịch khám
-Route::put('/appoinment/{id}', [BookingController::class, 'updateStatus']);
+Route::put('/update-appointment/{id}', [BookingController::class, 'updateStatus']);
 
 //lấy ra thông tin bác sĩ đang đăng nhập
 Route::get('/doctor-info', [DoctorController::class, 'getDoctor']);
@@ -135,4 +133,3 @@ Route::post('/change-password', [DoctorController::class, 'changePassword']);
 
 //get bills
 Route::get('/bills/{id}', [DoctorController::class, 'billByUser']);
-

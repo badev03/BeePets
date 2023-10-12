@@ -2,51 +2,45 @@ import React from 'react'
 import doctorsApi from '../../api/doctorsApi';
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import FilterService from './FilterService';
+import serviceApi from '../../api/serviceApi';
 
 
-const Search = () => {
+
+const Search = ({data}) => {
   const [doctors, setDoctors] = useState([]);
-
-  useEffect(() => {
-    const fetchDoctor = async () => {
-      try {
-        const response = await doctorsApi.getAll();
-        setDoctors(response.doctor);
-        console.log(response);
-      } catch (error) {
-        console.error("Không có dữ liệu:", error);
-      }
-    };
-
-    fetchDoctor();
-  }, []); 
-
+  console.log(data)
+  
+    useEffect(() => {
+      const fetchDoctor = async () => {
+        try {
+          if(data == 0 ){
+          const response = await doctorsApi.getAll();
+          setDoctors(response.doctor);
+          console.log(response);
+        }else { 
+          const response = await serviceApi.filterDoctor( {service :data});
+          setDoctors(response.service);
+          console.log(response);
+        }
+        
+        } catch (error) {
+          console.error("Không có dữ liệu:", error);
+        }
+      };
+  
+      fetchDoctor();
+    }, []); 
+  
+  
+ 
+   
+ 
+ 
   return (
     <div>
-<div>
-  <div className="breadcrumb-bar-two">
-    <div className="container">
-      <div className="row align-items-center inner-banner">
-        <div className="col-md-12 col-12 text-center">
-          <h2 className="breadcrumb-title">BÁC SĨ</h2>
-          <nav aria-label="breadcrumb" className="page-breadcrumb">
-            <ol className="breadcrumb">
-              <li className="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
-              <li className="breadcrumb-item" aria-current="page"> Bác Sĩ</li>
-            </ol>
-          </nav>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div className="content">
-    <div className="container">
-      <div className="row">
-        <div className="col-md-12 col-lg-4 col-xl-3 theiaStickySidebar">
-        <FilterService/>
-        </div>
-        <div className="col-md-12 col-lg-8 col-xl-9">
+
+  
+   
         {doctors.map(doctor => (
           <div  key={doctor.id} className="card">
             <div className="card-body">
@@ -54,7 +48,7 @@ const Search = () => {
                 <div className="doc-info-left">
                   <div className="doctor-img">
                     <a href="doctor-profile.html">
-                      <img src={doctor.image.profile} className="img-fluid" alt="User Image" />
+                      <img src={doctor.image} className="img-fluid" alt="User Image" />
                     </a>
                   </div>
                   <div className="doc-info-cont">
@@ -124,13 +118,8 @@ const Search = () => {
             <a className="btn btn-primary btn-sm prime-btn" href="#">Xem thêm</a>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-    
-    </div>
+      
+   
   )
 }
 

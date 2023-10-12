@@ -1,14 +1,20 @@
 import instance from "./instance";
 
 const appointmentsApi = {
+  //lấy tất cả các lịch khám đã được chấp nhận
   getAll(params) {
-    const url = "/appointments";
-    return instance.get(url, { params });
+    const url = "/list-appiontment-doctor";
+    return instance.get(url,  params );
   },
-
-  get(id) {
-    const url = `/appointments/${id}`;
-    return instance.get(url);
+  //lấy tất cả các lịch khám chưa được chấp nhận
+  getStatus(params) {
+    const url = "/appoinments-status";
+    return instance.get(url,  params );
+  },
+ 
+  get(id,params ) {
+    const url = `/appoinment/${id}`;
+    return instance.get(url,  params);
   },
   
   add(data) {
@@ -17,7 +23,7 @@ const appointmentsApi = {
   },
 
   update(data) {
-    const url = `/appointments/${data.id}`;
+    const url = `/update-appointment/${data.id}?status=1`;
     return instance.patch(url, data);
   },
 

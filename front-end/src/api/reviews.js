@@ -10,7 +10,7 @@ const reviewsApi = {
     const url = `/reviews/${id}`;
     return instance.get(url);
   },
-  
+
   add(data) {
     const url = "/reviews";
     return instance.post(url, data);
