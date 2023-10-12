@@ -30,7 +30,14 @@ class DoctorUserController extends BaseResponseApiController
     public function show($id) {
         $doctor = $this->tableQuery('doctors')->where('id' , '=' , $id)
             ->first();
-        $reviews = $this->tableQuery('reviews')->where('doctor_id' , '=' , $id)->get();
+        $reviews = $this->tableQuery('reviews')
+            ->join('users' , 'users.id' , '=' , 'reviews.user_id')
+            ->join('doctors' , 'doctors.id' , '=' , 'reviews.doctor_id')
+            ->select('reviews.*' , 'users.name as user_name' , 'users.avatar'
+                 , 'users.id as users_id')
+            ->where('users.role_id' , '=' , 4)
+            ->where('doctor_id' , '=' , $id)
+            ->get();
         if($doctor) {
             return response()->json([
                 'doctor' => $doctor ,
