@@ -95,16 +95,13 @@ Route::post('/save', [BookingController::class, 'save']);
 //thêm lịch khám
 Route::post('/add-booking', [BookingController::class, 'addBooking']);
 
-
 Route::middleware('auth:sanctum')->group(function () {
-  //lấy tất cả các lịch khám đã được chấp nhận
-Route::get('/appoinments', [BookingController::class, 'getAppointments']);
 //lấy ra các lịch khám trạng thái chưa xác nhận
 Route::get('/appoinments-status', [BookingController::class, 'getAppointmentByStatus']);
 
 //lấy ra 1 lịch khám
 Route::get('/appoinment/{id}', [BookingController::class, 'getAppointment']);
-// lấy ra danh sách lịch khám của bác sĩ
+// lấy ra danh sách lịch khám của bác sĩ đã được chấp nhận
 Route::get('/list-appiontment-doctor', [BookingController::class, 'getAppointmentAccept']);
 //câp nhật trạng thái lịch khám
 Route::put('/appoinment/{id}', [BookingController::class, 'updateStatus']);
