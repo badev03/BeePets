@@ -1,23 +1,69 @@
-import { useState } from "react";
-import {Modal, Button,DatePicker,Form,Input,Row,Col,Radio,Select} from "antd";
+import { useEffect, useState } from "react";
+import { Modal, Button, DatePicker, Form, Input, Row, Col, Radio, Select } from "antd";
+import BookingApi from "../api/bookingApi";
 const { TextArea } = Input;
-
 
 const Booking = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [typePet, setTypePet] = useState([]);
+  const [serviceDoctor, setServiceDoctor] = useState([]);
+  const [selectedService, setSelectedService] = useState(null);
+  const [doctorOptions, setDoctorOptions] = useState([]);
+
+  useEffect(() => {
+    const fetchTypePet = async () => {
+      try {
+        const response = await BookingApi.getTypePet();
+        setTypePet(response.data);
+      } catch (error) {
+        console.error("Không có dữ liệu:", error);
+      }
+    };
+
+    fetchTypePet();
+  }, []);
+
+  useEffect(() => {
+    const fetchServiceDoctor = async () => {
+      try {
+        const response = await BookingApi.getServiceDoctor();
+        setServiceDoctor(response.data);
+      } catch (error) {
+        console.error("Không có dữ liệu:", error);
+      }
+    };
+
+    fetchServiceDoctor();
+  }, []);
+
+  useEffect(() => {
+    if (selectedService) {
+      const doctorsForService = serviceDoctor.find(service => service.id === selectedService)?.doctors || [];
+      setDoctorOptions(doctorsForService);
+    }
+  }, [selectedService, serviceDoctor]);
+
   const showModal = () => {
     setIsModalOpen(true);
   };
+
   const handleOk = () => {
     setIsModalOpen(false);
   };
+
   const handleCancel = () => {
     setIsModalOpen(false);
+  };
+
+  const handleChangeService = (value) => {
+    setSelectedService(value);
+    setDoctorOptions([]);
   };
 
   const handleChange = (value) => {
     console.log(`selected ${value}`);
   };
+
   return (
     <>
       <Button
@@ -30,10 +76,10 @@ const Booking = () => {
       </Button>
       <Modal
         title="Hãy Điền Thông Tin"
-        open={isModalOpen}
+        visible={isModalOpen} 
         onOk={handleOk}
         onCancel={handleCancel}
-        width={900}
+        width={1000}
         okText="Đặt Lịch"
         cancelText="Hủy"
       >
@@ -42,39 +88,32 @@ const Booking = () => {
             <Col span={12}>
               <Form.Item label="Chọn Dịch Vụ">
                 <Select
-                  defaultValue="Khám Bệnh"
-                  onChange={handleChange}
-                  options={[
-                    { value: "Khám Bệnh", label: "Khám Bệnh" },
-                    { value: "Chữa Bệnh", label: "Chữa Bệnh" },
-                    { value: "Spa", label: "Spa" },
-                  ]}
+                  placeholder="Dịch Vụ"
+                  onChange={handleChangeService}
+                  options={serviceDoctor.map(service => ({ value: service.id, label: service.name }))}
                 />
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item label="Chọn Bác Sĩ">
                 <Select
-                  defaultValue="Thiều"
+                key={selectedService} 
+                  placeholder="Bác Sĩ"
                   onChange={handleChange}
-                  options={[
-                    { value: "Thiều", label: "Thiều" },
-                    { value: "Anh Bá", label: "Anh Bá" },
-                    { value: "Khánh", label: "Khánh" },
-                  ]}
+                  options={doctorOptions.map(doctor => ({ value: doctor.id, label: doctor.name }))}
                 />
               </Form.Item>
             </Col>
           </Row>
           <Row gutter={16}>
-            <Col span={5}>
+            <Col span={12}>
               <Form.Item label="Chọn Ngày">
                 <DatePicker />
               </Form.Item>
             </Col>
-            <Col span={19}>
+            <Col span={12}>
               <Form.Item label="Chọn Thời Gian">
-                <Radio.Group defaultValue="a" buttonStyle="solid">
+                <Radio.Group buttonStyle="solid">
                   <Radio.Button value="a">Ca 1 (08:00 - 12:00)</Radio.Button>
                   <Radio.Button value="b">Ca 2 (13:00 - 17:00)</Radio.Button>
                   <Radio.Button value="c">Ca 3 (08:00 - 20:00)</Radio.Button>
@@ -82,29 +121,25 @@ const Booking = () => {
               </Form.Item>
             </Col>
           </Row>
+          <Form.Item label="Chọn loại thú cưng">
+            <Select
+              placeholder="Thú cưng"
+              onChange={handleChange}
+              options={typePet.map(pet => ({ value: pet.id, label: pet.name }))}
+            />
+          </Form.Item>
           <Row gutter={16}>
             <Col span={12}>
-              <Form.Item label=" Họ và Tên">
+              <Form.Item label="Họ và Tên">
                 <Input />
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item label=" Số Điện Thoại">
+              <Form.Item label="Số Điện Thoại">
                 <Input type="" />
               </Form.Item>
             </Col>
           </Row>
-          <Form.Item label="Chọn loại thú cưng">
-            <Select
-              defaultValue="Chim"
-              onChange={handleChange}
-              options={[
-                { value: "Chim", label: "Chim" },
-                { value: "Chó", label: "Chó" },
-                { value: "Mèo", label: "Mèo" },
-              ]}
-            />
-          </Form.Item>
           <Form.Item label="Ghi Chú">
             <TextArea rows={3} />
           </Form.Item>
