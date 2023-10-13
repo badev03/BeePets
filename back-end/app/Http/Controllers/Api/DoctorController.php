@@ -117,14 +117,17 @@ class DoctorController extends Controller
     {
         if (Auth::guard('doctors')->check()) {
             $doctor_id = Auth::guard('doctors')->user()->id;
-            $appointments = Appointment::where('doctor_id', $doctor_id)
+            //Tên bác sĩ, Ngày đặt lịch, Tổng tiền, trạng thái của bác sĩ và user, $id là id của user
+            $appointments = Appointment::where('appointments.user_id', $id)
                 ->join('users', 'users.id', '=', 'appointments.user_id')
-                ->where('appointments.user_id', $id)
-                ->select('users.name', 'users.phone', 'users.email', 'users.address','appointments.date', 'appointments.time', 'appointments.status')
+                ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
+                ->join('bills', 'bills.appointment_id', '=', 'appointments.id')
+                ->select('users.name as user_name', 'doctors.name as doctor_name', 'appointments.date', 'bills.total_amount', 'appointments.status as appointment_status', 'doctors.status as doctor_status')
                 ->get();
+
             return response()->json([
                 'success' => true,
-                'message' => 'Lấy danh sách khách hàng thành công',
+                'message' => 'Lấy danh sách cuoc hen thành công',
                 'appointments' => $appointments
             ]);
         } else {
@@ -189,6 +192,47 @@ class DoctorController extends Controller
             ]);
         }
     }
-
-
+    public function prescriptionByUser($id) {
+        if(!Auth::guard('doctors')->check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bạn chưa đăng nhập',
+            ]);
+        }else {
+            $doctor_id = Auth::guard('doctors')->user()->id;
+            $result = DB::table('prescriptions')
+                ->select('prescriptions.created_at as prescription_created_at', 'doctors.name as doctor_name', 'prescriptions.name as prescription_name')
+                ->join('bills', 'bills.prescription_id', '=', 'prescriptions.id')
+                ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
+                ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
+                ->where('appointments.user_id', $id)
+                ->where('doctors.id', $doctor_id)
+                ->get();
+            return response()->json([
+                'success' => true,
+                'message' => 'Lấy danh sách đơn thuốc thành công',
+                'prescriptions' => $result
+            ]);
+        }
+    }
+    public function getReviewDoctor() {
+        if(!Auth::guard('doctors')->check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bạn chưa đăng nhập',
+            ]);
+        }else {
+            $doctor_id = Auth::guard('doctors')->user()->id;
+            $result = DB::table('reviews')
+                ->select('reviews.content', 'reviews.created_at', 'users.name as user_name','reviews.score')
+                ->join('users', 'users.id', '=', 'reviews.user_id')
+                ->where('reviews.doctor_id', $doctor_id)
+                ->get();
+            return response()->json([
+                'success' => true,
+                'message' => 'Lấy danh sách đánh giá thành công',
+                'reviews' => $result
+            ]);
+        }
+    }
 }
