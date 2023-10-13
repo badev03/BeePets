@@ -88,7 +88,6 @@ Route::post('/save', [BookingController::class, 'save']);
 Route::post('/add-booking', [BookingController::class, 'addBooking']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/reviews-doctor', [DoctorController::class, 'getReviewDoctor']);
 
 //lấy ra các lịch khám trạng thái chưa xác nhận
     Route::get('/appoinments-status', [BookingController::class, 'getAppointmentByStatus']);
@@ -132,3 +131,4 @@ Route::get('/bills/{id}', [DoctorController::class, 'billByUser']);
 Route::get('/prescription/{id}', [DoctorController::class, 'prescriptionByUser']);
 
 //get review when doctor login
+  Route::get('/reviews-doctor', [DoctorController::class, 'getReviewDoctor']);
