@@ -6,9 +6,9 @@ const listAppiontmentApi = {
     return instance.get(url, { params });
   },
 
-  get(id) {
+  get(id,params ) {
     const url = `/list-appiontment/${id}`;
-    return instance.get(url);
+    return instance.get(url,  params);
   },
   
   add(data) {

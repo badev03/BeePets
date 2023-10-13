@@ -6,9 +6,9 @@ const listCustomersApi = {
     return instance.get(url, { params });
   },
 
-  get(id) {
-    const url = `/list-customers/${id}`;
-    return instance.get(url);
+  get(id,params ) {
+    const url = `/get-customer/${id}`;
+    return instance.get(url,  params);
   },
   
   add(data) {
@@ -29,6 +29,7 @@ const listCustomersApi = {
     const url = "/list-customers";
     return instance.get(url,  params );
   },
+  
 };
 
 export default listCustomersApi;
