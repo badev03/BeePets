@@ -12,17 +12,17 @@ class UserController extends Controller
 {
     public function getInfoUser() {
         try {
-            if(!Auth::guard('users')->check()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Bạn chưa đăng nhập'
-                ]);
-            }else{
-                $user = Auth::guard('users')->user();
+            if(auth()->check()) {
+                $user = auth()->user();
                 return response()->json([
                     'success' => true,
                     'message' => 'Lấy thông tin người dùng thành công',
                     'user' => $user
+                ]);
+            }else{
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Bạn chưa đăng nhập'
                 ]);
             }
         }catch (\Exception $e) {
@@ -34,13 +34,13 @@ class UserController extends Controller
     }
     public function changePasswordUser(Request $request) {
         try {
-            if(!Auth::guard('users')->check()) {
+            if(auth()->check()) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Bạn chưa đăng nhập'
                 ]);
             }else{
-                $user = Auth::guard('users')->user();
+                $user = auth()->user();
                 $request->validate([
                     'password' => 'required',
                     'new_password' => 'required',
@@ -75,13 +75,13 @@ class UserController extends Controller
     }
     public function logoutUser() {
         try {
-            if(!Auth::guard('users')->check()) {
+            if(!auth()->check()) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Bạn chưa đăng nhập'
                 ]);
             }else{
-                Auth::guard('users')->logout();
+                auth()->logout();
                 return response()->json([
                     'success' => true,
                     'message' => 'Đăng xuất thành công'
@@ -97,13 +97,13 @@ class UserController extends Controller
     //get all appointment by user
     public function getAppiontment() {
         try {
-            if(!Auth::guard('users')->check()) {
+            if(!auth()->check()) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Bạn chưa đăng nhập'
                 ]);
             }else{
-                $id = Auth::guard('users')->user()->id;
+                $id = auth()->user()->id;
                 $result = DB::table('appointments')
                     ->select('doctors.name as doctor_name', 'appointments.date', 'appointments.time', 'appointments.status', 'appointments.id as appointment_id')
                     ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
@@ -124,13 +124,13 @@ class UserController extends Controller
     }
     public function prescriptionByUser() {
         try {
-            if(!Auth::guard('users')->check()) {
+            if(!auth()->check()) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Bạn chưa đăng nhập'
                 ]);
             }else{
-                $id = Auth::guard('users')->user()->id;
+                $id = auth()->user()->id;
                 $result = DB::table('prescriptions')
                     ->select('prescriptions.created_at as prescription_created_at', 'doctors.name as doctor_name', 'prescriptions.name as prescription_name')
                     ->join('bills', 'bills.prescription_id', '=', 'prescriptions.id')
@@ -153,13 +153,13 @@ class UserController extends Controller
     }
     public function billByUser() {
         try {
-            if(!Auth::guard('users')->check()) {
+            if(!auth()->check()) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Bạn chưa đăng nhập'
                 ]);
             }else{
-                $id = Auth::guard('users')->user()->id;
+                $id = auth()->user()->id;
                 $result = DB::table('bills')
                     ->select('bills.code as bill_code', 'bills.created_at as bill_created_at', 'doctors.name as doctor_name', 'bills.total_amount')
                     ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
