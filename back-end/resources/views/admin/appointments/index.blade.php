@@ -34,7 +34,7 @@
                         </div>
                         <div class="col-4 mt-3">
                             <label class="form-label">Chọn bác sĩ</label>
-                            <select class="form-select" name="doctor_id">
+                            <select class="form-select doctor_id_index" name="doctor_id">
                                 @foreach($dataDoctor as $key=>$value)
                                     <option value="{{ $value->id }}">{{ $value->name }}</option>
                                 @endforeach
@@ -42,7 +42,7 @@
                         </div>
                         <div class="col-4 mt-3">
                             <label class="form-label">Dịch vụ</label>
-                            <select class="form-select" name="service_id">
+                            <select class="form-select service_id_index" name="service_id">
                                 @foreach($dataService as $key=>$value)
                                     <option value="{{ $value->id }}">{{ $value->name }}</option>
                                 @endforeach
@@ -55,9 +55,9 @@
                         <div class="col-4 mt-3">
                             <label class="form-label">Ca làm việc</label>
                             <select class="form-select" id="time_appointments" name="time_appointments">
-                                    <option value="1">9:00 - 11:00 AM</option>
-                                    <option value="2">11:00 - 13:00 AM</option>
-                                    <option value="3">13:00 - 15:00 AM</option>
+                                    <option value="Ca 1">Ca 1</option>
+                                    <option value="Ca 2">Ca 2</option>
+                                    <option value="Ca 3">Ca 3</option>
                             </select>
                         </div>
                         <div class="col-4 mt-3">
@@ -179,6 +179,78 @@
                 })
             })
 
+            $('.service_id_index').change(function () {
+                var data = $(this).val();
+                $.ajax({
+                    type : 'GET',
+                    url : '{{ route($urlbase.'filter-service' , '') }}' + '/' + data,
+                    success: function (data) {
+                        clearData()
+                        var html = '';
+                        var time = '';
+                        if(data.service.length == 0) {
+                            html += '<tr><td colspan="7">KHÔNG CÓ DỮ LIỆU</td></tr>';
+                        }
+                        else {
+                            $.each(data.service , function (key , value) {
+                                html+= '<tr>' +
+                                    '<td>' + (key+1) +'</td>' +
+                                    '<td>' + value.doctor_id + '</td>' +
+                                    '<td>' + value.user_id + '</td>' +
+                                    '<td>' + value.type_pet_id + '</td>' +
+                                    '<td>' + value.service_id + '</td>' +
+                                    '<td>' + value.service_id + '</td>' +
+                                    '<td>'+ value.description +'</td>' +
+                                    button_action(value.id) +
+                                    '</tr>';
+                            })
+                            button_action()
+                        }
+                        $('#tbody_table').html(html);
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error);
+                    }
+                })
+            })
+
+            $('.doctor_id_index').change(function () {
+                var data = $(this).val();
+                $.ajax({
+                    type : 'GET',
+                    url : '{{ route($urlbase.'filter-doctor' , '') }}' + '/' + data,
+                    success: function (data) {
+                        clearData()
+                        var html = '';
+                        var time = '';
+                        if(data.doctor.length == 0) {
+                            html += '<tr><td colspan="7">KHÔNG CÓ DỮ LIỆU</td></tr>';
+                        }
+                        else {
+                            $.each(data.doctor , function (key , value) {
+                                html+= '<tr>' +
+                                    '<td>' + (key+1) +'</td>' +
+                                    '<td>' + value.doctor_id + '</td>' +
+                                    '<td>' + value.user_id + '</td>' +
+                                    '<td>' + value.type_pet_id + '</td>' +
+                                    '<td>' + value.service_id + '</td>' +
+                                    '<td>' + value.service_id + '</td>' +
+                                    '<td>'+ value.description +'</td>' +
+                                    button_action(value.id) +
+                                    '</tr>';
+                            })
+                            button_action()
+                        }
+                        $('#tbody_table').html(html);
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error);
+                    }
+                })
+            })
+
             $('#filter_searchName').click(function () {
                 var searchTerm = $('#search_input').val();
                 var postData = {
@@ -193,7 +265,6 @@
                     url: '{{ route($urlbase.'filter-search') }}',
                     data: postData,
                     success: function (data) {
-                        console.log(data)
                         clearData()
                         var html = '';
                         var time = '';
@@ -304,8 +375,6 @@
 
         $('#time_appointments').change(function () {
             var time_appointments = $('#time_appointments').find(":selected").val();
-            console.log(time_appointments);
-
             $.ajax({
                 type: 'GET',
                 url : '{{ route($urlbase.'time' , '') }}' + '/' + time_appointments,
