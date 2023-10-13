@@ -4,9 +4,11 @@ import BookingApi from "../api/bookingApi";
 const { TextArea } = Input;
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import { useAuth } from "../Context/ContextAuth";
 const MySwal = withReactContent(Swal);
 
 const Booking = () => {
+  const { user  } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [typePet, setTypePet] = useState([]);
   const [serviceDoctor, setServiceDoctor] = useState([]);
@@ -19,6 +21,9 @@ const Booking = () => {
 const [selectedPhone, setSelectedPhone] = useState('');
 const [selectedName, setSelectedName] = useState('');
 const [selectedDescription, setSelectedDescription] = useState('');
+const [isNameEditable, setIsNameEditable] = useState(true);
+const [isPhoneEditable, setIsPhoneEditable] = useState(true);
+
 
   useEffect(() => {
     const fetchTypePet = async () => {
@@ -48,25 +53,25 @@ const [selectedDescription, setSelectedDescription] = useState('');
 
   useEffect(() => {
     if (selectedService) {
-      const doctorsForService =
-        serviceDoctor.find((service) => service.id === selectedService)
-          ?.doctors || [];
-      setDoctorOptions(doctorsForService);
-
       const selectedServiceData = serviceDoctor.find(
         (service) => service.id === selectedService
       );
-      const doctorId = selectedServiceData?.doctors[0]?.id || null;
-      setSelectedDoctor(doctorId);
+  
+      if (selectedServiceData) {
+        const doctorsForService = selectedServiceData.doctors || [];
+        setDoctorOptions([...doctorsForService]);
+        
+        const doctorId = doctorsForService.length > 0 ? doctorsForService[0].id : null;
+        
+        setSelectedDoctor(doctorId);
+      }
     }
   }, [selectedService, serviceDoctor]);
+  
+  
 
   const showModal = () => {
     setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
-    setIsModalOpen(false);
   };
 
   const handleCancel = () => {
@@ -76,6 +81,7 @@ const [selectedDescription, setSelectedDescription] = useState('');
   const handleChangeService = (value) => {
     setSelectedService(value);
     setDoctorOptions([]);
+    setSelectedDoctor(null);
   };
 
   const handleChange = (value) => {
@@ -150,6 +156,9 @@ const [selectedDescription, setSelectedDescription] = useState('');
       setIsModalOpen(false);
     }
   };
+  const handleDoctorChange = (value) => {
+    setSelectedDoctor(value);
+  };
   
   const handleChangePet = (value) => {
     setSelectedPet(value);
@@ -166,6 +175,16 @@ const [selectedDescription, setSelectedDescription] = useState('');
   const handleChangeDescription = (e) => {
     setSelectedDescription(e.target.value);
   };
+
+  useEffect(() => {
+    if (user) {
+      setSelectedName(user.name);
+      setSelectedPhone(user.phone);
+
+      setIsNameEditable(!user.name);
+    setIsPhoneEditable(!user.phone);
+    }
+  }, [user]);
 
   return (
     <>
@@ -207,7 +226,7 @@ const [selectedDescription, setSelectedDescription] = useState('');
                 <Select
                   key={selectedService}
                   placeholder="Bác Sĩ"
-                  onChange={handleChange}
+                  onChange={handleDoctorChange}
                   options={doctorOptions.map((doctor) => ({
                     value: doctor.id,
                     label: doctor.name,
@@ -252,12 +271,12 @@ const [selectedDescription, setSelectedDescription] = useState('');
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item label="Họ và Tên">
-                <Input name="name" onChange={handleChangeName}/>
+                <Input name="name" value={selectedName} onChange={handleChangeName} disabled={!isNameEditable}/>
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item label="Số Điện Thoại">
-                <Input type="" name="phone" onChange={handleChangePhone}/>
+                <Input type="" name="phone" value={selectedPhone} onChange={handleChangePhone} disabled={!isPhoneEditable}/>
               </Form.Item>
             </Col>
           </Row>
