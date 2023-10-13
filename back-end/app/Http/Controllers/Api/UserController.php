@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -124,30 +125,35 @@ class UserController extends Controller
     }
     public function prescriptionByUser() {
         try {
-            if(!auth()->check()) {
+            if (!auth()->check()) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Bạn chưa đăng nhập'
                 ]);
-            }else{
-                $id = auth()->user()->id;
-                $result = DB::table('prescriptions')
-                    ->select('prescriptions.created_at as prescription_created_at', 'doctors.name as doctor_name', 'prescriptions.name as prescription_name')
-                    ->join('bills', 'bills.prescription_id', '=', 'prescriptions.id')
-                    ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
-                    ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
-                    ->where('appointments.user_id', $id)
-                    ->get();
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Lấy danh sách đơn thuốc thành công',
-                    'prescriptions' => $result
-                ]);
+            } else {
+                //đang lỗi
+//                $user_id = auth()->user()->id;
+//
+//                $result = DB::table('prescriptions')
+//                    ->select(
+//                        'prescriptions.id as prescription_id',
+//                        'prescriptions.name as prescription_name',
+//                    )
+//                    ->join('bills', 'bills.prescription_id', '=', 'prescriptions.id')
+//                    ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
+//                    ->where('appointments.user_id', $user_id)
+//                    ->get();
+//
+//                return response()->json([
+//                    'success' => true,
+//                    'message' => 'Lấy danh sách đơn thuốc thành công',
+//                    'prescriptions' => $result
+//                ]);
             }
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Lỗi'
+                'message' => 'Lỗi: ' . $e->getMessage()
             ]);
         }
     }
@@ -161,10 +167,10 @@ class UserController extends Controller
             }else{
                 $id = auth()->user()->id;
                 $result = DB::table('bills')
-                    ->select('bills.code as bill_code', 'bills.created_at as bill_created_at', 'doctors.name as doctor_name', 'bills.total_amount')
-                    ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
-                    ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
-                    ->where('appointments.user_id', $id)
+                    ->select('bills.code', 'bills.created_at as order_date', 'doctors.name as created_by', 'bills.total_amount')
+                    ->join('appointments', 'bills.appointment_id', '=', 'appointments.id')
+                    ->join('doctors', 'appointments.doctor_id', '=', 'doctors.id')
+                    ->where('bills.user_id', $id) // Lọc theo user_id
                     ->get();
                 return response()->json([
                     'success' => true,
@@ -172,7 +178,6 @@ class UserController extends Controller
                     'bills' => $result
                 ]);
             }
-
         }catch (\Exception $e) {
             return response()->json([
                 'success' => false,
