@@ -191,6 +191,18 @@ class AuthController extends BaseResponseApiController
                     'phone.numeric' => 'Trường phone phải là số',
                 ]);
                 break;
+            case 'createPass':
+                $validator = Validator::make($data, [
+                    'password' => 'required|min:6|confirmed',
+                    'password_confirmation' => 'required|min:6'
+                ] , [
+                    'password.required' => 'Trường password không được để trống',
+                    'password.min' => 'Trường password phải nhập ít nhất 6 ký tự',
+                    'password_confirmation.required' => 'Trường password_confirmation không được để trống',
+                    'password_confirmation.min' => 'Trường password_confirmation phải nhập ít nhất 6 ký tự',
+                    'password.confirmed' => 'Trường password_confirmation không khớp với trường password xác nhận',
+                ]);
+                break;
             default:
                 $validator = Validator::make([], []);
                 break;
@@ -200,7 +212,7 @@ class AuthController extends BaseResponseApiController
 
 
     public function CheckVerifyRegister(Request $request) {
-        $validator = $this->validateForm($request->all() , 'password_reset');
+        $validator = $this->validateForm($request->all() , 'register');
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         }
@@ -214,21 +226,29 @@ class AuthController extends BaseResponseApiController
                 return response()->json(['msg' => 'Số điện thoại này đã được đăng ký'], 400);
             }
             else {
-                $insert_user = $this->tableQuery('users')->insert(
-                    [
-                        'name' => $phone_number,
-                        'phone' => $phone_number,
-                        'email' => $phone_number.'@gmail.com',
-                        'password' => Hash::make($phone_number),
-                        'status' => 1,
-                        'role_id' => 4,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]
-                );
-                return response()->json(['msg' => 'Thêm dữ liệu thành công oke'], 200);
+//                $insert_user = $this->tableQuery('users')->insert(
+//                    [
+//                        'name' => $phone_number,
+//                        'phone' => $phone_number,
+//                        'email' => $phone_number.'@gmail.com',
+//                        'password' => Hash::make($phone_number),
+//                        'status' => 1,
+//                        'role_id' => 4,
+//                        'created_at' => now(),
+//                        'updated_at' => now(),
+//                    ]
+//                );
+                return response()->json(['msg' => 'Đi đến tạo mật khẩu'], 200);
             }
         }
+    }
+
+    public function CreatePassword(Request $request) {
+        $validator = $this->validateForm($request->all() , 'createPass');
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+        $password = $request->input('password');
     }
 
     public function ForgetPassWord(Request $request) {
