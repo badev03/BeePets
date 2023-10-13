@@ -22,9 +22,9 @@ const appointmentsApi = {
     return instance.post(url, data);
   },
 
-  update(data) {
-    const url = `/update-appointment/${data.id}?status=1`;
-    return instance.patch(url, data);
+  update(id,params) {
+    const url = `/update-appointment/${id}?status=1`;
+    return instance.put(url,params);
   },
 
   remove(id) {

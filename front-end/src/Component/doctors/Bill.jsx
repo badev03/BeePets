@@ -30,7 +30,6 @@ const Bill = () => {
     }, []); 
    }
   return (
-    <div id="pat_medical_records" className="tab-pane fade">
                   <div className="card card-table mb-0">
                     <div className="card-body">
                       <div className="table-responsive">
@@ -79,7 +78,6 @@ const Bill = () => {
                       </div>
                     </div>
                   </div>
-                </div>
   )
 }
 

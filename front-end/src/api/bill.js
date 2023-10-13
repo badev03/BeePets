@@ -2,7 +2,7 @@ import instance from "./instance";
 
 const billApi = {
     getBill(params) {
-        const url = "/appointment-user";
+        const url = "/bill-user";
         return instance.get(url,  params );
       },
 };
