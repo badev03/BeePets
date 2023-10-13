@@ -41,6 +41,7 @@ import AppointmentDetail from './Component/User/AppointmentDetail'
 import BillDetail from './Component/User/BillDetail'
 import PrescriptionDetails from './Component/User/PrescriptionDetails'
 import FilterService from './Component/Serch/FilterService'
+import Sidebar from './Component/User/Sidebar'
 
 
 function App() {
@@ -91,6 +92,8 @@ function App() {
           <Route path='Forgot-Password-Doctor' element={<ForgotPasswordDoctor />} />
           <Route path='Reset-Password-Doctor' element={<ResetPasswordDoctor />} />
           <Route path='Create-Password' element={<CreatePassword />} />
+          <Route path='test' element={<Sidebar />} />
+
 
         </Route>
       </Routes>
