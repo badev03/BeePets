@@ -2,28 +2,32 @@ import instance from "./instance";
 
 const usersApi = {
   getAll(params) {
-    const url = "/users";
+    const url = "/info-user";
     return instance.get(url, { params });
   },
 
   get(id) {
-    const url = `/users/${id}`;
+    const url = `/info-user/${id}`;
     return instance.get(url);
   },
   
   add(data) {
-    const url = "/users";
+    const url = "/info-user";
     return instance.post(url, data);
   },
 
   update(data) {
-    const url = `/users/${data.id}`;
+    const url = `/info-user/${data.id}`;
     return instance.patch(url, data);
   },
 
   remove(id) {
-    const url = `/users/${id}`;
+    const url = `/info-user/${id}`;
     return instance.delete(url);
+  },
+  getUser(params) {
+    const url = "/info-user";
+    return instance.get(url,  params );
   },
 };
 
