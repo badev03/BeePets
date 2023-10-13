@@ -3,70 +3,43 @@ import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import listAppiontmentApi from '../../api/listAppiontment';
+import listCustomersApi from '../../api/listCustomers';
+import ListAppiontment from './List-Appoiment';
+import AppoimentList from './List-Appoiment';
 
 const Patientprofile = () => {
-  const [listAppiontment, setListAppiontment] = useState([]);
   const { id } = useParams();
-  console.log(id);
-  const token = localStorage.getItem('token');
-  console.log(token)
-  if(token){
-    useEffect(() => {
-     const fetchlistAppiontment = async () => {
-       try {
-        const response = await listAppiontmentApi.getListAppiontment(
-         {
-           headers: {
-             Authorization: `Bearer ${token}`,
-           },
-         }
-       );
-       setListAppiontment(response.listAppiontment);
-         console.log(response);
-       
-       
-       } catch (error) {
-         console.error("Không có dữ liệu:", error);
-       }
-     };
- 
-     fetchlistAppiontment();
-   }, []); 
-  }
-  useEffect(() => {
-    const fetchBlog = async () => {
+    const [customers, setCustomers] = useState(null);
+    const [listAppiontment, setListAppiontment] = useState(null);
+
+    const token = localStorage.getItem('token');
+  
+   if(token){
+     useEffect(() => {
+      const fetchCustomers = async () => {
         try {
-            const response = await listAppiontmentApi.get(id);
-            setListAppiontment(response);
+         const response = await listCustomersApi.get(id,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setCustomers(response.customer);     
+        console.log(response.customer);
         } catch (error) {
-            console.error("Không có dữ liệu:", error);
+          console.error("Không có dữ liệu:", error);
         }
-    };
-
-    fetchBlog();
-}, []);
-if (!listAppiontment) {
-    return <div>Loading...</div>;
-}
+      };
+  
+      fetchCustomers();
+    }, []);
     
-  // const { id } = useParams();
-  //   const [customers, setCustomers] = useState(null);
-
-  //   useEffect(() => {
-  //       const fetchcustomers = async () => {
-  //           try {
-  //               const response = await listCustomersApi.get(id);
-  //               setCustomers(response);
-  //           } catch (error) {
-  //               console.error("Không có dữ liệu:", error);
-  //           }
-  //       };
-
-  //       fetchcustomers();
-  //   }, []);
-  //   if (!customers) {
-  //       return <div>Loading...</div>;
-  //   }
+   }
+   
+    if (!customers) {
+        return <div>Loading...</div>;
+    }
   return (
     <div>
       <div className="breadcrumb-bar-two">
@@ -98,9 +71,9 @@ if (!listAppiontment) {
                             <img src="/img/patients/patient.jpg" alt="User Image" />
                           </Link>
                           <div className="profile-det-info">
-                            <h3>Richard Wilson</h3>
+                            <h3>{customers.name}</h3>
                             <div className="patient-details">
-                              <h5><b>Patient ID :</b> PT0016</h5>
+                              <h5><b>Patient ID :</b> {customers.id}</h5>
 
                             </div>
                           </div>
@@ -108,7 +81,7 @@ if (!listAppiontment) {
                       </div>
                       <div className="patient-info d-flex justify-content-center">
                         <ul>
-                          <li>SĐT:  <span>+1 952 001 8563</span></li>
+                          <li>SĐT:  <span>{customers.phone}</span></li>
                         </ul>
                       </div>
                     </div>
@@ -224,48 +197,7 @@ if (!listAppiontment) {
                     <div id="pat_appointments" className="tab-pane fade show active">
                       <div className="card card-table mb-0">
                         <div className="card-body">
-                          <div className="table-responsive">
-                            <table className="table table-hover table-center mb-0">
-                              <thead>
-                                <tr>
-                                  <th>Bác sĩ</th>
-                                  <th>Ngày đặt lịch</th>
-                                  <th>Tổng tiền</th>
-                                  <th>Trạng thái</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                              
-                                <tr>
-                                  <td>
-                                    <h2 className="table-avatar">
-                                      <Link to="/doctors/detail-appointments" className="avatar avatar-sm me-2">
-                                        <img className="avatar-img rounded-circle" src="/img/doctors/doctor-thumb-02.jpg" alt="User Image" />
-                                      </Link>
-                                      <Link to="/doctors/detail-appointments">haha
-                                        <span>{listAppiontment.name}</span></Link>
-                                    </h2>
-                                  </td>
-                                  <td>14 Nov 2023 <span className="d-block text-info">10.00
-                                    AM</span></td>
-
-                                  <td>$160</td>
-
-                                  <td><span className="badge rounded-pill bg-success-light">Confirm</span>
-                                  </td>
-                                  <td>
-                                    <div className="table-action">
-                                      <Link to="/doctors/detail-appointments" className="btn btn-sm bg-info-light">
-                                        <i className="far fa-eye" /> View
-                                      </Link>
-                                    </div>
-                                  </td>
-                                </tr>
-                                
-
-                              </tbody>
-                            </table>
-                          </div>
+                          <AppoimentList/>
                         </div>
                       </div>
                     </div>
