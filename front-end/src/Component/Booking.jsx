@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { Modal, Button, DatePicker, Form, Input, Row, Col, Select } from "antd";
 import BookingApi from "../api/bookingApi";
 const { TextArea } = Input;
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+const MySwal = withReactContent(Swal);
 
 const Booking = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -12,6 +15,10 @@ const Booking = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedWorkingHours, setSelectedWorkingHours] = useState([]);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [selectedPet, setSelectedPet] = useState(null);
+const [selectedPhone, setSelectedPhone] = useState('');
+const [selectedName, setSelectedName] = useState('');
+const [selectedDescription, setSelectedDescription] = useState('');
 
   useEffect(() => {
     const fetchTypePet = async () => {
@@ -109,28 +116,56 @@ const Booking = () => {
     }
   };
 
-  // const handleBooking = async () => {
-  //   try {
-  //     const bookingData = {
-  //       service_id: selectedService,
-  //       doctor_id: selectedDoctor,
-  //       date: selectedDate,
-  //       shift_name: selectedWorkingHours, 
-  //       type_pet_id:typePet,
-  //       phone: , 
-  //       name:,
-  //       description: 
-  //     };
+  const handleBooking = async () => {
+    try {
+      const bookingData = {
+        service_id: selectedService,
+        doctor_id: selectedDoctor,
+        date: selectedDate,
+        status: 0,
+        shift_name: selectedWorkingHours.length > 0 ? selectedWorkingHours[0].shift_name : '', 
+        type_pet_id: selectedPet, 
+        phone: selectedPhone, 
+        name: selectedName, 
+        description: selectedDescription, 
+      };
 
-  //     await BookingApi.saveBooking(bookingData);
+      console.log('Booking data:', bookingData);
+  
+      await BookingApi.saveBooking(bookingData);
+      MySwal.fire({
+        title: 'Đặt lịch thành công!',
+        icon: 'success',
+      });
 
-  //     console.log('Booking successful');
-  //   } catch (error) {
-  //     console.error('Error while booking:', error);
-  //   } finally {
-  //     setIsModalOpen(false);
-  //   }
-  // };
+      console.log('Booking successful');
+    } catch (error) {
+      console.error('Error while booking:', error);
+      MySwal.fire({
+        title: 'Đặt lịch không thành công',
+        text: 'Vui lòng thử lại sau.',
+        icon: 'error',
+      });
+    } finally {
+      setIsModalOpen(false);
+    }
+  };
+  
+  const handleChangePet = (value) => {
+    setSelectedPet(value);
+  };
+  
+  const handleChangePhone = (e) => {
+    setSelectedPhone(e.target.value);
+  };
+  
+  const handleChangeName = (e) => {
+    setSelectedName(e.target.value);
+  };
+  
+  const handleChangeDescription = (e) => {
+    setSelectedDescription(e.target.value);
+  };
 
   return (
     <>
@@ -146,13 +181,14 @@ const Booking = () => {
       <Modal
         title="Hãy Điền Thông Tin"
         visible={isModalOpen}
-        onOk={handleOk}
+        onOk={handleBooking}
         onCancel={handleCancel}
         width={1000}
         okText="Đặt Lịch"
         cancelText="Hủy"
+        // onClick={handleBooking}
       >
-        <Form layout="vertical">
+        <Form layout="vertical" >
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item label="Chọn Dịch Vụ">
@@ -201,31 +237,12 @@ const Booking = () => {
                   }
                 />
               </Form.Item>
-              {/* <Form.Item label="Chọn Thời Gian">
-                {selectedWorkingHours && selectedWorkingHours.length > 0 ? (
-                  <Select
-                    placeholder="Ca làm việc"
-                    onChange={handleChange}
-                    options={selectedWorkingHours.map((hour) => ({
-                      value: `${hour.date}-${hour.id}`,
-                      label: `${hour.shift_name} (${hour.start_time} - ${hour.end_time})`,
-                    }))}
-                    value={
-                      selectedWorkingHours.length > 0
-                        ? `${selectedDate}-${selectedWorkingHours[0].id}`
-                        : undefined
-                    }
-                  />
-                ) : (
-                  <span>Không có ca làm việc của bác sĩ cho ngày này</span>
-                )}
-              </Form.Item> */}
             </Col>
           </Row>
           <Form.Item label="Chọn loại thú cưng">
             <Select
               placeholder="Thú cưng"
-              onChange={handleChange}
+              onChange={handleChangePet}
               options={typePet.map((pet) => ({
                 value: pet.id,
                 label: pet.name,
@@ -235,17 +252,17 @@ const Booking = () => {
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item label="Họ và Tên">
-                <Input name="name"/>
+                <Input name="name" onChange={handleChangeName}/>
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item label="Số Điện Thoại">
-                <Input type="" name="phone"/>
+                <Input type="" name="phone" onChange={handleChangePhone}/>
               </Form.Item>
             </Col>
           </Row>
           <Form.Item label="Ghi Chú">
-            <TextArea rows={3} />
+            <TextArea rows={3} onChange={handleChangeDescription}/>
           </Form.Item>
         </Form>
       </Modal>
