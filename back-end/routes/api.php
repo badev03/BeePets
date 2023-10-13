@@ -131,4 +131,4 @@ Route::get('/bills/{id}', [DoctorController::class, 'billByUser']);
 Route::get('/prescription/{id}', [DoctorController::class, 'prescriptionByUser']);
 
 //get review when doctor login
-  Route::get('/reviews-doctor', [DoctorController::class, 'getReviewDoctor']);
+Route::get('/reviews-doctor', [DoctorController::class, 'getReviewDoctor']);
