@@ -132,7 +132,7 @@ class BookingController extends Controller
         $request->validate([
             'doctor_id' => 'required|exists:doctors,id',
             'date' => 'required|date_format:Y-m-d',
-            // 'time' => 'required|date_format:H:i:s',
+            'time' => 'required|date_format:H:i:s',
             'shift_name' => 'required',
             'type_pet_id' => 'required|exists:type_pets,id',
             'service_id' => 'required|exists:services,id',

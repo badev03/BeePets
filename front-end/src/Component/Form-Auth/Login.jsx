@@ -33,7 +33,7 @@ const Login = () => {
             setShowSuccessAlert(true);
             setIsRedirecting(true);
     
-            onLoginSuccess(response.token ,response.user);
+            onLoginSuccess(response.token);
           } else {
             setShowErrorAlert(true);
           }
