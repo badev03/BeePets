@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\BookingController;
 
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\Api\ServiceController;
@@ -63,6 +64,8 @@ Route::post('check-verify', [AuthController::class, 'CheckVerify'])->name('check
 Route::post('check-login', [AuthController::class, 'CheckLogin']);
 
 Route::post('check-verify-register', [AuthController::class, 'CheckVerifyRegister']);
+Route::post('create-password', [AuthController::class, 'CreatePassword']);
+
 Route::post('register-user', [AuthController::class, 'RegisterUser']);
 
 Route::post('forget-password', [AuthController::class, 'ForgetPassWord']);
@@ -88,6 +91,20 @@ Route::post('/save', [BookingController::class, 'save']);
 Route::post('/add-booking', [BookingController::class, 'addBooking']);
 
 Route::middleware('auth:sanctum')->group(function () {
+
+    // get info user when login
+    Route::get('/info-user', [UserController::class, 'getInfoUser']);
+//change password user
+    Route::put('/change-password-user', [UserController::class, 'changePasswordUser']);
+//logout user
+    Route::post('/logout-user', [UserController::class, 'logoutUser']);
+//get appointment by user
+    Route::get('/appointment-user', [UserController::class, 'getAppiontment']);
+//get prescription by user
+    Route::get('/prescription-user', [UserController::class, 'prescriptionByUser']);
+//get bill by user
+    Route::get('/bill-user', [UserController::class, 'billByUser']);
+
 
 //lấy ra các lịch khám trạng thái chưa xác nhận
     Route::get('/appoinments-status', [BookingController::class, 'getAppointmentByStatus']);
@@ -131,4 +148,4 @@ Route::get('/bills/{id}', [DoctorController::class, 'billByUser']);
 Route::get('/prescription/{id}', [DoctorController::class, 'prescriptionByUser']);
 
 //get review when doctor login
-  Route::get('/reviews-doctor', [DoctorController::class, 'getReviewDoctor']);
+Route::get('/reviews-doctor', [DoctorController::class, 'getReviewDoctor']);
