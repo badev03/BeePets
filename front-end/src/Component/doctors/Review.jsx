@@ -1,27 +1,45 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Menudashboard from './Menu-dashboard'
 import { Link } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import doctorsApi from '../../api/doctorsApi';
+import { useState } from 'react'
+import reviewsDoctorApi from '../../api/reviews-doctor'
+import axios from 'axios'
 
 
+
+
+// const [reviews, setReviews] = useState([]);
+
+// useEffect(() => {
+//   const fetchBlog = async () => {
+//     try {
+//       const response = await reviewsDoctorApi.getAll();
+//       setReviews(response.reviews);
+//       console.log(response);
+//     } catch (error) {
+//       console.error("Không có dữ liệu:", error);
+//     }
+//   };
+
+//   fetchBlog();
+// }, []);
 
 const Review = () => {
   const [reviews, setReviews] = useState([]);
-
+  const token = localStorage.getItem('token');
   useEffect(() => {
-    const fetchBlog = async () => {
-      try {
-        const response = await doctorsApi.getAll();
-        setReviews(response.doctor);
-        console.log(reviews);
-      } catch (error) {
-        console.error("Không có dữ liệu:", error);
-      }
-    };
+    getReview();
+  }, [])
+  const getReview = async () => {
+    try {
+      const response = await reviewsDoctorApi.getAll(token);
+      setReviews(response.data.reviews);
+    } catch (error) {
+      console.error("Không có dữ liệu:", error);
+    }
+  }
 
-    fetchBlog();
-  }, []);
+
   return (
     <div>
       <div className="breadcrumb-bar-two">
@@ -47,16 +65,15 @@ const Review = () => {
             </div>
             <div className="col-md-7 col-lg-8 col-xl-9">
               <div className="doc-review review-listing">
-                {reviews.map(review => (
-                  <ul className="comments-list" key={review.id}>
-
+                {reviews.map((item, index) => {
+                  return (<ul className="comments-list" key={index}>
                     <li>
                       <div className="comment">
                         <img className="avatar rounded-circle" alt="User Image" src="/img/patients/patient.jpg" />
                         <div className="comment-body">
                           <div className="meta-data">
-                            <span className="comment-author">{review.name}</span>
-                            <span className="comment-date">Đánh giá lúc:  {review.created_at}</span>
+                            <span className="comment-author">{item.user_name}</span>
+                            <span className="comment-date">Đánh giá lúc:  {item.created_at}</span>
                             <div className="review-count rating">
                               <i className="fas fa-star filled" />
                               <i className="fas fa-star filled" />
@@ -68,7 +85,7 @@ const Review = () => {
                           {/* <p className="recommended"><i className="far fa-thumbs-up" /> Tôi khuyên bạn nên
                       bác sĩ</p> */}
                           <p className="comment-content">
-                            {review.description}
+                            {item.content}
                           </p>
 
                         </div>
@@ -77,8 +94,8 @@ const Review = () => {
                     </li>
 
 
-                  </ul>
-                ))}
+                  </ul>)
+                })}
 
               </div>
             </div>
