@@ -41,3 +41,16 @@ lập tức update lại mật khẩu có người dùng luôn
 3. http://127.0.0.1:8000/api/list-appiontment/{id} :: lấy ra danh sách lịch hẹn của khách hàng (Get) id là id của khách hàng
 4. http://127.0.0.1:8000/api/prescription/{id} :: lấy ra đơn thuốc của khách hàng (Get) id là id của khách hàng
 5. http://127.0.0.1:8000/api/bills/{id} :: lấy ra danh sách hóa đơn của khách hàng (Get) id là id của khách hàng
+
+// get info user when login
+6. http://127.0.0.1:8000/api/info-user :: lấy ra thông tin của user khi đăng nhập (Get)
+//change password user
+7. http://127.0.0.1:8000/api/change-password-user :: thay đổi mật khẩu của user (Put)
+//logout user
+8. http://127.0.0.1:8000/api/logout-user :: đăng xuất user (post)
+//get appointment by user
+9. http://127.0.0.1:8000/api/appointment-user :: lấy ra danh sách lịch hẹn của user (Get)
+//get prescription by user
+10. http://127.0.0.1:8000/api/prescription-user :: lấy ra danh sách đơn thuốc của user (Get)
+//get bill by user
+11. http://127.0.0.1:8000/api/bill-user :: lấy ra danh sách hóa đơn của user (Get)

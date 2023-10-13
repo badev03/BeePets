@@ -89,6 +89,21 @@ Route::post('/save', [BookingController::class, 'save']);
 Route::post('/add-booking', [BookingController::class, 'addBooking']);
 
 Route::middleware('auth:sanctum')->group(function () {
+
+    // get info user when login
+    Route::get('/info-user', [UserController::class, 'getInfoUser']);
+//change password user
+    Route::put('/change-password-user', [UserController::class, 'changePasswordUser']);
+//logout user
+    Route::post('/logout-user', [UserController::class, 'logoutUser']);
+//get appointment by user
+    Route::get('/appointment-user', [UserController::class, 'getAppiontment']);
+//get prescription by user
+    Route::get('/prescription-user', [UserController::class, 'prescriptionByUser']);
+//get bill by user
+    Route::get('/bill-user', [UserController::class, 'billByUser']);
+
+
 //lấy ra các lịch khám trạng thái chưa xác nhận
     Route::get('/appoinments-status', [BookingController::class, 'getAppointmentByStatus']);
 
@@ -135,15 +150,4 @@ Route::get('/reviews-doctor', [DoctorController::class, 'getReviewDoctor']);
 
 
 
-// get info user when login
-Route::get('/info-user', [UserController::class, 'getInfoUser']);
-//change password user
-Route::put('/change-password-user', [UserController::class, 'changePasswordUser']);
-//logout user
-Route::post('/logout-user', [UserController::class, 'logoutUser']);
-//get appointment by user
-Route::get('/appointment-user', [UserController::class, 'getAppiontment']);
-//get prescription by user
-Route::get('/prescription-user', [UserController::class, 'prescriptionByUser']);
-//get bill by user
-Route::get('/bill-user', [UserController::class, 'billByUser']);
+
