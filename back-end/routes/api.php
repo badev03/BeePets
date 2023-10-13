@@ -133,3 +133,6 @@ Route::post('/change-password', [DoctorController::class, 'changePassword']);
 
 //get bills
 Route::get('/bills/{id}', [DoctorController::class, 'billByUser']);
+
+//get prescription by user
+Route::get('/prescription/{id}', [DoctorController::class, 'prescriptionByUser']);

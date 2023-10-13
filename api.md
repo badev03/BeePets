@@ -39,3 +39,5 @@ lập tức update lại mật khẩu có người dùng luôn
 1. http://127.0.0.1:8000/api/doctor/login :: đăng nhập bác sĩ (Post)
 2. http://127.0.0.1:8000/api/list-customers :: lấy ra danh sách khách hàng của bác sĩ (Get)
 3. http://127.0.0.1:8000/api/list-appiontment/{id} :: lấy ra danh sách lịch hẹn của khách hàng (Get) id là id của khách hàng
+4. http://127.0.0.1:8000/api/prescription/{id} :: lấy ra đơn thuốc của khách hàng (Get) id là id của khách hàng
+5. http://127.0.0.1:8000/api/bills/{id} :: lấy ra danh sách hóa đơn của khách hàng (Get) id là id của khách hàng

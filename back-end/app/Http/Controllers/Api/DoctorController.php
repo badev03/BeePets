@@ -189,6 +189,28 @@ class DoctorController extends Controller
             ]);
         }
     }
-
+    public function prescriptionByUser($id) {
+        if(!Auth::guard('doctors')->check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bạn chưa đăng nhập',
+            ]);
+        }else {
+            $doctor_id = Auth::guard('doctors')->user()->id;
+            $result = DB::table('prescriptions')
+                ->select('prescriptions.created_at as prescription_created_at', 'doctors.name as doctor_name', 'prescriptions.name as prescription_name')
+                ->join('bills', 'bills.prescription_id', '=', 'prescriptions.id')
+                ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
+                ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
+                ->where('appointments.user_id', $id)
+                ->where('doctors.id', $doctor_id)
+                ->get();
+            return response()->json([
+                'success' => true,
+                'message' => 'Lấy danh sách đơn thuốc thành công',
+                'prescriptions' => $result
+            ]);
+        }
+    }
 
 }
