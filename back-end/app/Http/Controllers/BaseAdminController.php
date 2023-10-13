@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class BaseAdminController extends Controller
 {
@@ -127,9 +128,15 @@ class BaseAdminController extends Controller
         }
         $model->fill($request->except([$this->fieldImage,$this->slug]));
         if ($request->hasFile($this->fieldImage)) {
-            $tmpPath = Storage::put('public/'.$this->folderImage, $request->{$this->fieldImage});
-            $path = str_replace('public/','',  $tmpPath);
-            $model->{$this->fieldImage} = 'storage/' . $path;
+//            $tmpPath = Storage::put('public/'.$this->folderImage, $request->{$this->fieldImage});
+//            $path = str_replace('public/','',  $tmpPath);
+//            $model->{$this->fieldImage} = 'storage/' . $path;
+//            $image = $request->{$this->fieldImage};
+            $cloudinaryResponse = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
+            dd($cloudinaryResponse);
+            $cloudinaryUrl = $cloudinaryResponse->getSecurePath();
+
+            $model->{$this->fieldImage} = $cloudinaryUrl;
         }
         if($request->has('name') && $this->checkerNameSlug == true) {
             $model->slug = $this->createSlug($request->name);
@@ -229,8 +236,17 @@ class BaseAdminController extends Controller
             $model->save();
 
             if ($request->hasFile($this->fieldImage)) {
-                $oldImage = str_replace('storage/', '', $oldImage);
-                Storage::delete($oldImage);
+//                $oldImage = str_replace('storage/', '', $oldImage);
+//                Storage::delete($oldImage);
+
+                $oldImage = $model->{$this->fieldImage};
+
+                // Tải lên hình ảnh lên Cloudinary và nhận URL
+                $image = $request->{$this->fieldImage};
+                $cloudinaryResponse = Cloudinary::upload($image->getPathname());
+                $cloudinaryUrl = $cloudinaryResponse->getSecurePath();
+
+                $model->{$this->fieldImage} = $cloudinaryUrl;
             }
 
             if ($this->permissionCheckCrud === 'PeopleAccount') {
