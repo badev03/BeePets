@@ -226,29 +226,37 @@ class AuthController extends BaseResponseApiController
                 return response()->json(['msg' => 'Số điện thoại này đã được đăng ký'], 400);
             }
             else {
-//                $insert_user = $this->tableQuery('users')->insert(
-//                    [
-//                        'name' => $phone_number,
-//                        'phone' => $phone_number,
-//                        'email' => $phone_number.'@gmail.com',
-//                        'password' => Hash::make($phone_number),
-//                        'status' => 1,
-//                        'role_id' => 4,
-//                        'created_at' => now(),
-//                        'updated_at' => now(),
-//                    ]
-//                );
                 return response()->json(['msg' => 'Đi đến tạo mật khẩu'], 200);
             }
         }
     }
 
     public function CreatePassword(Request $request) {
-        $validator = $this->validateForm($request->all() , 'createPass');
+        $validator = $this->validateForm($request->all() , 'password_reset');
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         }
         $password = $request->input('password');
+        $phone = $request->input('phone');
+        $password_again = $request->input('password_confirmation');
+        if ($password === $password_again) {
+            $insert_user = $this->tableQuery('users')->insert(
+                [
+                    'name' => $phone,
+                    'phone' => $phone,
+                    'email' => $phone.'@gmail.com',
+                    'password' => Hash::make($password),
+                    'status' => 1,
+                    'role_id' => 4,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]
+            );
+            return response()->json(['msg' => 'Đã tạo tài khoản thành công'], 200);
+        }
+        elseif($password != $password_again) {
+            return response()->json(['errors' => ['password_confirmation' => 'Xác nhận mật khẩu không khớp']], 400);
+        }
     }
 
     public function ForgetPassWord(Request $request) {

@@ -26,15 +26,20 @@ check kiểm tra xem số điện thoaại đã tồn tại hay rồi mới ti�
 2. http://127.0.0.1:8000/api/check-verify  :: case OTP kiểm tra xem nếu verify thay công  **POST**
 rồi thì chạy api này để lấy ra tài khoản và token của user để đăng nhập
 3. http://127.0.0.1:8000/api/check-login   :: case ko có OTP nhâp phone và password  **POST**
-4. http://127.0.0.1:8000/api/check-verify-register  :: case ko OTP check xem số điện thoại người dùng  **POST**
-đăng ký đã tồn tại ở hệ thống chưa , nếu chưa tạo tài khoản auto cho người dùng luôn
-5. http://127.0.0.1:8000/api/register-user  :: case OTP check xem số điện thoại người dùng **POST**
-đăng ký đã tồn tại ở hệ thống chưa , nếu chưa thì cho đăng ký và gửi OTP
+
+4. http://127.0.0.1:8000/api/check-verify-register  :: case có OTP check xem số điện thoại người dùng  **POST**
+đăng ký đã tồn tại ở hệ thống chưa , nếu chưa tạo tài khoản ok chuyển sang tạo mật khẩu
+
+5. http://127.0.0.1:8000/api/create-password  :: case OTP check xem số điện thoại người dùng **POST**
+đăng ký đã tồn tại ở hệ thống chưa , nếu chưa tạo mật khẩu cho người dùng
+
 6. http://127.0.0.1:8000/api/forget-password :: case OTP khi send otp **POST**
-check kiểm tra xem số điện thoaại đã tồn tại hay rồi mới tiến hày verify
+check kiểm tra xem số điện thoaại đã tồn tại hay rồi mới tiến hành verify
+
 7. http://127.0.0.1:8000/api/check-verify-forget-password :: case OTP khi send otp **POST**
-lập tức update lại mật khẩu có người dùng luôn
-8. http://127.0.0.1:8000/api/reset-password :: case không OTP  nhập số điện thoại và mật khẩu **POST**
+   ăng ký đã tồn tại ở hệ thống chưa , nếu chưa tạo tài khoản ok chuyển sang tạo mật khẩu
+
+8. http://127.0.0.1:8000/api/reset-password :: case không OTP nhập số điện thoại và mật khẩu **POST**
 
 1. http://127.0.0.1:8000/api/doctor/login :: đăng nhập bác sĩ (Post)
 2. http://127.0.0.1:8000/api/list-customers :: lấy ra danh sách khách hàng của bác sĩ (Get)
