@@ -212,5 +212,24 @@ class DoctorController extends Controller
             ]);
         }
     }
-
+    public function getReviewDoctor() {
+        if(!Auth::guard('doctors')->check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bạn chưa đăng nhập',
+            ]);
+        }else {
+            $doctor_id = Auth::guard('doctors')->user()->id;
+            $result = DB::table('reviews')
+                ->select('reviews.content', 'reviews.created_at', 'users.name as user_name','reviews.score')
+                ->join('users', 'users.id', '=', 'reviews.user_id')
+                ->where('reviews.doctor_id', $doctor_id)
+                ->get();
+            return response()->json([
+                'success' => true,
+                'message' => 'Lấy danh sách đánh giá thành công',
+                'reviews' => $result
+            ]);
+        }
+    }
 }

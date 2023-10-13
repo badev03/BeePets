@@ -10,6 +10,7 @@ use \App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\NewController;
 use App\Http\Controllers\Api\AuthController;
 use \App\Http\Controllers\Api\DoctorUserController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -34,14 +35,14 @@ $objects = [
 foreach ($objects as $key => $controller) {
     Route::apiResource($key, $controller);
 }
-Route::get('service-show', [ServiceController::class , 'showHome']);
-Route::get('service-filter', [ServiceController::class , 'filterService']);
-Route::post('service-filter-doctor', [ServiceController::class , 'filterDoctorService']);
-Route::get('new-post', [NewController::class , 'postNew']);
-Route::get('new-post/{id}', [NewController::class , 'postNewShow']);
-Route::get('new-categories', [NewController::class , 'categoriesNew']);
-Route::get('new-search/{name}', [NewController::class , 'searchNew']);
-Route::get('new-home', [NewController::class , 'showNew']);
+Route::get('service-show', [ServiceController::class, 'showHome']);
+Route::get('service-filter', [ServiceController::class, 'filterService']);
+Route::post('service-filter-doctor', [ServiceController::class, 'filterDoctorService']);
+Route::get('new-post', [NewController::class, 'postNew']);
+Route::get('new-post/{id}', [NewController::class, 'postNewShow']);
+Route::get('new-categories', [NewController::class, 'categoriesNew']);
+Route::get('new-search/{name}', [NewController::class, 'searchNew']);
+Route::get('new-home', [NewController::class, 'showNew']);
 
 
 Route::get('service-show', [ServiceController::class, 'showHome']);
@@ -51,7 +52,6 @@ Route::get('new-post', [NewController::class, 'postNew']);
 Route::get('new-categories', [NewController::class, 'categoriesNew']);
 Route::get('new-search/{name}', [NewController::class, 'searchNew']);
 Route::get('new-home', [NewController::class, 'showNew']);
-
 
 
 Route::post('/doctor/login', [DoctorController::class, 'login']);
@@ -72,14 +72,6 @@ Route::post('reset-password', [AuthController::class, 'ResetPassword']);
 Route::post('login-user', [AuthController::class, 'LoginUserOtp']); //test thôi
 
 
-
-
-
-
-
-
-
-
 //lấy ra danh sách dịch vụ
 Route::get('/services-doctor', [BookingController::class, 'services']);
 //lấy ra danh sách loại thú cưng
@@ -97,42 +89,47 @@ Route::post('/add-booking', [BookingController::class, 'addBooking']);
 
 Route::middleware('auth:sanctum')->group(function () {
 //lấy ra các lịch khám trạng thái chưa xác nhận
-Route::get('/appoinments-status', [BookingController::class, 'getAppointmentByStatus']);
+    Route::get('/appoinments-status', [BookingController::class, 'getAppointmentByStatus']);
 
 
-Route::post('/infor-member', [BookingController::class, 'inforMember']);
+    Route::post('/infor-member', [BookingController::class, 'inforMember']);
 
 //lấy ra 1 lịch khám
-Route::get('/appoinment/{id}', [BookingController::class, 'getAppointment']);
+    Route::get('/appoinment/{id}', [BookingController::class, 'getAppointment']);
 // lấy ra danh sách lịch khám của bác sĩ đã được chấp nhận
-Route::get('/list-appiontment-doctor', [BookingController::class, 'getAppointmentAccept']);
+    Route::get('/list-appiontment-doctor', [BookingController::class, 'getAppointmentAccept']);
 //câp nhật trạng thái lịch khám
-Route::put('/update-appointment/{id}', [BookingController::class, 'updateStatus']);
+    Route::put('/update-appointment/{id}', [BookingController::class, 'updateStatus']);
 
 //lấy ra thông tin bác sĩ đang đăng nhập
-Route::get('/doctor-info', [DoctorController::class, 'getDoctor']);
+    Route::get('/doctor-info', [DoctorController::class, 'getDoctor']);
 
 //lấy ra danh sách khách hàng của bác sĩ
-Route::get('/list-customers', [DoctorController::class, 'listCustomer']);
+    Route::get('/list-customers', [DoctorController::class, 'listCustomer']);
 
 //lấy ra khách hàng của bác sĩ theo id
-Route::get('/get-customer/{id}', [DoctorController::class, 'getCustomerByID']);
+    Route::get('/get-customer/{id}', [DoctorController::class, 'getCustomerByID']);
 
 
 //lấy ra lịch sử khám của khách hàng
-Route::get('/history/{id}', [DoctorController::class, 'getHistoryByUser']);
+    Route::get('/history/{id}', [DoctorController::class, 'getHistoryByUser']);
 
-Route::get('reviews', [ReviewsController::class , 'store']);
-Route::post('logout-user', [AuthController::class, 'LogoutUser']);
+    Route::get('reviews', [ReviewsController::class, 'store']);
+    Route::post('logout-user', [AuthController::class, 'LogoutUser']);
 
 });
 Route::get('/list-appiontment/{id}', [DoctorController::class, 'getAppiontment']);
 
 //change password doctor
-Route::post('/change-password', [DoctorController::class, 'changePassword']);
+Route::put('/change-password', [DoctorController::class, 'changePassword']);
 
 //get bills
 Route::get('/bills/{id}', [DoctorController::class, 'billByUser']);
 
 //get prescription by user
 Route::get('/prescription/{id}', [DoctorController::class, 'prescriptionByUser']);
+
+//get review when doctor login
+Route::get('/reviews-doctor', [DoctorController::class, 'getReviewDoctor']);
+
+
