@@ -1,7 +1,55 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import SweetAlert from "react-bootstrap-sweetalert";
+import { useAuth } from "../../Context/ContextAuth";
+import loginUser from "../../api/loginUser";
 
 const Login = () => {
+    const [formData, setFormData] = useState({
+        phone: "",
+        password: "",
+      });
+    
+      const [errors, setErrors] = useState({});
+      const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+      const [showErrorAlert, setShowErrorAlert] = useState(false);
+      const [isRedirecting, setIsRedirecting] = useState(false);
+      const navigate = useNavigate();
+      const { onLoginSuccess } = useAuth();
+    
+      const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+        setErrors({ ...errors, [name]: "" });
+      };
+    
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+    
+        try {
+          const response = await loginUser.add(formData);
+        
+          if (response.token) {
+            setShowSuccessAlert(true);
+            setIsRedirecting(true);
+    
+            onLoginSuccess(response.token);
+          } else {
+            setShowErrorAlert(true);
+          }
+        } catch (error) {
+          console.error("Đăng nhập thất bại:", error.message);
+          setShowErrorAlert(true);
+        }
+      };
+    
+      const handleConfirmSuccess = () => {
+        setShowSuccessAlert(false);
+        if (isRedirecting) {
+          navigate("/user/dashbroad");
+        }
+      };
+
     return (
         <div className="content top-space">
             <div className="container-fluid">
@@ -17,13 +65,17 @@ const Login = () => {
                                         <h2>ĐĂNG NHẬP</h2>
                                         <Link to="/login-doctor">Đăng nhập với tư cách là bác sĩ?</Link>
                                     </div>
-                                    <form action="/user/dashbroad">
+                                    <form onSubmit={handleSubmit}>
                                         <div className="mb-3 form-focus">
-                                            <input type="text" className="form-control floating" />
+                                            <input type="text" className="form-control floating" name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}/>
                                             <label className="focus-label">Nhập số điện thoại</label>
                                         </div>
                                         <div className="mb-3 form-focus">
-                                            <input type="password" className="form-control floating" />
+                                            <input type="password" className="form-control floating" name="password"
+                        value={formData.password}
+                        onChange={handleChange}/>
                                             <label className="focus-label">Mật khẩu</label>
                                         </div>
                                         <div className="text-end">
@@ -39,6 +91,23 @@ const Login = () => {
                                             <Link className="forgot-link" to="/register">Đăng ký ?</Link>
                                         </div>
                                     </form>
+                                    <SweetAlert
+                    success
+                    title="Đăng nhập thành công!"
+                    show={showSuccessAlert}
+                    onConfirm={handleConfirmSuccess}
+                  >
+                    Chào mừng bạn!
+                  </SweetAlert>
+
+                  <SweetAlert
+                    error
+                    title="Đăng nhập thất bại!"
+                    show={showErrorAlert}
+                    onConfirm={() => setShowErrorAlert(false)}
+                  >
+                    Vui lòng kiểm tra lại thông tin đăng nhập.
+                  </SweetAlert>
                                 </div>
                             </div>
                         </div>

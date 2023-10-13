@@ -1,12 +1,12 @@
 import instance from "./instance";
 
-const Booking = {
+const loginUser = {
   
   add(data) {
-    const url = "/form";
+    const url = "/check-login";
     return instance.post(url, data);
   },
 
 };
 
-export default Booking;
+export default loginUser;
