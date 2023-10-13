@@ -30,11 +30,12 @@ const BookingApi = {
     }
   },
 
-  saveBooking(bookingData) {
+  async saveBooking(bookingData) {
     const url = "/save";  
 
     try {
-      const response = instance.post(url, bookingData);
+      const response = await instance.post(url, bookingData);
+      // console.log(response);
       return response.data;
     } catch (error) {
       console.error("Error while saving booking:", error);
