@@ -14,13 +14,8 @@ const BookingApi = {
   async getWorkingHours(doctorId, date) {
     const url = "/doctors-service";
     const formData = new FormData();
-    // formData.append("doctor_id", 5);
-    formData.append("doctor_id", doctorId.toString());
-    formData.append("date", date.toString());
-    
-    // console.log(doctorId);
-    // console.log(date);
- 
+    formData.append("doctor_id", doctorId);
+    formData.append("date", date);
 
     try {
       const response = await instance.post(url, formData, {
@@ -30,7 +25,19 @@ const BookingApi = {
       });
       return response.data;
     } catch (error) {
-      console.error("Không có dữ liệu ca làm việc1:", error);
+      console.error("Không có dữ liệu ca làm việc:", error);
+      throw error;
+    }
+  },
+
+  saveBooking(bookingData) {
+    const url = "/save";  
+
+    try {
+      const response = instance.post(url, bookingData);
+      return response.data;
+    } catch (error) {
+      console.error("Error while saving booking:", error);
       throw error;
     }
   },
