@@ -5,6 +5,8 @@ import Search from './Search';
 const FilterService = () => {
   const [services, setServices] = useState([]);
   const [selectedServices, setSelectedServices] = useState([]);
+  const [searchData, setSearchData] = useState([]);
+
   useEffect(() => {
     const fetchService = async () => {
       try {
@@ -12,23 +14,19 @@ const FilterService = () => {
         setServices(response.service);
         console.log(response);
       } catch (error) {
-        console.error("Không có dữ liệu:", error);
+        console.error('Không có dữ liệu:', error);
       }
     };
 
     fetchService();
-  }, []); 
+  }, []);
+
   const handleCheckboxChange = (event) => {
     const { value, checked } = event.target;
 
     if (checked) {
-      // Nếu checkbox được chọn, thêm vào mảng selectedServices
-      setSelectedServices((prevSelectedServices) => [
-        ...prevSelectedServices,
-        value,
-      ]);
+      setSelectedServices((prevSelectedServices) => [...prevSelectedServices, value]);
     } else {
-      // Nếu checkbox bị bỏ chọn, loại bỏ khỏi mảng selectedServices
       setSelectedServices((prevSelectedServices) =>
         prevSelectedServices.filter((serviceId) => serviceId !== value)
       );
@@ -37,10 +35,7 @@ const FilterService = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Mảng selectedServices chứa các dịch vụ đã chọn
-    // console.log(selectedServices);
-
-  
+    setSearchData(selectedServices);
   };
 
   return (
@@ -68,7 +63,7 @@ const FilterService = () => {
       <div className="card-header">
         <h4 className="card-title mb-0">Bộ lọc tìm kiếm</h4>
       </div>
-      <form className="card-body" onSubmit={handleSubmit} method="post">
+      <form className="card-body" onSubmit={handleSubmit} >
         <div className="filter-widget">
           <h4>Dịch vụ</h4>
           {services.map((service) => (
@@ -86,11 +81,7 @@ const FilterService = () => {
             </div>
           ))}
         </div>
-        <div className="btn-search">
-          <button type="submit" className="btn w-100">
-            Tìm kiếm
-          </button>
-        </div>
+        
       </form>
     </div>
     </div>
