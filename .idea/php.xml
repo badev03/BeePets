@@ -236,6 +236,10 @@
       <path value="$PROJECT_DIR$/back-end/vendor/phpunit/php-timer" />
       <path value="$PROJECT_DIR$/back-end/vendor/phpunit/phpunit" />
       <path value="$PROJECT_DIR$/back-end/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/back-end/vendor/teapot/status-code" />
+      <path value="$PROJECT_DIR$/back-end/vendor/cloudinary/cloudinary_php" />
+      <path value="$PROJECT_DIR$/back-end/vendor/cloudinary/transformation-builder-sdk" />
+      <path value="$PROJECT_DIR$/back-end/vendor/cloudinary-labs/cloudinary-laravel" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />
