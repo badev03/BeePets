@@ -95,3 +95,11 @@ Route::get('login-tester' , [ApiAuthController::class , 'checkPhone']);
 Route::get('filter-service' , [\App\Http\Controllers\Api\ServiceController::class , 'filterServiceDoctor']);
 Route::post('filter-service' , [\App\Http\Controllers\Api\ServiceController::class , 'filterServiceDoctorPost'])->name('filter-service-doctor');
 
+
+
+
+Route::get('upload-image' , function () {
+    return view('api.upload');
+});
+Route::post('upload-image' , [HomeController::class , 'upload'])->name('upload.image');
+
