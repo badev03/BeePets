@@ -3,39 +3,44 @@ import doctorsApi from '../../api/doctorsApi';
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import serviceApi from '../../api/serviceApi';
-
+import axios from 'axios';
 
 
 const Search = ({data}) => {
   const [doctors, setDoctors] = useState([]);
-  console.log(data)
-  
+  // console.log(data);
     useEffect(() => {
       const fetchDoctor = async () => {
         try {
-          if(data == 0 ){
+          // console.log(data);
           const response = await doctorsApi.getAll();
           setDoctors(response.doctor);
           console.log(response);
-        }else { 
-          const response = await serviceApi.filterDoctor( {service :data});
-          setDoctors(response.service);
-          console.log(response);
-        }
-        
         } catch (error) {
           console.error("Không có dữ liệu:", error);
         }
       };
-  
-      fetchDoctor();
-    }, []); 
-  
-  
- 
-   
- 
- 
+      const fetchDoctorService = async () => {
+        try {
+          // console.log(data);
+          const response = await axios.post(
+            `http://127.0.0.1:8000/api/service-filter-doctor`,
+            { service: data },
+          );
+          setDoctors(response.data.service);
+          console.log(response.data.service);
+        } catch (error) {
+          console.error("Không có dữ liệu:", error);
+        }
+      };
+      if (data.length === 0) {
+    fetchDoctor();
+  } else {
+    fetchDoctorService();
+  }
+
+  }, [data]);
+
   return (
     <div>
 
@@ -53,8 +58,8 @@ const Search = ({data}) => {
                   </div>
                   <div className="doc-info-cont">
                     <h4 className="doc-name"><a href="doctor-profile.html">{doctor.name}</a></h4>
-                    <p className="doc-speciality">{doctor.description.service}
-                    </p>
+                    {/* <p className="doc-speciality">{doctor.description.service}
+                    </p> */}
                   
                     <div className="rating">
                       <i className="fas fa-star filled" />

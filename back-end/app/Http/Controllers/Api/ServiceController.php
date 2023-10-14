@@ -92,7 +92,7 @@ class ServiceController extends BaseResponseApiController
 
     public function filterDoctorService(Request $request){
         $service = $request->input('service');
-        $service = json_decode($service, true);
+        // $service = json_decode($service, true);
         if($service) {
             $checkService = $this->tableQuery('doctor_service')
                 ->select('doctors.name' , 'doctors.address' , 'doctors.image' , DB::raw('GROUP_CONCAT(services.name) AS chuyenkhoa'))
@@ -103,9 +103,15 @@ class ServiceController extends BaseResponseApiController
                 ->whereIn('doctor_service.service_id' ,$service )
                 ->groupBy('doctors.name' , 'doctors.address' , 'doctors.image')
                 ->get();
-            return response()->json([
-                'service' => $checkService ],
-                '200');
+                if( $checkService){
+                    return response()->json([
+                        'service' => $checkService ],
+                        '200');
+                }else{
+                    return response()->json([
+                        'msg' => "Lỗi" ],
+                        '400');
+                }
         }
     }
 }

@@ -22,16 +22,20 @@ const Dashboarddoctors = () => {
         }
       );
       setAppointment(response.data);     
-      console.log(response.data);
+      // console.log(response.data);
       } catch (error) {
+      
         console.error("Không có dữ liệu:", error);
+        setAppointment([]);
       }
     };
-    if(token){
-     useEffect(() => {
-      fetchAppointment();
-    }, []); 
-   }
+ 
+      useEffect(() => {
+        fetchAppointment();
+      }, []); 
+
+  
+  
    const handleUpdate = async (id) => {
      try {
       console.log(id)
@@ -42,7 +46,10 @@ const Dashboarddoctors = () => {
           }
         })
       console.log(respon)
-      fetchAppointment()
+     
+        fetchAppointment();
+      
+
     
     } catch (error) {
       console.log(error)

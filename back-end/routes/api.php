@@ -106,6 +106,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/prescription-user', [UserController::class, 'prescriptionByUser']);
 //get bill by user
     Route::get('/bill-user', [UserController::class, 'billByUser']);
+    //get history by user
+    Route::get('/history-user', [UserController::class, 'getHistoryByUser']);
 
 
 //lấy ra các lịch khám trạng thái chưa xác nhận

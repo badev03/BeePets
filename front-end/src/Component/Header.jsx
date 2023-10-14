@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../Context/ContextAuth";
 import { useNavigate } from "react-router-dom";
-import { Dropdown } from "bootstrap";
+// import { Dropdown } from "bootstrap";
+// import doctorsApi from "../api/doctorsApi";
 
 const Header = () => {
   const { isLoggedIn, onLogout } = useAuth();
@@ -11,6 +12,9 @@ const Header = () => {
     onLogout();
     navigate('/');
   };
+
+
+
 
 
   const initialActiveItems = JSON.parse(
@@ -37,6 +41,34 @@ const Header = () => {
   const handleLogoClick = () => {
     handleItemClick("TRANG CHỦ");
   };
+
+
+  // const [doctor, setDoctors] = useState([]);
+
+  // const token = localStorage.getItem('token');
+
+  // if (token) {
+  //   useEffect(() => {
+  //     const fetchDoctor = async () => {
+  //       try {
+  //         const response = await doctorsApi.getDoctor(
+  //           {
+  //             headers: {
+  //               Authorization: `Bearer ${token}`,
+  //             },
+  //           }
+  //         );
+  //         setDoctors(response.doctor);
+  //       } catch (error) {
+  //         console.error("Không có dữ liệu:", error);
+  //       }
+  //     };
+
+  //     fetchDoctor();
+  //   }, []);
+  // }
+
+
 
   useEffect(() => {
     localStorage.setItem("activeItems", JSON.stringify(activeItems));
@@ -272,7 +304,7 @@ const Header = () => {
                         />
                       </div>
                       <div className="user-text">
-                        <h6>Darren Elder</h6>
+                        {/* <h6>{doctor.name}</h6> */}
                         <p className="text-muted mb-0">Doctor</p>
                       </div>
                     </div>

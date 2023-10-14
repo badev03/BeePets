@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import { Modal, Button, DatePicker, Form, Input, Row, Col, Select } from "antd";
 import BookingApi from "../api/bookingApi";
 const { TextArea } = Input;
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { useAuth } from "../Context/ContextAuth";
 const MySwal = withReactContent(Swal);
+import moment from 'moment';
 
 const Booking = () => {
+  const { user} = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [typePet, setTypePet] = useState([]);
   const [serviceDoctor, setServiceDoctor] = useState([]);
@@ -16,9 +19,11 @@ const Booking = () => {
   const [selectedWorkingHours, setSelectedWorkingHours] = useState([]);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [selectedPet, setSelectedPet] = useState(null);
-const [selectedPhone, setSelectedPhone] = useState('');
-const [selectedName, setSelectedName] = useState('');
-const [selectedDescription, setSelectedDescription] = useState('');
+  const [selectedPhone, setSelectedPhone] = useState("");
+  const [selectedName, setSelectedName] = useState("");
+  const [selectedDescription, setSelectedDescription] = useState("");
+  const [isNameEditable, setIsNameEditable] = useState(true);
+  const [isPhoneEditable, setIsPhoneEditable] = useState(true);
 
   useEffect(() => {
     const fetchTypePet = async () => {
@@ -48,25 +53,24 @@ const [selectedDescription, setSelectedDescription] = useState('');
 
   useEffect(() => {
     if (selectedService) {
-      const doctorsForService =
-        serviceDoctor.find((service) => service.id === selectedService)
-          ?.doctors || [];
-      setDoctorOptions(doctorsForService);
-
       const selectedServiceData = serviceDoctor.find(
         (service) => service.id === selectedService
       );
-      const doctorId = selectedServiceData?.doctors[0]?.id || null;
-      setSelectedDoctor(doctorId);
+
+      if (selectedServiceData) {
+        const doctorsForService = selectedServiceData.doctors || [];
+        setDoctorOptions([...doctorsForService]);
+
+        const doctorId =
+          doctorsForService.length > 0 ? doctorsForService[0].id : null;
+
+        setSelectedDoctor(doctorId);
+      }
     }
   }, [selectedService, serviceDoctor]);
 
   const showModal = () => {
     setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
-    setIsModalOpen(false);
   };
 
   const handleCancel = () => {
@@ -76,6 +80,7 @@ const [selectedDescription, setSelectedDescription] = useState('');
   const handleChangeService = (value) => {
     setSelectedService(value);
     setDoctorOptions([]);
+    setSelectedDoctor(null);
   };
 
   const handleChange = (value) => {
@@ -123,48 +128,68 @@ const [selectedDescription, setSelectedDescription] = useState('');
         doctor_id: selectedDoctor,
         date: selectedDate,
         status: 0,
-        shift_name: selectedWorkingHours.length > 0 ? selectedWorkingHours[0].shift_name : '', 
-        type_pet_id: selectedPet, 
-        phone: selectedPhone, 
-        name: selectedName, 
-        description: selectedDescription, 
+        shift_name:
+          selectedWorkingHours.length > 0
+            ? selectedWorkingHours[0].shift_name
+            : "",
+        type_pet_id: selectedPet,
+        phone: selectedPhone,
+        name: selectedName,
+        description: selectedDescription,
       };
 
-      console.log('Booking data:', bookingData);
-  
       await BookingApi.saveBooking(bookingData);
       MySwal.fire({
-        title: 'Đặt lịch thành công!',
-        icon: 'success',
+        title: "Đặt lịch thành công!",
+        icon: "success",
       });
 
-      console.log('Booking successful');
+      console.log("Booking successful");
     } catch (error) {
-      console.error('Error while booking:', error);
+      console.error("Error while booking:", error);
       MySwal.fire({
-        title: 'Đặt lịch không thành công',
-        text: 'Vui lòng thử lại sau.',
-        icon: 'error',
+        title: "Đặt lịch không thành công",
+        text: "Vui lòng thử lại sau.",
+        icon: "error",
       });
     } finally {
       setIsModalOpen(false);
     }
   };
-  
+  const handleDoctorChange = (value) => {
+    setSelectedDoctor(value);
+  };
+
   const handleChangePet = (value) => {
     setSelectedPet(value);
   };
-  
+
   const handleChangePhone = (e) => {
     setSelectedPhone(e.target.value);
   };
-  
+
   const handleChangeName = (e) => {
     setSelectedName(e.target.value);
   };
-  
+
   const handleChangeDescription = (e) => {
     setSelectedDescription(e.target.value);
+  };
+
+  useEffect(() => {
+    
+    if (user) {
+      setSelectedName(user.name);
+      setSelectedPhone(user.phone);
+
+      setIsNameEditable(!user.name);
+      setIsPhoneEditable(!user.phone);
+    }
+  }, [user]);
+
+  const disabledDate = (current) => {
+    const today = moment();
+    return current && current < today.startOf('day');
   };
 
   return (
@@ -174,7 +199,6 @@ const [selectedDescription, setSelectedDescription] = useState('');
         type="primary"
         style={{ width: 250, height: 60, fontSize: 28 }}
         onClick={showModal}
-        
       >
         Đặt Lịch Nhanh
       </Button>
@@ -184,14 +208,17 @@ const [selectedDescription, setSelectedDescription] = useState('');
         onOk={handleBooking}
         onCancel={handleCancel}
         width={1000}
-        okText="Đặt Lịch"
-        cancelText="Hủy"
-        // onClick={handleBooking}
+        okButtonProps={{ style: { display: "none" } }}
+        cancelButtonProps={{ style: { display: "none" } }}
       >
-        <Form layout="vertical" >
+        <Form layout="vertical" onFinish={handleBooking}>
           <Row gutter={16}>
             <Col span={12}>
-              <Form.Item label="Chọn Dịch Vụ">
+              <Form.Item
+                label="Chọn Dịch Vụ"
+                name="Chọn Dịch Vụ"
+                rules={[{ required: true, message: "Vui lòng nhập dịch vụ" }]}
+              >
                 <Select
                   placeholder="Dịch Vụ"
                   onChange={handleChangeService}
@@ -203,11 +230,17 @@ const [selectedDescription, setSelectedDescription] = useState('');
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item label="Chọn Bác Sĩ">
+              <Form.Item
+                label="Chọn Bác Sĩ"
+                name="Chọn Bác Sĩ"
+                rules={[
+                  { required: true, message: "Vui lòng nhập chọn bác sĩ" },
+                ]}
+              >
                 <Select
                   key={selectedService}
                   placeholder="Bác Sĩ"
-                  onChange={handleChange}
+                  onChange={handleDoctorChange}
                   options={doctorOptions.map((doctor) => ({
                     value: doctor.id,
                     label: doctor.name,
@@ -218,12 +251,20 @@ const [selectedDescription, setSelectedDescription] = useState('');
           </Row>
           <Row gutter={16}>
             <Col span={12}>
-              <Form.Item label="Chọn Ngày">
-                <DatePicker onChange={handleChangeDate} />
+              <Form.Item
+                label="Chọn Ngày"
+                name="Chọn Ngày"
+                rules={[{ required: true, message: "Vui lòng nhập chọn ngày" }]}
+              >
+                <DatePicker onChange={handleChangeDate} disabledDate={disabledDate}/>
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item label="Chọn Thời Gian">
+              <Form.Item
+                label="Chọn Thời Gian"
+                
+                rules={[{ required: true, message: "Vui lòng nhập chọn ca" }]}
+              >
                 <Select
                   placeholder="Ca làm việc"
                   onChange={handleChange}
@@ -239,7 +280,13 @@ const [selectedDescription, setSelectedDescription] = useState('');
               </Form.Item>
             </Col>
           </Row>
-          <Form.Item label="Chọn loại thú cưng">
+          <Form.Item
+            label="Chọn loại thú cưng"
+            name="Chọn loại thú cưng "
+            rules={[
+              { required: true, message: "Vui lòng nhập chọn loại thú cưng" },
+            ]}
+          >
             <Select
               placeholder="Thú cưng"
               onChange={handleChangePet}
@@ -251,19 +298,51 @@ const [selectedDescription, setSelectedDescription] = useState('');
           </Form.Item>
           <Row gutter={16}>
             <Col span={12}>
-              <Form.Item label="Họ và Tên">
-                <Input name="name" onChange={handleChangeName}/>
+              <Form.Item
+                label="Họ và Tên"
+                rules={[
+                  { required: true, message: "Vui lòng nhập tên của bạn" },
+                ]}
+              >
+                <Input
+                  name="name"
+                  value={selectedName}
+                  onChange={handleChangeName}
+                  disabled={!isNameEditable}
+                />
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item label="Số Điện Thoại">
-                <Input type="" name="phone" onChange={handleChangePhone}/>
+              <Form.Item
+                label="Số Điện Thoại"
+                rules={[
+                  { required: true, message: "Vui lòng nhập số điện thoại" },
+                  {
+                    pattern: /^[0-9]{10}$/,
+                    message: "Số điện thoại phải có 10 chữ số",
+                  },
+                ]}
+              >
+                <Input
+                  type=""
+                  name="phone"
+                  value={selectedPhone}
+                  onChange={handleChangePhone}
+                  disabled={!isPhoneEditable}
+                />
               </Form.Item>
             </Col>
           </Row>
-          <Form.Item label="Ghi Chú">
-            <TextArea rows={3} onChange={handleChangeDescription}/>
+          <Form.Item
+            label="Ghi Chú"
+            name="Ghi Chú"
+            rules={[{ required: true, message: "Vui lòng nhập ghi chú" }]}
+          >
+            <TextArea rows={3} onChange={handleChangeDescription} />
           </Form.Item>
+          <Button type="primary" htmlType="submit">
+            Đặt lịch
+          </Button>
         </Form>
       </Modal>
     </>
