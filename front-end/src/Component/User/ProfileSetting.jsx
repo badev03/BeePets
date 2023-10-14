@@ -76,36 +76,46 @@ const ProfileSetting = () => {
                   </div>
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
-                      <label className="mb-2">Họ</label>
-                      <input type="text" className="form-control" defaultValue="Richard" value={user.name} />
+                      <label className="mb-2">Họ Tên</label>
+                      <input type="text" className="form-control"  value={user.name} />
                     </div>
                   </div>
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
-                      <label className="mb-2">Tên</label>
-                      <input type="text" className="form-control" defaultValue="Wilson" value={user.name}/>
+                      <label className="mb-2">Địa chỉ</label>
+                      <input type="text" className="form-control"  value={user.address}/>
                     </div>
                   </div>
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
                       <label className="mb-2">Ngày sinh</label>
                       <div className="cal-icon">
-                        <input type="text" className="form-control datetimepicker" defaultValue="24-07-1983" value={user.birthday}/>
+                        <input type="text" className="form-control datetimepicker"  value={user.birthday}/>
                       </div>
                     </div>
                   </div>
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
                       <label className="mb-2">Số điện thoại</label>
-                      <input type="text" defaultValue="+1 202-555-0125" className="form-control" value={user.phone}/>
+                      <input type="text"  className="form-control" value={user.phone}/>
                     </div>
                   </div>
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
                       <label className="mb-2">Email</label>
-                      <input type="email" className="form-control" defaultValue="richard@example.com" value={user.email}/>
+                      <input type="email" className="form-control"  value={user.email}/>
                     </div>
                   </div>
+                  <div className="col-md-6">
+                                            <div className="mb-3">
+                                                <label className="mb-2">Giới tính</label>
+                                                <select className="form-select form-control">
+                                                    <option>{user.gender}</option>
+                                                    <option>Nam</option>
+                                                    <option>Nữ</option>
+                                                </select>
+                                            </div>
+                                        </div>
                   
   
                 </div>
