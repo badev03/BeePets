@@ -300,7 +300,6 @@ const Booking = () => {
             <Col span={12}>
               <Form.Item
                 label="Họ và Tên"
-                name ="bá oke đấy"
                 rules={[
                   { required: true, message: "Vui lòng nhập tên của bạn" },
                 ]}
