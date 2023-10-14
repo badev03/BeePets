@@ -102,4 +102,5 @@ Route::get('upload-image' , function () {
     return view('api.upload');
 });
 Route::post('upload-image' , [HomeController::class , 'upload'])->name('upload.image');
+Route::get('pusher-tester' , [HomeController::class , 'Pusher']);
 

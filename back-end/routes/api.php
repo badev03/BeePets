@@ -135,6 +135,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('reviews', [ReviewsController::class, 'store']);
     Route::post('logout-user', [AuthController::class, 'LogoutUser']);
 
+    Route::get('/send-notification',  [\App\Http\Controllers\Admin\HomeController::class , 'getNotification']);
+    Route::post('/send-notification',  [\App\Http\Controllers\Admin\HomeController::class , 'SendNotification']);
+
 });
 Route::get('/list-appiontment/{id}', [DoctorController::class, 'getAppiontment']);
 
