@@ -3,11 +3,11 @@ import Menudashboard from './Menu-dashboard'
 import {Link} from 'react-router-dom'
 import appointmentsApi from '../../api/appointmentsApi';
 import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 const Dashboarddoctors = () => {
   const [appointments, setAppointment] = useState([]);
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const token = localStorage.getItem('token');
   console.log(appointments)
   
