@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import servicesDetailApi from '../../api/serviceApi';
 const ServiceDetails = () => {
-    const { id } = useParams();
+    const { slug } = useParams();
     const [services, setServices] = useState(null);
 
     useEffect(() => {
         const fetchBlog = async () => {
             try {
-                const response = await servicesDetailApi.get(id);
+                const response = await servicesDetailApi.get(slug);
                 setServices(response);
             } catch (error) {
                 console.error("Không có dữ liệu:", error);
@@ -49,7 +49,7 @@ const ServiceDetails = () => {
                                 <div className="blog blog-single-post">
                                     <h3 className="blog-title">{services['service-detail'].name}</h3>
                                     <div className="blog-image">
-                                        <a href="" ><img alt="blog-image" src={services['service-detail'].image} className="img-fluid" /></a>
+                                        <a href="" ><img alt="blog-image" src={services['service-detail'].image} className="img-fluslug" /></a>
 
                                     </div>
                                     <div className="blog-info clearfix">
@@ -62,8 +62,8 @@ const ServiceDetails = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-lg-4 col-md-12 sidebar-right theiaStickySidebar">
-                            <div className="card search-widget">
+                        <div className="col-lg-4 col-md-12 sslugebar-right theiaStickySslugebar">
+                            <div className="card search-wslugget">
                                 <div className="card-body">
                                     <form className="search-form">
                                         <div className="input-group">
@@ -73,7 +73,7 @@ const ServiceDetails = () => {
                                     </form>
                                 </div>
                             </div>
-                            <div className="card post-widget">
+                            <div className="card post-wslugget">
                                 <div className="card-header">
                                     <h4 className="card-title">Bài viết mới nhất</h4>
                                 </div>
@@ -82,7 +82,7 @@ const ServiceDetails = () => {
                                         <li>
                                             <div className="post-thumb">
                                                 <a href="blog-details.html">
-                                                    <img className="img-fluid" src="../src/assets/img/blog/blog-thumb-01.jpg" alt="blog-image" />
+                                                    <img className="img-fluslug" src="../src/assets/img/blog/blog-thumb-01.jpg" alt="blog-image" />
                                                 </a>
                                             </div>
                                             <div className="post-info">
@@ -95,7 +95,7 @@ const ServiceDetails = () => {
                                         <li>
                                             <div className="post-thumb">
                                                 <a href="blog-details.html">
-                                                    <img className="img-fluid" src="../src/assets/img/blog/blog-thumb-02.jpg" alt="blog-image" />
+                                                    <img className="img-fluslug" src="../src/assets/img/blog/blog-thumb-02.jpg" alt="blog-image" />
                                                 </a>
                                             </div>
                                             <div className="post-info">
@@ -108,7 +108,7 @@ const ServiceDetails = () => {
                                         <li>
                                             <div className="post-thumb">
                                                 <a href="blog-details.html">
-                                                    <img className="img-fluid" src="../src/assets/img/blog/blog-thumb-03.jpg" alt="blog-image" />
+                                                    <img className="img-fluslug" src="../src/assets/img/blog/blog-thumb-03.jpg" alt="blog-image" />
                                                 </a>
                                             </div>
                                             <div className="post-info">
@@ -121,7 +121,7 @@ const ServiceDetails = () => {
                                         <li>
                                             <div className="post-thumb">
                                                 <a href="blog-details.html">
-                                                    <img className="img-fluid" src="../src/assets/img/blog/blog-thumb-04.jpg" alt="blog-image" />
+                                                    <img className="img-fluslug" src="../src/assets/img/blog/blog-thumb-04.jpg" alt="blog-image" />
                                                 </a>
                                             </div>
                                             <div className="post-info">
@@ -134,7 +134,7 @@ const ServiceDetails = () => {
                                         <li>
                                             <div className="post-thumb">
                                                 <a href="blog-details.html">
-                                                    <img className="img-fluid" src="../src/assets/img/blog/blog-thumb-05.jpg" alt="blog-image" />
+                                                    <img className="img-fluslug" src="../src/assets/img/blog/blog-thumb-05.jpg" alt="blog-image" />
                                                 </a>
                                             </div>
                                             <div className="post-info">
