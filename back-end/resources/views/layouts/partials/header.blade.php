@@ -47,7 +47,7 @@
                                     </span>
                                     <div class="media-body flex-grow-1">
                                         <p class="noti-details"><span class="noti-title"></span>{{ $value->message }}</p>
-                                        <p class="noti-time"><span class="notification-time">4 mins ago</span></p>
+                                        <p class="noti-time"><span class="notification-time">{{ $value->created_at }}</span></p>
                                     </div>
                                 </div>
                             </a>
@@ -93,7 +93,7 @@
             cluster: 'ap1'
         });
 
-        var channel = pusher.subscribe('my-event');
+        var channel = pusher.subscribe('user-notification-3');
         channel.bind('notification-event', function(data) {
 
             let notification = `
@@ -105,7 +105,7 @@
                             </span>
                             <div class="media-body flex-grow-1">
                                 <p class="noti-details">${data.message}</p>
-                                <p class="noti-time"><span class="notification-time">Just now</span></p>
+                                <p class="noti-time"><span class="notification-time">${data.now}</span></p>
                             </div>
                         </div>
                     </a>

@@ -8,11 +8,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\Auth;
 use Pusher\Pusher;
 class HomeController extends Controller
 {
     public function index() {
-        $notification = Notification::select('notifications.id', 'users.name' , 'message')
+        $notification = Notification::select('notifications.id', 'users.name' , 'message' , 'notifications.created_at')
             ->join('users' , 'users.id' , '=' , 'notifications.user_id')
             ->get();
         return view('admin.dashboard.dashboard' , compact('notification'));
@@ -44,10 +45,10 @@ class HomeController extends Controller
             'useTLS' => config('broadcasting.connections.pusher.options.useTLS'),
         ]);
 
-        $data = ['message' => 'Đây là thông báo mất kỳ.'];
+        $data = ['message' => 'Đây là thông báo mất kỳ. le huy dat test'];
 
         // Gửi thông báo đến kênh riêng của người dùng
-        $pusher->trigger("private-user-$userId", 'notification-event', $data);
+        $pusher->trigger("private-user-3", 'notification-event', $data);
         Notification::create([
             'user_id' => $userId,
             'message' => $data['message'],
@@ -76,12 +77,19 @@ class HomeController extends Controller
             'useTLS' => config('broadcasting.connections.pusher.options.useTLS'),
         ]);
 
-        $data = ['message' => $message];
+        $data = ['message' => $message , 'now' => now()];
 
-        $pusher->trigger("my-event", 'notification-event', $data);
-        event(new AdminNotification($message));
+        $pusher->trigger("user-notification-$userId", 'notification-event', $data);
         return response()->json(
             ['msg' => 'đã gửi thông báo thành công']
         , 200);
+    }
+
+    public function PusherView() {
+        return view('api.pusher');
+    }
+
+    public function PusherView2() {
+        return view('api.pusher_2');
     }
 }
