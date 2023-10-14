@@ -34,9 +34,13 @@ const Review = () => {
     try {
       const response = await reviewsDoctorApi.getAll(token);
       setReviews(response.data.reviews);
+
     } catch (error) {
       console.error("Không có dữ liệu:", error);
     }
+  }
+  if (!reviews) {
+    return <div>Loading...</div>;
   }
 
 
@@ -65,37 +69,42 @@ const Review = () => {
             </div>
             <div className="col-md-7 col-lg-8 col-xl-9">
               <div className="doc-review review-listing">
-                {reviews.map((item, index) => {
-                  return (<ul className="comments-list" key={index}>
-                    <li>
-                      <div className="comment">
-                        <img className="avatar rounded-circle" alt="User Image" src="/img/patients/patient.jpg" />
-                        <div className="comment-body">
-                          <div className="meta-data">
-                            <span className="comment-author">{item.user_name}</span>
-                            <span className="comment-date">Đánh giá lúc:  {item.created_at}</span>
-                            <div className="review-count rating">
-                              <i className="fas fa-star filled" />
-                              <i className="fas fa-star filled" />
-                              <i className="fas fa-star filled" />
-                              <i className="fas fa-star filled" />
-                              <i className="fas fa-star" />
+                {reviews.length > 0 ? (
+
+                  reviews.map((item, index) => {
+                    return (<ul className="comments-list" key={index}>
+                      <li>
+                        <div className="comment">
+                          <img className="avatar rounded-circle" alt="User Image" src="/img/patients/patient.jpg" />
+                          <div className="comment-body">
+                            <div className="meta-data">
+                              <span className="comment-author">{item.user_name}</span>
+                              <span className="comment-date">Đánh giá lúc:  {item.created_at}</span>
+                              <div className="review-count rating">
+                                <i className="fas fa-star filled" />
+                                <i className="fas fa-star filled" />
+                                <i className="fas fa-star filled" />
+                                <i className="fas fa-star filled" />
+                                <i className="fas fa-star" />
+                              </div>
                             </div>
-                          </div>
-                          {/* <p className="recommended"><i className="far fa-thumbs-up" /> Tôi khuyên bạn nên
+                            {/* <p className="recommended"><i className="far fa-thumbs-up" /> Tôi khuyên bạn nên
                       bác sĩ</p> */}
-                          <p className="comment-content">
-                            {item.content}
-                          </p>
+                            <p className="comment-content">
+                              {item.content}
+                            </p>
 
+                          </div>
                         </div>
-                      </div>
 
-                    </li>
+                      </li>
 
 
-                  </ul>)
-                })}
+                    </ul>)
+                  })
+
+                ) : (<p>Không có đánh giá nào ở đây !</p>)
+                }
 
               </div>
             </div>
