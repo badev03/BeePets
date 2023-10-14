@@ -5,15 +5,19 @@ const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(localStorage.getItem("token") || null);
-  const [user, setUser] = useState(null);
 
-  const handleLoginSuccess = (newToken, user) => {
+  const [token, setToken] = useState(localStorage.getItem('token') || null);
+  const [dataDoctor, setDataDoctor] = useState({});
+  const handleLoginSuccess = (newToken) => {
+
+  
     setToken(newToken);
     setUser(user);
     localStorage.setItem("token", newToken);
     localStorage.setItem("user", JSON.stringify(user));
   };
+
+
 
   const logout = () => {
     setToken(null);
@@ -23,6 +27,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
+
     const savedUser = localStorage.getItem("user");
     if (savedUser) {
       try {
