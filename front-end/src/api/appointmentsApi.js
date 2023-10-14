@@ -16,12 +16,6 @@ const appointmentsApi = {
     const url = `/appoinment/${id}`;
     return instance.get(url,  params);
   },
-  
-  add(data) {
-    const url = "/appointments";
-    return instance.post(url, data);
-  },
-
   update(id,params) {
     const url = `/update-appointment/${id}?status=1`;
     return instance.put(url,params);
