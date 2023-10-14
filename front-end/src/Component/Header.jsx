@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../Context/ContextAuth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import doctorsApi from "../api/doctorsApi";
+import usersApi from "../api/usersApi";
 import React from "react";
 import { Dropdown } from "bootstrap";
+
 
 const Header = () => {
   const { isLoggedIn, onLogout, token } = useAuth();
@@ -21,6 +23,7 @@ const Header = () => {
   const [activeItems, setActiveItems] = useState(initialActiveItems);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [dataDoctor, setDataDoctor] = useState(null);
+  const [dataUser, setDataUser] = useState(null);
 
   const handleItemClick = (itemName) => {
     setActiveItems((prevActiveItems) => {
@@ -43,6 +46,7 @@ const Header = () => {
 
   useEffect(() => {
     getDataDoctor(token);
+    getDataUser(token);
   }, [token])
 
   const getDataDoctor = async (token) => {
@@ -56,6 +60,31 @@ const Header = () => {
     if (response.success) {
       setDataDoctor(response.doctor)
     } else {
+      return false;
+    }
+  }
+
+  const getDataUser = async (token) => {
+    const response = await usersApi.getUser(
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (response.success) {
+      setDataUser(response.user)
+    } else {
+      return false;
+    }
+  }
+
+  const handleCheckAccount = (dataUser) => {
+    if (dataUser?.role_id === 4) {
+      // return true là user
+      return true;
+    } else {
+      // return false là doctor
       return false;
     }
   }
@@ -148,6 +177,7 @@ const Header = () => {
           <ul className="nav header-navbar-rht">
             {isLoggedIn ? (
               <>
+
                 <li className="nav-item dropdown noti-nav me-3 pe-0">
                   <a
                     href="#"
@@ -294,19 +324,20 @@ const Header = () => {
                         />
                       </div>
                       <div className="user-text">
-                        <h6>{dataDoctor?.name}</h6>
-                        <p className="text-muted mb-0">Doctor</p>
+                        <h6>{handleCheckAccount(dataUser) ? dataUser?.name : dataDoctor?.name}</h6>
+                        <p className="text-muted mb-0">{handleCheckAccount(dataUser) ? 'User' : 'Doctor'}</p>
                       </div>
                     </div>
-                    <a className="dropdown-item" href="doctor-dashboard.html">
+
+                    <Link to={handleCheckAccount(dataUser) ? '/user/dashbroad' : '/doctors'} className="dropdown-item">
                       Dashboard
-                    </a>
-                    <a
+                    </Link>
+                    <Link to={handleCheckAccount(dataUser) ? '/user/profilesetting' : '/doctors/profile'}
                       className="dropdown-item"
                       href="doctor-profile-settings.html"
                     >
                       Profile Settings
-                    </a>
+                    </Link>
                     <a className="dropdown-item" onClick={handleLogout}>
                       Logout
                     </a>
