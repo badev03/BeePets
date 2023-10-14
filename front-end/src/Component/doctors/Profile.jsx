@@ -7,24 +7,30 @@ import { useParams } from 'react-router-dom';
 import doctorsApi from '../../api/doctorsApi'
 
 const Profile = () => {
-    const { id } = useParams();
-    const [doctor, setDoctor] = useState(null);
-
-    useEffect(() => {
-        const fetchBlog = async () => {
-            try {
-                const response = await doctorsApi.get(1);
-                setDoctor(response);
-            } catch (error) {
-                console.error("Không có dữ liệu:", error);
-            }
-        };
-
-        fetchBlog();
-    }, []);
-    if (!doctor) {
-        return <div>Loading...</div>;
-    }
+   const [doctor, setDoctors] = useState([]);
+  
+  const token = localStorage.getItem('token');
+  
+   if(token){
+     useEffect(() => {
+      const fetchDoctor = async () => {
+        try {
+         const response = await doctorsApi.getDoctor(
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+          setDoctors(response.doctor);     
+        } catch (error) {
+          console.error("Không có dữ liệu:", error);
+        }
+      };
+  
+      fetchDoctor();
+    }, []); 
+   }
     return (
         <div>
             <div className="breadcrumb-bar-two">
@@ -125,7 +131,7 @@ const Profile = () => {
                                     <h4 className="card-title">Về tôi</h4>
                                     <div className="mb-0">
                                         <label className="mb-2">Tiểu sử</label>
-                                        <textarea className="form-control" rows={5} value={doctor.description.about} defaultValue={""}  />
+                                        <textarea className="form-control" rows={5} value={doctor.description} defaultValue={""}  />
                                     </div>
                                 </div>
                             </div>
