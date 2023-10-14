@@ -110,7 +110,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/appoinments-status', [BookingController::class, 'getAppointmentByStatus']);
 
 
-    Route::post('/infor-member', [BookingController::class, 'inforMember']);
+    Route::get('/infor-member', [BookingController::class, 'inforMember']);
 
 //lấy ra 1 lịch khám
     Route::get('/appoinment/{id}', [BookingController::class, 'getAppointment']);
