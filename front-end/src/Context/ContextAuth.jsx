@@ -7,11 +7,13 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token') || null);
-
+  const [dataDoctor, setDataDoctor] = useState({});
   const handleLoginSuccess = (newToken) => {
     setToken(newToken);
     localStorage.setItem('token', newToken);
   };
+
+
 
   const logout = () => {
     setToken(null);
@@ -19,7 +21,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    
+
   }, [token]);
 
   const contextValue = {

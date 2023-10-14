@@ -6,12 +6,11 @@ import React from "react";
 import { Dropdown } from "bootstrap";
 
 const Header = () => {
-  const { isLoggedIn, onLogout, dataDoctor } = useAuth();
+  const { isLoggedIn, onLogout, token } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     onLogout();
-
     navigate('/');
 
   };
@@ -21,6 +20,7 @@ const Header = () => {
   ) || ["TRANG CHỦ"];
   const [activeItems, setActiveItems] = useState(initialActiveItems);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [dataDoctor, setDataDoctor] = useState(null);
 
   const handleItemClick = (itemName) => {
     setActiveItems((prevActiveItems) => {
@@ -41,33 +41,24 @@ const Header = () => {
     handleItemClick("TRANG CHỦ");
   };
 
+  useEffect(() => {
+    getDataDoctor(token);
+  }, [token])
 
-  // const [doctor, setDoctors] = useState([]);
-
-  // const token = localStorage.getItem('token');
-
-  // if (token) {
-  //   useEffect(() => {
-  //     const fetchDoctor = async () => {
-  //       try {
-  //         const response = await doctorsApi.getDoctor(
-  //           {
-  //             headers: {
-  //               Authorization: `Bearer ${token}`,
-  //             },
-  //           }
-  //         );
-  //         setDoctors(response.doctor);
-  //       } catch (error) {
-  //         console.error("Không có dữ liệu:", error);
-  //       }
-  //     };
-
-  //     fetchDoctor();
-  //   }, []);
-  // }
-
-
+  const getDataDoctor = async (token) => {
+    const response = await doctorsApi.getDoctor(
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (response.success) {
+      setDataDoctor(response.doctor)
+    } else {
+      return false;
+    }
+  }
 
   useEffect(() => {
     localStorage.setItem("activeItems", JSON.stringify(activeItems));
@@ -321,20 +312,9 @@ const Header = () => {
                     </a>
                   </div>
                 </li>
-                {/* <a className="dropdown-item" onClick={handleLogout}>
-                        Logout
-                      </a> */}
+
               </>
-              //   <Dropdown>
-              //   <Dropdown.Toggle variant="success" id="dropdown-basic">
-              //     Dropdown Button
-              //   </Dropdown.Toggle>
 
-              //   <Dropdown.Menu>
-              //     <Dropdown.Item href="#/action-1">logout</Dropdown.Item>
-
-              //   </Dropdown.Menu>
-              // </Dropdown>
 
             ) : (
               <>
