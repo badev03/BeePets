@@ -121,6 +121,13 @@ class AuthController extends BaseResponseApiController
         });
         return response()->json('Đăng xuất thành công');
     }
+    // đăng xuất bác sĩ
+    public function LogoutDoctor(Request $request) {
+        $request->user()->tokens->each(function ($token, $key) {
+            $token->delete();
+        });
+        return response()->json('Đăng xuất thành công');
+    }
 
     public function RegisterUser(Request $request) {
         $validator = $this->validateForm($request->all() , 'register');
