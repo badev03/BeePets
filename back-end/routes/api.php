@@ -134,9 +134,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('reviews', [ReviewsController::class, 'store']);
     Route::post('logout-user', [AuthController::class, 'LogoutUser']);
+    Route::post('logout-doctor', [AuthController::class, 'LogoutDoctor']);
 
+    
 });
 Route::get('/list-appiontment/{id}', [DoctorController::class, 'getAppiontment']);
+
+
 
 //change password doctor
 Route::put('/change-password', [DoctorController::class, 'changePassword']);
