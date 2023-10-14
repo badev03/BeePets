@@ -104,6 +104,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/prescription-user', [UserController::class, 'prescriptionByUser']);
 //get bill by user
     Route::get('/bill-user', [UserController::class, 'billByUser']);
+    //get history by user
+    Route::get('/history-user', [UserController::class, 'getHistoryByUser']);
 
 
 //lấy ra các lịch khám trạng thái chưa xác nhận
@@ -136,7 +138,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout-user', [AuthController::class, 'LogoutUser']);
     Route::post('logout-doctor', [AuthController::class, 'LogoutDoctor']);
 
-    
+
 });
 Route::get('/list-appiontment/{id}', [DoctorController::class, 'getAppiontment']);
 

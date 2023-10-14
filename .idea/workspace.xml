@@ -5,8 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="45a53ba9-6ef3-41ae-87f6-4b989cb527d7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/BeePets.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/BeePets.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/phpspec.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpspec.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -257,6 +262,10 @@
       <path value="$PROJECT_DIR$/back-end/vendor/phpunit/php-timer" />
       <path value="$PROJECT_DIR$/back-end/vendor/phpunit/phpunit" />
       <path value="$PROJECT_DIR$/back-end/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/back-end/vendor/teapot/status-code" />
+      <path value="$PROJECT_DIR$/back-end/vendor/cloudinary/cloudinary_php" />
+      <path value="$PROJECT_DIR$/back-end/vendor/cloudinary/transformation-builder-sdk" />
+      <path value="$PROJECT_DIR$/back-end/vendor/cloudinary-labs/cloudinary-laravel" />
     </include_path>
   </component>
   <component name="ProjectId" id="2VuhhQXDza3ZsemU1n74U22XaJR" />
@@ -316,6 +325,7 @@
       <workItem from="1697138072416" duration="753000" />
       <workItem from="1697166198901" duration="8294000" />
       <workItem from="1697179729564" duration="1248000" />
+      <workItem from="1697274218578" duration="1134000" />
     </task>
     <servers />
   </component>
