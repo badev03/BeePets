@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\BaseAdminController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class HomeController extends Controller
 {
@@ -24,5 +25,9 @@ class HomeController extends Controller
                 'fileName' => $fileName , 'uploaded' => 1, 'url' => $url
             ]);
         }
+    }
+
+    public function upload(Request $request) {
+        $uploadedFileUrl = cloudinary()->upload($request->file('image')->getRealPath())->getSecurePath();
     }
 }

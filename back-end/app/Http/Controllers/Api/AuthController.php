@@ -47,7 +47,6 @@ class AuthController extends BaseResponseApiController
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         }
-//        $phone_number = $request->input('phone');
         $phone_number = '0981608298';
         if($phone_number) {
             $check_exit_phone = $this->tableQuery('users')
@@ -117,6 +116,13 @@ class AuthController extends BaseResponseApiController
     }
 
     public function LogoutUser(Request $request) {
+        $request->user()->tokens->each(function ($token, $key) {
+            $token->delete();
+        });
+        return response()->json('Đăng xuất thành công');
+    }
+    // đăng xuất bác sĩ
+    public function LogoutDoctor(Request $request) {
         $request->user()->tokens->each(function ($token, $key) {
             $token->delete();
         });

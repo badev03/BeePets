@@ -37,7 +37,9 @@ class BookingController extends Controller
                     }),
                 ];
             });
-
+            if($data->isEmpty()){
+                return response()->json(['message' => 'Không có dịch vụ nào'], 400);
+            }
         return response()->json(['message' => 'Lấy danh sách dịch vụ thành công', 'data' => $data], 200);
     }
 
@@ -46,11 +48,24 @@ class BookingController extends Controller
     public function typePets()
     {
         $data = Type_pet::select('id', 'name')->get();
+        if($data->isEmpty()){
+            return response()->json(['message' => 'Không có loại thú cưng nào'], 400);
+        }
         return response()->json(['message' => 'Lấy danh sách loại thú cưng thành công', 'data' => $data], 200);
     }
 
     public function doctors(Request $request)
     {
+        // validate doctors request và date
+        $this->validate($request, [
+            'doctor_id' => 'required|exists:doctors,id',
+            'date' => 'required|date_format:Y-m-d',
+        ], [
+            'required' => ':attribute không được để trống',
+            'exists' => ':attribute không tồn tại',
+            'date_format' => ':attribute không đúng định dạng',
+        ]);
+        
         $doctor = $request->input('doctor_id');
         $date = $request->input('date');
         // lấy ra lịch làm việc của bác sĩ theo ngày
@@ -87,6 +102,7 @@ class BookingController extends Controller
             $data = User::where('id', $user->id)->select('id', 'name', 'phone')->first();
             return response()->json(['message' => 'Lấy thông tin thành công', 'user' => $data], 200);
         }
+        return response()->json(['message' => 'Bạn chưa đăng nhập'], 400);
     }
 
 
@@ -132,7 +148,7 @@ class BookingController extends Controller
         $request->validate([
             'doctor_id' => 'required|exists:doctors,id',
             'date' => 'required|date_format:Y-m-d',
-            // 'time' => 'required|date_format:H:i:s',
+            'time' => 'required|date_format:H:i:s',
             'shift_name' => 'required',
             'type_pet_id' => 'required|exists:type_pets,id',
             'service_id' => 'required|exists:services,id',

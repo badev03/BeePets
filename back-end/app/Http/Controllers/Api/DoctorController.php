@@ -235,4 +235,27 @@ class DoctorController extends Controller
             ]);
         }
     }
+
+
+
+
+public function addPrescription(){
+
+    if(!Auth::guard('doctors')->check()) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Bạn chưa đăng nhập',
+        ]);
+    }else{
+        $doctor = Auth::guard('doctors')->user();
+        $data = $doctor->prescriptions()->create([
+            'name' => request()->name,
+            'description' => request()->description,
+            'status' => 0,
+        ]);
+        return response()->json(['message' => 'Thêm đơn thuốc thành công', 'data' => $data], 200);
+    }
+    
+}
+
 }
