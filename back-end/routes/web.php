@@ -63,6 +63,8 @@ Route::middleware(['role:Admin'])->group(function () {
         Route::get('appointment/create-data/{data}', [AppointmentController::class , 'createData'])->name('appointment.create-data');
         Route::resource('schedules', ScheduleController::class);
         Route::resource('doctors', DoctorController::class);
+        Route::get('pusher-tester-view' , [HomeController::class , 'PusherView']);
+        Route::get('pusher-tester-view2' , [HomeController::class , 'PusherView2']);
 
 
 
@@ -95,3 +97,11 @@ Route::get('login-tester' , [ApiAuthController::class , 'checkPhone']);
 Route::get('filter-service' , [\App\Http\Controllers\Api\ServiceController::class , 'filterServiceDoctor']);
 Route::post('filter-service' , [\App\Http\Controllers\Api\ServiceController::class , 'filterServiceDoctorPost'])->name('filter-service-doctor');
 
+
+
+
+Route::get('upload-image' , function () {
+    return view('api.upload');
+});
+Route::post('upload-image' , [HomeController::class , 'upload'])->name('upload.image');
+Route::get('pusher-tester' , [HomeController::class , 'Pusher']);

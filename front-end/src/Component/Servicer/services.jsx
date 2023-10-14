@@ -41,19 +41,19 @@ const Services = () => {
                     <div className="col-lg-3 col-md-4 col-sm-12 d-flex" key={service.id}>
 
                         <div className="our-services-list w-100">
-                            <Link to={`/services/details/${service.id}`}>
+                            <Link to={`/service-detail/${service.slug}`}>
 
                                 <div className="service-icon">
                                     <img
-                                        src="../src/assets/img/icons/injection.svg"
+                                        src={service.image}
                                         alt="injection-icon"
                                     />
                                 </div>
 
                                 <h4>{service.name}</h4>
-                                <p>
+                                {/* <p>
                                     {service.slug}
-                                </p>
+                                </p> */}
                             </Link>
 
                         </div>

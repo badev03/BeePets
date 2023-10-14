@@ -55,7 +55,12 @@ class BaseAdminController extends Controller
     {
         if (auth()->user()->can(['read-'.$this->permissionCheckCrud])) {
             if(empty($this->QuerySpecialIndex())) {
-                $data = $this->model->all();
+                foreach ($this->colums as $key => $value) {
+                    $selectedColumns[] = $key;
+                }
+                $selectedColumns = '`' . implode('`,`', $selectedColumns) . '`';
+                $data = $this->model->select('id', DB::raw($selectedColumns))
+                    ->get();
                 if($this->removeColumns) {
                     $this->colums = array_diff_key($this->colums, array_flip($this->removeColumns));
                 }
@@ -131,12 +136,10 @@ class BaseAdminController extends Controller
 //            $tmpPath = Storage::put('public/'.$this->folderImage, $request->{$this->fieldImage});
 //            $path = str_replace('public/','',  $tmpPath);
 //            $model->{$this->fieldImage} = 'storage/' . $path;
-//            $image = $request->{$this->fieldImage};
-            $cloudinaryResponse = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
-            dd($cloudinaryResponse);
-            $cloudinaryUrl = $cloudinaryResponse->getSecurePath();
+            $image = $request->{$this->fieldImage};
+            $cloudinaryResponse = Cloudinary::upload($request->file($this->fieldImage)->getRealPath())->getSecurePath();
 
-            $model->{$this->fieldImage} = $cloudinaryUrl;
+            $model->{$this->fieldImage} = $cloudinaryResponse;
         }
         if($request->has('name') && $this->checkerNameSlug == true) {
             $model->slug = $this->createSlug($request->name);
@@ -225,9 +228,15 @@ class BaseAdminController extends Controller
             if ($request->hasFile($this->fieldImage)) {
                 $oldImage = $model->{$this->fieldImage};
 
-                $tmpPath = Storage::put('public/' . $this->folderImage, $request->{$this->fieldImage});
-                $path = str_replace('public/', '', $tmpPath);
-                $model->{$this->fieldImage} = 'storage/' . $path;
+//                $tmpPath = Storage::put('public/' . $this->folderImage, $request->{$this->fieldImage});
+//                $path = str_replace('public/', '', $tmpPath);
+//                $model->{$this->fieldImage} = 'storage/' . $path;
+
+                $image = $request->{$this->fieldImage};
+                $cloudinaryResponse = Cloudinary::upload($request->file($this->fieldImage)->getRealPath())->getSecurePath();
+                $model->{$this->fieldImage} = $cloudinaryResponse;
+
+//                Cloudinary::destroy($oldImage);
             }
             if ($request->has('name') && $this->checkerNameSlug == true) {
                 $model->slug = $this->createSlug($request->name);
