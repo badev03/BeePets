@@ -28,10 +28,13 @@ const LoginDoctor = () => {
 
     try {
       const response = await loginDoctor.add(formData);
+
       if (response.doctor ?? response.access_token) {
         setShowSuccessAlert(true);
         setIsRedirecting(true);
+
         onLoginSuccess(response.access_token);
+   
       } else {
         setShowErrorAlert(true);
       }

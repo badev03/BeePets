@@ -1,21 +1,18 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../Context/ContextAuth";
 import { useNavigate } from "react-router-dom";
-
-import doctorsApi from "../api/doctorsApi";
-import React from "react";
-import { Dropdown } from "bootstrap";
-
+// import { Dropdown } from "bootstrap";
+// import doctorsApi from "../api/doctorsApi";
 
 const Header = () => {
-  const { isLoggedIn, onLogout, token } = useAuth();
+  const { isLoggedIn, onLogout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     onLogout();
     navigate('/');
-
   };
+
 
 
 
@@ -25,7 +22,6 @@ const Header = () => {
   ) || ["TRANG CHỦ"];
   const [activeItems, setActiveItems] = useState(initialActiveItems);
   const [scrollPosition, setScrollPosition] = useState(0);
-  const [dataDoctor, setDataDoctor] = useState(null);
 
   const handleItemClick = (itemName) => {
     setActiveItems((prevActiveItems) => {
@@ -73,25 +69,6 @@ const Header = () => {
   // }
 
 
-
-  useEffect(() => {
-    getDataDoctor(token);
-  }, [token])
-
-  const getDataDoctor = async (token) => {
-    const response = await doctorsApi.getDoctor(
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    if (response.success) {
-      setDataDoctor(response.doctor)
-    } else {
-      return false;
-    }
-  }
 
   useEffect(() => {
     localStorage.setItem("activeItems", JSON.stringify(activeItems));
@@ -327,9 +304,7 @@ const Header = () => {
                         />
                       </div>
                       <div className="user-text">
-
-                        <h6>{dataDoctor?.name}</h6>
-
+                        {/* <h6>{doctor.name}</h6> */}
                         <p className="text-muted mb-0">Doctor</p>
                       </div>
                     </div>
@@ -347,9 +322,20 @@ const Header = () => {
                     </a>
                   </div>
                 </li>
-
+                {/* <a className="dropdown-item" onClick={handleLogout}>
+                        Logout
+                      </a> */}
               </>
+              //   <Dropdown>
+              //   <Dropdown.Toggle variant="success" id="dropdown-basic">
+              //     Dropdown Button
+              //   </Dropdown.Toggle>
 
+              //   <Dropdown.Menu>
+              //     <Dropdown.Item href="#/action-1">logout</Dropdown.Item>
+
+              //   </Dropdown.Menu>
+              // </Dropdown>
 
             ) : (
               <>
