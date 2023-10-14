@@ -15,7 +15,7 @@ class ServiceController extends BaseResponseApiController
     public $title = 'Dịch vụ';
     public function index()
     {
-        $data = Service::select('services.id' , 'services.name' , 'services.slug' , 'services.description')
+        $data = Service::select('services.id' , 'services.name' , 'services.slug' , 'services.description' ,  'services.image')
             ->join('service_categories' , 'service_categories.id' , '=' , 'services.service_categorie_id')
             ->where('service_categories.status' , '=' , 1)
             ->get();
@@ -28,7 +28,7 @@ class ServiceController extends BaseResponseApiController
     }
 
     //lấy ra tất cả dịch vụ
-  
+
 
 
 
@@ -36,7 +36,7 @@ class ServiceController extends BaseResponseApiController
 
     public function showHome() {
         $data = Service::limit(4)
-                ->select('services.id' , 'services.name' , 'services.slug' , 'services.description' , 'services.icon_svg')
+                ->select('services.id' , 'services.name' , 'services.slug' , 'services.description' , 'services.icon_svg' ,  'services.image')
                 ->join('service_categories' , 'service_categories.id' , '=' , 'services.service_categorie_id')
                 ->where('service_categories.status' , '=' , 1)
                 ->get();
@@ -48,14 +48,14 @@ class ServiceController extends BaseResponseApiController
             '200');
     }
 
-    public function show(string $id) {
+    public function show(string $slug) {
         $data = $this->tableQuery('services')
             ->select('services.id' , 'services.name' ,
                 'services.slug' , 'services.description' , 'services.icon_svg' , 'services.image'
             , 'service_categories.id as service_categorie_id')
             ->join('service_categories' , 'service_categories.id' , '=' , 'services.service_categorie_id')
             ->where('service_categories.status' , '=' , 1)
-            ->where('services.id', '=', $id)
+            ->where('services.slug', '=', $slug)
             ->first();
         if(!$data) {
             return response()->json(['message' => 'Dịch vụ không tồn tại'], 404);
@@ -66,7 +66,7 @@ class ServiceController extends BaseResponseApiController
             ->where('service_categories.status' , '=' , 1)
             ->where('services.service_categorie_id', '=', $data->service_categorie_id)
             ->where('services.id', '!=', $data->id)
-            ->toRawSql();
+            ->get();
         return response()->json([
             'service-detail' => $data ,'service-related' => $relatedService ],
             '200');

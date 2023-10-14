@@ -144,6 +144,7 @@ class AuthController extends BaseResponseApiController
             ->where('phone' , '=' , $phone_number)
             ->where('role_id' , '=' , 4)
             ->first();
+
         if($existingUser) {
             return response()->json(['msg' => 'Số điện thoại này đã được đăng ký'], 400);
         }
@@ -209,6 +210,21 @@ class AuthController extends BaseResponseApiController
                     'password.confirmed' => 'Trường password_confirmation không khớp với trường password xác nhận',
                 ]);
                 break;
+            case 'change_password' :
+                $validator = Validator::make($data, [
+                    'old_password' => 'required|min:6',
+                    'new_password' => 'required|min:6',
+                    'password_confirmation' => 'required|same:new_password',
+                ] , [
+                    'new_password.required' => 'Trường password không được để trống',
+                    'old_password.required' => 'Trường password không được để trống',
+                    'new_password.min' => 'Trường password phải nhập ít nhất 6 ký tự',
+                    'old_password.min' => 'Trường password phải nhập ít nhất 6 ký tự',
+                    'password_confirmation.required' => 'Trường password_confirmation không được để trống',
+                    'password_confirmation.min' => 'Trường password_confirmation phải nhập ít nhất 6 ký tự',
+                    'password.confirmed' => 'Trường password_confirmation không khớp với trường password xác nhận',
+                ]);
+                break;
             default:
                 $validator = Validator::make([], []);
                 break;
@@ -237,13 +253,12 @@ class AuthController extends BaseResponseApiController
         }
     }
 
-    public function CreatePassword(Request $request) {
-        $validator = $this->validateForm($request->all() , 'password_reset');
+    public function CreatePassword(Request $request , $phone) {
+        $validator = $this->validateForm($request->all() , 'createPass');
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         }
         $password = $request->input('password');
-        $phone = $request->input('phone');
         $password_again = $request->input('password_confirmation');
         if ($password === $password_again) {
             $insert_user = $this->tableQuery('users')->insert(
@@ -317,12 +332,11 @@ class AuthController extends BaseResponseApiController
         }
     }
 
-    public function ResetPassword(Request $request) {
+    public function ResetPassword(Request $request , $phone_number) {
         $validator = $this->validateForm($request->all() , 'password_reset');
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         }
-        $phone_number = $request->input('phone');
         $password = $request->input('password');
         if($phone_number) {
             $update_user = $this->tableQuery('users')
@@ -349,4 +363,44 @@ class AuthController extends BaseResponseApiController
             }
         }
     }
+
+
+
+    public function ChangePassword(Request $request , $phone) {
+        $validator = $this->validateForm($request->all() , 'change_password');
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+        $existingUser = $this->tableQuery('users')
+            ->where('phone' , '=' , $phone)
+            ->where('role_id' , '=' , 4)
+            ->first();
+        $password = $request->input('new_password');
+        $password_again = $request->input('password_confirmation');
+        if($existingUser) {
+            if (password_verify($request->input('old_password'), $existingUser->password)) {
+                if($password === $password_again) {
+                    $update_user = $this->tableQuery('users')
+                        ->where('phone' , '=' , $phone)
+                        ->update(
+                            [
+                                'password' => Hash::make($password),
+                                'updated_at' => now(),
+                            ]
+                        );
+                    return response()->json(['msg' => 'Đổi mật khẩu thành công'], 200);
+                }
+                else {
+                    return response()->json(['msg' => 'Mật khẩu hiện tại không chính xác'], 400);
+                }
+            } else {
+                return response()->json(['msg' => 'Mật khẩu hiện tại không chính xác'], 400);
+            }
+        }
+
+        else {
+            return response()->json(['msg' => 'Số điện thoại không chính xác'], 200);
+        }
+    }
 }
+
