@@ -110,7 +110,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/appoinments-status', [BookingController::class, 'getAppointmentByStatus']);
 
 
-    Route::post('/infor-member', [BookingController::class, 'inforMember']);
+    Route::get('/infor-member', [BookingController::class, 'inforMember']);
 
 //lấy ra 1 lịch khám
     Route::get('/appoinment/{id}', [BookingController::class, 'getAppointment']);
@@ -134,12 +134,16 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('reviews', [ReviewsController::class, 'store']);
     Route::post('logout-user', [AuthController::class, 'LogoutUser']);
+    Route::post('logout-doctor', [AuthController::class, 'LogoutDoctor']);
 
     Route::get('/send-notification',  [\App\Http\Controllers\Admin\HomeController::class , 'getNotification']);
     Route::post('/send-notification',  [\App\Http\Controllers\Admin\HomeController::class , 'SendNotification']);
 
+
 });
 Route::get('/list-appiontment/{id}', [DoctorController::class, 'getAppiontment']);
+
+
 
 //change password doctor
 Route::put('/change-password', [DoctorController::class, 'changePassword']);
