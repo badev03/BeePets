@@ -3,11 +3,11 @@ import Menudashboard from './Menu-dashboard'
 import {Link} from 'react-router-dom'
 import appointmentsApi from '../../api/appointmentsApi';
 import { useEffect, useState } from "react";
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 const Dashboarddoctors = () => {
   const [appointments, setAppointment] = useState([]);
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
   const token = localStorage.getItem('token');
   console.log(appointments)
   
@@ -22,16 +22,20 @@ const Dashboarddoctors = () => {
         }
       );
       setAppointment(response.data);     
-      console.log(response.data);
+      // console.log(response.data);
       } catch (error) {
+      
         console.error("Không có dữ liệu:", error);
+        setAppointment([]);
       }
     };
-    if(token){
-     useEffect(() => {
-      fetchAppointment();
-    }, []); 
-   }
+ 
+      useEffect(() => {
+        fetchAppointment();
+      }, []); 
+
+  
+  
    const handleUpdate = async (id) => {
      try {
       console.log(id)
@@ -42,7 +46,10 @@ const Dashboarddoctors = () => {
           }
         })
       console.log(respon)
-      fetchAppointment()
+     
+        fetchAppointment();
+      
+
     
     } catch (error) {
       console.log(error)
