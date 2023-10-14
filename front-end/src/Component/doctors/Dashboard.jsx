@@ -3,33 +3,52 @@ import Menudashboard from './Menu-dashboard'
 import {Link} from 'react-router-dom'
 import appointmentsApi from '../../api/appointmentsApi';
 import { useEffect, useState } from "react";
-
+// import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 const Dashboarddoctors = () => {
   const [appointments, setAppointment] = useState([]);
-  
+  // const navigate = useNavigate()
   const token = localStorage.getItem('token');
+  console.log(appointments)
   
-   if(token){
-     useEffect(() => {
-      const fetchAppointment = async () => {
-        try {
-         const response = await appointmentsApi.getStatus(
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setAppointment(response.data);     
-        console.log(response.data);
-        } catch (error) {
-          console.error("Không có dữ liệu:", error);
+
+    const fetchAppointment = async () => {
+      try {
+       const response = await appointmentsApi.getStatus(
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      };
-  
+      );
+      setAppointment(response.data);     
+      console.log(response.data);
+      } catch (error) {
+        console.error("Không có dữ liệu:", error);
+      }
+    };
+    if(token){
+     useEffect(() => {
       fetchAppointment();
     }, []); 
    }
+   const handleUpdate = async (id) => {
+     try {
+      console.log(id)
+      console.log(token)
+       const respon = await axios.put(`http://127.0.0.1:8000/api/update-appointment/${id}?status=1`, {}, {
+         headers: {
+           Authorization: `Bearer ${token}`
+          }
+        })
+      console.log(respon)
+      fetchAppointment()
+    
+    } catch (error) {
+      console.log(error)
+    }
+   } 
+
   return (
     <div>
   <div className="breadcrumb-bar-two">
@@ -149,9 +168,9 @@ const Dashboarddoctors = () => {
                                 <Link to={`/doctors/detail-appointments/${appointment.id}`} className="btn btn-sm bg-info-light">
                                   <i className="far fa-eye" /> View
                                 </Link>
-                                  <Link to={`/doctors/appointments`} className="btn btn-sm bg-success-light">
+                                  <div onClick={() => handleUpdate(appointment.id)} className="btn btn-sm bg-success-light">
                                     <i className="fas fa-check" /> Accept
-                                  </Link>
+                                  </div>
                                   <Link to="javascript:void(0);" className="btn btn-sm bg-danger-light">
                                     <i className="fas fa-times" /> Cancel
                                   </Link>

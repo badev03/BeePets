@@ -12,7 +12,7 @@ use App\Models\Work_schedule;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\QueryException;
-
+use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
@@ -181,13 +181,19 @@ class BookingController extends Controller
 
 
     public function updateStatus(Request $request ,$id){
-        // dd(request()->all());
-        $appointment = Appointment::query()->findOrFail($id);
-        
-        $appointment->status = $request->input('status');
-        $appointment->save();
-
-        return response()->json(['message' => 'Cập nhật trạng thái thành công'], 200);
+        if(Auth::guard('doctors')->check()){
+            $doctor = auth()->user();
+            $appointment = Appointment::where('id', $id)->where('doctor_id', $doctor->id)->first();
+            if(!$appointment){
+                return response()->json(['message' => 'Không có cuộc hẹn này'], 400);
+            }
+            $appointment->status = $request->input('status');
+            $appointment->save();
+            return response()->json(['message' => 'Cập nhật trạng thái thành công'], 200);
+        }else{
+            return response()->json(['message' => 'Bạn chưa đăng nhập'], 400);
+        }
+    
     }
     
 }

@@ -2,24 +2,35 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import appointmentsApi from '../../api/appointmentsApi'
+import appointmentUsersApi from '../../api/appoinmentsUse'
 
 
 const Appointments = () => {
-  const [appointments, setAppointments] = useState([]);
-
-  useEffect(() => {
-    const fetchAppointments = async () => {
-      try {
-        const response = await appointmentsApi.getAll();
-        setAppointments(response);
-        console.log(appointments);
-      } catch (error) {
-        console.error("Không có dữ liệu:", error);
-      }
-    };
-
-    fetchAppointments();
-  }, []); 
+  const [appointments, setAppointmentsApi] = useState([]);
+  
+  const token = localStorage.getItem('token');
+  
+   if(token){
+     useEffect(() => {
+      const fetchUser = async () => {
+        try {
+         const response = await appointmentUsersApi.getAppoinments(
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setAppointmentsApi(response.appointments); 
+        console.log(response.appointments);    
+        } catch (error) {
+          console.error("Không có dữ liệu:", error);
+        }
+      };
+  
+      fetchUser();
+    }, []); 
+   }
   return (
     <div id="pat_appointments" className="tab-pane fade show active">
     <div className="card card-table mb-0">

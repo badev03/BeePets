@@ -1,7 +1,65 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import usersApi from '../../api/usersApi';
+import { useEffect, useState } from "react";
 
 const Sidebar = () => {
+  const [user, setUser] = useState([]);
+  
+  const token = localStorage.getItem('token');
+  
+   if(token){
+     useEffect(() => {
+      const fetchUser = async () => {
+        try {
+         const response = await usersApi.getUser(
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setUser(response.user); 
+        console.log(response.user);    
+        } catch (error) {
+          console.error("Không có dữ liệu:", error);
+        }
+      };
+  
+      fetchUser();
+    }, []); 
+   }
+   const initialActiveItems = JSON.parse(
+    localStorage.getItem("activeItems")
+  ) || ["Bộ điều khiển"];
+  const [activeItems, setActiveItems] = useState(initialActiveItems);
+
+  const handleItemClick = (itemName) => {
+    setActiveItems((prevActiveItems) => {
+      if (prevActiveItems.includes(itemName)) {
+        return prevActiveItems.filter((item) => item !== itemName);
+      } else {
+        return [itemName];
+      }
+    });
+  };
+
+  const handleScroll = () => {
+    const position = window.scrollY;
+    setScrollPosition(position);
+  };
+
+  useEffect(() => {
+    localStorage.setItem("activeItems", JSON.stringify(activeItems));
+  }, [activeItems]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
     
   return (
     <div className="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
@@ -9,13 +67,13 @@ const Sidebar = () => {
       <div className="widget-profile pro-widget-content">
         <div className="profile-info-widget">
           <a href="#" className="booking-doc-img">
-            <img src="../src/assets/img/patients/patient.jpg" alt="User Image" />
+            <img src={user.avatar} alt="User Image" />
           </a>
           <div className="profile-det-info">
-            <h3>Tạ Anh Quý</h3>
+            <h3>{user.name}</h3>
             <div className="patient-details">
-              <h5><i className="fas fa-birthday-cake" /> 24 Jul 2003, 18 years</h5>
-              <h5 className="mb-0"><i className="fas fa-map-marker-alt" /> Newyork, USA</h5>
+              <h5><i className="fas fa-birthday-cake" />{user.phone}</h5>
+              <h5 className="mb-0"><i className="fas fa-map-marker-alt" />{user.address}</h5>
             </div>
           </div>
         </div>
@@ -23,23 +81,35 @@ const Sidebar = () => {
       <div className="dashboard-widget">
         <nav className="dashboard-menu">
           <ul>
-            <li className="active">
+            <li  className={`has-submenu megamenu ${
+                  activeItems.includes("Bảng điều khiển") ? "active" : ""
+                }`}
+                onClick={() => handleItemClick("Bảng điều khiển")}>
               <Link to={"/user/dashbroad"}><i className="fas fa-columns" />
                 <span>Bảng điều khiển</span></Link>
               
             </li>
             
-            <li>
+            <li className={`has-submenu megamenu ${
+                  activeItems.includes("Thông tin cá nhân") ? "active" : ""
+                }`}
+                onClick={() => handleItemClick("Thông tin cá nhân")}>
             <Link to={"/user/profilesetting"}><i className="fas fa-user-cog" />
                 <span>Thông Tin Cá Nhân</span></Link>
            
             </li>
-            <li>
+            <li className={`has-submenu megamenu ${
+                  activeItems.includes("Thay đổi mật khẩu") ? "active" : ""
+                }`}
+                onClick={() => handleItemClick("Thay đổi mật khẩu")}>
             <Link to={"/user/changepassword"}><i className="fas fa-lock" />
                 <span>Thay Đổi Mật Khẩu</span></Link>
             
             </li>
-            <li>
+            <li className={`has-submenu megamenu ${
+                  activeItems.includes("Đăng xuất") ? "active" : ""
+                }`}
+                onClick={() => handleItemClick("Đăng xuất")}>
               <a href="login.html">
                 <i className="fas fa-sign-out-alt" />
                 <span>Đăng Xuất</span>

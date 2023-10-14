@@ -1,84 +1,88 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import listAppiontmentApi from '../../api/listAppiontment';
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
-const AppoimentList = () => {
-  const { id } = useParams();
-    const [listAppiontment, setListAppiontment] = useState(null);
+import { Link } from 'react-router-dom'
+import appointmentsApi from '../../api/appointmentsApi'
+import appointmentUsersApi from '../../api/appoinmentsUse'
 
-    const token = localStorage.getItem('token');
+const AppoimentList = () => {
+  const [appointments, setAppointmentsApi] = useState([]);
+  
+  const token = localStorage.getItem('token');
   
    if(token){
      useEffect(() => {
-      const fetchAppointments = async () => {
+      const fetchUser = async () => {
         try {
-         const response = await listAppiontmentApi.get(id,
+         const response = await appointmentUsersApi.getAppoinments(
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-        setListAppiontment(response.appointments);     
-        console.log(response.appointments);
+        setAppointmentsApi(response.appointments); 
+        console.log(response.appointments);    
         } catch (error) {
           console.error("Không có dữ liệu:", error);
         }
       };
   
-      fetchAppointments();
-    }, []);
-    
+      fetchUser();
+    }, []); 
    }
-   
-    if (!listAppiontment) {
-        return <div>Loading...</div>;
-    }
   return (
-    <div className="table-responsive">
-      <table className="table table-hover table-center mb-0">
-        <thead>
-          <tr>
-            <th>Bác sĩ</th>
-            <th>Ngày đặt lịch</th>
-            <th>Tổng tiền</th>
-            <th>Trạng thái</th>
-          </tr>
-        </thead>
-        <tbody>
+    <div id="pat_appointments" className="tab-pane fade show active">
+    <div className="card card-table mb-0">
+      <div className="card-body">
+        <div className="table-responsive">
+          <table className="table table-hover table-center mb-0">
+            <thead>
+              <tr>
+                <th>Bác sĩ</th>
+                <th>Lịch khám</th>
+                <th> Ngày đặt lịch</th>
+            
+                <th>Trạng thái</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {appointments.map(appointment=>(
+              <tr key={appointment.id}>
+              <td>
+                <h2 className="table-avatar">
+                  <a href="doctor-profile.html" className="avatar avatar-sm me-2">
+                    <img className="avatar-img rounded-circle" src={appointment.avatar} alt="User Image" />
+                  </a>
+                  <a href="doctor-profile.html">{appointment.doctor_id}</a>
+                </h2>
+              </td>
+              <td>{appointment.date} <span className="d-block text-info">{appointment.time} AM</span></td>
+              <td>{appointment.date}</td>
 
-          <tr>
-            <td>
-              <h2 className="table-avatar">
-                <Link to="/doctors/detail-appointments" className="avatar avatar-sm me-2">
-                  <img className="avatar-img rounded-circle" src="/img/doctors/doctor-thumb-02.jpg" alt="User Image" />
-                </Link>
-                <Link to="/doctors/detail-appointments">haha
-                  <span></span></Link>
-              </h2>
-            </td>
-            <td>14 Nov 2023 <span className="d-block text-info">10.00
-              AM</span></td>
+              <td><span className="badge rounded-pill bg-success-light">Confirm</span></td>
+              <td>
+                <div className="table-action">
+                  
+                  <button className="btn btn-sm bg-info-light">
+                    <Link to={"/user/appointment"}> <i className="far fa-eye" /> View</Link>
+                    
+                  </button>
+                </div>
+              </td>
+              </tr>
+              ))}
+             
+            
 
-            <td>$160</td>
-
-            <td><span className="badge rounded-pill bg-success-light">Confirm</span>
-            </td>
-            <td>
-              <div className="table-action">
-                <Link to="/doctors/detail-appointments" className="btn btn-sm bg-info-light">
-                  <i className="far fa-eye" /> View
-                </Link>
-              </div>
-            </td>
-          </tr>
-
-
-        </tbody>
-      </table>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
+  </div>
   )
 }
+
 
 export default AppoimentList
