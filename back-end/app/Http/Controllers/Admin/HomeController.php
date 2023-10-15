@@ -13,10 +13,7 @@ use Pusher\Pusher;
 class HomeController extends Controller
 {
     public function index() {
-        $notification = Notification::select('notifications.id', 'users.name' , 'message' , 'notifications.created_at')
-            ->join('users' , 'users.id' , '=' , 'notifications.user_id')
-            ->get();
-        return view('admin.dashboard.dashboard' , compact('notification'));
+        return view('admin.dashboard.dashboard');
     }
 
     public function uploadImg(Request $request) {
