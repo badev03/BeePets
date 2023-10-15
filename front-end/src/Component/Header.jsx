@@ -4,16 +4,26 @@ import { useNavigate } from "react-router-dom";
 import doctorsApi from "../api/doctorsApi";
 import React from "react";
 import { Dropdown } from "bootstrap";
+import logoutDoctor from "../api/logoutDoctor";
 
 const Header = () => {
   const { isLoggedIn, onLogout, token } = useAuth();
   const navigate = useNavigate();
+  const handleLogout = async () => {
+    onLogout(); // Gọi hàm logout để xóa token và localStorage
+    navigate('/'); // Điều hướng người dùng đến trang chính sau khi đăng xuất
+    try {
+      await logoutDoctor.logout(); // Gọi hàm logoutDoctor.logout() để đăng xuất
 
-  const handleLogout = () => {
-    onLogout();
-    navigate('/');
-
+      // Thực hiện đăng xuất người dùng khỏi ứng dụng
+      onLogout();
+      // Redirect hoặc thực hiện hành động sau khi đăng xuất thành công
+      navigate("/"); // Ví dụ: Chuyển hướng đến trang chủ sau khi đăng xuất
+    } catch (error) {
+      console.error("Đăng xuất thất bại:", error.message);
+    }
   };
+
 
   const initialActiveItems = JSON.parse(
     localStorage.getItem("activeItems")
