@@ -26,7 +26,7 @@ const BlogList = () => {
   function truncateText(text, lines) {
     const words = text.split(" ");
     const truncatedText = words.slice(0, lines * 11).join(" ");
-    if (words.length > lines * 11) {
+    if (words.length > lines * 10) {
       return `${truncatedText} ...`;
     }
     return truncatedText;
@@ -89,7 +89,7 @@ const BlogList = () => {
                         <h3 className="blog-title">
                           <Link to={`/blog/${blog.id}`}>{blog.name}</Link>
                         </h3>
-                        <p className="mb-0">{truncateText(blog.content, 2)}</p>
+                        <div dangerouslySetInnerHTML={{ __html: truncateText(blog.content, 2) }} />
                       </div>
                     </div>
                   </div>
