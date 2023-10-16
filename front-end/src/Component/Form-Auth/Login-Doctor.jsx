@@ -33,7 +33,7 @@ const LoginDoctor = () => {
         setIsRedirecting(true);
 
         onLoginSuccess(response.access_token, response.doctor);
-   
+
       } else {
         setShowErrorAlert(true);
       }
@@ -59,7 +59,7 @@ const LoginDoctor = () => {
               <div className="row align-items-center justify-content-center">
                 <div className="col-md-7 col-lg-6 login-left">
                   <img
-                    src="src/assets/img/login-banner.png"
+                    src="src/assets/img/doctor-banner.png"
                     className="img-fluid"
                     alt="Doccure Register"
                   />
@@ -100,10 +100,10 @@ const LoginDoctor = () => {
                       </Link>
                     </div>
                     <button
-                      className="btn btn-danger w-100 btn-lg login-btn"
+                      className="btn btn-info w-100 btn-lg login-btn"
                       type="submit"
+                      style={{ color: 'white' }} // thêm dòng này để đổi màu chữ thành trắng
                     >
-                      {" "}
                       Đăng nhập
                     </button>
                   </form>

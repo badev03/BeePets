@@ -2,6 +2,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import usersApi from '../../api/usersApi';
 import { useEffect, useState } from "react";
+import Booking from '../Booking';
+import BookingUser from './BookingUser';
 
 const Sidebar = () => {
   const [user, setUser] = useState([]);
@@ -85,6 +87,7 @@ const Sidebar = () => {
             </div>
           </div>
         </div>
+        <BookingUser/>
         <div className="dashboard-widget">
           <nav className="dashboard-menu">
             <ul>
