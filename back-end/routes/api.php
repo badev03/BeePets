@@ -46,13 +46,13 @@ Route::get('new-search/{name}', [NewController::class, 'searchNew']);
 Route::get('new-home', [NewController::class, 'showNew']);
 
 
-Route::get('service-show', [ServiceController::class, 'showHome']);
-Route::get('service-filter', [ServiceController::class, 'filterService']);
-Route::post('service-filter-doctor', [ServiceController::class, 'filterDoctorService']);
-Route::get('new-post', [NewController::class, 'postNew']);
-Route::get('new-categories', [NewController::class, 'categoriesNew']);
-Route::get('new-search/{name}', [NewController::class, 'searchNew']);
-Route::get('new-home', [NewController::class, 'showNew']);
+//Route::get('service-show', [ServiceController::class, 'showHome']);
+//Route::get('service-filter', [ServiceController::class, 'filterService']);
+//Route::post('service-filter-doctor', [ServiceController::class, 'filterDoctorService']);
+//Route::get('new-post', [NewController::class, 'postNew']);
+//Route::get('new-categories', [NewController::class, 'categoriesNew']);
+//Route::get('new-search/{name}', [NewController::class, 'searchNew']);
+//Route::get('new-home', [NewController::class, 'showNew']);
 
 
 Route::post('/doctor/login', [DoctorController::class, 'login']);
