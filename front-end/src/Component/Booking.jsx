@@ -10,6 +10,7 @@ import moment from 'moment';
 
 const Booking = () => {
   const { user} = useAuth();
+  const [form] = Form.useForm(); 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [typePet, setTypePet] = useState([]);
   const [serviceDoctor, setServiceDoctor] = useState([]);
@@ -153,6 +154,7 @@ const Booking = () => {
         icon: "error",
       });
     } finally {
+      resetForm();
       setIsModalOpen(false);
     }
   };
@@ -192,6 +194,23 @@ const Booking = () => {
     return current && current < today.startOf('day');
   };
 
+  const resetForm = () => {
+    setIsModalOpen(false);
+    setSelectedService([]);
+    setDoctorOptions([]);
+    setSelectedDoctor(null);
+    setSelectedDate(null);
+    setSelectedWorkingHours([]);
+    setSelectedPet(null);
+    setSelectedPhone("");
+    setSelectedName("");
+    setSelectedDescription("");
+    setIsNameEditable(true);
+    setIsPhoneEditable(true);
+
+    form.resetFields();
+  };
+
   return (
     <>
       <Button
@@ -211,7 +230,7 @@ const Booking = () => {
         okButtonProps={{ style: { display: "none" } }}
         cancelButtonProps={{ style: { display: "none" } }}
       >
-        <Form layout="vertical" onFinish={handleBooking}>
+        <Form layout="vertical" onFinish={handleBooking} >
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
@@ -262,7 +281,7 @@ const Booking = () => {
             <Col span={12}>
               <Form.Item
                 label="Chọn Thời Gian"
-                
+                name="Chọn Thời Gian"
                 rules={[{ required: true, message: "Vui lòng nhập chọn ca" }]}
               >
                 <Select

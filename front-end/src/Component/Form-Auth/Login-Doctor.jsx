@@ -31,7 +31,9 @@ const LoginDoctor = () => {
       if (response.doctor ?? response.access_token) {
         setShowSuccessAlert(true);
         setIsRedirecting(true);
-        onLoginSuccess(response.access_token);
+
+        onLoginSuccess(response.access_token, response.doctor);
+   
       } else {
         setShowErrorAlert(true);
       }
