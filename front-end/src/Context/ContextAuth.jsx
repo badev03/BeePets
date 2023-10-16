@@ -8,11 +8,11 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token") || null);
   const [user, setUser] = useState(null);
 
-  const handleLoginSuccess = (newToken, user) => {
+  const handleLoginSuccess = (newToken, newUser) => {
     setToken(newToken);
-    setUser(user);
+    setUser(newUser);
     localStorage.setItem("token", newToken);
-    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("user", JSON.stringify(newUser));
   };
 
   const logout = () => {
@@ -23,6 +23,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    // const savedUser = localStorage.getItem('user');
+    // if (savedUser) {
+    //   setUser(JSON.parse(savedUser));
+    // }
     const savedUser = localStorage.getItem("user");
     if (savedUser) {
       try {

@@ -1,7 +1,6 @@
 import Menudashboard from "./Menu-dashboard";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import doctorsApi from "../../api/doctorsApi";
 import ChangePassword from "../../api/changePassword";
 import Swal from 'sweetalert2';
@@ -10,9 +9,7 @@ const MySwal = withReactContent(Swal);
 import { useAuth } from "../../Context/ContextAuth";
 
 const Changepassword = () => {
-  const { onLoginSuccess  } = useAuth();
-  const { id } = useParams();
-  const [doctor, setDoctor] = useState(null);
+  const { token } = useAuth();
 
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -28,17 +25,15 @@ const Changepassword = () => {
 
     try {
       await ChangePassword.changePasswordDoctor({
-        oldPassword: oldPassword,
-        newPassword: newPassword,
-        confirmNewPassword: confirmPassword,
+        old_password: oldPassword,
+        new_password: newPassword,
+        confirm_password: confirmPassword,
+      },{
+        headers: {
+          Authorization: token
+        },
       });
 
-      const response = await doctorsApi.get(id);
-      console.log(response);
-      const newToken = response.token; 
-      console.log(newToken);
-
-      onLoginSuccess(newToken);
       MySwal.fire({
         title: 'Đổi mật khẩu thành công!',
         icon: 'success',
@@ -64,21 +59,6 @@ const Changepassword = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchBlog = async () => {
-      try {
-        const response = await doctorsApi.get(1);
-        setDoctor(response);
-      } catch (error) {
-        console.error("Không có dữ liệu:", error);
-      }
-    };
-
-    fetchBlog();
-  }, []);
-  if (!doctor) {
-    return <div>Loading...</div>;
-  }
   return (
     <div>
       <div className="breadcrumb-bar-two">
@@ -119,6 +99,7 @@ const Changepassword = () => {
                             className="form-control"
                             value={oldPassword}
                             onChange={(e) => setOldPassword(e.target.value)}
+                            name="oldPassword"
                           />
                         </div>
                         <div className="mb-3">
@@ -128,6 +109,7 @@ const Changepassword = () => {
                             className="form-control"
                             value={newPassword}
                             onChange={(e) => setNewPassword(e.target.value)}
+                            name="newPassword" 
                           />
                         </div>
                         <div className="mb-3">
@@ -137,6 +119,7 @@ const Changepassword = () => {
                             className="form-control"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
+                            name="confirmPassword"
                           />
                         </div>
                         <div className="submit-section">

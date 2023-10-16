@@ -33,7 +33,7 @@ const LoginDoctor = () => {
         setShowSuccessAlert(true);
         setIsRedirecting(true);
 
-        onLoginSuccess(response.access_token);
+        onLoginSuccess(response.access_token, response.doctor);
    
       } else {
         setShowErrorAlert(true);
