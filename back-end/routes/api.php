@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\BookingController;
 
+use App\Http\Controllers\Api\InforController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -124,6 +125,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 //lấy ra thông tin bác sĩ đang đăng nhập
     Route::get('/doctor-info', [DoctorController::class, 'getDoctor']);
+    Route::post('/save-infor-doctor', [InforController::class, 'saveInfor']);
 
 //lấy ra danh sách khách hàng của bác sĩ
     Route::get('/list-customers', [DoctorController::class, 'listCustomer']);
