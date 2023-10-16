@@ -59,3 +59,7 @@ check kiểm tra xem số điện thoaại đã tồn tại hay rồi mới ti�
 10. http://127.0.0.1:8000/api/prescription-user :: lấy ra danh sách đơn thuốc của user (Get)
 //get bill by user
 11. http://127.0.0.1:8000/api/bill-user :: lấy ra danh sách hóa đơn của user (Get)
+
+
+// api lấy dữ liệu notifications 
+1. http://127.0.0.1:8000/api/get-notification

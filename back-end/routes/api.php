@@ -11,7 +11,7 @@ use \App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\NewController;
 use App\Http\Controllers\Api\AuthController;
 use \App\Http\Controllers\Api\DoctorUserController;
-
+use \App\Http\Controllers\Api\NotificationController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -92,7 +92,6 @@ Route::post('/save', [BookingController::class, 'save']);
 Route::post('/add-booking', [BookingController::class, 'addBooking']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('pusher-tester-view' , [\App\Http\Controllers\Admin\HomeController::class , 'PusherView']);
     Route::get('pusher-tester' , [\App\Http\Controllers\Admin\HomeController::class , 'Pusher']);
     // get info user when login
     Route::get('/info-user', [UserController::class, 'getInfoUser']);
@@ -140,8 +139,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
  
 
-    Route::get('/send-notification',  [\App\Http\Controllers\Admin\HomeController::class , 'getNotification']);
+    Route::get('/get-notification',  [NotificationController::class , 'getNotification']);
     Route::post('/send-notification',  [\App\Http\Controllers\Admin\HomeController::class , 'SendNotification']);
+
 
 
 });
@@ -161,6 +161,8 @@ Route::get('/prescription/{id}', [DoctorController::class, 'prescriptionByUser']
 //get review when doctor login
 Route::get('/reviews-doctor', [DoctorController::class, 'getReviewDoctor']);
 
+
+Route::get('pusher-tester-view' , [\App\Http\Controllers\Admin\HomeController::class , 'PusherView']);
 
 
 

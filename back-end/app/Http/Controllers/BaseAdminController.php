@@ -155,6 +155,10 @@ class BaseAdminController extends Controller
             $model->assignRole($request->role);
         }
 
+        if ($this->permissionCheckCrud === 'PeopleAccount') {
+            $model->assignRole($request->role_id);
+        }
+
         return back()->with('success', 'Thao tác thành công');
     }
 

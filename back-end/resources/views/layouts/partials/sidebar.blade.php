@@ -8,8 +8,17 @@
                 <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
                     <a href="{{ route('dashboard') }}"><i class="fe fe-home"></i> <span>Dashboard</span></a>
                 </li>
-                <li class="{{ request()->routeIs('appointment*') ? 'active' : '' }}">
-                    <a href="{{ route('appointment.index') }}"><i class="fe fe-layout"></i> <span>Cuộc hẹn</span></a>
+                <li class="submenu">
+                    <a href="#">
+                        <i class="fe fe-layout"></i>
+                        <span> Cuộn hẹn</span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        <li>
+                            <a href="{{ route('appointment.index') }}" class="{{ request()->routeIs('appointment.*') ? 'active' : '' }}"> <span>Cuộc hẹn</span></a>
+                        </li>
+                        <li><a class="{{ request()->routeIs('appointments.trash-can') ? 'active' : '' }}" href="{{ route('appointments.trash-can') }}">Thùng Rác</a></li>
+                        <li><a class="{{ request()->routeIs('appointments.trash-can') ? 'active' : '' }}" href="{{ route('appointments.trash-can') }}">Lịch Đã Hủy</a></li>
+                    </ul>
                 </li>
                 <li class="submenu">
                     <a href="#">
@@ -30,38 +39,24 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="specialities.html"><i class="fe fe-users"></i> <span>Specialities</span></a>
+                    <a href="specialities.html"><i class="fe fe-bell"></i> <span>Thông báo</span></a>
                 </li>
                 <li>
-                    <a href="doctor-list.html"><i class="fe fe-user-plus"></i> <span>Doctors</span></a>
-                </li>
-                <li>
-                    <a href="patient-list.html"><i class="fe fe-user"></i> <span>Patients</span></a>
+                    <a class="{{ request()->routeIs('doctors.*') ? 'active' : '' }}" href="{{ route('doctors.index') }}"><i class="fe fe-user-plus"></i> <span>Bác sĩ</span> </a>
                 </li>
                 <li>
                     <a href="{{ route('reviews.index') }}"><i class="fe fe-star-o"></i> <span>Đánh giá</span></a>
                 </li>
-                @if(1==2)
-                    <li class="submenu">
-                        <a href="#">
-                            <i class="fe fe-star-o"></i>
-                            <span> Đánh giá</span> <span class="menu-arrow"></span></a>
-                        <ul style="display: none;">
-                            <li><a class="{{ request()->routeIs('service-categories.*') ? 'active' : '' }}" href="{{ route('service-categories.index') }}">Danh mục dịch vụ</a></li>
-                            <li><a class="{{ request()->routeIs('service.*') ? 'active' : '' }}" href="{{ route('service.index') }}">Dịch vụ</a></li>
-                        </ul>
-                    </li>
-                @endif
                 <li>
-                    <a href="transactions-list.html"><i class="fe fe-activity"></i> <span>Transactions</span></a>
+                    <a href="transactions-list.html"><i class="fe fe-activity"></i> <span>Bill</span></a>
                 </li>
                 <li>
-                    <a href="settings.html"><i class="fe fe-vector"></i> <span>Settings</span></a>
+                    <a href="settings.html"><i class="fe fe-vector"></i> <span>Cấu hình</span></a>
                 </li>
                 <li class="submenu">
-                    <a href="#"><i class="fe fe-document"></i> <span> Reports</span> <span class="menu-arrow"></span></a>
+                    <a href="#"><i class="fe fe-document"></i> <span> Báo cáo</span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
-                        <li><a href="invoice-report.html">Invoice Reports</a></li>
+                        <li><a href="invoice-report.html">Báo cáo hóa đơn</a></li>
                     </ul>
                 </li>
                 <li class="menu-title">
@@ -71,22 +66,13 @@
                 <li class="submenu">
                     <a href="#"><i class="fe fe-user-plus"></i> <span> Tài khoản </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
-                        <li><a class="{{ request()->routeIs('doctors.*') ? 'active' : '' }}" href="{{ route('doctors.index') }}"> Doctor </a></li>
+                        <li></li>
                         <li><a class="{{ request()->routeIs('people-account.*') ? 'active' : '' }}" href="{{ route('people-account.index') }}"> People </a></li>
                         <li><a class="{{ request()->routeIs('role.*') ? 'active' : '' }}" href="{{route('role.index')}}"> Role </a></li>
                         <li><a class="{{ request()->routeIs('permission.*') ? 'active' : '' }}" href="{{route('permission.index')}}"> Permission </a></li>
                     </ul>
                 </li>
                 @endrole
-                <li class="submenu">
-                    <a href="#"><i class="fe fe-document"></i> <span> Authentication </span> <span class="menu-arrow"></span></a>
-                    <ul style="display: none;">
-                        <li><a href="login.html"> Login </a></li>
-                        <li><a href="register.html"> Register </a></li>
-                        <li><a href="forgot-password.html"> Forgot Password </a></li>
-                        <li><a href="lock-screen.html"> Lock Screen </a></li>
-                    </ul>
-                </li>
             </ul>
         </div>
     </div>

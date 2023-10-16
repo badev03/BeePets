@@ -65,6 +65,8 @@ Route::middleware(['role:Admin'])->group(function () {
         Route::resource('doctors', DoctorController::class);
         Route::get('pusher-tester-view' , [HomeController::class , 'PusherView']);
         Route::get('pusher-tester-view2' , [HomeController::class , 'PusherView2']);
+        Route::get('trash-can/appointment' , [AppointmentController::class , 'TrashCan'])->name('appointments.trash-can');
+        Route::delete('restore-trash/appointment/{id}' , [AppointmentController::class , 'RestoreTrash'])->name('appointments.restore-trash');
 
 
 
