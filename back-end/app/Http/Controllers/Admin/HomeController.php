@@ -53,12 +53,6 @@ class HomeController extends Controller
         return response()->json(['message' => 'Thông báo đã được gửi']);
     }
 
-    public function getNotification()
-    {
-        $notifications = Notification::where('user_id', auth()->id())->get();
-
-        return response()->json(['notifications' => $notifications]);
-    }
 
     public function SendNotification(Request $request) {
         $user_id = $request->input('user_id');

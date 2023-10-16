@@ -53,7 +53,7 @@ class AuthController extends Controller
             if(Auth::user()->role_id == 4){
                 return redirect()->route('index');
             }
-            
+
         } else {
             return back()->with(['msg' => 'Sai Email hoặc Password']);
         }

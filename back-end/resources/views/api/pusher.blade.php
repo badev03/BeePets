@@ -24,7 +24,6 @@
     });
     var channel = pusher.subscribe('user-notification-3');
     channel.bind('notification-event', function(data) {
-        console.log(data);
         let notification = `
                 <li class="notification-message">
                     <a href="#">
@@ -33,7 +32,7 @@
                                 <img class="avatar-img rounded-circle" alt="User Image" src="assets/img/doctors/doctor-thumb-01.jpg">
                             </span>
                             <div class="media-body flex-grow-1">
-                                <p class="noti-details">${data.message}</p>
+                                <p class="noti-details">${data}</p>
                                 <p class="noti-time"><span class="notification-time">Just now</span></p>
                             </div>
                         </div>

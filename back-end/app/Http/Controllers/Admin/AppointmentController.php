@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseAdminController;
 use App\Http\Controllers\Controller;
+use App\Interfaces\MessageUser;
 use App\Models\Appointment;
 use App\Models\Doctor;
 use App\Models\Service;
@@ -15,7 +16,7 @@ use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class AppointmentController extends BaseAdminController
+class AppointmentController extends Controller
 {
     use QueryCommon;
     public $model = Appointment::class;
@@ -57,28 +58,14 @@ class AppointmentController extends BaseAdminController
     public function QuerySpecialIndex()
     {
         $appointments = $this->queryCommon()
+            ->orderByDesc('id')
+            ->whereNull('appointments.deleted_at')
             ->get();
         return $appointments;
     }
-
-    public function store(Request $request)
+    public function store(Request $request , MessageUser $messageUser)
     {
-        $this->validate($request,[
-            'description' => 'required',
-            'service_id' => 'required|nullable',
-            'doctor_id' => 'required',
-            'date' => 'required',
-            'shift_name' => 'required',
-        ],
-            [
-                'description.required' => 'Trường mô tả không được để trống',
-                'service_id.required' => 'Trường dịch vụ không được để trống',
-                'service_id.nullable' => 'Trường dịch vụ bắt buộc phải chọn',
-                'doctor_id.required' => 'Trường Bác sĩ không được để trống',
-                'date.required' => 'Trường ngày đặt không được để trống',
-                'shift_name.required' => 'Trường ca đặt không được để trống',
-            ]
-        );
+        $this->validateFormAppointment($request , 'store');
         $data = [
             'time' =>now(),
             'created_at' => $this->getTimestampQuery(),
@@ -99,11 +86,13 @@ class AppointmentController extends BaseAdminController
         if($checkPhone) {
             $data['user_id'] = $checkPhone->id;
             $this->tableQuery('appointments')->insert(array_merge($request->except('_token' , 'user_id') , $data));
+            $messageUser->sendMessage($checkPhone->id , 'Đã đặt cuộc hẹn thành công');
             return back()->with('success', 'Thao tác thành công');
         }
         else {
             $data['user_id'] = $this->createUserAuto($request->user_id);
             $this->tableQuery('appointments')->insert(array_merge($request->except('_token') , $data));
+            $messageUser->sendMessage($request->user_id , 'Đã đặt cuộc hẹn thành công');
             return back()->with('success', 'Thao tác thành công');
         }
     }
@@ -131,7 +120,6 @@ class AppointmentController extends BaseAdminController
         $dataTypePet = $this->tableQuery('type_pets')->get();
         $time_set_up_shift = ['09:00:00-11:00:00' , '11:00:00-13:00:00' , '13:00:00-15:00:00'];
         $dataViewer = [
-            'title' => $this->titleEdit,
             'colums' => $this->colums,
             'urlbase' => $this->urlbase,
             'title_web' => $this->title,
@@ -162,24 +150,7 @@ class AppointmentController extends BaseAdminController
 
     public function update(Request $request, string $id)
     {
-        $this->validate($request,[
-            'description' => 'required',
-            'service_id' => 'required|nullable',
-            'doctor_id' => 'required',
-            'date' => 'required',
-            'shift_name' => 'required',
-            'user_id' => 'required',
-        ],
-            [
-                'description.required' => 'Trường mô tả không được để trống',
-                'service_id.required' => 'Trường dịch vụ không được để trống',
-                'service_id.nullable' => 'Trường dịch vụ bắt buộc phải chọn',
-                'doctor_id.required' => 'Trường Bác sĩ không được để trống',
-                'date.required' => 'Trường ngày đặt không được để trống',
-                'shift_name.required' => 'Trường ca đặt không được để trống',
-                'user_id.required' => 'Trường user đặt không được để trống',
-            ]
-        );
+        $this->validateFormAppointment($request , 'update');
         $phone = $request->user_id;
         if($phone) {
             $checkPhone = $this->tableQuery('users')
@@ -257,7 +228,6 @@ class AppointmentController extends BaseAdminController
         $dataTypePet = $this->tableQuery('type_pets')->get();
         $permission_crud = $this->permissionCheckCrud;
         $dataViewer = [
-            'title' => $this->titleEdit,
             'colums' => $this->colums,
             'urlbase' => $this->urlbase,
             'title_web' => $this->title,
@@ -351,7 +321,6 @@ class AppointmentController extends BaseAdminController
             ->where('doctor_id' , '=' , 5 )
             ->get();
         $dataViewer = [
-            'title' => $this->titleEdit,
             'colums' => $this->colums,
             'urlbase' => $this->urlbase,
             'title_web' => $this->title,
@@ -418,6 +387,88 @@ class AppointmentController extends BaseAdminController
     public function FilterDoctor($data) {
         $doctor = $this->QueryFilter()->where('appointments.doctor_id' , '=' , $data)->get();
         return response()->json(['doctor'=> $doctor] , '200');
+    }
+
+    public function TrashCan() {
+        $data = $this->queryCommon()->whereNotNull('appointments.deleted_at')
+            ->orderByDesc('id')
+            ->get();
+        $dataViewer = [
+            'colums' => $this->colums,
+            'urlbase' => $this->urlbase,
+            'title_web' => $this->title,
+            'FIELD_SELECT_CUSTOM_CONTROLLER' => $this->FIELD_SELECT_CUSTOM_CONTROLLER,
+            'special', $this->special,
+        ];
+        return view($this->pathView.'trash-can' , compact('data'))->with($dataViewer);
+    }
+
+    public function RestoreTrash(MessageUser $messageService ,string $id) {
+        $appointment = Appointment::withTrashed()->find($id);
+        if($appointment) {
+//            $appointment->restore();
+//            $basic  = new \Vonage\Client\Credentials\Basic("a942b359", "jQOo5hCLR3LRfzfM");
+//            $client = new \Vonage\Client($basic);
+//            $response = $client->sms()->send(
+//                new \Vonage\SMS\Message\SMS("84981324706", 'ledat', 'A text message sent using the Nexmo SMS API')
+//            );
+//
+//            $message = $response->current();
+//
+//            if ($message->getStatus() == 0) {
+//                echo "The message was sent successfully\n";
+//            } else {
+//                echo "The message failed with status: " . $message->getStatus() . "\n";
+//            }
+            $messageService->sendMessage($appointment->id, 'hhehe');
+            return back()->with(['success_delete' => 'Đã khôi phục dữ liệu thành công']);
+        }
+        return back()->with(['failed_delete' => 'Dữ liệu khôi phục không hợp lệ']);
+    }
+
+    public function validateFormAppointment($data , $case) {
+        switch ($case) {
+            case 'store':
+                $this->validate($data,[
+                    'description' => 'required',
+                    'service_id' => 'required|nullable',
+                    'doctor_id' => 'required',
+                    'date' => 'required',
+                    'shift_name' => 'required',
+                ],
+                    [
+                        'description.required' => 'Trường mô tả không được để trống',
+                        'service_id.required' => 'Trường dịch vụ không được để trống',
+                        'service_id.nullable' => 'Trường dịch vụ bắt buộc phải chọn',
+                        'doctor_id.required' => 'Trường Bác sĩ không được để trống',
+                        'date.required' => 'Trường ngày đặt không được để trống',
+                        'shift_name.required' => 'Trường ca đặt không được để trống',
+                    ]
+                );
+                break;
+            case 'update':
+                $this->validate($data,[
+                    'description' => 'required',
+                    'service_id' => 'required|nullable',
+                    'doctor_id' => 'required',
+                    'date' => 'required',
+                    'shift_name' => 'required',
+                    'user_id' => 'required',
+                ],
+                    [
+                        'description.required' => 'Trường mô tả không được để trống',
+                        'service_id.required' => 'Trường dịch vụ không được để trống',
+                        'service_id.nullable' => 'Trường dịch vụ bắt buộc phải chọn',
+                        'doctor_id.required' => 'Trường Bác sĩ không được để trống',
+                        'date.required' => 'Trường ngày đặt không được để trống',
+                        'shift_name.required' => 'Trường ca đặt không được để trống',
+                        'user_id.required' => 'Trường user đặt không được để trống',
+                    ]
+                );
+                break;
+            default:
+                break;
+        }
     }
 
 
