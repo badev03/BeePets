@@ -3,13 +3,27 @@ import { Link, useParams } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import BlogSideBar from "./BlogSideBar";
 import blogApi from "../../api/blogApi";
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
   const { categoryId } = useParams();
   const [currentPage, setCurrentPage] = useState(0);
   const [postsPerPage] = useState(2);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchedBlogs, setSearchedBlogs] = useState([]);
+  const [showPagination, setShowPagination] = useState(true);
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+    setShowPagination(true);
+  };
+
+  const handleSearchSubmit = (searchResults) => {
+    setSearchedBlogs(searchResults);
+    setBlogs([]); // Đặt blogs thành mảng trống để ẩn danh sách gốc khi hiển thị kết quả tìm kiếm
+    setShowPagination(false);
+  };
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -68,56 +82,98 @@ const BlogList = () => {
           <div className="row">
             <div className="col-lg-8 col-md-12">
               <div className="row blog-grid-row">
-                {currentPosts.map((blog) => (
-                  <div key={blog.id} className="col-md-6 col-sm-12">
-                    <div className="blog grid-blog">
-                      <div className="blog-image">
-                        <Link to={`/blog/${blog.id}`}>
-                          <img
-                            className="img-fluid"
-                            src={blog.image}
-                            alt="Post Image"
-                          />
-                        </Link>
+                {searchedBlogs.length > 0
+                  ? searchedBlogs.map((blog) => (
+                      <div key={blog.id} className="col-md-6 col-sm-12">
+                        <div className="blog grid-blog">
+                          <div className="blog-image">
+                            <Link to={`/blog/${blog.id}`}>
+                              <img
+                                className="img-fluid"
+                                src={blog.image}
+                                alt="Post Image"
+                              />
+                            </Link>
+                          </div>
+                          <div className="blog-content">
+                            <ul className="entry-meta meta-item">
+                              <li>
+                                <i className="far fa-clock" />
+                                {blog.public_date}
+                              </li>
+                            </ul>
+                            <h3 className="blog-title">
+                              <Link to={`/blog/${blog.id}`}>{blog.name}</Link>
+                            </h3>
+                            <div
+                              dangerouslySetInnerHTML={{
+                                __html: truncateText(blog.content, 2),
+                              }}
+                            />
+                          </div>
+                        </div>
                       </div>
-                      <div className="blog-content">
-                        <ul className="entry-meta meta-item">
-                          <li>
-                            <i className="far fa-clock" />
-                            {blog.public_date}
-                          </li>
-                        </ul>
-                        <h3 className="blog-title">
-                          <Link to={`/blog/${blog.id}`}>{blog.name}</Link>
-                        </h3>
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html: truncateText(blog.content, 2),
-                          }}
-                        />
+                    ))
+                  : currentPosts.map((blog) => (
+                      <div key={blog.id} className="col-md-6 col-sm-12">
+                        <div className="blog grid-blog">
+                          <div className="blog-image">
+                            <Link to={`/blog/${blog.id}`}>
+                              <img
+                                className="img-fluid"
+                                src={blog.image}
+                                alt="Post Image"
+                              />
+                            </Link>
+                          </div>
+                          <div className="blog-content">
+                            <ul className="entry-meta meta-item">
+                              <li>
+                                <i className="far fa-clock" />
+                                {blog.public_date}
+                              </li>
+                            </ul>
+                            <h3 className="blog-title">
+                              <Link to={`/blog/${blog.id}`}>{blog.name}</Link>
+                            </h3>
+                            <div
+                              dangerouslySetInnerHTML={{
+                                __html: truncateText(blog.content, 2),
+                              }}
+                            />
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                ))}
+                    ))}
               </div>
               <div className="row">
                 <div className="col-md-12">
                   <div className="blog-pagination">
-                    <ReactPaginate
-                      pageCount={Math.ceil(blogs.length / postsPerPage)}
-                      pageRangeDisplayed={3}
-                      marginPagesDisplayed={1}
-                      onPageChange={handlePageClick}
-                      containerClassName={"pagination"}
-                      activeClassName={"active"}
-                      nextLabel={<FaChevronRight />}
-                      previousLabel={<FaChevronLeft />}
-                    />
+                    {showPagination && (
+                      <ReactPaginate
+                        pageCount={Math.ceil(
+                          searchedBlogs.length > 0
+                            ? searchedBlogs.length / postsPerPage
+                            : blogs.length / postsPerPage
+                        )}
+                        pageRangeDisplayed={3}
+                        marginPagesDisplayed={1}
+                        onPageChange={handlePageClick}
+                        containerClassName={"pagination"}
+                        activeClassName={"active"}
+                        nextLabel={<FaChevronRight />}
+                        previousLabel={<FaChevronLeft />}
+                      />
+                    )}
                   </div>
                 </div>
               </div>
             </div>
-            <BlogSideBar />
+            <BlogSideBar
+              searchTerm={searchTerm}
+              onSearchChange={handleSearchChange}
+              onSearchSubmit={handleSearchSubmit}
+            />
           </div>
         </div>
       </div>

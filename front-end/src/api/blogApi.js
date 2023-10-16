@@ -11,9 +11,9 @@ const blogApi = {
     return instance.get(url);
   },
   
-  search(params) {
-    const url = "/new-search";
-    return instance.get(url, { params });
+  search(name) {
+    const url = `/new-search/${name}`;
+    return instance.get(url);
   },
 };
 
