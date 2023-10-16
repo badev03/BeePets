@@ -143,6 +143,7 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  
 
   return (
     <header
@@ -187,42 +188,37 @@ const Header = () => {
             </div>
 
             <ul className="main-nav">
-              <li
-                className={`has-submenu megamenu ${activeItems.includes("TRANG CHỦ") ? "active" : ""
-                  }`}
-                onClick={() => handleItemClick("TRANG CHỦ")}
-              >
-                <a href="/">TRANG CHỦ </a>
-              </li>
-              <li
-                className={`has-submenu ${activeItems.includes("BÁC SĨ") ? "active" : ""
-                  }`}
-                onClick={() => handleItemClick("BÁC SĨ")}
-              >
-                <a href="/doctor">BÁC SĨ </a>
-              </li>
-              <li
-                className={`has-submenu ${activeItems.includes("GIỚI THIỆU") ? "active" : ""
-                  }`}
-                onClick={() => handleItemClick("GIỚI THIỆU")}
-              >
-                <a href="/abouts">GIỚI THIỆU </a>
-              </li>
-              <li
-                className={`has-submenu ${activeItems.includes("TIN TỨC") ? "active" : ""
-                  }`}
-                onClick={() => handleItemClick("TIN TỨC")}
-              >
-                <a href="/blog">TIN TỨC </a>
-              </li>
-              <li
-                className={`has-submenu ${activeItems.includes("ĐẶT LỊCH NHANH") ? "active" : ""
-                  }`}
-                onClick={() => handleItemClick("ĐẶT LỊCH NHANH")}
-              >
-                <BookingUser/>
-              </li>
-            </ul>
+        <li
+          className={`has-submenu megamenu ${activeItems.includes('TRANG CHỦ') ? 'active' : ''}`}
+          onClick={() => handleItemClick('TRANG CHỦ')}
+        >
+          <a href="/">TRANG CHỦ </a>
+        </li>
+        <li
+          className={`has-submenu ${activeItems.includes('BÁC SĨ') ? 'active' : ''}`}
+          onClick={() => handleItemClick('BÁC SĨ')}
+        >
+          <a href="/doctor">BÁC SĨ </a>
+        </li>
+        <li
+          className={`has-submenu ${activeItems.includes('GIỚI THIỆU') ? 'active' : ''}`}
+          onClick={() => handleItemClick('GIỚI THIỆU')}
+        >
+          <a href="/abouts">GIỚI THIỆU </a>
+        </li>
+        <li
+          className={`has-submenu ${activeItems.includes('TIN TỨC') ? 'active' : ''}`}
+          onClick={() => handleItemClick('TIN TỨC')}
+        >
+          <a href="/blog">TIN TỨC </a>
+        </li>
+        <li
+          className={`has-submenu ${activeItems.includes('ĐẶT LỊCH NHANH') ? 'active' : ''}`}
+          onClick={() => handleItemClick('ĐẶT LỊCH NHANH')}
+        >
+          <a><BookingUser/></a>
+        </li>
+      </ul>
           </div>
           <ul className="nav header-navbar-rht">
             {isLoggedIn ? (
