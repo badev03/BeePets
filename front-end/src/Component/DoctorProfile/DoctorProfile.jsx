@@ -55,15 +55,16 @@ const DoctorProfile = () => {
                 <h4 className="doc-name">{doctor.name}</h4>
                 <p className="doc-speciality">{doctor.description.service}</p>
                 <div className="rating">
-                  <i className="fas fa-star filled" />
-                  <i className="fas fa-star filled" />
-                  <i className="fas fa-star filled" />
-                  <i className="fas fa-star filled" />
-                  <i className="fas fa-star" />
-                  <span className="d-inline-block average-rating">(35)</span>
+                {Array.from({ length: doctor.status }, (_, index) => (
+                        <i key={index} className="fas fa-star filled" />
+                      ))}
+                      {Array.from({ length: 5 - doctor.status }, (_, index) => (
+                        <i key={index} className="fas fa-star" />
+                      ))}
+                  <span className="d-inline-block average-rating">( {doctor.review_count} )</span>
                 </div>
                 <div className="clinic-details">
-                  <p className="doc-location"><i className="fas fa-map-marker-alt" /> BeePets Nam Từ Liêm</p>
+                  <p className="doc-location"><i className="fas fa-map-marker-alt" /> {doctor.address}</p>
                   <ul className="clinic-gallery">
                   <li>
                           <a href={doctor.image.anh1} data-fancybox="gallery">
@@ -93,9 +94,9 @@ const DoctorProfile = () => {
             <div className="doc-info-right">
               <div className="clini-infos">
                 <ul>
-                  <li><i className="far fa-thumbs-up" /> 99%</li>
-                  <li><i className="far fa-comment" /> 35 Feedback</li>
-                  <li><i className="fas fa-map-marker-alt" /> {doctor.address}</li>
+                  {/* <li><i className="far fa-thumbs-up" /> 99%</li> */}
+                  <li><i className="far fa-comment" /> {doctor.review_count} Feedback</li>
+                  {/* <li><i className="fas fa-map-marker-alt" /> {doctor.address}</li> */}
                  
                 </ul>
               </div>
