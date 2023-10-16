@@ -2,8 +2,13 @@ import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import usersApi from '../../api/usersApi';
 import { useEffect, useState } from "react";
+<<<<<<< HEAD
 import logoutDoctor from '../../api/logoutDoctor';
 import { useAuth } from '../../Context/ContextAuth';
+=======
+import Booking from '../Booking';
+import BookingUser from './BookingUser';
+>>>>>>> 2be6096fd805a1ca1813542345c9d1bc648737e7
 
 const Sidebar = () => {
   const [user, setUser] = useState([]);
@@ -107,6 +112,7 @@ const Sidebar = () => {
             </div>
           </div>
         </div>
+        
         <div className="dashboard-widget">
           <nav className="dashboard-menu">
             <ul>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\BookingController;
 
+use App\Http\Controllers\Api\InforController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -46,13 +47,13 @@ Route::get('new-search/{name}', [NewController::class, 'searchNew']);
 Route::get('new-home', [NewController::class, 'showNew']);
 
 
-Route::get('service-show', [ServiceController::class, 'showHome']);
-Route::get('service-filter', [ServiceController::class, 'filterService']);
-Route::post('service-filter-doctor', [ServiceController::class, 'filterDoctorService']);
-Route::get('new-post', [NewController::class, 'postNew']);
-Route::get('new-categories', [NewController::class, 'categoriesNew']);
-Route::get('new-search/{name}', [NewController::class, 'searchNew']);
-Route::get('new-home', [NewController::class, 'showNew']);
+//Route::get('service-show', [ServiceController::class, 'showHome']);
+//Route::get('service-filter', [ServiceController::class, 'filterService']);
+//Route::post('service-filter-doctor', [ServiceController::class, 'filterDoctorService']);
+//Route::get('new-post', [NewController::class, 'postNew']);
+//Route::get('new-categories', [NewController::class, 'categoriesNew']);
+//Route::get('new-search/{name}', [NewController::class, 'searchNew']);
+//Route::get('new-home', [NewController::class, 'showNew']);
 
 
 Route::post('/doctor/login', [DoctorController::class, 'login']);
@@ -124,6 +125,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 //lấy ra thông tin bác sĩ đang đăng nhập
     Route::get('/doctor-info', [DoctorController::class, 'getDoctor']);
+    Route::post('/save-infor-doctor', [InforController::class, 'saveInfor']);
 
 //lấy ra danh sách khách hàng của bác sĩ
     Route::get('/list-customers', [DoctorController::class, 'listCustomer']);

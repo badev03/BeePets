@@ -93,17 +93,31 @@ class ServiceController extends BaseResponseApiController
 
     public function filterDoctorService(Request $request){
         $service = $request->input('service');
-        // $service = json_decode($service, true);
+         $service = json_decode($service, true);
         if($service) {
             $checkService = $this->tableQuery('doctor_service')
-                ->select('doctors.name' , 'doctors.address' , 'doctors.image' , DB::raw('GROUP_CONCAT(services.name) AS chuyenkhoa'))
+                ->select('doctors.id' , 'doctors.name' , 'doctors.address' , 'doctors.image' , DB::raw('GROUP_CONCAT(services.name) AS chuyenkhoa'))
                 ->join('services' , 'services.id' , '=' , 'doctor_service.service_id')
                 ->join('doctors' , 'doctors.id' , '=' , 'doctor_service.doctor_id')
                 ->join('service_categories' , 'service_categories.id' , '=' , 'services.service_categorie_id')
                 ->where('service_categories.status' , '=' , 1)
                 ->whereIn('doctor_service.service_id' ,$service )
-                ->groupBy('doctors.name' , 'doctors.address' , 'doctors.image')
+                ->groupBy('doctors.name' , 'doctors.address' , 'doctors.image' , 'doctors.id')
                 ->get();
+            $reviewAverages = Review::select('doctor_id', \DB::raw('AVG(score) as average_score') , \DB::raw('COUNT(*) as review_count'))
+                ->groupBy('doctor_id')
+                ->get();
+            $reviewAveragesArray = [];
+            $reviewCount = [];
+            foreach ($reviewAverages as $reviewAverage) {
+                $reviewAveragesArray[$reviewAverage->doctor_id] = $reviewAverage->average_score;
+                $reviewCount[$reviewAverage->doctor_id] = $reviewAverage->review_count;
+            }
+            foreach ($checkService as $doctor) {
+                $doctor_id = $doctor->id;
+                $doctor->average_score = isset($reviewAveragesArray[$doctor_id]) ? $reviewAveragesArray[$doctor_id] : null;
+                $doctor->review_count = isset($reviewCount[$doctor_id]) ? $reviewCount[$doctor_id] : null;
+            }
                 if( $checkService){
                     return response()->json([
                         'service' => $checkService ],

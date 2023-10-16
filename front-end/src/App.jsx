@@ -41,8 +41,7 @@ import AppointmentDetail from './Component/User/AppointmentDetail'
 import BillDetail from './Component/User/BillDetail'
 import PrescriptionDetails from './Component/User/PrescriptionDetails'
 import FilterService from './Component/Serch/FilterService'
-import Sidebar from './Component/User/Sidebar'
-import Bill from './Component/doctors/Bill'
+import PrivateRouteDoctors from './PrivateRoute/PrivateRouteDoctors';
 
 
 function App() {
@@ -72,6 +71,19 @@ function App() {
           <Route path='user/billdetail' element={<BillDetail />} />
           <Route path='informationuser' element={<Information />} />
 
+          {/* <Route path="doctors" element={<PrivateRouteDoctors element={<Dashboarddoctors />} />} />
+          <Route path="doctors/profile" element={<PrivateRouteDoctors element={<Profile />} />} />
+          <Route path="doctors/review" element={<PrivateRouteDoctors element={<Review />} />} />
+          <Route path="doctors/appointments" element={<PrivateRouteDoctors element={<Appointments />} />} />
+          <Route path="doctors/change-password" element={<PrivateRouteDoctors element={<Changepassword />} />} />
+          <Route path="doctors/patients" element={<PrivateRouteDoctors element={<Mypatients />} />} />
+          <Route path="doctors/patient-profile/:id" element={<PrivateRouteDoctors element={<Patientprofile />} />} />
+          <Route path="doctors/add-prescription" element={<PrivateRouteDoctors element={<Addprescription />} />} />
+          <Route path="doctors/edit-prescription" element={<PrivateRouteDoctors element={<Editprescription />} />} />
+          <Route path="doctors/add-bill" element={<PrivateRouteDoctors element={<Addbill />} />} />
+          <Route path="doctors/edit-bill" element={<PrivateRouteDoctors element={<Editbill />} />} />
+          <Route path="doctors/detail-appointments/:id" element={<PrivateRouteDoctors element={<DetailAppointment />} />} /> */}
+          
           <Route path='doctors' element={<Dashboarddoctors />} />
           <Route path='doctors/profile' element={<Profile />} />
           <Route path='doctors/review' element={<Review />} />

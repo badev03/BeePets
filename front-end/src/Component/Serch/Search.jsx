@@ -57,17 +57,20 @@ const Search = ({data}) => {
                     </a>
                   </div>
                   <div className="doc-info-cont">
-                    <h4 className="doc-name"><a href="doctor-profile.html">{doctor.name}</a></h4>
+                    <h4 className="doc-name">
+                    <Link to={`/doctor/profile/${doctor.id}`}>{doctor.name}</Link>
+                      </h4>
                     {/* <p className="doc-speciality">{doctor.description.service}
                     </p> */}
                   
                     <div className="rating">
-                      <i className="fas fa-star filled" />
-                      <i className="fas fa-star filled" />
-                      <i className="fas fa-star filled" />
-                      <i className="fas fa-star filled" />
-                      <i className="fas fa-star" />
-                      <span className="d-inline-block average-rating">(17)</span>
+                    {Array.from({ length: doctor.average_score }, (_, index) => (
+                        <i key={index} className="fas fa-star filled" />
+                      ))}
+                      {Array.from({ length: 5 - doctor.average_score }, (_, index) => (
+                        <i key={index} className="fas fa-star" />
+                      ))}
+                      <span className="d-inline-block average-rating">( {doctor.review_count} )</span>
                     </div>
                     <div className="clinic-details">
                       <p className="doc-location"><i className="fas fa-map-marker-alt" />{doctor.address}</p>
@@ -100,17 +103,14 @@ const Search = ({data}) => {
                 <div className="doc-info-right">
                   <div className="clini-infos">
                     <ul>
-                      <li><i className="far fa-thumbs-up" /> 98%</li>
-                      <li><i className="far fa-comment" /> 17 Feedback</li>
-                      <li><i className="fas fa-map-marker-alt" /> Florida, USA</li>
+                      {/* <li><i className="far fa-thumbs-up" /> 98%</li> */}
+                      <li><i className="far fa-comment" /> {doctor.review_count} Feedback</li>
+                      {/* <li><i className="fas fa-map-marker-alt" /> Florida, USA</li> */}
                     </ul>
                   </div>
                   <div className="clinic-booking">
                     <Link className="view-pro-btn" to={`/doctor/profile/${doctor.id}`}>Xem hồ sơ</Link>
                     <Link className="apt-btn" to={`/booking`}>Đặt lịch hẹn</Link>
-
-                  {/* <a className="view-pro-btn" href="/doctor/profile">Xem hồ sơ</a> */}
-                    {/* <a className="apt-btn" href="/booking">Đặt lịch hẹn</a> */}
                   </div>
                 </div>
               </div>

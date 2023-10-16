@@ -30,7 +30,7 @@ const Changepassword = () => {
         confirm_password: confirmPassword,
       },{
         headers: {
-          Authorization: token
+          Authorization: `Bearer ${token}`
         },
       });
 

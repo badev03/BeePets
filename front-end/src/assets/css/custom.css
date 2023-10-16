@@ -13237,8 +13237,8 @@ html.menu-opened body {
     font-size: 14px;
   }
 }
-.blog-pagination .pagination {
-  margin: 0 0 30px;
+.blog-pagination {
+  margin-left: 250px;
 }
 .blog-pagination .pagination li a {
   font-weight: 600;
