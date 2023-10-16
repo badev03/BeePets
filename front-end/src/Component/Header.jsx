@@ -49,7 +49,7 @@ const Header = () => {
       });
       localStorage.removeItem("token");
       localStorage.removeItem("user");
-      // onLogout();
+      onLogout();
       navigate("/login");
     } catch (error) {
       console.log(error);
