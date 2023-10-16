@@ -3,12 +3,14 @@ import { Link, useParams } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import BlogSideBar from "./BlogSideBar";
 import blogApi from "../../api/blogApi";
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
   const { categoryId } = useParams();
   const [currentPage, setCurrentPage] = useState(0);
   const [postsPerPage] = useState(2);
+
   useEffect(() => {
     const fetchBlog = async () => {
       try {
@@ -40,7 +42,6 @@ const BlogList = () => {
     setCurrentPage(selected);
   };
 
-
   return (
     <>
       <div className="breadcrumb-bar-two">
@@ -67,7 +68,7 @@ const BlogList = () => {
           <div className="row">
             <div className="col-lg-8 col-md-12">
               <div className="row blog-grid-row">
-                {blogs.map((blog) => (
+                {currentPosts.map((blog) => (
                   <div key={blog.id} className="col-md-6 col-sm-12">
                     <div className="blog grid-blog">
                       <div className="blog-image">
@@ -89,7 +90,11 @@ const BlogList = () => {
                         <h3 className="blog-title">
                           <Link to={`/blog/${blog.id}`}>{blog.name}</Link>
                         </h3>
-                        <div dangerouslySetInnerHTML={{ __html: truncateText(blog.content, 2) }} />
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: truncateText(blog.content, 2),
+                          }}
+                        />
                       </div>
                     </div>
                   </div>
@@ -105,6 +110,8 @@ const BlogList = () => {
                       onPageChange={handlePageClick}
                       containerClassName={"pagination"}
                       activeClassName={"active"}
+                      nextLabel={<FaChevronRight />}
+                      previousLabel={<FaChevronLeft />}
                     />
                   </div>
                 </div>
@@ -119,35 +126,3 @@ const BlogList = () => {
 };
 
 export default BlogList;
-
-{
-  /* <nav>
-                      <ul className="pagination justify-content-center">
-                        <li className="page-item disabled">
-                          <a className="page-link" href="#" tabIndex={-1}>
-                            <i className="fas fa-angle-double-left" />
-                          </a>
-                        </li>
-                        <li className="page-item">
-                          <a className="page-link" href="#">
-                            1
-                          </a>
-                        </li>
-                        <li className="page-item active">
-                          <a className="page-link" href="#">
-                            2 <span className="visually-hidden">(current)</span>
-                          </a>
-                        </li>
-                        <li className="page-item">
-                          <a className="page-link" href="#">
-                            3
-                          </a>
-                        </li>
-                        <li className="page-item">
-                          <a className="page-link" href="#">
-                            <i className="fas fa-angle-double-right" />
-                          </a>
-                        </li>
-                      </ul>
-                    </nav> */
-}
