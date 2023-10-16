@@ -5,10 +5,56 @@ import doctorsApi from "../api/doctorsApi";
 import React from "react";
 import { Dropdown } from "bootstrap";
 import logoutDoctor from "../api/logoutDoctor";
+import notification from "../api/notification";
+
+
+// const pusher = new Pusher("2798806e868dbe640e2e", {
+//   cluster: "ap1",
+// });
+
+// const channel = pusher.subscribe("user-notification-3");
+// channel.bind("notification-event-test", function (data) {
+//   setNoti((prevNoti) => [
+//     ...prevNoti,
+//     {
+//       message: data,
+//       time: new Date().toLocaleString(),
+//     },
+//   ]);
+// });
+
 
 const Header = () => {
   const { isLoggedIn, onLogout, token } = useAuth();
   const navigate = useNavigate();
+  const [isPusherSubscribed, setIsPusherSubscribed] = useState(false);
+  const [noti, setNoti] = useState([]);
+  // const   = localStorage.getItem('token');
+
+  useEffect(() => {
+    if (token && !isPusherSubscribed) {
+
+      // Đánh dấu là đã đăng ký sự kiện
+      setIsPusherSubscribed(true);
+
+      const fetchNoti = async () => {
+        try {
+          const response = await notification.getAll({
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          console.log(response);
+          setNoti(response.notifications);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      fetchNoti();
+    }
+  }, [token, isPusherSubscribed]);
+
   const handleLogout = async () => {
     onLogout(); // Gọi hàm logout để xóa token và localStorage
     navigate('/'); // Điều hướng người dùng đến trang chính sau khi đăng xuất
@@ -23,6 +69,9 @@ const Header = () => {
       console.error("Đăng xuất thất bại:", error.message);
     }
   };
+
+
+
 
 
   const initialActiveItems = JSON.parse(
@@ -173,108 +222,33 @@ const Header = () => {
                     </div>
                     <div className="noti-content">
                       <ul className="notification-list">
-                        <li className="notification-message">
-                          <a href="#">
-                            <div className="notify-block d-flex">
-                              <span className="avatar">
-                                <img
-                                  className="avatar-img"
-                                  alt="Ruby perin"
-                                  src="../src/assets/img/clients/client-01.jpg"
-                                />
-                              </span>
-                              <div className="media-body">
-                                <h6>
-                                  Travis Tremble{" "}
-                                  <span className="notification-time">
-                                    18.30 PM
-                                  </span>
-                                </h6>
-                                <p className="noti-details">
-                                  Sent a amount of $210 for his Appointment{" "}
-                                  <span className="noti-title">Dr.Ruby perin </span>
-                                </p>
+                        {noti.map(notifications => (
+                          <li className="notification-message" key={noti.id}>
+                            <a href="#">
+                              <div className="notify-block d-flex">
+                                <span className="avatar">
+                                  <img
+                                    className="avatar-img"
+                                    alt="Ruby perin"
+                                    src={notifications.avatar}
+                                  />
+                                </span>
+                                <div className="media-body">
+                                  <h6>
+                                    {notifications.name}
+                                    <span className="notification-time">
+                                      18.30 PM
+                                    </span>
+                                  </h6>
+                                  <p className="noti-details">
+                                    {notifications.message}
+                                  </p>
+                                </div>
                               </div>
-                            </div>
-                          </a>
-                        </li>
-                        <li className="notification-message">
-                          <a href="#">
-                            <div className="notify-block d-flex">
-                              <span className="avatar">
-                                <img
-                                  className="avatar-img"
-                                  alt="Hendry Watt"
-                                  src="../src/assets/img/clients/client-02.jpg"
-                                />
-                              </span>
-                              <div className="media-body">
-                                <h6>
-                                  Travis Tremble{" "}
-                                  <span className="notification-time">
-                                    12 Min Ago
-                                  </span>
-                                </h6>
-                                <p className="noti-details">
-                                  {" "}
-                                  has booked her appointment to{" "}
-                                  <span className="noti-title">
-                                    Dr. Hendry Watt
-                                  </span>
-                                </p>
-                              </div>
-                            </div>
-                          </a>
-                        </li>
-                        <li className="notification-message">
-                          <a href="#">
-                            <div className="notify-block d-flex">
-                              <div className="avatar">
-                                <img
-                                  className="avatar-img"
-                                  alt="Maria Dyen"
-                                  src="../src/assets/img/clients/client-03.jpg"
-                                />
-                              </div>
-                              <div className="media-body">
-                                <h6>
-                                  Travis Tremble{" "}
-                                  <span className="notification-time">
-                                    6 Min Ago
-                                  </span>
-                                </h6>
-                                <p className="noti-details">
-                                  {" "}
-                                  Sent a amount $210 for his Appointment{" "}
-                                  <span className="noti-title">Dr.Maria Dyen</span>
-                                </p>
-                              </div>
-                            </div>
-                          </a>
-                        </li>
-                        <li className="notification-message">
-                          <a href="#">
-                            <div className="notify-block d-flex">
-                              <div className="avatar avatar-sm">
-                                <img
-                                  className="avatar-img"
-                                  alt="client-image"
-                                  src="../src/assets/img/clients/client-04.jpg"
-                                />
-                              </div>
-                              <div className="media-body">
-                                <h6>
-                                  Travis Tremble{" "}
-                                  <span className="notification-time">8.30 AM</span>
-                                </h6>
-                                <p className="noti-details">
-                                  {" "}
-                                  Send a message to his doctor
-                                </p>
-                              </div>
-                            </div>
-                          </a>
-                        </li>
+                            </a>
+                          </li>
+                        ))}
+
                       </ul>
                     </div>
                   </div>

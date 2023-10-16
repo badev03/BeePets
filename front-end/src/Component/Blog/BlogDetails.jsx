@@ -11,7 +11,7 @@ const BlogDetails = () => {
     const fetchBlogDetails = async () => {
       try {
         const response = await blogApi.get(id);
-        setBlog(response.new);
+        setBlog(response.newDetail);
       } catch (error) {
         console.error("Error fetching blog details:", error);
       }
@@ -72,7 +72,7 @@ const BlogDetails = () => {
                     </div>
                   </div>
                   <div className="blog-content">
-                    <p>{blog.content}</p>
+                    <div dangerouslySetInnerHTML={{ __html: blog.content }} />
                   </div>
                 </div>
               </div>
