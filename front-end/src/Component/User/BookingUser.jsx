@@ -213,16 +213,12 @@ const BookingUser = () => {
 
     return (
         <>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '10vh' }}>
-                <Button
-                    size="large"
-                    type="success"
-                    className="has-submenu megamenu"
-                    style={{ borderRadius: '5px', padding: '10px 20px', fontSize: '16px', backgroundColor:'#20c0f3', color: 'white' }}
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '11vh' }}>
+                <a
                     onClick={showModal}
                 >
                     Đặt Lịch Nhanh
-                </Button>
+                </a>
             </div>
             <Modal
                 title="Hãy Điền Thông Tin"
