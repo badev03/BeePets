@@ -185,4 +185,33 @@ class UserController extends Controller
             ]);
         }
     }
+    public function getHistoryByUser(){
+        try {
+            if(!auth()->check()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Bạn chưa đăng nhập'
+                ]);
+            }else{
+                $id = auth()->user()->id;
+                $result = DB::table('appointments')
+                    ->select('doctors.name as doctor_name','doctors.image' ,'appointments.date', 'appointments.time', 'appointments.status', 'appointments.id as appointment_id')
+                    ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
+                    ->where('appointments.user_id', $id)
+                    ->orderByDesc('appointments.date')
+                    ->get();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Lấy danh sách lịch khám thành công',
+                    'appointments' => $result
+                ]);
+            }
+
+        }catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Lỗi: ' . $e->getMessage()
+            ]);
+        }
+    }
 }

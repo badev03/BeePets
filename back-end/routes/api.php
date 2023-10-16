@@ -64,13 +64,14 @@ Route::post('check-verify', [AuthController::class, 'CheckVerify'])->name('check
 Route::post('check-login', [AuthController::class, 'CheckLogin']);
 
 Route::post('check-verify-register', [AuthController::class, 'CheckVerifyRegister']);
-Route::post('create-password', [AuthController::class, 'CreatePassword']);
+Route::post('create-password/{phone}', [AuthController::class, 'CreatePassword']);
 
 Route::post('register-user', [AuthController::class, 'RegisterUser']);
 
 Route::post('forget-password', [AuthController::class, 'ForgetPassWord']);
 Route::post('check-verify-forget-password', [AuthController::class, 'CheckVerifyForgetPassword']);
-Route::post('reset-password', [AuthController::class, 'ResetPassword']);
+Route::post('change-password/{phone}', [AuthController::class, 'ChangePassword']);
+Route::post('reset-password/{phone}', [AuthController::class, 'ResetPassword']);
 
 Route::post('login-user', [AuthController::class, 'LoginUserOtp']); //test thôi
 
@@ -91,7 +92,8 @@ Route::post('/save', [BookingController::class, 'save']);
 Route::post('/add-booking', [BookingController::class, 'addBooking']);
 
 Route::middleware('auth:sanctum')->group(function () {
-
+    Route::get('pusher-tester-view' , [\App\Http\Controllers\Admin\HomeController::class , 'PusherView']);
+    Route::get('pusher-tester' , [\App\Http\Controllers\Admin\HomeController::class , 'Pusher']);
     // get info user when login
     Route::get('/info-user', [UserController::class, 'getInfoUser']);
 //change password user
@@ -104,6 +106,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/prescription-user', [UserController::class, 'prescriptionByUser']);
 //get bill by user
     Route::get('/bill-user', [UserController::class, 'billByUser']);
+    //get history by user
+    Route::get('/history-user', [UserController::class, 'getHistoryByUser']);
 
 
 //lấy ra các lịch khám trạng thái chưa xác nhận
@@ -133,10 +137,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/history/{id}', [DoctorController::class, 'getHistoryByUser']);
 
     Route::get('reviews', [ReviewsController::class, 'store']);
-    Route::post('logout-user', [AuthController::class, 'LogoutUser']);
-    Route::post('logout-doctor', [AuthController::class, 'LogoutDoctor']);
+    Route::post('logout', [AuthController::class, 'logout']);
+ 
 
-    
+    Route::get('/send-notification',  [\App\Http\Controllers\Admin\HomeController::class , 'getNotification']);
+    Route::post('/send-notification',  [\App\Http\Controllers\Admin\HomeController::class , 'SendNotification']);
+
+
 });
 Route::get('/list-appiontment/{id}', [DoctorController::class, 'getAppiontment']);
 
@@ -153,6 +160,7 @@ Route::get('/prescription/{id}', [DoctorController::class, 'prescriptionByUser']
 
 //get review when doctor login
 Route::get('/reviews-doctor', [DoctorController::class, 'getReviewDoctor']);
+
 
 
 

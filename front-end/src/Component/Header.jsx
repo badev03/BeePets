@@ -1,20 +1,28 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../Context/ContextAuth";
 import { useNavigate } from "react-router-dom";
-// import { Dropdown } from "bootstrap";
-// import doctorsApi from "../api/doctorsApi";
+import doctorsApi from "../api/doctorsApi";
+import React from "react";
+import { Dropdown } from "bootstrap";
+import logoutDoctor from "../api/logoutDoctor";
 
 const Header = () => {
-  const { isLoggedIn, onLogout } = useAuth();
+  const { isLoggedIn, onLogout, token } = useAuth();
   const navigate = useNavigate();
+  const handleLogout = async () => {
+    onLogout(); // Gọi hàm logout để xóa token và localStorage
+    navigate('/'); // Điều hướng người dùng đến trang chính sau khi đăng xuất
+    try {
+      await logoutDoctor.logout(); // Gọi hàm logoutDoctor.logout() để đăng xuất
 
-  const handleLogout = () => {
-    onLogout();
-    navigate('/');
+      // Thực hiện đăng xuất người dùng khỏi ứng dụng
+      onLogout();
+      // Redirect hoặc thực hiện hành động sau khi đăng xuất thành công
+      navigate("/"); // Ví dụ: Chuyển hướng đến trang chủ sau khi đăng xuất
+    } catch (error) {
+      console.error("Đăng xuất thất bại:", error.message);
+    }
   };
-
-
-
 
 
   const initialActiveItems = JSON.parse(
@@ -22,6 +30,7 @@ const Header = () => {
   ) || ["TRANG CHỦ"];
   const [activeItems, setActiveItems] = useState(initialActiveItems);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [dataDoctor, setDataDoctor] = useState(null);
 
   const handleItemClick = (itemName) => {
     setActiveItems((prevActiveItems) => {
@@ -42,33 +51,24 @@ const Header = () => {
     handleItemClick("TRANG CHỦ");
   };
 
+  useEffect(() => {
+    getDataDoctor(token);
+  }, [token])
 
-  // const [doctor, setDoctors] = useState([]);
-
-  // const token = localStorage.getItem('token');
-
-  // if (token) {
-  //   useEffect(() => {
-  //     const fetchDoctor = async () => {
-  //       try {
-  //         const response = await doctorsApi.getDoctor(
-  //           {
-  //             headers: {
-  //               Authorization: `Bearer ${token}`,
-  //             },
-  //           }
-  //         );
-  //         setDoctors(response.doctor);
-  //       } catch (error) {
-  //         console.error("Không có dữ liệu:", error);
-  //       }
-  //     };
-
-  //     fetchDoctor();
-  //   }, []);
-  // }
-
-
+  const getDataDoctor = async (token) => {
+    const response = await doctorsApi.getDoctor(
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (response.success) {
+      setDataDoctor(response.doctor)
+    } else {
+      return false;
+    }
+  }
 
   useEffect(() => {
     localStorage.setItem("activeItems", JSON.stringify(activeItems));
@@ -304,7 +304,7 @@ const Header = () => {
                         />
                       </div>
                       <div className="user-text">
-                        {/* <h6>{doctor.name}</h6> */}
+                        <h6>{dataDoctor?.name}</h6>
                         <p className="text-muted mb-0">Doctor</p>
                       </div>
                     </div>
@@ -322,20 +322,9 @@ const Header = () => {
                     </a>
                   </div>
                 </li>
-                {/* <a className="dropdown-item" onClick={handleLogout}>
-                        Logout
-                      </a> */}
+
               </>
-              //   <Dropdown>
-              //   <Dropdown.Toggle variant="success" id="dropdown-basic">
-              //     Dropdown Button
-              //   </Dropdown.Toggle>
 
-              //   <Dropdown.Menu>
-              //     <Dropdown.Item href="#/action-1">logout</Dropdown.Item>
-
-              //   </Dropdown.Menu>
-              // </Dropdown>
 
             ) : (
               <>

@@ -1,4 +1,5 @@
-import { createContext, useContext, useEffect, useState } from "react";
+// AuthContext.js
+import { createContext, useContext, useEffect, useState } from 'react';
 
 const AuthContext = createContext();
 
@@ -15,11 +16,11 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("user", JSON.stringify(newUser));
   };
 
+
+
   const logout = () => {
     setToken(null);
-    setUser(null);
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    localStorage.removeItem('token');
   };
 
   useEffect(() => {
@@ -47,6 +48,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>
+      {children}
+    </AuthContext.Provider>
   );
 };
