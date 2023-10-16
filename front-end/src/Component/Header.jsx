@@ -6,6 +6,7 @@ import React from "react";
 import { Dropdown } from "bootstrap";
 import logoutDoctor from "../api/logoutDoctor";
 import notification from "../api/notification";
+import BookingUser from "./User/BookingUser";
 
 
 // const pusher = new Pusher("2798806e868dbe640e2e", {
@@ -201,6 +202,13 @@ const Header = () => {
                 onClick={() => handleItemClick("TIN TỨC")}
               >
                 <a href="/blog">TIN TỨC </a>
+              </li>
+              <li
+                className={`has-submenu ${activeItems.includes("ĐẶT LỊCH NHANH") ? "active" : ""
+                  }`}
+                onClick={() => handleItemClick("ĐẶT LỊCH NHANH")}
+              >
+                <BookingUser/>
               </li>
             </ul>
           </div>

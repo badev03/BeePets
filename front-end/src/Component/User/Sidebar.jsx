@@ -87,7 +87,7 @@ const Sidebar = () => {
             </div>
           </div>
         </div>
-        <BookingUser/>
+        
         <div className="dashboard-widget">
           <nav className="dashboard-menu">
             <ul>
