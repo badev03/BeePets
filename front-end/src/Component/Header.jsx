@@ -8,27 +8,12 @@ import logoutDoctor from "../api/logoutDoctor";
 import notification from "../api/notification";
 
 
-// const pusher = new Pusher("2798806e868dbe640e2e", {
-//   cluster: "ap1",
-// });
-
-// const channel = pusher.subscribe("user-notification-3");
-// channel.bind("notification-event-test", function (data) {
-//   setNoti((prevNoti) => [
-//     ...prevNoti,
-//     {
-//       message: data,
-//       time: new Date().toLocaleString(),
-//     },
-//   ]);
-// });
-
-
 const Header = () => {
   const { isLoggedIn, onLogout, token } = useAuth();
   const navigate = useNavigate();
   const [isPusherSubscribed, setIsPusherSubscribed] = useState(false);
   const [noti, setNoti] = useState([]);
+
   // const   = localStorage.getItem('token');
 
   useEffect(() => {
@@ -54,22 +39,49 @@ const Header = () => {
       fetchNoti();
     }
   }, [token, isPusherSubscribed]);
-
   const handleLogout = async () => {
-    onLogout(); // Gọi hàm logout để xóa token và localStorage
-    navigate('/'); // Điều hướng người dùng đến trang chính sau khi đăng xuất
+    // console.log(token);
     try {
-      await logoutDoctor.logout(); // Gọi hàm logoutDoctor.logout() để đăng xuất
-
-      // Thực hiện đăng xuất người dùng khỏi ứng dụng
-      onLogout();
-      // Redirect hoặc thực hiện hành động sau khi đăng xuất thành công
-      navigate("/"); // Ví dụ: Chuyển hướng đến trang chủ sau khi đăng xuất
+      await logoutDoctor.logout({
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      // onLogout();
+      navigate("/login");
     } catch (error) {
-      console.error("Đăng xuất thất bại:", error.message);
+      console.log(error);
     }
   };
 
+
+
+  // const [logout, setLogout] = useState([]);
+  // const handleLogout = async () => {
+  //   if (token) {
+  //     useEffect(() => {
+  //       const fetchLogout = async () => {
+  //         try {
+  //           const response = await logoutDoctor.logout(
+  //             {
+  //               headers: {
+  //                 Authorization: `Bearer ${token}`,
+  //               },
+  //             }
+  //           );
+  //           setLogout(response.logout);
+  //           navigate("/")
+  //         } catch (error) {
+  //           console.error("Không có dữ liệu:", error);
+  //         }
+  //       };
+
+  //       fetchLogout();
+  //     }, []);
+  //   }
+  // }
 
 
 
@@ -291,9 +303,10 @@ const Header = () => {
                     >
                       Profile Settings
                     </a>
-                    <a className="dropdown-item" onClick={handleLogout}>
+                    {/* <a className="dropdown-item" onClick={handleLogout}>
                       Logout
-                    </a>
+                    </a> */}
+                    <button className="dropdown-item" onClick={handleLogout}> Logout </button>
                   </div>
                 </li>
 

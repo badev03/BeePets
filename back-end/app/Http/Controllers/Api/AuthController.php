@@ -116,10 +116,9 @@ class AuthController extends BaseResponseApiController
     }
 
     public function LogoutUser(Request $request) {
-        $request->user()->tokens->each(function ($token, $key) {
-            $token->delete();
-        });
-        return response()->json(['msg'=>'Đăng xuất thành công']);
+
+            $request->user()->currentAccessToken()->delete();
+        return response()->json(['msg'=>'Đăng xuất thành công' , 'data' =>$request->all()]);
     }
 
 
@@ -397,4 +396,3 @@ class AuthController extends BaseResponseApiController
         }
     }
 }
-
