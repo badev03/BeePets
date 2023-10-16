@@ -143,7 +143,7 @@ class NewController extends BaseResponseApiController
             ->get();
         return response()->json([
             'newDetail' => $data ,
-            'new-related' => $relatedNew
+            'newRelated' => $relatedNew
         ],
             '200');
     }
