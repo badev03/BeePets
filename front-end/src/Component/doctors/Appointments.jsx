@@ -63,7 +63,7 @@ const Appointments = () => {
                         <img src="/img/patients/patient.jpg" alt="User Image" />
                       </Link>
                       <div className="profile-det-info">
-                        <h3><Link to={`/doctors/detail-appointments/${appointment.id}`}>{appointment.user.name}</Link></h3>
+                        <h3><Link to={`/doctors/patient-profile/${appointment.user.id}`}>{appointment.user.name}</Link></h3>
                         <div className="patient-details">
                           <h5><i className="far fa-clock" /> {appointment.date}, {appointment.shift_name}</h5>
 
@@ -72,7 +72,7 @@ const Appointments = () => {
                       </div>
                     </div>
                     <div className="appointment-action">
-                      <Link to={`/doctors/detail-appointments/${appointment.id}`} className="btn btn-sm bg-info-light" >
+                      <Link to={`/doctors/patient-profile/${appointment.user.id}`} className="btn btn-sm bg-info-light" >
                         <i className="far fa-eye" /> View
                       </Link>
 
