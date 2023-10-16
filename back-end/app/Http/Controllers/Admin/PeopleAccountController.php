@@ -37,6 +37,7 @@ class PeopleAccountController extends BaseAdminController
     protected $checkRolePermission = 'permission';
     protected $checkerReturnView = false;
     protected $permissionCheckCrud = 'PeopleAccount';
+
     /**
      * @return ham addDataSelect ở controller peopleAccountController phải khai báo theo chuẩn như thế này
      * còn ở các controller khác thì chỉ cần lấy hàm name và chuẩn id thành ids là ok
@@ -80,5 +81,32 @@ class PeopleAccountController extends BaseAdminController
     public function selectDataIndex()
     {
         return Role::all();
+    }
+
+    public function edit(string $id) {
+        $model = $this->model->findOrFail($id);
+        $addDataSelect = $this->addDataSelect();
+        $role = Role::find($model->role_id);
+
+        if ($role) {
+            $adminRole = Role::findByName($role->name);
+            $permissions = $adminRole->permissions;
+            $permission = Permission::all()->groupBy('group');
+            $permissionArray = $permissions->pluck('name')->toArray();
+            $dataViewer = [
+                'title' => $this->titleEdit,
+                'colums' => $this->colums,
+                'urlbase' => $this->urlbase,
+                'title_web' => $this->title,
+                'addDataSelect' => $addDataSelect,
+                'listIndex' => $this->listIndex,
+                'FIELD_SELECT_CUSTOM_CONTROLLER' => $this->FIELD_SELECT_CUSTOM_CONTROLLER,
+                'permission_crud'=> $this->permissionCheckCrud,
+                'permissionsArray'=>$permissionArray,
+            ];
+        }
+
+        return view($this->pathView . __FUNCTION__, compact('model', 'permission'))
+            ->with(array_merge($dataViewer, $this->addForDataViewer));
     }
 }

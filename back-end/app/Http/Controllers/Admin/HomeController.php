@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Events\AdminNotification;
 use App\Http\Controllers\BaseAdminController;
 use App\Http\Controllers\Controller;
+use App\Interfaces\MessageUser;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -82,5 +83,9 @@ class HomeController extends Controller
 
     public function PusherView2() {
         return view('api.pusher_2');
+    }
+
+    public function pusherApi(MessageUser $messageService) {
+        $messageService->sendMessage(3, 'Vũ anh bá');
     }
 }

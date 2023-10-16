@@ -136,8 +136,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/history/{id}', [DoctorController::class, 'getHistoryByUser']);
 
     Route::get('reviews', [ReviewsController::class, 'store']);
-    Route::post('logout', [AuthController::class, 'logout']);
- 
+    Route::post('logout', [AuthController::class, 'LogoutUser']);
+
 
     Route::get('/get-notification',  [NotificationController::class , 'getNotification']);
     Route::post('/send-notification',  [\App\Http\Controllers\Admin\HomeController::class , 'SendNotification']);
@@ -165,5 +165,6 @@ Route::get('/reviews-doctor', [DoctorController::class, 'getReviewDoctor']);
 Route::get('pusher-tester-view' , [\App\Http\Controllers\Admin\HomeController::class , 'PusherView']);
 
 
+Route::get('check-api-notification' , [\App\Http\Controllers\Admin\HomeController::class , 'pusherApi']);
 
 

@@ -142,8 +142,8 @@ class NewController extends BaseResponseApiController
             ->join('new_categories' , 'new_categories.id' , '=' , 'newcs.new_categorie_id')
             ->get();
         return response()->json([
-            'new-detail' => $data ,
-            'new-related' => $relatedNew
+            'newDetail' => $data ,
+            'newRelated' => $relatedNew
         ],
             '200');
     }

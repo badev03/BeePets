@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Review;
 use App\Traits\QueryCommon;
 use Illuminate\Http\Request;
 
@@ -12,18 +13,30 @@ class DoctorUserController extends BaseResponseApiController
 
     public function index()
     {
-        $doctor = $this->tableQuery('doctors')
+        $doctors = $this->tableQuery('doctors')->get();
+
+        $reviewAverages = Review::select('user_id', \DB::raw('AVG(score) as average_score'))
+            ->groupBy('user_id')
             ->get();
-        if($doctor) {
+
+        $reviewAveragesArray = [];
+        foreach ($reviewAverages as $reviewAverage) {
+            $reviewAveragesArray[$reviewAverage->user_id] = $reviewAverage->average_score;
+        }
+        foreach ($doctors as $doctor) {
+            $doctor_id = $doctor->id;
+            $doctor->average_score = isset($reviewAveragesArray[$doctor_id]) ? $reviewAveragesArray[$doctor_id] : null;
+        }
+        if($doctors) {
             return response()->json([
-                'doctor' => $doctor ,
+                'doctor' => $doctors ,
                 'msg' => 'oke dữ liệu thành công'
             ] , 200);
         }
         else {
             return response()->json([
                 'msg' => 'no data'
-            ] , 200);
+            ] , 400);
         }
     }
 

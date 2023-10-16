@@ -86,13 +86,15 @@ class AppointmentController extends Controller
         if($checkPhone) {
             $data['user_id'] = $checkPhone->id;
             $this->tableQuery('appointments')->insert(array_merge($request->except('_token' , 'user_id') , $data));
-            $messageUser->sendMessage($checkPhone->id , 'Đã đặt cuộc hẹn thành công');
+            $messageUser->sendMessage($checkPhone->id, 'Chào '.$checkPhone->name.'Chúng tôi đã tạo thành công lịch khám cho bạn');
+            $messageUser->sendMessageDoctor($request->doctor_id, 'Bạn có 1 lịch khám mới tên bệnh nhân là'.$checkPhone->name);
             return back()->with('success', 'Thao tác thành công');
         }
         else {
             $data['user_id'] = $this->createUserAuto($request->user_id);
             $this->tableQuery('appointments')->insert(array_merge($request->except('_token') , $data));
-            $messageUser->sendMessage($request->user_id , 'Đã đặt cuộc hẹn thành công');
+            $messageUser->sendMessage($data['user_id'], 'Chào '.$checkPhone->name.'Chúng tôi đã tạo thành công lịch khám cho bạn');
+            $messageUser->sendMessageDoctor($request->doctor_id, 'Bạn có 1 lịch khám mới tên bệnh nhân là'.$checkPhone->name);
             return back()->with('success', 'Thao tác thành công');
         }
     }
