@@ -36,11 +36,12 @@ const ReviewsDoctor = () => {
                     <span className="comment-author"></span>
                     <span className="comment-date">Đã đánh giá vào lúc {review.created_at}</span>
                     <div className="review-count rating">
-                      <i className="fas fa-star filled" />
-                      <i className="fas fa-star filled" />
-                      <i className="fas fa-star filled" />
-                      <i className="fas fa-star filled" />
-                      <i className="fas fa-star" />
+                    {Array.from({ length: review.score }, (_, index) => (
+                        <i key={index} className="fas fa-star filled" />
+                      ))}
+                      {Array.from({ length: 5 - review.score }, (_, index) => (
+                        <i key={index} className="fas fa-star" />
+                      ))}
                     </div>
                   </div>
                   <p className="recommended"><i className="far fa-thumbs-up" /> Tôi đánh giá cao bác sĩ này</p>
@@ -53,32 +54,6 @@ const ReviewsDoctor = () => {
 
             </li>
           ))}
-
-
-          {/* <li>
-          <div className="comment">
-            <img className="avatar avatar-sm rounded-circle" alt="User Image" src="../src/assets/img/patients/patient.jpg" />
-            <div className="comment-body">
-              <div className="meta-data">
-                <span className="comment-author">Vũ Anh Bá</span>
-                <span className="comment-date">Đã đánh giá 1 ngày trước</span>
-                <div className="review-count rating">
-                  <i className="fas fa-star filled" />
-                  <i className="fas fa-star " />
-                  <i className="fas fa-star " />
-                  <i className="fas fa-star " />
-                  <i className="fas fa-star" />
-                </div>
-              </div>
-              <p className="recommended" style={{color:"red"}}><i className="far fa-thumbs-up" /> Tôi đánh giá thấp bác sĩ này</p>
-              <p className="comment-content">
-              Bác sĩ này làm việc tệ vl, điều quan trọng là phải tự chăm sóc nỗi đau, sau đó là sự trưởng thành của bệnh nhân, nhưng đồng thời cũng sẽ có rất nhiều công việc và nỗi đau. Để đi đến chi tiết nhỏ nhất, bài tập của chúng ta là gì? Tôi không nghĩ có thời gian để người hâm mộ trò chuyện
-              </p>
-              
-            </div>
-          </div>
-   
-        </li> */}
         </ul>
 
       </div>

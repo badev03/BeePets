@@ -1,12 +1,36 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import usersApi from '../../api/usersApi';
 import { useEffect, useState } from "react";
+import logoutDoctor from '../../api/logoutDoctor';
+import { useAuth } from '../../Context/ContextAuth';
+import Booking from '../Booking';
+import BookingUser from './BookingUser';
 
 const Sidebar = () => {
   const [user, setUser] = useState([]);
-
   const token = localStorage.getItem('token');
+  const navigate = useNavigate();
+  const { onLogout } = useAuth(); // Sử dụng context để lấy hàm onLogout
+
+  const handleLogout = async () => {
+    // Gọi hàm logout khi người dùng nhấp vào "Đăng Xuất"
+    try {
+      await logoutDoctor.logout({
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      onLogout(); // Gọi hàm onLogout để xác định người dùng đã đăng xuất
+      navigate('/'); // Sau khi đăng xuất, điều hướng đến trang chính hoặc trang bạn muốn
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
 
   if (token) {
     useEffect(() => {
@@ -85,6 +109,7 @@ const Sidebar = () => {
             </div>
           </div>
         </div>
+
         <div className="dashboard-widget">
           <nav className="dashboard-menu">
             <ul>
@@ -112,8 +137,8 @@ const Sidebar = () => {
               </li>
               <li className={`has-submenu megamenu ${activeItems.includes("Đăng xuất") ? "active" : ""
                 }`}
-                onClick={() => handleItemClick("Đăng xuất")}>
-                <a href="login.html">
+                onClick={() => handleLogout("Đăng xuất")}>
+                <a>
                   <i className="fas fa-sign-out-alt" />
                   <span>Đăng Xuất</span>
                 </a>

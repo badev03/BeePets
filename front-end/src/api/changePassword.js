@@ -1,9 +1,9 @@
 import instance from "./instance";
 
 const ChangePassword = {
-  changePasswordDoctor(passwordData) {
+  changePasswordDoctor(passwordData, config = {}) {
     const url = `/change-password`;
-    return instance.put(url, passwordData);
+    return instance.put(url,passwordData, config);
   },
 };
 

@@ -2,10 +2,16 @@ import instance from "./instance";
 
 const logoutDoctor = {
 
-    logout() {
-        const url = "/logout-doctor";
-        return instance.post(url);
+    logout(header) {
+        const url = "logout";
+
+        return instance.post(url, {}, header);
+
     },
+    // delete() {
+    //     const url = "/logout-doctor";
+    //     return instance.delete(url);
+    // },
 };
 
 export default logoutDoctor;
