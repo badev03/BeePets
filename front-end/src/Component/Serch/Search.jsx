@@ -8,7 +8,7 @@ import axios from 'axios';
 
 const Search = ({data}) => {
   const [doctors, setDoctors] = useState([]);
-  // console.log(data);
+  console.log(data);
     useEffect(() => {
       const fetchDoctor = async () => {
         try {
@@ -22,7 +22,7 @@ const Search = ({data}) => {
       };
       const fetchDoctorService = async () => {
         try {
-          // console.log(data);
+          console.log(data);
           const response = await axios.post(
             `http://127.0.0.1:8000/api/service-filter-doctor`,
             { service: data },
@@ -58,7 +58,7 @@ const Search = ({data}) => {
                   </div>
                   <div className="doc-info-cont">
                     <h4 className="doc-name">
-                    <Link to={`/doctor/profile/${doctor.id}`}>{doctor.name}</Link>
+                    <Link to={`/doctor/profile/${doctor.slug}`}>{doctor.name}</Link>
                       </h4>
                     {/* <p className="doc-speciality">{doctor.description.service}
                     </p> */}
@@ -109,7 +109,7 @@ const Search = ({data}) => {
                     </ul>
                   </div>
                   <div className="clinic-booking">
-                    <Link className="view-pro-btn" to={`/doctor/profile/${doctor.id}`}>Xem hồ sơ</Link>
+                    <Link className="view-pro-btn" to={`/doctor/profile/${doctor.slug}`}>Xem hồ sơ</Link>
                     <Link className="apt-btn" to={`/booking`}>Đặt lịch hẹn</Link>
                   </div>
                 </div>
