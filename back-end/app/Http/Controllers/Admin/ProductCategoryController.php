@@ -13,7 +13,7 @@ class ProductCategoryController extends BaseAdminController
     public $pathView = 'admin.baseCrud.';
     public $urlbase = 'product-categories.';
     public $slug = 'slug';
-
+    public $permissionCheckCrud = 'role';
 
     public $titleIndex = 'Danh mục sản phẩm';
     public $titleCreate = 'Thêm danh mục sản phẩm';
