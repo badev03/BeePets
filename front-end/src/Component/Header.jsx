@@ -10,11 +10,13 @@ import BookingUser from "./User/BookingUser";
 import usersApi from "../api/usersApi";
 
 
+
 const Header = () => {
   const { isLoggedIn, onLogout, token } = useAuth();
   const navigate = useNavigate();
   const [isPusherSubscribed, setIsPusherSubscribed] = useState(false);
   const [noti, setNoti] = useState([]);
+
 
   // const   = localStorage.getItem('token');
 
@@ -171,7 +173,6 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
 
   return (
     <header

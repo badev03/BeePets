@@ -1,3 +1,5 @@
+
+import React from 'react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import blogApi from '../../api/BlogApi';
@@ -9,7 +11,9 @@ const Homepage_Blog = () => {
     const fetchBlog = async () => {
       try {
         const response = await blogApi.getAll();
-        setBlogs(response);
+        setBlogs(response.new);
+        console(response);
+        console(12312321);
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
@@ -17,6 +21,9 @@ const Homepage_Blog = () => {
 
     fetchBlog();
   }, []);
+  if (!blogs) {
+    return <div>Loading...</div>;
+  }
 
   function truncateText(text, lines) {
     const words = text.split(' ');
@@ -26,7 +33,6 @@ const Homepage_Blog = () => {
     }
     return truncatedText;
   }
-
   return (
     <div className="blog-section-fourteen">
       <div className="container">
