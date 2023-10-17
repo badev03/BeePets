@@ -258,7 +258,7 @@ const Header = () => {
                     data-bs-toggle="dropdown"
                   >
                     <i className="fa-solid fa-bell" />{" "}
-                    <span className="badge">5</span>
+                    <span className="badge">{noti.length}</span>
                   </a>
                   <div className="dropdown-menu notifications dropdown-menu-end ">
                     <div className="topnav-dropdown-header">
