@@ -37,6 +37,7 @@
                                                 <div class="col-md-8 mb-3">
                                                     <label class="mb-2" for="validationCustom01">{{ $item }}</label>
                                                     <input type="file" class="form-control" id="image" name="{{ $key }}" required="">
+                                                    <img src="{{$doctor->image}}" alt="">
                                                     @if($errors->has($key))
                                                         <div class="error text-danger mt-2">{{ $errors->first($key) }}</div>
                                                     @endif

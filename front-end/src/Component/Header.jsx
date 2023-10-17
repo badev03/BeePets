@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../Context/ContextAuth";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import doctorsApi from "../api/doctorsApi";
 import React from "react";
 import { Dropdown } from "bootstrap";
 import logoutDoctor from "../api/logoutDoctor";
 import notification from "../api/notification";
 import BookingUser from "./User/BookingUser";
-import usersApi from "../api/usersApi";
 
 
 
@@ -96,7 +95,6 @@ const Header = () => {
   const [activeItems, setActiveItems] = useState(initialActiveItems);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [dataDoctor, setDataDoctor] = useState(null);
-  const [dataUser, setDataUser] = useState(null);
 
   const handleItemClick = (itemName) => {
     setActiveItems((prevActiveItems) => {
@@ -116,9 +114,9 @@ const Header = () => {
   const handleLogoClick = () => {
     handleItemClick("TRANG CHỦ");
   };
+
   useEffect(() => {
     getDataDoctor(token);
-    getDataUser(token);
   }, [token])
 
   const getDataDoctor = async (token) => {
@@ -136,32 +134,6 @@ const Header = () => {
     }
   }
 
-  const getDataUser = async (token) => {
-    const response = await usersApi.getUser(
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    if (response.success) {
-      setDataUser(response.user)
-    } else {
-      return false;
-    }
-  }
-
-  const handleCheckAccount = (dataUser) => {
-    if (dataUser?.role_id === 4) {
-      // return true là user
-      return true;
-    } else {
-      // return false là doctor
-      return false;
-    }
-  }
-
-
   useEffect(() => {
     localStorage.setItem("activeItems", JSON.stringify(activeItems));
   }, [activeItems]);
@@ -173,6 +145,7 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  
 
   return (
     <header
@@ -217,37 +190,37 @@ const Header = () => {
             </div>
 
             <ul className="main-nav">
-              <li
-                className={`has-submenu megamenu ${activeItems.includes('TRANG CHỦ') ? 'active' : ''}`}
-                onClick={() => handleItemClick('TRANG CHỦ')}
-              >
-                <a href="/">TRANG CHỦ </a>
-              </li>
-              <li
-                className={`has-submenu ${activeItems.includes('BÁC SĨ') ? 'active' : ''}`}
-                onClick={() => handleItemClick('BÁC SĨ')}
-              >
-                <a href="/doctor">BÁC SĨ </a>
-              </li>
-              <li
-                className={`has-submenu ${activeItems.includes('GIỚI THIỆU') ? 'active' : ''}`}
-                onClick={() => handleItemClick('GIỚI THIỆU')}
-              >
-                <a href="/abouts">GIỚI THIỆU </a>
-              </li>
-              <li
-                className={`has-submenu ${activeItems.includes('TIN TỨC') ? 'active' : ''}`}
-                onClick={() => handleItemClick('TIN TỨC')}
-              >
-                <a href="/blog">TIN TỨC </a>
-              </li>
-              <li
-                className={`has-submenu ${activeItems.includes('ĐẶT LỊCH NHANH') ? 'active' : ''}`}
-                onClick={() => handleItemClick('ĐẶT LỊCH NHANH')}
-              >
-                <a><BookingUser /></a>
-              </li>
-            </ul>
+        <li
+          className={`has-submenu megamenu ${activeItems.includes('TRANG CHỦ') ? 'active' : ''}`}
+          onClick={() => handleItemClick('TRANG CHỦ')}
+        >
+          <a href="/">TRANG CHỦ </a>
+        </li>
+        <li
+          className={`has-submenu ${activeItems.includes('BÁC SĨ') ? 'active' : ''}`}
+          onClick={() => handleItemClick('BÁC SĨ')}
+        >
+          <a href="/doctor">BÁC SĨ </a>
+        </li>
+        <li
+          className={`has-submenu ${activeItems.includes('GIỚI THIỆU') ? 'active' : ''}`}
+          onClick={() => handleItemClick('GIỚI THIỆU')}
+        >
+          <a href="/abouts">GIỚI THIỆU </a>
+        </li>
+        <li
+          className={`has-submenu ${activeItems.includes('TIN TỨC') ? 'active' : ''}`}
+          onClick={() => handleItemClick('TIN TỨC')}
+        >
+          <a href="/blog">TIN TỨC </a>
+        </li>
+        <li
+          className={`has-submenu ${activeItems.includes('ĐẶT LỊCH NHANH') ? 'active' : ''}`}
+          onClick={() => handleItemClick('ĐẶT LỊCH NHANH')}
+        >
+          <a><BookingUser/></a>
+        </li>
+      </ul>
           </div>
           <ul className="nav header-navbar-rht">
             {isLoggedIn ? (
@@ -323,20 +296,19 @@ const Header = () => {
                         />
                       </div>
                       <div className="user-text">
-                        <h6>{handleCheckAccount(dataUser) ? dataUser?.name : dataDoctor?.name}</h6>
-                        <p className="text-muted mb-0">{handleCheckAccount(dataUser) ? 'User' : 'Doctor'}</p>
+                        <h6>{dataDoctor?.name}</h6>
+                        <p className="text-muted mb-0">Doctor</p>
                       </div>
                     </div>
-
-                    <Link to={handleCheckAccount(dataUser) ? '/user/dashbroad' : '/doctors'} className="dropdown-item">
+                    <a className="dropdown-item" href="doctor-dashboard.html">
                       Dashboard
-                    </Link>
-                    <Link to={handleCheckAccount(dataUser) ? '/user/profilesetting' : '/doctors/profile'}
+                    </a>
+                    <a
                       className="dropdown-item"
                       href="doctor-profile-settings.html"
                     >
                       Profile Settings
-                    </Link>
+                    </a>
                     {/* <a className="dropdown-item" onClick={handleLogout}>
                       Logout
                     </a> */}

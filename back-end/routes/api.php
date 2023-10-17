@@ -86,6 +86,8 @@ Route::post('/doctors-service', [BookingController::class, 'doctors']);
 //lấy ra danh sách lịch làm việc của bác sĩ
 Route::get('/work-schedule', [BookingController::class, 'workSchedule']);
 
+Route::post('/booking2',[Booking2Controller::class,'getWorkScheduleDoctor']);
+Route::post('/booking2',[Booking2Controller::class,'save']);
 // lưu dữ liệu đã chọn vào bảng appointment
 Route::post('/save', [BookingController::class, 'save']);
 

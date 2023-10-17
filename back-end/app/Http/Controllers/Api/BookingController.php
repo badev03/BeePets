@@ -135,6 +135,8 @@ class BookingController extends Controller
 
             $model->save();
 
+            event(new \App\Events\MessageSendNotification($user_id, 'Bạn đã đặt lịch hẹn thành công vui lòng chờ xác nhận của bác sĩ', $request->doctor_id, 'Có lịch hẹn mới'));
+            
             return response()->json(['message' => 'Đã tạo cuộc hẹn thành công'], 201);
         } catch (QueryException $e) {
             // dd($e->getMessage());

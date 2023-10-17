@@ -30,7 +30,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm">
-                                <form action="{{route('doctors.store')}}" class="needs-validation" novalidate="" enctype="multipart/form-data" method="POST">
+                                <form action="{{route('doctors.update',['id'=>$id])}}" class="needs-validation" novalidate="" enctype="multipart/form-data" method="POST">
                                     @csrf
                                     @foreach($colums as $key=>$item)
                                         @if(in_array($key , FIELD_IMAGE))

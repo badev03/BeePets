@@ -116,22 +116,21 @@ class AuthController extends BaseResponseApiController
     }
 
     // public function LogoutUser(Request $request) {
-
     //         $request->user()->currentAccessToken()->delete();
-    //     return response()->json(['msg'=>'Đăng xuất thành công' , 'data' =>$request->all()]);
+    //     return response()->json(['msg'=>'Đăng xuất thành công']);
     // }
 
     public function LogoutUser(Request $request) {
-        if (auth()->check()) {
-            $user = auth()->user();
-            $user->currentAccessToken()->delete();
-        } elseif (auth()->guard('doctors')->check()) {
+        if (auth()->guard('doctors')->check()) {
             $doctor = auth()->guard('doctors')->user();
             $doctor->currentAccessToken()->delete();
+        } elseif (auth()->check()) {
+            $user =auth()->user();
+            $user->currentAccessToken()->delete();
         } else {
             return response()->json('Unauthorized', 401);
         }
-        return response()->json('Logout successful');
+        return response()->json(['message' => 'Đăng xuất thành công' , 'data'=>$request->all()], 200);
     }
 
     public function RegisterUser(Request $request) {
