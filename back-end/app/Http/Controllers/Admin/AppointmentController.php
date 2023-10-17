@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Vonage\Voice\Endpoint\App;
 
 class AppointmentController extends Controller
 {
@@ -86,15 +87,13 @@ class AppointmentController extends Controller
         if($checkPhone) {
             $data['user_id'] = $checkPhone->id;
             $this->tableQuery('appointments')->insert(array_merge($request->except('_token' , 'user_id') , $data));
-            $messageUser->sendMessage($checkPhone->id, 'Chào '.$checkPhone->name.'Chúng tôi đã tạo thành công lịch khám cho bạn');
-            $messageUser->sendMessageDoctor($request->doctor_id, 'Bạn có 1 lịch khám mới tên bệnh nhân là'.$checkPhone->name);
+            $messageUser->sendMessage($checkPhone->id, 'Chào '.$checkPhone->name.'Chúng tôi đã tạo thành công lịch khám cho bạn' , $request->doctor_id , 'UserName :'.$checkPhone->name.'đã đạt lịch của bạn');
             return back()->with('success', 'Thao tác thành công');
         }
         else {
             $data['user_id'] = $this->createUserAuto($request->user_id);
             $this->tableQuery('appointments')->insert(array_merge($request->except('_token') , $data));
-            $messageUser->sendMessage($data['user_id'], 'Chào '.$checkPhone->name.'Chúng tôi đã tạo thành công lịch khám cho bạn');
-            $messageUser->sendMessageDoctor($request->doctor_id, 'Bạn có 1 lịch khám mới tên bệnh nhân là'.$checkPhone->name);
+            $messageUser->sendMessage($data['user_id'], 'Chào '.$checkPhone->name.'Chúng tôi đã tạo thành công lịch khám cho bạn' , 'UserName :'.$checkPhone->name.'đã đạt lịch của bạn');
             return back()->with('success', 'Thao tác thành công');
         }
     }
@@ -150,7 +149,7 @@ class AppointmentController extends Controller
         return $query;
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id , MessageUser $messageUser)
     {
         $this->validateFormAppointment($request , 'update');
         $phone = $request->user_id;
@@ -167,6 +166,7 @@ class AppointmentController extends Controller
                 $this->tableQuery('appointments')
                     ->where('id' , '=' , $id)
                     ->update(array_merge($request->except(['_token' , '_method' , 'user_id']) , $data));
+                $messageUser->sendMessage($checkPhone->id, 'Chào '.$checkPhone->name.'Chúng tôi đã update thành công lịch khám cho bạn' , $request->doctor_id , 'UserName :'.$checkPhone->name.'đã update lại đạt lịch của bạn');
                 return back()->with('success', 'Thao tác thành công');
             }
             else {
@@ -185,6 +185,7 @@ class AppointmentController extends Controller
                 $this->tableQuery('appointments')
                     ->where('id' , '=' , $id)
                     ->update($data);
+                $messageUser->sendMessage($checkPhone->id, 'Chào '.$checkPhone->name.'Chúng tôi đã update thành công lịch khám cho bạn' , $request->doctor_id , 'UserName :'.$checkPhone->name.'đã update lại đạt lịch của bạn');
                 return back()->with('success', 'Thao tác thành công');
             }
         }
@@ -409,20 +410,7 @@ class AppointmentController extends Controller
         $appointment = Appointment::withTrashed()->find($id);
         if($appointment) {
 //            $appointment->restore();
-//            $basic  = new \Vonage\Client\Credentials\Basic("a942b359", "jQOo5hCLR3LRfzfM");
-//            $client = new \Vonage\Client($basic);
-//            $response = $client->sms()->send(
-//                new \Vonage\SMS\Message\SMS("84981324706", 'ledat', 'A text message sent using the Nexmo SMS API')
-//            );
-//
-//            $message = $response->current();
-//
-//            if ($message->getStatus() == 0) {
-//                echo "The message was sent successfully\n";
-//            } else {
-//                echo "The message failed with status: " . $message->getStatus() . "\n";
-//            }
-            $messageService->sendMessage($appointment->id, 'hhehe');
+            event(new \App\Events\MessageSendNotification($appointment->user_id, 'Đã khôi phục thành công hihah', $appointment->doctor_id, 'Ok ã khôi phục thành công'));
             return back()->with(['success_delete' => 'Đã khôi phục dữ liệu thành công']);
         }
         return back()->with(['failed_delete' => 'Dữ liệu khôi phục không hợp lệ']);
@@ -471,7 +459,20 @@ class AppointmentController extends Controller
             default:
                 break;
         }
+
     }
 
-
+    public function destroy(MessageUser $messageUser , string $id) {
+        if (auth()->user()->can(['delete-appointment'])) {
+            $model = Appointment::findOrFail($id);
+            $userName = User::find($model->user_id);
+            $model->delete();
+            $messageUser->sendMessage($model->user_id, 'Chào '.$userName->name.
+                'Chúng tôi đã hủy lịch hẹn của bạn' , $model->doctor_id , 'UserName :'.$userName->name.'đã đạt lịch của bạn');
+            return back()->with('success_delete', 'Đã xóa thành công');
+        }
+        else {
+            return view(admin_403);
+        }
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\BaseAdminController;
 use App\Http\Controllers\Controller;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -87,7 +88,18 @@ class PeopleAccountController extends BaseAdminController
         $model = $this->model->findOrFail($id);
         $addDataSelect = $this->addDataSelect();
         $role = Role::find($model->role_id);
-
+        $adminRole = Role::findByName($role->name);
+        $permissionsWeb = DB::table('role_has_permissions')
+            ->where('role_has_permissions.role_id', $adminRole->id)
+            ->join('permissions' , 'permissions.id' , '=' , 'role_has_permissions.permission_id')
+            ->select('permission_id' , 'permissions.name' , 'permissions.id')
+            ->get();
+        // Lấy danh sách các quyền riêng của người dùng.
+        $userPermissions = DB::table('model_has_permissions')
+            ->join('permissions', 'permissions.id', '=', 'model_has_permissions.permission_id')
+            ->where('model_has_permissions.model_id', $model->id)
+            ->select('permissions.name' , 'permissions.id')
+            ->get();
         if ($role) {
             $adminRole = Role::findByName($role->name);
             $permissions = $adminRole->permissions;
@@ -103,10 +115,37 @@ class PeopleAccountController extends BaseAdminController
                 'FIELD_SELECT_CUSTOM_CONTROLLER' => $this->FIELD_SELECT_CUSTOM_CONTROLLER,
                 'permission_crud'=> $this->permissionCheckCrud,
                 'permissionsArray'=>$permissionArray,
+                'permissionsWeb' => $permissionsWeb,
+                'userPermissions' => $userPermissions
             ];
         }
 
         return view($this->pathView . __FUNCTION__, compact('model', 'permission'))
             ->with(array_merge($dataViewer, $this->addForDataViewer));
     }
+
+    public function update(Request $request, string $id)
+    {
+        if(auth()->user()->can(['update-PeopleAccount'])) {
+        $model = $this->model->findOrFail($id);
+
+        // Lấy danh sách quyền từ request (ví dụ: 'permission_name_1', 'permission_name_2')
+        $permissions = $request->input('permissions', []);
+
+        // Trước tiên, gỡ bỏ tất cả quyền hiện có của người dùng
+        $model->revokePermissionTo($model->permissions);
+
+        // Sau đó, trao quyền cho người dùng dựa trên danh sách quyền từ request
+        $model->givePermissionTo($permissions);
+
+        // Lưu lại thông tin người dùng
+        $model->save();
+        return back()->with('success', 'Thao tác thành công');
+    }
+        else {
+             return view(admin_403);
+        }
+
+    }
+
 }

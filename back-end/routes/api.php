@@ -140,6 +140,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     Route::get('/get-notification',  [NotificationController::class , 'getNotification']);
+    Route::get('/get-notification-doctor',  [NotificationController::class , 'getNotificationDoctor']);
     Route::post('/send-notification',  [\App\Http\Controllers\Admin\HomeController::class , 'SendNotification']);
 
 
