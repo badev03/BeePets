@@ -44,6 +44,24 @@ class BookingController extends Controller
     }
 
 
+    public function doctorService(Request $request)
+    {
+        $doctor_id = $request->input('doctor_id');
+        $service = Doctor::select('id', 'name', 'slug')->with(['services:id,name,price,slug'])->where('id', $doctor_id)->get();
+        $service = $service->map(function ($doctor) {
+            $doctor->services->map(function ($service) {
+                $service->makeHidden('pivot'); // Loại bỏ các trường pivot
+                return $service;
+            });
+            return $doctor;
+        });
+    
+    
+            if($service->isEmpty()){
+                return response()->json(['message' => 'Không có dịch vụ nào'], 400);
+            }
+        return response()->json(['message' => 'Lấy danh sách dịch vụ thành công', 'data' => $service], 200);
+    }
 
     public function typePets()
     {
