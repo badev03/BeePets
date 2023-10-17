@@ -214,13 +214,12 @@ const BookingUser = () => {
 
     return (
         <>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '11vh' }}>
-                <a
+            
+            <a
                     onClick={showModal}
                 >
-                    Đặt Lịch Nhanh
+                   ĐẶT LỊCH NHANH
                 </a>
-            </div>
             <Modal
                 title="Hãy Điền Thông Tin"
                 visible={isModalOpen}

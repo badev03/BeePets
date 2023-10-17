@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
+
 class InforController extends Controller
 {
 
@@ -44,11 +45,6 @@ class InforController extends Controller
                 $file = $request->file('avatar');
                 $cloudinaryResponse = Cloudinary::upload($file->getRealPath())->getSecurePath();
                 $user->avatar = $cloudinaryResponse;
-            }else{
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Chưa có ảnh'
-                ], 404);
             }
             // Lưu thông tin sau khi cập nhật
             $user->save();

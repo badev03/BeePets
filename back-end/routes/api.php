@@ -125,7 +125,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 //lấy ra thông tin bác sĩ đang đăng nhập
     Route::get('/doctor-info', [DoctorController::class, 'getDoctor']);
-    Route::post('/save-infor-doctor', [InforController::class, 'saveInfor']);
+    Route::post('/save-infor-user', [InforController::class, 'saveInfor']);
 
 //lấy ra danh sách khách hàng của bác sĩ
     Route::get('/list-customers', [DoctorController::class, 'listCustomer']);
