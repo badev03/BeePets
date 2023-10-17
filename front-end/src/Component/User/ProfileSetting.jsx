@@ -18,7 +18,7 @@ const ProfileSetting = () => {
       // birthday: "",
       phone: "",
       email: "",
-      gender: "Nam",
+      gender: "",
     }
   );
 
@@ -93,7 +93,7 @@ const ProfileSetting = () => {
     if (validateForm()) {
       // Call the API with user data to update the user information
       try {
-        console.log(token);
+       
         const response = await axios.post(
           `http://127.0.0.1:8000/api/save-infor-user`,
           {
@@ -105,15 +105,36 @@ const ProfileSetting = () => {
             },
           }
         );
+        console.log(response.data);
         setSuccess(true);
         setTimeout(() => {
           setSuccess(false);
         }, 3000);
-        console.log(response.data);
+       
       } catch (error) {
         console.log(error);
       }
     }
+  };
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        // Perform the upload to Cloudinary
+        // console.log(reader.result)
+        uploadToCloudinary(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  
+  const uploadToCloudinary = (fileContent) => {
+    // Perform the upload to Cloudinary here
+    // Update the user state with the Cloudinary image URL
+    console.log(fileContent)
+    setUser({ ...user, avatar: fileContent });
+    
   };
   return (
     <div><div className="breadcrumb-bar-two">
@@ -153,7 +174,7 @@ const ProfileSetting = () => {
                             <div className="upload-img">
                               <div className="change-photo-btn">
                                 <span><i className="fa fa-upload" />Tải ảnh lên</span>
-                                <input type="file" className="upload"  name="avatar" onChange={(e) => setUser({ ...user, avatar: e.target.value })}/>
+                                <input type="file" className="upload"  name="avatar"   onChange={(e) => handleFileUpload(e)}/>
                               </div>
 
                             </div>
