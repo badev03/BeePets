@@ -42,16 +42,28 @@ class DoctorUserController extends BaseResponseApiController
         }
     }
 
-    public function show($id) {
-        $doctor = $this->tableQuery('doctors')->where('id' , '=' , $id)
+    public function show($slug) {
+        $doctor = $this->tableQuery('doctors')->where('slug' , '=' , $slug)
             ->first();
+        $reviewAverages = Review::select('doctor_id', \DB::raw('AVG(score) as average_score') , \DB::raw('COUNT(*) as review_count'))
+            ->where('doctor_id' , '=' , $doctor->id)
+            ->groupBy('doctor_id')
+            ->get();
+        $reviewAveragesArray = [];
+        $reviewCount = [];
+        foreach ($reviewAverages as $reviewAverage) {
+            $reviewAveragesArray[$reviewAverage->doctor_id] = $reviewAverage->average_score;
+            $reviewCount[$reviewAverage->doctor_id] = $reviewAverage->review_count;
+        }
+        $doctor->average_score = $reviewAveragesArray[$doctor->id] ?? 0;
+        $doctor->review_count = $reviewCount[$doctor->id] ?? 0;
         $reviews = $this->tableQuery('reviews')
             ->join('users' , 'users.id' , '=' , 'reviews.user_id')
             ->join('doctors' , 'doctors.id' , '=' , 'reviews.doctor_id')
             ->select('reviews.*' , 'users.name as user_name' , 'users.avatar'
                  , 'users.id as users_id')
             ->where('users.role_id' , '=' , 4)
-            ->where('doctor_id' , '=' , $id)
+            ->where('doctor_id' , '=' , $doctor->id)
             ->get();
         if($doctor) {
             return response()->json([

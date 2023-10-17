@@ -28,7 +28,7 @@ class AuthController extends BaseResponseApiController
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         }
-        $phone_number = $request->input('phone');
+        $phone_number = '0969025884';
         if($phone_number) {
             $check_exit_phone = $this->tableQuery('users')
                 ->where('role_id' , '=' , 4)

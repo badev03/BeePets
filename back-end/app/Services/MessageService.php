@@ -7,32 +7,20 @@ use Pusher\Pusher;
 
 class MessageService implements MessageUser {
 
-    public function sendMessage($userId, $message)
+    public function sendMessage($userId, $message , $doctor_id='' , $message_doctor = '')
     {
         $pusher = new Pusher(config('broadcasting.connections.pusher.key'), config('broadcasting.connections.pusher.secret'), config('broadcasting.connections.pusher.app_id'), [
             'cluster' => config('broadcasting.connections.pusher.options.cluster'),
             'useTLS' => config('broadcasting.connections.pusher.options.useTLS'),
         ]);
 
-        $pusher->trigger("user-notification-3", 'notification-event-test', $message);
+        $pusher->trigger("user-notification-".$userId, 'notification-event-test', $message);
+        $pusher->trigger("doctor-notification-".$doctor_id, 'notification-event-doctor', $message);
         Notification::create([
             'user_id' => $userId,
             'message' => $message,
-        ]);
-        return response()->json(['message' => 'Thông báo đã được gửi']);
-    }
-
-    public function sendMessageDoctor($doctor_id, $message)
-    {
-        $pusher = new Pusher(config('broadcasting.connections.pusher.key'), config('broadcasting.connections.pusher.secret'), config('broadcasting.connections.pusher.app_id'), [
-            'cluster' => config('broadcasting.connections.pusher.options.cluster'),
-            'useTLS' => config('broadcasting.connections.pusher.options.useTLS'),
-        ]);
-
-        $pusher->trigger("doctor-notification-".$doctor_id, 'notification-event-test', $message);
-        Notification::create([
             'doctor_id' => $doctor_id,
-            'message' => $message,
+            'message_doctor' => $message_doctor
         ]);
         return response()->json(['message' => 'Thông báo đã được gửi']);
     }
