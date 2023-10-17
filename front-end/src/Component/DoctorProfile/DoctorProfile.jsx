@@ -55,10 +55,10 @@ const DoctorProfile = () => {
                 <h4 className="doc-name">{doctor.name}</h4>
                 <p className="doc-speciality">{doctor.description.service}</p>
                 <div className="rating">
-                {Array.from({ length: doctor.status }, (_, index) => (
+                {Array.from({ length: doctor.average_score }, (_, index) => (
                         <i key={index} className="fas fa-star filled" />
                       ))}
-                      {Array.from({ length: 5 - doctor.status }, (_, index) => (
+                      {Array.from({ length: 5 - doctor.average_score }, (_, index) => (
                         <i key={index} className="fas fa-star" />
                       ))}
                   <span className="d-inline-block average-rating">( {doctor.review_count} )</span>
