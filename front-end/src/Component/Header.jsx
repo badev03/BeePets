@@ -328,7 +328,6 @@ const Header = () => {
                         <p className="text-muted mb-0">{handleCheckAccount(dataUser) ? 'User' : 'Doctor'}</p>
                       </div>
                     </div>
-
                     <Link to={handleCheckAccount(dataUser) ? '/user/dashbroad' : '/doctors'} className="dropdown-item">
                       Dashboard
                     </Link>
@@ -345,8 +344,6 @@ const Header = () => {
                 </li>
 
               </>
-
-
             ) : (
               <>
                 <li className="searchbar searchbar-fourteen me-2">
