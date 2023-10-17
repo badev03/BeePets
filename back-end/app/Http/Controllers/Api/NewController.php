@@ -104,13 +104,13 @@ class NewController extends BaseResponseApiController
         ] , '200');
     }
 
-    public function show(string $id) {
+    public function show(string $slug) {
         $data = $this->tableQuery('newcs')
             ->select('newcs.id', 'newcs.name', 'newcs.slug', 'newcs.content' , 'newcs.image' , 'newcs.public_date'
                 , 'new_categories.name as nameCategories')
             ->join('new_categories' , 'new_categories.id' , '=' , 'newcs.new_categorie_id')
             ->where('new_categories.status', '=', 1)
-            ->where('newcs.id', '=', $id)
+            ->where('newcs.slug', '=', $slug)
             ->first();
         if(!$data) {
             return response()->json(['message' => $this->title.'không tồn tại'], 404);
