@@ -35,6 +35,9 @@ class DoctorController extends Controller
         'name' => 'Tên bác sĩ',
         'phone' => 'Số điện thoại',
         'description' => 'Mô tả',
+        'address'=>'Địa chỉ',
+        'gender'=>'Giới tính',
+        'birthday'=>'Ngày Sinh',
         'status' => 'Trạng thái',
 
 
@@ -113,6 +116,40 @@ class DoctorController extends Controller
         ];
         return view('admin.doctor.edit', compact('doctor','services'))
             ->with($dataViewer);
+    }
+    public function update(Request $request,$id){
+        $model = Doctor::findOrFail($id);
+        $validateUpdate = $this->validateUpdate($request);
+        if ($validateUpdate) {
+            return back()->withErrors($validateUpdate)->withInput();
+        }
+        $model->fill($request->except(['image', 'slug']));
+        if ($request->hasFile('image')) {
+            $image = $request->image;
+            $cloudinaryResponse = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
+            $model->image = $cloudinaryResponse;
+        }
+        if ($request->has('name') && $this->checkerNameSlug == true) {
+            $model->slug = $this->createSlug($request->name);
+        }
+        $dataModel = $request->all();
+        if ($this->dataStoreAndUpdate($dataModel)) {
+            $currentDate = today();
+            $model->public_date = $currentDate->format('Y-m-d');
+        }
+        $this->createAndUpdatePassWord($request->password);
+        $model->save();
+        $selectedServices = $request->input('service_id', []);
+        $model->services()->sync($selectedServices);
+        if ($this->checkRolePermission == false) {
+            $model->assignRole($request->role);
+        }
+        return back()->with('success', 'Thao tác thành công');
+
+
+
+
+
     }
 
     public function destroy(string $id)

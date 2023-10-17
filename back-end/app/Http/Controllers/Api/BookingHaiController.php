@@ -5,14 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Models\User;
 use App\Models\Doctor;
 use App\Models\Service;
-use App\Models\Type_pet;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
-use App\Models\Work_schedule;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\QueryException;
-
+use App\Models\Work_schedule;
+use App\Models\Type_pet;
 class Booking2Controller extends Controller
 {
     public function getWorkScheduleDoctor(Request $request)
@@ -87,6 +86,4 @@ class Booking2Controller extends Controller
     }
 
    
-
-
 }
