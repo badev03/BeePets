@@ -1,45 +1,65 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import listAppiontmentApi from '../../api/listAppiontment';
 import listCustomersApi from '../../api/listCustomers';
 import ListAppiontment from './List-Appoiment';
 import AppoimentList from './List-Appoiment';
+import { useAuth } from '../../Context/ContextAuth';
+import logoutDoctor from '../../api/logoutDoctor';
 
 const Patientprofile = () => {
   const { id } = useParams();
-    const [customers, setCustomers] = useState(null);
-    const [listAppiontment, setListAppiontment] = useState(null);
+  const [customers, setCustomers] = useState(null);
+  const [listAppiontment, setListAppiontment] = useState(null);
 
-    const token = localStorage.getItem('token');
-  
-   if(token){
-     useEffect(() => {
+  const token = localStorage.getItem('token');
+  const navigate = useNavigate();
+  const { onLogout } = useAuth(); // Sử dụng context để lấy hàm onLogout
+
+  const handleLogout = async () => {
+    // Gọi hàm logout khi người dùng nhấp vào "Đăng Xuất"
+    try {
+      await logoutDoctor.logout({
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      onLogout(); // Gọi hàm onLogout để xác định người dùng đã đăng xuất
+      navigate('/'); // Sau khi đăng xuất, điều hướng đến trang chính hoặc trang bạn muốn
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  if (token) {
+    useEffect(() => {
       const fetchCustomers = async () => {
         try {
-         const response = await listCustomersApi.get(id,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setCustomers(response.customer);     
-        console.log(response.customer);
+          const response = await listCustomersApi.get(id,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setCustomers(response.customer);
+          console.log(response.customer);
         } catch (error) {
           console.error("Không có dữ liệu:", error);
         }
       };
-  
+
       fetchCustomers();
     }, []);
-    
-   }
-   
-    if (!customers) {
-        return <div>Loading...</div>;
-    }
+
+  }
+
+  if (!customers) {
+    return <div>Loading...</div>;
+  }
   return (
     <div>
       <div className="breadcrumb-bar-two">
@@ -131,8 +151,8 @@ const Patientprofile = () => {
                           </Link>
                         </li>
                         <li>
-                          <Link to="login.html">
-                            <i className="fas fa-sign-out-alt" />
+                          <Link>
+                            <i className="fas fa-sign-out-alt" onClick={() => handleLogout("Đăng xuất")} />
                             <span>Đăng xuất</span>
                           </Link>
                         </li>
@@ -197,7 +217,7 @@ const Patientprofile = () => {
                     <div id="pat_appointments" className="tab-pane fade show active">
                       <div className="card card-table mb-0">
                         <div className="card-body">
-                          <AppoimentList/>
+                          <AppoimentList />
                         </div>
                       </div>
                     </div>
