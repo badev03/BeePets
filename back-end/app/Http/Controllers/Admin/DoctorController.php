@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 
 class DoctorController extends Controller
@@ -22,24 +23,24 @@ class DoctorController extends Controller
 
 
     public $titleIndex = 'Danh sách bác sĩ';
-    protected $removeColumns= [];
+    protected $removeColumns = [];
     public $titleShow = 'Xem chi tiết  bác sĩ';
     public $titleEdit = 'Cập nhật  bác sĩ';
-    protected $checkerNameSlug=true;
+    protected $checkerNameSlug = true;
     protected $title = 'Bác sĩ';
     protected $checkRolePermission = true;
     protected $permissionCheckCrud = 'doctors';
     public $colums = [
         'image' => 'Ảnh',
         'name' => 'Tên bác sĩ',
-        'phone'=>'Số điện thoại',
+        'phone' => 'Số điện thoại',
         'description' => 'Mô tả',
-        'status'=>'Trạng thái',
+        'status' => 'Trạng thái',
 
 
     ];
 
-   
+
 
     public function index()
     {
@@ -55,85 +56,94 @@ class DoctorController extends Controller
     public function create()
     {
         $services = Service::all();
-      
-        return view('admin.doctor.create',compact('services'))
-        ->with('colums', $this->colums)
-        ->with('permission_crud', $this->permissionCheckCrud);
+
+        return view('admin.doctor.create', compact('services'))
+            ->with('colums', $this->colums)
+            ->with('permission_crud', $this->permissionCheckCrud);
     }
-    public function createSlug($name) {
+    public function createSlug($name)
+    {
         return Str::slug($name);
     }
-    public function store(Request $request ){
-        
+    public function store(Request $request)
+    {
+
         $model = new Doctor();
         $validateStore = $this->validateStore($request);
-        if($validateStore) {
+        if ($validateStore) {
             return back()->withErrors($validateStore)->withInput();
         }
-        $model->fill($request->except(['image','slug']));
+        $model->fill($request->except(['image', 'slug']));
         if ($request->hasFile('image')) {
-            $tmpPath = Storage::put('public/'.'image', $request->image);
-            $path = str_replace('public/','',  $tmpPath);
-            $model->image = 'storage/' . $path;
+
+            $image = $request->image;
+            $cloudinaryResponse = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
+
+            $model->image = $cloudinaryResponse;
         }
-        if($request->has('name') && $this->checkerNameSlug == true) {
+        if ($request->has('name') && $this->checkerNameSlug == true) {
             $model->slug = $this->createSlug($request->name);
         }
         $dataModel = $request->all();
-        if($this->dataStoreAndUpdate($dataModel)) {
+        if ($this->dataStoreAndUpdate($dataModel)) {
             $currentDate = today();
-            $model->public_date =$currentDate->format('Y-m-d');
+            $model->public_date = $currentDate->format('Y-m-d');
         }
         $this->createAndUpdatePassWord($request->password);
-       
+
         $model->save();
         $selectedServices = $request->input('service_id', []);
         $model->services()->attach($selectedServices);
-        if($this->checkRolePermission==false) {
+        if ($this->checkRolePermission == false) {
             $model->assignRole($request->role);
         }
 
         return back()->with('success', 'Thao tác thành công');
     }
 
+
+    public function edit(string $id)
+    {
+        $doctor = Doctor::findOrFail($id);
+        $services = Service::select('id','name')->get();
+        $dataViewer = [
+            'title' => $this->titleEdit,
+            'colums' => $this->colums,
+            'permission_crud'=> $this->permissionCheckCrud
+        ];
+        return view('admin.doctor.edit', compact('doctor','services'))
+            ->with($dataViewer);
+    }
+
     public function destroy(string $id)
     {
-        if (auth()->user()->can(['delete-'.$this->permissionCheckCrud])) {
+        if (auth()->user()->can(['delete-' . $this->permissionCheckCrud])) {
             $model = Doctor::findOrFail($id);
 
             $model->delete();
             if ($model->image) {
-                $image = str_replace('storage/', '', $model->{'image'});
-                Storage::delete($image);
+                Cloudinary::destroy($model->image);
             }
             return back()->with('success_delete', 'Đã xóa thành công');
-        }
-        else {
+        } else {
             return view(admin_403);
         }
     }
 
 
 
-
-
-
-
-
-
-
-    public function validateStore($request , $id = null)
+    public function validateStore($request, $id = null)
     {
         $rules = [];
         $keyForErrorMessage = [];
-        foreach ($this->colums as $key=>$item) {
+        foreach ($this->colums as $key => $item) {
             $rules[$key] = 'required';
         }
-        if($this->removeColumns) {
+        if ($this->removeColumns) {
             $rules = array_diff_key($rules, array_flip($this->removeColumns));
         }
-        foreach ($rules as $keyForError=>$value) {
-            $keyForErrorMessage[$keyForError.'.required'] = 'Trường '.$keyForError.' không được để trống';
+        foreach ($rules as $keyForError => $value) {
+            $keyForErrorMessage[$keyForError . '.required'] = 'Trường ' . $keyForError . ' không được để trống';
         }
         $this->validate($request, $rules, $keyForErrorMessage);
     }
@@ -143,46 +153,45 @@ class DoctorController extends Controller
         return [];
     }
 
-    public function addDataSelect() {
-
+    public function addDataSelect()
+    {
     }
 
-    public function givePermission() {
-
+    public function givePermission()
+    {
     }
 
-    public function addFunctionData() {
-
+    public function addFunctionData()
+    {
     }
 
-    public function addFunctionDataEdit($id) {
-
+    public function addFunctionDataEdit($id)
+    {
     }
 
-    public function selectDataIndex() {
-
+    public function selectDataIndex()
+    {
     }
 
-    public function checkPermissionsAndRole() {
-        if($this->permissionCheckCrud === 'permission') {
-
+    public function checkPermissionsAndRole()
+    {
+        if ($this->permissionCheckCrud === 'permission') {
         }
     }
 
-    public function createAndUpdatePassWord($password) {
-        if($password) {
+    public function createAndUpdatePassWord($password)
+    {
+        if ($password) {
             $password = Hash::make($password);
             return $password;
         }
     }
 
-    public function QuerySpecialIndex() {
-
+    public function QuerySpecialIndex()
+    {
     }
 
-    public function dataStoreAndUpdate($data) {
-
+    public function dataStoreAndUpdate($data)
+    {
     }
-
-
 }
