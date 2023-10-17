@@ -4,14 +4,13 @@ import { Link, useParams } from 'react-router-dom';
 import doctorsApi from '../../api/doctorsApi';
 
 const HomepageDoctors = () => {
-    const { id } = useParams();
     const [doctor, setDoctors] = useState(null);
 
     useEffect(() => {
-        const fetchBlog = async () => {
+        const fetchDoctor = async () => {
             try {
                 const response = await doctorsApi.getAll();
-                setDoctors(response);
+                setDoctors(response.doctor);
 
             } catch (error) {
                 console.error("Không có dữ liệu:", error);
@@ -19,7 +18,7 @@ const HomepageDoctors = () => {
         };
 
 
-        fetchBlog();
+        fetchDoctor();
     }, []);
     if (!doctor) {
         return <div>Loading...</div>;
@@ -46,36 +45,39 @@ const HomepageDoctors = () => {
                     </div>
                 </div>
                 <div className="owl-carousel blog-slider-twelve owl-theme aos" >
-                    {doctor.slice(0, 4).map(doctor => (
-                        <div className="card blog-inner-fourt-all" key={doctor.id}>
+                    {doctor.slice(0, 4).map((doctor) => (
+                        <div className="col-lg-3 col-md-3 col-sm-6 col-12" key={doctor.id}>
+                            <div className="card blog-inner-fourt-all d-flex"
+                            >
 
-                            <div className="card-body blog-inner-fourt-main">
-                                <div className="blog-inner-right-fourt">
-                                    <a href="doctor-profile.html">
-                                        <div className="blog-inner-right-img">
-                                            <Link to={`/doctors/${doctor.id}`}><img className="img-fluid" src={doctor.image.profile} alt="image" /></Link>
-                                            <div className="blog-inner-top-content">
-                                                <span>{doctor.description.service}</span>
+                                <div className="card-body blog-inner-fourt-main">
+                                    <div className="blog-inner-right-fourt">
+                                        <a href="doctor-profile.html">
+                                            <div className="blog-inner-right-img">
+                                                <Link to={`/doctors/${doctor.id}`}><img className="img-fluid" src={doctor.image.profile} alt="image" /></Link>
+                                                <div className="blog-inner-top-content">
+                                                    <span>{doctor.description}</span>
+                                                </div>
                                             </div>
+                                        </a>
+                                        <h4 className="blog-inner-right-fourt-care">
+                                            <a href="doctor-profile.html">{doctor.name}</a>
+                                        </h4>
+                                        <ul className="articles-list nav blog-articles-list">
+                                            <li>
+                                                <i className="fa fa-location-dot" />{doctor.address}
+                                            </li>
+                                        </ul>
+                                        <div className="blog-list-ratings">
+                                            <i className="fa-solid fa-star rated" />
+                                            <i className="fa-solid fa-star rated" />
+                                            <i className="fa-solid fa-star rated" />
+                                            <i className="fa-solid fa-star rated" />
+                                            <i className="fa-solid fa-star" />
+                                            <span>(20)</span>
                                         </div>
-                                    </a>
-                                    <h4 className="blog-inner-right-fourt-care">
-                                        <a href="doctor-profile.html">{doctor.name}</a>
-                                    </h4>
-                                    <ul className="articles-list nav blog-articles-list">
-                                        <li>
-                                            <i className="fa fa-location-dot" />  {doctor.address}
-                                        </li>
-                                    </ul>
-                                    <div className="blog-list-ratings">
-                                        <i className="fa-solid fa-star rated" />
-                                        <i className="fa-solid fa-star rated" />
-                                        <i className="fa-solid fa-star rated" />
-                                        <i className="fa-solid fa-star rated" />
-                                        <i className="fa-solid fa-star" />
-                                        <span>(20)</span>
+                                        <a href="/booking" className="btn btn-primary">Đặt Ngay</a>
                                     </div>
-                                    <a href="/booking" className="btn btn-primary">Đặt Ngay</a>
                                 </div>
                             </div>
                         </div>
