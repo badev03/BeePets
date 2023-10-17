@@ -410,7 +410,7 @@ class AppointmentController extends Controller
         $appointment = Appointment::withTrashed()->find($id);
         if($appointment) {
 //            $appointment->restore();
-            event(new \App\Events\MessageSendNotification($appointment->user_id, 'xóa nầm 1 dòng code', $appointment->doctor_id, 'Ok ã khôi phục thành công'));
+            event(new \App\Events\MessageSendNotification($appointment->user_id, 'Đã khôi phục thành công hihah', $appointment->doctor_id, 'Ok ã khôi phục thành công'));
             return back()->with(['success_delete' => 'Đã khôi phục dữ liệu thành công']);
         }
         return back()->with(['failed_delete' => 'Dữ liệu khôi phục không hợp lệ']);
