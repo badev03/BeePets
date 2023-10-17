@@ -61,6 +61,25 @@
 @include('layouts.partials.script')
 @stack('script')
 
+<script>
+    $('.btn-remove').on('click', function(e) {
+        e.preventDefault();
+
+        data = {
+            "_token": '{{ csrf_token() }}',
+            "product_id": $(this).attr("data-id")
+        };
+        $.ajax({
+            url: '{{ route('carts.removeCart') }}',
+            method: "post",
+            data: data,
+            success: function(response) {
+                window.location.reload();
+                toastr.success(response.message, 'Success');
+            }
+        });
+    });
+</script>
 <script src="{{asset('backend/assets/js/script.js')}}"></script>
 </body>
 
