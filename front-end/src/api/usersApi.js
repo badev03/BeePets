@@ -16,9 +16,9 @@ const usersApi = {
     return instance.post(url, data);
   },
 
-  update(data) {
-    const url = `/info-user/${data.id}`;
-    return instance.patch(url, data);
+  updateUser(data) {
+    const url = `/save-infor-user`;
+    return instance.post(url, data);
   },
 
   remove(id) {
