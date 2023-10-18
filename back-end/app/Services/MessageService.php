@@ -7,7 +7,7 @@ use Pusher\Pusher;
 
 class MessageService implements MessageUser {
 
-    public function sendMessage($userId, $message , $doctor_id='' , $message_doctor = '')
+    public function sendMessage($userId ='', $message='' , $doctor_id='' , $message_doctor = '')
     {
         $pusher = new Pusher(config('broadcasting.connections.pusher.key'), config('broadcasting.connections.pusher.secret'), config('broadcasting.connections.pusher.app_id'), [
             'cluster' => config('broadcasting.connections.pusher.options.cluster'),

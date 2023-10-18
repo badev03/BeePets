@@ -18,6 +18,7 @@ use \App\Http\Controllers\Admin\ReviewController;
 use \App\Http\Controllers\Admin\NewCategorieController;
 use \App\Http\Controllers\Admin\NewController;
 use App\Http\Controllers\Api\AuthController as ApiAuthController;
+use \App\Http\Controllers\Admin\NotificationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -47,6 +48,7 @@ Route::middleware(['role:Admin'])->group(function () {
             'type-pet' => TypePetController::class,
             'new-categories' => NewCategorieController::class,
             'new' => NewController::class,
+            'notifications' => NotificationController::class,
         ];
         foreach ($objects as $key => $controller) {
             Route::resource($key, $controller);
@@ -67,6 +69,8 @@ Route::middleware(['role:Admin'])->group(function () {
         Route::get('pusher-tester-view2' , [HomeController::class , 'PusherView2']);
         Route::get('trash-can/appointment' , [AppointmentController::class , 'TrashCan'])->name('appointments.trash-can');
         Route::delete('restore-trash/appointment/{id}' , [AppointmentController::class , 'RestoreTrash'])->name('appointments.restore-trash');
+        Route::delete('birthDayDoctor/destroy/{id}' , [NotificationController::class , 'destroy'])->name('birthDayDoctor.destroy');
+        Route::get('birthDayDoctor/notifications' , [NotificationController::class , 'storeBirthdayDoctor'])->name('notifications.birthdayDoctor');
 
 
 
