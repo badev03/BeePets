@@ -139,6 +139,29 @@ class DoctorController extends Controller
         }
     }
 
+    public function getAppiontmentByID($id) {
+        if(Auth::guard('doctors')->check()) {
+            $doctor_id = Auth::guard('doctors')->user()->id;
+            $appointment = Appointment::where('appointments.id', $id)
+                ->join('users', 'users.id', '=', 'appointments.user_id')
+                ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
+                ->join('bills', 'bills.appointment_id', '=', 'appointments.id')
+                ->select('appointments.id','users.name as user_name', 'doctors.name as doctor_name', 'appointments.date', 'bills.total_amount',
+                    'appointments.status as appointment_status', 'doctors.status as doctor_status','appointments.created_at as appointment_created_at','appointments.shift_name')
+                ->first();
+            return response()->json([
+                'success' => true,
+                'message' => 'Lấy thông tin cuoc hen thành công',
+                'appointment' => $appointment
+            ]);
+        }else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bạn chưa đăng nhập',
+            ]);
+        }
+    }
+
     public function changePassword(Request $request) {
         try {
             $request->validate([
