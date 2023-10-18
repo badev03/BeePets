@@ -61,7 +61,7 @@ const Homepage_Blog = () => {
                     <ul className="entry-meta meta-item">
                       <li><i className="far fa-clock" />{blog.public_date}</li>
                     </ul>
-                    <h3 className="blog-title"><Link to={`/blog/${blog.id}`}>{blog.name}</Link></h3>
+                    <h3 className="blog-title"><Link to={`/blog/${blog.id}`}>{blog.slug}</Link></h3>
                     <p className="mb-0">{truncateText(blog.content, 2)}</p>
                   </div>
                 </div>

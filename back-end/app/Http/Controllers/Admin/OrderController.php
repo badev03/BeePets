@@ -16,17 +16,19 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return view('orders.index');
+        //lấy ra tất cả các đơn hàng
+        $bills = Bill::all();
+        return view('admin.purchase.index', compact('bills'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        $products = Products::all();
-        return view('orders.create', compact('products'));
-    }
+//    public function create()
+//    {
+//        $products = Products::all();
+//        return view('orders.create', compact('products'));
+//    }
 
     /**
      * Store a newly created resource in storage.

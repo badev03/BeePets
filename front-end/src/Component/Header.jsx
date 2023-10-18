@@ -13,16 +13,13 @@ import usersApi from "../api/usersApi";
 const Header = () => {
   const { isLoggedIn, onLogout, token } = useAuth();
   const navigate = useNavigate();
-  const [isPusherSubscribed, setIsPusherSubscribed] = useState(false);
   const [noti, setNoti] = useState([]);
+  const [user, setUser] = useState(null);
 
   // const   = localStorage.getItem('token');
 
   useEffect(() => {
-    if (token && !isPusherSubscribed) {
-
-      // Đánh dấu là đã đăng ký sự kiện
-      setIsPusherSubscribed(true);
+    if (token) {
 
       const fetchNoti = async () => {
         try {
@@ -31,16 +28,40 @@ const Header = () => {
               Authorization: `Bearer ${token}`,
             },
           });
-          console.log(response);
           setNoti(response.notifications);
         } catch (error) {
           console.log(error);
         }
       };
-
       fetchNoti();
+      const fetchUser = async () => {
+        try {
+          const response = await usersApi.getUser(
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setUser(response.user);
+          const pusher = new Pusher("2798806e868dbe640e2e", {
+            cluster: "ap1",
+          });
+          const channel = pusher.subscribe("user-notification-" + response.user.id);
+          channel.bind("notification-event-test", function (data) {
+            fetchNoti();
+            //
+          });
+        } catch (error) {
+          console.error("Không có dữ liệu:", error);
+        }
+      };
+      fetchUser();
+
+
     }
-  }, [token, isPusherSubscribed]);
+  }, [token]);
+
   const handleLogout = async () => {
     // console.log(token);
     try {
@@ -281,7 +302,7 @@ const Header = () => {
                                   <h6>
                                     {notifications.name}
                                     <span className="notification-time">
-                                      18.30 PM
+                                      {notifications.created_at}
                                     </span>
                                   </h6>
                                   <p className="noti-details">
