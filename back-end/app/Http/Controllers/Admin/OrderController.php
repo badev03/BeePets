@@ -87,7 +87,9 @@ class OrderController extends Controller
         );
         $bill_id = $bill->id;
         $carts = session()->get('carts');
+
         foreach ($carts as $key => $value) {
+            $this->updateQuantity($key, $value['quantity']);
             Order_detail::query()->create(
                 [
                     'bill_id' => $bill_id,
@@ -189,6 +191,7 @@ class OrderController extends Controller
             $bill_id = Bill::query()->where('code', $code)->first()->id;
             $carts = session()->get('carts');
             foreach ($carts as $key => $value) {
+                $this->updateQuantity($key, $value['quantity']);
                 Order_detail::query()->create(
                     [
                         'bill_id' => $bill_id,
@@ -257,5 +260,14 @@ class OrderController extends Controller
     public function momoReturn()
     {
 
+    }
+
+
+    //khi đặt hàng xong thì số lượng sản phẩm sẽ bị trừ đi
+    public function updateQuantity($id, $quantity)
+    {
+        $product = Products::query()->find($id);
+        $product->quantity = $product->quantity - $quantity;
+        $product->save();
     }
 }
