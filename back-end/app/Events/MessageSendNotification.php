@@ -24,7 +24,7 @@ class MessageSendNotification
     public $messageDoctor;
 
 
-    public function __construct($userId, $message, $doctorId = '', $messageDoctor = '')
+    public function __construct($userId='', $message='', $doctorId = '', $messageDoctor = '')
     {
         $this->userId = $userId;
         $this->message = $message;
