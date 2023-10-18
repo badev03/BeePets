@@ -66,7 +66,7 @@ Route::post('check-verify', [AuthController::class, 'CheckVerify'])->name('check
 Route::post('check-login', [AuthController::class, 'CheckLogin']);
 
 Route::post('check-verify-register', [AuthController::class, 'CheckVerifyRegister']);
-Route::post('create-password/{phone}', [AuthController::class, 'CreatePassword']);
+Route::post('register-user-password', [AuthController::class, 'CreatePassword']);
 
 Route::post('register-user', [AuthController::class, 'RegisterUser']);
 

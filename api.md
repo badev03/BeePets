@@ -63,3 +63,9 @@ check kiểm tra xem số điện thoaại đã tồn tại hay rồi mới ti�
 
 // api lấy dữ liệu notifications 
 1. http://127.0.0.1:8000/api/get-notification
+
+
+
+
+// đạt viêt api đăng ký ko cần otp 
+1. http://127.0.0.1:8000/api/register-user-password **POST**

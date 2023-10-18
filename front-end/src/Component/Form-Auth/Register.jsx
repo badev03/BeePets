@@ -1,23 +1,24 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState , useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import register from '../../api/register';
 
 const Register = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [error, setError] = useState('');
-
+  const navigateTo = useNavigate();
   const handlePhoneChange = (e) => {
     setPhoneNumber(e.target.value);
-    setError(''); 
+    setError('');
   };
 
   const handleSignUp = async () => {
     try {
       const confirmationResult = await register.createPhoneNumber(phoneNumber);
-      console.log('OTP sent successfully:', confirmationResult);
+        console.log('OTP sent successfully:', confirmationResult);
+        navigateTo('/create-password');
     } catch (error) {
-      console.error('Error signing up:', error);
-      setError('Đã xảy ra lỗi trong quá trình đăng ký. Vui lòng thử lại.'); 
+      console.log('Error signing up:', error);
+      setError('Đã xảy ra lỗi trong quá trình đăng ký. Vui lòng thử lại.');
   }
 }
 
@@ -40,11 +41,12 @@ const Register = () => {
                       <input type="text" value={phoneNumber} onChange={handlePhoneChange} className="form-control floating" />
                       <label className="focus-label">Nhập SĐT</label>
                     </div>
+                    <div id="recaptcha-container"></div>
                     <div className="text-end">
                       <p></p>
                       <Link to="/login" className="/login">Bạn đã có tài khoản ?</Link>
                     </div>
-                    <Link to="/create-password"> <button onClick={handleSignUp} className="btn btn-primary w-100 btn-lg login-btn" type="submit">Đăng ký</button> </Link>
+                    <Link to="/create-password"><button onClick={handleSignUp} className="btn btn-primary w-100 btn-lg login-btn" type="submit">Đăng ký</button></Link>
                   </form>
                 </div>
               </div>
