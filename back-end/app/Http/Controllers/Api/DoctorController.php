@@ -315,14 +315,13 @@ public function createPrescription(Request $request)
 {
     try{
         if(Auth::guard('doctors')->check()) {
-          
-            $prescription = new Prescription();
-            $prescription->code = $code;
-            $prescription->name = $request->input('name');
-            $prescription->doctor_id = $request->input('doctor_id');
-            $prescription->user_id = $request->input('user_id');
-            $prescription->save();
-            return $prescription;
+        
+           
+           
+
+
+
+
         } else {
             return response()->json([
                 'success' => false,
