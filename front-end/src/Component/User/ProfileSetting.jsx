@@ -5,10 +5,11 @@ import usersApi from '../../api/usersApi';
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import { Alert } from 'antd';
-
-
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+const MySwal = withReactContent(Swal);
 const ProfileSetting = () => {
-
+ 
   
   const [user, setUser] = useState(
     {
@@ -48,7 +49,7 @@ const ProfileSetting = () => {
       fetchUser();
     }, []);
   }
-  const [success, setSuccess] = useState(false);
+ 
   const [errors, setErrors] = useState({});
   const validateForm = () => {
     let errors = {};
@@ -106,13 +107,18 @@ const ProfileSetting = () => {
           }
         );
         console.log(response.data);
-        setSuccess(true);
-        setTimeout(() => {
-          setSuccess(false);
-        }, 3000);
-       
+      
+        // setSuccess(true);
+        // setTimeout(() => {
+        //   setSuccess(false);
+        // }, 3000);
+        MySwal.fire({
+          title: "Lưu thông tin tài khoản thành công!",
+          icon: "success",
+        });
       } catch (error) {
         console.log(error);
+        
       }
     }
   };
@@ -157,10 +163,10 @@ const ProfileSetting = () => {
           <div className="row">
             <Sidebar />
             <div className="col-md-7 col-lg-8 col-xl-9">
-        {success && <Alert message="Lưu thông tin tài khoản thành công" type="success" showIcon style={{marginBottom: "5px"}} />}
-        {Object.keys(errors).map((key, index) => (
+       
+        {/* {Object.keys(errors).map((key, index) => (
         <Alert key={index} message={errors[key]} type="error" showIcon style={{marginBottom: "5px"}} />
-      ))}
+      ))} */}
               <div className="card" >
                 <div className="card-body">
                   <form onSubmit={handleFormSubmit} >
@@ -185,12 +191,14 @@ const ProfileSetting = () => {
                         <div className="mb-3">
                           <label className="mb-2">Họ Tên</label>
                           <input type="text" className="form-control" name="name" value={user.name}   onChange={(e) => setUser({ ...user, name: e.target.value })}/>
+                          <p style={{color:"red"}}>{errors["name"]}</p>
                         </div>
                       </div>
                       <div className="col-12 col-md-6">
                         <div className="mb-3">
                           <label className="mb-2">Địa chỉ</label>
                           <input type="text" className="form-control" name="address" value={user.address}   onChange={(e) => setUser({ ...user, address: e.target.value })} />
+                          <p style={{color:"red"}}>{errors["address"]}</p>
                         </div>
                       </div>
                       {/* <div className="col-12 col-md-6">
@@ -205,12 +213,16 @@ const ProfileSetting = () => {
                         <div className="mb-3">
                           <label className="mb-2">Số điện thoại</label>
                           <input type="text" className="form-control" name="phone" value={user.phone} onChange={(e) => setUser({ ...user, phone: e.target.value })} />
+                          <p style={{color:"red"}}>{errors["phone"]}</p>
+
                         </div>
                       </div>
                       <div className="col-12 col-md-6">
                         <div className="mb-3">
                           <label className="mb-2">Email</label>
                           <input type="text" className="form-control" name="email" value={user.email} onChange={(e) => setUser({ ...user, email: e.target.value })} />
+                          <p style={{color:"red"}}>{errors["email"]}</p>
+                        
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -225,6 +237,8 @@ const ProfileSetting = () => {
                         <option value="Nữ">Nữ</option>                   
                         <option value="Nam">Nam</option>                 
                     </select>
+                    <p style={{color:"red"}}>{errors["gender"]}</p>
+
                   </div>
                   </div> 
                   </div>
