@@ -16,18 +16,12 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("user", JSON.stringify(newUser));
   };
 
-
-
   const logout = () => {
     setToken(null);
     localStorage.removeItem('token');
   };
 
   useEffect(() => {
-    // const savedUser = localStorage.getItem('user');
-    // if (savedUser) {
-    //   setUser(JSON.parse(savedUser));
-    // }
     const savedUser = localStorage.getItem("user");
     if (savedUser) {
       try {
