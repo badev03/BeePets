@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\CartController;
+use App\Http\Controllers\Admin\OrderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\BookingController;
@@ -74,8 +76,21 @@ Route::middleware(['role:Admin'])->group(function () {
 
 
 
+
         Route::get('create-service/{id}' , [AppointmentController::class , 'getDoctor'])->name('get.doctor');
         Route::get('create-doctor-shift/{id}/{day}' , [AppointmentController::class , 'getShiftDoctor'])->name('get.shift.doctor');
+
+        //carts
+        Route::resource('carts', CartController::class);
+        Route::get('/my-carts', [CartController::class, 'getCarts'])->name('carts.getCarts');
+        Route::post('update-cart', [CartController::class, 'updateCart'])->name('carts.updateCart');
+        Route::get('unset',[CartController::class, 'unsetCarts'])->name('carts.unset');
+        Route::post('remove',[CartController::class, 'removeCart'])->name('carts.removeCart');
+
+        Route::get('checkout',[OrderController::class, 'checkout'])->name('checkout.index');
+        Route::post('vn-pay',[OrderController::class, 'vnpay'])->name('checkout.vnpay');
+        Route::get('vn-pay-return',[OrderController::class, 'vnpayReturn'])->name('checkout.vnpay_return');
+        Route::post('momo-pay',[OrderController::class, 'momoPay'])->name('checkout.momo');
     });
 });
 Route::get('/', [BookingController::class, 'index'])->name('index');

@@ -21,6 +21,9 @@
                             <div class="d-flex flex-wrap justify-content-between align-items-center">
                                 <h5 class="card-title">Cập nhật Bác sĩ</h5>
                                 <div class='d-flex flex-wrap'>
+                                    <a href="{{route('doctors.index')}}" class="btn btn-info btn-sm mx-3 text-white">Danh sách bác sĩ</a> 
+                                    <a href="{{route('doctors.create')}}" class="btn btn-info btn-sm mx-3 text-white">Thêm mới bác sĩ</a> 
+
                                     
                                 </div>
                             </div>
@@ -29,14 +32,18 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm">
-                                <form action="{{route('doctors.edit',[$doctor->id])}}" class="needs-validation" novalidate="" enctype="multipart/form-data" method="POST">
+                                <form action="{{route('doctors.update',$doctor->id)}}" class="needs-validation" novalidate="" enctype="multipart/form-data" method="POST">
+                                    @method('PUT')
                                     @csrf
+                                  
+                                 
                                     @foreach($colums as $key=>$item)
                                         @if(in_array($key , FIELD_IMAGE))
                                             <div class="row">
                                                 <div class="col-md-8 mb-3">
                                                     <label class="mb-2" for="validationCustom01">{{ $item }}</label>
                                                     <input type="file" class="form-control" id="image" name="{{ $key }}" required="">
+                                                    <img src="{{$doctor->image}}" width="300px" alt="">
                                                     @if($errors->has($key))
                                                         <div class="error text-danger mt-2">{{ $errors->first($key) }}</div>
                                                     @endif
@@ -50,6 +57,7 @@
                                                 <div class="col-md-8 mb-3">
                                                     <label class="mb-2" for="validationCustom01">{{ $item }}</label>
                                                     <textarea id="editor" name="{{ $key }}">
+                                                        {{ $doctor->$key }}
                                                     </textarea>
                                                     @if($errors->has($key))
                                                         <div class="error text-danger mt-2">{{ $errors->first($key) }}</div>
@@ -63,7 +71,13 @@
                                                     <label class="mb-2" for="validationCustom01">{{ $item }}</label>
                                                     <select class="form-select" name="{{ $key }}">
                                                         @foreach(FIELD_SELECT_CUSTOM[$key] as $keyCustom=>$itemCustom)
-                                                            <option value="{{ $keyCustom }}">{{ $itemCustom }}</option>
+                                                            {{-- hiển thị dữ liệu đã có --}}
+                                                            @if($itemCustom == $doctor->$key)
+                                                                <option value="{{ $keyCustom }}" selected>{{ $itemCustom }}</option>
+                                                            @else
+                                                                <option value="{{ $keyCustom }}">{{ $itemCustom }}</option>
+                                                            @endif
+
                                                         @endforeach
                                                     </select>
                                                     @if($errors->has($key))
@@ -86,7 +100,7 @@
                                             <div class="row">
                                                 <div class="col-md-8 mb-3">
                                                     <label class="mb-2" for="validationCustom01">{{ $item }}</label>
-                                                    <input type="text" class="form-control" id="validationCustom01" name="{{ $key }}" value="{{ old($key) }}">
+                                                    <input type="text" class="form-control" id="validationCustom01" name="{{ $key }}" value="{{$doctor->$key ? $doctor->$key : old($key)}}">
                                                     @if($errors->has($key))
                                                         <div class="error text-danger mt-2">{{ $errors->first($key) }}</div>
                                                     @endif
@@ -102,7 +116,13 @@
                                                 <select class="form-control values select_size" id="values" multiple="multiple"
                                                     name="service_id[]">
                                                     @foreach ($services as $service)
-                                                        <option value="{{ $service->id }}">{{ $service->name }}</option>
+                                                    {{-- hiển thị dịch vụ đã có trong bác sĩ --}}
+                                                    @if(in_array($service->id,$doctor->services->pluck('id')->toArray()))
+                                                    <option value="{{$service->id}}" selected>{{$service->name}}</option>
+                                                    @else
+                                                    <option value="{{$service->id}}">{{$service->name}}</option>
+                                                    @endif
+
                                                     @endforeach
                                                 </select>
                                                 @error('service_id')

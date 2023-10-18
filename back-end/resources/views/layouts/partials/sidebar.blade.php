@@ -48,8 +48,9 @@
                     <a href="{{ route('reviews.index') }}"><i class="fe fe-star-o"></i> <span>Đánh giá</span></a>
                 </li>
                 <li>
-                    <a href="transactions-list.html"><i class="fe fe-activity"></i> <span>Bill</span></a>
+                    <a href="{{ route('products.index') }}"><i class="fe fe-activity"></i> <span>Sản phẩm</span></a>
                 </li>
+
                 <li>
                     <a href="settings.html"><i class="fe fe-vector"></i> <span>Cấu hình</span></a>
                 </li>

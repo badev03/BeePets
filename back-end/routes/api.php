@@ -1,16 +1,17 @@
 <?php
 
-use App\Http\Controllers\Api\BookingController;
-
-use App\Http\Controllers\Api\InforController;
-use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Route;
-use \App\Http\Controllers\Api\ServiceController;
-use \App\Http\Controllers\Api\ReviewsController;
-use \App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\NewController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\InforController;
+use \App\Http\Controllers\Api\DoctorController;
+use App\Http\Controllers\Api\BookingController;
+use \App\Http\Controllers\Api\ReviewsController;
+use \App\Http\Controllers\Api\ServiceController;
+use App\Http\Controllers\Api\BookingHaiController;
 use \App\Http\Controllers\Api\DoctorUserController;
 use \App\Http\Controllers\Api\NotificationController;
 /*
@@ -86,6 +87,8 @@ Route::post('/doctors-service', [BookingController::class, 'doctors']);
 //lấy ra danh sách lịch làm việc của bác sĩ
 Route::get('/work-schedule', [BookingController::class, 'workSchedule']);
 
+Route::post('/doctor-service',[BookingController::class,'doctorService']);
+// Route::post('/booking2',[Booking2Controller::class,'save']);
 // lưu dữ liệu đã chọn vào bảng appointment
 Route::post('/save', [BookingController::class, 'save']);
 

@@ -14,7 +14,7 @@ const IMAGES_FIELD ="image";
 
 const DESC_FIELD ="description";
 
-const FIELD_CHECK_FOR = ['service_categorie_id' , 'role_id'];
+const FIELD_CHECK_FOR = ['service_categorie_id' , 'role_id', 'product_categorie_id'];
 
 const FIELD_DATE = ['birthday'];
 /**
