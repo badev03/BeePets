@@ -13,12 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Api\BookingController;
 class DoctorController extends Controller 
 {
-    protected $bookingController;
-
-    public function __construct(BookingController $bookingController)
-    {
-        $this->bookingController = $bookingController;
-    }
+   
     public function login(Request $request)
     {
         $request->validate([
@@ -257,23 +252,20 @@ class DoctorController extends Controller
     return $code;
 }
 // tạo hóa đơn trống cho khách hàng
-public function createBill(Request $request)
+
+public function createBill($appointmentId, $doctorId, $userId)
 {
     try {
         if (Auth::guard('doctors')->check()) {
             $bill = new Bill();
             $bill->code = $this->generateBillCode();
-            $bill->appointment_id = $request->input('appointment_id');
-            $bill->doctor_id = Auth::guard('doctors')->user()->id;
-            $bill->user_id = $request->input('user_id');
+            $bill->appointment_id = $appointmentId;
+            $bill->doctor_id = $doctorId;
+            $bill->user_id = $userId;
             $bill->status = 0;
             $bill->save();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Tạo hóa đơn thành công',
-                'bill' => $bill
-            ]);
+            return $bill;
         } else {
             return response()->json([
                 'success' => false,
@@ -286,17 +278,10 @@ public function createBill(Request $request)
             'message' => 'Lỗi',
             'error' => $exception->getMessage()
         ]);
-    }   
+    }
 }
 
-public function updateBill(Request $request){
-
-$service = $this->bookingController->doctorService($request->input('doctor_id'));
-
-
-
-
-}
+    
 
 
 

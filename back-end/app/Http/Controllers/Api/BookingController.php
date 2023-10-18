@@ -16,7 +16,12 @@ use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
+    protected $doctorController;
 
+    public function __construct(DoctorController $doctorController)
+    {
+        $this->doctorController = $doctorController;
+    }
 
     // lấy ra tên vaz tất cả dịch vụ và các bác sĩ làm được dịch vụ đó
     public function services()
@@ -152,7 +157,7 @@ class BookingController extends Controller
             ]));
 
             $model->save();
-
+          
             event(new \App\Events\MessageSendNotification($user_id,'bạn đã đặt lịch hẹn của thành công vui lòng chờ xác nhận của bác sĩ', $request->doctor_id, 'Có lịch hẹn mới'));
             
             return response()->json(['message' => 'Đã tạo cuộc hẹn thành công'], 201);
@@ -225,7 +230,9 @@ class BookingController extends Controller
             }
             $appointment->status = $request->input('status');
             $appointment->save();
-            return response()->json(['message' => 'Cập nhật trạng thái thành công'], 200);
+            $bill = $this->doctorController->createBill($appointment->id, $doctor->id, $appointment->user_id);
+            return response()->json(['message' => 'Cập nhật trạng thái thành công'
+            ,'bill'=>$bill], 200);
         }else{
             return response()->json(['message' => 'Bạn chưa đăng nhập'], 400);
         }
