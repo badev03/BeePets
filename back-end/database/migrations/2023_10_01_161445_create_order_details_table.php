@@ -17,7 +17,6 @@ return new class extends Migration
             $table->float('unit_price');
             $table->unsignedBigInteger('product_id')->nullable();
             $table->unsignedBigInteger('bill_id')->nullable();
-
             $table->timestamps();
 
 

@@ -26,11 +26,6 @@ return new class extends Migration
             $table->unsignedBigInteger('prescription_id')->nullable();
             $table->unsignedBigInteger('promotion_id')->nullable();
 
-
-
-
-
-
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('service_id')->references('id')->on('services');
             $table->foreign('appointment_id')->references('id')->on('appointments');
