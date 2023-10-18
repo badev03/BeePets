@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Api;
 use App\Models\Bill;
 use App\Models\Doctor;
 use App\Models\Appointment;
+use App\Models\Prescription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Api\BookingController;
+
 class DoctorController extends Controller 
 {
    
@@ -242,27 +244,23 @@ class DoctorController extends Controller
 
 
 
-   public function generateBillCode()
-{
-    $code = DB::table('bills')->max('code');
-    $code = substr($code, 2);
-    $code = intval($code);
-    $code++;
-    $code = 'HD' . sprintf("%04d", $code);
-    return $code;
-}
+
 // tạo hóa đơn trống cho khách hàng
 
-public function createBill($appointmentId, $doctorId, $userId)
+public function createBill($appointmentId, $doctorId, $userId,$serviceId,$service_price)
 {
-    try {
-        if (Auth::guard('doctors')->check()) {
+    try{
+  if(Auth::guard('doctors')->check()) {
+        $code ='HĐ' . rand(100000, 999999);
             $bill = new Bill();
-            $bill->code = $this->generateBillCode();
+            $bill->code = $code;
             $bill->appointment_id = $appointmentId;
             $bill->doctor_id = $doctorId;
             $bill->user_id = $userId;
+            $bill->service_id = $serviceId;
             $bill->status = 0;
+         
+            $bill->total_amount = $service_price;
             $bill->save();
 
             return $bill;
@@ -279,9 +277,66 @@ public function createBill($appointmentId, $doctorId, $userId)
             'error' => $exception->getMessage()
         ]);
     }
+
 }
 
-    
+// cập nhật các trường trong bill
+public function updateBill(Request $request , $billId)
+{
+    try{
+        if(Auth::guard('doctors')->check()) {
+            $bill = Bill::where('id', $billId)->first();
+            
+            $bill->service_id = $serviceId;
+            $bill->status = 0;
+          
+            $bill->description = $request->input('description');
+            
+            $bill->save();
+          
+            return $bill;
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bạn chưa đăng nhập',
+            ]);
+        }
+    } catch (\Exception $exception) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Lỗi',
+            'error' => $exception->getMessage()
+        ]);
+    }
+
+}
+// thêm đơn thuốc cho khách hàng
+public function createPrescription(Request $request)
+{
+    try{
+        if(Auth::guard('doctors')->check()) {
+          
+            $prescription = new Prescription();
+            $prescription->code = $code;
+            $prescription->name = $request->input('name');
+            $prescription->doctor_id = $request->input('doctor_id');
+            $prescription->user_id = $request->input('user_id');
+            $prescription->save();
+            return $prescription;
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bạn chưa đăng nhập',
+            ]);
+        }
+    } catch (\Exception $exception) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Lỗi',
+            'error' => $exception->getMessage()
+        ]);
+    }
+}
 
 
 

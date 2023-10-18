@@ -225,12 +225,17 @@ class BookingController extends Controller
         if(Auth::guard('doctors')->check()){
             $doctor = auth()->user();
             $appointment = Appointment::where('id', $id)->where('doctor_id', $doctor->id)->first();
+            
             if(!$appointment){
                 return response()->json(['message' => 'Không có cuộc hẹn này'], 400);
             }
+            // lấy ra giá tiền của dịch vụ trong lịch hẹn đó
+            $service_price = Service::where('id', $appointment->service_id)->select('price')->first();
+        //    chuyển dạng int sang float của service_price
+            $service_price = floatval($service_price->price);
             $appointment->status = $request->input('status');
             $appointment->save();
-            $bill = $this->doctorController->createBill($appointment->id, $doctor->id, $appointment->user_id);
+            $bill = $this->doctorController->createBill($appointment->id, $doctor->id, $appointment->user_id,$appointment->service_id,$service_price);
             return response()->json(['message' => 'Cập nhật trạng thái thành công'
             ,'bill'=>$bill], 200);
         }else{

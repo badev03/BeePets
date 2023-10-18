@@ -152,17 +152,17 @@ Route::middleware('auth:sanctum')->group(function () {
 
 });
 Route::get('/list-appiontment/{id}', [DoctorController::class, 'getAppiontment']);
-
-
-
-//change password doctor
-Route::put('/change-password', [DoctorController::class, 'changePassword']);
-
 //get bills
 Route::get('/bills/{id}', [DoctorController::class, 'billByUser']);
 
 //get prescription by user
 Route::get('/prescription/{id}', [DoctorController::class, 'prescriptionByUser']);
+
+
+//change password doctor
+Route::put('/change-password', [DoctorController::class, 'changePassword']);
+
+
 
 //get review when doctor login
 Route::get('/reviews-doctor', [DoctorController::class, 'getReviewDoctor']);
