@@ -43,6 +43,7 @@ class InforController extends Controller
             
             if($request->hasFile('avatar')){
                 $file = $request->file('avatar');
+                // dd($file);
                 $cloudinaryResponse = Cloudinary::upload($file->getRealPath())->getSecurePath();
                 $user->avatar = $cloudinaryResponse;
             }
