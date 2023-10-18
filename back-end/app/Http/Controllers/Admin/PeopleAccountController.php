@@ -94,7 +94,6 @@ class PeopleAccountController extends BaseAdminController
             ->join('permissions' , 'permissions.id' , '=' , 'role_has_permissions.permission_id')
             ->select('permission_id' , 'permissions.name' , 'permissions.id')
             ->get();
-        // Lấy danh sách các quyền riêng của người dùng.
         $userPermissions = DB::table('model_has_permissions')
             ->join('permissions', 'permissions.id', '=', 'model_has_permissions.permission_id')
             ->where('model_has_permissions.model_id', $model->id)
@@ -127,18 +126,14 @@ class PeopleAccountController extends BaseAdminController
     public function update(Request $request, string $id)
     {
         if(auth()->user()->can(['update-PeopleAccount'])) {
-        $model = $this->model->findOrFail($id);
-
-        // Lấy danh sách quyền từ request (ví dụ: 'permission_name_1', 'permission_name_2')
+        $people = $this->model->findOrFail($id);
+        $model = Role::findById($people->role_id);
         $permissions = $request->input('permissions', []);
 
-        // Trước tiên, gỡ bỏ tất cả quyền hiện có của người dùng
         $model->revokePermissionTo($model->permissions);
 
-        // Sau đó, trao quyền cho người dùng dựa trên danh sách quyền từ request
         $model->givePermissionTo($permissions);
 
-        // Lưu lại thông tin người dùng
         $model->save();
         return back()->with('success', 'Thao tác thành công');
     }
