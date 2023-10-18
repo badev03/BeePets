@@ -23,23 +23,43 @@ const LoginDoctor = () => {
     setErrors({ ...errors, [name]: "" });
   };
 
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = {};
+
+    // Kiểm tra số điện thoại
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Vui lòng nhập số điện thoại.";
+      isValid = false;
+    }
+
+    // Kiểm tra mật khẩu
+    if (!formData.password.trim()) {
+      newErrors.password = "Vui lòng nhập mật khẩu.";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (validateForm()) {
+      try {
+        const response = await loginDoctor.add(formData);
+        if (response.doctor ?? response.access_token) {
+          setShowSuccessAlert(true);
+          setIsRedirecting(true);
 
-    try {
-      const response = await loginDoctor.add(formData);
-      if (response.doctor ?? response.access_token) {
-        setShowSuccessAlert(true);
-        setIsRedirecting(true);
-
-        onLoginSuccess(response.access_token, response.doctor);
-
-      } else {
+          onLoginSuccess(response.access_token, response.doctor);
+        } else {
+          setShowErrorAlert(true);
+        }
+      } catch (error) {
+        console.error("Đăng nhập thất bại:", error.message);
         setShowErrorAlert(true);
       }
-    } catch (error) {
-      console.error("Đăng nhập thất bại:", error.message);
-      setShowErrorAlert(true);
     }
   };
 
@@ -73,22 +93,34 @@ const LoginDoctor = () => {
                     <div className="mb-3 form-focus">
                       <input
                         type="text"
-                        className="form-control floating"
+                        className={`form-control floating ${
+                          errors.phone ? "is-invalid" : ""
+                        }`}
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
                       />
                       <label className="focus-label">Nhập số điện thoại</label>
+                      {errors.phone && (
+                        <div className="invalid-feedback">{errors.phone}</div>
+                      )}
                     </div>
                     <div className="mb-3 form-focus">
                       <input
                         type="password"
-                        className="form-control floating"
+                        className={`form-control floating ${
+                          errors.password ? "is-invalid" : ""
+                        }`}
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
                       />
                       <label className="focus-label">Mật khẩu</label>
+                      {errors.password && (
+                        <div className="invalid-feedback">
+                          {errors.password}
+                        </div>
+                      )}
                     </div>
                     <div className="text-end">
                       <Link
@@ -102,7 +134,7 @@ const LoginDoctor = () => {
                     <button
                       className="btn btn-info w-100 btn-lg login-btn"
                       type="submit"
-                      style={{ color: 'white' }} // thêm dòng này để đổi màu chữ thành trắng
+                      style={{ color: "white" }} // thêm dòng này để đổi màu chữ thành trắng
                     >
                       Đăng nhập
                     </button>
