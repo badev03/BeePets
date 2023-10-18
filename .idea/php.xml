@@ -240,6 +240,16 @@
       <path value="$PROJECT_DIR$/back-end/vendor/cloudinary/cloudinary_php" />
       <path value="$PROJECT_DIR$/back-end/vendor/cloudinary/transformation-builder-sdk" />
       <path value="$PROJECT_DIR$/back-end/vendor/cloudinary-labs/cloudinary-laravel" />
+      <path value="$PROJECT_DIR$/back-end/vendor/lcobucci/clock" />
+      <path value="$PROJECT_DIR$/back-end/vendor/lcobucci/jwt" />
+      <path value="$PROJECT_DIR$/back-end/vendor/laminas/laminas-diactoros" />
+      <path value="$PROJECT_DIR$/back-end/vendor/stella-maris/clock" />
+      <path value="$PROJECT_DIR$/back-end/vendor/vonage/client" />
+      <path value="$PROJECT_DIR$/back-end/vendor/vonage/client-core" />
+      <path value="$PROJECT_DIR$/back-end/vendor/vonage/nexmo-bridge" />
+      <path value="$PROJECT_DIR$/back-end/vendor/paragonie/random_compat" />
+      <path value="$PROJECT_DIR$/back-end/vendor/pusher/pusher-php-server" />
+      <path value="$PROJECT_DIR$/back-end/vendor/paragonie/sodium_compat" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />

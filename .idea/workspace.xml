@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="45a53ba9-6ef3-41ae-87f6-4b989cb527d7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/BeePets.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/BeePets.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -261,6 +264,16 @@
       <path value="$PROJECT_DIR$/back-end/vendor/cloudinary/cloudinary_php" />
       <path value="$PROJECT_DIR$/back-end/vendor/cloudinary/transformation-builder-sdk" />
       <path value="$PROJECT_DIR$/back-end/vendor/cloudinary-labs/cloudinary-laravel" />
+      <path value="$PROJECT_DIR$/back-end/vendor/lcobucci/clock" />
+      <path value="$PROJECT_DIR$/back-end/vendor/lcobucci/jwt" />
+      <path value="$PROJECT_DIR$/back-end/vendor/laminas/laminas-diactoros" />
+      <path value="$PROJECT_DIR$/back-end/vendor/stella-maris/clock" />
+      <path value="$PROJECT_DIR$/back-end/vendor/vonage/client" />
+      <path value="$PROJECT_DIR$/back-end/vendor/vonage/client-core" />
+      <path value="$PROJECT_DIR$/back-end/vendor/vonage/nexmo-bridge" />
+      <path value="$PROJECT_DIR$/back-end/vendor/paragonie/random_compat" />
+      <path value="$PROJECT_DIR$/back-end/vendor/pusher/pusher-php-server" />
+      <path value="$PROJECT_DIR$/back-end/vendor/paragonie/sodium_compat" />
     </include_path>
   </component>
   <component name="ProjectId" id="2VuhhQXDza3ZsemU1n74U22XaJR" />
@@ -271,21 +284,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/phamn/OneDrive/Desktop/BeePets&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "develop",
+    "last_opened_file_path": "F:/edu.misaplus.vn",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\lehuy\OneDrive\Desktop\project_graduate\BeePets\BackEnd\resources\views\layouts\partials" />
@@ -321,6 +334,7 @@
       <workItem from="1697166198901" duration="8294000" />
       <workItem from="1697179729564" duration="1248000" />
       <workItem from="1697274218578" duration="1134000" />
+      <workItem from="1697613733917" duration="120000" />
     </task>
     <servers />
   </component>
