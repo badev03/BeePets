@@ -50,7 +50,9 @@
                 <li>
                     <a href="{{ route('products.index') }}"><i class="fe fe-activity"></i> <span>Sản phẩm</span></a>
                 </li>
-
+                <li>
+                    <a href="{{ route('purchase.index') }}"><i class="fe fe-activity"></i> <span>Đơn hàng</span></a>
+                </li>
                 <li>
                     <a href="settings.html"><i class="fe fe-vector"></i> <span>Cấu hình</span></a>
                 </li>
