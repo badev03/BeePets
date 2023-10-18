@@ -18,50 +18,51 @@ const Header = () => {
 
   // const   = localStorage.getItem('token');
 
-  useEffect(() => {
-    if (token) {
 
-      const fetchNoti = async () => {
-        try {
-          const response = await notification.getAll({
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          setNoti(response.notifications);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      fetchNoti();
-      const fetchUser = async () => {
-        try {
-          const response = await usersApi.getUser(
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          setUser(response.user);
-          const pusher = new Pusher("2798806e868dbe640e2e", {
-            cluster: "ap1",
-          });
-          const channel = pusher.subscribe("user-notification-" + response.user.id);
-          channel.bind("notification-event-test", function (data) {
-            fetchNoti();
-            //
-          });
-        } catch (error) {
-          console.error("Không có dữ liệu:", error);
-        }
-      };
-      fetchUser();
+  // useEffect(() => {
+  //   if (token) {
 
+  //     const fetchNoti = async () => {
+  //       try {
+  //         const response = await notification.getAll({
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         });
+  //         setNoti(response.notifications);
+  //       } catch (error) {
+  //         console.log(error);
+  //       }
+  //     };
+  //     fetchNoti();
+  //     const fetchUser = async () => {
+  //       try {
+  //         const response = await usersApi.getUser({
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         });
+  //         setUser(response.user);
 
-    }
-  }, [token]);
+  //         // Khởi tạo Pusher
+  //         const pusher = new Pusher("2798806e868dbe640e2e", {
+  //           cluster: "ap1",
+  //         });
 
+  //         // Đăng ký kênh theo id người dùng
+  //         const channel = pusher.subscribe("user-notification-" + response.user.id);
+
+  //         // Xử lý sự kiện thông báo từ Pusher
+  //         channel.bind("notification-event-test", function (data) {
+  //           fetchNoti(); // Lấy thông báo khi có thông báo mới
+  //         });
+  //       } catch (error) {
+  //         console.error("Không có dữ liệu:", error);
+  //       }
+  //     };
+  //     fetchUser();
+  //   }
+  // }, [token]);
   const handleLogout = async () => {
     // console.log(token);
     try {
@@ -80,42 +81,12 @@ const Header = () => {
   };
 
 
-
-  // const [logout, setLogout] = useState([]);
-  // const handleLogout = async () => {
-  //   if (token) {
-  //     useEffect(() => {
-  //       const fetchLogout = async () => {
-  //         try {
-  //           const response = await logoutDoctor.logout(
-  //             {
-  //               headers: {
-  //                 Authorization: `Bearer ${token}`,
-  //               },
-  //             }
-  //           );
-  //           setLogout(response.logout);
-  //           navigate("/")
-  //         } catch (error) {
-  //           console.error("Không có dữ liệu:", error);
-  //         }
-  //       };
-
-  //       fetchLogout();
-  //     }, []);
-  //   }
-  // }
-
-
-
-
   const initialActiveItems = JSON.parse(
     localStorage.getItem("activeItems")
   ) || ["TRANG CHỦ"];
   const [activeItems, setActiveItems] = useState(initialActiveItems);
   const [scrollPosition, setScrollPosition] = useState(0);
-  const [dataDoctor, setDataDoctor] = useState(null);
-  const [dataUser, setDataUser] = useState(null);
+  const [data, setData] = useState(null);
 
   const handleItemClick = (itemName) => {
     setActiveItems((prevActiveItems) => {
@@ -136,42 +107,19 @@ const Header = () => {
     handleItemClick("TRANG CHỦ");
   };
   useEffect(() => {
-    getDataDoctor(token);
-    getDataUser(token);
-  }, [token])
+    setData(JSON.parse(
+      localStorage.getItem("user")
+    ))
+  }, [])
 
-  const getDataDoctor = async (token) => {
-    const response = await doctorsApi.getDoctor(
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    if (response.success) {
-      setDataDoctor(response.doctor)
-    } else {
-      return false;
+  useEffect(() => {
+    if (data) {
+      handleGetNotice(data);
     }
-  }
+  }, [data]);
 
-  const getDataUser = async (token) => {
-    const response = await usersApi.getUser(
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    if (response.success) {
-      setDataUser(response.user)
-    } else {
-      return false;
-    }
-  }
-
-  const handleCheckAccount = (dataUser) => {
-    if (dataUser?.role_id === 4) {
+  const handleCheckAccount = (data) => {
+    if (data?.role_id === 4) {
       // return true là user
       return true;
     } else {
@@ -180,6 +128,27 @@ const Header = () => {
     }
   }
 
+  const handleGetNotice = async (data) => {
+    if (data?.role_id === 4) {
+      const response = await notification.getUser({
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      // console.log('run1')
+      setNoti(response.notifications);
+    } else {
+      const response = await notification.getDoctor({
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      // console.log('run2')
+      setNoti(response.notifications);
+    }
+  }
+  // console.log(noti)
+  // handleGetNotice();
 
   useEffect(() => {
     localStorage.setItem("activeItems", JSON.stringify(activeItems));
@@ -295,7 +264,7 @@ const Header = () => {
                                   <img
                                     className="avatar-img"
                                     alt="Ruby perin"
-                                    src={notifications.avatar}
+                                    src={notifications.image}
                                   />
                                 </span>
                                 <div className="media-body">
@@ -306,7 +275,7 @@ const Header = () => {
                                     </span>
                                   </h6>
                                   <p className="noti-details">
-                                    {notifications.message}
+                                    {notifications.message_doctor}
                                   </p>
                                 </div>
                               </div>
@@ -343,15 +312,15 @@ const Header = () => {
                         />
                       </div>
                       <div className="user-text">
-                        <h6>{handleCheckAccount(dataUser) ? dataUser?.name : dataDoctor?.name}</h6>
-                        <p className="text-muted mb-0">{handleCheckAccount(dataUser) ? 'User' : 'Doctor'}</p>
+                        <h6>{data?.name}</h6>
+                        <p className="text-muted mb-0">{handleCheckAccount(data) ? 'User' : 'Doctor'}</p>
                       </div>
                     </div>
 
-                    <Link to={handleCheckAccount(dataUser) ? '/user/dashbroad' : '/doctors'} className="dropdown-item">
+                    <Link to={handleCheckAccount(data) ? '/user/dashbroad' : '/doctors'} className="dropdown-item">
                       Dashboard
                     </Link>
-                    <Link to={handleCheckAccount(dataUser) ? '/user/profilesetting' : '/doctors/profile'}
+                    <Link to={handleCheckAccount(data) ? '/user/profilesetting' : '/doctors/profile'}
                       className="dropdown-item"
                       href="doctor-profile-settings.html"
                     >

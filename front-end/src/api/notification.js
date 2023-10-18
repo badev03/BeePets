@@ -1,9 +1,13 @@
 import instance from "./instance";
 
 const notification = {
-    getAll(params) {
+    getUser(params) {
         const url = "/get-notification";
-        return instance.get(url,params);
+        return instance.get(url, params);
+    },
+    getDoctor(params) {
+        const url = "/get-notification-doctor";
+        return instance.get(url, params);
     },
 };
 
