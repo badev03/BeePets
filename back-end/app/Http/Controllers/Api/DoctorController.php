@@ -123,7 +123,7 @@ class DoctorController extends Controller
                 ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
                 ->join('bills', 'bills.appointment_id', '=', 'appointments.id')
                 ->select('appointments.id','users.name as user_name', 'doctors.name as doctor_name', 'appointments.date', 'bills.total_amount',
-                    'appointments.status as appointment_status', 'doctors.status as doctor_status','appointments.created_at as appointment_created_at','appointments.shift_name')
+                    'appointments.status as appointment_status', 'doctors.status as doctor_status','appointments.created_at as appointment_created_at','appointments.shift_name','doctors.image as doctor_image')
                 ->get();
 
             return response()->json([
@@ -147,7 +147,10 @@ class DoctorController extends Controller
                 ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
                 ->join('bills', 'bills.appointment_id', '=', 'appointments.id')
                 ->select('appointments.id','users.name as user_name', 'doctors.name as doctor_name', 'appointments.date', 'bills.total_amount',
-                    'appointments.status as appointment_status', 'doctors.status as doctor_status','appointments.created_at as appointment_created_at','appointments.shift_name')
+                    'appointments.status as appointment_status', 'doctors.status as doctor_status',
+                    'appointments.created_at as appointment_created_at','appointments.shift_name',
+                    'doctors.image as doctor_image'
+                )
                 ->first();
             return response()->json([
                 'success' => true,
