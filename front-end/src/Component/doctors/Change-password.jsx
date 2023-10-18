@@ -1,12 +1,12 @@
 import Menudashboard from "./Menu-dashboard";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import doctorsApi from "../../api/doctorsApi";
 import ChangePassword from "../../api/changePassword";
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal);
 import { useAuth } from "../../Context/ContextAuth";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Changepassword = () => {
   const { token } = useAuth();
@@ -14,6 +14,7 @@ const Changepassword = () => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,19 +25,22 @@ const Changepassword = () => {
     }
 
     try {
-      await ChangePassword.changePasswordDoctor({
-        old_password: oldPassword,
-        new_password: newPassword,
-        confirm_password: confirmPassword,
-      },{
-        headers: {
-          Authorization: `Bearer ${token}`
+      await ChangePassword.changePasswordDoctor(
+        {
+          old_password: oldPassword,
+          new_password: newPassword,
+          confirm_password: confirmPassword,
         },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       MySwal.fire({
-        title: 'Đổi mật khẩu thành công!',
-        icon: 'success',
+        title: "Đổi mật khẩu thành công!",
+        icon: "success",
       });
 
       console.log("Đổi mật khẩu thành công");
@@ -45,15 +49,15 @@ const Changepassword = () => {
 
       if (error.response && error.response.status === 401) {
         MySwal.fire({
-          title: 'Chưa đăng nhập',
-          text: 'Vui lòng đăng nhập trước khi đổi mật khẩu.',
-          icon: 'error',
+          title: "Chưa đăng nhập",
+          text: "Vui lòng đăng nhập trước khi đổi mật khẩu.",
+          icon: "error",
         });
       } else {
         MySwal.fire({
-          title: 'Đổi mật khẩu không thành công',
-          text: 'Vui lòng thử lại sau.',
-          icon: 'error',
+          title: "Đổi mật khẩu không thành công",
+          text: "Vui lòng thử lại sau.",
+          icon: "error",
         });
       }
     }
@@ -94,33 +98,74 @@ const Changepassword = () => {
                       <form onSubmit={handleSubmit}>
                         <div className="mb-3">
                           <label className="mb-2">Mật khẩu cũ</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={oldPassword}
-                            onChange={(e) => setOldPassword(e.target.value)}
-                            name="oldPassword"
-                          />
+                          <div className="input-group">
+                            <input
+                              type={showPassword ? "text" : "password"}
+                              className="form-control"
+                              value={oldPassword}
+                              onChange={(e) => setOldPassword(e.target.value)}
+                              name="oldPassword"
+                            />
+                            <div
+                              className="input-group-append"
+                              style={{ display: "flex" }}
+                            >
+                              <span
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="input-group-text cursor-pointer"
+                              >
+                                {showPassword ? <FaEye /> : <FaEyeSlash />}
+                              </span>
+                            </div>
+                          </div>
                         </div>
                         <div className="mb-3">
                           <label className="mb-2">Mật khẩu mới</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={newPassword}
-                            onChange={(e) => setNewPassword(e.target.value)}
-                            name="newPassword" 
-                          />
+                          <div className="input-group">
+                            <input
+                              type={showPassword ? "text" : "password"}
+                              className="form-control"
+                              value={newPassword}
+                              onChange={(e) => setNewPassword(e.target.value)}
+                              name="newPassword"
+                            />
+                            <div
+                              className="input-group-append"
+                              style={{ display: "flex" }}
+                            >
+                              <span
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="input-group-text cursor-pointer"
+                              >
+                                {showPassword ? <FaEye /> : <FaEyeSlash />}
+                              </span>
+                            </div>
+                          </div>
                         </div>
                         <div className="mb-3">
                           <label className="mb-2">Nhập lại mật khẩu mới</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            name="confirmPassword"
-                          />
+                          <div className="input-group">
+                            <input
+                              type={showPassword ? "text" : "password"}
+                              className="form-control"
+                              value={confirmPassword}
+                              onChange={(e) =>
+                                setConfirmPassword(e.target.value)
+                              }
+                              name="confirmPassword"
+                            />
+                            <div
+                              className="input-group-append"
+                              style={{ display: "flex" }}
+                            >
+                              <span
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="input-group-text cursor-pointer"
+                              >
+                                {showPassword ? <FaEye /> : <FaEyeSlash />}
+                              </span>
+                            </div>
+                          </div>
                         </div>
                         <div className="submit-section">
                           <button

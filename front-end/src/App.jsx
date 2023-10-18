@@ -26,9 +26,6 @@ import Addbill from './Component/doctors/Add-bill'
 import Editbill from './Component/doctors/Edit-bill'
 import Abouts from './Component/Abouts/Abouts'
 import DetailAppointment from './Component/doctors/Detail-appointments'
-
-
-
 import Register from './Component/Form-Auth/Register'
 import Login from './Component/Form-Auth/Login'
 import LoginDoctor from './Component/Form-Auth/Login-Doctor'
@@ -41,7 +38,7 @@ import AppointmentDetail from './Component/User/AppointmentDetail'
 import BillDetail from './Component/User/BillDetail'
 import PrescriptionDetails from './Component/User/PrescriptionDetails'
 import FilterService from './Component/Serch/FilterService'
-import PrivateRouteDoctors from './PrivateRoute/PrivateRouteDoctors';
+import PrivateRouteDoctors from './PrivateRoute/PrivateRouteDoctors'
 
 
 function App() {
@@ -71,31 +68,21 @@ function App() {
           <Route path='user/billdetail' element={<BillDetail />} />
           <Route path='informationuser' element={<Information />} />
 
-          {/* <Route path="doctors" element={<PrivateRouteDoctors element={<Dashboarddoctors />} />} />
-          <Route path="doctors/profile" element={<PrivateRouteDoctors element={<Profile />} />} />
-          <Route path="doctors/review" element={<PrivateRouteDoctors element={<Review />} />} />
-          <Route path="doctors/appointments" element={<PrivateRouteDoctors element={<Appointments />} />} />
-          <Route path="doctors/change-password" element={<PrivateRouteDoctors element={<Changepassword />} />} />
-          <Route path="doctors/patients" element={<PrivateRouteDoctors element={<Mypatients />} />} />
-          <Route path="doctors/patient-profile/:id" element={<PrivateRouteDoctors element={<Patientprofile />} />} />
-          <Route path="doctors/add-prescription" element={<PrivateRouteDoctors element={<Addprescription />} />} />
-          <Route path="doctors/edit-prescription" element={<PrivateRouteDoctors element={<Editprescription />} />} />
-          <Route path="doctors/add-bill" element={<PrivateRouteDoctors element={<Addbill />} />} />
-          <Route path="doctors/edit-bill" element={<PrivateRouteDoctors element={<Editbill />} />} />
-          <Route path="doctors/detail-appointments/:id" element={<PrivateRouteDoctors element={<DetailAppointment />} />} /> */}
-          
-          <Route path='doctors' element={<Dashboarddoctors />} />
-          <Route path='doctors/profile' element={<Profile />} />
-          <Route path='doctors/review' element={<Review />} />
-          <Route path='doctors/appointments' element={<Appointments />} />
-          <Route path='doctors/change-password' element={<Changepassword />} />
-          <Route path='doctors/patients' element={<Mypatients />} />
-          <Route path='doctors/patient-profile/:id' element={<Patientprofile />} />
-          <Route path='doctors/add-prescription' element={<Addprescription />} />
-          <Route path='doctors/edit-prescription' element={<Editprescription />} />
-          <Route path='doctors/add-bill' element={<Addbill />} />
-          <Route path='doctors/edit-bill' element={<Editbill />} />
-          <Route path='doctors/detail-appointments/:id' element={<DetailAppointment />} />
+          <Route path="doctors" element={<PrivateRouteDoctors />}>
+            <Route path="" element={<Dashboarddoctors />} />
+            <Route path='profile' element={<Profile />} />
+            <Route path='review' element={<Review />} />
+            <Route path='appointments' element={<Appointments />} />
+            <Route path='change-password' element={<Changepassword />} />
+            <Route path='patients' element={<Mypatients />} />
+            <Route path='patient-profile/:id' element={<Patientprofile />} />
+            <Route path='add-prescription' element={<Addprescription />} />
+            <Route path='edit-prescription' element={<Editprescription />} />
+            <Route path='add-bill' element={<Addbill />} />
+            <Route path='edit-bill' element={<Editbill />} />
+            <Route path='detail-appointments/:id' element={<DetailAppointment />} /> 
+          </Route>
+
 
           <Route path='Register' element={<Register />} />
           <Route path='Login' element={<Login />} />
