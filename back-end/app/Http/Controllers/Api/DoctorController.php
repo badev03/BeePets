@@ -122,7 +122,8 @@ class DoctorController extends Controller
                 ->join('users', 'users.id', '=', 'appointments.user_id')
                 ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
                 ->join('bills', 'bills.appointment_id', '=', 'appointments.id')
-                ->select('users.name as user_name', 'doctors.name as doctor_name', 'appointments.date', 'bills.total_amount', 'appointments.status as appointment_status', 'doctors.status as doctor_status')
+                ->select('appointments.id','users.name as user_name', 'doctors.name as doctor_name', 'appointments.date', 'bills.total_amount',
+                    'appointments.status as appointment_status', 'doctors.status as doctor_status','appointments.created_at as appointment_created_at','appointments.shift_name')
                 ->get();
 
             return response()->json([
@@ -175,7 +176,7 @@ class DoctorController extends Controller
     public function billByUser($id) {
         if(Auth::guard('doctors')->check()) {
             $result = DB::table('bills')
-                ->select('bills.code as bill_code', 'bills.created_at as bill_created_at', 'doctors.name as doctor_name', 'bills.total_amount')
+                ->select('bills.id','bills.code as bill_code', 'bills.created_at as bill_created_at', 'doctors.name as doctor_name', 'bills.total_amount','bills.status as bill_status')
                 ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
                 ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
                 ->where('appointments.user_id', $id)
@@ -255,7 +256,7 @@ public function addPrescription(){
         ]);
         return response()->json(['message' => 'Thêm đơn thuốc thành công', 'data' => $data], 200);
     }
-    
+
 }
 
 }
