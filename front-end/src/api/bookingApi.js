@@ -10,6 +10,10 @@ const BookingApi = {
     const url = "/services-doctor";
     return instance.get(url, { params });
   },
+  getDoctorService(params) {
+    const url = "/doctor-service";
+    return instance.post(url, { params });
+  },
 
   async getWorkingHours(doctorId, date) {
     const url = "/doctors-service";

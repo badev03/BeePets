@@ -218,7 +218,7 @@ const Header = () => {
           className={`has-submenu ${activeItems.includes('ĐẶT LỊCH NHANH') ? 'active' : ''}`}
           onClick={() => handleItemClick('ĐẶT LỊCH NHANH')}
         >
-          <a><BookingUser/></a>
+          <BookingUser/>
         </li>
       </ul>
           </div>
