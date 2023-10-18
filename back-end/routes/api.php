@@ -153,7 +153,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 Route::get('/list-appiontment/{id}', [DoctorController::class, 'getAppiontment']);
 
-//lấy ra lịch khám theo id
+//get one
 Route::get('/get-appiontment/{id}', [DoctorController::class, 'getAppiontmentByID']);
 
 
