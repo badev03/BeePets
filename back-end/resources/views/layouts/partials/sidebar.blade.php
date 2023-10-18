@@ -39,7 +39,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="specialities.html"><i class="fe fe-bell"></i> <span>Thông báo</span></a>
+                    <a href="{{ route('notifications.index') }}"><i class=" {{ request()->routeIs('notifications.*') ? 'active' : '' }} fe fe-bell"></i> <span>Thông báo</span></a>
                 </li>
                 <li>
                     <a class="{{ request()->routeIs('doctors.*') ? 'active' : '' }}" href="{{ route('doctors.index') }}"><i class="fe fe-user-plus"></i> <span>Bác sĩ</span> </a>
