@@ -41,7 +41,6 @@ Route::middleware(['role:Admin'])->group(function () {
             'service' => ServiceController::class,
             'role' => RoleController::class,
             'people-account' => PeopleAccountController::class,
-
             'permission' => PermissionController::class,
             'product-categories' => ProductCategoryController::class,
             'products' => ProductController::class,
@@ -55,7 +54,6 @@ Route::middleware(['role:Admin'])->group(function () {
         foreach ($objects as $key => $controller) {
             Route::resource($key, $controller);
         }
-
         Route::get('dashboard', [HomeController::class , 'index'])->name('dashboard');
         Route::get('appointment/get-day/{day}/{id}', [AppointmentController::class , 'getDay'])->name('appointment.get-day');
         Route::get('appointment/date-filter/{data}', [AppointmentController::class , 'FilterDate'])->name('appointment.filter-date');
@@ -91,6 +89,7 @@ Route::middleware(['role:Admin'])->group(function () {
         Route::post('vn-pay',[OrderController::class, 'vnpay'])->name('checkout.vnpay');
         Route::get('vn-pay-return',[OrderController::class, 'vnpayReturn'])->name('checkout.vnpay_return');
         Route::post('momo-pay',[OrderController::class, 'momoPay'])->name('checkout.momo');
+        Route::get('purchase',[OrderController::class, 'index'])->name('purchase.index');
     });
 });
 Route::get('/', [BookingController::class, 'index'])->name('index');
