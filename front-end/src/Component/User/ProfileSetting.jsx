@@ -40,7 +40,7 @@ const ProfileSetting = () => {
             }
           );
           setUser(response.user);
-          console.log(response.user);
+          // console.log(response.user);
         } catch (error) {
           console.error("Không có dữ liệu:", error);
         }
@@ -94,24 +94,22 @@ const ProfileSetting = () => {
     if (validateForm()) {
       // Call the API with user data to update the user information
       try {
-       
+        
         const response = await axios.post(
           `http://127.0.0.1:8000/api/save-infor-user`,
           {
             ...user,
+            // formData
           },
           {
             headers: {
               Authorization: `Bearer ${token}`,
+              'Content-Type': 'multipart/form-data' 
+
             },
           }
         );
-        console.log(response.data);
-      
-        // setSuccess(true);
-        // setTimeout(() => {
-        //   setSuccess(false);
-        // }, 3000);
+        // console.log(response.data);
         MySwal.fire({
           title: "Lưu thông tin tài khoản thành công!",
           icon: "success",
@@ -124,24 +122,10 @@ const ProfileSetting = () => {
   };
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        // Perform the upload to Cloudinary
-        // console.log(reader.result)
-        uploadToCloudinary(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
+    setUser({ ...user, avatar: file });
   };
   
-  const uploadToCloudinary = (fileContent) => {
-    // Perform the upload to Cloudinary here
-    // Update the user state with the Cloudinary image URL
-    console.log(fileContent)
-    setUser({ ...user, avatar: fileContent });
-    
-  };
+
   return (
     <div><div className="breadcrumb-bar-two">
       <div className="container">
@@ -169,7 +153,7 @@ const ProfileSetting = () => {
       ))} */}
               <div className="card" >
                 <div className="card-body">
-                  <form onSubmit={handleFormSubmit} >
+                  <form onSubmit={handleFormSubmit} enctype="multipart/form-data" >
                     <div className="row">
                       <div className="col-12 col-md-12">
                         <div className="mb-3">
