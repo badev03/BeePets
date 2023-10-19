@@ -337,12 +337,14 @@ class DoctorController extends Controller
             $prescription_id = $prescription->id;
 
 
-            Prescription_product::create([
-                'prescription_id' => $prescription_id,
-                'product_id' => $request->product_id,
-                'quantity' => $request->quantity,
-                'price' => $request->price_product,
-            ]);
+            foreach ($request->products as $product) {
+                Prescription_product::create([
+                    'prescription_id' => $prescription_id,
+                    'product_id' => $product['product_id'],
+                    'quantity' => $product['quantity'],
+                    'price' => $product['price_product'],
+                ]);
+            }
 
             $bill_prescription = bill_prescription::create([
                 'bill_id' => $bill->id,
