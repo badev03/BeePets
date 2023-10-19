@@ -300,7 +300,7 @@ class DoctorController extends Controller
                 $bill->user_id = $userId;
                 $bill->service_id = $serviceId;
                 $bill->status = 0;
-                $bill->transaction_type = 1;
+                $bill->payment_method = 1;
                 $bill->total_amount = $service_price;
                 $bill->save();
 
