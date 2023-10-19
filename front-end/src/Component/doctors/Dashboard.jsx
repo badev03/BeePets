@@ -48,13 +48,26 @@ const Dashboarddoctors = () => {
       console.log(respon)
      
         fetchAppointment();
-      
-
-    
     } catch (error) {
       console.log(error)
     }
    } 
+   const handleCancel = async (id) => {
+    try {
+     console.log(id)
+     console.log(token)
+      const respon = await axios.put(`http://127.0.0.1:8000/api/update-appointment/${id}?status=2`, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`
+         }
+       })
+     console.log(respon)
+    
+       fetchAppointment();
+   } catch (error) {
+     console.log(error)
+   }
+  } 
 
   return (
     <div>
@@ -178,9 +191,9 @@ const Dashboarddoctors = () => {
                                   <div onClick={() => handleUpdate(appointment.id)} className="btn btn-sm bg-success-light">
                                     <i className="fas fa-check" /> Accept
                                   </div>
-                                  <Link to="javascript:void(0);" className="btn btn-sm bg-danger-light">
+                                  <div onClick={() => handleCancel(appointment.id)} className="btn btn-sm bg-danger-light">
                                     <i className="fas fa-times" /> Cancel
-                                  </Link>
+                                  </div>
                                 </div>
                               </td>
                               </tr>
