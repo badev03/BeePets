@@ -4,13 +4,13 @@ import blogApi from "../../api/BlogApi";
 import BlogSideBar from "./BlogSideBar";
 
 const BlogDetails = () => {
-  const { id } = useParams();
+  const { slug } = useParams();
   const [blog, setBlog] = useState(null);
 
   useEffect(() => {
     const fetchBlogDetails = async () => {
       try {
-        const response = await blogApi.get(id);
+        const response = await blogApi.get(slug);
         setBlog(response.newDetail);
       } catch (error) {
         console.error("Error fetching blog details:", error);
@@ -18,7 +18,7 @@ const BlogDetails = () => {
     };
 
     fetchBlogDetails();
-  }, [id]);
+  }, [slug]);
 
   if (!blog) {
     return <div>Loading...</div>;
