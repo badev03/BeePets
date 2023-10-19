@@ -139,6 +139,12 @@ const AcceptDetailAppointment = () => {
                   </div>
                   <div className="col-12 col-md-6">
                     <div className="mb-3">
+                      <label className="mb-2">Dịch vụ</label>
+                      <input type="text" className="form-control" value={appointments.service_name} />
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-6">
+                    <div className="mb-3">
                       <label className="mb-2">Ca</label>
                       <input type="text" className="form-control" value={appointments.shift_name}  />
                     </div>
@@ -162,14 +168,14 @@ const AcceptDetailAppointment = () => {
                     </div>
                   </div>
                  
-                  {/* <div className="col-12 col-md-12">
+                  <div className="col-12 col-md-12">
                     <div className="mb-3">
                       <label className="mb-2">Ghi chú</label>
                      
-                        <textarea type="text" className="form-control datetimepicker" value={appointments[0].description} />
+                        <textarea type="text" className="form-control datetimepicker" value={appointments.description} />
                       
                     </div>
-                  </div> */}
+                  </div>
                  
                   
   
