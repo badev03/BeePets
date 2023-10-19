@@ -8,8 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class Prescription extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'name',
+        'price',
+       
+    ];
     public function products()
     {
         return $this->belongsToMany(Product::class);
+    }
+    public function bill()
+    {
+        return $this->hasOne(Bill::class);
+    }
+    public function prescription_products()
+    {
+        return $this->hasMany(Prescription_product::class);
     }
 }

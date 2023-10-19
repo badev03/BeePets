@@ -87,7 +87,7 @@ Route::post('/doctors-service', [BookingController::class, 'doctors']);
 //lấy ra danh sách lịch làm việc của bác sĩ
 Route::get('/work-schedule', [BookingController::class, 'workSchedule']);
 
-Route::post('/doctor-service',[BookingController::class,'doctorService']);
+Route::post('/doctor-service', [BookingController::class, 'doctorService']);
 // Route::post('/booking2',[Booking2Controller::class,'save']);
 // lưu dữ liệu đã chọn vào bảng appointment
 Route::post('/save', [BookingController::class, 'save']);
@@ -96,60 +96,81 @@ Route::post('/save', [BookingController::class, 'save']);
 Route::post('/add-booking', [BookingController::class, 'addBooking']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('pusher-tester' , [\App\Http\Controllers\Admin\HomeController::class , 'Pusher']);
+
+Route::get('get-products', [DoctorController::class, 'getProducts']);
+
+Route::get('get-services', [DoctorController::class, 'getServices']);
+
+Route::post('update-bill/{id}', [DoctorController::class, 'updateBill']);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    Route::get('pusher-tester', [\App\Http\Controllers\Admin\HomeController::class, 'Pusher']);
     // get info user when login
     Route::get('/info-user', [UserController::class, 'getInfoUser']);
-//change password user
+    //change password user
     Route::put('/change-password-user', [UserController::class, 'changePasswordUser']);
-//logout user
+    //logout user
     Route::post('/logout-user', [UserController::class, 'logoutUser']);
-//get appointment by user
+    //get appointment by user
     Route::get('/appointment-user', [UserController::class, 'getAppiontment']);
-//get prescription by user
+    //get prescription by user
     Route::get('/prescription-user', [UserController::class, 'prescriptionByUser']);
-//get bill by user
+    //get bill by user
     Route::get('/bill-user', [UserController::class, 'billByUser']);
     //get history by user
     Route::get('/history-user', [UserController::class, 'getHistoryByUser']);
 
 
-//lấy ra các lịch khám trạng thái chưa xác nhận
+    //lấy ra các lịch khám trạng thái chưa xác nhận
     Route::get('/appoinments-status', [BookingController::class, 'getAppointmentByStatus']);
 
 
     Route::get('/infor-member', [BookingController::class, 'inforMember']);
 
-//lấy ra 1 lịch khám
+    //lấy ra 1 lịch khám
     Route::get('/appoinment/{id}', [BookingController::class, 'getAppointment']);
-// lấy ra danh sách lịch khám của bác sĩ đã được chấp nhận
+    // lấy ra danh sách lịch khám của bác sĩ đã được chấp nhận
     Route::get('/list-appiontment-doctor', [BookingController::class, 'getAppointmentAccept']);
-//câp nhật trạng thái lịch khám
+    //câp nhật trạng thái lịch khám
     Route::put('/update-appointment/{id}', [BookingController::class, 'updateStatus']);
 
-//lấy ra thông tin bác sĩ đang đăng nhập
+    //lấy ra thông tin bác sĩ đang đăng nhập
     Route::get('/doctor-info', [DoctorController::class, 'getDoctor']);
     Route::post('/save-infor-user', [InforController::class, 'saveInfor']);
 
-//lấy ra danh sách khách hàng của bác sĩ
+    //lấy ra danh sách khách hàng của bác sĩ
     Route::get('/list-customers', [DoctorController::class, 'listCustomer']);
 
-//lấy ra khách hàng của bác sĩ theo id
+    //lấy ra khách hàng của bác sĩ theo id
     Route::get('/get-customer/{id}', [DoctorController::class, 'getCustomerByID']);
 
 
-//lấy ra lịch sử khám của khách hàng
+    //lấy ra lịch sử khám của khách hàng
     Route::get('/history/{id}', [DoctorController::class, 'getHistoryByUser']);
 
     Route::get('reviews', [ReviewsController::class, 'store']);
     Route::post('logout', [AuthController::class, 'LogoutUser']);
 
 
-    Route::get('/get-notification',  [NotificationController::class , 'getNotification']);
-    Route::get('/get-notification-doctor',  [NotificationController::class , 'getNotificationDoctor']);
-    Route::post('/send-notification',  [\App\Http\Controllers\Admin\HomeController::class , 'SendNotification']);
-
-
-
+    Route::get('/get-notification',  [NotificationController::class, 'getNotification']);
+    Route::get('/get-notification-doctor',  [NotificationController::class, 'getNotificationDoctor']);
+    Route::post('/send-notification',  [\App\Http\Controllers\Admin\HomeController::class, 'SendNotification']);
 });
 Route::get('/list-appiontment/{id}', [DoctorController::class, 'getAppiontment']);
 //get bills
@@ -168,9 +189,7 @@ Route::put('/change-password', [DoctorController::class, 'changePassword']);
 Route::get('/reviews-doctor', [DoctorController::class, 'getReviewDoctor']);
 
 
-Route::get('pusher-tester-view' , [\App\Http\Controllers\Admin\HomeController::class , 'PusherView']);
+Route::get('pusher-tester-view', [\App\Http\Controllers\Admin\HomeController::class, 'PusherView']);
 
 
-Route::get('check-api-notification' , [\App\Http\Controllers\Admin\HomeController::class , 'pusherApi']);
-
-
+Route::get('check-api-notification', [\App\Http\Controllers\Admin\HomeController::class, 'pusherApi']);
