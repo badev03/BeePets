@@ -153,6 +153,8 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 Route::get('/list-appiontment/{id}', [DoctorController::class, 'getAppiontment']);
 
+//get one
+Route::get('/get-appiontment/{id}', [DoctorController::class, 'getAppiontmentByID']);
 
 
 //change password doctor

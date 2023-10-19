@@ -91,6 +91,7 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
         Route::post('vn-pay',[OrderController::class, 'vnpay'])->name('checkout.vnpay');
         Route::get('vn-pay-return',[OrderController::class, 'vnpayReturn'])->name('checkout.vnpay_return');
         Route::post('momo-pay',[OrderController::class, 'momoPay'])->name('checkout.momo');
+        Route::post('cash',[OrderController::class, 'cash'])->name('checkout.cash');
         Route::get('purchase',[OrderController::class, 'index'])->name('purchase.index');
     });
 });

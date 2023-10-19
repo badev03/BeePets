@@ -4,6 +4,7 @@ import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import doctorsApi from '../../api/doctorsApi';
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import BookingDoctor from './BookingDoctor';
 
 
 const Search = ({ data }) => {
@@ -11,7 +12,11 @@ const Search = ({ data }) => {
   const [pageNumber, setPageNumber] = useState(0);
   const doctorsPerPage = 3;
   const pagesVisited = pageNumber * doctorsPerPage;
+  const [selectedDoctorId, setSelectedDoctorId] = useState(null);
 
+  const handleBookingg = (doctorId) => {
+    setSelectedDoctorId(doctorId);
+  };
   useEffect(() => {
     const fetchDoctor = async () => {
       try {
@@ -113,7 +118,20 @@ const Search = ({ data }) => {
               </div>
               <div className="clinic-booking">
                 <Link className="view-pro-btn" to={`/doctor/profile/${doctor.slug}`}>Xem hồ sơ</Link>
-                <Link className="apt-btn" to={`/booking`}>Đặt lịch hẹn</Link>
+                <button
+                    className="btn btn-info"
+                    style={{
+                      fontSize: '13px',
+                      letterSpacing: 'normal',
+                      padding: '7px 20px',
+                      width: '200px',
+                      marginTop: '10px'
+
+                    }}
+                    onClick={() => handleBookingg(doctor.id)}
+                  >
+                    <BookingDoctor doctorId={selectedDoctorId === doctor.id ? selectedDoctorId : null} />
+                  </button>
               </div>
             </div>
           </div>

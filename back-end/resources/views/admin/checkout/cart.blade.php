@@ -117,7 +117,7 @@
                             <div class="row">
                                 <div class="col"><label for="cash" class="form-label">Payment Method</label>
                                     <input id="cash" name="cash" value="cash" type="radio"
-                                           class="form-check-input" checked>
+                                           class="form-check-input">
                                 </div>
                                 <div class="col">
                                     <label for="momo" class="form-label">Momo</label>
@@ -211,6 +211,12 @@
                 if($(this).is(':checked')) {
                     $('.btn-checkout').attr('name', 'payUrl');
                     $('#form-payment').attr('action', '{{ route('checkout.momo') }}');
+                }
+            });
+            $('#cash').change(function () {
+                if($(this).is(':checked')) {
+                    $('.btn-checkout').attr('name', 'cash');
+                    $('#form-payment').attr('action', '{{ route('checkout.cash') }}');
                 }
             });
         });
