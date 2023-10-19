@@ -50,7 +50,7 @@ const Bill = () => {
                             <tr key={bill.code}>
                             <td><a href="#">{bill.code}</a></td>
                             <td>{bill.order_date}</td>
-                            <td>{bill.total_amoun}</td>
+                            <td>{bill.total_amount}</td>
                           
                             <td>
                               <h2 className="table-avatar">
