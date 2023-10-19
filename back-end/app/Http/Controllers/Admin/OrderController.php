@@ -16,8 +16,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //lấy ra tất cả các đơn hàng
-        $bills = Bill::all();
+        $bills = Bill::query()->where('customer_name', '!=', null)->where('total_amount', '>', 0)->get();
         return view('admin.purchase.index', compact('bills'));
     }
 
@@ -73,6 +72,35 @@ class OrderController extends Controller
     public function checkout()
     {
         return view('admin.checkout.index');
+    }
+    public function cash(Request $request) {
+        $bill = Bill::query()->create(
+            [
+                'code' => 'DH' . rand(100000, 999999),
+                'customer_name' => $request->customer_name,
+                'customer_phone' => $request->customer_phone,
+                'status' => 1,
+                'total_amount' => $request->total_price,
+                'note' => 'Thanh toán tại quầy',
+                'transaction_type' => 2,
+            ]
+        );
+        $bill_id = $bill->id;
+        $carts = session()->get('carts');
+
+        foreach ($carts as $key => $value) {
+            $this->updateQuantity($key, $value['quantity']);
+            Order_detail::query()->create(
+                [
+                    'bill_id' => $bill_id,
+                    'product_id' => $key,
+                    'quantity' => $value['quantity'],
+                    'unit_price' => $value['price'],
+                ]
+            );
+        }
+        session()->forget('carts');
+        return redirect()->route('purchase.index')->with('success', 'Đặt hàng thành công!');
     }
 
     public function vnpay(Request $request)
@@ -149,22 +177,6 @@ class OrderController extends Controller
             $customer_email = $parts[2];
             $total_price = $request->vnp_Amount / 100;
             $code = $request->vnp_TxnRef;
-            $users = User::query()->where('phone', $customer_phone)->get();
-            if(count($users) > 0){
-                $user_id = $users[0]->id;
-            }else{
-                User::query()->create(
-                    [
-                        'name' => $customer_name,
-                        'email' => $customer_email,
-                        'phone' => $customer_phone,
-                        'password' => bcrypt('123456'),
-                        'role_id' => 4
-                    ]);
-                $user_id = User::query()->where('email', $customer_email)->first()->id;
-            }
-
-
             Bill::query()->create(
                 [
                     'code' => $code,
@@ -173,13 +185,13 @@ class OrderController extends Controller
                     'status' => 1,
                     'total_amount' => $total_price,
                     'note' => 'Thanh toán tại quầy',
-                    'user_id' => $user_id,
                     'transaction_type' => 1,
                 ]
             );
             $bill_id = Bill::query()->where('code', $code)->first()->id;
             $carts = session()->get('carts');
             foreach ($carts as $key => $value) {
+                $this->updateQuantity($key, $value['quantity']);
                 Order_detail::query()->create(
                     [
                         'bill_id' => $bill_id,
@@ -193,7 +205,6 @@ class OrderController extends Controller
             return redirect()->route('products.index')->with('success', 'Đặt hàng thành công!');
         }
     }
-
     public function momoPay(Request $request)
     {
         $endpoint = "https://test-payment.momo.vn/gw_payment/transactionProcessor";
@@ -249,5 +260,14 @@ class OrderController extends Controller
     public function momoReturn()
     {
 
+    }
+
+
+    //khi đặt hàng xong thì số lượng sản phẩm sẽ bị trừ đi
+    public function updateQuantity($id, $quantity)
+    {
+        $product = Products::query()->find($id);
+        $product->quantity = $product->quantity - $quantity;
+        $product->save();
     }
 }

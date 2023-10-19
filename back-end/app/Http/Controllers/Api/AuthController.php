@@ -28,7 +28,7 @@ class AuthController extends BaseResponseApiController
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         }
-        $phone_number = '0969025884';
+        $phone_number = $request->input('phone');
         if($phone_number) {
             $check_exit_phone = $this->tableQuery('users')
                 ->where('role_id' , '=' , 4)
@@ -257,30 +257,30 @@ class AuthController extends BaseResponseApiController
         }
     }
 
-    public function CreatePassword(Request $request , $phone) {
-        $validator = $this->validateForm($request->all() , 'createPass');
+    public function CreatePassword(Request $request) {
+        $validator = $this->validateForm($request->all() , 'login');
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         }
         $password = $request->input('password');
-        $password_again = $request->input('password_confirmation');
-        if ($password === $password_again) {
-            $insert_user = $this->tableQuery('users')->insert(
-                [
-                    'name' => $phone,
-                    'phone' => $phone,
-                    'email' => $phone.'@gmail.com',
+        $phoneNumber = $request->input('phone');
+        $existingUser = $this->tableQuery('users')
+            ->where('phone' , '=' , $phoneNumber)
+            ->where('role_id' , '=' , 4)
+            ->first();
+            if($existingUser) {
+                return response()->json(['msg' => 'Số điện thoại này đã tồn tại'] , 400);
+            }
+            else {
+                $this->tableQuery('users')->insert([
+                    'name' => $phoneNumber,
+                    'email' => $phoneNumber.'@gmail.com',
                     'password' => Hash::make($password),
-                    'status' => 1,
                     'role_id' => 4,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]
-            );
+                    'status' => 1,
+                    'phone' => $phoneNumber,
+                ]);
             return response()->json(['msg' => 'Đã tạo tài khoản thành công'], 200);
-        }
-        elseif($password != $password_again) {
-            return response()->json(['errors' => ['password_confirmation' => 'Xác nhận mật khẩu không khớp']], 400);
         }
     }
 

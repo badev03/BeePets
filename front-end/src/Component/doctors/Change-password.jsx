@@ -10,11 +10,12 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Changepassword = () => {
   const { token } = useAuth();
-
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();

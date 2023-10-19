@@ -34,8 +34,8 @@
                             @foreach($bills as $key=>$value)
                                 <tr>
                                     <td>{{ $value->code }}</td>
-                                    <td>{{ $value->user->name }}</td>
-                                    <td>{{ $value->total_amount }}</td>
+                                    <td>{{ $value->customer_name }}</td>
+                                    <td>{{ number_format($value->total_amount,0,',','.') }}</td>
                                     <td>
                                         @if($value->transaction_type == 1)
                                             <span class="badge badge-success">Thanh toán VNPAY</span>

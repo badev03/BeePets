@@ -66,7 +66,7 @@ Route::post('check-verify', [AuthController::class, 'CheckVerify'])->name('check
 Route::post('check-login', [AuthController::class, 'CheckLogin']);
 
 Route::post('check-verify-register', [AuthController::class, 'CheckVerifyRegister']);
-Route::post('create-password/{phone}', [AuthController::class, 'CreatePassword']);
+Route::post('register-user-password', [AuthController::class, 'CreatePassword']);
 
 Route::post('register-user', [AuthController::class, 'RegisterUser']);
 
@@ -102,22 +102,6 @@ Route::get('get-products', [DoctorController::class, 'getProducts']);
 Route::get('get-services', [DoctorController::class, 'getServices']);
 
 Route::post('update-bill/{id}', [DoctorController::class, 'updateBill']);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     Route::get('pusher-tester', [\App\Http\Controllers\Admin\HomeController::class, 'Pusher']);
@@ -173,6 +157,16 @@ Route::post('update-bill/{id}', [DoctorController::class, 'updateBill']);
     Route::post('/send-notification',  [\App\Http\Controllers\Admin\HomeController::class, 'SendNotification']);
 });
 Route::get('/list-appiontment/{id}', [DoctorController::class, 'getAppiontment']);
+
+
+//get one
+Route::get('/get-appiontment/{id}', [DoctorController::class, 'getAppiontmentByID']);
+
+
+//change password doctor
+Route::put('/change-password', [DoctorController::class, 'changePassword']);
+
+
 //get bills
 Route::get('/bills/{id}', [DoctorController::class, 'billByUser']);
 
