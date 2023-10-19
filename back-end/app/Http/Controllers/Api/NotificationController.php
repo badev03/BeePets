@@ -27,7 +27,7 @@ class NotificationController extends Controller
     public function getNotificationDoctor()
     {
         $notifications = Notification::where('doctor_id', auth()->guard('doctors')->id())
-            ->select('notifications.doctor_id as id' , 'doctors.image' , 'doctors.name' , 'notifications.message_doctor')
+            ->select('notifications.doctor_id as id' , 'doctors.image as avatar' , 'doctors.name' , 'notifications.message_doctor as message')
             ->join('doctors' , 'doctors.id' , '=' , 'notifications.doctor_id')
             ->where('notifications.message_doctor' , '!=' , '')
             ->orderBy('notifications.id', 'DESC')

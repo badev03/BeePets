@@ -137,14 +137,53 @@ const Header = () => {
       });
       // console.log('run1')
       setNoti(response.notifications);
+
+      const pusher = new Pusher("2798806e868dbe640e2e", {
+        cluster: "ap1",
+      });
+
+      // Đăng ký kênh theo id người dùng
+      const channel = pusher.subscribe("user-notification-"+data.id);
+
+      // Xử lý sự kiện thông báo từ Pusher
+      channel.bind("notification-event-test", function (data) {
+        setNoti((prevData) => {
+          const newData = {
+            message: data.message,
+            name: data.name,
+            avatar: data.avatar,
+            id: data.id,
+          };
+          return [newData, ...prevData];
+        });
+      });
     } else {
       const response = await notification.getDoctor({
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      // console.log('run2')
       setNoti(response.notifications);
+
+      const pusher = new Pusher("2798806e868dbe640e2e", {
+        cluster: "ap1",
+      });
+
+      // Đăng ký kênh theo id người dùng
+      const channel = pusher.subscribe("doctor-notification-"+data.id);
+
+      // Xử lý sự kiện thông báo từ Pusher
+      channel.bind("notification-event-doctor", function (data) {
+        setNoti((prevData) => {
+          const newData = {
+            message: data.message,
+            name: data.name,
+            avatar: data.avatar,
+            id: data.id,
+          };
+          return [newData, ...prevData];
+        });
+      });
     }
   }
   // console.log(noti)
@@ -264,7 +303,7 @@ const Header = () => {
                                   <img
                                     className="avatar-img"
                                     alt="Ruby perin"
-                                    src={notifications.image}
+                                    src={notifications.avatar}
                                   />
                                 </span>
                                 <div className="media-body">
@@ -275,7 +314,7 @@ const Header = () => {
                                     </span>
                                   </h6>
                                   <p className="noti-details">
-                                    {notifications.message_doctor}
+                                    {notifications.message}
                                   </p>
                                 </div>
                               </div>
