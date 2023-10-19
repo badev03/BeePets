@@ -419,4 +419,41 @@ class DoctorController extends Controller
             ]);
         }
     }
+    //detail bill by id
+    public function detailBill($id) {
+        try {
+            if(Auth::guard('doctors')->check()) {
+                //bills.code, dịch vụ, doctors.name , ngày tạo hóa đơn, tổng tiền, trạng thái, tên thuốc, số lượng, đơn giá, tên dịch vụ
+                $bill = Bill::query()
+                    ->select('bills.code', 'doctors.name as doctor_name', 'bills.created_at',
+                        'bills.total_amount', 'bills.status as bill_status', 'prescriptions.name as prescription_name',
+                        'prescription_product.quantity', 'prescription_product.price as price_product', 'services.name as service_name','users.name as user_name')
+                    ->join('bill_prescription', 'bill_prescription.bill_id', '=', 'bills.id')
+                    ->join('prescriptions', 'prescriptions.id', '=', 'bill_prescription.prescription_id')
+                    ->join('prescription_product', 'prescription_product.prescription_id', '=', 'prescriptions.id')
+                    ->join('users', 'users.id', '=', 'bills.user_id')
+                    ->join('services', 'services.id', '=', 'bills.service_id')
+                    ->join('doctors', 'doctors.id', '=', 'bills.doctor_id')
+                    ->where('bills.id', $id)
+                    ->first();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Lấy thông tin hóa đơn thành công',
+                    'bill' => $bill
+                ]);
+            }else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Bạn chưa đăng nhập',
+                ]);
+            }
+
+        }catch (\Exception $exception) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Lỗi',
+                'error' => $exception->getMessage()
+            ]);
+        }
+    }
 }

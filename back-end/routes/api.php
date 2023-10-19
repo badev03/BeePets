@@ -158,8 +158,6 @@ Route::post('update-bill/{id}', [DoctorController::class, 'updateBill']);
     Route::post('/send-notification',  [\App\Http\Controllers\Admin\HomeController::class, 'SendNotification']);
 });
 Route::get('/list-appiontment/{id}', [DoctorController::class, 'getAppiontment']);
-
-
 //get one
 Route::get('/get-appiontment/{id}', [DoctorController::class, 'getAppiontmentByID']);
 
@@ -172,6 +170,8 @@ Route::put('/change-password', [DoctorController::class, 'changePassword']);
 
 //get bills
 Route::get('/bills/{id}', [DoctorController::class, 'billByUser']);
+//get detail bill
+Route::get('/detail-bill/{id}', [DoctorController::class, 'detailBill']);
 
 //get prescription by user
 Route::get('/prescription/{id}', [DoctorController::class, 'prescriptionByUser']);
