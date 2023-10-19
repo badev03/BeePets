@@ -350,7 +350,7 @@ class DoctorController extends Controller
             ]);
             $bill_prescription_id = $bill_prescription->id;
             $bill->bill_prescription_id = $bill_prescription_id;
-
+            $bill->total_amount = $prescription->price + $bill->total_amount;
             $bill->save();
             return response()->json([
                 'success' => true,
