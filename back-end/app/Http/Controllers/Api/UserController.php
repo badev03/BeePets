@@ -195,7 +195,7 @@ class UserController extends Controller
             }else{
                 $id = auth()->user()->id;
                 $result = DB::table('appointments')
-                    ->select('doctors.name as doctor_name','doctors.image' ,'appointments.date', 'appointments.time', 'appointments.status', 'appointments.id as appointment_id')
+                    ->select('doctors.name as doctor_name','doctors.image' ,'appointments.date','appointments.shift_name', 'appointments.status', 'appointments.id as appointment_id')
                     ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
                     ->where('appointments.user_id', $id)
                     ->orderByDesc('appointments.date')
