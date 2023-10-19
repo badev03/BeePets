@@ -16,7 +16,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $bills = Bill::query()->where('customer_name', '!=', null)->where('total_amount', '>', 0)->get();
+        $bills = Bill::where('transaction_type', 2)->get();
         return view('admin.purchase.index', compact('bills'));
     }
 
@@ -42,7 +42,9 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $bill = Bill::query()->findOrFail($id);
+        $order_details = Order_detail::query()->where('bill_id', $id)->get();
+        return view('admin.purchase.show', compact('bill', 'order_details'));
     }
 
     /**
@@ -58,7 +60,10 @@ class OrderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $model = Bill::query()->findOrFail($id);
+        $model->status = $request->status;
+        $model->save();
+        return redirect()->route('purchase.index')->with('success', 'Cập nhật trạng thái thành công!');
     }
 
     /**
@@ -79,10 +84,12 @@ class OrderController extends Controller
                 'code' => 'DH' . rand(100000, 999999),
                 'customer_name' => $request->customer_name,
                 'customer_phone' => $request->customer_phone,
+                'customer_email' => $request->customer_email,
                 'status' => 1,
                 'total_amount' => $request->total_price,
                 'note' => 'Thanh toán tại quầy',
                 'transaction_type' => 2,
+                'payment_method' => 1,
             ]
         );
         $bill_id = $bill->id;
@@ -182,10 +189,12 @@ class OrderController extends Controller
                     'code' => $code,
                     'customer_name' => $customer_name,
                     'customer_phone' => $customer_phone,
+                    'customer_email' => $customer_email,
                     'status' => 1,
                     'total_amount' => $total_price,
                     'note' => 'Thanh toán tại quầy',
-                    'transaction_type' => 1,
+                    'transaction_type' => 2,
+                    'payment_method' => 2,
                 ]
             );
             $bill_id = Bill::query()->where('code', $code)->first()->id;

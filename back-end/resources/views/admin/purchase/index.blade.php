@@ -37,11 +37,11 @@
                                     <td>{{ $value->customer_name }}</td>
                                     <td>{{ number_format($value->total_amount,0,',','.') }}</td>
                                     <td>
-                                        @if($value->transaction_type == 1)
-                                            <span class="badge badge-success">Thanh toán VNPAY</span>
-                                        @elseif($value->transaction_type == 2)
+                                        @if($value->payment_method == 1)
                                             <span class="badge badge-success">Thanh toán tại cửa hàng</span>
-                                        @elseif($value->transaction_type == 3)
+                                        @elseif($value->payment_method == 2)
+                                            <span class="badge badge-success">Thanh toán VNPAY</span>
+                                        @elseif($value->payment_method == 3)
                                             <span class="badge badge-success">Thanh toán qua thẻ</span>
                                         @endif
                                     </td>
@@ -54,11 +54,20 @@
                                         @elseif($value->status == 2)
                                             <span class="badge badge-warning">Đã hủy</span>
                                         @elseif($value->status == 3)
-                                            <span class="badge badge-info">Hoàn trả</span>
+                                            <span class="badge badge-info">Đã hoàn trả</span>
                                         @endif
                                     </td>
                                     <td>
-
+                                        @if($value->status == 1)
+                                            <a href="" class="btn btn-sm btn-primary">In hóa đơn</a>
+                                            <form action="{{ route('purchase.update',$value->id) }}" method="POST" style="display: inline-block">
+                                                @csrf
+                                                @method('PATCH')
+                                                <input type="hidden" name="status" value="3">
+                                                <button type="submit" class="btn btn-sm btn-danger">Hoàn trả</button>
+                                            </form>
+                                        @endif
+                                            <a href="{{ route('purchase.show',$value->id) }}" class="btn btn-sm btn-info text-white">Xem</a>
                                     </td>
                                 </tr>
                             @endforeach
