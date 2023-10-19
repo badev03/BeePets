@@ -27,5 +27,9 @@ class Products extends Model
     {
         return $this->hasMany(Order_detail::class, 'product_id');
     }
+    public function prescriptions()
+    {
+        return $this->belongsToMany(Prescription::class);
+    }
 
 }

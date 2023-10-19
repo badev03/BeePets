@@ -1,11 +1,12 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import appointmentsApi from '../../api/appointmentsApi'
 import appointmentUsersApi from '../../api/appoinmentsUse'
+import { useParams } from 'react-router-dom';
 
 const AppoimentList = () => {
   const [appointments, setAppointmentsApi] = useState([]);
+  const { id } = useParams();
   
   const token = localStorage.getItem('token');
   
@@ -13,7 +14,7 @@ const AppoimentList = () => {
      useEffect(() => {
       const fetchUser = async () => {
         try {
-         const response = await appointmentUsersApi.getAppoinments(
+         const response = await appointmentUsersApi.getAppoinmentsUser(id,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -48,24 +49,24 @@ const AppoimentList = () => {
             </thead>
             <tbody>
               {appointments.map(appointment=>(
-              <tr key={appointment.id}>
+              <tr key={appointment} data={appointment}>
               <td>
                 <h2 className="table-avatar">
                   <a href="doctor-profile.html" className="avatar avatar-sm me-2">
                     <img className="avatar-img rounded-circle" src={appointment.avatar} alt="User Image" />
                   </a>
-                  <a href="doctor-profile.html">{appointment.doctor_id}</a>
+                  <a href="doctor-profile.html">{appointment.doctor_name} </a>
                 </h2>
               </td>
-              <td>{appointment.date} <span className="d-block text-info">{appointment.time} AM</span></td>
-              <td>{appointment.date}</td>
+              <td>{appointment.date} <span className="d-block text-info">{appointment.shift_name}</span></td>
+              <td>{appointment.appointment_created_at}</td>
 
               <td><span className="badge rounded-pill bg-success-light">Confirm</span></td>
               <td>
                 <div className="table-action">
                   
                   <button className="btn btn-sm bg-info-light">
-                    <Link to={"/user/appointment"}> <i className="far fa-eye" /> View</Link>
+                    <Link to={`/doctors/accept-detail-appointments/${appointment.id}`}> <i className="far fa-eye" /> View</Link>
                     
                   </button>
                 </div>
