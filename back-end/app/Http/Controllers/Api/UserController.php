@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Appointment;
 use App\Models\Bill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -116,6 +117,27 @@ class UserController extends Controller
                     'appointments' => $result
                 ]);
             }
+        }catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Lỗi'
+            ]);
+        }
+    }
+    public function getAppiontmentByID($id) {
+        try {
+            $appiontment = Appointment::select('users.name as user_name', 'doctors.name as doctor_name', 'doctors.image as doctor_image', 'appointments.date', 'appointments.time', 'appointments.status',
+                'appointments.id as appointment_id','appointments.shift_name','appointments.description')
+                ->join('users', 'users.id', '=', 'appointments.user_id')
+                ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
+
+                ->where('appointments.id', $id)
+                ->first();
+            return response()->json([
+                'success' => true,
+                'message' => 'Lấy thông tin lịch khám thành công',
+                'appointment' => $appiontment
+            ]);
         }catch (\Exception $e) {
             return response()->json([
                 'success' => false,

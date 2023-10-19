@@ -121,6 +121,7 @@ Route::post('update-bill/{id}', [DoctorController::class, 'updateBill']);
     Route::get('/history-user', [UserController::class, 'getHistoryByUser']);
 
 
+
     //lấy ra các lịch khám trạng thái chưa xác nhận
     Route::get('/appoinments-status', [BookingController::class, 'getAppointmentByStatus']);
 
@@ -162,6 +163,8 @@ Route::get('/list-appiontment/{id}', [DoctorController::class, 'getAppiontment']
 //get one
 Route::get('/get-appiontment/{id}', [DoctorController::class, 'getAppiontmentByID']);
 
+//get one appointment by user
+Route::get('/get-appointment-user/{id}', [UserController::class, 'getAppiontmentByID']);
 
 //change password doctor
 Route::put('/change-password', [DoctorController::class, 'changePassword']);

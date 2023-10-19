@@ -158,11 +158,11 @@ class DoctorController extends Controller
                 ->join('users', 'users.id', '=', 'appointments.user_id')
                 ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
                 ->join('bills', 'bills.appointment_id', '=', 'appointments.id')
+                ->join('services', 'services.id', '=', 'appointments.service_id')
                 ->select('appointments.id','users.name as user_name', 'doctors.name as doctor_name', 'appointments.date', 'bills.total_amount',
                     'appointments.status as appointment_status', 'doctors.status as doctor_status',
                     'appointments.created_at as appointment_created_at','appointments.shift_name',
-                    'doctors.image as doctor_image'
-                )
+                    'doctors.image as doctor_image','appointments.description','services.name as service_name')
                 ->first();
             return response()->json([
                 'success' => true,
@@ -331,19 +331,19 @@ class DoctorController extends Controller
 
             $bill = Bill::query()->find($id);
 
-          
+
             $prescription = $this->createPrescription($request->name, $request->price, $request->doctor_id, $request->user_id);
 
             $prescription_id = $prescription->id;
 
-        
+
             Prescription_product::create([
                 'prescription_id' => $prescription_id,
                 'product_id' => $request->product_id,
                 'quantity' => $request->quantity,
                 'price' => $request->price_product,
             ]);
-           
+
             $bill_prescription = bill_prescription::create([
                 'bill_id' => $bill->id,
                 'prescription_id' => $prescription_id
