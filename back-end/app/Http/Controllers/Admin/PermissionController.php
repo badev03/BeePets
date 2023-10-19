@@ -53,8 +53,8 @@ class PermissionController extends BaseAdminController
             ]
         );
         $model->fill($request->except([$this->fieldImage,$this->slug]));
+        $model->guard_name = 'web';
         $model->save();
-
 
         $roles = $request->input('role', []);
 
@@ -84,6 +84,7 @@ class PermissionController extends BaseAdminController
             ]
         );
         $model->fill($request->except([$this->fieldImage,$this->slug]));
+        $model->guard_name = 'web';
         $model->save();
         $permission = Permission::findByName($request->name);
 

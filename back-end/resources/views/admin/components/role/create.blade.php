@@ -6,7 +6,7 @@
     <div class="checkbox" id="collapse_role_1">
         <label>
             @if(request()->routeIs('permission.edit*'))
-                    <input @if(in_array($roleItem->name , $permissionWasCheck)) checked @endif type="checkbox" name="role[]" value="{{ $roleItem->name }}"> {{ $roleItem->name }}
+                    <input {{ $permission->contains('id' , $roleItem->id) ? 'checked' : '' }} type="checkbox" name="role[]" value="{{ $roleItem->name }}"> {{ $roleItem->name }}
             @elseif(request()->routeIs('permission.create'))
                     <input type="checkbox" name="role[]" value="{{ $roleItem->name }}"> {{ $roleItem->name }}
             @endif

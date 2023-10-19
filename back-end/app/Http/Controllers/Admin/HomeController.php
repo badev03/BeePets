@@ -88,4 +88,18 @@ class HomeController extends Controller
     public function pusherApi(MessageUser $messageService) {
         $messageService->sendMessage(3, 'Vũ anh bá');
     }
+
+    public function indexAdmin() {
+        if(\auth()->check()) {
+            if(auth()->user()->hasAnyRole(['Admin', 'User' , 'Staff'])) {
+                return redirect()->route('dashboard');
+            }else {
+                return view('admin.users.login');
+            }
+        }
+        else {
+            return view('admin.users.login');
+        }
+    }
 }
+

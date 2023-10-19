@@ -110,9 +110,9 @@
                                             </div>
                                         @endif
                                     @endforeach
-                                    @if(request()->routeIs('people-account.create'))
+                                    @if(request()->routeIs('people-account*') && 1==2)
                                         @include('admin.components.permissions.create')
-                                    @elseif(request()->routeIs('people-account.edit*'))
+                                    @elseif(request()->routeIs('people-account.edit*') && 1==2)
                                         @include('admin.components.permissions.edit')
                                     @elseif(request()->routeIs('permission.create') || request()->routeIs('permission.edit*'))
                                         @include('admin.components.role.create')

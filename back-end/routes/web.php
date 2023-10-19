@@ -34,14 +34,11 @@ use \App\Http\Controllers\Admin\NotificationController;
 
 
 //
-Route::middleware(['role:Admin'])->group(function () {
+Route::middleware(['role:Admin|Staff|User'])->group(function () {
     Route::prefix('admin')->group(function () {
         $objects = [
             'service-categories' => ServiceCategorieController::class,
             'service' => ServiceController::class,
-            'role' => RoleController::class,
-            'people-account' => PeopleAccountController::class,
-            'permission' => PermissionController::class,
             'product-categories' => ProductCategoryController::class,
             'products' => ProductController::class,
             'appointment' => AppointmentController::class,
@@ -54,6 +51,11 @@ Route::middleware(['role:Admin'])->group(function () {
         foreach ($objects as $key => $controller) {
             Route::resource($key, $controller);
         }
+        Route::middleware(['role:Admin'])->group(function () {
+            Route::resource('role' , RoleController::class);
+            Route::resource('people-account' , PeopleAccountController::class);
+            Route::resource('permission' , PermissionController::class);
+        });
         Route::get('dashboard', [HomeController::class , 'index'])->name('dashboard');
         Route::get('appointment/get-day/{day}/{id}', [AppointmentController::class , 'getDay'])->name('appointment.get-day');
         Route::get('appointment/date-filter/{data}', [AppointmentController::class , 'FilterDate'])->name('appointment.filter-date');
@@ -108,9 +110,7 @@ Route::get('admin/logout', [\App\Http\Controllers\AuthController::class , 'logOu
 Route::post('admin/login', [\App\Http\Controllers\AuthController::class , 'checkLogin'])->name('admin.login.post');
 
 
-Route::get('admin' , function () {
-    return redirect()->route('admin.login');
-});
+Route::get('admin' , [HomeController::class , 'indexAdmin']);
 
 Route::post('uploadImg' , [HomeController::class , 'uploadImg'])->name('checkEditor.upload');
 Route::get('login-tester' , [ApiAuthController::class , 'checkPhone']);
