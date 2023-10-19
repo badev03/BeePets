@@ -76,7 +76,7 @@ const Appointments = () => {
                         <i className="far fa-eye" /> View
                       </Link>
 
-                      <Link to="javascript:void(0);" className="btn btn-sm bg-danger-light">
+                      <Link to="#" className="btn btn-sm bg-danger-light">
                         <i className="fas fa-times" /> Cancel
                       </Link>
                     </div>

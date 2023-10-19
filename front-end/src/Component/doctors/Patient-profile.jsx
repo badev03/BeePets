@@ -8,11 +8,12 @@ import ListAppiontment from './List-Appoiment';
 import AppoimentList from './List-Appoiment';
 import { useAuth } from '../../Context/ContextAuth';
 import logoutDoctor from '../../api/logoutDoctor';
+import PatientBill from './PatientBill';
 
 const Patientprofile = () => {
   const { id } = useParams();
   const [customers, setCustomers] = useState(null);
-  const [listAppiontment, setListAppiontment] = useState(null);
+
 
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
@@ -280,7 +281,7 @@ const Patientprofile = () => {
                                       <Link to="/doctors/edit-prescription" className="btn btn-sm bg-success-light">
                                         <i className="fas fa-edit" /> Edit
                                       </Link>
-                                      <Link to="javascript:void(0);" className="btn btn-sm bg-danger-light">
+                                      <Link to="#" className="btn btn-sm bg-danger-light">
                                         <i className="far fa-trash-alt" /> Delete
                                       </Link>
                                     </div>
@@ -301,10 +302,10 @@ const Patientprofile = () => {
                                   </td>
                                   <td>
                                     <div className="table-action">
-                                      <Link to="javascript:void(0);" className="btn btn-sm bg-primary-light">
+                                      <Link to="#" className="btn btn-sm bg-primary-light">
                                         <i className="fas fa-print" /> Print
                                       </Link>
-                                      <Link to="javascript:void(0);" className="btn btn-sm bg-info-light">
+                                      <Link to="#" className="btn btn-sm bg-info-light">
                                         <i className="far fa-eye" /> View
                                       </Link>
                                     </div>
@@ -317,87 +318,7 @@ const Patientprofile = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="tab-pane" id="billing">
-                      <div>
-                        <Link className="add-new-btn" to="/doctors/add-bill">Tạo hóa đơn</Link>
-                      </div>
-                      <div className="card card-table mb-0">
-                        <div className="card-body">
-                          <div className="table-responsive">
-                            <table className="table table-hover table-center mb-0">
-                              <thead>
-                                <tr>
-                                  <th>Mã hóa đơn</th>
-                                  <th>Người tạo</th>
-                                  <th>Tổng tiền</th>
-                                  <th>Hoạt động</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td>
-                                    <Link to="invoice-view.html">#INV-0010</Link>
-                                  </td>
-                                  <td>
-                                    <h2 className="table-avatar">
-                                      <Link to="doctor-profile.html" className="avatar avatar-sm me-2">
-                                        <img className="avatar-img rounded-circle" src="/img/doctors/doctor-thumb-01.jpg" alt="User Image" />
-                                      </Link>
-                                      <Link to="doctor-profile.html">Ruby Perrin
-                                        <span>Dental</span></Link>
-                                    </h2>
-                                  </td>
-                                  <td>$450</td>
-                                  <td>
-                                    <div className="table-action">
-                                      <Link to="javascript:void(0);" className="btn btn-sm bg-primary-light">
-                                        <i className="fas fa-print" /> Print
-                                      </Link>
-                                      <Link to="/doctors/edit-bill" className="btn btn-sm bg-info-light">
-                                        <i className="far fa-eye" /> View
-                                      </Link>
-                                    </div>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    <Link to="invoice-view.html">#INV-0009</Link>
-                                  </td>
-                                  <td>
-                                    <h2 className="table-avatar">
-                                      <Link to="doctor-profile.html" className="avatar avatar-sm me-2">
-                                        <img className="avatar-img rounded-circle" src="/img/doctors/doctor-thumb-02.jpg" alt="User Image" />
-                                      </Link>
-                                      <Link to="doctor-profile.html">Dr. Darren Elder
-                                        <span>Dental</span></Link>
-                                    </h2>
-                                  </td>
-                                  <td>$300</td>
-                                  <td>
-                                    <div className="table-action">
-                                      <Link to="javascript:void(0);" className="btn btn-sm bg-primary-light">
-                                        <i className="fas fa-print" /> Print
-                                      </Link>
-                                      <Link to="javascript:void(0);" className="btn btn-sm bg-info-light">
-                                        <i className="far fa-eye" /> View
-                                      </Link>
-                                      <Link to="edit-billing.html" className="btn btn-sm bg-success-light">
-                                        <i className="fas fa-edit" /> Edit
-                                      </Link>
-                                      <Link to="javascript:void(0);" className="btn btn-sm bg-danger-light">
-                                        <i className="far fa-trash-alt" /> Delete
-                                      </Link>
-                                    </div>
-                                  </td>
-                                </tr>
-
-
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                   <PatientBill/>
                   </div>
                 </div>
               </div>

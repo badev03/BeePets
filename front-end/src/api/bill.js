@@ -5,6 +5,10 @@ const billApi = {
         const url = "/bill-user";
         return instance.get(url,  params );
       },
+    getBillPatient(id,params) {
+      const url = `/bills/${id}`;
+      return instance.get(url,  params );
+    },
 };
 
 export default billApi;
