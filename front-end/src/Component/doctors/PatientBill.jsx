@@ -69,7 +69,7 @@ const PatientBill = () => {
                     <Link to="#" className="btn btn-sm bg-info-light">
                       <i className="far fa-eye" /> View
                     </Link>
-                    <Link to="edit-billing.html" className="btn btn-sm bg-success-light">
+                    <Link to="/doctors/add-bill" className="btn btn-sm bg-success-light">
                       <i className="fas fa-edit" /> Edit
                     </Link>
                     <Link to="#" className="btn btn-sm bg-danger-light">

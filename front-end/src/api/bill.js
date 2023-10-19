@@ -9,6 +9,11 @@ const billApi = {
       const url = `/bills/${id}`;
       return instance.get(url,  params );
     },
+
+    getProduct(params) {
+      const url = "/get-products";
+      return instance.get(url,  params );
+    },
 };
 
 export default billApi;
