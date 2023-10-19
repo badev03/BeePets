@@ -14,6 +14,7 @@ class NotificationController extends Controller
             ->select('notifications.user_id as id' , 'users.avatar' , 'users.name' , 'notifications.message')
             ->join('users' , 'users.id' , '=' , 'notifications.user_id')
             ->where('notifications.message' , '!=' , '')
+            ->orderBy('notifications.id', 'DESC')
             ->get();
         if ($notifications) {
             return response()->json(['notifications' => $notifications] , 200);
@@ -26,9 +27,10 @@ class NotificationController extends Controller
     public function getNotificationDoctor()
     {
         $notifications = Notification::where('doctor_id', auth()->guard('doctors')->id())
-            ->select('notifications.doctor_id as id' , 'doctors.image' , 'doctors.name' , 'notifications.message_doctor')
+            ->select('notifications.doctor_id as id' , 'doctors.image as avatar' , 'doctors.name' , 'notifications.message_doctor as message')
             ->join('doctors' , 'doctors.id' , '=' , 'notifications.doctor_id')
             ->where('notifications.message_doctor' , '!=' , '')
+            ->orderBy('notifications.id', 'DESC')
             ->get();
         if ($notifications) {
             return response()->json(['notifications' => $notifications] , 200);

@@ -124,7 +124,7 @@
                                         @endif
                                     @endforeach
 
-                                    @if (request()->routeIs('peopleAccount.create') || request()->routeIs('peopleAccount.edit*'))
+                                    @if (request()->routeIs('people-account.create') && 1==2)
                                         @include('admin.components.permissions.create')
                                     @elseif(request()->routeIs('permission.create') || request()->routeIs('permission.edit*'))
                                         @include('admin.components.role.create')

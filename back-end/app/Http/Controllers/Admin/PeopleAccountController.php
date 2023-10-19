@@ -125,21 +125,34 @@ class PeopleAccountController extends BaseAdminController
 
     public function update(Request $request, string $id)
     {
-        if(auth()->user()->can(['update-PeopleAccount'])) {
+//        if(auth()->user()->can(['update-PeopleAccount'])) {
+        $this->validate($request,[
+            'name' => 'required',
+            'email' => 'required',
+            'phone' => 'required|min:0|max:10',
+            'password' => 'required|min:0',
+            'address' => 'required|',
+        ],
+            [
+                'name.required' => 'Tên user không được để trống',
+                'email.required' => 'Email không được để trống',
+                'phone.required' => 'Phone không được để trống',
+                'phone.min' => 'Phone phải có ít nhất :min ký tự',
+                'phone.max' => 'Phone không được vượt quá :max ký tự',
+                'password.required' => 'Mật khẩu không được để trống',
+                'password.min' => 'Mật khẩu phải có ít nhất :min ký tự',
+                'address.required' => 'Địa chỉ không được để trống',
+            ]
+        );
         $people = $this->model->findOrFail($id);
-        $model = Role::findById($people->role_id);
-        $permissions = $request->input('permissions', []);
-
-        $model->revokePermissionTo($model->permissions);
-
-        $model->givePermissionTo($permissions);
-
-        $model->save();
+        $model = Role::where('id', $request->role_id)->first();
+        $people->syncRoles($model);
+        $people->update($request->except(['_token' , 'method']));
         return back()->with('success', 'Thao tác thành công');
-    }
-        else {
-             return view(admin_403);
-        }
+//    }
+//        else {
+//             return view(admin_403);
+//        }
 
     }
 

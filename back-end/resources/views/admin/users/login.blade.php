@@ -38,7 +38,7 @@
         <div class="container">
             <div class="loginbox">
                 <div class="login-left">
-                    <img class="img-fluid" src="{{asset('backend/assets/img/logo-white.png')}}" alt="Logo">
+                    <img class="img-fluid" src="{{asset('backend/assets/img/ok_login.jpg')}}" alt="Logo">
                 </div>
                 <div class="login-right">
                     <div class="login-right-wrap">
@@ -57,22 +57,17 @@
                                 <input class="form-control" type="password" placeholder="Password" name="password">
                             </div>
                             <div class="mb-3">
-                                <button class="btn btn-primary w-100" type="submit">Login</button>
+                                <button class="btn btn-primary w-100" type="submit">Đăng nhập</button>
                             </div>
                         </form>
 
-                        <div class="text-center forgotpass"><a href="forgot-password.html">Forgot Password?</a></div>
+                        <div class="text-center forgotpass"><a href="forgot-password.html">Quên mật khẩu?</a></div>
                         <div class="login-or">
                             <span class="or-line"></span>
                             <span class="span-or">or</span>
                         </div>
 
-                        <div class="social-login">
-                            <span>Login with</span>
-                            <a href="#" class="facebook"><i class="fa-brands fa-facebook-f"></i></a><a href="#" class="google"><i class="fa-brands fa-google"></i></a>
-                        </div>
-
-                        <div class="text-center dont-have">Don’t have an account? <a href="register.html">Register</a></div>
+                        <div class="text-center dont-have">Bạn đã có tài khoản chưa? <a href="register.html">Register</a></div>
                     </div>
                 </div>
             </div>

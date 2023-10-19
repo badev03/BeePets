@@ -38,12 +38,14 @@
                         <li><a class="{{ request()->routeIs('new.*') ? 'active' : '' }}" href="{{ route('new.index') }}">Tin tức</a></li>
                     </ul>
                 </li>
+                @role('Admin')
                 <li>
                     <a href="{{ route('notifications.index') }}"><i class=" {{ request()->routeIs('notifications.*') ? 'active' : '' }} fe fe-bell"></i> <span>Thông báo</span></a>
                 </li>
                 <li>
                     <a class="{{ request()->routeIs('doctors.*') ? 'active' : '' }}" href="{{ route('doctors.index') }}"><i class="fe fe-user-plus"></i> <span>Bác sĩ</span> </a>
                 </li>
+                @endrole
                 <li>
                     <a href="{{ route('reviews.index') }}"><i class="fe fe-star-o"></i> <span>Đánh giá</span></a>
                 </li>
@@ -62,10 +64,10 @@
                         <li><a href="invoice-report.html">Báo cáo hóa đơn</a></li>
                     </ul>
                 </li>
+                @role('Admin')
                 <li class="menu-title">
                     <span>Pages</span>
                 </li>
-                @role('Admin')
                 <li class="submenu">
                     <a href="#"><i class="fe fe-user-plus"></i> <span> Tài khoản </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
