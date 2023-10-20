@@ -18,6 +18,7 @@
                         </li>
                         <li><a class="{{ request()->routeIs('appointments.trash-can') ? 'active' : '' }}" href="{{ route('appointments.trash-can') }}">Thùng Rác</a></li>
                         <li><a class="{{ request()->routeIs('appointments.trash-can') ? 'active' : '' }}" href="{{ route('appointments.trash-can') }}">Lịch Đã Hủy</a></li>
+                        <li><a class="{{ request()->routeIs('appointments.trash-can') ? 'active' : '' }}" href="{{ route('appointments.trash-can') }}">Thống kế cuộc hẹn</a></li>
                     </ul>
                 </li>
                 <li class="submenu">
@@ -76,6 +77,10 @@
                         <li><a class="{{ request()->routeIs('role.*') ? 'active' : '' }}" href="{{route('role.index')}}"> Role </a></li>
                         <li><a class="{{ request()->routeIs('permission.*') ? 'active' : '' }}" href="{{route('permission.index')}}"> Permission </a></li>
                     </ul>
+                </li>
+
+                <li>
+                    <a href="{{ route('purchase.index') }}"><i class="fe fe-activity"></i> <span>Clear cache</span></a>
                 </li>
                 @endrole
             </ul>

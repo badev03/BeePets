@@ -16,53 +16,6 @@ const Header = () => {
   const [noti, setNoti] = useState([]);
   const [user, setUser] = useState(null);
 
-  // const   = localStorage.getItem('token');
-
-
-  // useEffect(() => {
-  //   if (token) {
-
-  //     const fetchNoti = async () => {
-  //       try {
-  //         const response = await notification.getAll({
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         });
-  //         setNoti(response.notifications);
-  //       } catch (error) {
-  //         console.log(error);
-  //       }
-  //     };
-  //     fetchNoti();
-  //     const fetchUser = async () => {
-  //       try {
-  //         const response = await usersApi.getUser({
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         });
-  //         setUser(response.user);
-
-  //         // Khởi tạo Pusher
-  //         const pusher = new Pusher("2798806e868dbe640e2e", {
-  //           cluster: "ap1",
-  //         });
-
-  //         // Đăng ký kênh theo id người dùng
-  //         const channel = pusher.subscribe("user-notification-" + response.user.id);
-
-  //         // Xử lý sự kiện thông báo từ Pusher
-  //         channel.bind("notification-event-test", function (data) {
-  //           fetchNoti(); // Lấy thông báo khi có thông báo mới
-  //         });
-  //       } catch (error) {
-  //         console.error("Không có dữ liệu:", error);
-  //       }
-  //     };
-  //     fetchUser();
-  //   }
-  // }, [token]);
   const handleLogout = async () => {
     // console.log(token);
     try {
