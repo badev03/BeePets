@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\SendMailEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Bill;
 use App\Models\Order_detail;
 use App\Models\Products;
 use App\Models\User;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -60,10 +62,43 @@ class OrderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $model = Bill::query()->findOrFail($id);
-        $model->status = $request->status;
-        $model->save();
-        return redirect()->route('purchase.index')->with('success', 'Cập nhật trạng thái thành công!');
+        try {
+            $model = Bill::query()->findOrFail($id);
+            $model->status = $request->status;
+            $order_details = Order_detail::query()->where('bill_id', $id)
+                ->join('products', 'products.id', '=', 'order_details.product_id')
+                ->select('order_details.*', 'products.name as product_name')
+                ->get();
+            foreach ($order_details as $order_detail) {
+                $product = Products::query()->find($order_detail->product_id);
+                $product->quantity = $product->quantity + $order_detail->quantity;
+                $product->save();
+            }
+            $model->save();
+            $data = [
+                'title' => 'Đơn hàng ' . $model->code . ' đã được cập nhật trạng thái',
+                'content' => 'Đơn hàng ' . $model->code . ' đã được cập nhật trạng thái '
+                    . ($model->status == 3 ? 'Đã hoàn trả' : ' ') .' vào lúc ' . date('H:i:s d-m-Y', strtotime($model->updated_at)),
+                'email' => $model->customer_email,
+                'name' => $model->customer_name,
+                'phone' => $model->customer_phone,
+                'code' => $model->code,
+                'total_amount' => $model->total_amount,
+                'status' => $model->status == 1 ? 'Đã thanh toán' : ($model->status == 2 ? 'Đã hủy' : ($model->status == 3 ? 'Đã hoàn trả' : 'Đã hủy')),
+                'payment_method' => $model->payment_method == 1 ? 'Thanh toán tại quầy (Tiền mặt)' : 'Thanh toán online (VNPAY)',
+                'order_detail' => $order_details,
+            ];
+            if(!empty($data)) {
+                if($data['email'] != null) {
+                    event(new SendMailEvent($data));
+                }
+            }
+
+            Toastr::success('Cập nhật trạng thái thành công!', 'Success');
+        } catch (\Exception $exception) {
+            Toastr::error('Cập nhật trạng thái thất bại!', 'Error');
+        }
+        return redirect()->route('purchase.index');
     }
 
     /**
@@ -78,36 +113,43 @@ class OrderController extends Controller
     {
         return view('admin.checkout.index');
     }
-    public function cash(Request $request) {
-        $bill = Bill::query()->create(
-            [
-                'code' => 'DH' . rand(100000, 999999),
-                'customer_name' => $request->customer_name,
-                'customer_phone' => $request->customer_phone,
-                'customer_email' => $request->customer_email,
-                'status' => 1,
-                'total_amount' => $request->total_price,
-                'note' => 'Thanh toán tại quầy',
-                'transaction_type' => 2,
-                'payment_method' => 1,
-            ]
-        );
-        $bill_id = $bill->id;
-        $carts = session()->get('carts');
 
-        foreach ($carts as $key => $value) {
-            $this->updateQuantity($key, $value['quantity']);
-            Order_detail::query()->create(
+    public function cash(Request $request)
+    {
+        try {
+            $bill = Bill::query()->create(
                 [
-                    'bill_id' => $bill_id,
-                    'product_id' => $key,
-                    'quantity' => $value['quantity'],
-                    'unit_price' => $value['price'],
+                    'code' => 'DH' . rand(100000, 999999),
+                    'customer_name' => $request->customer_name,
+                    'customer_phone' => $request->customer_phone,
+                    'customer_email' => $request->customer_email,
+                    'status' => 1,
+                    'total_amount' => $request->total_price,
+                    'note' => 'Thanh toán tại quầy',
+                    'transaction_type' => 2,
+                    'payment_method' => 1,
                 ]
             );
+            $bill_id = $bill->id;
+            $carts = session()->get('carts');
+
+            foreach ($carts as $key => $value) {
+                $this->updateQuantity($key, $value['quantity']);
+                Order_detail::query()->create(
+                    [
+                        'bill_id' => $bill_id,
+                        'product_id' => $key,
+                        'quantity' => $value['quantity'],
+                        'unit_price' => $value['price'],
+                    ]
+                );
+            }
+            session()->forget('carts');
+            Toastr::success('Đặt hàng thành công!', 'Success');
+        } catch (\Exception $exception) {
+            Toastr::error('Đặt hàng thất bại!', 'Error');
         }
-        session()->forget('carts');
-        return redirect()->route('purchase.index')->with('success', 'Đặt hàng thành công!');
+        return redirect()->route('purchase.index');
     }
 
     public function vnpay(Request $request)
@@ -122,7 +164,7 @@ class OrderController extends Controller
         $vnp_Locale = 'vn';
         $vnp_BankCode = 'NCB';
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
-        $vnp_OrderInfo = $request->customer_name . '|' . $request->customer_phone .'|'. $request->customer_email;
+        $vnp_OrderInfo = $request->customer_name . '|' . $request->customer_phone . '|' . $request->customer_email;
         $inputData = array(
             "vnp_Version" => "2.1.0",
             "vnp_TmnCode" => $vnp_TmnCode,
@@ -175,45 +217,51 @@ class OrderController extends Controller
 
     public function vnpayReturn(Request $request)
     {
-        if($request->vnp_ResponseCode == '00' && $request->vnp_TransactionStatus == '00'){
-            //code  customer_name customer_email  customer_phone  status  total_price  note  user_id  payment_method
-            $infoUser = $request->vnp_OrderInfo;
-            $parts  = explode('|', $infoUser);
-            $customer_name = $parts[0];
-            $customer_phone = $parts[1];
-            $customer_email = $parts[2];
-            $total_price = $request->vnp_Amount / 100;
-            $code = $request->vnp_TxnRef;
-            Bill::query()->create(
-                [
-                    'code' => $code,
-                    'customer_name' => $customer_name,
-                    'customer_phone' => $customer_phone,
-                    'customer_email' => $customer_email,
-                    'status' => 1,
-                    'total_amount' => $total_price,
-                    'note' => 'Thanh toán tại quầy',
-                    'transaction_type' => 2,
-                    'payment_method' => 2,
-                ]
-            );
-            $bill_id = Bill::query()->where('code', $code)->first()->id;
-            $carts = session()->get('carts');
-            foreach ($carts as $key => $value) {
-                $this->updateQuantity($key, $value['quantity']);
-                Order_detail::query()->create(
+        try {
+            if ($request->vnp_ResponseCode == '00' && $request->vnp_TransactionStatus == '00') {
+                //code  customer_name customer_email  customer_phone  status  total_price  note  user_id  payment_method
+                $infoUser = $request->vnp_OrderInfo;
+                $parts = explode('|', $infoUser);
+                $customer_name = $parts[0];
+                $customer_phone = $parts[1];
+                $customer_email = $parts[2];
+                $total_price = $request->vnp_Amount / 100;
+                $code = $request->vnp_TxnRef;
+                Bill::query()->create(
                     [
-                        'bill_id' => $bill_id,
-                        'product_id' => $key,
-                        'quantity' => $value['quantity'],
-                        'unit_price' => $value['price'],
+                        'code' => $code,
+                        'customer_name' => $customer_name,
+                        'customer_phone' => $customer_phone,
+                        'customer_email' => $customer_email,
+                        'status' => 1,
+                        'total_amount' => $total_price,
+                        'note' => 'Thanh toán tại quầy',
+                        'transaction_type' => 2,
+                        'payment_method' => 2,
                     ]
                 );
+                $bill_id = Bill::query()->where('code', $code)->first()->id;
+                $carts = session()->get('carts');
+                foreach ($carts as $key => $value) {
+                    $this->updateQuantity($key, $value['quantity']);
+                    Order_detail::query()->create(
+                        [
+                            'bill_id' => $bill_id,
+                            'product_id' => $key,
+                            'quantity' => $value['quantity'],
+                            'unit_price' => $value['price'],
+                        ]
+                    );
+                }
+                session()->forget('carts');
+                Toastr::success('Đặt hàng thành công!', 'Success');
             }
-            session()->forget('carts');
-            return redirect()->route('products.index')->with('success', 'Đặt hàng thành công!');
+        } catch (\Exception $exception) {
+            Toastr::error('Đặt hàng thất bại!', 'Error');
         }
+        return redirect()->route('purchase.index');
     }
+
     public function momoPay(Request $request)
     {
         $endpoint = "https://test-payment.momo.vn/gw_payment/transactionProcessor";

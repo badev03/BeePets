@@ -31,11 +31,14 @@
     <link rel="stylesheet" href="{{asset('backend/assets/plugins/morris/morris.css')}}">
 
     <link rel="stylesheet" href="{{asset('backend/assets/css/custom.css')}}">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
 
     @stack('style')
 </head>
 <body>
-
+<script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+{!! Toastr::message() !!}
 <div class="main-wrapper">
 @include('layouts.partials.header')
 
