@@ -2,12 +2,12 @@ import instance from "./instance";
 
 const blogApi = {
   getAll(params) {
-    const url = "/new-post";
+    const url = "/new";
     return instance.get(url, { params });
   },
 
-  get(id) {
-    const url = `/new-post/${id}`;
+  get(slug) {
+    const url = `/new/${slug}`;
     return instance.get(url);
   },
   

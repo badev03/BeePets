@@ -57,7 +57,7 @@ function App() {
 
           <Route path='doctor/profile/:id' element={<DoctorProfile />} />
           <Route path='blog' element={<BlogList />} />
-          <Route path='blog/:id' element={<BlogDetails />} />
+          <Route path='blog/:slug' element={<BlogDetails />} />
           <Route path="blogs/category/:categoryId" element={<BlogList />} />
 
           <Route path='service-detail/:slug' element={<ServiceDetails />} />

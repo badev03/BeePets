@@ -21,7 +21,7 @@ const BlogList = () => {
 
   const handleSearchSubmit = (searchResults) => {
     setSearchedBlogs(searchResults);
-    setBlogs([]); // Đặt blogs thành mảng trống để ẩn danh sách gốc khi hiển thị kết quả tìm kiếm
+    setBlogs([]); 
     setShowPagination(false);
   };
 
@@ -29,8 +29,7 @@ const BlogList = () => {
     const fetchBlog = async () => {
       try {
         const response = await blogApi.getAll({ new_categorie_id: categoryId });
-        // console.log(response.new[0]);
-        setBlogs(response.new);
+        setBlogs(response.new.data);
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
@@ -87,7 +86,7 @@ const BlogList = () => {
                       <div key={blog.id} className="col-md-6 col-sm-12">
                         <div className="blog grid-blog">
                           <div className="blog-image">
-                            <Link to={`/blog/${blog.id}`}>
+                            <Link to={`/blog/${blog.slug}`}>
                               <img
                                 className="img-fluid"
                                 src={blog.image}
@@ -103,7 +102,7 @@ const BlogList = () => {
                               </li>
                             </ul>
                             <h3 className="blog-title">
-                              <Link to={`/blog/${blog.id}`}>{blog.name}</Link>
+                              <Link to={`/blog/${blog.slug}`}>{blog.name}</Link>
                             </h3>
                             <div
                               dangerouslySetInnerHTML={{
@@ -118,7 +117,7 @@ const BlogList = () => {
                       <div key={blog.id} className="col-md-6 col-sm-12">
                         <div className="blog grid-blog">
                           <div className="blog-image">
-                            <Link to={`/blog/${blog.id}`}>
+                            <Link to={`/blog/${blog.slug}`}>
                               <img
                                 className="img-fluid"
                                 src={blog.image}
@@ -134,7 +133,7 @@ const BlogList = () => {
                               </li>
                             </ul>
                             <h3 className="blog-title">
-                              <Link to={`/blog/${blog.id}`}>{blog.name}</Link>
+                              <Link to={`/blog/${blog.slug}`}>{blog.name}</Link>
                             </h3>
                             <div
                               dangerouslySetInnerHTML={{
