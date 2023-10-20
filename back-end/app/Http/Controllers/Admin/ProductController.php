@@ -18,7 +18,7 @@ class ProductController extends BaseAdminController
     public $folderImage = 'image/products';
     protected $permissionCheckCrud = 'role';
     protected $FIELD_SELECT_CUSTOM_CONTROLLER = ['product_categorie_id'];
-
+    public $listIndex = ['Categories'];
     public $titleIndex = 'Danh sách sản phẩm';
     public $titleCreate = 'Thêm mới sản phẩm';
     public $titleShow = 'Xem chi tiết  sản phẩm';
