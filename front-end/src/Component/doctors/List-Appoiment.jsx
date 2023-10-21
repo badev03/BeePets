@@ -53,17 +53,17 @@ const AppoimentList = () => {
               <td>
                 <h2 className="table-avatar">
                   <a href="doctor-profile.html" className="avatar avatar-sm me-2">
-                    <img className="avatar-img rounded-circle" src={appointment.avatar} alt="User Image" />
+                    <img className="avatar-img rounded-circle" src={appointment.image} alt="User Image" />
                   </a>
-                  <a href="doctor-profile.html">{appointment.doctor_name} </a>
+                  <a href="doctor-profile.html">{appointment.name} </a>
                 </h2>
               </td>
               <td>{appointment.date} <span className="d-block text-info">{appointment.shift_name}</span></td>
               <td>{appointment.appointment_created_at}</td>
               <td>
-                {appointment.appointment_status == 1 ? (
+                {appointment.status == 1 ? (
                   <span className="badge rounded-pill bg-success-light">Xác nhận</span>
-                ) : appointment.appointment_status == 2 ? (
+                ) : appointment.status == 2 ? (
                   <span class="badge rounded-pill bg-danger-light">Đã hủy</span>
                 ) : (
                   // Optional default case
