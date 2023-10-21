@@ -36229,3 +36229,56 @@ input:checked + .tog-slider:before {
     font-size: 14px;
   }
 }
+.pagination-doctor {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px;
+  margin-right: 10px;
+}
+
+.pagination {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.pagination li {
+  margin: 0 3px;
+}
+
+.pagination a {
+  /* color: #007bff; */
+  border: 1px solid #007bff;
+  padding: 5px 10px;
+  text-decoration: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.previousBttn,
+.nextBttn {
+  /* background-color: #007bff; */
+  color: #fff;
+  border: 1px solid #007bff;
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+
+/* .active {
+  background-color: #007bff;
+  color: #fff;
+} */
+
+@media (max-width: 768px) {
+  .pagination-doctor {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .pagination {
+    margin-top: 15px;
+  }
+}
