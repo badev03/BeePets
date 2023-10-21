@@ -66,6 +66,7 @@ const Booking = () => {
           doctorsForService.length > 0 ? doctorsForService[0].id : null;
 
         setSelectedDoctor(doctorId);
+     
       }
     }
   }, [selectedService, serviceDoctor]);
@@ -146,6 +147,7 @@ const Booking = () => {
       });
 
       console.log("Booking successful");
+      console.log(bookingData);
     } catch (error) {
       console.error("Error while booking:", error);
       MySwal.fire({
@@ -154,7 +156,7 @@ const Booking = () => {
         icon: "error",
       });
     } finally {
-      resetForm();
+      // resetForm();
       setIsModalOpen(false);
     }
   };

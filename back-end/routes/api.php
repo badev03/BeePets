@@ -135,7 +135,7 @@ Route::post('update-bill/{id}', [DoctorController::class, 'updateBill']);
 
 
     //lấy ra lịch sử khám của khách hàng
-    Route::get('/history/{id}', [DoctorController::class, 'getHistoryByUser']);
+    // Route::get('/history/{id}', [DoctorController::class, 'getHistoryByUser']);
 
     Route::get('reviews', [ReviewsController::class, 'store']);
     Route::post('logout', [AuthController::class, 'LogoutUser']);
@@ -145,11 +145,14 @@ Route::post('update-bill/{id}', [DoctorController::class, 'updateBill']);
     Route::get('/get-notification-doctor',  [NotificationController::class, 'getNotificationDoctor']);
     Route::post('/send-notification',  [\App\Http\Controllers\Admin\HomeController::class, 'SendNotification']);
 });
+
+// xem lich hen cua user tu ben bac si
 Route::get('/list-appiontment/{id}', [DoctorController::class, 'getAppiontment']);
-//get one
+// xem chi tiết lịch hẹn  khách hàng của bác sĩ 
 Route::get('/get-appiontment/{id}', [DoctorController::class, 'getAppiontmentByID']);
 
-//get one appointment by user
+// xem chi tiết lịch hẹn của user
+
 Route::get('/get-appointment-user/{id}', [UserController::class, 'getAppiontmentByID']);
 
 //change password doctor
@@ -161,7 +164,7 @@ Route::get('/bills/{id}', [DoctorController::class, 'billByUser']);
 //get detail bill
 Route::get('/detail-bill/{id}', [DoctorController::class, 'detailBill']);
 
-//get prescription by user
+//  bác sĩ xem đơn thuốc chi tiết khác hàng 
 Route::get('/prescription/{id}', [DoctorController::class, 'prescriptionByUser']);
 
 
