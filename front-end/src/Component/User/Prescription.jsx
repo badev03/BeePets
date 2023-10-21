@@ -1,7 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+
 import { Link } from 'react-router-dom'
+import prescriptionUsersApi from '../../api/prescription';
 
 const Prescription = () => {
+  const [prescription, setPrescription] = useState([]);
+
+  const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    if (token) {
+      const fetchsetPrescription = async () => {
+        try {
+          const response = await prescriptionUsersApi.getPrescription({
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setPrescription(response.prescriptions);
+          // console.log(response.appointments);
+        } catch (error) {
+          console.error('Không có dữ liệu:', error);
+        }
+      };
+
+      fetchsetPrescription();
+    }
+  }, [token]);
   return (
     <div className="tab-pane fade" id="pat_prescriptions">
                   <div className="card card-table mb-0">
@@ -18,167 +43,33 @@ const Prescription = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                              <td>001</td>
+                          {prescription.map(prescription => (
+                            <tr key={prescription.prescription_id}>
+                            <td>{prescription.prescription_id}</td>
 
-                              <td>14 Nov 2023</td>
-                              <td>Prescription 1</td>
-                              <td>
-                                <h2 className="table-avatar">
-                                  <a href="doctor-profile.html" className="avatar avatar-sm me-2">
-                                    <img className="avatar-img rounded-circle" src="../src/assets/img/doctors/doctor-thumb-01.jpg" alt="User Image" />
-                                  </a>
-                                  <a href="doctor-profile.html">Dr. Ruby Perrin <span>Dental</span></a>
-                                </h2>
-                              </td>
-                              <td>
-                              <div className="table-action">
-                                  
-                                  <button className="btn btn-sm bg-info-light">
-                                    <Link to={"/user/prescription"}> <i className="far fa-eye" /> View</Link>
-                                   
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>001</td>
-
-                              <td>14 Nov 2023</td>
-                              <td>Prescription 1</td>
-                              <td>
-                                <h2 className="table-avatar">
-                                  <a href="doctor-profile.html" className="avatar avatar-sm me-2">
-                                    <img className="avatar-img rounded-circle" src="../src/assets/img/doctors/doctor-thumb-01.jpg" alt="User Image" />
-                                  </a>
-                                  <a href="doctor-profile.html">Dr. Ruby Perrin <span>Dental</span></a>
-                                </h2>
-                              </td>
-                              <td>
-                              <div className="table-action">
-                                  
-                                  <button className="btn btn-sm bg-info-light">
-                                    <Link to={"/user/prescription"}> <i className="far fa-eye" /> View</Link>
-                                   
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>001</td>
-
-                              <td>14 Nov 2023</td>
-                              <td>Prescription 1</td>
-                              <td>
-                                <h2 className="table-avatar">
-                                  <a href="doctor-profile.html" className="avatar avatar-sm me-2">
-                                    <img className="avatar-img rounded-circle" src="../src/assets/img/doctors/doctor-thumb-01.jpg" alt="User Image" />
-                                  </a>
-                                  <a href="doctor-profile.html">Dr. Ruby Perrin <span>Dental</span></a>
-                                </h2>
-                              </td>
-                              <td>
-                              <div className="table-action">
-                                  
-                                  <button className="btn btn-sm bg-info-light">
-                                    <Link to={"/user/prescription"}> <i className="far fa-eye" /> View</Link>
-                                   
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>001</td>
-
-                              <td>14 Nov 2023</td>
-                              <td>Prescription 1</td>
-                              <td>
-                                <h2 className="table-avatar">
-                                  <a href="doctor-profile.html" className="avatar avatar-sm me-2">
-                                    <img className="avatar-img rounded-circle" src="../src/assets/img/doctors/doctor-thumb-01.jpg" alt="User Image" />
-                                  </a>
-                                  <a href="doctor-profile.html">Dr. Ruby Perrin <span>Dental</span></a>
-                                </h2>
-                              </td>
-                              <td>
-                              <div className="table-action">
-                                  
-                                  <button className="btn btn-sm bg-info-light">
-                                    <Link to={"/user/prescription"}> <i className="far fa-eye" /> View</Link>
-                                   
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>001</td>
-
-                              <td>14 Nov 2023</td>
-                              <td>Prescription 1</td>
-                              <td>
-                                <h2 className="table-avatar">
-                                  <a href="doctor-profile.html" className="avatar avatar-sm me-2">
-                                    <img className="avatar-img rounded-circle" src="../src/assets/img/doctors/doctor-thumb-01.jpg" alt="User Image" />
-                                  </a>
-                                  <a href="doctor-profile.html">Dr. Ruby Perrin <span>Dental</span></a>
-                                </h2>
-                              </td>
-                              <td>
-                              <div className="table-action">
-                                  
-                                  <button className="btn btn-sm bg-info-light">
-                                    <Link to={"/user/prescription"}> <i className="far fa-eye" /> View</Link>
-                                   
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>001</td>
-
-                              <td>14 Nov 2023</td>
-                              <td>Prescription 1</td>
-                              <td>
-                                <h2 className="table-avatar">
-                                  <a href="doctor-profile.html" className="avatar avatar-sm me-2">
-                                    <img className="avatar-img rounded-circle" src="../src/assets/img/doctors/doctor-thumb-01.jpg" alt="User Image" />
-                                  </a>
-                                  <a href="doctor-profile.html">Dr. Ruby Perrin <span>Dental</span></a>
-                                </h2>
-                              </td>
-                              <td>
-                              <div className="table-action">
-                                  
-                                  <button className="btn btn-sm bg-info-light">
-                                    <Link to={"/user/prescription"}> <i className="far fa-eye" /> View</Link>
-                                   
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>001</td>
-
-                              <td>14 Nov 2023</td>
-                              <td>Prescription 1</td>
-                              <td>
-                                <h2 className="table-avatar">
-                                  <a href="doctor-profile.html" className="avatar avatar-sm me-2">
-                                    <img className="avatar-img rounded-circle" src="../src/assets/img/doctors/doctor-thumb-01.jpg" alt="User Image" />
-                                  </a>
-                                  <a href="doctor-profile.html">Dr. Ruby Perrin <span>Dental</span></a>
-                                </h2>
-                              </td>
-                              <td>
-                              <div className="table-action">
-                                  
-                                  <button className="btn btn-sm bg-info-light">
-                                    <Link to={"/user/prescription"}> <i className="far fa-eye" /> View</Link>
-                                   
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
+                            <td>{prescription.created_at}</td>
+                            <td>{prescription.name}</td>
+                            <td>
+                              <h2 className="table-avatar">
+                                <a href="doctor-profile.html" className="avatar avatar-sm me-2">
+                                  <img className="avatar-img rounded-circle" src={prescription.doctor_image} alt="User Image" />
+                                </a>
+                                <a href="doctor-profile.html"> {prescription.created_by}<span>{prescription.created_by}</span></a>
+                              </h2>
+                            </td>
+                            <td>
+                            <div className="table-action">
+                                
+                                <button className="btn btn-sm bg-info-light">
+                                  <Link to={"/user/prescription"}> <i className="far fa-eye" /> View</Link>
+                                 
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                          ))}
+                            
+                            
                           </tbody>
                         </table>
                       </div>
