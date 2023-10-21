@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import ReactPaginate from 'react-paginate';
-import doctorsApi from '../../api/doctorsApi';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import ReactPaginate from "react-paginate";
+import doctorsApi from "../../api/doctorsApi";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import BookingDoctor from './BookingDoctor';
-
+import BookingDoctor from "./BookingDoctor";
 
 const Search = ({ data }) => {
   const [doctors, setDoctors] = useState([]);
@@ -31,7 +30,7 @@ const Search = ({ data }) => {
       try {
         const response = await axios.post(
           `http://127.0.0.1:8000/api/service-filter-doctor`,
-          { service: data }
+          { service: data },
         );
         setDoctors(response.data.service);
       } catch (error) {
@@ -54,34 +53,48 @@ const Search = ({ data }) => {
 
   const displayDoctors = doctors
     .slice(pagesVisited, pagesVisited + doctorsPerPage)
-    .map(doctor => (
-      <div  key={doctor.id} className="card">
+    .map((doctor) => (
+      <div key={doctor.id} className="card">
         <div className="card-body">
           <div className="doctor-widget">
             <div className="doc-info-left">
               <div className="doctor-img">
                 <a href="doctor-profile.html">
-                  <img src={doctor.image} className="img-fluid" alt="User Image" />
+                  <img
+                    src={doctor.image}
+                    className="img-fluid"
+                    alt="User Image"
+                  />
                 </a>
               </div>
               <div className="doc-info-cont">
                 <h4 className="doc-name">
-                <Link to={`/doctor/profile/${doctor.slug}`}>{doctor.name}</Link>
-                  </h4>
+                  <Link to={`/doctor/profile/${doctor.slug}`}>
+                    {doctor.name}
+                  </Link>
+                </h4>
                 {/* <p className="doc-speciality">{doctor.description.service}
                 </p> */}
-              
+
                 <div className="rating">
-                {Array.from({ length: doctor.average_score }, (_, index) => (
+                  {Array.from({ length: doctor.average_score }, (_, index) => (
                     <i key={index} className="fas fa-star filled" />
                   ))}
-                  {Array.from({ length: 5 - doctor.average_score }, (_, index) => (
-                    <i key={index} className="fas fa-star" />
-                  ))}
-                  <span className="d-inline-block average-rating">( {doctor.review_count} )</span>
+                  {Array.from(
+                    { length: 5 - doctor.average_score },
+                    (_, index) => (
+                      <i key={index} className="fas fa-star" />
+                    ),
+                  )}
+                  <span className="d-inline-block average-rating">
+                    ( {doctor.review_count} )
+                  </span>
                 </div>
                 <div className="clinic-details">
-                  <p className="doc-location"><i className="fas fa-map-marker-alt" />{doctor.address}</p>
+                  <p className="doc-location">
+                    <i className="fas fa-map-marker-alt" />
+                    {doctor.address}
+                  </p>
                   <ul className="clinic-gallery">
                     <li>
                       <a href={doctor.image.anh1} data-fancybox="gallery">
@@ -105,53 +118,67 @@ const Search = ({ data }) => {
                     </li>
                   </ul>
                 </div>
-              
               </div>
             </div>
             <div className="doc-info-right">
               <div className="clini-infos">
                 <ul>
                   {/* <li><i className="far fa-thumbs-up" /> 98%</li> */}
-                  <li><i className="far fa-comment" /> {doctor.review_count} Feedback</li>
+                  <li>
+                    <i className="far fa-comment" /> {doctor.review_count}{" "}
+                    Feedback
+                  </li>
                   {/* <li><i className="fas fa-map-marker-alt" /> Florida, USA</li> */}
                 </ul>
               </div>
               <div className="clinic-booking">
-                <Link className="view-pro-btn" to={`/doctor/profile/${doctor.slug}`}>Xem hồ sơ</Link>
+                <Link
+                  className="view-pro-btn"
+                  to={`/doctor/profile/${doctor.slug}`}
+                >
+                  Xem hồ sơ
+                </Link>
                 <button
-                    className="btn btn-info"
-                    style={{
-                      fontSize: '13px',
-                      letterSpacing: 'normal',
-                      padding: '7px 20px',
-                      width: '200px',
-                      marginTop: '10px'
-
-                    }}
-                    onClick={() => handleBookingg(doctor.id)}
-                  >
-                    <BookingDoctor doctorId={selectedDoctorId === doctor.id ? selectedDoctorId : null} />
-                  </button>
+                  className="btn btn-info"
+                  style={{
+                    fontSize: "13px",
+                    letterSpacing: "normal",
+                    padding: "7px 20px",
+                    width: "200px",
+                    marginTop: "10px",
+                  }}
+                  onClick={() => handleBookingg(doctor.id)}
+                >
+                  <BookingDoctor
+                    doctorId={
+                      selectedDoctorId === doctor.id ? selectedDoctorId : null
+                    }
+                  />
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-      ));
+    ));
 
   return (
-    <div >
+    <div>
       {displayDoctors}
-      <div  className="blog-pagination">
-      <ReactPaginate
-        nextLabel={<FaChevronRight />}
-        previousLabel={<FaChevronLeft />}
-        pageCount={pageCount}
-        onPageChange={changePage}
-        containerClassName={'pagination'}
-        previousLinkClassName={'previousBttn'}
-        activeClassName={'active'}
-      />
+      <div className="row">
+        <div className="col-md-12 col-lg-12 col-sm-12">
+          <div className="blog-pagination" style={{ marginTop: "30px" }}>
+            <ReactPaginate
+              nextLabel={<FaChevronRight />}
+              previousLabel={<FaChevronLeft />}
+              pageCount={pageCount}
+              onPageChange={changePage}
+              containerClassName={"pagination"}
+              previousLinkClassName={"previousBttn"}
+              activeClassName={"active"}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
