@@ -250,6 +250,9 @@
       <path value="$PROJECT_DIR$/back-end/vendor/paragonie/random_compat" />
       <path value="$PROJECT_DIR$/back-end/vendor/pusher/pusher-php-server" />
       <path value="$PROJECT_DIR$/back-end/vendor/paragonie/sodium_compat" />
+      <path value="$PROJECT_DIR$/back-end/vendor/barryvdh/laravel-debugbar" />
+      <path value="$PROJECT_DIR$/back-end/vendor/maximebf/debugbar" />
+      <path value="$PROJECT_DIR$/back-end/vendor/brian2694/laravel-toastr" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />
