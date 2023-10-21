@@ -128,15 +128,11 @@ class DoctorController extends Controller
     {
         if (Auth::guard('doctors')->check()) {
             $doctor_id = Auth::guard('doctors')->user()->id;
-            //Tên bác sĩ, Ngày đặt lịch, Tổng tiền, trạng thái của bác sĩ và user, $id là id của user
-            $appointments = Appointment::where('appointments.user_id', $id)
-                ->join('users', 'users.id', '=', 'appointments.user_id')
+            $appointments = Appointment::select('doctors.name','doctors.image','appointments.id', 'appointments.date', 'appointments.time', 'appointments.status', 'appointments.shift_name')
                 ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
-                ->join('bills', 'bills.appointment_id', '=', 'appointments.id')
-                ->select('appointments.id','users.name as user_name', 'doctors.name as doctor_name', 'appointments.date', 'bills.total_amount',
-                    'appointments.status as appointment_status', 'doctors.status as doctor_status','appointments.created_at as appointment_created_at','appointments.shift_name','doctors.image as doctor_image')
+                ->where('appointments.user_id', $id)
+                ->where('appointments.doctor_id', $doctor_id)
                 ->get();
-
             return response()->json([
                 'success' => true,
                 'message' => 'Lấy danh sách cuoc hen thành công',
