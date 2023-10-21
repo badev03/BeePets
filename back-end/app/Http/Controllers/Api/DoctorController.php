@@ -128,11 +128,13 @@ class DoctorController extends Controller
     {
         if (Auth::guard('doctors')->check()) {
             $doctor_id = Auth::guard('doctors')->user()->id;
-            $appointments = Appointment::select('doctors.name','doctors.image','appointments.id', 'appointments.date', 'appointments.time', 'appointments.status', 'appointments.shift_name')
+            $appointments = Appointment::select('doctors.name','doctors.image','appointments.id', 'appointments.date', 'appointments.time', 'appointments.status', 'appointments.shift_name','appointments.created_at as appointment_created_at')
                 ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
                 ->where('appointments.user_id', $id)
                 ->where('appointments.doctor_id', $doctor_id)
                 ->get();
+
+
             return response()->json([
                 'success' => true,
                 'message' => 'Lấy danh sách cuoc hen thành công',
