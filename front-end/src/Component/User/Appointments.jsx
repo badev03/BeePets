@@ -88,7 +88,7 @@ const Appointments = () => {
                     <td>{appointment.date}</td>
                     <td>
                       <span className={`badge rounded-pill ${parseInt(appointment.status) === 0 ? 'bg-success-light' : parseInt(appointment.status) === 1 ? 'bg-danger-light' : ''}`}>
-                        {parseInt(appointment.status) === 0 ? 'Confirm' : parseInt(appointment.status) === 1 ? 'Panding' : ''}
+                        {parseInt(appointment.status) === 0 ? 'Confirm' : parseInt(appointment.status) === 1 ? 'Pending' : ''}
                       </span>
                     </td>
                     <td>

@@ -10,9 +10,12 @@ use App\Models\Appointment;
 use Illuminate\Http\Request;
 use App\Models\Work_schedule;
 use Illuminate\Support\Carbon;
+use App\Interfaces\MessageUser;
 use App\Http\Controllers\Controller;
-use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Validator;
+
 
 class BookingController extends Controller
 {
@@ -130,10 +133,13 @@ class BookingController extends Controller
 
 
     // lưu dữ liệu đã chọn vào bảng appointment
-    public function save(Request $request)
+    public function save(Request $request,MessageUser $messageInterface)
     {
         try {
-            $this->validateBookingRequest($request);
+            
+            $validator = $this->validateBookingRequest($request);
+    
+         
             $name = $request->input('name');
             $phone = $request->input('phone');
 
@@ -150,6 +156,7 @@ class BookingController extends Controller
                 $user->save();
                 $user_id = $user->id;
             }
+           
             $model = new Appointment();
             $model->fill(array_merge($request->all(), [
                 'user_id' => $user_id,
@@ -158,22 +165,24 @@ class BookingController extends Controller
 
             $model->save();
           
-            event(new \App\Events\MessageSendNotification($user_id,'bạn đã đặt lịch hẹn của thành công vui lòng chờ xác nhận của bác sĩ', $request->doctor_id, 'Có lịch hẹn mới'));
+        //    event(new \App\Events\MessageSendNotification($user_id,'bạn đã đặt lịch hẹn của thành công vui lòng chờ xác nhận của bác sĩ', $request->doctor_id, 'Có lịch hẹn mới'));
+            $messageInterface->sendMessage($user_id,'Vui lòng chờ xác nhận của bác sĩ', $request->doctor_id, 'Có cuộc hẹn mới từ khách hàng');
+
             
-            return response()->json(['message' => 'Đã tạo cuộc hẹn thành công'], 201);
-        } catch (QueryException $e) {
+            return response()->json(['message' => $request->all()], 201);
+        } catch (\Illuminate\Validation\ValidationException $e) {
             // dd($e->getMessage());
-            return response()->json(['message' => 'Lưu dữ liệu thất bại.'], 500);
+            $errors = $e->validator->errors();
+            return response()->json(['errors' => $errors], 500);
         }
     }
 
 
     private function validateBookingRequest(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'doctor_id' => 'required|exists:doctors,id',
             'date' => 'required|date_format:Y-m-d',
-            // 'time' => 'required|date_format:H:i:s',
             'shift_name' => 'required',
             'type_pet_id' => 'required|exists:type_pets,id',
             'service_id' => 'required|exists:services,id',
@@ -182,6 +191,12 @@ class BookingController extends Controller
             'exists' => ':attribute không tồn tại',
             'date_format' => ':attribute không đúng định dạng',
         ]);
+    
+        if ($validator->fails()) {
+            throw new \Illuminate\Validation\ValidationException($validator);
+        }
+    
+        return $validator;
     }
 
 
@@ -221,7 +236,8 @@ class BookingController extends Controller
     }
 
 
-    public function updateStatus(Request $request ,$id){
+    public function updateStatus(Request $request ,$id,MessageUser $messageInterface){
+  
         if(Auth::guard('doctors')->check()){
             $doctor = auth()->user();
             $appointment = Appointment::where('id', $id)->where('doctor_id', $doctor->id)->first();
@@ -235,6 +251,7 @@ class BookingController extends Controller
             $service_price = floatval($service_price->price);
             $appointment->status = $request->input('status');
             $appointment->save();
+            $messageInterface->sendMessage($appointment->user_id,'bác sĩ đã xác nhận cuộc hẹn của bạn', $doctor->id, 'Có cuộc hẹn mới');
             $bill = $this->doctorController->createBill($appointment->id, $doctor->id, $appointment->user_id,$appointment->service_id,$service_price);
             return response()->json(['message' => 'Cập nhật trạng thái thành công'
             ,'bill'=>$bill], 200);
