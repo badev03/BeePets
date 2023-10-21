@@ -195,22 +195,22 @@ const Booking = () => {
     return current && current < today.startOf("day");
   };
 
-  const resetForm = () => {
-    setIsModalOpen(false);
-    setSelectedService([]);
-    setDoctorOptions([]);
-    setSelectedDoctor(null);
-    setSelectedDate(null);
-    setSelectedWorkingHours([]);
-    setSelectedPet(null);
-    // setSelectedPhone("");
-    // setSelectedName("");
-    setSelectedDescription("");
-    setIsNameEditable(true);
-    setIsPhoneEditable(true);
+  // const resetForm = () => {
+  //   setIsModalOpen(false);
+  //   setSelectedService([]);
+  //   setDoctorOptions([]);
+  //   setSelectedDoctor(null);
+  //   setSelectedDate(null);
+  //   setSelectedWorkingHours([]);
+  //   setSelectedPet(null);
+  //   // setSelectedPhone("");
+  //   // setSelectedName("");
+  //   setSelectedDescription("");
+  //   setIsNameEditable(true);
+  //   setIsPhoneEditable(true);
 
-    form.resetFields();
-  };
+  //   form.resetFields();
+  // };
 
   return (
     <>

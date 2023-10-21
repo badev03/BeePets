@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import blogCategoryApi from "../../api/categoryBlogApi";
 import BlogTopList from "./BlogTopList";
+import { Link } from "react-router-dom";
 
 const BlogSideBar = ({ onSearchChange, onSearchSubmit, searchTerm }) => {
   const [categoryBlogs, setCategoryBlogs] = useState([]);
@@ -33,10 +34,10 @@ const BlogSideBar = ({ onSearchChange, onSearchSubmit, searchTerm }) => {
           <ul className="categories">
             {categoryBlogs.map((category) => (
               <li key={category.id}>
-                <a href={`/blogs/category/${category.id}`}>
+                <Link to={`/blog/category/${category.id}`}>
                   {category.name}{" "}
                   <span>{category.new.length}</span>
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
