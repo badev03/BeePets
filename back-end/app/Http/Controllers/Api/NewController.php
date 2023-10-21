@@ -93,7 +93,7 @@ class NewController extends BaseResponseApiController
         $data = $this->query()
             ->where('newcs.slug', '=', $slug)
             ->first();
-        if($data->isEmpty()) {
+        if(!$data) {
             return response()->json(['message' => $this->title.'không có dữ liệu'], 404);
         }
         return response()->json([

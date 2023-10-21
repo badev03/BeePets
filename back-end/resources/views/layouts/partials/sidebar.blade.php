@@ -40,8 +40,14 @@
                     </ul>
                 </li>
                 @role('Admin')
-                <li>
-                    <a href="{{ route('notifications.index') }}"><i class=" {{ request()->routeIs('notifications.*') ? 'active' : '' }} fe fe-bell"></i> <span>Thông báo</span></a>
+                <li class="submenu">
+                    <a href="#">
+                        <i class="fe fe-bell"></i>
+                        <span> Thông báo</span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        <li><a class="{{ request()->routeIs('notifications.index') ? 'active' : '' }}" href="{{ route('notifications.index') }}">Thông báo người dùng</a></li>
+                        <li><a class="{{ request()->routeIs('notifications.doctor') ? 'active' : '' }}" href="{{ route('notifications.doctor') }}">Thông báo bác sĩ</a></li>
+                    </ul>
                 </li>
                 <li>
                     <a class="{{ request()->routeIs('doctors.*') ? 'active' : '' }}" href="{{ route('doctors.index') }}"><i class="fe fe-user-plus"></i> <span>Bác sĩ</span> </a>

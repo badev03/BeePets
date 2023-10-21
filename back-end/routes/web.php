@@ -73,6 +73,9 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
         Route::delete('restore-trash/appointment/{id}' , [AppointmentController::class , 'RestoreTrash'])->name('appointments.restore-trash');
         Route::delete('birthDayDoctor/destroy/{id}' , [NotificationController::class , 'destroy'])->name('birthDayDoctor.destroy');
         Route::get('birthDayDoctor/notifications' , [NotificationController::class , 'storeBirthdayDoctor'])->name('notifications.birthdayDoctor');
+        Route::get('doctors-notifications' , [NotificationController::class , 'DoctorIndex'])->name('notifications.doctor');
+        Route::post('send-notifications-user' , [NotificationController::class , 'SendNotificationUser'])->name('notifications.send-notifications-user');
+        Route::post('send-notifications-doctor' , [NotificationController::class , 'SendNotificationDoctor'])->name('notifications.send-notifications-doctor');
 
 
 

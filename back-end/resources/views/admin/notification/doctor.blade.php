@@ -23,7 +23,7 @@
                             </div>
                         </div>
                     </div>
-                    <livewire:notification-fillter />
+                    <livewire:notification-doctor />
             </div>
         </div>
     </div>
