@@ -133,6 +133,8 @@ class DoctorController extends Controller
                 ->where('appointments.user_id', $id)
                 ->where('appointments.doctor_id', $doctor_id)
                 ->get();
+
+
             return response()->json([
                 'success' => true,
                 'message' => 'Lấy danh sách cuoc hen thành công',
