@@ -12,7 +12,7 @@ const blogApi = {
   },
   
   search(name) {
-    const url = `/new-search/${name}`;
+    const url = `/new-post/${name}`;
     return instance.get(url);
   },
 };

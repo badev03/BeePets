@@ -7,7 +7,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
-  const { categoryId } = useParams();
+  const { id } = useParams()
   const [currentPage, setCurrentPage] = useState(0);
   const [postsPerPage] = useState(2);
   const [searchTerm, setSearchTerm] = useState("");
@@ -28,15 +28,22 @@ const BlogList = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await blogApi.getAll({ new_categorie_id: categoryId });
-        setBlogs(response.new.data);
+        const response = await blogApi.getAll();
+        if (id) {
+          const categoryBlogs = response.new.data.filter(
+            (blog) => console.log(blog.nameCategories) === id
+          );
+          setBlogs(categoryBlogs);
+        } else {
+          setBlogs(response.new.data);
+        }
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
     };
 
     fetchBlog();
-  }, [categoryId]);
+  }, [id]);
 
   function truncateText(text, lines) {
     const words = text.split(" ");
