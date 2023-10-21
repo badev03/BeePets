@@ -11,14 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bill_prescription', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('bill_id');
-            $table->unsignedBigInteger('prescription_id');
+        Schema::table('prescriptions', function (Blueprint $table) {
+            $table->unsignedBigInteger('bill_id')->after('price')->nullable();
             $table->foreign('bill_id')->references('id')->on('bills')->onDelete('cascade');
-            $table->foreign('prescription_id')->references('id')->on('prescriptions')->onDelete('cascade');
-            
-            $table->timestamps();
         });
     }
 
@@ -27,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bill_prescription');
+        Schema::table('prescriptions', function (Blueprint $table) {
+            //
+        });
     }
 };
