@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('bills', function (Blueprint $table) {
-            $table->unsignedBigInteger('bill_prescription_id')->after('appointment_id')->nullable();
-            $table->foreign('bill_prescription_id')->references('id')->on('bill_prescription')->onDelete('cascade');
-            
+        Schema::table('prescription_product', function (Blueprint $table) {
+            $table->dropColumn('id');
         });
     }
 
@@ -23,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('prescription_product', function (Blueprint $table) {
+            $table->id();
+        });
     }
 };
