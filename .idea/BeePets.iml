@@ -135,6 +135,9 @@
       <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/vonage/client" />
       <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/vonage/client-core" />
       <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/vonage/nexmo-bridge" />
+      <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/barryvdh/laravel-debugbar" />
+      <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/brian2694/laravel-toastr" />
+      <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/maximebf/debugbar" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
