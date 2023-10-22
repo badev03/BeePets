@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Link, useParams } from 'react-router-dom'
 import Sidebar from './Sidebar'
-import appointmentUsersApi from '../../api/appoinmentsUse';
 import axios from 'axios';
-import { Image } from 'react-bootstrap';
 
 
 const AppointmentDetail = () => {
