@@ -71,7 +71,7 @@
                 <div class="topnav-dropdown-footer">
                     <div class="d-flex justify-content-center">
                         <a href="{{ route('carts.getCarts') }}" class="btn btn-primary text-white mx-2">Cart</a>
-                        <a href="#" class="btn btn-primary text-white mx-2">Checkout</a>
+                        <a href="{{ route('order.index') }}" class="btn btn-primary text-white mx-2">Checkout</a>
                     </div>
                 </div>
             </div>

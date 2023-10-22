@@ -8,6 +8,7 @@ use App\Models\Bill;
 use App\Models\Order_detail;
 use App\Models\Products;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 
@@ -25,11 +26,12 @@ class OrderController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-//    public function create()
-//    {
-//        $products = Products::all();
-//        return view('orders.create', compact('products'));
-//    }
+    public function create()
+    {
+        $title = 'Thanh toán tại quầy';
+        $carts = session()->get('carts');
+        return view('admin.checkout.index', compact('carts', 'title'));
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -47,6 +49,12 @@ class OrderController extends Controller
         $bill = Bill::query()->findOrFail($id);
         $order_details = Order_detail::query()->where('bill_id', $id)->get();
         return view('admin.purchase.show', compact('bill', 'order_details'));
+    }
+    public function printOrder($id) {
+        $bill = Bill::query()->findOrFail($id);
+        $order_details = Order_detail::query()->where('bill_id', $id)->get();
+        $pdf = PDF::loadView('admin.purchase.invoice', compact('bill', 'order_details'));
+        return $pdf->download('invoice.pdf');
     }
 
     /**
@@ -116,6 +124,15 @@ class OrderController extends Controller
 
     public function cash(Request $request)
     {
+        $request->validate([
+            'customer_name' => 'required',
+            'customer_phone' => 'required',
+        ],
+            [
+                'customer_name.required' => 'Vui lòng nhập tên khách hàng',
+                'customer_phone.required' => 'Vui lòng nhập số điện thoại khách hàng',
+            ]
+        );
         try {
             $bill = Bill::query()->create(
                 [
@@ -146,10 +163,10 @@ class OrderController extends Controller
             }
             session()->forget('carts');
             Toastr::success('Đặt hàng thành công!', 'Success');
+            return redirect()->route('purchase.index');
         } catch (\Exception $exception) {
             Toastr::error('Đặt hàng thất bại!', 'Error');
         }
-        return redirect()->route('purchase.index');
     }
 
     public function vnpay(Request $request)
@@ -262,6 +279,7 @@ class OrderController extends Controller
         return redirect()->route('purchase.index');
     }
 
+
     public function momoPay(Request $request)
     {
         $endpoint = "https://test-payment.momo.vn/gw_payment/transactionProcessor";
@@ -327,4 +345,6 @@ class OrderController extends Controller
         $product->quantity = $product->quantity - $quantity;
         $product->save();
     }
+
+
 }

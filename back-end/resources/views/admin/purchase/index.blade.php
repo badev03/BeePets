@@ -59,7 +59,7 @@
                                     </td>
                                     <td>
                                         @if($value->status == 1)
-                                            <a href="" class="btn btn-sm btn-primary">In hóa đơn</a>
+                                            <a href="{{ route('print.order',$value->id) }}" class="btn btn-sm btn-primary">In hóa đơn</a>
                                             <form action="{{ route('purchase.update',$value->id) }}" method="POST" style="display: inline-block">
                                                 @csrf
                                                 @method('PATCH')
