@@ -72,13 +72,10 @@ const AppointmentDetail = () => {
                     <div className="row">
 
                       <div className="profile-img d-flex justify-content-center align-items-center">
-                        <Image
-                          src={appointments.doctor_image}
-                          alt="User Image"
-                          className="rounded-0"
-                          style={{ width: '25%', border: 'none',marginBottom:'20px' }}
-                        />
+                        <img src={appointments.doctor_image} alt="User Image" className="rounded-0"
+                          style={{ width: '25%', border: 'none', marginBottom: '20px' }} />
                       </div>
+
 
                       <div className="col-12 col-md-6">
                         <div className="mb-3">
