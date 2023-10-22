@@ -253,6 +253,16 @@
       <path value="$PROJECT_DIR$/back-end/vendor/barryvdh/laravel-debugbar" />
       <path value="$PROJECT_DIR$/back-end/vendor/maximebf/debugbar" />
       <path value="$PROJECT_DIR$/back-end/vendor/brian2694/laravel-toastr" />
+      <path value="$PROJECT_DIR$/back-end/vendor/sabberworm/php-css-parser" />
+      <path value="$PROJECT_DIR$/back-end/vendor/barryvdh/laravel-dompdf" />
+      <path value="$PROJECT_DIR$/back-end/vendor/phenx/php-font-lib" />
+      <path value="$PROJECT_DIR$/back-end/vendor/phenx/php-svg-lib" />
+      <path value="$PROJECT_DIR$/back-end/vendor/masterminds/html5" />
+      <path value="$PROJECT_DIR$/back-end/vendor/dompdf/dompdf" />
+      <path value="$PROJECT_DIR$/back-end/vendor/setasign/fpdi" />
+      <path value="$PROJECT_DIR$/back-end/vendor/mpdf/mpdf" />
+      <path value="$PROJECT_DIR$/back-end/vendor/mpdf/psr-http-message-shim" />
+      <path value="$PROJECT_DIR$/back-end/vendor/mpdf/psr-log-aware-trait" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />
