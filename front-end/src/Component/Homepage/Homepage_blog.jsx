@@ -2,7 +2,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import blogApi from '../../api/BlogApi';
+import HomepageBlogApi from '../../api/homepageBlog';
 
 const Homepage_Blog = () => {
   const [blogs, setBlogs] = useState([]);
@@ -10,10 +10,10 @@ const Homepage_Blog = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await blogApi.getAll();
+        const response = await HomepageBlogApi.getAll();
         setBlogs(response.new);
-        console(response);
-        console(12312321);
+        // console(response);
+        // console(12312321);
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
@@ -51,7 +51,7 @@ const Homepage_Blog = () => {
         </div>
         <div className="col-lg- col-md-12">
           <div className="row blog-grid-row">
-            {blogs.slice(0, 3).map(blog => (
+            {blogs.map(blog => (
               <div key={blog.id} className="col-md-4 col-sm-12">
                 <div className="blog grid-blog">
                   <div className="blog-image">

@@ -10,7 +10,7 @@ const blogApi = {
     const url = `/new/${slug}`;
     return instance.get(url);
   },
-  
+
   search(name) {
     const url = `/new-post/${name}`;
     return instance.get(url);
