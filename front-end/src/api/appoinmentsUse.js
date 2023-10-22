@@ -9,8 +9,8 @@ const appointmentUsersApi = {
     const url = "/history-user";
     return instance.get(url, params);
   },
-  getAppoinmentsUser(id,params) {
-    const url = `/list-appiontment/${id}`;
+  getAppoinmentDetailsUser(id,params) {
+    const url = `/get-appointment-user/${id}`;
     return instance.get(url, params);
   },
 };

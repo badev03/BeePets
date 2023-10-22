@@ -64,11 +64,11 @@ const Appointments = () => {
               </thead>
               <tbody>
                 {appointments.map(appointment => (
-                  <tr key={appointment.id}>
+                  <tr key={appointment.appointment_id}>
                     <td>
                       <h2 className="table-avatar">
                         <a href="doctor-profile.html" className="avatar avatar-sm me-2">
-                          <img className="avatar-img rounded-circle" src={appointment.avatar} alt="User Image" />
+                          <img className="avatar-img rounded-circle" src={appointment.image} alt="User Image" />
                           <span>{appointment.doctor_name}</span>
                         </a>
                         <a href="doctor-profile.html">{appointment.doctor_id}</a>
@@ -87,14 +87,15 @@ const Appointments = () => {
                     </td>
                     <td>{appointment.date}</td>
                     <td>
-                      <span className={`badge rounded-pill ${parseInt(appointment.status) === 0 ? 'bg-success-light' : parseInt(appointment.status) === 1 ? 'bg-danger-light' : ''}`}>
-                        {parseInt(appointment.status) === 0 ? 'Confirm' : parseInt(appointment.status) === 1 ? 'Pending' : ''}
+                      <span className={`badge rounded-pill ${parseInt(appointment.status) === 1 ? 'bg-success-light' : parseInt(appointment.status) === 0 ? 'bg-danger-light' : parseInt(appointment.status) === 2 ? 'bg-danger-light' : ''}`}>
+                        {parseInt(appointment.status) === 1 ? 'Confirm' : parseInt(appointment.status) === 0 ? 'Pending' : parseInt(appointment.status) === 2 ? 'Cancel' : ''}
                       </span>
+
                     </td>
                     <td>
                       <div className="table-action">
                         <button className="btn btn-sm bg-info-light">
-                          <Link to={'/user/appointment/{appointment.id}'}>
+                          <Link to={`/user/appointment/${appointment.appointment_id}`}>
                             <i className="far fa-eye" /> View
                           </Link>
                         </button>

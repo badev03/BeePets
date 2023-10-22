@@ -64,7 +64,7 @@ function App() {
           <Route path='user/dashbroad' element={<Dashboard />} />
           <Route path='user/changepassword' element={<ChangePassword />} />
           <Route path='user/profilesetting' element={<ProfileSetting />} />
-          <Route path='user/appointment' element={<AppointmentDetail />} />
+          <Route path='user/appointment/:id' element={<AppointmentDetail />} />
           <Route path='user/prescription' element={<PrescriptionDetails />} />
           <Route path='user/billdetail' element={<BillDetail />} />
           <Route path='informationuser' element={<Information />} />
