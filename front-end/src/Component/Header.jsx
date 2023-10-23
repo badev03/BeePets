@@ -8,13 +8,35 @@ import logoutDoctor from "../api/logoutDoctor";
 import notification from "../api/notification";
 import BookingUser from "./User/BookingUser";
 import usersApi from "../api/usersApi";
+import Sidebar from "./User/Sidebar";
 
 
 const Header = () => {
   const { isLoggedIn, onLogout, token } = useAuth();
   const navigate = useNavigate();
   const [noti, setNoti] = useState([]);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
+  // if (token) {
+  //   useEffect(() => {
+  //     const fetchUser = async () => {
+  //       try {
+  //         const response = await usersApi.getUser(
+  //           {
+  //             headers: {
+  //               Authorization: `Bearer ${token}`,
+  //             },
+  //           }
+  //         );
+  //         setUser(response.user);
+  //         console.log(response.user);
+  //       } catch (error) {
+  //         console.error("Không có dữ liệu:", error);
+  //       }
+  //     };
+
+  //     fetchUser();
+  //   }, []);
+  // }
 
   // const   = localStorage.getItem('token');
 
@@ -106,11 +128,14 @@ const Header = () => {
   const handleLogoClick = () => {
     handleItemClick("TRANG CHỦ");
   };
+
   useEffect(() => {
-    setData(JSON.parse(
-      localStorage.getItem("user")
-    ))
-  }, [])
+    if (localStorage.getItem("user")) {
+      setData(JSON.parse(
+        localStorage.getItem("user")
+      ))
+    }
+  }, [token])
 
   useEffect(() => {
     if (data) {
@@ -143,7 +168,7 @@ const Header = () => {
       });
 
       // Đăng ký kênh theo id người dùng
-      const channel = pusher.subscribe("user-notification-"+data.id);
+      const channel = pusher.subscribe("user-notification-" + data.id);
 
       // Xử lý sự kiện thông báo từ Pusher
       channel.bind("notification-event-test", function (data) {
@@ -170,7 +195,7 @@ const Header = () => {
       });
 
       // Đăng ký kênh theo id người dùng
-      const channel = pusher.subscribe("doctor-notification-"+data.id);
+      const channel = pusher.subscribe("doctor-notification-" + data.id);
 
       // Xử lý sự kiện thông báo từ Pusher
       channel.bind("notification-event-doctor", function (data) {
@@ -335,17 +360,25 @@ const Header = () => {
                     <span className="user-img">
                       <img
                         className="rounded-circle"
-                        src="../src/assets/img/doctors/doctor-thumb-02.jpg"
+                        src={handleCheckAccount(data) ? data?.avatar : data?.image}
                         width={31}
-                        alt="Darren Elder"
                       />
+                      {/* {user.avatar ? (
+                        <a href="#" className="booking-doc-img">
+                          <img src={user.avatar} alt="User Image" />
+                        </a>
+                      ) : (
+                        <div className="default-avatar booking-doc-img">
+                          <img src="https://dvdn247.net/wp-content/uploads/2020/07/avatar-mac-dinh-1.png" alt="Default Avatar" />
+                        </div>
+                      )} */}
                     </span>
                   </a>
                   <div className="dropdown-menu dropdown-menu-end">
                     <div className="user-header">
                       <div className="avatar avatar-sm">
                         <img
-                          src="../src/assets/img/doctors/doctor-thumb-02.jpg"
+                          src={handleCheckAccount(data) ? data?.avatar : data?.image}
                           alt="User Image"
                           className="avatar-img rounded-circle"
                         />

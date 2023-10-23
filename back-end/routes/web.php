@@ -86,7 +86,7 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
         Route::post('update-cart', [CartController::class, 'updateCart'])->name('carts.updateCart');
         Route::get('unset',[CartController::class, 'unsetCarts'])->name('carts.unset');
         Route::post('remove',[CartController::class, 'removeCart'])->name('carts.removeCart');
-
+        //orders
         Route::get('checkout',[OrderController::class, 'checkout'])->name('checkout.index');
         Route::post('vn-pay',[OrderController::class, 'vnpay'])->name('checkout.vnpay');
         Route::get('vn-pay-return',[OrderController::class, 'vnpayReturn'])->name('checkout.vnpay_return');
@@ -95,6 +95,11 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
         Route::get('purchase',[OrderController::class, 'index'])->name('purchase.index');
         Route::patch('purchase/{id}',[OrderController::class, 'update'])->name('purchase.update');
         Route::get('purchase/{id}',[OrderController::class, 'show'])->name('purchase.show');
+        //order
+        Route::get('order',[OrderController::class, 'create'])->name('order.index');
+        //print order
+        Route::get('print-order/{id}',[OrderController::class, 'printOrder'])->name('print.order');
+
     });
 });
 Route::get('/', [BookingController::class, 'index'])->name('index');

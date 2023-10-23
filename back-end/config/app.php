@@ -171,6 +171,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         \App\Providers\ViewProviderAdmin::class,
         Brian2694\Toastr\ToastrServiceProvider::class,
+        // Barryvdh\DomPDF\ServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -189,6 +190,6 @@ return [
         'Cloudinary' => CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary::class,
         'Pusher' => Pusher\Pusher::class,
         'Toastr'  => Brian2694\Toastr\Facades\Toastr::class,
+        // 'PDF' => Barryvdh\DomPDF\Facade::class,
     ])->toArray(),
-
 ];

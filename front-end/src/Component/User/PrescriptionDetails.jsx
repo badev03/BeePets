@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Sidebar from './Sidebar'
 
 const PrescriptionDetails = () => {
+  
   return (
     <div>    <div><div className="breadcrumb-bar-two">
     <div className="container">
