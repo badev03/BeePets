@@ -10,12 +10,12 @@ import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal);
 const ProfileSetting = () => {
   const [previewImage, setPreviewImage] = useState("");
-  
+
   const [user, setUser] = useState(
     {
       name: "",
       address: "",
-      avatar:"",
+      avatar: "",
       // birthday: "",
       phone: "",
       email: "",
@@ -49,24 +49,24 @@ const ProfileSetting = () => {
       fetchUser();
     }, []);
   }
- 
+
   const [errors, setErrors] = useState({});
   const validateForm = () => {
     let errors = {};
     let isValid = true;
-  
+
     // Validate name
     if (!user.name) {
       isValid = false;
       errors["name"] = "Vui lòng nhập họ tên.";
     }
-  
+
     // Validate address
     if (!user.address) {
       isValid = false;
       errors["address"] = "Vui lòng nhập địa chỉ.";
     }
-  
+
     // Validate phone
     if (!user.phone) {
       isValid = false;
@@ -75,13 +75,13 @@ const ProfileSetting = () => {
       isValid = false;
       errors["phone"] = "Số điện thoại phải chứa chính xác 10 chữ số.";
     }
-  
+
     // Validate email
-  if (!/\S+@\S+\.\S+/.test(user.email)) {
+    if (!/\S+@\S+\.\S+/.test(user.email)) {
       isValid = false;
       errors["email"] = "Email không hợp lệ.";
     }
-  
+
     setErrors(errors);
     return isValid;
   };
@@ -91,7 +91,7 @@ const ProfileSetting = () => {
     if (validateForm()) {
       // Call the API with user data to update the user information
       try {
-        
+
         const response = await axios.post(
           `http://127.0.0.1:8000/api/save-infor-user`,
           {
@@ -101,12 +101,15 @@ const ProfileSetting = () => {
           {
             headers: {
               Authorization: `Bearer ${token}`,
-              'Content-Type': 'multipart/form-data' 
+              'Content-Type': 'multipart/form-data'
 
             },
           }
         );
-        // console.log(response.data);
+        if (response.status === 200) {
+          localStorage.removeItem("user");
+          localStorage.setItem("user", JSON.stringify(response.data.user));
+        }
         MySwal.fire({
           title: "Lưu thông tin tài khoản thành công!",
           icon: "success",
@@ -135,7 +138,7 @@ const ProfileSetting = () => {
     setUser({ ...user, avatar: file });
     setPreviewImage(URL.createObjectURL(e.target.files[0]));
   };
-  
+
 
   return (
     <div><div className="breadcrumb-bar-two">
@@ -158,8 +161,8 @@ const ProfileSetting = () => {
           <div className="row">
             <Sidebar />
             <div className="col-md-7 col-lg-8 col-xl-9">
-       
-        {/* {Object.keys(errors).map((key, index) => (
+
+              {/* {Object.keys(errors).map((key, index) => (
         <Alert key={index} message={errors[key]} type="error" showIcon style={{marginBottom: "5px"}} />
       ))} */}
               <div className="card" >
@@ -175,7 +178,7 @@ const ProfileSetting = () => {
                             <div className="upload-img">
                               <div className="change-photo-btn">
                                 <span><i className="fa fa-upload" />Tải ảnh lên</span>
-                                <input type="file" className="upload"  name="avatar"   onChange={(e) => handleFileUpload(e)}/>
+                                <input type="file" className="upload" name="avatar" onChange={(e) => handleFileUpload(e)} />
                               </div>
 
                             </div>
@@ -185,15 +188,15 @@ const ProfileSetting = () => {
                       <div className="col-12 col-md-6">
                         <div className="mb-3">
                           <label className="mb-2">Họ Tên</label>
-                          <input type="text" className="form-control" name="name" value={user.name}   onChange={(e) => setUser({ ...user, name: e.target.value })}/>
-                          <p style={{color:"red"}}>{errors["name"]}</p>
+                          <input type="text" className="form-control" name="name" value={user.name} onChange={(e) => setUser({ ...user, name: e.target.value })} />
+                          <p style={{ color: "red" }}>{errors["name"]}</p>
                         </div>
                       </div>
                       <div className="col-12 col-md-6">
                         <div className="mb-3">
                           <label className="mb-2">Địa chỉ</label>
-                          <input type="text" className="form-control" name="address" value={user.address}   onChange={(e) => setUser({ ...user, address: e.target.value })} />
-                          <p style={{color:"red"}}>{errors["address"]}</p>
+                          <input type="text" className="form-control" name="address" value={user.address} onChange={(e) => setUser({ ...user, address: e.target.value })} />
+                          <p style={{ color: "red" }}>{errors["address"]}</p>
                         </div>
                       </div>
                       {/* <div className="col-12 col-md-6">
@@ -208,7 +211,7 @@ const ProfileSetting = () => {
                         <div className="mb-3">
                           <label className="mb-2">Số điện thoại</label>
                           <input type="text" className="form-control" name="phone" value={user.phone} onChange={(e) => setUser({ ...user, phone: e.target.value })} />
-                          <p style={{color:"red"}}>{errors["phone"]}</p>
+                          <p style={{ color: "red" }}>{errors["phone"]}</p>
 
                         </div>
                       </div>
@@ -216,31 +219,31 @@ const ProfileSetting = () => {
                         <div className="mb-3">
                           <label className="mb-2">Email</label>
                           <input type="text" className="form-control" name="email" value={user.email} onChange={(e) => setUser({ ...user, email: e.target.value })} />
-                          <p style={{color:"red"}}>{errors["email"]}</p>
-                        
+                          <p style={{ color: "red" }}>{errors["email"]}</p>
+
                         </div>
                       </div>
                       <div className="col-md-6">
-                  <div className="mb-3">
-                    <label className="mb-2">Giới tính</label>
-                    <select
-                      className="form-select form-control"
-                      value={user.gender}
-                      onChange={(e) => setUser({ ...user, gender: e.target.value })}
-                      name="gender"
-                    >
-                        <option value="Nữ">Nữ</option>                   
-                        <option value="Nam">Nam</option>                 
-                    </select>
-                    <p style={{color:"red"}}>{errors["gender"]}</p>
+                        <div className="mb-3">
+                          <label className="mb-2">Giới tính</label>
+                          <select
+                            className="form-select form-control"
+                            value={user.gender}
+                            onChange={(e) => setUser({ ...user, gender: e.target.value })}
+                            name="gender"
+                          >
+                            <option value="Nữ">Nữ</option>
+                            <option value="Nam">Nam</option>
+                          </select>
+                          <p style={{ color: "red" }}>{errors["gender"]}</p>
 
-                  </div>
-                  </div> 
-                  </div>
+                        </div>
+                      </div>
+                    </div>
                     <div className="submit-section">
                       <button type="submit" className="btn btn-primary submit-btn">Lưu</button>
                     </div>
-                    
+
                   </form>
                 </div>
               </div>

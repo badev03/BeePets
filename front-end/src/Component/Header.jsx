@@ -16,6 +16,8 @@ const Header = () => {
   const navigate = useNavigate();
   const [noti, setNoti] = useState([]);
   const [user, setUser] = useState();
+  const imgDefault = "https://dvdn247.net/wp-content/uploads/2020/07/avatar-mac-dinh-1.png";
+  let userLocal = localStorage.getItem("user");
   // if (token) {
   //   useEffect(() => {
   //     const fetchUser = async () => {
@@ -130,12 +132,12 @@ const Header = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("user")) {
+    if (userLocal) {
       setData(JSON.parse(
-        localStorage.getItem("user")
+        userLocal
       ))
     }
-  }, [token])
+  }, [userLocal])
 
   useEffect(() => {
     if (data) {
@@ -360,7 +362,7 @@ const Header = () => {
                     <span className="user-img">
                       <img
                         className="rounded-circle"
-                        src={handleCheckAccount(data) ? data?.avatar : data?.image}
+                        src={handleCheckAccount(data) ? (data?.avatar ? data?.avatar : imgDefault) : (data?.image ? data?.image : imgDefault)}
                         width={31}
                       />
                       {/* {user.avatar ? (
@@ -378,7 +380,7 @@ const Header = () => {
                     <div className="user-header">
                       <div className="avatar avatar-sm">
                         <img
-                          src={handleCheckAccount(data) ? data?.avatar : data?.image}
+                          src={handleCheckAccount(data) ? (data?.avatar ? data?.avatar : imgDefault) : (data?.image ? data?.image : imgDefault)}
                           alt="User Image"
                           className="avatar-img rounded-circle"
                         />
