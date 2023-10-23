@@ -14,6 +14,7 @@ use \App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\BookingHaiController;
 use \App\Http\Controllers\Api\DoctorUserController;
 use \App\Http\Controllers\Api\NotificationController;
+use \App\Http\Controllers\Api\SettingController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -44,6 +45,8 @@ Route::post('service-filter-doctor', [ServiceController::class, 'filterDoctorSer
 Route::get('new-post/{name?}', [NewController::class, 'postNew']);
 Route::get('new-categories', [NewController::class, 'categoriesNew']);
 Route::get('new-home', [NewController::class, 'showNew']);
+Route::get('doctor-home-user', [DoctorUserController::class, 'DoctorHomeUser']);
+Route::get('setting', [SettingController::class, 'index']);
 
 Route::post('/doctor/login', [DoctorController::class, 'login']);
 
@@ -148,7 +151,7 @@ Route::post('update-bill/{id}', [DoctorController::class, 'updateBill']);
 
 // xem lich hen cua user tu ben bac si
 Route::get('/list-appiontment/{id}', [DoctorController::class, 'getAppiontment']);
-// xem chi tiết lịch hẹn  khách hàng của bác sĩ 
+// xem chi tiết lịch hẹn  khách hàng của bác sĩ
 Route::get('/get-appiontment/{id}', [DoctorController::class, 'getAppiontmentByID']);
 
 // xem chi tiết lịch hẹn của user
@@ -164,7 +167,7 @@ Route::get('/bills/{id}', [DoctorController::class, 'billByUser']);
 //get detail bill
 Route::get('/detail-bill/{id}', [DoctorController::class, 'detailBill']);
 
-//  bác sĩ xem đơn thuốc chi tiết khác hàng 
+//  bác sĩ xem đơn thuốc chi tiết khác hàng
 Route::get('/prescription/{id}', [DoctorController::class, 'prescriptionByUser']);
 
 

@@ -29,6 +29,6 @@ class SendMessage implements ShouldQueue
     public function handle(MessageSendNotification $event)
     {
         $messageService = new \App\Services\MessageService();
-        $messageService->sendMessage($event->userId, $event->message, $event->doctorId, $event->messageDoctor);
+        $messageService->sendManyUser($event->userId, $event->message, $event->doctorId, $event->messageDoctor);
     }
 }

@@ -13,22 +13,7 @@ class DoctorUserController extends BaseResponseApiController
 
     public function index()
     {
-        $doctors = $this->tableQuery('doctors')->get();
-
-        $reviewAverages = Review::select('doctor_id', \DB::raw('AVG(score) as average_score') , \DB::raw('COUNT(*) as review_count'))
-            ->groupBy('doctor_id')
-            ->get();
-        $reviewAveragesArray = [];
-        $reviewCount = [];
-        foreach ($reviewAverages as $reviewAverage) {
-            $reviewAveragesArray[$reviewAverage->doctor_id] = $reviewAverage->average_score;
-            $reviewCount[$reviewAverage->doctor_id] = $reviewAverage->review_count;
-        }
-        foreach ($doctors as $doctor) {
-            $doctor_id = $doctor->id;
-            $doctor->average_score = isset($reviewAveragesArray[$doctor_id]) ? $reviewAveragesArray[$doctor_id] : null;
-            $doctor->review_count = isset($reviewCount[$doctor_id]) ? $reviewCount[$doctor_id] : null;
-        }
+        $doctors = $this->QueryDoctorIndex();
         if($doctors) {
             return response()->json([
                 'doctor' => $doctors ,
@@ -77,5 +62,40 @@ class DoctorUserController extends BaseResponseApiController
                 'msg' => 'no data'
             ] , 200);
         }
+    }
+
+    public function DoctorHomeUser() {
+        $doctors = $this->QueryDoctorIndex()->take(4);
+        if($doctors) {
+            return response()->json([
+                'doctor' => $doctors ,
+                'msg' => 'oke dữ liệu thành công'
+            ] , 200);
+        }
+        else {
+            return response()->json([
+                'msg' => 'no data'
+            ] , 400);
+        }
+    }
+
+    public function QueryDoctorIndex() {
+        $doctors = $this->tableQuery('doctors')->get();
+
+        $reviewAverages = Review::select('doctor_id', \DB::raw('AVG(score) as average_score') , \DB::raw('COUNT(*) as review_count'))
+            ->groupBy('doctor_id')
+            ->get();
+        $reviewAveragesArray = [];
+        $reviewCount = [];
+        foreach ($reviewAverages as $reviewAverage) {
+            $reviewAveragesArray[$reviewAverage->doctor_id] = $reviewAverage->average_score;
+            $reviewCount[$reviewAverage->doctor_id] = $reviewAverage->review_count;
+        }
+        foreach ($doctors as $doctor) {
+            $doctor_id = $doctor->id;
+            $doctor->average_score = isset($reviewAveragesArray[$doctor_id]) ? $reviewAveragesArray[$doctor_id] : null;
+            $doctor->review_count = isset($reviewCount[$doctor_id]) ? $reviewCount[$doctor_id] : null;
+        }
+        return $doctors;
     }
 }
