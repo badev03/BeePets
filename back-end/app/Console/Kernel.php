@@ -2,13 +2,14 @@
 
 namespace App\Console;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
     protected $commands = [
-      'App\Console\Commands\NotificationBirdayDoctor'
+        'App\Console\Commands\NotificationBirdayDoctor'
     ];
     /**
      * Define the application's command schedule.
@@ -16,7 +17,11 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('app:notification-birday-doctor')->everyMinute();
-//        $schedule->command('app:notification-birday-doctor')->dailyAt('12:00');
+        //        $schedule->command('app:notification-birday-doctor')->dailyAt('12:00');
+        
+        $schedule->call(function () {
+            DB::table('personal_access_tokens')->where('created_at', '<', now()->subDays(1))->delete();
+        })->daily();
     }
 
     /**
@@ -24,7 +29,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
