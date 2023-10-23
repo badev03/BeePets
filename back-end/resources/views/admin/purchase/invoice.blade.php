@@ -8,8 +8,10 @@
     <title>Document</title>
 </head>
 <style>
-    * {
-        font-family: 'Roboto Condensed', sans-serif;
+    /*@import url('https://fonts.googleapis.com/css?family=Muli&display=swap');*/
+    /*@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');*/
+    body{
+        font-family: 'Muli', sans-serif;
     }
 </style>
 <body>

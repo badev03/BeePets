@@ -5,20 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="45a53ba9-6ef3-41ae-87f6-4b989cb527d7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/back-end/resources/views/admin/purchase/invoice.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/BeePets.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/BeePets.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/phpspec.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpspec.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Admin/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Admin/OrderController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/config/app.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/resources/views/admin/checkout/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/resources/views/admin/checkout/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/resources/views/admin/purchase/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/resources/views/admin/purchase/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/resources/views/layouts/partials/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/resources/views/layouts/partials/header.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/resources/views/layouts/partials/master.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/resources/views/layouts/partials/master.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -296,6 +283,8 @@
       <path value="$PROJECT_DIR$/back-end/vendor/mpdf/mpdf" />
       <path value="$PROJECT_DIR$/back-end/vendor/mpdf/psr-http-message-shim" />
       <path value="$PROJECT_DIR$/back-end/vendor/mpdf/psr-log-aware-trait" />
+      <path value="$PROJECT_DIR$/back-end/vendor/spatie/laravel-package-tools" />
+      <path value="$PROJECT_DIR$/back-end/vendor/spatie/laravel-google-fonts" />
     </include_path>
   </component>
   <component name="ProjectId" id="2VuhhQXDza3ZsemU1n74U22XaJR" />
@@ -365,6 +354,7 @@
       <workItem from="1697854891132" duration="329000" />
       <workItem from="1697899578739" duration="733000" />
       <workItem from="1697980735480" duration="8896000" />
+      <workItem from="1698025580630" duration="2851000" />
     </task>
     <servers />
   </component>

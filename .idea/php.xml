@@ -263,6 +263,8 @@
       <path value="$PROJECT_DIR$/back-end/vendor/mpdf/mpdf" />
       <path value="$PROJECT_DIR$/back-end/vendor/mpdf/psr-http-message-shim" />
       <path value="$PROJECT_DIR$/back-end/vendor/mpdf/psr-log-aware-trait" />
+      <path value="$PROJECT_DIR$/back-end/vendor/spatie/laravel-package-tools" />
+      <path value="$PROJECT_DIR$/back-end/vendor/spatie/laravel-google-fonts" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />

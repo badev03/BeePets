@@ -27,9 +27,9 @@ class Products extends Model
     {
         return $this->hasMany(Order_detail::class, 'product_id');
     }
-    public function prescriptions()
+    public function prescription_products()
     {
-        return $this->belongsToMany(Prescription::class);
+        return $this->hasMany(Prescription_product::class);
     }
 
 }

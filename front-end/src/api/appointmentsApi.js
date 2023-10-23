@@ -19,15 +19,11 @@ const appointmentsApi = {
     const url = `/appoinment/${id}`;
     return instance.get(url,  params);
   },
-  update(id,params) {
-    const url = `/update-appointment/${id}?status=1`;
-    return instance.put(url,params);
+  getAppoinmentsUser(id,params) {
+    const url = `/list-appiontment/${id}`;
+    return instance.get(url, params);
   },
 
-  remove(id) {
-    const url = `/appointments/${id}`;
-    return instance.delete(url);
-  },
 };
 
 export default appointmentsApi;
