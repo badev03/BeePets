@@ -2,7 +2,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import blogApi from '../../api/BlogApi';
+import HomepageBlogApi from '../../api/homepageBlog';
 
 const Homepage_Blog = () => {
   const [blogs, setBlogs] = useState([]);
@@ -10,7 +10,7 @@ const Homepage_Blog = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await blogApi.getAll();
+        const response = await HomepageBlogApi.getAll();
         setBlogs(response.new);
       } catch (error) {
         console.error("Không có dữ liệu:", error);
@@ -49,7 +49,25 @@ const Homepage_Blog = () => {
         </div>
         <div className="col-lg- col-md-12">
           <div className="row blog-grid-row">
-
+            {blogs.map(blog => (
+              <div key={blog.id} className="col-md-4 col-sm-12">
+                <div className="blog grid-blog">
+                  <div className="blog-image">
+                    <Link to={`/blog/${blog.slug}`}><img className="img-fluid" src={blog.image} alt="Post Image" /></Link>
+                  </div>
+                  <div className="blog-content">
+                    <ul className="entry-meta meta-item">
+                      <li><i className="far fa-clock" />{blog.public_date}</li>
+                    </ul>
+                    <h3 className="blog-title"><Link to={`/blog/${blog.slug}`}>{blog.name}</Link></h3>
+                    <p
+                      className="mb-0"
+                      dangerouslySetInnerHTML={{ __html: truncateText(blog.content, 2) }}
+                    ></p>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 

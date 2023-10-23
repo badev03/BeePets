@@ -58,13 +58,13 @@ function App() {
           <Route path='doctor/profile/:id' element={<DoctorProfile />} />
           <Route path='blog' element={<BlogList />} />
           <Route path='blog/:slug' element={<BlogDetails />} />
-          <Route path="blogs/category/:categoryId" element={<BlogList />} />
+          <Route path="blog/category/:id" element={<BlogList />} />
 
           <Route path='service-detail/:slug' element={<ServiceDetails />} />
           <Route path='user/dashbroad' element={<Dashboard />} />
           <Route path='user/changepassword' element={<ChangePassword />} />
           <Route path='user/profilesetting' element={<ProfileSetting />} />
-          <Route path='user/appointment' element={<AppointmentDetail />} />
+          <Route path='user/appointment/:id' element={<AppointmentDetail />} />
           <Route path='user/prescription' element={<PrescriptionDetails />} />
           <Route path='user/billdetail' element={<BillDetail />} />
           <Route path='informationuser' element={<Information />} />

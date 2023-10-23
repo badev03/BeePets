@@ -25,6 +25,7 @@ const Booking = () => {
   const [selectedDescription, setSelectedDescription] = useState("");
   const [isNameEditable, setIsNameEditable] = useState(true);
   const [isPhoneEditable, setIsPhoneEditable] = useState(true);
+  const [selectedShift, setSelectedShift] = useState("");
 
   useEffect(() => {
     const fetchTypePet = async () => {
@@ -62,11 +63,9 @@ const Booking = () => {
         const doctorsForService = selectedServiceData.doctors || [];
         setDoctorOptions([...doctorsForService]);
 
-        const doctorId =
-          doctorsForService.length > 0 ? doctorsForService[0].id : null;
-
-        setSelectedDoctor(doctorId);
-     
+        if (!doctorsForService.some((doctor) => doctor.id === selectedDoctor)) {
+          setSelectedDoctor(null);
+        }
       }
     }
   }, [selectedService, serviceDoctor]);
@@ -81,12 +80,7 @@ const Booking = () => {
 
   const handleChangeService = (value) => {
     setSelectedService(value);
-    setDoctorOptions([]);
     setSelectedDoctor(null);
-  };
-
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
   };
 
   useEffect(() => {
@@ -130,10 +124,7 @@ const Booking = () => {
         doctor_id: selectedDoctor,
         date: selectedDate,
         status: 0,
-        shift_name:
-          selectedWorkingHours.length > 0
-            ? selectedWorkingHours[0].shift_name
-            : "",
+        shift_name: selectedShift,
         type_pet_id: selectedPet,
         phone: selectedPhone,
         name: selectedName,
@@ -176,6 +167,10 @@ const Booking = () => {
     setSelectedName(e.target.value);
   };
 
+  const handleChangeShift = (value) => {
+    setSelectedShift(value);
+  };
+
   const handleChangeDescription = (e) => {
     setSelectedDescription(e.target.value);
   };
@@ -184,7 +179,7 @@ const Booking = () => {
     if (user) {
       setSelectedName(user.name);
       setSelectedPhone(user.phone);
-
+      
       setIsNameEditable(!user.name);
       setIsPhoneEditable(!user.phone);
     }
@@ -195,22 +190,22 @@ const Booking = () => {
     return current && current < today.startOf("day");
   };
 
-  const resetForm = () => {
-    setIsModalOpen(false);
-    setSelectedService([]);
-    setDoctorOptions([]);
-    setSelectedDoctor(null);
-    setSelectedDate(null);
-    setSelectedWorkingHours([]);
-    setSelectedPet(null);
-    // setSelectedPhone("");
-    // setSelectedName("");
-    setSelectedDescription("");
-    setIsNameEditable(true);
-    setIsPhoneEditable(true);
+  // const resetForm = () => {
+  //   setIsModalOpen(false);
+  //   setSelectedService([]);
+  //   setDoctorOptions([]);
+  //   setSelectedDoctor(null);
+  //   setSelectedDate(null);
+  //   setSelectedWorkingHours([]);
+  //   setSelectedPet(null);
+  //   // setSelectedPhone("");
+  //   // setSelectedName("");
+  //   setSelectedDescription("");
+  //   setIsNameEditable(true);
+  //   setIsPhoneEditable(true);
 
-    form.resetFields();
-  };
+  //   form.resetFields();
+  // };
 
   return (
     <>
@@ -290,11 +285,11 @@ const Booking = () => {
               >
                 <Select
                   placeholder="Ca làm việc"
-                  onChange={handleChange}
+                  onChange={(value) => handleChangeShift(value)}
                   options={
                     selectedWorkingHours
                       ? selectedWorkingHours.map((hour) => ({
-                          value: hour.id,
+                          value: hour.shift_name,
                           label: `${hour.shift_name} (${hour.start_time} - ${hour.end_time})`,
                         }))
                       : []
@@ -321,78 +316,38 @@ const Booking = () => {
           </Form.Item>
           <Row gutter={16}>
             <Col span={12}>
-              {user ? (
-                <Form.Item
-                  label="Họ và Tên"
-                  initialValue={user.name}
-                  rules={[
-                    { required: true, message: "Vui lòng nhập tên của bạn" },
-                  ]}
-                >
-                  <Input
-                    value={selectedName}
-                    onChange={handleChangeName}
-                    disabled={!isNameEditable}
-                  />
-                </Form.Item>
-              ) : (
-                <Form.Item
-                  label="Họ và Tên"
-                  name=""
-                  rules={[
-                    { required: true, message: "Vui lòng nhập tên của bạn" },
-                  ]}
-                >
-                  <Input
-                    name="name"
-                    value={selectedName}
-                    onChange={handleChangeName}
-                    disabled={!isNameEditable}
-                  />
-                </Form.Item>
-              )}
+              <Form.Item
+                label="Họ và Tên"
+                rules={[
+                  { required: true, message: "Vui lòng nhập tên của bạn" },
+                ]}
+              >
+                <Input
+                  value={selectedName}
+                  name="name"
+                  onChange={handleChangeName}
+                  disabled={!isNameEditable}
+                />
+              </Form.Item>
             </Col>
             <Col span={12}>
-              {user ? (
-                <Form.Item
-                  label="Số Điện Thoại"
-                  rules={[
-                    { required: true, message: "Vui lòng nhập số điện thoại" },
-                    {
-                      pattern: /^[0-9]{10}$/,
-                      message: "Số điện thoại phải có 10 chữ số",
-                    },
-                  ]}
-                >
-                  <Input
-                    type=""
-                    name="phone"
-                    value={selectedPhone}
-                    onChange={handleChangePhone}
-                    disabled={!isPhoneEditable}
-                  />
-                </Form.Item>
-              ) : (
-                <Form.Item
-                  label="Số Điện Thoại"
-                  name=""
-                  rules={[
-                    { required: true, message: "Vui lòng nhập số điện thoại" },
-                    {
-                      pattern: /^[0-9]{10}$/,
-                      message: "Số điện thoại phải có 10 chữ số",
-                    },
-                  ]}
-                >
-                  <Input
-                    type=""
-                    name="phone"
-                    value={selectedPhone}
-                    onChange={handleChangePhone}
-                    disabled={!isPhoneEditable}
-                  />
-                </Form.Item>
-              )}
+              <Form.Item
+                label="Số Điện Thoại"
+                rules={[
+                  { required: true, message: "Vui lòng nhập số điện thoại" },
+                  {
+                    pattern: /^[0-9]{10}$/,
+                    message: "Số điện thoại phải có 10 chữ số",
+                  },
+                ]}
+              >
+                <Input
+                  type=""
+                  value={selectedPhone}
+                  onChange={handleChangePhone}
+                  disabled={!isPhoneEditable}
+                />
+              </Form.Item>
             </Col>
           </Row>
           <Form.Item

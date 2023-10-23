@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal);
 const ProfileSetting = () => {
- 
+  const [previewImage, setPreviewImage] = useState("");
   
   const [user, setUser] = useState(
     {
@@ -77,10 +77,7 @@ const ProfileSetting = () => {
     }
   
     // Validate email
-    if (!user.email) {
-      isValid = false;
-      errors["email"] = "Vui lòng nhập email.";
-    } else if (!/\S+@\S+\.\S+/.test(user.email)) {
+  if (!/\S+@\S+\.\S+/.test(user.email)) {
       isValid = false;
       errors["email"] = "Email không hợp lệ.";
     }
@@ -115,14 +112,28 @@ const ProfileSetting = () => {
           icon: "success",
         });
       } catch (error) {
-        console.log(error);
-        
+        if (error.response) {
+          if (error.response.data.error) {
+            let errorMsg = error.response.data.error;
+            // console.log(errorMsg);
+            let errorsCopy = { ...errors };
+            if (errorMsg.includes("Số điện thoại")) {
+              errorsCopy.phone = errorMsg;
+            } else if (errorMsg.includes("email")) {
+              errorsCopy.email = errorMsg;
+              console.log(errorMsg);
+
+            }
+            setErrors(errorsCopy);
+          }
+        }
       }
     }
   };
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     setUser({ ...user, avatar: file });
+    setPreviewImage(URL.createObjectURL(e.target.files[0]));
   };
   
 
@@ -159,7 +170,7 @@ const ProfileSetting = () => {
                         <div className="mb-3">
                           <div className="change-avatar">
                             <div className="profile-img">
-                              <img src={user.avatar} alt="User Image" />
+                              <img src={previewImage || user.avatar} alt="User Image" />
                             </div>
                             <div className="upload-img">
                               <div className="change-photo-btn">

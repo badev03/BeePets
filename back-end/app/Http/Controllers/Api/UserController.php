@@ -157,7 +157,7 @@ class UserController extends Controller
                 $user_id = auth()->user()->id;
 
                 $result = DB::table('prescriptions')
-                    ->select('prescriptions.id as prescription_id', 'prescriptions.created_at', 'doctors.name as created_by', 'prescriptions.price','doctors.image as doctor_image')
+                    ->select('prescriptions.id as prescription_id', 'prescriptions.created_at', 'doctors.name as created_by', 'prescriptions.price','doctors.image as doctor_image','prescriptions.name')
                     ->join('doctors', 'prescriptions.doctor_id', '=', 'doctors.id')
                     ->where('prescriptions.user_id', $user_id)
                     ->get();
