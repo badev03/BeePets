@@ -1,10 +1,34 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom'
 import Sidebar from './Sidebar'
+import axios from 'axios';
 
 
 
 const BillDetail = () => {
+  const [bill, setBill] = useState([]);
+  const { id } = useParams();
+  console.log(id);
+  const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    if (token) {
+      const fetchBilltDetail = async () => {
+        try {
+          const response = await axios.get(`http://127.0.0.1:8000/api/detail-bill-user/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setBill(response.data.bill);
+          // console.log(response.data.user);
+        } catch (error) {
+          console.error('Không có dữ liệu:', error);
+        }
+      };
+      fetchBilltDetail();
+    }
+  }, [id, token]);
   return (
     <div>    <div><div className="breadcrumb-bar-two">
     <div className="container">
