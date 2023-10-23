@@ -355,7 +355,7 @@ class DoctorController extends Controller
                     'message' => 'Không tìm thấy hóa đơn',
                 ], 404);
             }
-            $prescription = $this->createPrescription($request->name, $request->price, $request->doctor_id, $request->user_id, $request->bill_id);
+            $prescription = $this->createPrescription($request->name, $request->price);
 
             $prescription_id = $prescription->id;
 
@@ -388,15 +388,15 @@ class DoctorController extends Controller
         }
     }
     // tạo đơn thuốc cho bảng prescription_product và lưu vào bảng perscription
-    public function createPrescription($name, $price, $doctor_id, $user_id, $bill_id)
+    public function createPrescription($name, $price)
     {
 
         $prescription = new Prescription();
         $prescription->name = $name;
         $prescription->price = $price;
-        $prescription->doctor_id = $doctor_id;
-        $prescription->user_id = $user_id;
-        $prescription->bill_id = $bill_id;
+        // $prescription->doctor_id = $doctor_id;
+        // $prescription->user_id = $user_id;
+        // $prescription->bill_id = $bill_id;
         $prescription->save();
 
         return $prescription;
@@ -449,9 +449,9 @@ class DoctorController extends Controller
     $validator = Validator::make($request->all(), [
         'name' => 'required',
         'price' => 'required|numeric',
-        'doctor_id' => 'required|exists:doctors,id',
-        'user_id' => 'required|exists:users,id',
-        'bill_id' => 'required|exists:bills,id',
+        // 'doctor_id' => 'required|exists:doctors,id',
+        // 'user_id' => 'required|exists:users,id',
+        // 'bill_id' => 'required|exists:bills,id',
         'products' => 'required|array',
         'products.*.product_id' => 'required|exists:products,id',
         'products.*.quantity' => 'required|numeric',
@@ -467,33 +467,47 @@ class DoctorController extends Controller
     {
         try {
             if (Auth::guard('doctors')->check()) {
-                   $bill = Bill::where('bills.id', $id)
-                        ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
-                        ->join('users', 'users.id', '=', 'appointments.user_id')
-                        ->join('services', 'services.id', '=', 'appointments.service_id')
-                        ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
-                        ->select(
-                            'bills.id',
-                            'bills.code',
-                            'bills.total_amount',
-                            'bills.status',
-                            'bills.created_at',
-                            'users.name as user_name',
-                            'users.phone as user_phone',
-                            'services.name as service_name',
-                            'services.price as service_price',
-                            'doctors.name as doctor_name',
-                            'doctors.image as doctor_image',
-                            'appointments.date',
-                            'appointments.time',
-                            'appointments.shift_name',
-                            'appointments.description'
-                        )
-                        ->first();
+
+                $bill = Bill::where('bills.id', $id)
+                    ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
+                    ->join('services', 'services.id', '=', 'appointments.service_id')
+                    ->join('users', 'users.id', '=', 'bills.user_id')
+                    ->join('doctors', 'doctors.id', '=', 'bills.doctor_id')
+                    ->join('prescriptions', 'prescriptions.bill_id', '=', 'bills.id')
+                    ->select(
+                        'bills.id as bill_id',
+                        'bills.code',
+                        'bills.created_at as bill_created_at',
+                        'bills.total_amount',
+                        'bills.status as bill_status',
+                        'users.name as user_name',
+                        'users.phone as user_phone',
+                        'users.avatar as avatar',
+                        'doctors.name as doctor_name',
+                        'bills.description',
+                        'prescriptions.name', 'prescriptions.price',
+                    )
+                    ->first();
+
+                $prescription = DB::table('prescriptions')
+                    ->join('prescription_product', 'prescription_product.prescription_id', '=', 'prescriptions.id')
+                    ->join('products', 'products.id', '=', 'prescription_product.product_id')
+                    ->select( 'products.name as product_name', 'prescription_product.quantity', 'prescription_product.price as price_product', 'prescription_product.instructions')
+                    ->where('prescriptions.bill_id', $id)
+                    ->get();
+                $services = DB::table('services')
+                    ->join('appointments', 'appointments.service_id', '=', 'services.id')
+                    ->join('bills', 'bills.appointment_id', '=', 'appointments.id')
+                    ->where('bills.id', $id)
+                    ->select('services.name', 'services.price', 'appointments.date', 'appointments.time', 'appointments.shift_name', 'appointments.description')
+                    ->get();
+
                 return response()->json([
                     'success' => true,
                     'message' => 'Lấy thông tin hóa đơn thành công',
-                    'bill' => $bill
+                    'bill' => $bill,
+                    'prescription' => $prescription,
+                    'services' => $services
                 ]);
             } else {
                 return response()->json([

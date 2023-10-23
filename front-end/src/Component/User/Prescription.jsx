@@ -29,53 +29,55 @@ const Prescription = () => {
   }, [token]);
   return (
     <div className="tab-pane fade" id="pat_prescriptions">
-                  <div className="card card-table mb-0">
-                    <div className="card-body">
-                      <div className="table-responsive">
-                        <table className="table table-hover table-center mb-0">
-                          <thead>
-                            <tr>
-                              <th>Mã thuốc </th>
-                              <th>Ngày </th>
-                              <th>Tên đơn thuốc</th>
-                              <th>Người tạo </th>
-                              <th>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                          {prescription.map(prescription => (
-                            <tr key={prescription.prescription_id}>
-                            <td>{prescription.prescription_id}</td>
+      <div className="card card-table mb-0">
+        <div className="card-body">
+          <div className="table-responsive">
+            <table className="table table-hover table-center mb-0">
+              <thead>
+                <tr>
+                  <th>Mã thuốc </th>
+                  <th>Ngày </th>
+                  <th>Tên đơn thuốc</th>
+                  <th>Người tạo </th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {prescription.map(prescription => (
+                  <tr key={prescription.prescription_id}>
+                    <td>{prescription.prescription_id}</td>
 
-                            <td>{prescription.created_at}</td>
-                            <td>{prescription.name}</td>
-                            <td>
-                              <h2 className="table-avatar">
-                                <a href="doctor-profile.html" className="avatar avatar-sm me-2">
-                                  <img className="avatar-img rounded-circle" src={prescription.doctor_image} alt="User Image" />
-                                </a>
-                                <a href="doctor-profile.html"> {prescription.created_by}<span>{prescription.created_by}</span></a>
-                              </h2>
-                            </td>
-                            <td>
-                            <div className="table-action">
-                                
-                                <button className="btn btn-sm bg-info-light">
-                                  <Link to={"/user/prescription"}> <i className="far fa-eye" /> View</Link>
-                                 
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                          ))}
-                            
-                            
-                          </tbody>
-                        </table>
+                    <td>{prescription.created_at}</td>
+                    <td>{prescription.name}</td>
+                    <td>
+                      <h2 className="table-avatar">
+                        <a href="doctor-profile.html" className="avatar avatar-sm me-2">
+                          <img className="avatar-img rounded-circle" src={prescription.doctor_image} alt="User Image" />
+                        </a>
+                        <a href="doctor-profile.html"> {prescription.created_by}<span>{prescription.created_by}</span></a>
+                      </h2>
+                    </td>
+                    <td>
+                      <div className="table-action">
+
+                        <button className="btn btn-sm bg-info-light">
+                          <Link to={`/user/prescription/${prescription.prescription_id}`}>
+                            <i className="far fa-eye" /> View
+                          </Link>
+
+                        </button>
                       </div>
-                    </div>
-                  </div>
-                </div>
+                    </td>
+                  </tr>
+                ))}
+
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 
