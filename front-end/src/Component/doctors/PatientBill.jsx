@@ -23,6 +23,7 @@ const PatientBill = () => {
           },
         });
         setBills(response.bills);
+        console.log(response);
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
@@ -55,11 +56,11 @@ const PatientBill = () => {
         <td>{bill.total_amount}</td>
         <td>
           <div className="table-action">
-            <Link to="#" className="btn btn-sm bg-info-light">
+            <Link to={`/doctors/detail-bill/${bill.id}`} className="btn btn-sm bg-info-light">
               <i className="far fa-eye" /> View
             </Link>
             <Link
-              to="/doctors/add-bill"
+              to={`/doctors/edit-bill/${bill.id}`}
               className="btn btn-sm bg-success-light"
             >
               <i className="fas fa-edit" /> Edit
