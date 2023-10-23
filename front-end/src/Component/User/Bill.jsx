@@ -64,7 +64,7 @@ const Bill = () => {
                       <div className="table-action">
 
                         <button className="btn btn-sm bg-info-light">
-                          <Link to={`/user/bill/${bill.code}`}>
+                          <Link to={`/user/bill/${bill.id}`}>
                             <i className="far fa-eye" /> View
                           </Link>
 
