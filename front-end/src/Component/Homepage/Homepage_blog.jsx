@@ -12,8 +12,6 @@ const Homepage_Blog = () => {
       try {
         const response = await HomepageBlogApi.getAll();
         setBlogs(response.new);
-        // console(response);
-        // console(12312321);
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }

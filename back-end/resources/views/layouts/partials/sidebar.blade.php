@@ -18,6 +18,7 @@
                         </li>
                         <li><a class="{{ request()->routeIs('appointments.trash-can') ? 'active' : '' }}" href="{{ route('appointments.trash-can') }}">Thùng Rác</a></li>
                         <li><a class="{{ request()->routeIs('appointments.trash-can') ? 'active' : '' }}" href="{{ route('appointments.trash-can') }}">Lịch Đã Hủy</a></li>
+                        <li><a class="{{ request()->routeIs('appointments.trash-can') ? 'active' : '' }}" href="{{ route('appointments.trash-can') }}">Thống kế cuộc hẹn</a></li>
                     </ul>
                 </li>
                 <li class="submenu">
@@ -39,8 +40,15 @@
                     </ul>
                 </li>
                 @role('Admin')
-                <li>
-                    <a href="{{ route('notifications.index') }}"><i class=" {{ request()->routeIs('notifications.*') ? 'active' : '' }} fe fe-bell"></i> <span>Thông báo</span></a>
+                <li class="submenu">
+                    <a href="#">
+                        <i class="fe fe-bell"></i>
+                        <span> Thông báo</span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        <li><a class="{{ request()->routeIs('notifications.index') ? 'active' : '' }}" href="{{ route('notifications.index') }}">Thông báo người dùng</a></li>
+                        <li><a class="{{ request()->routeIs('notifications.doctor') ? 'active' : '' }}" href="{{ route('notifications.doctor') }}">Thông báo bác sĩ</a></li>
+                        <li><a class="{{ request()->routeIs('notifications.time-line-notifications') ? 'active' : '' }}" href="{{ route('notifications.time-line-notifications') }}">Set thời gian gửi thông báo</a></li>
+                    </ul>
                 </li>
                 <li>
                     <a class="{{ request()->routeIs('doctors.*') ? 'active' : '' }}" href="{{ route('doctors.index') }}"><i class="fe fe-user-plus"></i> <span>Bác sĩ</span> </a>
@@ -56,7 +64,7 @@
                     <a href="{{ route('purchase.index') }}"><i class="fe fe-activity"></i> <span>Đơn hàng</span></a>
                 </li>
                 <li>
-                    <a href="settings.html"><i class="fe fe-vector"></i> <span>Cấu hình</span></a>
+                    <a href="{{ route('setting') }}"><i class="fe fe-vector"></i> <span>Cấu hình</span></a>
                 </li>
                 <li class="submenu">
                     <a href="#"><i class="fe fe-document"></i> <span> Báo cáo</span> <span class="menu-arrow"></span></a>
@@ -76,6 +84,10 @@
                         <li><a class="{{ request()->routeIs('role.*') ? 'active' : '' }}" href="{{route('role.index')}}"> Role </a></li>
                         <li><a class="{{ request()->routeIs('permission.*') ? 'active' : '' }}" href="{{route('permission.index')}}"> Permission </a></li>
                     </ul>
+                </li>
+
+                <li>
+                    <a href="{{ route('purchase.index') }}"><i class="fe fe-activity"></i> <span>Clear cache</span></a>
                 </li>
                 @endrole
             </ul>

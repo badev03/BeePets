@@ -10,6 +10,7 @@ use App\Models\Notification;
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Queue;
 use Pusher\Pusher;
 class HomeController extends Controller
 {
@@ -100,6 +101,11 @@ class HomeController extends Controller
         else {
             return view('admin.users.login');
         }
+    }
+
+    public function QueueTest() {
+        $jobs = Queue::getJobs('TimeLineNotification');
+        dd($jobs);
     }
 }
 

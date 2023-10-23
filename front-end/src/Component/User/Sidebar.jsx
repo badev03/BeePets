@@ -13,6 +13,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const { onLogout } = useAuth(); // Sử dụng context để lấy hàm onLogout
 
+
   const handleLogout = async () => {
     // Gọi hàm logout khi người dùng nhấp vào "Đăng Xuất"
     try {

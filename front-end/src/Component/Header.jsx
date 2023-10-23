@@ -16,6 +16,8 @@ const Header = () => {
   const navigate = useNavigate();
   const [noti, setNoti] = useState([]);
   const [user, setUser] = useState();
+  const imgDefault = "https://dvdn247.net/wp-content/uploads/2020/07/avatar-mac-dinh-1.png";
+  let userLocal = localStorage.getItem("user");
   // if (token) {
   //   useEffect(() => {
   //     const fetchUser = async () => {
@@ -38,53 +40,6 @@ const Header = () => {
   //   }, []);
   // }
 
-  // const   = localStorage.getItem('token');
-
-
-  // useEffect(() => {
-  //   if (token) {
-
-  //     const fetchNoti = async () => {
-  //       try {
-  //         const response = await notification.getAll({
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         });
-  //         setNoti(response.notifications);
-  //       } catch (error) {
-  //         console.log(error);
-  //       }
-  //     };
-  //     fetchNoti();
-  //     const fetchUser = async () => {
-  //       try {
-  //         const response = await usersApi.getUser({
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         });
-  //         setUser(response.user);
-
-  //         // Khởi tạo Pusher
-  //         const pusher = new Pusher("2798806e868dbe640e2e", {
-  //           cluster: "ap1",
-  //         });
-
-  //         // Đăng ký kênh theo id người dùng
-  //         const channel = pusher.subscribe("user-notification-" + response.user.id);
-
-  //         // Xử lý sự kiện thông báo từ Pusher
-  //         channel.bind("notification-event-test", function (data) {
-  //           fetchNoti(); // Lấy thông báo khi có thông báo mới
-  //         });
-  //       } catch (error) {
-  //         console.error("Không có dữ liệu:", error);
-  //       }
-  //     };
-  //     fetchUser();
-  //   }
-  // }, [token]);
   const handleLogout = async () => {
     // console.log(token);
     try {
@@ -130,12 +85,12 @@ const Header = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("user")) {
+    if (userLocal) {
       setData(JSON.parse(
-        localStorage.getItem("user")
+        userLocal
       ))
     }
-  }, [token])
+  }, [userLocal])
 
   useEffect(() => {
     if (data) {
@@ -195,8 +150,7 @@ const Header = () => {
       });
 
       // Đăng ký kênh theo id người dùng
-      const channel = pusher.subscribe("doctor-notification-" + data.id);
-
+      const channel = pusher.subscribe("doctor-notification-"+data.id);
       // Xử lý sự kiện thông báo từ Pusher
       channel.bind("notification-event-doctor", function (data) {
         setNoti((prevData) => {
@@ -360,7 +314,7 @@ const Header = () => {
                     <span className="user-img">
                       <img
                         className="rounded-circle"
-                        src={handleCheckAccount(data) ? data?.avatar : data?.image}
+                        src={handleCheckAccount(data) ? (data?.avatar ? data?.avatar : imgDefault) : (data?.image ? data?.image : imgDefault)}
                         width={31}
                       />
                       {/* {user.avatar ? (
@@ -378,7 +332,7 @@ const Header = () => {
                     <div className="user-header">
                       <div className="avatar avatar-sm">
                         <img
-                          src={handleCheckAccount(data) ? data?.avatar : data?.image}
+                          src={handleCheckAccount(data) ? (data?.avatar ? data?.avatar : imgDefault) : (data?.image ? data?.image : imgDefault)}
                           alt="User Image"
                           className="avatar-img rounded-circle"
                         />
