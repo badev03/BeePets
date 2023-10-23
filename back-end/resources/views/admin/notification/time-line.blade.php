@@ -7,18 +7,23 @@
 @section('heading','hihihi')
 @section('content')
     <div class="row">
-            @include('admin.components.errors.errors')
+        <div class="col-sm-12">
+            @if(session()->has('success_delete'))
+                <div class="alert-success alert">
+                    {{ session('success_delete') }}
+                </div>
+            @endif
             <div class="card">
                 <div class="card-header">
                     <div class="row">
                         <div class="d-flex flex-wrap justify-content-between align-items-center">
-                            <h4 class="card-title">Danh sách {{ $title_web }}</h4>
+                            <h4 class="card-title">Time Line {{ $title_web }}</h4>
                             <div class='d-flex flex-wrap'>
-                                <a href="{{ route($urlbase.'create') }}" class="btn btn-sm bg-danger-light me-3 d-flex align-items-center">Hàng đợi là <span class="ms-2">{{ $count_queue }}</span></a>
+                                @include(BUTTON_HEADER_ADMIN_LINK)
                             </div>
                         </div>
                     </div>
-                    <livewire:notification-fillter />
+                    <livewire:time-line />
             </div>
         </div>
     </div>

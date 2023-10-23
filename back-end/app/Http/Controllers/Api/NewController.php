@@ -38,7 +38,7 @@ class NewController extends BaseResponseApiController
 
     public function showNew() {
         $data = $this->query()
-            ->get();
+            ->limit(3);
         if(!$data) {
             return response()->json(['message' => $this->title.'không tồn tại'], 404);
         }
@@ -93,7 +93,7 @@ class NewController extends BaseResponseApiController
         $data = $this->query()
             ->where('newcs.slug', '=', $slug)
             ->first();
-        if($data->isEmpty()) {
+        if(!$data) {
             return response()->json(['message' => $this->title.'không có dữ liệu'], 404);
         }
         $relatedNew = $this->tableQuery('newcs')

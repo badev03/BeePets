@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseAdminController;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\AppointmentRequest;
 use App\Interfaces\MessageUser;
 use App\Models\Appointment;
 use App\Models\Doctor;
@@ -16,62 +17,59 @@ use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Vonage\Voice\Endpoint\App;
+use function Laravel\Prompts\select;
 
 class AppointmentController extends Controller
 {
     use QueryCommon;
     public $model = Appointment::class;
     public $urlbase = 'appointment.';
-    public $fieldImage = 'image';
     public $pathView = 'admin.appointments.';
-    public $folderImage = 'image/appointment';
-
     public $title = 'Cuộc hẹn';
     protected $permissionCheckCrud = 'appointment';
     public $listIndex = ['Doctor' , 'User' , 'TypePet' , 'Service'];
     protected $FIELD_SELECT_CUSTOM_CONTROLLER= ['doctor_id' , 'user_id','type_pet_id' , 'service_id' ];
-    public $colums = [
-        'doctor_id' => 'Tên bác sĩ',
-        'user_id' => 'Bệnh nhân',
-        'type_pet_id' => 'Loại thứ cưng',
-        'service_id' => 'Tên dịch vụ',
-        'description' => 'Mô tả',
-    ];
+    public $colums = [];
     protected $special = ['start_time' , 'end_time'];
-    public function addDataSelect() {
-        $Doctor = Doctor::all();
-        $User = User::all();
-        $TypePet = Type_pet::all();
-        $Service = Service::all();
-        $dataForMergeArray = [
-            'doctor_id' => $Doctor,
-            'user_id' => $User,
-            'type_pet_id' => $TypePet,
-            'service_id' => $Service,
-        ];
-        return $dataForMergeArray;
+
+    public function index()
+    {
+        $data = $this->QuerySpecialIndex();
+        $dataDoctor = $this->tableSelect('doctors')->get();
+        $dataService = $this->tableSelect('services')->get();
+        $dataTypePet = $this->tableSelect('type_pets')->get();
+        $permission_crud = $this->permissionCheckCrud;
+        return view($this->pathView.'index' , compact('data' , 'permission_crud'
+            , 'dataService' , 'dataTypePet' , 'dataDoctor'))
+            ->with([
+                'colums' => $this->columns('index'),
+                'urlbase' => $this->urlbase,
+                'title_web' => $this->title,
+            ]);
     }
 
-    /**
-     * Tên key phải trùng với giá trị value trong của thuộc tính $FIELD_SELECT_CUSTOM_CONTROLLER
-    */
+    public function tableSelect($table) {
+        $query = DB::table($table)->select('id' , 'name');
+        return $query;
+    }
+
+    public function create() {
+        return view(admin_403);
+    }
 
     public function QuerySpecialIndex()
     {
         $appointments = $this->queryCommon()
             ->orderByDesc('id')
             ->whereNull('appointments.deleted_at')
+            ->orderBy('id', 'DESC')
             ->get();
         return $appointments;
     }
-    public function store(Request $request , MessageUser $messageUser)
+
+    public function store(AppointmentRequest $request , MessageUser $messageUser)
     {
-        $this->validateFormAppointment($request , 'store');
-        $data = [
-            'time' =>now(),
-            'created_at' => $this->getTimestampQuery(),
-            'updated_at' => $this->getTimestampQuery(),
-        ];
+        $data = $this->dataAppointent();
         $checkShift = $this->tableQuery('appointments')
             ->where('user_id' , '=' , $request->user_id)
             ->where('date' , '=' , $request->date)
@@ -80,10 +78,7 @@ class AppointmentController extends Controller
         if($checkShift) {
             return back()->with('error', 'Xin lỗi lịch đặt của bạn đã bị trùng với lịch bạn đặt trước đó');
         }
-        $checkPhone = $this->tableQuery('users')
-            ->where('role_id' , '=' , 4)
-            ->where('phone' , '=' , $request->user_id)
-            ->first();
+        $checkPhone = $this->checkPhone($request->phone);
         if($checkPhone) {
             $data['user_id'] = $checkPhone->id;
             $this->tableQuery('appointments')->insert(array_merge($request->except('_token' , 'user_id') , $data));
@@ -100,12 +95,7 @@ class AppointmentController extends Controller
 
     public function edit(string $id)
     {
-         $this->colums = [
-            'doctor_id' => 'Tên bác sĩ',
-            'type_pet_id' => 'Loại thứ cưng',
-            'service_id' => 'Tên dịch vụ',
-            'description' => 'Mô tả',
-        ];
+        $this->columns('edit');
         $model = $this->queryCommon()
             ->where('appointments.id' , $id)
             ->first();
@@ -116,48 +106,26 @@ class AppointmentController extends Controller
             ->where('doctor_id' , '=' , $model->id_doctor)
             ->where('date' , '=' , $model->date)
             ->get();
-        $dataDoctor = $this->tableQuery('doctors')->get();
-        $dataService = $this->tableQuery('services')->get();
-        $dataTypePet = $this->tableQuery('type_pets')->get();
+        $dataDoctor = $this->tableSelect('doctors')->get();
+        $dataService = $this->tableSelect('services')->get();
+        $dataTypePet = $this->tableSelect('type_pets')->get();
         $time_set_up_shift = ['09:00:00-11:00:00' , '11:00:00-13:00:00' , '13:00:00-15:00:00'];
-        $dataViewer = [
-            'colums' => $this->colums,
-            'urlbase' => $this->urlbase,
-            'title_web' => $this->title,
-            'listIndex' => $this->listIndex,
-            'time_set_up_shift' => $time_set_up_shift,
-            'FIELD_SELECT_CUSTOM_CONTROLLER' => $this->FIELD_SELECT_CUSTOM_CONTROLLER,
-            'dataDoctor' => $dataDoctor,
-            'dataService' => $dataService,
-            'dataTypePet' => $dataTypePet,
-        ];
-        return view($this->pathView.__FUNCTION__ , compact('model' , 'user' , 'getDayDefault'))
-            ->with($dataViewer);
+        return view($this->pathView.__FUNCTION__ ,
+            compact('model' , 'user' ,
+                'getDayDefault' , 'dataDoctor' , 'dataService' , 'dataTypePet' , 'time_set_up_shift'))
+            ->with([
+                'title_web'=>$this->title,
+                'urlbase'=>$this->urlbase,
+                'colums' => $this->columns('edit')
+            ]);
 
-    }
-
-    public function queryCommon() {
-        $query = DB::table('appointments')
-            ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
-            ->join('users', 'users.id', '=', 'appointments.user_id')
-            ->join('type_pets', 'type_pets.id', '=', 'appointments.type_pet_id')
-            ->join('services', 'services.id', '=', 'appointments.service_id')
-            ->select('appointments.description' , 'appointments.date' , 'appointments.id'
-                , 'doctors.name as doctor_id' , 'users.name as user_id', 'users.id as id_user',
-                'type_pets.name as type_pet_id' , 'services.name as service_id' , 'appointments.shift_name',
-                 'appointments.doctor_id as id_doctor');
-        return $query;
     }
 
     public function update(Request $request, string $id , MessageUser $messageUser)
     {
-        $this->validateFormAppointment($request , 'update');
         $phone = $request->user_id;
         if($phone) {
-            $checkPhone = $this->tableQuery('users')
-                ->where('role_id' , '=' , 4)
-                ->where('phone' , '=' , $phone)
-                ->first();
+            $checkPhone = $this->checkPhone($phone);
             if($checkPhone) {
                 $data = [
                     'time' =>now(),
@@ -205,11 +173,6 @@ class AppointmentController extends Controller
         return response()->json(['day_appointments'=> $day_appointments] , '200');
     }
 
-    public function tableQuery($table) {
-        $table = DB::table($table);
-        return $table;
-    }
-
     public function QueryFilter () {
         $query = DB::table('appointments')
             ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
@@ -221,26 +184,6 @@ class AppointmentController extends Controller
                  'appointments.doctor_id as id_doctor'  , 'appointments.date'
                 );
         return $query;
-    }
-
-    public function index()
-    {
-        $data = $this->QuerySpecialIndex();
-        $dataDoctor = $this->tableQuery('doctors')->get();
-        $dataService = $this->tableQuery('services')->get();
-        $dataTypePet = $this->tableQuery('type_pets')->get();
-        $permission_crud = $this->permissionCheckCrud;
-        $dataViewer = [
-            'colums' => $this->colums,
-            'urlbase' => $this->urlbase,
-            'title_web' => $this->title,
-            'FIELD_SELECT_CUSTOM_CONTROLLER' => $this->FIELD_SELECT_CUSTOM_CONTROLLER,
-            'dataDoctor' => $dataDoctor,
-            'special', $this->special,
-        ];
-        return view($this->pathView.'index' , compact('data' , 'permission_crud'
-        , 'dataService' , 'dataTypePet'))
-            ->with($dataViewer);
     }
 
     public function FilterSearch(Request $request) {
@@ -290,9 +233,9 @@ class AppointmentController extends Controller
             $outputArray[] = substr($time, 0, 5);
         }
 
-        $dataDoctor = $this->tableQuery('doctors')->get();
-        $dataService = $this->tableQuery('services')->get();
-        $dataTypePet = $this->tableQuery('type_pets')->get();
+        $dataDoctor = $this->tableSelect('doctors')->get();
+        $dataService = $this->tableSelect('services')->get();
+        $dataTypePet = $this->tableSelect('type_pets')->get();
         $dataTime = [];
 
         foreach ($timeWork as $key => $item) {
@@ -327,13 +270,11 @@ class AppointmentController extends Controller
             'colums' => $this->colums,
             'urlbase' => $this->urlbase,
             'title_web' => $this->title,
-            'listIndex' => $this->listIndex,
             'dataDoctor' => $dataDoctor,
             'dataService' => $dataService,
             'timeWork' => $timeWork,
             'dataTypePet' => $dataTypePet,
             'data_time_appointments' => $mergedArray,
-            'FIELD_SELECT_CUSTOM_CONTROLLER' => $this->FIELD_SELECT_CUSTOM_CONTROLLER,
             'timeCompare' => $outputArray,
             'getDayDefault' => $getTimeShift
         ];
@@ -417,52 +358,6 @@ class AppointmentController extends Controller
         return back()->with(['failed_delete' => 'Dữ liệu khôi phục không hợp lệ']);
     }
 
-    public function validateFormAppointment($data , $case) {
-        switch ($case) {
-            case 'store':
-                $this->validate($data,[
-                    'description' => 'required',
-                    'service_id' => 'required|nullable',
-                    'doctor_id' => 'required',
-                    'date' => 'required',
-                    'shift_name' => 'required',
-                ],
-                    [
-                        'description.required' => 'Trường mô tả không được để trống',
-                        'service_id.required' => 'Trường dịch vụ không được để trống',
-                        'service_id.nullable' => 'Trường dịch vụ bắt buộc phải chọn',
-                        'doctor_id.required' => 'Trường Bác sĩ không được để trống',
-                        'date.required' => 'Trường ngày đặt không được để trống',
-                        'shift_name.required' => 'Trường ca đặt không được để trống',
-                    ]
-                );
-                break;
-            case 'update':
-                $this->validate($data,[
-                    'description' => 'required',
-                    'service_id' => 'required|nullable',
-                    'doctor_id' => 'required',
-                    'date' => 'required',
-                    'shift_name' => 'required',
-                    'user_id' => 'required',
-                ],
-                    [
-                        'description.required' => 'Trường mô tả không được để trống',
-                        'service_id.required' => 'Trường dịch vụ không được để trống',
-                        'service_id.nullable' => 'Trường dịch vụ bắt buộc phải chọn',
-                        'doctor_id.required' => 'Trường Bác sĩ không được để trống',
-                        'date.required' => 'Trường ngày đặt không được để trống',
-                        'shift_name.required' => 'Trường ca đặt không được để trống',
-                        'user_id.required' => 'Trường user đặt không được để trống',
-                    ]
-                );
-                break;
-            default:
-                break;
-        }
-
-    }
-
     public function destroy(MessageUser $messageUser , string $id) {
         if (auth()->user()->can(['delete-appointment'])) {
             $model = Appointment::findOrFail($id);
@@ -475,5 +370,30 @@ class AppointmentController extends Controller
         else {
             return view(admin_403);
         }
+    }
+
+    public function columns($case) {
+        switch ($case) {
+            case 'index' :
+                $this->colums = [
+                    'doctor_id' => 'Tên bác sĩ',
+                    'user_id' => 'Bệnh nhân',
+                    'type_pet_id' => 'Loại thứ cưng',
+                    'service_id' => 'Tên dịch vụ',
+                    'description' => 'Mô tả',
+                ];
+                break;
+            case 'edit':
+                $this->colums = [
+                    'doctor_id' => 'Tên bác sĩ',
+                    'type_pet_id' => 'Loại thứ cưng',
+                    'service_id' => 'Tên dịch vụ',
+                    'description' => 'Mô tả',
+                ];
+                break;
+            default:
+                break;
+        }
+        return $this->colums;
     }
 }
