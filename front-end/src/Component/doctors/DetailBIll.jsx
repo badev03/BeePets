@@ -6,34 +6,73 @@ import { useParams } from 'react-router-dom';
 import billApi from '../../api/bill';
 const DetailBIll = () => {
     const { id } = useParams();
-    const [bill, setBill] = useState(null);
+    const [bill, setBill] = useState({});
+    const [prescription, setPrescription] = useState([]);
+    const [service, setService] = useState([]);
 
     const token = localStorage.getItem('token');
-
-
-  
-     useEffect(() => {
-      const fetchBill = async () => {
-        try {
-         const response = await billApi.getBillDetail(id,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setBill(response.bill);     
-        console.log(response.bill.code);
-      
-
-        } catch (error) {
-          console.error("Không có dữ liệu:", error);
+     const fetchService = async () => {
+      try {
+       const response = await billApi.getBillDetail(id,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      };
-  
+      );
+      setService(response.services);     
+      // console.log(response.services);
+    
+
+      } catch (error) {
+        console.error("Không có dữ liệu:", error);
+      }
+    };
+    const fetchPrescription = async () => {
+      try {
+       const response = await billApi.getBillDetail(id,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setPrescription(response.prescription);     
+      // console.log(response.prescription);
+    
+
+      } catch (error) {
+        console.error("Không có dữ liệu:", error);
+      }
+    };
+    const fetchBill = async () => {
+      try {
+       const response = await billApi.getBillDetail(id,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setBill(response.bill);     
+      // console.log(response.bill.code);
+    
+
+      } catch (error) {
+        console.error("Không có dữ liệu:", error);
+      }
+    };
+   
+
+    useEffect(() => {
+     
+      
       fetchBill();
+      fetchPrescription();
+      fetchService();
+
     }, []); 
-        console.log(bill)
+    // console.log(service)
         if (!bill) {
             return <div>Loading...</div>;
         }
@@ -65,28 +104,28 @@ const DetailBIll = () => {
                 <div className="card widget-profile pat-widget-profile">
                   <div className="card-body">
                     <Menudashboard />
-                    {/* <div className="pro-widget-content">
+                    <div className="pro-widget-content">
                       <div className="profile-info-widget">
                         <Link to="#" className="booking-doc-img">
-                          <img src="/img/patients/patient.jpg" alt="User Image" />
+                          <img src={bill.avatar} alt="User Image" />
                         </Link>
                         <div className="profile-det-info">
-                          <h3>Richard Wilson</h3>
-                          <div className="patient-details">
+                          <h3>{bill.user_name}</h3>
+                          {/* <div className="patient-details">
                             <h5>
                               <b>Patient ID :</b> PT0016
                             </h5>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                     </div>
                     <div className="patient-info">
                       <ul>
                         <li>
-                          SĐT <span>+1 952 001 8563</span>
+                          SĐT <span>{bill.user_phone}</span>
                         </li>
                       </ul>
-                    </div> */}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -99,13 +138,18 @@ const DetailBIll = () => {
                     <div className="row">
                       <div className="col-sm-6">
                         <div className="biller-info">
-                          <h4 className="d-block">{bill.user_name}</h4>
+                          <h4 className="d-block">{bill.doctor_name}</h4>
                         </div>
                       </div>
                       <div className="col-sm-6 text-sm-end">
                         <div className="billing-info">
-                          <h4 className="d-block">{bill.date}</h4>
+                          <h4 className="d-block">{bill.bill_created_at}</h4>
                           <span className="d-block text-muted">{bill.code}</span>
+                        </div>
+                      </div>
+                      <div className="col-sm-6">
+                        <div className="biller-info">
+                          <h4 className="d-block">Tên đơn thuốc : {bill.name}</h4>
                         </div>
                       </div>
                     </div>
@@ -133,36 +177,39 @@ const DetailBIll = () => {
                               </tr>
                             </thead>
                             <tbody>
-                            <tr className="test">
+                              {prescription.map((pres, index)=>(
+                                <tr className="test" key={index}>
                                                             <td>
-                                                                <input className="form-control" type="text" />
+                                                                <input className="form-control" type="text" defaultValue={pres.product_name}/>
                                                             </td>
                                                             <td>
-                                                                <input className="form-control" type="text" />
+                                                                <input className="form-control" type="text" defaultValue={pres.quantity} />
                                                             </td>
                                                             <td>
-                                                                <input className="form-control" type="text" />
+                                                                <input className="form-control" type="text" defaultValue={pres.price_product} />
                                                             </td>
                                                             <td>
-                                                            <input className="form-control" type="text" />
+                                                            <input className="form-control" type="text" defaultValue={pres.quantity * pres.price_product} />
                                                             </td> 
                                                             <td>
-                                                            <input className="form-control" type="text" />
+                                                            <input className="form-control" type="text" defaultValue={pres.instructions} />
                                                             </td>
                                                             {/* <td>
                                                                 <Link to="#" className="btn bg-danger-light trash"><i className="far fa-trash-alt" /></Link>
                                                             </td> */}
-                                                        </tr>
+                               </tr>
+                              ))}
+                            
                             </tbody>
                           </table>
                         </div>
                       </div>
                     </div>
-                    {/* <div className="add-more-item text-end">
-                      <a onClick={addServiceRow} className="add-prescription">
-                        <i className="fas fa-plus-circle" /> Thêm dịch vụ
-                      </a>
-                    </div> */}
+                    <div className="add-more-item text-end">
+                    <div className="biller-info">
+                          <h4 className="d-block">Tổng tiền đơn thuốc : {bill.price}</h4>
+                        </div>
+                    </div>
                     <div className="card card-table">
                       <div className="card-body">
                         <div className="table-responsive">
@@ -177,26 +224,23 @@ const DetailBIll = () => {
                               </tr>
                             </thead>
                             <tbody>
-                            <tr className="test">
+                            {service.map((ser, index)=>(
+                                <tr className="test" key={index}>
                                                             <td>
-                                                                <input className="form-control" type="text" value={bill.service_name}/>
+                                                                <input className="form-control" type="text" defaultValue={ser.name}/>
                                                             </td>
                                                             <td>
-                                                                <input className="form-control" type="text" value={bill.shift_name} />
+                                                                <input className="form-control" type="text" defaultValue={ser.shift_name} />
                                                             </td>
                                                             <td>
-                                                                <input className="form-control" type="text" value={bill.service_price} />
-                                                            </td>
-                                                            <td>
-                                                            <input className="form-control" type="text" value={bill.description} />
+                                                                <input className="form-control" type="text" defaultValue={ser.price} />
                                                             </td> 
-                                                            {/* <td>
-                                                            <input className="form-control" type="text" />
-                                                            </td> */}
-                                                            {/* <td>
-                                                                <Link to="#" className="btn bg-danger-light trash"><i className="far fa-trash-alt" /></Link>
-                                                            </td> */}
-                                                        </tr>
+                                                            <td>
+                                                            <input className="form-control" type="text" defaultValue={ser.description} />
+                                                            </td>
+                                                          
+                               </tr>
+                              ))}
                             </tbody>
                           </table>
                         </div>
@@ -211,12 +255,16 @@ const DetailBIll = () => {
                             <textarea
                               className="form-control"
                               rows={5}
-                              defaultValue={""}
-                              value={bill.description} 
+                              defaultValue={bill.description} 
                             />
                           </div>
                         </div>
                       </div>
+                      <div className="add-more-item text-end">
+                    <div className="biller-info">
+                          <h4 className="d-block">Tổng tiền : {bill.total_amount}</h4>
+                        </div>
+                    </div>
                     </div>
                     <div className="row">
                       <div className="col-md-12">
