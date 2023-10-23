@@ -229,28 +229,28 @@ class UserController extends Controller
         ->where('bills.user_id', $user_id)
         ->where('bills.id', $id)
         ->first();
-    
+
     if (!$bill) {
         return response()->json([
             'success' => false,
             'message' => 'Không tìm thấy đơn thuốc'
         ]);
     }
-    
+
     $products = DB::table('prescription_product')
         ->select('products.name as product_name', 'prescription_product.quantity', 'prescription_product.price as product_price')
         ->join('products', 'prescription_product.product_id', '=', 'products.id')
         ->join('prescriptions', 'prescription_product.prescription_id', '=', 'prescriptions.id')
         ->where('prescriptions.bill_id', $id)
         ->get();
-    
+
     return response()->json([
         'success' => true,
         'message' => 'Lấy chi tiết đơn thuốc thành công',
         'bill' => $bill,
         'products' => $products
     ]);
-    
+
     }
     public function billByUser()
     {
@@ -263,7 +263,7 @@ class UserController extends Controller
             } else {
                 $id = auth()->user()->id;
                 $result = DB::table('bills')
-                    ->select('bills.code', 'bills.created_at as order_date', 'doctors.name as created_by', 'bills.total_amount')
+                    ->select('bills.id','bills.code', 'bills.created_at as order_date', 'doctors.name as created_by', 'bills.total_amount')
                     ->join('appointments', 'bills.appointment_id', '=', 'appointments.id')
                     ->join('doctors', 'appointments.doctor_id', '=', 'doctors.id')
                     ->where('bills.user_id', $id)
