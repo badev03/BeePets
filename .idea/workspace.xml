@@ -6,6 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="45a53ba9-6ef3-41ae-87f6-4b989cb527d7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+
+      <change beforePath="$PROJECT_DIR$/back-end/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/composer.lock" afterDir="false" />
+
+
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -285,6 +289,7 @@
       <path value="$PROJECT_DIR$/back-end/vendor/mpdf/psr-log-aware-trait" />
       <path value="$PROJECT_DIR$/back-end/vendor/spatie/laravel-package-tools" />
       <path value="$PROJECT_DIR$/back-end/vendor/spatie/laravel-google-fonts" />
+      <path value="$PROJECT_DIR$/back-end/vendor/livewire/livewire" />
     </include_path>
   </component>
   <component name="ProjectId" id="2VuhhQXDza3ZsemU1n74U22XaJR" />
@@ -354,7 +359,12 @@
       <workItem from="1697854891132" duration="329000" />
       <workItem from="1697899578739" duration="733000" />
       <workItem from="1697980735480" duration="8896000" />
+
+      <workItem from="1698025580630" duration="2397000" />
+      <workItem from="1698044864236" duration="255000" />
+
       <workItem from="1698025580630" duration="2851000" />
+
     </task>
     <servers />
   </component>
