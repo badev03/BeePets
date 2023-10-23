@@ -26,7 +26,7 @@ const Booking = () => {
   const [isNameEditable, setIsNameEditable] = useState(true);
   const [isPhoneEditable, setIsPhoneEditable] = useState(true);
   const [selectedShift, setSelectedShift] = useState("");
-
+  
   useEffect(() => {
     const fetchTypePet = async () => {
       try {
@@ -68,21 +68,18 @@ const Booking = () => {
         }
       }
     }
-  }, [selectedService, serviceDoctor]);
+  }, [selectedService, serviceDoctor, selectedDoctor]);
 
   const showModal = () => {
     setIsModalOpen(true);
   };
 
   const handleCancel = () => {
+    form.resetFields();
     setIsModalOpen(false);
   };
 
-  const handleChangeService = (value) => {
-    setSelectedService(value);
-    setSelectedDoctor(null);
-  };
-
+  
   useEffect(() => {
     if (selectedDoctor && selectedDate) {
       fetchWorkingHours(selectedDoctor, selectedDate);
@@ -132,13 +129,15 @@ const Booking = () => {
       };
 
       await BookingApi.saveBooking(bookingData);
+
+      form.resetFields();
+
       MySwal.fire({
         title: "Đặt lịch thành công!",
         icon: "success",
       });
 
       console.log("Booking successful");
-      console.log(bookingData);
     } catch (error) {
       console.error("Error while booking:", error);
       MySwal.fire({
@@ -147,12 +146,18 @@ const Booking = () => {
         icon: "error",
       });
     } finally {
-      // resetForm();
       setIsModalOpen(false);
     }
   };
   const handleDoctorChange = (value) => {
     setSelectedDoctor(value);
+  };
+
+  const handleChangeService = (value) => {
+    setSelectedService(value);
+    // setDoctorOptions([]);
+  setSelectedDoctor(null);
+  
   };
 
   const handleChangePet = (value) => {
@@ -190,23 +195,6 @@ const Booking = () => {
     return current && current < today.startOf("day");
   };
 
-  // const resetForm = () => {
-  //   setIsModalOpen(false);
-  //   setSelectedService([]);
-  //   setDoctorOptions([]);
-  //   setSelectedDoctor(null);
-  //   setSelectedDate(null);
-  //   setSelectedWorkingHours([]);
-  //   setSelectedPet(null);
-  //   // setSelectedPhone("");
-  //   // setSelectedName("");
-  //   setSelectedDescription("");
-  //   setIsNameEditable(true);
-  //   setIsPhoneEditable(true);
-
-  //   form.resetFields();
-  // };
-
   return (
     <>
       <Button
@@ -226,7 +214,7 @@ const Booking = () => {
         okButtonProps={{ style: { display: "none" } }}
         cancelButtonProps={{ style: { display: "none" } }}
       >
-        <Form layout="vertical" onFinish={handleBooking}>
+        <Form layout="vertical" form={form} onFinish={handleBooking} >
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
@@ -236,6 +224,7 @@ const Booking = () => {
               >
                 <Select
                   placeholder="Dịch Vụ"
+                  value={selectedService}
                   onChange={handleChangeService}
                   options={serviceDoctor.map((service) => ({
                     value: service.id,
@@ -255,6 +244,7 @@ const Booking = () => {
                 <Select
                   key={selectedService}
                   placeholder="Bác Sĩ"
+                  value={selectedDoctor} 
                   onChange={handleDoctorChange}
                   options={doctorOptions.map((doctor) => ({
                     value: doctor.id,
@@ -318,6 +308,7 @@ const Booking = () => {
             <Col span={12}>
               <Form.Item
                 label="Họ và Tên"
+                name={user ? undefined : "name"}
                 rules={[
                   { required: true, message: "Vui lòng nhập tên của bạn" },
                 ]}
@@ -333,6 +324,7 @@ const Booking = () => {
             <Col span={12}>
               <Form.Item
                 label="Số Điện Thoại"
+                name={user ? undefined : "phone"}
                 rules={[
                   { required: true, message: "Vui lòng nhập số điện thoại" },
                   {
