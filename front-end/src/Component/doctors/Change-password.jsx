@@ -14,6 +14,8 @@ const Changepassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordNew, setShowPasswordNew] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
   
 
@@ -44,7 +46,6 @@ const Changepassword = () => {
         icon: "success",
       });
 
-      console.log("Đổi mật khẩu thành công");
     } catch (error) {
       console.error("Đổi mật khẩu thất bại:", error);
 
@@ -124,7 +125,7 @@ const Changepassword = () => {
                           <label className="mb-2">Mật khẩu mới</label>
                           <div className="input-group">
                             <input
-                              type={showPassword ? "text" : "password"}
+                              type={showPasswordNew ? "text" : "password"}
                               className="form-control"
                               value={newPassword}
                               onChange={(e) => setNewPassword(e.target.value)}
@@ -135,10 +136,10 @@ const Changepassword = () => {
                               style={{ display: "flex" }}
                             >
                               <span
-                                onClick={() => setShowPassword(!showPassword)}
+                                onClick={() => setShowPasswordNew(!showPasswordNew)}
                                 className="input-group-text cursor-pointer"
                               >
-                                {showPassword ? <FaEye /> : <FaEyeSlash />}
+                                {showPasswordNew ? <FaEye /> : <FaEyeSlash />}
                               </span>
                             </div>
                           </div>
@@ -147,12 +148,13 @@ const Changepassword = () => {
                           <label className="mb-2">Nhập lại mật khẩu mới</label>
                           <div className="input-group">
                             <input
-                              type={showPassword ? "text" : "password"}
+                              type={showPasswordConfirm ? "text" : "password"}
                               className="form-control"
                               value={confirmPassword}
                               onChange={(e) =>
                                 setConfirmPassword(e.target.value)
                               }
+                              
                               name="confirmPassword"
                             />
                             <div
@@ -160,10 +162,10 @@ const Changepassword = () => {
                               style={{ display: "flex" }}
                             >
                               <span
-                                onClick={() => setShowPassword(!showPassword)}
+                                onClick={() => setShowPasswordConfirm(!showPasswordConfirm)}
                                 className="input-group-text cursor-pointer"
                               >
-                                {showPassword ? <FaEye /> : <FaEyeSlash />}
+                                {showPasswordConfirm ? <FaEye /> : <FaEyeSlash />}
                               </span>
                             </div>
                           </div>

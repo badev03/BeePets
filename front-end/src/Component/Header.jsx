@@ -124,7 +124,6 @@ const Header = () => {
 
       // Đăng ký kênh theo id người dùng
       const channel = pusher.subscribe("doctor-notification-"+data.id);
-
       // Xử lý sự kiện thông báo từ Pusher
       channel.bind("notification-event-doctor", function (data) {
         setNoti((prevData) => {

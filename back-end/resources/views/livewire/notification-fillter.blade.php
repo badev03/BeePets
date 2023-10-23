@@ -22,6 +22,11 @@
 
     <div class="row">
         <div class="col-4 mt-3 d-flex flex-column shadow-lg p-3 mb-5 bg-body rounded">
+            @if (Session::has('success_message'))
+                <div class="alert alert-success mt-3">
+                    {{ Session::get('success_message') }}
+                </div>
+            @endif
             <label class="form-label">Gửi nhiều thông báo</label>
             @foreach ($user as $key=>$item)
                 <label style="gap: 0.5rem" class="d-flex">
@@ -43,13 +48,8 @@
                 <button wire:click="clearForm" class="col-3 btn me-2 btn-sm bg-danger-light">Clear form</button>
             </div>
         </div>
-        <div class="col-4">
-            @if (Session::has('success_message'))
-                <div class="alert alert-success mt-3">
-                    {{ Session::get('success_message') }}
-                </div>
-            @endif
-        </div>
+
+        <livewire:time-line />
     </div>
 
 

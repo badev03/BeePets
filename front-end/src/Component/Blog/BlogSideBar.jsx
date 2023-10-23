@@ -18,11 +18,6 @@ const BlogSideBar = ({ onSearchChange, onSearchSubmit, searchTerm }) => {
     fetchCategoryBlog();
   }, []);
 
-  const getBlogCount = (categoryId) => {
-    return categoryBlogs.filter((blog) => blog.new_categorie_id === categoryId)
-      .length;
-  };
-
   return (
     <div className="col-lg-4 col-md-12 sidebar-right theiaStickySidebar">
       <BlogTopList
@@ -40,7 +35,7 @@ const BlogSideBar = ({ onSearchChange, onSearchSubmit, searchTerm }) => {
               <li key={category.id}>
                 <a href={`/blogs/category/${category.id}`}>
                   {category.name}{" "}
-                  <span>({getBlogCount(category.new_categorie_id)})</span>
+                  <span>{category.new.length}</span>
                 </a>
               </li>
             ))}

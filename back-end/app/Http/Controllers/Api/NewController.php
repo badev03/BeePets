@@ -38,7 +38,7 @@ class NewController extends BaseResponseApiController
 
     public function showNew() {
         $data = $this->query()
-            ->get();
+            ->limit(3);
         if(!$data) {
             return response()->json(['message' => $this->title.'không tồn tại'], 404);
         }
@@ -96,6 +96,32 @@ class NewController extends BaseResponseApiController
         if(!$data) {
             return response()->json(['message' => $this->title.'không có dữ liệu'], 404);
         }
+        $relatedNew = $this->tableQuery('newcs')
+            ->select('newcs.id', 'newcs.name')
+            ->join('new_categories' , 'new_categories.id' , '=' , 'newcs.new_categorie_id')
+            ->get();
+        return response()->json([
+            'newDetail' => $data ,
+            'new-related' => $relatedNew
+        ],
+            '200');
+    }
+
+    public function postNewShow(string $id) {
+        $data = $this->tableQuery('newcs')
+            ->select('newcs.id', 'newcs.name', 'newcs.slug', 'newcs.content' , 'newcs.image' , 'newcs.public_date'
+                , 'new_categories.name as nameCategories')
+            ->join('new_categories' , 'new_categories.id' , '=' , 'newcs.new_categorie_id')
+            ->where('new_categories.status', '=', 1)
+            ->where('newcs.id', '=', $id)
+            ->first();
+        if(!$data) {
+            return response()->json(['message' => $this->title.'không tồn tại'], 404);
+        }
+        $relatedNew = $this->tableQuery('newcs')
+            ->select('newcs.id', 'newcs.name')
+            ->join('new_categories' , 'new_categories.id' , '=' , 'newcs.new_categorie_id')
+            ->get();
         return response()->json([
             'newDetail' => $data ,
         ],

@@ -154,23 +154,19 @@ class UserController extends Controller
                 ]);
             } else {
                 //đang lỗi
-//                $user_id = auth()->user()->id;
-//
-//                $result = DB::table('prescriptions')
-//                    ->select(
-//                        'prescriptions.id as prescription_id',
-//                        'prescriptions.name as prescription_name',
-//                    )
-//                    ->join('bills', 'bills.prescription_id', '=', 'prescriptions.id')
-//                    ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
-//                    ->where('appointments.user_id', $user_id)
-//                    ->get();
-//
-//                return response()->json([
-//                    'success' => true,
-//                    'message' => 'Lấy danh sách đơn thuốc thành công',
-//                    'prescriptions' => $result
-//                ]);
+                $user_id = auth()->user()->id;
+
+                $result = DB::table('prescriptions')
+                    ->select('prescriptions.id as prescription_id', 'prescriptions.created_at', 'doctors.name as created_by', 'prescriptions.price','doctors.image as doctor_image')
+                    ->join('doctors', 'prescriptions.doctor_id', '=', 'doctors.id')
+                    ->where('prescriptions.user_id', $user_id)
+                    ->get();
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Lấy danh sách đơn thuốc thành công',
+                    'prescriptions' => $result
+                ]);
             }
         } catch (\Exception $e) {
             return response()->json([

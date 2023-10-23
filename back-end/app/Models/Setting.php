@@ -5,12 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class bill_prescription extends Model
+class Setting extends Model
 {
     use HasFactory;
-    protected $table = 'bill_prescription';
+
     protected $fillable = [
-        'bill_id',
-        'prescription_id',
+        'image_header',
+        'image_footer',
+        'address',
+        'phone',
+        'email',
+        'description',
     ];
 }

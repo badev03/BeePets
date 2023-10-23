@@ -3,18 +3,19 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Bill;
-use App\Models\bill_prescription;
 use App\Models\Doctor;
-use App\Models\Prescription_product;
 use App\Models\Products;
 use App\Models\Appointment;
 use App\Models\Prescription;
 use Illuminate\Http\Request;
 use GuzzleHttp\Handler\Proxy;
+use App\Models\bill_prescription;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Prescription_product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BookingController;
 
 class DoctorController extends Controller
@@ -128,14 +129,12 @@ class DoctorController extends Controller
     {
         if (Auth::guard('doctors')->check()) {
             $doctor_id = Auth::guard('doctors')->user()->id;
-            //Tên bác sĩ, Ngày đặt lịch, Tổng tiền, trạng thái của bác sĩ và user, $id là id của user
-            $appointments = Appointment::where('appointments.user_id', $id)
-                ->join('users', 'users.id', '=', 'appointments.user_id')
+            $appointments = Appointment::select('doctors.name', 'doctors.image', 'appointments.id', 'appointments.date', 'appointments.time', 'appointments.status', 'appointments.shift_name', 'appointments.created_at as appointment_created_at')
                 ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
-                ->join('bills', 'bills.appointment_id', '=', 'appointments.id')
-                ->select('appointments.id','users.name as user_name', 'doctors.name as doctor_name', 'appointments.date', 'bills.total_amount',
-                    'appointments.status as appointment_status', 'doctors.status as doctor_status','appointments.created_at as appointment_created_at','appointments.shift_name','doctors.image as doctor_image')
+                ->where('appointments.user_id', $id)
+                ->where('appointments.doctor_id', $doctor_id)
                 ->get();
+
 
             return response()->json([
                 'success' => true,
@@ -151,25 +150,36 @@ class DoctorController extends Controller
     }
 
 
-    public function getAppiontmentByID($id) {
-        if(Auth::guard('doctors')->check()) {
+    public function getAppiontmentByID($id)
+    {
+        if (Auth::guard('doctors')->check()) {
             $doctor_id = Auth::guard('doctors')->user()->id;
             $appointment = Appointment::where('appointments.id', $id)
                 ->join('users', 'users.id', '=', 'appointments.user_id')
                 ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
                 ->join('bills', 'bills.appointment_id', '=', 'appointments.id')
                 ->join('services', 'services.id', '=', 'appointments.service_id')
-                ->select('appointments.id','users.name as user_name', 'doctors.name as doctor_name', 'appointments.date', 'bills.total_amount',
-                    'appointments.status as appointment_status', 'doctors.status as doctor_status',
-                    'appointments.created_at as appointment_created_at','appointments.shift_name',
-                    'doctors.image as doctor_image','appointments.description','services.name as service_name')
+                ->select(
+                    'appointments.id',
+                    'users.name as user_name',
+                    'doctors.name as doctor_name',
+                    'appointments.date',
+                    'bills.total_amount',
+                    'appointments.status as appointment_status',
+                    'doctors.status as doctor_status',
+                    'appointments.created_at as appointment_created_at',
+                    'appointments.shift_name',
+                    'doctors.image as doctor_image',
+                    'appointments.description',
+                    'services.name as service_name'
+                )
                 ->first();
             return response()->json([
                 'success' => true,
                 'message' => 'Lấy thông tin cuoc hen thành công',
                 'appointment' => $appointment
             ]);
-        }else {
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Bạn chưa đăng nhập',
@@ -177,7 +187,8 @@ class DoctorController extends Controller
         }
     }
 
-    public function changePassword(Request $request) {
+    public function changePassword(Request $request)
+    {
         try {
             $request->validate(
                 [
@@ -218,7 +229,7 @@ class DoctorController extends Controller
     {
         if (Auth::guard('doctors')->check()) {
             $result = DB::table('bills')
-                ->select('bills.id','bills.code as bill_code', 'bills.created_at as bill_created_at', 'doctors.name as doctor_name', 'bills.total_amount','bills.status as bill_status')
+                ->select('bills.id', 'bills.code as bill_code', 'bills.created_at as bill_created_at', 'doctors.name as doctor_name', 'bills.total_amount', 'bills.status as bill_status')
                 ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
                 ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
                 ->where('appointments.user_id', $id)
@@ -323,18 +334,31 @@ class DoctorController extends Controller
 
 
     // cập nhật các trường trong bill
-    public function updateBill(Request $request,$id)
+    public function updateBill(Request $request, $id)
     {
+        $validator = $this->validateUpdateBillRequest($request);
 
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors(),
+            ], 400);
+        }
         if (Auth::guard('doctors')->check()) {
 
 
             $bill = Bill::query()->find($id);
 
-
-            $prescription = $this->createPrescription($request->name, $request->price, $request->doctor_id, $request->user_id);
+            if (!$bill) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Không tìm thấy hóa đơn',
+                ], 404);
+            }
+            $prescription = $this->createPrescription($request->name, $request->price, $request->doctor_id, $request->user_id, $request->bill_id);
 
             $prescription_id = $prescription->id;
+
 
 
             foreach ($request->products as $product) {
@@ -343,16 +367,13 @@ class DoctorController extends Controller
                     'product_id' => $product['product_id'],
                     'quantity' => $product['quantity'],
                     'price' => $product['price_product'],
+                    'instructions' => $product['instructions'],
                 ]);
             }
 
-            $bill_prescription = bill_prescription::create([
-                'bill_id' => $bill->id,
-                'prescription_id' => $prescription_id
-            ]);
-            $bill_prescription_id = $bill_prescription->id;
-            $bill->bill_prescription_id = $bill_prescription_id;
-            $bill->total_amount = $prescription->price + $bill->total_amount;
+            $total_amount = $bill->total_amount + $request->price;
+            $bill->total_amount = $total_amount;
+            $bill->description = $request->description;
             $bill->save();
             return response()->json([
                 'success' => true,
@@ -367,7 +388,7 @@ class DoctorController extends Controller
         }
     }
     // tạo đơn thuốc cho bảng prescription_product và lưu vào bảng perscription
-    public function createPrescription($name, $price, $doctor_id, $user_id)
+    public function createPrescription($name, $price, $doctor_id, $user_id, $bill_id)
     {
 
         $prescription = new Prescription();
@@ -375,6 +396,7 @@ class DoctorController extends Controller
         $prescription->price = $price;
         $prescription->doctor_id = $doctor_id;
         $prescription->user_id = $user_id;
+        $prescription->bill_id = $bill_id;
         $prescription->save();
 
         return $prescription;
@@ -421,15 +443,44 @@ class DoctorController extends Controller
             ]);
         }
     }
+
+    public function validateUpdateBillRequest(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'name' => 'required',
+        'price' => 'required|numeric',
+        'doctor_id' => 'required|exists:doctors,id',
+        'user_id' => 'required|exists:users,id',
+        'bill_id' => 'required|exists:bills,id',
+        'products' => 'required|array',
+        'products.*.product_id' => 'required|exists:products,id',
+        'products.*.quantity' => 'required|numeric',
+        'products.*.price_product' => 'required|numeric',
+        'products.*.instructions' => 'required',
+    ]);
+
+    return $validator;
+}
+
     //detail bill by id
-    public function detailBill($id) {
+    public function detailBill($id)
+    {
         try {
-            if(Auth::guard('doctors')->check()) {
+            if (Auth::guard('doctors')->check()) {
                 //bills.code, dịch vụ, doctors.name , ngày tạo hóa đơn, tổng tiền, trạng thái, tên thuốc, số lượng, đơn giá, tên dịch vụ
                 $bill = Bill::query()
-                    ->select('bills.code', 'doctors.name as doctor_name', 'bills.created_at',
-                        'bills.total_amount', 'bills.status as bill_status', 'prescriptions.name as prescription_name',
-                        'prescription_product.quantity', 'prescription_product.price as price_product', 'services.name as service_name','users.name as user_name')
+                    ->select(
+                        'bills.code',
+                        'doctors.name as doctor_name',
+                        'bills.created_at',
+                        'bills.total_amount',
+                        'bills.status as bill_status',
+                        'prescriptions.name as prescription_name',
+                        'prescription_product.quantity',
+                        'prescription_product.price as price_product',
+                        'services.name as service_name',
+                        'users.name as user_name'
+                    )
                     ->join('bill_prescription', 'bill_prescription.bill_id', '=', 'bills.id')
                     ->join('prescriptions', 'prescriptions.id', '=', 'bill_prescription.prescription_id')
                     ->join('prescription_product', 'prescription_product.prescription_id', '=', 'prescriptions.id')
@@ -443,14 +494,13 @@ class DoctorController extends Controller
                     'message' => 'Lấy thông tin hóa đơn thành công',
                     'bill' => $bill
                 ]);
-            }else {
+            } else {
                 return response()->json([
                     'success' => false,
                     'message' => 'Bạn chưa đăng nhập',
                 ]);
             }
-
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             return response()->json([
                 'success' => false,
                 'message' => 'Lỗi',

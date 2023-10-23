@@ -37,7 +37,16 @@ class MessageService implements MessageUser {
     }
 
     public function sendManyUser($userId ='', $message='') {
-        $this->pusherWeb()->trigger("user-notification-".$userId, 'notification-event-test', $message );
+
+        $dataMessage = $this->tableQuery('users')->where('id' , $userId)->first();
+        $messagess = [
+            'name' => $dataMessage->name,
+            'avatar' => $dataMessage->avatar,
+            'id' => $dataMessage->id,
+            'message' => $message
+        ];
+
+        $this->pusherWeb()->trigger("user-notification-".$userId, 'notification-event-test', $messagess );
         Notification::create([
             'user_id' => $userId,
             'message' => $message,
@@ -47,7 +56,18 @@ class MessageService implements MessageUser {
 
     public function sendManyDoctor($doctor_id, $message_doctor)
     {
-        $this->pusherWeb()->trigger("doctor-notification-".$doctor_id, 'notification-event-test', $message_doctor );
+        $pusher = new Pusher(config('broadcasting.connections.pusher.key'), config('broadcasting.connections.pusher.secret'), config('broadcasting.connections.pusher.app_id'), [
+            'cluster' => config('broadcasting.connections.pusher.options.cluster'),
+            'useTLS' => config('broadcasting.connections.pusher.options.useTLS'),
+        ]);
+        $dataMessageDoctor = $this->tableQuery('doctors')->where('id' , $doctor_id)->first();
+        $message_doctors = [
+            'name' => $dataMessageDoctor->name,
+            'avatar' => $dataMessageDoctor->image,
+            'id' => $dataMessageDoctor->id,
+            'message' => $message_doctor
+        ];
+        $pusher->trigger("doctor-notification-".$doctor_id, 'notification-event-doctor', $message_doctors );
         Notification::create([
             'doctor_id' => $doctor_id,
             'message_doctor' => $message_doctor,

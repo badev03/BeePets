@@ -47,6 +47,7 @@
                     <ul style="display: none;">
                         <li><a class="{{ request()->routeIs('notifications.index') ? 'active' : '' }}" href="{{ route('notifications.index') }}">Thông báo người dùng</a></li>
                         <li><a class="{{ request()->routeIs('notifications.doctor') ? 'active' : '' }}" href="{{ route('notifications.doctor') }}">Thông báo bác sĩ</a></li>
+                        <li><a class="{{ request()->routeIs('notifications.time-line-notifications') ? 'active' : '' }}" href="{{ route('notifications.time-line-notifications') }}">Set thời gian gửi thông báo</a></li>
                     </ul>
                 </li>
                 <li>
@@ -63,7 +64,7 @@
                     <a href="{{ route('purchase.index') }}"><i class="fe fe-activity"></i> <span>Đơn hàng</span></a>
                 </li>
                 <li>
-                    <a href="settings.html"><i class="fe fe-vector"></i> <span>Cấu hình</span></a>
+                    <a href="{{ route('setting') }}"><i class="fe fe-vector"></i> <span>Cấu hình</span></a>
                 </li>
                 <li class="submenu">
                     <a href="#"><i class="fe fe-document"></i> <span> Báo cáo</span> <span class="menu-arrow"></span></a>
