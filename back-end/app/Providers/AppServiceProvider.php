@@ -25,6 +25,6 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(MessageUser::class, MessageService::class);
         Schema::defaultStringLength(191);
-        Sanctum::usePersonalAccessTokenModel(now()->addDays(1));
+        // Sanctum::usePersonalAccessTokenModel(now()->addDays(1));
     }
 }
