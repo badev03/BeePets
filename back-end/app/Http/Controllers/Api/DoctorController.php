@@ -355,7 +355,7 @@ class DoctorController extends Controller
                     'message' => 'Không tìm thấy hóa đơn',
                 ], 404);
             }
-            $prescription = $this->createPrescription($request->name, $request->price, $request->doctor_id, $request->user_id, $request->bill_id);
+            $prescription = $this->createPrescription($request->name, $request->price);
 
             $prescription_id = $prescription->id;
 
@@ -388,15 +388,15 @@ class DoctorController extends Controller
         }
     }
     // tạo đơn thuốc cho bảng prescription_product và lưu vào bảng perscription
-    public function createPrescription($name, $price, $doctor_id, $user_id, $bill_id)
+    public function createPrescription($name, $price)
     {
 
         $prescription = new Prescription();
         $prescription->name = $name;
         $prescription->price = $price;
-        $prescription->doctor_id = $doctor_id;
-        $prescription->user_id = $user_id;
-        $prescription->bill_id = $bill_id;
+        // $prescription->doctor_id = $doctor_id;
+        // $prescription->user_id = $user_id;
+        // $prescription->bill_id = $bill_id;
         $prescription->save();
 
         return $prescription;
@@ -449,9 +449,9 @@ class DoctorController extends Controller
     $validator = Validator::make($request->all(), [
         'name' => 'required',
         'price' => 'required|numeric',
-        'doctor_id' => 'required|exists:doctors,id',
-        'user_id' => 'required|exists:users,id',
-        'bill_id' => 'required|exists:bills,id',
+        // 'doctor_id' => 'required|exists:doctors,id',
+        // 'user_id' => 'required|exists:users,id',
+        // 'bill_id' => 'required|exists:bills,id',
         'products' => 'required|array',
         'products.*.product_id' => 'required|exists:products,id',
         'products.*.quantity' => 'required|numeric',
