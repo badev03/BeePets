@@ -8,7 +8,7 @@ use App\Models\Bill;
 use App\Models\Order_detail;
 use App\Models\Products;
 use App\Models\User;
-use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 
@@ -54,7 +54,7 @@ class OrderController extends Controller
         $bill = Bill::query()->findOrFail($id);
         $order_details = Order_detail::query()->where('bill_id', $id)->get();
         $pdf = PDF::loadView('admin.purchase.invoice', compact('bill', 'order_details'));
-        return $pdf->download('invoice.pdf');
+        return $pdf->download('invoice1.pdf');
     }
 
     /**

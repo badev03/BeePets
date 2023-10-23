@@ -9,8 +9,6 @@
       <sourceFolder url="file://$MODULE_DIR$/back-end/tests/Feature" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/back-end/tests/Unit" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/back-end/spec" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/brick/math" />
       <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/dflydev/dot-access-data" />
@@ -150,6 +148,8 @@
       <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/phenx/php-svg-lib" />
       <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/sabberworm/php-css-parser" />
       <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/setasign/fpdi" />
+      <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/spatie/laravel-google-fonts" />
+      <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/spatie/laravel-package-tools" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
