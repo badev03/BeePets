@@ -19,9 +19,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('app:notification-birday-doctor')->everyMinute();
         //        $schedule->command('app:notification-birday-doctor')->dailyAt('12:00');
         
-        $schedule->call(function () {
-            DB::table('personal_access_tokens')->where('created_at', '<', now()->subDays(1))->delete();
-        })->daily();
+        // $schedule->call(function () {
+        //     DB::table('personal_access_tokens')->where('created_at', '<', now()->subDays(1))->delete();
+        // })->daily();
     }
 
     /**
