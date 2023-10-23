@@ -7,6 +7,7 @@ import listCustomersApi from '../../api/listCustomers'
 
 const Mypatients = () => {
   const [customers, setCustomers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const token = localStorage.getItem('token');
   console.log(token)
   if(token){
@@ -45,6 +46,13 @@ const Mypatients = () => {
 
         fetchCustomers();
     }, []);
+    const handleSearch = (event) => {
+      setSearchTerm(event.target.value);
+    };
+  
+    const filteredCustomers = customers.filter((customer) =>
+      customer.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   return (
     <div>
   <div className="breadcrumb-bar-two">
@@ -69,10 +77,24 @@ const Mypatients = () => {
           <Menudashboard/>
         </div>
         <div className="col-md-7 col-lg-8 col-xl-9">
+        <div className="search-container">
+                    <div className="input-group">
+                    
+                      <input
+                        type="text"
+                        id="searchName"
+                        placeholder="Lọc theo tên"
+                        onChange={handleSearch}
+                        className="input-group-item"
+                      />
+                    </div>
+
+                  </div>
+        
           <div className="row row-grid">
-          {customers.map(customers => (
+          {filteredCustomers.map(customers => (
             <div className="col-md-6 col-lg-4 col-xl-3">
-            
+             
               <div className="card widget-profile pat-widget-profile">
               <div className="card-body">
                 <div className="pro-widget-content">

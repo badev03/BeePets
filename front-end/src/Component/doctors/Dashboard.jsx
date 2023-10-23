@@ -9,6 +9,10 @@ import axios from "axios";
 import ReactPaginate from "react-paginate";
 const Dashboarddoctors = () => {
   const [appointments, setAppointment] = useState([]);
+  const [searchName, setSearchName] = useState('');
+  const [searchDate, setSearchDate] = useState('');
+  const [searchShift, setSearchShift] = useState('');
+  const [searchService, setSearchService] = useState('');
   // const navigate = useNavigate()
   const token = localStorage.getItem("token");
   console.log(appointments);
@@ -34,7 +38,15 @@ const Dashboarddoctors = () => {
   const [pageNumber, setPageNumber] = useState(0);
   const appointmentsPerPage = 5;
   const pagesVisited = pageNumber * appointmentsPerPage;
-  const displayAppointments = appointments
+  const filteredAppointments = appointments.filter((appointment) => {
+    return (
+      appointment.user.name.toLowerCase().includes(searchName.toLowerCase()) &&
+      appointment.date.toLowerCase().includes(searchDate.toLowerCase()) &&
+      appointment.shift_name.toLowerCase().includes(searchShift.toLowerCase()) &&
+      appointment.service.name.toLowerCase().includes(searchService.toLowerCase())
+    );
+  });
+  const displayAppointments = filteredAppointments
     .slice(pagesVisited, pagesVisited + appointmentsPerPage)
     .map((appointment) => (
       <tr key={appointment.id}>
@@ -224,17 +236,52 @@ const Dashboarddoctors = () => {
                 <div className="col-md-12">
                   <h4 className="mb-4">Lịch hẹn của bệnh nhân</h4>
                   <div className="appointment-tab">
-                    <ul className="nav nav-tabs nav-tabs-solid nav-tabs-rounded">
-                      <li className="nav-item">
-                        <Link
-                          className="nav-link active"
-                          to="#upcoming-appointments"
-                          data-bs-toggle="tab"
-                        >
-                          Lịch hẹn sắp tới
-                        </Link>
-                      </li>
-                    </ul>
+                  
+                  <div className="search-container">
+                    <div className="input-group">
+                    
+                      <input
+                        type="text"
+                        id="searchName"
+                        placeholder="Lọc theo tên"
+                        onChange={(e) => setSearchName(e.target.value)}
+                        className="input-group-item"
+                      />
+                    </div>
+
+                    <div className="input-group">
+                     
+                      <input
+                        type="text"
+                        id="searchDate"
+                        placeholder="Lọc theo ngày"
+                        onChange={(e) => setSearchDate(e.target.value)}
+                        className="input-group-item"
+                      />
+                    </div>
+
+                    <div className="input-group">
+                      
+                      <input
+                        type="text"
+                        id="searchShift"
+                        placeholder="Lọc theo ca"
+                        onChange={(e) => setSearchShift(e.target.value)}
+                        className="input-group-item"
+                      />
+                    </div>
+
+                    <div className="input-group">
+                      
+                      <input
+                        type="text"
+                        id="searchService"
+                        placeholder="Lọc theo dịch vụ"
+                        onChange={(e) => setSearchService(e.target.value)}
+                        className="input-group-item"
+                      />
+                    </div>
+                  </div>
                     <div className="tab-content">
                       <div
                         className="tab-pane show active"
