@@ -467,32 +467,45 @@ class DoctorController extends Controller
     {
         try {
             if (Auth::guard('doctors')->check()) {
-                //bills.code, dịch vụ, doctors.name , ngày tạo hóa đơn, tổng tiền, trạng thái, tên thuốc, số lượng, đơn giá, tên dịch vụ
-                $bill = Bill::query()
+                $bill = Bill::where('bills.id', $id)
+                    ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
+                    ->join('services', 'services.id', '=', 'appointments.service_id')
+                    ->join('users', 'users.id', '=', 'bills.user_id')
+                    ->join('doctors', 'doctors.id', '=', 'bills.doctor_id')
+                    ->join('prescriptions', 'prescriptions.bill_id', '=', 'bills.id')
                     ->select(
+                        'bills.id as bill_id',
                         'bills.code',
-                        'doctors.name as doctor_name',
-                        'bills.created_at',
+                        'bills.created_at as bill_created_at',
                         'bills.total_amount',
                         'bills.status as bill_status',
-                        'prescriptions.name as prescription_name',
-                        'prescription_product.quantity',
-                        'prescription_product.price as price_product',
-                        'services.name as service_name',
-                        'users.name as user_name'
+                        'users.name as user_name',
+                        'users.phone as user_phone',
+                        'users.avatar as avatar',
+                        'doctors.name as doctor_name',
+                        'bills.description',
+                        'prescriptions.name', 'prescriptions.price',
                     )
-                    ->join('bill_prescription', 'bill_prescription.bill_id', '=', 'bills.id')
-                    ->join('prescriptions', 'prescriptions.id', '=', 'bill_prescription.prescription_id')
-                    ->join('prescription_product', 'prescription_product.prescription_id', '=', 'prescriptions.id')
-                    ->join('users', 'users.id', '=', 'bills.user_id')
-                    ->join('services', 'services.id', '=', 'bills.service_id')
-                    ->join('doctors', 'doctors.id', '=', 'bills.doctor_id')
-                    ->where('bills.id', $id)
                     ->first();
+
+                $prescription = DB::table('prescriptions')
+                    ->join('prescription_product', 'prescription_product.prescription_id', '=', 'prescriptions.id')
+                    ->join('products', 'products.id', '=', 'prescription_product.product_id')
+                    ->select( 'products.name as product_name', 'prescription_product.quantity', 'prescription_product.price as price_product', 'prescription_product.instructions')
+                    ->where('prescriptions.bill_id', $id)
+                    ->get();
+                $services = DB::table('services')
+                    ->join('appointments', 'appointments.service_id', '=', 'services.id')
+                    ->join('bills', 'bills.appointment_id', '=', 'appointments.id')
+                    ->where('bills.id', $id)
+                    ->select('services.name', 'services.price', 'appointments.date', 'appointments.time', 'appointments.shift_name', 'appointments.description')
+                    ->get();
                 return response()->json([
                     'success' => true,
                     'message' => 'Lấy thông tin hóa đơn thành công',
-                    'bill' => $bill
+                    'bill' => $bill,
+                    'prescription' => $prescription,
+                    'services' => $services
                 ]);
             } else {
                 return response()->json([
