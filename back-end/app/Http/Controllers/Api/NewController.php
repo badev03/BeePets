@@ -38,7 +38,7 @@ class NewController extends BaseResponseApiController
 
     public function showNew() {
         $data = $this->query()
-            ->limit(3);
+            ->limit(3)->get();
         if(!$data) {
             return response()->json(['message' => $this->title.'không tồn tại'], 404);
         }

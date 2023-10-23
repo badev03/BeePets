@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use App\Models\Bill;
+use App\Models\Prescription;
+use App\Models\Prescription_product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -12,54 +14,58 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function getInfoUser() {
+    public function getInfoUser()
+    {
         try {
-            if(auth()->check()) {
+            if (auth()->check()) {
                 $user = auth()->user();
                 return response()->json([
                     'success' => true,
                     'message' => 'Lấy thông tin người dùng thành công',
                     'user' => $user
                 ]);
-            }else{
+            } else {
                 return response()->json([
                     'success' => false,
                     'message' => 'Bạn chưa đăng nhập'
                 ]);
             }
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Lỗi'
             ]);
         }
     }
-    public function changePasswordUser(Request $request) {
+    public function changePasswordUser(Request $request)
+    {
         try {
-            if(auth()->check()) {
+            if (auth()->check()) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Bạn chưa đăng nhập'
                 ]);
-            }else{
+            } else {
                 $user = auth()->user();
-                $request->validate([
-                    'password' => 'required',
-                    'new_password' => 'required',
-                    'confirm_password' => 'required|same:new_password'
-                ],
+                $request->validate(
+                    [
+                        'password' => 'required',
+                        'new_password' => 'required',
+                        'confirm_password' => 'required|same:new_password'
+                    ],
                     [
                         'password.required' => 'Vui lòng nhập mật khẩu',
                         'new_password.required' => 'Vui lòng nhập mật khẩu mới',
                         'confirm_password.required' => 'Vui lòng nhập lại mật khẩu mới',
                         'confirm_password.same' => 'Mật khẩu nhập lại không chính xác'
-                    ]);
-                if(!Hash::check($request->password, $user->password)) {
+                    ]
+                );
+                if (!Hash::check($request->password, $user->password)) {
                     return response()->json([
                         'success' => false,
                         'message' => 'Mật khẩu không chính xác'
                     ]);
-                }else{
+                } else {
                     $user->password = Hash::make($request->new_password);
                     $user->save();
                     return response()->json([
@@ -68,28 +74,29 @@ class UserController extends Controller
                     ]);
                 }
             }
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Lỗi'
             ]);
         }
     }
-    public function logoutUser() {
+    public function logoutUser()
+    {
         try {
-            if(!auth()->check()) {
+            if (!auth()->check()) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Bạn chưa đăng nhập'
                 ]);
-            }else{
+            } else {
                 auth()->logout();
                 return response()->json([
                     'success' => true,
                     'message' => 'Đăng xuất thành công'
                 ]);
             }
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Lỗi'
@@ -97,14 +104,15 @@ class UserController extends Controller
         }
     }
     //get all appointment by user
-    public function getAppiontment() {
+    public function getAppiontment()
+    {
         try {
-            if(!auth()->check()) {
+            if (!auth()->check()) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Bạn chưa đăng nhập'
                 ]);
-            }else{
+            } else {
                 $id = auth()->user()->id;
                 $result = DB::table('appointments')
                     ->select('doctors.name as doctor_name', 'appointments.date', 'appointments.time', 'appointments.status', 'appointments.id as appointment_id')
@@ -117,17 +125,27 @@ class UserController extends Controller
                     'appointments' => $result
                 ]);
             }
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Lỗi'
             ]);
         }
     }
-    public function getAppiontmentByID($id) {
+    public function getAppiontmentByID($id)
+    {
         try {
-            $appiontment = Appointment::select('users.name as user_name', 'doctors.name as doctor_name', 'doctors.image as doctor_image', 'appointments.date', 'appointments.time', 'appointments.status',
-                'appointments.id as appointment_id','appointments.shift_name','appointments.description')
+            $appiontment = Appointment::select(
+                'users.name as user_name',
+                'doctors.name as doctor_name',
+                'doctors.image as doctor_image',
+                'appointments.date',
+                'appointments.time',
+                'appointments.status',
+                'appointments.id as appointment_id',
+                'appointments.shift_name',
+                'appointments.description'
+            )
                 ->join('users', 'users.id', '=', 'appointments.user_id')
                 ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
 
@@ -138,14 +156,15 @@ class UserController extends Controller
                 'message' => 'Lấy thông tin lịch khám thành công',
                 'appointment' => $appiontment
             ]);
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Lỗi'
             ]);
         }
     }
-    public function prescriptionByUser() {
+    public function prescriptionByUser()
+    {
         try {
             if (!auth()->check()) {
                 return response()->json([
@@ -157,7 +176,7 @@ class UserController extends Controller
                 $user_id = auth()->user()->id;
 
                 $result = DB::table('prescriptions')
-                    ->select('prescriptions.id as prescription_id', 'prescriptions.created_at', 'doctors.name as created_by', 'prescriptions.price','doctors.image as doctor_image','prescriptions.name')
+                    ->select('prescriptions.id as prescription_id', 'prescriptions.created_at', 'doctors.name as created_by', 'prescriptions.price', 'doctors.image as doctor_image', 'prescriptions.name')
                     ->join('doctors', 'prescriptions.doctor_id', '=', 'doctors.id')
                     ->where('prescriptions.user_id', $user_id)
                     ->get();
@@ -175,20 +194,79 @@ class UserController extends Controller
             ]);
         }
     }
-    public function billByUser() {
+
+    public function detailPrescription($id)
+    {
+
+        $user_id = auth()->user()->id;
+        $prescription = Prescription::select('id')->where('user_id', $user_id)->where('id', $id)->get();
+        // lấy ra tên của sản phẩm trong bảng prescription_product
+        if (count($prescription) == 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Không tìm thấy đơn thuốc'
+            ]);
+        }
+        $result = DB::table('prescription_product')
+            ->select('products.name as product_name', 'prescription_product.quantity', 'prescription_product.price', 'prescription_product.instructions')
+            ->join('products', 'prescription_product.product_id', '=', 'products.id')
+            ->where('prescription_product.prescription_id', $id)
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Lấy chi tiết đơn thuốc thành công',
+            'products' => $result
+        ]);
+    }
+
+    public function detailBill($id)
+    {
+        $user_id = auth()->user()->id;
+        $bill = DB::table('bills')
+        ->select('bills.id', 'bills.code', 'bills.created_at', 'bills.status', 'bills.payment_method', 'bills.total_amount', 'services.name as services_name', 'services.price as services_price')
+        ->join('services', 'bills.service_id', '=', 'services.id')
+        ->where('bills.user_id', $user_id)
+        ->where('bills.id', $id)
+        ->first();
+    
+    if (!$bill) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Không tìm thấy đơn thuốc'
+        ]);
+    }
+    
+    $products = DB::table('prescription_product')
+        ->select('products.name as product_name', 'prescription_product.quantity', 'prescription_product.price as product_price')
+        ->join('products', 'prescription_product.product_id', '=', 'products.id')
+        ->join('prescriptions', 'prescription_product.prescription_id', '=', 'prescriptions.id')
+        ->where('prescriptions.bill_id', $id)
+        ->get();
+    
+    return response()->json([
+        'success' => true,
+        'message' => 'Lấy chi tiết đơn thuốc thành công',
+        'bill' => $bill,
+        'products' => $products
+    ]);
+    
+    }
+    public function billByUser()
+    {
         try {
-            if(!auth()->check()) {
+            if (!auth()->check()) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Bạn chưa đăng nhập'
                 ]);
-            }else{
+            } else {
                 $id = auth()->user()->id;
                 $result = DB::table('bills')
                     ->select('bills.code', 'bills.created_at as order_date', 'doctors.name as created_by', 'bills.total_amount')
                     ->join('appointments', 'bills.appointment_id', '=', 'appointments.id')
                     ->join('doctors', 'appointments.doctor_id', '=', 'doctors.id')
-                    ->where('bills.user_id', $id) // Lọc theo user_id
+                    ->where('bills.user_id', $id)
                     ->get();
                 return response()->json([
                     'success' => true,
@@ -196,24 +274,25 @@ class UserController extends Controller
                     'bills' => $result
                 ]);
             }
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Lỗi'
             ]);
         }
     }
-    public function getHistoryByUser(){
+    public function getHistoryByUser()
+    {
         try {
-            if(!auth()->check()) {
+            if (!auth()->check()) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Bạn chưa đăng nhập'
                 ]);
-            }else{
+            } else {
                 $id = auth()->user()->id;
                 $result = DB::table('appointments')
-                    ->select('doctors.name as doctor_name','doctors.image' ,'appointments.date','appointments.shift_name', 'appointments.status', 'appointments.id as appointment_id')
+                    ->select('doctors.name as doctor_name', 'doctors.image', 'appointments.date', 'appointments.shift_name', 'appointments.status', 'appointments.id as appointment_id')
                     ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
                     ->where('appointments.user_id', $id)
                     ->orderByDesc('appointments.date')
@@ -224,8 +303,7 @@ class UserController extends Controller
                     'appointments' => $result
                 ]);
             }
-
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Lỗi: ' . $e->getMessage()

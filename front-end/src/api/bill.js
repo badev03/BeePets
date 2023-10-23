@@ -9,7 +9,10 @@ const billApi = {
       const url = `/bills/${id}`;
       return instance.get(url,  params );
     },
-
+    getBillDetail(id,params) {
+      const url = `/detail-bill/${id}`;
+      return instance.get(url,  params );
+    },
     getProduct(params) {
       const url = "/get-products";
       return instance.get(url,  params );

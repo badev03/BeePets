@@ -467,6 +467,7 @@ class DoctorController extends Controller
     {
         try {
             if (Auth::guard('doctors')->check()) {
+
                 $bill = Bill::where('bills.id', $id)
                     ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
                     ->join('services', 'services.id', '=', 'appointments.service_id')
@@ -500,6 +501,7 @@ class DoctorController extends Controller
                     ->where('bills.id', $id)
                     ->select('services.name', 'services.price', 'appointments.date', 'appointments.time', 'appointments.shift_name', 'appointments.description')
                     ->get();
+
                 return response()->json([
                     'success' => true,
                     'message' => 'Lấy thông tin hóa đơn thành công',

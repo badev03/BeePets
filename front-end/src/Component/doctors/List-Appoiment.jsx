@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import appointmentUsersApi from "../../api/appoinmentsUse";
+import appointmentsApi from "../../api/appointmentsApi";
 import { useParams } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
@@ -17,7 +17,7 @@ const AppoimentList = () => {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await appointmentUsersApi.getAppoinmentsUser(id, {
+        const response = await appointmentsApi.getAppoinmentsUser(id, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
