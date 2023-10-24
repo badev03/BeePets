@@ -1,6 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
+import LoadingSkeleton from '../Loading';
 import HomepageDoctor from '../../api/hompageDoctor';
 
 const HomepageDoctors = () => {
@@ -21,7 +22,7 @@ const HomepageDoctors = () => {
         fetchDoctor();
     }, []);
     if (!doctor) {
-        return <div>Loading...</div>;
+        return <LoadingSkeleton/>;
     }
     return (
         <div className="blog-section-fourteen our-doctor-twelve">

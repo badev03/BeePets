@@ -161,7 +161,7 @@ const Search = ({ data }) => {
         </div>
       </div>
     ));
-
+   
   return (
     <div>
       {displayDoctors}
