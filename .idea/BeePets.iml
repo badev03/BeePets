@@ -151,6 +151,7 @@
       <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/spatie/laravel-google-fonts" />
       <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/spatie/laravel-package-tools" />
       <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/livewire/livewire" />
+      <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/carlos-meneses/laravel-mpdf" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
