@@ -17,6 +17,12 @@ const billApi = {
       const url = "/get-products";
       return instance.get(url,  params );
     },
+
+    updateBill(id, data, params) {
+      const url = `/update-bill/${id}`;
+      return instance.post(url, data, params);
+    },
+    
 };
 
 export default billApi;
