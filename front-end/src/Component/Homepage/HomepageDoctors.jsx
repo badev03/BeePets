@@ -1,8 +1,8 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
-import doctorsApi from '../../api/doctorsApi';
 import LoadingSkeleton from '../Loading';
+import HomepageDoctor from '../../api/hompageDoctor';
 
 const HomepageDoctors = () => {
     const [doctor, setDoctors] = useState(null);
@@ -10,7 +10,7 @@ const HomepageDoctors = () => {
     useEffect(() => {
         const fetchDoctor = async () => {
             try {
-                const response = await doctorsApi.getAll();
+                const response = await HomepageDoctor.getAll();
                 setDoctors(response.doctor);
 
             } catch (error) {
@@ -46,7 +46,7 @@ const HomepageDoctors = () => {
                     </div>
                 </div>
                 <div className="owl-carousel blog-slider-twelve owl-theme aos" >
-                    {doctor.slice(0, 4).map((doctor) => (
+                    {doctor.map((doctor) => (
                         <div className="col-lg-3 col-md-3 col-sm-6 col-12" key={doctor.id}>
                             <div className="card blog-inner-fourt-all d-flex"
                             >
@@ -55,9 +55,11 @@ const HomepageDoctors = () => {
                                     <div className="blog-inner-right-fourt">
                                         <a href="doctor-profile.html">
                                             <div className="blog-inner-right-img">
-                                                <Link to={`/doctors/${doctor.id}`}><img className="img-fluid" src={doctor.image.profile} alt="image" /></Link>
+                                                <Link to={`/doctor/profile/${doctor.slug}`}>
+                                                    <img className="img-fluid" style={{ height: '268px', width: '278px' }} src={doctor.image} alt="image" />
+                                                </Link>
                                                 <div className="blog-inner-top-content">
-                                                    <span>{doctor.description}</span>
+                                                    <span><div dangerouslySetInnerHTML={{ __html: doctor.description }} /></span>
                                                 </div>
                                             </div>
                                         </a>
@@ -70,11 +72,17 @@ const HomepageDoctors = () => {
                                             </li>
                                         </ul>
                                         <div className="blog-list-ratings">
+                                            {/* <i className="fa-solid fa-star rated" />
                                             <i className="fa-solid fa-star rated" />
                                             <i className="fa-solid fa-star rated" />
                                             <i className="fa-solid fa-star rated" />
-                                            <i className="fa-solid fa-star rated" />
-                                            <i className="fa-solid fa-star" />
+                                            <i className="fa-solid fa-star" /> */}
+                                            {Array.from({ length: doctor.average_score }, (_, index) => (
+                                                <i key={index} className="fa-solid fa-star rated" />
+                                            ))}
+                                            {Array.from({ length: 5 - doctor.average_score }, (_, index) => (
+                                                <i key={index} className="fas fa-star" />
+                                            ))}
                                             <span>(20)</span>
                                         </div>
                                         <a href="/booking" className="btn btn-primary">Đặt Ngay</a>

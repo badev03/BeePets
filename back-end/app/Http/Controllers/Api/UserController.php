@@ -310,4 +310,9 @@ class UserController extends Controller
             ]);
         }
     }
+
+
+    public function getDoctor(){
+         
+    }
 }
