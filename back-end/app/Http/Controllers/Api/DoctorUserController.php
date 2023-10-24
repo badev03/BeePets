@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use DB;
+use App\Models\Doctor;
 use App\Models\Review;
 use App\Traits\QueryCommon;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class DoctorUserController extends BaseResponseApiController
 {
@@ -64,26 +66,36 @@ class DoctorUserController extends BaseResponseApiController
         }
     }
 
-    public function DoctorHomeUser() {
-        $doctors = $this->QueryDoctorIndex()->take(4);
-        if($doctors) {
-            return response()->json([
-                'doctor' => $doctors ,
-                'msg' => 'oke dữ liệu thành công'
-            ] , 200);
-        }
-        else {
-            return response()->json([
-                'msg' => 'no data'
-            ] , 400);
-        }
+    public function DoctorHomeUser()
+{
+    $doctors = $this->QueryDoctorIndex();
+
+    if($doctors) {
+        // Sắp xếp mảng theo trường review_count và average_score
+        $sortedDoctors = $doctors->sortByDesc(function ($doctor, $key) {
+            return [$doctor->review_count, $doctor->average_score];
+        })->values()->take(4);
+
+        return response()->json([
+            'doctor' => $sortedDoctors ,
+            'msg' => 'Lấy dữ liệu thành công'
+        ] , 200);
+    } else {
+        return response()->json([
+            'msg' => 'Không có dữ liệu'
+        ] , 400);
     }
+}
+
+  
+
 
     public function QueryDoctorIndex() {
-        $doctors = $this->tableQuery('doctors')->get();
+        $doctors = $this->tableQuery('doctors')->select('id','name','slug','image','address')->get();
 
         $reviewAverages = Review::select('doctor_id', \DB::raw('AVG(score) as average_score') , \DB::raw('COUNT(*) as review_count'))
             ->groupBy('doctor_id')
+         
             ->get();
         $reviewAveragesArray = [];
         $reviewCount = [];
