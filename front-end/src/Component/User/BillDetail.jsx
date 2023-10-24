@@ -27,6 +27,15 @@ const BillDetail = () => {
       fetchBillDetail();
     }
   }, [id, token]);
+  function formatDate(dateString) {
+    if (dateString) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+      const formattedDate = new Date(dateString).toLocaleDateString('vi-VN', options);
+      // Loại bỏ từ "lúc" từ chuỗi được định dạng
+      return formattedDate.replace('lúc', '').trim();
+    }
+    return '';
+  }
 
   return (
     <div>
@@ -53,21 +62,19 @@ const BillDetail = () => {
               <div className="card">
                 <div className="card-body">
                   <form>
-                    <div className="row">
-                      <div className="col-12 col-md-6">
-                        <div className="mb-3">
-                          <img src="../src/assets/img/logo.jpg" className="img-fluid" alt="Logo" />
-                        </div>
+                    <div className="row align-items-center mb-4">
+                      <div className="col-6">
+                        <img src="../../src/assets/img/logo.jpg" className="img-fluid" style={{ width: '100px', height: 'auto' }} alt="Logo" />
                       </div>
                       <div className="col-12 col-md-6">
-                        <div className="mb-3">
+                        <div className="mb-3" style={{ marginLeft: '140px' }}>
                           <label className="mb-2">Mã hóa đơn: {bill.code}</label><br />
-                          <label className="mb-2">Ngày: {bill.created_at}</label>
+                          <label className="mb-2">Thời gian tạo: {formatDate(bill.created_at)}</label>
                         </div>
                       </div>
                     </div>
                     <div className="table-responsive">
-                      <table className="table table-hover table-center mb-0">
+                      <table className="table table-hover table-center mb-0" style={{marginTop: '20px'}}>
                         <thead>
                           <tr>
                             <th>Số thứ tự</th>
@@ -77,7 +84,7 @@ const BillDetail = () => {
                           </tr>
                         </thead>
                         <tbody>
-                        <tr>
+                          <tr>
                             <td>1</td>
                             <td>{bill.services_name}</td>
                             <td>1</td>
@@ -90,22 +97,19 @@ const BillDetail = () => {
                               <td>{product.quantity}</td>
                               <td>{product.product_price} VND</td>
                             </tr>
-                            
                           ))}
                         </tbody>
                       </table>
                     </div>
-                    <div className="col-12 col-md-12">
-                      <div className="mb-3 pt-5">
-                        <label className="mb-2" style={{ float: "right", marginRight: "50px" }}>
-                          <th>Tổng tiền : {bill.total_amount} VND</th>
-                        </label>
-                      </div>
+                    <div className="col-12 col-md-12 text-end mt-4">
+                      <label className="mb-2">
+                        <strong>Tổng tiền: {bill.total_amount} <span className="text-danger fw-bold">VNĐ</span></strong>
+                      </label>
                     </div>
-                    <div className="col-12 col-md-12">
-                      <div className="mt-5">
-                        <label className="mb-2"><th>Ghi chú</th></label>
-                        <textarea type="text" className="form-control datetimepicker" />
+                    <div className="col-12 col-md-12 mt-5">
+                      <div className="mb-3">
+                        <label className="mb-2"><strong>Ghi chú</strong></label>
+                        <textarea className="form-control" rows="4" />
                       </div>
                     </div>
                   </form>
