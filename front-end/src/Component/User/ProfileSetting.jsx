@@ -4,13 +4,14 @@ import Sidebar from './Sidebar'
 import usersApi from '../../api/usersApi';
 import { useEffect, useState } from "react";
 import axios from 'axios';
-import { Alert } from 'antd';
+import { FaSpinner } from 'react-icons/fa';
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal);
 const ProfileSetting = () => {
   const [previewImage, setPreviewImage] = useState("");
-
+  const [reloadSidebar, setReloadSidebar] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(
     {
       name: "",
@@ -87,6 +88,7 @@ const ProfileSetting = () => {
   };
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     // Call the API with user data to update the user information
     if (validateForm()) {
       // Call the API with user data to update the user information
@@ -110,10 +112,12 @@ const ProfileSetting = () => {
           localStorage.removeItem("user");
           localStorage.setItem("user", JSON.stringify(response.data.user));
         }
+        setLoading(false);
         MySwal.fire({
           title: "Lưu thông tin tài khoản thành công!",
           icon: "success",
         });
+        setReloadSidebar(true);
       } catch (error) {
         if (error.response) {
           if (error.response.data.error) {
@@ -131,8 +135,16 @@ const ProfileSetting = () => {
           }
         }
       }
+     
     }
   };
+  useEffect(() => {
+    // Kiểm tra nếu đã tải lại Sidebar
+    if (reloadSidebar) {
+      // Đặt lại trạng thái tạm thời để ngăn chặn việc tải lại liên tục
+      setReloadSidebar(false);
+    }
+  }, [reloadSidebar]);
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     setUser({ ...user, avatar: file });
@@ -159,7 +171,8 @@ const ProfileSetting = () => {
       <div className="content">
         <div className="container">
           <div className="row">
-            <Sidebar />
+          <Sidebar key={reloadSidebar ? "reload" : "normal"} />
+
             <div className="col-md-7 col-lg-8 col-xl-9">
 
               {/* {Object.keys(errors).map((key, index) => (
@@ -241,8 +254,16 @@ const ProfileSetting = () => {
                       </div>
                     </div>
                     <div className="submit-section">
-                      <button type="submit" className="btn btn-primary submit-btn">Lưu</button>
-                    </div>
+                        <button type="submit" className="btn btn-primary submit-btn" onClick={handleFormSubmit}>
+                          {loading ? (
+                            <div className="loading-spinner">
+                              <FaSpinner className="spinner" />
+                            </div>
+                          ) : (
+                            'Lưu'
+                          )}
+                        </button>
+                      </div>
 
                   </form>
                 </div>
