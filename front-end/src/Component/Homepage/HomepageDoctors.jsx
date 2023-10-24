@@ -83,7 +83,7 @@ const HomepageDoctors = () => {
                                             {Array.from({ length: 5 - doctor.average_score }, (_, index) => (
                                                 <i key={index} className="fas fa-star" />
                                             ))}
-                                            <span>(20)</span>
+                                            <span>({doctor.review_count})</span>
                                         </div>
                                         <a href="/booking" className="btn btn-primary">Đặt Ngay</a>
                                     </div>
