@@ -4,9 +4,14 @@ import { Link } from "react-router-dom";
 import appointmentsApi from "../../api/appointmentsApi";
 import { useEffect, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-
+import { Select } from 'antd';
 import axios from "axios";
 import ReactPaginate from "react-paginate";
+const OPTIONS = ['Ca 1', 'Ca 2', 'Ca 3'];
+
+const handleChange = (value) => {
+  console.log(`selected ${value}`);
+};
 const Dashboarddoctors = () => {
   const [appointments, setAppointment] = useState([]);
   const [searchName, setSearchName] = useState('');
@@ -14,6 +19,9 @@ const Dashboarddoctors = () => {
   const [searchShift, setSearchShift] = useState('');
   const [searchService, setSearchService] = useState('');
   // const navigate = useNavigate()
+  const [selectedItems, setSelectedItems] = useState([]);
+
+  const filteredOptions = OPTIONS.filter((o) => !selectedItems.includes(o));
   const token = localStorage.getItem("token");
   console.log(appointments);
 
@@ -261,14 +269,24 @@ const Dashboarddoctors = () => {
                     </div>
 
                     <div className="input-group">
-                      
-                      <input
+                    <Select
+                        mode="multiple"
+                        placeholder="Inserted are removed"
+                        value={selectedItems}
+                        onChange={setSelectedItems}
+                        style={{ width: '100%' }}
+                        options={filteredOptions.map((item) => ({
+                          value: item,
+                          label: item,
+                        }))}
+                      />
+                      {/* <input
                         type="text"
                         id="searchShift"
                         placeholder="Lọc theo ca"
                         onChange={(e) => setSearchShift(e.target.value)}
                         className="input-group-item"
-                      />
+                      /> */}
                     </div>
 
                     <div className="input-group">
