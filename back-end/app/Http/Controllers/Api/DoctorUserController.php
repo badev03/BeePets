@@ -91,7 +91,7 @@ class DoctorUserController extends BaseResponseApiController
 
 
     public function QueryDoctorIndex() {
-        $doctors = $this->tableQuery('doctors')->select('id','name','slug','image','address')->get();
+        $doctors = $this->tableQuery('doctors')->select('id','name','slug','image','address','description')->get();
 
         $reviewAverages = Review::select('doctor_id', \DB::raw('AVG(score) as average_score') , \DB::raw('COUNT(*) as review_count'))
             ->groupBy('doctor_id')
