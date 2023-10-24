@@ -9,6 +9,7 @@ import notification from "../api/notification";
 import BookingUser from "./User/BookingUser";
 import usersApi from "../api/usersApi";
 import Sidebar from "./User/Sidebar";
+import settingApi from "../api/settingApi";
 
 
 const Header = () => {
@@ -18,27 +19,24 @@ const Header = () => {
   const [user, setUser] = useState();
   const imgDefault = "https://dvdn247.net/wp-content/uploads/2020/07/avatar-mac-dinh-1.png";
   let userLocal = localStorage.getItem("user");
-  // if (token) {
-  //   useEffect(() => {
-  //     const fetchUser = async () => {
-  //       try {
-  //         const response = await usersApi.getUser(
-  //           {
-  //             headers: {
-  //               Authorization: `Bearer ${token}`,
-  //             },
-  //           }
-  //         );
-  //         setUser(response.user);
-  //         console.log(response.user);
-  //       } catch (error) {
-  //         console.error("Không có dữ liệu:", error);
-  //       }
-  //     };
+  const [setting, setSetting] = useState([]);
 
-  //     fetchUser();
-  //   }, []);
-  // }
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        const response = await settingApi.getAll();
+        setSetting(response.setting);
+        console.log(response)
+      } catch (error) {
+        console.error("Không có dữ liệu:", error);
+      }
+    };
+
+    fetchBlog();
+  }, []);
+  if (!setting) {
+    return <div>Loading...</div>;
+  }
 
   const handleLogout = async () => {
     // console.log(token);
@@ -150,7 +148,7 @@ const Header = () => {
       });
 
       // Đăng ký kênh theo id người dùng
-      const channel = pusher.subscribe("doctor-notification-"+data.id);
+      const channel = pusher.subscribe("doctor-notification-" + data.id);
       // Xử lý sự kiện thông báo từ Pusher
       channel.bind("notification-event-doctor", function (data) {
         setNoti((prevData) => {
@@ -203,7 +201,7 @@ const Header = () => {
               onClick={handleLogoClick}
             >
               <img
-                src="../src/assets/img/logo.jpg"
+                src={setting.image_header}
                 className="img-fluid"
                 alt="Logo"
               />
