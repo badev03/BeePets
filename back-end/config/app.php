@@ -172,7 +172,7 @@ return [
         \App\Providers\ViewProviderAdmin::class,
         Brian2694\Toastr\ToastrServiceProvider::class,
         // Barryvdh\DomPDF\ServiceProvider::class,
-        Mccarlosen\LaravelMpdf\LaravelMpdfServiceProvider::class,
+        // Mccarlosen\LaravelMpdf\LaravelMpdfServiceProvider::class
     ])->toArray(),
 
     /*
@@ -192,6 +192,6 @@ return [
         'Pusher' => Pusher\Pusher::class,
         'Toastr'  => Brian2694\Toastr\Facades\Toastr::class,
         // 'PDF' => Barryvdh\DomPDF\Facade\Pdf::class,
-        'PDF' => Mccarlosen\LaravelMpdf\Facades\LaravelMpdf::class,
+        // 'PDF' => Mccarlosen\LaravelMpdf\Facades\LaravelMpdf::class,
     ])->toArray(),
 ];
