@@ -8,9 +8,9 @@ use App\Models\Bill;
 use App\Models\Order_detail;
 use App\Models\Products;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
-use PDF;
 
 class OrderController extends Controller
 {
@@ -49,14 +49,12 @@ class OrderController extends Controller
         $bill = Bill::query()->findOrFail($id);
         $order_details = Order_detail::query()->where('bill_id', $id)->get();
         return view('admin.purchase.show', compact('bill', 'order_details'));
-
     }
     public function printOrder($id) {
         $bill = Bill::query()->findOrFail($id);
         $order_details = Order_detail::query()->where('bill_id', $id)->get();
         $pdf = PDF::loadView('admin.purchase.invoice', compact('bill', 'order_details'));
-
-        return $pdf->stream('document.pdf');
+        return $pdf->download('invoice1.pdf');
     }
 
     /**
