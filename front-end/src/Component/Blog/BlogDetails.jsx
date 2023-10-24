@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import blogApi from "../../api/BlogApi";
 import BlogSideBar from "./BlogSideBar";
+import LoadingSkeleton from "../Loading";
 
 const BlogDetails = () => {
   const { slug } = useParams();
@@ -21,7 +22,7 @@ const BlogDetails = () => {
   }, [slug]);
 
   if (!blog) {
-    return <div>Loading...</div>;
+    return <LoadingSkeleton/>;
   }
 
   return (

@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import billApi from '../../api/bill';
+import LoadingSkeleton from '../Loading';
 const DetailBIll = () => {
     const { id } = useParams();
     const [bill, setBill] = useState({});
@@ -74,7 +75,7 @@ const DetailBIll = () => {
     }, []); 
     // console.log(service)
         if (!bill) {
-            return <div>Loading...</div>;
+            return <div> <LoadingSkeleton/></div>;
         }
     return (
         <div>

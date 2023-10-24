@@ -32,7 +32,7 @@ const AppoimentList = () => {
       fetchAppointments();
     }
   }, [id, token]);
-
+console.log(appointments);
   const displayAppointments = appointments
     .slice(pagesVisited, pagesVisited + appointmentsPerPage)
     .map((appointment) => (
