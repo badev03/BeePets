@@ -54,9 +54,11 @@ const HomepageDoctors = () => {
                                     <div className="blog-inner-right-fourt">
                                         <a href="doctor-profile.html">
                                             <div className="blog-inner-right-img">
-                                                <Link to={`/doctors/${doctor.id}`}><img className="img-fluid" src={doctor.image} alt="image" /></Link>
+                                                <Link to={`/doctor/profile/${doctor.slug}`}>
+                                                    <img className="img-fluid" style={{ height: '268px', width: '278px' }} src={doctor.image} alt="image" />
+                                                </Link>
                                                 <div className="blog-inner-top-content">
-                                                    <span>{doctor.description}</span>
+                                                    <span><div dangerouslySetInnerHTML={{ __html: doctor.description }} /></span>
                                                 </div>
                                             </div>
                                         </a>
