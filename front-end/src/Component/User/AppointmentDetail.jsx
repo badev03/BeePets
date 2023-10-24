@@ -41,6 +41,15 @@ const AppointmentDetail = () => {
         return '';
     }
   };
+  function formatDate(dateString) {
+    if (dateString) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const formattedDate = new Date(dateString).toLocaleDateString('vi-VN', options);
+      // Loại bỏ từ "lúc" từ chuỗi được định dạng
+      return formattedDate.replace('lúc', '').trim();
+    }
+    return '';
+  }
   return (
     <div>    <div><div className="breadcrumb-bar-two">
       <div className="container">
@@ -90,7 +99,7 @@ const AppointmentDetail = () => {
                       <div className="col-12 col-md-6">
                         <div className="mb-3">
                           <label className="mb-2">Ngày đặt lịch</label>
-                          <input type="text" className="form-control" value={appointments.date} readOnly />
+                          <input type="text" className="form-control" value={formatDate(appointments.date)} readOnly />
                         </div>
                       </div>
                       <div className="col-12 col-md-6">
