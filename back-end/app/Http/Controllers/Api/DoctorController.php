@@ -228,11 +228,13 @@ class DoctorController extends Controller
     public function billByUser($id)
     {
         if (Auth::guard('doctors')->check()) {
+            $doctor_id = Auth::guard('doctors')->user()->id;
             $result = DB::table('bills')
                 ->select('bills.id', 'bills.code as bill_code', 'bills.created_at as bill_created_at', 'doctors.name as doctor_name', 'bills.total_amount', 'bills.status as bill_status')
                 ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
                 ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
                 ->where('appointments.user_id', $id)
+                ->where('appointments.doctor_id',$doctor_id)
                 ->get();
             return response()->json([
                 'success' => true,
