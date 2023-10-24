@@ -45,9 +45,9 @@ class BookingController extends Controller
                     }),
                 ];
             });
-            if($data->isEmpty()){
-                return response()->json(['message' => 'Không có dịch vụ nào'], 400);
-            }
+        if ($data->isEmpty()) {
+            return response()->json(['message' => 'Không có dịch vụ nào'], 400);
+        }
         return response()->json(['message' => 'Lấy danh sách dịch vụ thành công', 'data' => $data], 200);
     }
 
@@ -63,18 +63,18 @@ class BookingController extends Controller
             });
             return $doctor;
         });
-    
-    
-            if($service->isEmpty()){
-                return response()->json(['message' => 'Không có dịch vụ nào'], 400);
-            }
+
+
+        if ($service->isEmpty()) {
+            return response()->json(['message' => 'Không có dịch vụ nào'], 400);
+        }
         return response()->json(['message' => 'Lấy danh sách dịch vụ thành công', 'data' => $service], 200);
     }
 
     public function typePets()
     {
         $data = Type_pet::select('id', 'name')->get();
-        if($data->isEmpty()){
+        if ($data->isEmpty()) {
             return response()->json(['message' => 'Không có loại thú cưng nào'], 400);
         }
         return response()->json(['message' => 'Lấy danh sách loại thú cưng thành công', 'data' => $data], 200);
@@ -91,7 +91,7 @@ class BookingController extends Controller
             'exists' => ':attribute không tồn tại',
             'date_format' => ':attribute không đúng định dạng',
         ]);
-        
+
         $doctor = $request->input('doctor_id');
         $date = $request->input('date');
         // lấy ra lịch làm việc của bác sĩ theo ngày
@@ -133,13 +133,13 @@ class BookingController extends Controller
 
 
     // lưu dữ liệu đã chọn vào bảng appointment
-    public function save(Request $request,MessageUser $messageInterface)
+    public function save(Request $request, MessageUser $messageInterface)
     {
         try {
-            
+
             $validator = $this->validateBookingRequest($request);
-    
-         
+
+
             $name = $request->input('name');
             $phone = $request->input('phone');
 
@@ -156,7 +156,7 @@ class BookingController extends Controller
                 $user->save();
                 $user_id = $user->id;
             }
-           
+
             $model = new Appointment();
             $model->fill(array_merge($request->all(), [
                 'user_id' => $user_id,
@@ -164,11 +164,11 @@ class BookingController extends Controller
             ]));
 
             $model->save();
-          
-        //    event(new \App\Events\MessageSendNotification($user_id,'bạn đã đặt lịch hẹn của thành công vui lòng chờ xác nhận của bác sĩ', $request->doctor_id, 'Có lịch hẹn mới'));
-            $messageInterface->sendMessage($user_id,'Vui lòng chờ xác nhận của bác sĩ', $request->doctor_id, 'Có cuộc hẹn mới từ khách hàng');
 
-            
+            //    event(new \App\Events\MessageSendNotification($user_id,'bạn đã đặt lịch hẹn của thành công vui lòng chờ xác nhận của bác sĩ', $request->doctor_id, 'Có lịch hẹn mới'));
+            $messageInterface->sendMessage($user_id, 'Vui lòng chờ xác nhận của bác sĩ', $request->doctor_id, 'Có cuộc hẹn mới từ khách hàng');
+
+
             return response()->json(['message' => $request->all()], 201);
         } catch (\Illuminate\Validation\ValidationException $e) {
             // dd($e->getMessage());
@@ -191,11 +191,11 @@ class BookingController extends Controller
             'exists' => ':attribute không tồn tại',
             'date_format' => ':attribute không đúng định dạng',
         ]);
-    
+
         if ($validator->fails()) {
             throw new \Illuminate\Validation\ValidationException($validator);
         }
-    
+
         return $validator;
     }
 
@@ -204,7 +204,14 @@ class BookingController extends Controller
     public function getAppointmentByStatus()
     {
         $doctor = auth()->user();
-        $data = Appointment::where('doctor_id', $doctor->id)->where('status', 0)->with('user:id,name,phone')->with('service:id,name')->with('type_pet:id,name')->get();
+
+        $data = Appointment::where('doctor_id', $doctor->id)
+            ->where('status', 0)
+            ->with('user:id,name,phone')
+            ->with('service:id,name')
+            ->with('type_pet:id,name')
+            ->orderBy('created_at', 'desc') 
+            ->get();
         if ($data->isEmpty()) {
             return response()->json(['message' => 'Không có cuộc hẹn nào'], 400);
         } else {
@@ -214,20 +221,32 @@ class BookingController extends Controller
     // lấy ra thông tin của một cuộc hẹn với satus = 0
     public function getAppointment($id)
     {
-        $data = Appointment::where('id', $id)->where('status', 0)->with('user:id,name,phone')->with('service:id,name')->with('type_pet:id,name')->get();
-     
+        $data = Appointment::where('id', $id)
+        ->where('status', 0)
+        ->with('user:id,name,phone')
+        ->with('service:id,name')
+        ->with('type_pet:id,name')
+        ->orderBy('created_at', 'desc') 
+        ->get();
+
         if ($data->isEmpty()) {
             return response()->json(['message' => 'Không có cuộc hẹn nào'], 400);
         } else {
             return response()->json(['message' => 'Lấy danh sách cuộc hẹn thành công', 'data' => $data], 200);
         }
     }
-   
+
 
     public function getAppointmentAccept()
     {
         $doctor = auth()->user();
-        $data = Appointment::where('doctor_id', $doctor->id)->where('status', 1)->with('user:id,name,phone')->with('service:id,name')->with('type_pet:id,name')->get();
+        $data = Appointment::where('doctor_id', $doctor->id)
+        ->where('status', 1)
+        ->with('user:id,name,phone')
+        ->with('service:id,name')
+        ->with('type_pet:id,name')
+        ->orderBy('created_at', 'desc') 
+        ->get();
         if ($data->isEmpty()) {
             return response()->json(['message' => 'Không có cuộc hẹn nào'], 400);
         } else {
@@ -236,29 +255,29 @@ class BookingController extends Controller
     }
 
 
-    public function updateStatus(Request $request ,$id,MessageUser $messageInterface){
-  
-        if(Auth::guard('doctors')->check()){
+    public function updateStatus(Request $request, $id, MessageUser $messageInterface)
+    {
+
+        if (Auth::guard('doctors')->check()) {
             $doctor = auth()->user();
             $appointment = Appointment::where('id', $id)->where('doctor_id', $doctor->id)->first();
-            
-            if(!$appointment){
+
+            if (!$appointment) {
                 return response()->json(['message' => 'Không có cuộc hẹn này'], 400);
             }
             // lấy ra giá tiền của dịch vụ trong lịch hẹn đó
             $service_price = Service::where('id', $appointment->service_id)->select('price')->first();
-        //    chuyển dạng int sang float của service_price
+            //    chuyển dạng int sang float của service_price
             $service_price = floatval($service_price->price);
             $appointment->status = $request->input('status');
             $appointment->save();
-            $messageInterface->sendMessage($appointment->user_id,'bác sĩ đã xác nhận cuộc hẹn của bạn', $doctor->id, 'Có cuộc hẹn mới');
-            $bill = $this->doctorController->createBill($appointment->id, $doctor->id, $appointment->user_id,$appointment->service_id,$service_price);
-            return response()->json(['message' => 'Cập nhật trạng thái thành công'
-            ,'bill'=>$bill], 200);
-        }else{
+            $messageInterface->sendMessage($appointment->user_id, 'bác sĩ đã xác nhận cuộc hẹn của bạn', $doctor->id, 'Có cuộc hẹn mới');
+            $bill = $this->doctorController->createBill($appointment->id, $doctor->id, $appointment->user_id, $appointment->service_id, $service_price);
+            return response()->json([
+                'message' => 'Cập nhật trạng thái thành công', 'bill' => $bill
+            ], 200);
+        } else {
             return response()->json(['message' => 'Bạn chưa đăng nhập'], 400);
         }
-    
     }
-    
 }

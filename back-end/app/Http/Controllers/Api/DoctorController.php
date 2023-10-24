@@ -129,10 +129,12 @@ class DoctorController extends Controller
     {
         if (Auth::guard('doctors')->check()) {
             $doctor_id = Auth::guard('doctors')->user()->id;
-            $appointments = Appointment::select('doctors.name', 'doctors.image', 'appointments.id', 'appointments.date', 'appointments.time', 'appointments.status', 'appointments.shift_name', 'appointments.created_at as appointment_created_at')
+            $appointments = Appointment::select('doctors.name', 'doctors.image', 'appointments.id', 'appointments.date', 'appointments.time', 'appointments.status', 'appointments.shift_name', 'appointments.created_at as appointment_created_at','bills.code')
                 ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
+                ->join('bills','appointments.id','=','bills.appointment_id')
                 ->where('appointments.user_id', $id)
                 ->where('appointments.doctor_id', $doctor_id)
+                ->orderBy('appointments.created_at', 'desc')
                 ->get();
 
 
@@ -234,7 +236,8 @@ class DoctorController extends Controller
                 ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
                 ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
                 ->where('appointments.user_id', $id)
-                ->where('appointments.doctor_id',$doctor_id)
+                ->where('appointments.doctor_id', $doctor_id)
+                ->orderBy('bills.created_at', 'desc')
                 ->get();
             return response()->json([
                 'success' => true,
@@ -264,6 +267,7 @@ class DoctorController extends Controller
                 ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
                 ->where('appointments.user_id', $id)
                 ->where('doctors.id', $doctor_id)
+                ->orderBy('prescriptions.created_at', 'desc')
                 ->get();
             return response()->json([
                 'success' => true,
@@ -447,22 +451,22 @@ class DoctorController extends Controller
     }
 
     public function validateUpdateBillRequest(Request $request)
-{
-    $validator = Validator::make($request->all(), [
-        'name' => 'required',
-        'price' => 'required|numeric',
-        // 'doctor_id' => 'required|exists:doctors,id',
-        // 'user_id' => 'required|exists:users,id',
-        // 'bill_id' => 'required|exists:bills,id',
-        'products' => 'required|array',
-        'products.*.product_id' => 'required|exists:products,id',
-        'products.*.quantity' => 'required|numeric',
-        'products.*.price_product' => 'required|numeric',
-        'products.*.instructions' => 'required',
-    ]);
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'price' => 'required|numeric',
+            // 'doctor_id' => 'required|exists:doctors,id',
+            // 'user_id' => 'required|exists:users,id',
+            // 'bill_id' => 'required|exists:bills,id',
+            'products' => 'required|array',
+            'products.*.product_id' => 'required|exists:products,id',
+            'products.*.quantity' => 'required|numeric',
+            'products.*.price_product' => 'required|numeric',
+            'products.*.instructions' => 'required',
+        ]);
 
-    return $validator;
-}
+        return $validator;
+    }
 
     //detail bill by id
     public function detailBill($id)
@@ -487,14 +491,15 @@ class DoctorController extends Controller
                         'users.avatar as avatar',
                         'doctors.name as doctor_name',
                         'bills.description',
-                        'prescriptions.name', 'prescriptions.price',
+                        'prescriptions.name',
+                        'prescriptions.price',
                     )
                     ->first();
 
                 $prescription = DB::table('prescriptions')
                     ->join('prescription_product', 'prescription_product.prescription_id', '=', 'prescriptions.id')
                     ->join('products', 'products.id', '=', 'prescription_product.product_id')
-                    ->select( 'products.name as product_name', 'prescription_product.quantity', 'prescription_product.price as price_product', 'prescription_product.instructions')
+                    ->select('products.name as product_name', 'prescription_product.quantity', 'prescription_product.price as price_product', 'prescription_product.instructions')
                     ->where('prescriptions.bill_id', $id)
                     ->get();
                 $services = DB::table('services')
