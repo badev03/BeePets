@@ -33,19 +33,6 @@ const Mypatients = () => {
      fetchDoctor();
    }, []); 
   }
-    useEffect(() => {
-        const fetchCustomers = async () => {
-            try {
-                const response = await listCustomersApi.getHome();
-                setCustomers(response.customers);
-                // console.log(response);
-            } catch (error) {
-                console.error("Không có dữ liệu:", error);
-            }
-        };
-
-        fetchCustomers();
-    }, []);
     const handleSearch = (event) => {
       setSearchTerm(event.target.value);
     };
