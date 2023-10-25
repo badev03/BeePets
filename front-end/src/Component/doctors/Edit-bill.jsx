@@ -20,7 +20,7 @@ const Editbill = () => {
   const [productPrices, setProductPrices] = useState({});
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [instructions, setInstructions] = useState({});
+  const [instructions, setInstructions] = useState({})
 
   const handleSave = async () => {
     const productsData = prescriptions.map((prescription) => {
@@ -52,6 +52,7 @@ const Editbill = () => {
           0
         )
         .toFixed(2),
+        bill_id: id,
       products: productsData,
       description: description,
     };
