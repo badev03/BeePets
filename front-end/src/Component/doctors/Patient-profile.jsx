@@ -47,7 +47,7 @@ const Patientprofile = () => {
             }
           );
           setCustomers(response.customer);
-          console.log(response.customer);
+         
         } catch (error) {
           console.error("Không có dữ liệu:", error);
         }

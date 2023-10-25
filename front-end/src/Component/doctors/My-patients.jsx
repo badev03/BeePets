@@ -9,7 +9,7 @@ const Mypatients = () => {
   const [customers, setCustomers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const token = localStorage.getItem('token');
-  console.log(token)
+  // console.log(token)
   if(token){
     useEffect(() => {
      const fetchDoctor = async () => {
@@ -22,7 +22,7 @@ const Mypatients = () => {
          }
        );
        setCustomers(response.customers);
-         console.log(response);
+        //  console.log(response);
        
        
        } catch (error) {
@@ -33,19 +33,6 @@ const Mypatients = () => {
      fetchDoctor();
    }, []); 
   }
-    useEffect(() => {
-        const fetchCustomers = async () => {
-            try {
-                const response = await listCustomersApi.getHome();
-                setCustomers(response.customers);
-                console.log(response);
-            } catch (error) {
-                console.error("Không có dữ liệu:", error);
-            }
-        };
-
-        fetchCustomers();
-    }, []);
     const handleSearch = (event) => {
       setSearchTerm(event.target.value);
     };
