@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import Menudashboard from "./Menu-dashboard";
+// import Menudashboard from "./Menu-dashboard";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -94,14 +94,16 @@ const DetailBIll = () => {
           </div>
         </div>
       </div>
-      <div className="content" style={{ width: "100%" }}>
+      <div className="content" >
         <div ref={componetPDF}>
           <div className="container">
-            <div className="row">
-              <div className="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+            <div >
+              {/* <div className="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
                 <div className="card widget-profile pat-widget-profile">
                   <div className="card-body">
+                    <div style={{ display: "none" }}>
                     <Menudashboard />
+                    </div>
                     <div className="pro-widget-content">
                       <div className="profile-info-widget">
                         <Link to="#" className="booking-doc-img">
@@ -121,8 +123,8 @@ const DetailBIll = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="col-md-7 col-lg-8 col-xl-9">
+              </div> */}
+              <div >
                 <div className="card">
                   <div className="card-header">
                     <h4 className="card-title mb-0">Chi tiết hóa đơn</h4>
@@ -158,8 +160,8 @@ const DetailBIll = () => {
                               <tr>
                                 <th className="table-name">Tên loại thuốc</th>
                                 <th>Số lượng</th>
-                                <th className="table-name">Giá tiền</th>
-                                <th className="table-name">Tổng tiền</th>
+                                <th >Giá tiền</th>
+                                <th >Tổng tiền</th>
                                 <th className="table-name">
                                   Hướng dẫn sử dụng
                                 </th>
@@ -300,13 +302,13 @@ const DetailBIll = () => {
         </div>
       </div>
 
-      <div className="submit-section">
+      <div className="submit-section submit-section2">
         <button
           type="submit"
           className="btn btn-primary submit-btn"
           onClick={generatePDF}
         >
-          In đi má
+          In
         </button>
       </div>
     </div>

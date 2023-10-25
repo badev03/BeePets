@@ -14054,12 +14054,12 @@ html.menu-opened body {
   }
 }
 
-/* .submit-section{
+.submit-section2{
   display: flex;
     justify-content: flex-end;
     margin: -65px 112px 18px 0;
     
-} */
+}
 
 .submit-section .submit-btn {
   padding: 12px 30px;
