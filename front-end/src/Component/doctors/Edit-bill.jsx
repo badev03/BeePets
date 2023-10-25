@@ -46,10 +46,9 @@ const Editbill = () => {
     for (const prescription of prescriptions) {
       const instruction = instructions[prescription.id];
       if (!instruction || instruction.trim() === "") {
-        // Nếu hướng dẫn sử dụng rỗng hoặc không hợp lệ, hiển thị thông báo lỗi
         setInstructionsError((prev) => ({
           ...prev,
-          [prescription.id]: "Hướng dẫn sử dụng không được để trống",
+          [prescription.id]: "Không được để trống",
         }));
         isValid = false;
       }
@@ -103,7 +102,7 @@ const Editbill = () => {
       setIsloading(false)
 
       MySwal.fire({
-        title: "Đặt lịch thành công!",
+        title: "Thêm đơn thuốc thành công!",
         icon: "success",
       });
     } catch (error) {
