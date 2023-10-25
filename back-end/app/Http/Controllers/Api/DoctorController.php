@@ -77,6 +77,7 @@ class DoctorController extends Controller
                 $customers = Appointment::where('doctor_id', $doctor_id)
                     ->join('users', 'users.id', '=', 'appointments.user_id')
                     ->select('users.id', 'users.name', 'users.phone', 'users.email', 'users.address')
+                    ->distinct()
                     ->get();
                 return response()->json([
                     'success' => true,
