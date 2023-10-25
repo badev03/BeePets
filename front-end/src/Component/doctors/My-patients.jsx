@@ -3,11 +3,14 @@ import Menudashboard from './Menu-dashboard'
 import {Link} from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import listCustomersApi from '../../api/listCustomers'
+import LoadingSkeleton from '../Loading';
 
 
 const Mypatients = () => {
   const [customers, setCustomers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [loading, setLoading] = useState(true);
+
   const token = localStorage.getItem('token');
   if(token){
     useEffect(() => {
@@ -21,6 +24,7 @@ const Mypatients = () => {
          }
        );
        setCustomers(response.customers);
+          setLoading(false);
               
        } catch (error) {
          console.error("Không có dữ liệu:", error);
@@ -63,7 +67,6 @@ const Mypatients = () => {
         <div className="col-md-7 col-lg-8 col-xl-9">
         <div className="search-container">
                     <div className="input-group">
-                    
                       <input
                         type="text"
                         id="searchName"
@@ -76,36 +79,43 @@ const Mypatients = () => {
                   </div>
         
           <div className="row row-grid">
-          {filteredCustomers.map(customers => (
-            <div key={customers.id} className="col-md-6 col-lg-4 col-xl-3">
-              <div className="card widget-profile pat-widget-profile">
-              <div className="card-body">
-                <div className="pro-widget-content">
-                  <div className="profile-info-widget">
-                    <Link to={`/doctors/patient-profile/${customers.id}`} className="booking-doc-img">
-                      <img src="/img/patients/patient.jpg" alt="User Image" />
-                    </Link>
-                    <div className="profile-det-info">
-                      <h3><Link to={`/doctors/patient-profile/${customers.id}`}>{customers.name}</Link></h3>
-                      <div className="patient-details">
-                        <h5><b>Mã bệnh nhân :</b> {customers.id}</h5>
-      
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="patient-info">
-                  <ul>
-                    <li>SĐT <span>{customers.phone}</span></li>
-                    
-                  
-                  </ul>
-                </div>
-              </div>
-            </div>
-              
-            </div>
-            ))}
+          {loading ? (
+                             
+                             <LoadingSkeleton />
+   
+                             ) : (
+                              filteredCustomers.map(customers => (
+                                <div key={customers.id} className="col-md-6 col-lg-4 col-xl-3">
+                                  <div className="card widget-profile pat-widget-profile">
+                                  <div className="card-body">
+                                    <div className="pro-widget-content">
+                                      <div className="profile-info-widget">
+                                        <Link to={`/doctors/patient-profile/${customers.id}`} className="booking-doc-img">
+                                          <img src="/img/patients/patient.jpg" alt="User Image" />
+                                        </Link>
+                                        <div className="profile-det-info">
+                                          <h3><Link to={`/doctors/patient-profile/${customers.id}`}>{customers.name}</Link></h3>
+                                          <div className="patient-details">
+                                            <h5><b>Mã bệnh nhân :</b> {customers.id}</h5>
+                          
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="patient-info">
+                                      <ul>
+                                        <li>SĐT <span>{customers.phone}</span></li>
+                                        
+                                      
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                                  
+                                </div>
+                                ))
+                             )}
+        
             
           </div>
         </div>

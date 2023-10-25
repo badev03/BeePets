@@ -181,9 +181,7 @@ const Dashboarddoctors = () => {
       setLoadingIdd(null);
     }
   };
-  if (loading) {
-    return <LoadingSkeleton />
-  }
+ 
   return (
     <div>
       <div className="breadcrumb-bar-two">
@@ -212,7 +210,7 @@ const Dashboarddoctors = () => {
               <Menudashboard />
             </div>
             <div className="col-md-7 col-lg-8 col-xl-9">
-              <div className="row">
+              {/* <div className="row">
                 <div className="col-md-12">
                   <div className="card dash-card">
                     <div className="card-body">
@@ -275,7 +273,7 @@ const Dashboarddoctors = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div className="row">
                 <div className="col-md-12">
                   <h4 className="mb-4">Lịch hẹn của bệnh nhân</h4>
@@ -358,7 +356,14 @@ const Dashboarddoctors = () => {
                                     <th>Trạng thái</th>
                                   </tr>
                                 </thead>
-                                <tbody>{displayAppointments}</tbody>
+                                <tbody> {loading ? (
+                              <tr > 
+                                <td colSpan="5" >
+                                <LoadingSkeleton />
+      </td> </tr>
+                                ) : (
+                                  displayAppointments
+                                )}</tbody>
                               </table>
                             </div>
                             <div className="row">

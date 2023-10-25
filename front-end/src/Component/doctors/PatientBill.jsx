@@ -4,9 +4,12 @@ import { useParams } from "react-router-dom";
 import billApi from "../../api/bill";
 import ReactPaginate from "react-paginate";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import LoadingSkeleton from '../Loading';
 
 const PatientBill = () => {
   const [bills, setBills] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const { id } = useParams();
   const [pageNumber, setPageNumber] = useState(0);
   const billsPerPage = 5;
@@ -26,6 +29,8 @@ const PatientBill = () => {
           },
         });
         setBills(response.bills);
+        setLoading(false);
+
         // console.log(response);
       } catch (error) {
         console.error("Không có dữ liệu:", error);
@@ -36,7 +41,18 @@ const PatientBill = () => {
       fetchBills();
     }
   }, [id, token]);
-
+  function formatDate(dateString) {
+    if (dateString) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+      const formattedDate = new Date(dateString).toLocaleDateString('vi-VN', options);
+      // Loại bỏ từ "lúc" từ chuỗi được định dạng
+      return formattedDate.replace('lúc', '').trim();
+    }
+    return '';
+  }
+  // if (loading) {
+  //   return <LoadingSkeleton />
+  // }
   const displayBills = bills
     .slice(pagesVisited, pagesVisited + billsPerPage)
     .map((bill) => (
@@ -44,6 +60,7 @@ const PatientBill = () => {
         <td>
           <Link to="invoice-view.html">{bill.bill_code}</Link>
         </td>
+        <td>{formatDate(bill.bill_created_at)}</td>
         <td>
           <h2 className="table-avatar">
             <Link to="doctor-profile.html" className="avatar avatar-sm me-2">
@@ -96,6 +113,7 @@ const PatientBill = () => {
               <thead>
                 <tr>
                   <th>Mã hóa đơn</th>
+                  <th>Ngày</th>
                   <th>Người tạo</th>
                   <th>Tổng tiền</th>
                   <th>Hoạt động</th>
