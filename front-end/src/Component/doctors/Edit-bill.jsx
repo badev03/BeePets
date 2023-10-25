@@ -5,6 +5,8 @@ import { useState } from "react";
 import { Select } from "antd";
 import billApi from "../../api/bill";
 import { useAuth } from "../../Context/ContextAuth";
+import { FaSpinner } from 'react-icons/fa';
+import LoadingSkeleton from "../Loading";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -14,6 +16,7 @@ const Editbill = () => {
   const { token } = useAuth();
   const [prescriptions, setPrescriptions] = useState([{ id: 1 }]);
   const [services, setServices] = useState([{ id: 1 }]);
+  const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [selectedProductPrice, setSelectedProductPrice] = useState("");
   const [quantities, setQuantities] = useState({});
@@ -21,6 +24,7 @@ const Editbill = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [instructions, setInstructions] = useState({})
+  const [isloading, setIsloading] = useState(false);
 
   const handleSave = async () => {
     const productsData = prescriptions.map((prescription) => {
@@ -56,6 +60,7 @@ const Editbill = () => {
       products: productsData,
       description: description,
     };
+    setIsloading(true)
 
     try {
       const response = await billApi.updateBill(id, data, {
@@ -63,6 +68,7 @@ const Editbill = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+      setIsloading(false)
 
       MySwal.fire({
         title: "Đặt lịch thành công!",
@@ -152,6 +158,7 @@ const Editbill = () => {
 
   useEffect(() => {
     const fetchBill = async () => {
+      setLoading(true);
       try {
         const response = await billApi.getBillDetail(id, {
           headers: {
@@ -165,9 +172,16 @@ const Editbill = () => {
     };
 
     fetchBill();
+    setLoading(false);
+
   }, []);
-  if (!bill) {
-    return <div>Loading...</div>;
+  if (loading) {
+    return (
+      <div>
+        {" "}
+        <LoadingSkeleton />
+      </div>
+    );
   }
   return (
     <div>
@@ -197,7 +211,7 @@ const Editbill = () => {
               <div className="card widget-profile pat-widget-profile">
                 <div className="card-body">
                   <Menudashboard />
-                  <div className="pro-widget-content">
+                  {/* <div className="pro-widget-content">
                     <div className="profile-info-widget">
                       <Link to="#" className="booking-doc-img">
                         <img src="/img/patients/patient.jpg" alt="User Image" />
@@ -218,7 +232,7 @@ const Editbill = () => {
                         SĐT <span>+1 952 001 8563</span>
                       </li>
                     </ul>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -425,7 +439,13 @@ const Editbill = () => {
                           onClick={handleSave}
                           className="btn btn-primary submit-btn"
                         >
-                          Lưu
+                         {isloading ? (
+                            <div className="loading-spinner">
+                              <FaSpinner className="spinner" />
+                            </div>
+                          ) : (
+                            'Lưu'
+                          )}
                         </button>
                         <Link to="/doctors/patient-profile">
                           {" "}

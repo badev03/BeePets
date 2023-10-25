@@ -10,6 +10,8 @@ import ReactPaginate from "react-paginate";
 import { FaSpinner } from 'react-icons/fa';
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import LoadingSkeleton from '../Loading';
+
 const MySwal = withReactContent(Swal);
 const OPTIONS = ['Ca 1', 'Ca 2', 'Ca 3'];
 const { Option } = Select;
@@ -22,10 +24,11 @@ const Dashboarddoctors = () => {
   const [searchDate, setSearchDate] = useState('');
   const [searchShift, setSearchShift] = useState('');
   const [searchService, setSearchService] = useState('');
-  // const navigate = useNavigate()
   const [selectedItems, setSelectedItems] = useState([]);
   const [loadingId, setLoadingId] = useState(null);
   const [loadingIdd, setLoadingIdd] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   const filteredOptions = OPTIONS.filter((o) => !selectedItems.includes(o));
   const token = localStorage.getItem("token");
 
@@ -37,7 +40,7 @@ const Dashboarddoctors = () => {
         },
       });
       setAppointment(response.data);
-      // console.log(response.data);
+      setLoading(false);
     } catch (error) {
       console.error("Không có dữ liệu:", error);
       setAppointment([]);
@@ -140,7 +143,7 @@ const Dashboarddoctors = () => {
           },
         },
       );
-    
+      console.log("vl")
       MySwal.fire({
         title: "Cập nhật trạng thái  thành công!",
         icon: "success",
@@ -178,7 +181,7 @@ const Dashboarddoctors = () => {
       setLoadingIdd(null);
     }
   };
-
+ 
   return (
     <div>
       <div className="breadcrumb-bar-two">
@@ -207,7 +210,7 @@ const Dashboarddoctors = () => {
               <Menudashboard />
             </div>
             <div className="col-md-7 col-lg-8 col-xl-9">
-              <div className="row">
+              {/* <div className="row">
                 <div className="col-md-12">
                   <div className="card dash-card">
                     <div className="card-body">
@@ -270,7 +273,7 @@ const Dashboarddoctors = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div className="row">
                 <div className="col-md-12">
                   <h4 className="mb-4">Lịch hẹn của bệnh nhân</h4>
@@ -300,7 +303,7 @@ const Dashboarddoctors = () => {
                     </div>
 
                     <div className="input-group">
-                    <Select
+                    {/* <Select
   mode="multiple"
   placeholder="Lọc theo lịch"
   value={selectedItems}
@@ -314,14 +317,14 @@ const Dashboarddoctors = () => {
       {item}
     </Option>
   ))}
-</Select>
-                      {/* <input
+</Select> */}
+                      <input
                         type="text"
                         id="searchShift"
                         placeholder="Lọc theo ca"
                         onChange={(e) => setSearchShift(e.target.value)}
                         className="input-group-item"
-                      /> */}
+                      />
                     </div>
 
                     <div className="input-group">
@@ -353,7 +356,14 @@ const Dashboarddoctors = () => {
                                     <th>Trạng thái</th>
                                   </tr>
                                 </thead>
-                                <tbody>{displayAppointments}</tbody>
+                                <tbody> {loading ? (
+                              <tr > 
+                                <td colSpan="5" >
+                                <LoadingSkeleton />
+      </td> </tr>
+                                ) : (
+                                  displayAppointments
+                                )}</tbody>
                               </table>
                             </div>
                             <div className="row">

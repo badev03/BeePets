@@ -110,7 +110,7 @@ const Appointments = () => {
         <td>{formatDate(appointment.date)}</td>
         <td>
           <span className={`badge rounded-pill ${parseInt(appointment.status) === 1 ? 'bg-success-light' : parseInt(appointment.status) === 0 ? 'bg-warning-light' : parseInt(appointment.status) === 2 ? 'bg-danger-light' : ''}`}>
-            {parseInt(appointment.status) === 1 ? 'Confirm' : parseInt(appointment.status) === 0 ? 'Pending' : parseInt(appointment.status) === 2 ? 'Cancel' : ''}
+            {parseInt(appointment.status) === 1 ? 'Xác nhận' : parseInt(appointment.status) === 0 ? 'Chờ xác nhận' : parseInt(appointment.status) === 2 ? 'Đã hủy' : ''}
           </span>
 
         </td>
