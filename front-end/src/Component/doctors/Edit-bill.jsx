@@ -28,6 +28,35 @@ const Editbill = () => {
   const [descriptionError, setDescriptionError] = useState("");
   const [instructionsError, setInstructionsError] = useState({});
   const [isloading, setIsloading] = useState(false);
+  const { id } = useParams();
+  const [bill, setBill] = useState(null);
+  const tokenn = localStorage.getItem("token");
+
+  const [userId, setUserId] = useState("");
+  const [doctorId, setDoctorId] = useState("");
+
+
+  useEffect(() => {
+    const fetchBill = async () => {
+      setLoading(true);
+      try {
+        const response = await billApi.getBillDetail(id, {
+          headers: {
+            Authorization: `Bearer ${tokenn}`,
+          },
+        });
+        setBill(response.bill);
+        setUserId(response.bill.user_id)
+        setDoctorId(response.bill.doctor_id)
+      } catch (error) {
+        console.error("Không có dữ liệu:", error);
+      }
+    };
+
+    fetchBill();
+    setLoading(false);
+
+  }, []);
 
   const handleSave = async () => {
     if (name.trim() === "") {
@@ -87,6 +116,8 @@ const Editbill = () => {
         )
         .toFixed(2),
       bill_id: id,
+      user_id: userId,
+      doctor_id: doctorId,
       products: productsData,
       description: description,
     };
@@ -181,30 +212,6 @@ const Editbill = () => {
   const filterOption = (input, option) =>
     (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
-  const { id } = useParams();
-  const [bill, setBill] = useState(null);
-
-  const tokenn = localStorage.getItem("token");
-
-  useEffect(() => {
-    const fetchBill = async () => {
-      setLoading(true);
-      try {
-        const response = await billApi.getBillDetail(id, {
-          headers: {
-            Authorization: `Bearer ${tokenn}`,
-          },
-        });
-        setBill(response.bill);
-      } catch (error) {
-        console.error("Không có dữ liệu:", error);
-      }
-    };
-
-    fetchBill();
-    setLoading(false);
-
-  }, []);
   if (loading) {
     return (
       <div>
@@ -291,8 +298,8 @@ const Editbill = () => {
                     </div>
                     <div className="col-sm-6 text-sm-end">
                       <div className="billing-info">
-                        {/* <h4 className="d-block">{bill.date}</h4> */}
-                        {/* <span className="d-block text-muted">{bill.code}</span> */}
+                        {/* <h4 className="d-block">{bill.date}</h4>
+                        <span className="d-block text-muted">{bill.code}</span> */}
                       </div>
                     </div>
                   </div>
