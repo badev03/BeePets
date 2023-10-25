@@ -13,7 +13,10 @@ const PatientBill = () => {
   const pagesVisited = pageNumber * billsPerPage;
 
   const token = localStorage.getItem("token");
-
+  const formatCurrency = (value) => {
+    const numberValue = parseFloat(value);
+    return numberValue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+  };
   useEffect(() => {
     const fetchBills = async () => {
       try {
@@ -53,7 +56,7 @@ const PatientBill = () => {
             <Link to="doctor-profile.html">{bill.doctor_name}</Link>
           </h2>
         </td>
-        <td>{bill.total_amount}</td>
+        <td>{formatCurrency(bill.total_amount)}</td>
         <td>
           <div className="table-action">
             <Link to={`/doctors/detail-bill/${bill.id}`} className="btn btn-sm bg-info-light">

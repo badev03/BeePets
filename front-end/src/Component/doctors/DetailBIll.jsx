@@ -8,6 +8,7 @@ import LoadingSkeleton from '../Loading';
 const DetailBIll = () => {
     const { id } = useParams();
     const [bill, setBill] = useState({});
+    const [loading, setLoading] = useState(true);
     const [prescription, setPrescription] = useState([]);
     const [service, setService] = useState([]);
 
@@ -23,7 +24,6 @@ const DetailBIll = () => {
       );
       setService(response.services);     
       // console.log(response.services);
-    
 
       } catch (error) {
         console.error("Không có dữ liệu:", error);
@@ -56,9 +56,10 @@ const DetailBIll = () => {
         }
       );
       setBill(response.bill);     
-      console.log(response);
     
-        //pull code mới chưa ?? chưa :D
+      setLoading(false);
+    
+  
         
       } catch (error) {
         console.error("Không có dữ liệu:", error);
@@ -74,8 +75,21 @@ const DetailBIll = () => {
       fetchService();
 
     }, []); 
+    const formatCurrency = (value) => {
+      const numberValue = parseFloat(value);
+      return numberValue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    };
+    function formatDate(dateString) {
+      if (dateString) {
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+        const formattedDate = new Date(dateString).toLocaleDateString('vi-VN', options);
+        // Loại bỏ từ "lúc" từ chuỗi được định dạng
+        return formattedDate.replace('lúc', '').trim();
+      }
+      return '';
+    }
     // console.log(service)
-        if (!bill) {
+        if (loading) {
             return <div> <LoadingSkeleton/></div>;
         }
     return (
@@ -109,10 +123,10 @@ const DetailBIll = () => {
                     <div className="pro-widget-content">
                       <div className="profile-info-widget">
                         <Link to="#" className="booking-doc-img">
-                          <img src={bill.avatar} alt="User Image" />
+                          <img src={bill.customer_avatar} alt="User Image" />
                         </Link>
                         <div className="profile-det-info">
-                          <h3>{bill.user_name}</h3>
+                          <h3>{bill.customer_name}</h3>
                           {/* <div className="patient-details">
                             <h5>
                               <b>Patient ID :</b> PT0016
@@ -124,7 +138,7 @@ const DetailBIll = () => {
                     <div className="patient-info">
                       <ul>
                         <li>
-                          SĐT <span>{bill.user_phone}</span>
+                          SĐT <span>{bill.customer_phone}</span>
                         </li>
                       </ul>
                     </div>
@@ -134,24 +148,25 @@ const DetailBIll = () => {
               <div className="col-md-7 col-lg-8 col-xl-9">
                 <div className="card">
                   <div className="card-header">
-                    <h4 className="card-title mb-0">Chi tiết hóa đơn</h4>
+                    <h2 className="card-title mb-0" >Chi tiết hóa đơn</h2>
                   </div>
                   <div className="card-body">
                     <div className="row">
                       <div className="col-sm-6">
                         <div className="biller-info">
-                          <h4 className="d-block">{bill.doctor_name}</h4>
+                          <h4 className="d-block"> Tên bác sĩ : {bill.doctor_name}</h4>
+                          <h4 className="d-block"> Tên khách hàng : {bill.customer_name}</h4>
                         </div>
                       </div>
                       <div className="col-sm-6 text-sm-end">
                         <div className="billing-info">
-                          <h4 className="d-block">{bill.bill_created_at}</h4>
-                          <span className="d-block text-muted">{bill.code}</span>
+                          <h4 className="d-block">Thời gian tạo : {formatDate(bill.created_at)}</h4>
+                          <span className="d-block text-muted">Mã hóa đơn : {bill.code}</span>
                         </div>
                       </div>
-                      <div className="col-sm-6">
+                      <div className="col-sm-6" style={{marginTop:"30px"}}>
                         <div className="biller-info">
-                          <h4 className="d-block">Tên đơn thuốc : {bill.name}</h4>
+                          <h4 className="d-block">Tên đơn thuốc : {bill.prescriptions_name}</h4>
                         </div>
                       </div>
                     </div>
@@ -209,8 +224,8 @@ const DetailBIll = () => {
                     </div>
                     <div className="add-more-item text-end">
                     <div className="biller-info">
-                          <h4 className="d-block">Tổng tiền đơn thuốc : {bill.price}</h4>
-                        </div>
+                      <h4 className="d-block">Tổng tiền đơn thuốc : {formatCurrency(bill.prescriptions_price)} </h4>
+                    </div>
                     </div>
                     <div className="card card-table">
                       <div className="card-body">
@@ -263,32 +278,12 @@ const DetailBIll = () => {
                         </div>
                       </div>
                       <div className="add-more-item text-end">
-                    <div className="biller-info">
-                          <h4 className="d-block">Tổng tiền : {bill.total_amount}</h4>
+                      <div className="biller-info">
+                          <h2 className="d-block">Tổng tiền : {formatCurrency(bill.total_amount)}</h2>
                         </div>
                     </div>
                     </div>
-                    <div className="row">
-                      <div className="col-md-12">
-                        <div className="submit-section">
-                          <button
-                            type="submit"
-                            className="btn btn-primary submit-btn"
-                          >
-                            Lưu
-                          </button>
-                          <Link to="/doctors/patient-profile">
-                            {" "}
-                            <button
-                              type="reset"
-                              className="btn btn-secondary submit-btn"
-                            >
-                              Quay lại
-                            </button>
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
+                    
                   </div>
                 </div>
               </div>

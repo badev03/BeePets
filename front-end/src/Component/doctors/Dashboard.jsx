@@ -10,6 +10,8 @@ import ReactPaginate from "react-paginate";
 import { FaSpinner } from 'react-icons/fa';
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import LoadingSkeleton from '../Loading';
+
 const MySwal = withReactContent(Swal);
 const OPTIONS = ['Ca 1', 'Ca 2', 'Ca 3'];
 const { Option } = Select;
@@ -22,10 +24,11 @@ const Dashboarddoctors = () => {
   const [searchDate, setSearchDate] = useState('');
   const [searchShift, setSearchShift] = useState('');
   const [searchService, setSearchService] = useState('');
-  // const navigate = useNavigate()
   const [selectedItems, setSelectedItems] = useState([]);
   const [loadingId, setLoadingId] = useState(null);
   const [loadingIdd, setLoadingIdd] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   const filteredOptions = OPTIONS.filter((o) => !selectedItems.includes(o));
   const token = localStorage.getItem("token");
   // console.log(appointments);
@@ -38,7 +41,7 @@ const Dashboarddoctors = () => {
         },
       });
       setAppointment(response.data);
-      // console.log(response.data);
+      setLoading(false);
     } catch (error) {
       console.error("Không có dữ liệu:", error);
       setAppointment([]);
@@ -141,7 +144,7 @@ const Dashboarddoctors = () => {
           },
         },
       );
-    
+      console.log("vl")
       MySwal.fire({
         title: "Cập nhật trạng thái  thành công!",
         icon: "success",
@@ -179,7 +182,9 @@ const Dashboarddoctors = () => {
       setLoadingIdd(null);
     }
   };
-
+  if (loading) {
+    return <LoadingSkeleton />
+  }
   return (
     <div>
       <div className="breadcrumb-bar-two">

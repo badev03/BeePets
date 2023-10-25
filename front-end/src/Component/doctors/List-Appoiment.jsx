@@ -23,6 +23,7 @@ const AppoimentList = () => {
           },
         });
         setAppointmentsApi(response.appointments);
+        console.log(response)
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
