@@ -95,7 +95,18 @@ class BookingController extends Controller
         $doctor = $request->input('doctor_id');
         $date = $request->input('date');
         // lấy ra lịch làm việc của bác sĩ theo ngày
-        $work_schedule = Work_schedule::where('doctor_id', $doctor)->where('date', $date)->get();
+        $now = Carbon::now();
+        $work_schedule = Work_schedule::where('doctor_id', $doctor)
+            ->where('date', $date)
+            ->where(function ($query) use ($now) {
+                $query->where('date', '>', $now->toDateString())
+                    ->orWhere(function ($q) use ($now) {
+                        $q->where('date', $now->toDateString())
+                            ->where('end_time', '>', $now->toTimeString());
+                    });
+            })
+            ->get();
+        
         if ($work_schedule->isEmpty()) {
             return response()->json(['message' => 'Không có lịch làm việc của bác sĩ này'], 400);
         } else {
@@ -271,12 +282,13 @@ class BookingController extends Controller
             $service_price = floatval($service_price->price);
             $appointment->status = $request->input('status');
             $appointment->save();
-            $messageInterface->sendMessage($appointment->user_id, 'bác sĩ '. $doctor->name.'  đã xác nhận cuộc hẹn của bạn', $doctor->id, 'Bạn đã xác nhận thành công cuộc hẹn của khách hàng ' . $appointment->user->name);
+            
             if($appointment->status == 1){
                 $bill = $this->doctorController->createBill($appointment->id, $doctor->id, $appointment->user_id, $appointment->service_id, $service_price);
+                $messageInterface->sendMessage($appointment->user_id, 'bác sĩ '. $doctor->name.'  đã xác nhận cuộc hẹn của bạn', $doctor->id, 'Bạn đã xác nhận thành công cuộc hẹn của khách hàng ' . $appointment->user->name);
             }else if($appointment->status == 2){
-                // xóa bill đã tạo
-              $this->doctorController->deleteBill();
+                $messageInterface->sendMessage($appointment->user_id, 'bác sĩ '. $doctor->name.'  đã hủy cuộc hẹn của bạn', $doctor->id, 'Bạn đã hủy cuộc thành công cuộc hẹn của khách hàng ' . $appointment->user->name);
+              return response()->json(['message' => 'Bạn đã hủy cuộc hẹn'], 200);
             }
             return response()->json([
                 'message' => 'Cập nhật trạng thái thành công', 'bill' => $bill
