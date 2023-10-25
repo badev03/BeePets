@@ -262,13 +262,10 @@ class DoctorController extends Controller
         } else {
             $doctor_id = Auth::guard('doctors')->user()->id;
             $result = DB::table('prescriptions')
-                ->select('prescriptions.created_at as prescription_created_at', 'doctors.name as doctor_name', 'prescriptions.name as prescription_name')
-                ->join('bills', 'bills.prescription_id', '=', 'prescriptions.id')
-                ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
-                ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
-                ->where('appointments.user_id', $id)
-                ->where('doctors.id', $doctor_id)
-                ->orderBy('prescriptions.created_at', 'desc')
+                ->join('doctors', 'doctors.id', '=', 'prescriptions.doctor_id')
+                ->select('prescriptions.created_at as prescription_created_at', 'doctors.name as doctor_name',
+                    'doctors.image as doctor_image',
+                    'prescriptions.name as prescription_name','prescriptions.price as prescription_price')
                 ->get();
             return response()->json([
                 'success' => true,
@@ -469,7 +466,7 @@ class DoctorController extends Controller
         return $validator;
     }
 
-    
+
     public function detailBillDoctor($id)
 {
     try {
@@ -486,7 +483,7 @@ class DoctorController extends Controller
                     'users.avatar as customer_avatar',
                     'prescriptions.name as prescriptions_name',
                     'prescriptions.price as prescriptions_price',
-                    'services.name as service_name', 'appointments.date', 'appointments.time', 'appointments.shift_name', 
+                    'services.name as service_name', 'appointments.date', 'appointments.time', 'appointments.shift_name',
                     'appointments.description', 'doctors.id as doctor_id', 'users.id as user_id')
                 ->first();
 
