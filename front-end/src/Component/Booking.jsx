@@ -26,7 +26,11 @@ const Booking = () => {
   const [isNameEditable, setIsNameEditable] = useState(true);
   const [isPhoneEditable, setIsPhoneEditable] = useState(true);
   const [selectedShift, setSelectedShift] = useState("");
-  
+
+  const [loadingService, setLoadingService] = useState(false);
+  const [loadingShift, setLoadingShift] = useState(false);
+  const [loadingDoctors, setLoadingDoctors] = useState(false);
+
   useEffect(() => {
     const fetchTypePet = async () => {
       try {
@@ -43,10 +47,13 @@ const Booking = () => {
   useEffect(() => {
     const fetchServiceDoctor = async () => {
       try {
+        setLoadingService(true);
         const response = await BookingApi.getServiceDoctor();
         setServiceDoctor(response.data);
       } catch (error) {
         console.error("Không có dữ liệu:", error);
+      }finally{
+        setLoadingService(false)
       }
     };
 
@@ -88,6 +95,7 @@ const Booking = () => {
 
   const fetchWorkingHours = async (selectedDoctor, selectedDate) => {
     try {
+      setLoadingShift(true);
       const response = await BookingApi.getWorkingHours(
         selectedDoctor,
         selectedDate
@@ -95,6 +103,8 @@ const Booking = () => {
       setSelectedWorkingHours(response);
     } catch (error) {
       console.error("Không có dữ liệu ca làm việc:", error);
+    }finally{
+      setLoadingShift(false);
     }
   };
 
@@ -155,9 +165,8 @@ const Booking = () => {
 
   const handleChangeService = (value) => {
     setSelectedService(value);
-    // setDoctorOptions([]);
-  setSelectedDoctor(null);
-  
+    setSelectedDoctor(null);
+    setLoadingDoctors(true);
   };
 
   const handleChangePet = (value) => {
@@ -230,6 +239,7 @@ const Booking = () => {
                     value: service.id,
                     label: service.name,
                   }))}
+                  loading={loadingService}
                 />
               </Form.Item>
             </Col>
@@ -240,6 +250,7 @@ const Booking = () => {
                 rules={[
                   { required: true, message: "Vui lòng nhập chọn bác sĩ" },
                 ]}
+                loading={loadingDoctors}
               >
                 <Select
                   key={selectedService}
@@ -284,6 +295,7 @@ const Booking = () => {
                         }))
                       : []
                   }
+                  loading={loadingShift}
                 />
               </Form.Item>
             </Col>
