@@ -27,7 +27,6 @@ const Editbill = () => {
   const [nameError, setNameError] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
   const [instructionsError, setInstructionsError] = useState({});
-  const [instructions, setInstructions] = useState({})
   const [isloading, setIsloading] = useState(false);
 
   const handleSave = async () => {
