@@ -23,7 +23,7 @@ const PatientBill = () => {
           },
         });
         setBills(response.bills);
-        console.log(response);
+        // console.log(response);
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
@@ -37,7 +37,7 @@ const PatientBill = () => {
   const displayBills = bills
     .slice(pagesVisited, pagesVisited + billsPerPage)
     .map((bill) => (
-      <tr key={bill} data={bill}>
+      <tr key={bill.id} data={bill}>
         <td>
           <Link to="invoice-view.html">{bill.bill_code}</Link>
         </td>
