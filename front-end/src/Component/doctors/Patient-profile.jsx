@@ -2,19 +2,18 @@ import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import listAppiontmentApi from '../../api/listAppiontment';
 import listCustomersApi from '../../api/listCustomers';
-import ListAppiontment from './List-Appoiment';
 import AppoimentList from './List-Appoiment';
 import { useAuth } from '../../Context/ContextAuth';
 import logoutDoctor from '../../api/logoutDoctor';
 import PatientBill from './PatientBill';
+import LoadingSkeleton from '../Loading';
 
 const Patientprofile = () => {
   const { id } = useParams();
   const [customers, setCustomers] = useState(null);
 
-
+  const [loading, setLoading] = useState(true);
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const { onLogout } = useAuth(); // Sử dụng context để lấy hàm onLogout
@@ -47,7 +46,7 @@ const Patientprofile = () => {
             }
           );
           setCustomers(response.customer);
-         
+          setLoading(false);
         } catch (error) {
           console.error("Không có dữ liệu:", error);
         }
@@ -58,8 +57,8 @@ const Patientprofile = () => {
 
   }
 
-  if (!customers) {
-    return <div>Loading...</div>;
+  if (loading) {
+    return <LoadingSkeleton />
   }
   return (
     <div>

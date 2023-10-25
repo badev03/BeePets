@@ -469,7 +469,7 @@ class DoctorController extends Controller
         return $validator;
     }
 
-    //detail bill by id
+    
     public function detailBillDoctor($id)
     {
         try {
@@ -479,13 +479,23 @@ class DoctorController extends Controller
                     ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
                     ->join('users', 'users.id', '=', 'appointments.user_id')
                     ->join('services', 'services.id', '=', 'appointments.service_id')
-                    ->select('bills.id', 'bills.code', 'bills.total_amount', 'bills.created_at', 'users.name as customer_name', 'users.phone as customer_phone', 'users.address as customer_address', 'services.name as service_name', 'appointments.date', 'appointments.time', 'appointments.shift_name', 'appointments.description')
+                    ->join('doctors', 'bills.doctor_id' ,'=','doctors.id')
+                    ->join('prescriptions', 'prescriptions.bill_id', '=', 'bills.id')
+                    ->select('bills.id', 'bills.code', 'bills.total_amount', 'bills.created_at',
+                    'doctors.image as image_doctor', 'doctors.name as doctor_name',
+                     'users.name as customer_name', 'users.phone as customer_phone', 'users.address as customer_address',
+                     'users.avatar as customer_avatar',
+                     'prescriptions.name as prescriptions_name',
+                     'prescriptions.price as prescriptions_price',
+                      'services.name as service_name', 'appointments.date', 'appointments.time', 'appointments.shift_name', 
+                      'appointments.description')
                     ->first();
 
                 $prescription = DB::table('prescriptions')
                     ->join('prescription_product', 'prescription_product.prescription_id', '=', 'prescriptions.id')
                     ->join('products', 'products.id', '=', 'prescription_product.product_id')
-                    ->select('products.name as product_name', 'prescription_product.quantity', 'prescription_product.price as price_product', 'prescription_product.instructions')
+                    ->select('products.name as product_name', 'prescription_product.quantity'
+                    , 'prescription_product.price as price_product', 'prescription_product.instructions' )
                     ->where('prescriptions.bill_id', $id)
                     ->get();
                 $services = DB::table('services')

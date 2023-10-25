@@ -4,8 +4,10 @@ import appointmentsApi from "../../api/appointmentsApi";
 import { useParams } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import LoadingSkeleton from '../Loading';
 
 const AppoimentList = () => {
+  const [loading, setLoading] = useState(true);
   const [appointments, setAppointmentsApi] = useState([]);
   const { id } = useParams();
   const [pageNumber, setPageNumber] = useState(0);
@@ -23,6 +25,8 @@ const AppoimentList = () => {
           },
         });
         setAppointmentsApi(response.appointments);
+        setLoading(false);
+
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
@@ -32,7 +36,30 @@ const AppoimentList = () => {
       fetchAppointments();
     }
   }, [id, token]);
-// console.log(appointments);
+  if (loading) {
+    return <LoadingSkeleton />
+  }
+function formatDate(dateString) {
+  if (dateString) {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const formattedDate = new Date(dateString).toLocaleDateString('vi-VN', options);
+    // Loại bỏ từ "lúc" từ chuỗi được định dạng
+    return formattedDate.replace('lúc', '').trim();
+  }
+  return '';
+}
+const formatShiftTime = (shiftName) => {
+  switch (shiftName) {
+    case 'Ca 1':
+      return ' 8:00h-12:00h';
+    case 'Ca 2':
+      return '13:00h-17:00h';
+    case 'Ca 3':
+      return '18:00h-20:00h';
+    default:
+      return '';
+  }
+};
   const displayAppointments = appointments
     .slice(pagesVisited, pagesVisited + appointmentsPerPage)
     .map((appointment) => (
@@ -51,10 +78,17 @@ const AppoimentList = () => {
           </h2>
         </td>
         <td>
-          {appointment.date}{" "}
-          <span className="d-block text-info">{appointment.shift_name}</span>
+          {/* <span className="d-block text-info">
+            {appointment.time ? formatTime(appointment.time) : ''}
+          </span> */}
+          <span className="d-block text-info">
+            {appointment.shift_name}
+          </span>
+          <span className="d-block ">
+            {formatShiftTime(appointment.shift_name)}
+          </span>
         </td>
-        <td>{appointment.appointment_created_at}</td>
+        <td>{formatDate(appointment.date)}</td>
         <td>
           {appointment.status == 1 ? (
             <span className="badge rounded-pill bg-success-light">

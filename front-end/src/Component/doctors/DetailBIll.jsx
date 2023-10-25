@@ -12,7 +12,7 @@ const DetailBIll = () => {
   const [bill, setBill] = useState({});
   const [prescription, setPrescription] = useState([]);
   const [service, setService] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   const componetPDF = useRef();
 
   const generatePDF = useReactToPrint({
@@ -54,6 +54,8 @@ const DetailBIll = () => {
         },
       });
       setBill(response.bill);
+      setLoading(false);
+
     } catch (error) {
       console.error("Không có dữ liệu:", error);
     }
@@ -64,8 +66,20 @@ const DetailBIll = () => {
     fetchPrescription();
     fetchService();
   }, []);
-
-  if (!bill) {
+  const formatCurrency = (value) => {
+    const numberValue = parseFloat(value);
+    return numberValue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+  };
+  function formatDate(dateString) {
+    if (dateString) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+      const formattedDate = new Date(dateString).toLocaleDateString('vi-VN', options);
+      // Loại bỏ từ "lúc" từ chuỗi được định dạng
+      return formattedDate.replace('lúc', '').trim();
+    }
+    return '';
+  }
+  if (loading) {
     return (
       <div>
         {" "}
@@ -102,51 +116,32 @@ const DetailBIll = () => {
                 <div className="card widget-profile pat-widget-profile">
                   <div className="card-body">
                     <Menudashboard />
-                    <div className="pro-widget-content">
-                      <div className="profile-info-widget">
-                        <Link to="#" className="booking-doc-img">
-                          <img src={bill.avatar} alt="User Image" />
-                        </Link>
-                        <div className="profile-det-info">
-                          <h3>{bill.user_name}</h3>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="patient-info">
-                      <ul>
-                        <li>
-                          SĐT <span>{bill.user_phone}</span>
-                        </li>
-                      </ul>
-                    </div>
+                    
                   </div>
                 </div>
               </div>
               <div className="col-md-7 col-lg-8 col-xl-9">
                 <div className="card">
                   <div className="card-header">
-                    <h4 className="card-title mb-0">Chi tiết hóa đơn</h4>
+                    <h2 className="card-title mb-0">Chi tiết hóa đơn</h2>
                   </div>
                   <div className="card-body">
                     <div className="row">
                       <div className="col-sm-6">
                         <div className="biller-info">
-                          <h4 className="d-block">{bill.doctor_name}</h4>
+                        <h4 className="d-block"> Tên bác sĩ : {bill.doctor_name}</h4>
+                          <h4 className="d-block"> Tên khách hàng : {bill.customer_name}</h4>
                         </div>
                       </div>
                       <div className="col-sm-6 text-sm-end">
                         <div className="billing-info">
-                          <h4 className="d-block">{bill.bill_created_at}</h4>
-                          <span className="d-block text-muted">
-                            {bill.code}
-                          </span>
+                        <h4 className="d-block">Thời gian tạo : {formatDate(bill.created_at)}</h4>
+                          <span className="d-block text-muted">Mã hóa đơn : {bill.code}</span>
                         </div>
                       </div>
-                      <div className="col-sm-6">
+                      <div className="col-sm-6" style={{marginTop:"30px"}}>
                         <div className="biller-info">
-                          <h4 className="d-block">
-                            Tên đơn thuốc : {bill.name}
-                          </h4>
+                        <h4 className="d-block">Tên đơn thuốc : {bill.prescriptions_name}</h4>
                         </div>
                       </div>
                     </div>
@@ -215,9 +210,7 @@ const DetailBIll = () => {
                     </div>
                     <div className="add-more-item text-end">
                       <div className="biller-info">
-                        <h4 className="d-block">
-                          Tổng tiền đơn thuốc : {bill.price}
-                        </h4>
+                      <h4 className="d-block">Tổng tiền đơn thuốc : {formatCurrency(bill.prescriptions_price)} </h4>
                       </div>
                     </div>
                     <div className="card card-table">
@@ -286,9 +279,7 @@ const DetailBIll = () => {
                       </div>
                       <div className="add-more-item text-end">
                         <div className="biller-info">
-                          <h4 className="d-block">
-                            Tổng tiền : {bill.total_amount}
-                          </h4>
+                        <h2 className="d-block">Tổng tiền : {formatCurrency(bill.total_amount)}</h2>
                         </div>
                       </div>
                     </div>

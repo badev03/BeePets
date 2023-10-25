@@ -35,7 +35,10 @@ const Bill = () => {
     }
     return '';
   }
-  
+  const formatCurrency = (value) => {
+    const numberValue = parseFloat(value);
+    return numberValue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+  };
 
   return (
     <div id="pat_medical_records" className="tab-pane fade">
@@ -58,7 +61,7 @@ const Bill = () => {
                     <td><a href="#">{bill.code}</a></td>
                     {/* <td>{bill.order_date}</td> */}
                     <td>{formatDate(bill.order_date)}</td>
-                    <td>{bill.total_amount} <span className="text-danger fw-bold">VNĐ</span></td>
+                    <td>{formatCurrency(bill.total_amount)} </td>
                     <td>
                       <h2 className="table-avatar">
                         <a href="doctor-profile.html" className="avatar avatar-sm me-2">

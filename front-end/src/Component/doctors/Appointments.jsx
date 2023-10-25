@@ -6,9 +6,12 @@ import appointmentsApi from "../../api/appointmentsApi";
 import { useEffect, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
+import LoadingSkeleton from '../Loading';
+
 const Appointments = () => {
   const [appointments, setAppointment] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
+  const [loading, setLoading] = useState(true);
   const appointmentsPerPage = 5;
   const pagesVisited = pageNumber * appointmentsPerPage;
   const token = localStorage.getItem("token");
@@ -22,7 +25,7 @@ const Appointments = () => {
             },
           });
           setAppointment(response.data);
-          console.log(response);
+          setLoading(false);
         } catch (error) {
           console.error("Không có dữ liệu:", error);
         }
@@ -31,6 +34,7 @@ const Appointments = () => {
       fetchAppointment();
     }, []);
   }
+
   const displayAppointments = appointments
     .slice(pagesVisited, pagesVisited + appointmentsPerPage)
     .map((appointment) => (
@@ -106,7 +110,14 @@ const Appointments = () => {
             </div>
             <div className="col-md-7 col-lg-8 col-xl-9">
               <div className="appointments">
-                {displayAppointments}
+               {loading ? (
+                             
+                                <LoadingSkeleton />
+      
+                                ) : (
+                                  displayAppointments
+                                )}
+             
                 <div className="row">
                   <div className="col-md-12">
                     <div className="pagination-doctor">
