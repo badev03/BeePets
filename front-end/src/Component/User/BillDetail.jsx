@@ -36,7 +36,10 @@ const BillDetail = () => {
     }
     return '';
   }
-
+  const formatCurrency = (value) => {
+    const numberValue = parseFloat(value);
+    return numberValue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+  };
   return (
     <div>
       <div className="breadcrumb-bar-two">
@@ -88,14 +91,14 @@ const BillDetail = () => {
                             <td>1</td>
                             <td>{bill.services_name}</td>
                             <td>1</td>
-                            <td>{bill.services_price} VND</td>
+                            <td>{formatCurrency(bill.services_price)}</td>
                           </tr>
                           {products.map((product, index) => (
                             <tr key={index}>
                               <td>{index + 2}</td>
                               <td>{product.product_name}</td>
                               <td>{product.quantity}</td>
-                              <td>{product.product_price} VND</td>
+                              <td>{formatCurrency(product.product_price)}</td>
                             </tr>
                           ))}
                         </tbody>
@@ -103,7 +106,7 @@ const BillDetail = () => {
                     </div>
                     <div className="col-12 col-md-12 text-end mt-4">
                       <label className="mb-2">
-                        <strong>Tổng tiền: {bill.total_amount} <span className="text-danger fw-bold">VNĐ</span></strong>
+                        <strong>Tổng tiền: {formatCurrency(bill.total_amount)} </strong>
                       </label>
                     </div>
                     <div className="col-12 col-md-12 mt-5">

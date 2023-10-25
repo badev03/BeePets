@@ -27,7 +27,7 @@ const Editprescription = () => {
                             <div className="card widget-profile pat-widget-profile">
                                 <div className="card-body">
                                     <Menudashboard />
-                                    <div className="pro-widget-content">
+                                    {/* <div className="pro-widget-content">
                                         <div className="profile-info-widget">
                                             <Link to="#" className="booking-doc-img">
                                                 <img src="/img/patients/patient.jpg" alt="User Image" />
@@ -45,7 +45,7 @@ const Editprescription = () => {
                                         <ul>
                                             <li>SĐT <span>+1 952 001 8563</span></li>
                                         </ul>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>
