@@ -19,12 +19,13 @@ const Prescription = () => {
     useEffect(() => {
       const fetchAppointments = async () => {
         try {
-          const response = await axios.get( `http://127.0.0.1:8000/api/prescription/${id}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          setAppointmentsApi(response.appointments);
+            const response = await appointmentsApi.getPres(id, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              });
+          setAppointmentsApi(response.prescriptions);
+        //   console.log(appointments)
           setLoading(false);
   
         } catch (error) {
@@ -39,6 +40,10 @@ const Prescription = () => {
     if (loading) {
       return <LoadingSkeleton />
     }
+    const formatCurrency = (value) => {
+        const numberValue = parseFloat(value);
+        return numberValue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+      };
   function formatDate(dateString) {
     if (dateString) {
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -64,51 +69,32 @@ const Prescription = () => {
       .slice(pagesVisited, pagesVisited + appointmentsPerPage)
       .map((appointment) => (
         <tr key={appointment.id} data={appointment}>
-          <td>{appointment.code}</td>
+          
           <td>
             <h2 className="table-avatar">
               <a href="doctor-profile.html" className="avatar avatar-sm me-2">
                 <img
                   className="avatar-img rounded-circle"
-                  src={appointment.image}
+                  src={appointment.doctor_image}
                   alt="User Image"
                 />
               </a>
-              <a href="doctor-profile.html">{appointment.name} </a>
+              <a href="doctor-profile.html">{appointment.doctor_name} </a>
             </h2>
           </td>
           <td>
-            {/* <span className="d-block text-info">
-              {appointment.time ? formatTime(appointment.time) : ''}
-            </span> */}
-            <span className="d-block text-info">
-              {appointment.shift_name}
-            </span>
-            <span className="d-block ">
-              {formatShiftTime(appointment.shift_name)}
-            </span>
+            {appointment.prescription_name }
           </td>
-          <td>{formatDate(appointment.date)}</td>
+          <td>{formatDate(appointment.prescription_created_at)}</td>
           <td>
-            {appointment.status == 1 ? (
-              <span className="badge rounded-pill bg-success-light">
-                Xác nhận
-              </span>
-            ) : appointment.status == 2 ? (
-              <span className="badge rounded-pill bg-danger-light">Đã hủy</span>
-            ) : (
-              // Optional default case
-              <span className="badge rounded-pill bg-info-light">
-                Không xác định
-              </span>
-            )}
+            {formatCurrency(appointment.prescription_price) }
           </td>
-  
+          
           <td>
             <div className="table-action">
               <button className="btn btn-sm bg-info-light">
                 <Link
-                  to={`/doctors/accept-detail-appointments/${appointment.id}`}
+                  to={`/doctors/detail-prescription/${appointment.id}`}
                 >
                   {" "}
                   <i className="far fa-eye" /> View
@@ -135,9 +121,11 @@ const Prescription = () => {
               <table className="table table-hover table-center mb-0">
                 <thead>
                   <tr>
-                    <th>Ngày </th>
+                  <th>Tạo bởi </th>
                     <th>Tên</th>
-                    <th>Tạo bởi </th>
+                    <th>Ngày </th>
+
+                    <th>Giá </th>
                     <th>Hoạt động</th>
                   </tr>
                 </thead>

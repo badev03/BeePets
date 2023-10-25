@@ -59,7 +59,7 @@ const Patientprofile = () => {
   }
 
   if (loading) {
-    return ""
+    return <LoadingSkeleton />
   }
   return (
     <div>
