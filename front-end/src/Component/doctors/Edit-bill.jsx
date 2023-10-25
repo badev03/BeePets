@@ -60,6 +60,7 @@ const Editbill = () => {
       products: productsData,
       description: description,
     };
+    setIsloading(true)
 
     try {
       const response = await billApi.updateBill(id, data, {
@@ -67,6 +68,7 @@ const Editbill = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+      setIsloading(false)
 
       MySwal.fire({
         title: "Đặt lịch thành công!",
@@ -156,7 +158,7 @@ const Editbill = () => {
 
   useEffect(() => {
     const fetchBill = async () => {
-      setIsloading(true);
+      setLoading(true);
       try {
         const response = await billApi.getBillDetail(id, {
           headers: {
@@ -170,7 +172,7 @@ const Editbill = () => {
     };
 
     fetchBill();
-    setIsloading(false);
+    setLoading(false);
 
   }, []);
   if (loading) {
