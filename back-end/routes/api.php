@@ -139,7 +139,7 @@ Route::post('update-bill/{id}', [DoctorController::class, 'updateBill']);
     Route::get('/detail-prescription/{id}', [UserController::class, 'detailPrescription']);
     Route::get('/detail-bill-user/{id}', [UserController::class, 'detailBill']);
     Route::get('/detail-bill/{id}', [DoctorController::class, 'detailBillDoctor']);
-
+    Route::get('/detail-prescription-doctor/{id}', [DoctorController::class, 'detailPrescription']);
 
     //lấy ra lịch sử khám của khách hàng
     // Route::get('/history/{id}', [DoctorController::class, 'getHistoryByUser']);

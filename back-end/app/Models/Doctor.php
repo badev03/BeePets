@@ -41,4 +41,5 @@ class Doctor extends Authenticatable
         return $this->belongsToMany(User::class);
     }
    
+   
 }
