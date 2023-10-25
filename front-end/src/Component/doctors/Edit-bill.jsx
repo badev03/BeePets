@@ -275,7 +275,7 @@ const Editbill = () => {
                   <div className="row">
                     <div className="col-sm-6">
                       <div className="biller-info">
-                        <h4 className="d-block">{bill.user_name}</h4>
+                        {/* <h4 className="d-block">{bill.user_name}</h4> */}
                         <label htmlFor="">Tên hóa đơn:</label>
                         <input
                           className="form-control"
@@ -291,8 +291,8 @@ const Editbill = () => {
                     </div>
                     <div className="col-sm-6 text-sm-end">
                       <div className="billing-info">
-                        <h4 className="d-block">{bill.date}</h4>
-                        <span className="d-block text-muted">{bill.code}</span>
+                        {/* <h4 className="d-block">{bill.date}</h4> */}
+                        {/* <span className="d-block text-muted">{bill.code}</span> */}
                       </div>
                     </div>
                   </div>
