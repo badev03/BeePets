@@ -362,7 +362,7 @@ class DoctorController extends Controller
                     'message' => 'Không tìm thấy hóa đơn',
                 ], 404);
             }
-            $prescription = $this->createPrescription($request->name, $request->price);
+            $prescription = $this->createPrescription($request->name, $request->price,$request->bill_id);
 
             $prescription_id = $prescription->id;
 
@@ -395,7 +395,7 @@ class DoctorController extends Controller
         }
     }
     // tạo đơn thuốc cho bảng prescription_product và lưu vào bảng perscription
-    public function createPrescription($name, $price)
+    public function createPrescription($name, $price,$bill_id)
     {
 
         $prescription = new Prescription();
@@ -403,7 +403,7 @@ class DoctorController extends Controller
         $prescription->price = $price;
         // $prescription->doctor_id = $doctor_id;
         // $prescription->user_id = $user_id;
-        // $prescription->bill_id = $bill_id;
+        $prescription->bill_id = $bill_id;
         $prescription->save();
 
         return $prescription;

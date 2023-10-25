@@ -10,6 +10,7 @@ import BookingUser from "./User/BookingUser";
 import usersApi from "../api/usersApi";
 import Sidebar from "./User/Sidebar";
 import settingApi from "../api/settingApi";
+import { Button } from "antd";
 
 
 const Header = () => {
@@ -26,7 +27,6 @@ const Header = () => {
       try {
         const response = await settingApi.getAll();
         setSetting(response.setting);
-        console.log(response)
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
@@ -183,7 +183,7 @@ const Header = () => {
     <header
       id="page-header"
       className="header header-fixed header-fourteen header-twelve"
-      style={{ backgroundColor: scrollPosition > 40 ? "#fff" : "transparent" }}
+      style={{ backgroundColor: scrollPosition > 40 ? "#fff" : "transparent", boxShadow: scrollPosition > 40 ? "rgba(0, 0, 0, 0.35) 0px 5px 15px" : "" }}
     >
       <div className="container">
         <nav className="navbar navbar-expand-lg header-nav">
@@ -247,10 +247,11 @@ const Header = () => {
                 <a href="/blog">TIN TỨC </a>
               </li>
               <li
+                style={{ display: 'flex', alignItems: 'center'}}
                 className={`has-submenu ${activeItems.includes('ĐẶT LỊCH NHANH') ? 'active' : ''}`}
                 onClick={() => handleItemClick('ĐẶT LỊCH NHANH')}
               >
-                <a><BookingUser /></a>
+                <Button type="primary"><BookingUser /></Button>
               </li>
             </ul>
           </div>

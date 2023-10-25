@@ -14053,6 +14053,14 @@ html.menu-opened body {
     margin-top: 2px;
   }
 }
+
+.submit-section{
+  display: flex;
+    justify-content: flex-end;
+    margin: -65px 112px 18px 0;
+    
+}
+
 .submit-section .submit-btn {
   padding: 12px 30px;
   font-weight: 600;
