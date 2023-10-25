@@ -27,6 +27,15 @@ const Prescription = () => {
       fetchsetPrescription();
     }
   }, [token]);
+  function formatDate(dateString) {
+    if (dateString) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+      const formattedDate = new Date(dateString).toLocaleDateString('vi-VN', options);
+      // Loại bỏ từ "lúc" từ chuỗi được định dạng
+      return formattedDate.replace('lúc', '').trim();
+    }
+    return '';
+  }
   return (
     <div className="tab-pane fade" id="pat_prescriptions">
       <div className="card card-table mb-0">
@@ -47,7 +56,7 @@ const Prescription = () => {
                   <tr key={prescription.prescription_id}>
                     <td>{prescription.prescription_id}</td>
 
-                    <td>{prescription.created_at}</td>
+                    <td>{formatDate(prescription.created_at)}</td>
                     <td>{prescription.name}</td>
                     <td>
                       <h2 className="table-avatar">

@@ -8,9 +8,9 @@ use App\Models\Bill;
 use App\Models\Order_detail;
 use App\Models\Products;
 use App\Models\User;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use PDF;
 
 class OrderController extends Controller
 {
