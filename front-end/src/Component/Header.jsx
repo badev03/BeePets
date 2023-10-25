@@ -26,7 +26,6 @@ const Header = () => {
       try {
         const response = await settingApi.getAll();
         setSetting(response.setting);
-        console.log(response)
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }

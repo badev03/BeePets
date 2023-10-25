@@ -28,7 +28,6 @@ const Dashboarddoctors = () => {
   const [loadingIdd, setLoadingIdd] = useState(null);
   const filteredOptions = OPTIONS.filter((o) => !selectedItems.includes(o));
   const token = localStorage.getItem("token");
-  // console.log(appointments);
 
   const fetchAppointment = async () => {
     try {

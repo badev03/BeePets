@@ -9,7 +9,6 @@ const Mypatients = () => {
   const [customers, setCustomers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const token = localStorage.getItem('token');
-  // console.log(token)
   if(token){
     useEffect(() => {
      const fetchDoctor = async () => {
@@ -22,9 +21,7 @@ const Mypatients = () => {
          }
        );
        setCustomers(response.customers);
-        //  console.log(response);
-       
-       
+              
        } catch (error) {
          console.error("Không có dữ liệu:", error);
        }
@@ -80,8 +77,7 @@ const Mypatients = () => {
         
           <div className="row row-grid">
           {filteredCustomers.map(customers => (
-            <div className="col-md-6 col-lg-4 col-xl-3">
-             
+            <div key={customers.id} className="col-md-6 col-lg-4 col-xl-3">
               <div className="card widget-profile pat-widget-profile">
               <div className="card-body">
                 <div className="pro-widget-content">
