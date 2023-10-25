@@ -20,9 +20,40 @@ const Editbill = () => {
   const [productPrices, setProductPrices] = useState({});
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [instructions, setInstructions] = useState({})
+  const [instructions, setInstructions] = useState({});
+  const [nameError, setNameError] = useState("");
+  const [descriptionError, setDescriptionError] = useState("");
+  const [instructionsError, setInstructionsError] = useState({});
 
   const handleSave = async () => {
+    if (name.trim() === "") {
+      setNameError("Tên hóa đơn không được để trống");
+      return;
+    }
+
+    if (description.trim() === "") {
+      setDescriptionError("Kết quả không được để trống");
+      return;
+    }
+
+    let isValid = true;
+
+    for (const prescription of prescriptions) {
+      const instruction = instructions[prescription.id];
+      if (!instruction || instruction.trim() === "") {
+        // Nếu hướng dẫn sử dụng rỗng hoặc không hợp lệ, hiển thị thông báo lỗi
+        setInstructionsError((prev) => ({
+          ...prev,
+          [prescription.id]: "Hướng dẫn sử dụng không được để trống",
+        }));
+        isValid = false;
+      }
+    }
+
+    if (!isValid) {
+      return;
+    }
+
     const productsData = prescriptions.map((prescription) => {
       const productName = products[prescription.id - 1]?.name || "";
       const quantity = quantities[prescription.id] || 1;
@@ -52,7 +83,7 @@ const Editbill = () => {
           0
         )
         .toFixed(2),
-        bill_id: id,
+      bill_id: id,
       products: productsData,
       description: description,
     };
@@ -237,8 +268,12 @@ const Editbill = () => {
                           className="form-control"
                           type="text"
                           value={name}
-                          onChange={(e) => setName(e.target.value)}
+                          onChange={(e) => {
+                            setName(e.target.value);
+                            setNameError("");
+                          }}
                         />
+                        <span className="text-danger">{nameError}</span>
                       </div>
                     </div>
                     <div className="col-sm-6 text-sm-end">
@@ -328,13 +363,21 @@ const Editbill = () => {
                                     className="form-control"
                                     type="text"
                                     value={instructions[prescription.id] || ""}
-                                    onChange={(e) =>
+                                    onChange={(e) => {
+                                      const value = e.target.value;
+                                      setInstructionsError((prev) => ({
+                                        ...prev,
+                                        [prescription.id]: "",
+                                      }));
                                       setInstructions((prev) => ({
                                         ...prev,
-                                        [prescription.id]: e.target.value,
-                                      }))
-                                    }
+                                        [prescription.id]: value,
+                                      }));
+                                    }}
                                   />
+                                  <span className="text-danger">
+                                    {instructionsError[prescription.id]}
+                                  </span>
                                 </td>
                                 <td>
                                   <button
@@ -411,8 +454,14 @@ const Editbill = () => {
                             className="form-control"
                             rows={5}
                             value={description}
-                            onChange={(e) => setDescription(e.target.value)}
+                            onChange={(e) => {
+                              setDescription(e.target.value);
+                              setDescriptionError("");
+                            }}
                           />
+                          <span className="text-danger">
+                            {descriptionError}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -448,5 +497,4 @@ const Editbill = () => {
     </div>
   );
 };
-
 export default Editbill;
