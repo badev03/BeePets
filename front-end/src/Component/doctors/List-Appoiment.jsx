@@ -32,11 +32,12 @@ const AppoimentList = () => {
       fetchAppointments();
     }
   }, [id, token]);
-console.log(appointments);
+// console.log(appointments);
   const displayAppointments = appointments
     .slice(pagesVisited, pagesVisited + appointmentsPerPage)
     .map((appointment) => (
-      <tr key={appointment} data={appointment}>
+      <tr key={appointment.id} data={appointment}>
+        <td>{appointment.code}</td>
         <td>
           <h2 className="table-avatar">
             <a href="doctor-profile.html" className="avatar avatar-sm me-2">
@@ -60,7 +61,7 @@ console.log(appointments);
               Xác nhận
             </span>
           ) : appointment.status == 2 ? (
-            <span class="badge rounded-pill bg-danger-light">Đã hủy</span>
+            <span className="badge rounded-pill bg-danger-light">Đã hủy</span>
           ) : (
             // Optional default case
             <span className="badge rounded-pill bg-info-light">
@@ -97,6 +98,7 @@ console.log(appointments);
             <table className="table table-hover table-center mb-0">
               <thead>
                 <tr>
+                  <th>Mã hóa đơn</th>
                   <th>Bác sĩ</th>
                   <th>Lịch khám</th>
                   <th> Ngày đặt lịch</th>

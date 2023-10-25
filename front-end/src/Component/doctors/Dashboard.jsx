@@ -12,7 +12,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal);
 const OPTIONS = ['Ca 1', 'Ca 2', 'Ca 3'];
-
+const { Option } = Select;
 const handleChange = (value) => {
   console.log(`selected ${value}`);
 };
@@ -301,16 +301,20 @@ const Dashboarddoctors = () => {
 
                     <div className="input-group">
                     <Select
-                        mode="multiple"
-                        placeholder="Inserted are removed"
-                        value={selectedItems}
-                        onChange={setSelectedItems}
-                        style={{ width: '100%' }}
-                        options={filteredOptions.map((item) => ({
-                          value: item,
-                          label: item,
-                        }))}
-                      />
+  mode="multiple"
+  placeholder="Lọc theo lịch"
+  value={selectedItems}
+  onChange={setSelectedItems}
+  className="custom-select" // Add custom class
+  dropdownClassName="custom-dropdown" // Add custom dropdown class
+  style={{ width: '100%' }}
+>
+  {filteredOptions.map((item) => (
+    <Option key={item} value={item}>
+      {item}
+    </Option>
+  ))}
+</Select>
                       {/* <input
                         type="text"
                         id="searchShift"

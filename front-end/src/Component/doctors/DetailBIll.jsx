@@ -56,9 +56,10 @@ const DetailBIll = () => {
         }
       );
       setBill(response.bill);     
-      // console.log(response.bill.code);
+      console.log(response);
     
-
+        //pull code mới chưa ?? chưa :D
+        
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
