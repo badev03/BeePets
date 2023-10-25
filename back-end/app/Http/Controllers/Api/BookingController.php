@@ -166,7 +166,7 @@ class BookingController extends Controller
             $model->save();
 
             //    event(new \App\Events\MessageSendNotification($user_id,'bạn đã đặt lịch hẹn của thành công vui lòng chờ xác nhận của bác sĩ', $request->doctor_id, 'Có lịch hẹn mới'));
-            $messageInterface->sendMessage($user_id, 'Vui lòng chờ xác nhận của bác sĩ', $request->doctor_id, 'Có cuộc hẹn mới từ khách hàng');
+            $messageInterface->sendMessage($user_id, 'Vui lòng chờ xác nhận của bác sĩ', $request->doctor_id, 'Có cuộc hẹn mới ');
 
 
             return response()->json(['message' => $request->all()], 201);
@@ -271,8 +271,13 @@ class BookingController extends Controller
             $service_price = floatval($service_price->price);
             $appointment->status = $request->input('status');
             $appointment->save();
-            $messageInterface->sendMessage($appointment->user_id, 'bác sĩ đã xác nhận cuộc hẹn của bạn', $doctor->id, 'Có cuộc hẹn mới');
-            $bill = $this->doctorController->createBill($appointment->id, $doctor->id, $appointment->user_id, $appointment->service_id, $service_price);
+            $messageInterface->sendMessage($appointment->user_id, 'bác sĩ '. $doctor->name.'  đã xác nhận cuộc hẹn của bạn', $doctor->id, 'Bạn đã xác nhận thành công cuộc hẹn của khách hàng ' . $appointment->user->name);
+            if($appointment->status == 1){
+                $bill = $this->doctorController->createBill($appointment->id, $doctor->id, $appointment->user_id, $appointment->service_id, $service_price);
+            }else if($appointment->status == 2){
+                // xóa bill đã tạo
+              $this->doctorController->deleteBill();
+            }
             return response()->json([
                 'message' => 'Cập nhật trạng thái thành công', 'bill' => $bill
             ], 200);

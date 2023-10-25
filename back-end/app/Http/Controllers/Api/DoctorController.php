@@ -76,7 +76,7 @@ class DoctorController extends Controller
                 $doctor_id = Auth::guard('doctors')->user()->id;
                 $customers = Appointment::where('doctor_id', $doctor_id)
                     ->join('users', 'users.id', '=', 'appointments.user_id')
-                    ->select('users.id', 'users.name', 'users.phone', 'users.email', 'users.address')
+                    ->select('users.id', 'users.name','users.avatar', 'users.phone', 'users.email', 'users.address')
                     ->distinct()
                     ->get();
                 return response()->json([
@@ -470,31 +470,16 @@ class DoctorController extends Controller
     }
 
     //detail bill by id
-    public function detailBill($id)
+    public function detailBillDoctor($id)
     {
         try {
             if (Auth::guard('doctors')->check()) {
 
                 $bill = Bill::where('bills.id', $id)
                     ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
+                    ->join('users', 'users.id', '=', 'appointments.user_id')
                     ->join('services', 'services.id', '=', 'appointments.service_id')
-                    ->join('users', 'users.id', '=', 'bills.user_id')
-                    ->join('doctors', 'doctors.id', '=', 'bills.doctor_id')
-                    ->join('prescriptions', 'prescriptions.bill_id', '=', 'bills.id')
-                    ->select(
-                        'bills.id as bill_id',
-                        'bills.code',
-                        'bills.created_at as bill_created_at',
-                        'bills.total_amount',
-                        'bills.status as bill_status',
-                        'users.name as user_name',
-                        'users.phone as user_phone',
-                        'users.avatar as avatar',
-                        'doctors.name as doctor_name',
-                        'bills.description',
-                        'prescriptions.name',
-                        'prescriptions.price',
-                    )
+                    ->select('bills.id', 'bills.code', 'bills.total_amount', 'bills.created_at', 'users.name as customer_name', 'users.phone as customer_phone', 'users.address as customer_address', 'services.name as service_name', 'appointments.date', 'appointments.time', 'appointments.shift_name', 'appointments.description')
                     ->first();
 
                 $prescription = DB::table('prescriptions')
