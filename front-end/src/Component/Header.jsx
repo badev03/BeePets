@@ -246,13 +246,12 @@ const Header = () => {
               >
                 <a href="/blog">TIN TỨC </a>
               </li>
-              <li
-                style={{ display: 'flex', alignItems: 'center'}}
-                className={`has-submenu ${activeItems.includes('ĐẶT LỊCH NHANH') ? 'active' : ''}`}
+              <div
+                style={{ display: 'flex', alignItems: 'center', color: 'white' }}
                 onClick={() => handleItemClick('ĐẶT LỊCH NHANH')}
               >
-                <Button type="primary"><BookingUser /></Button>
-              </li>
+                <Button style={{ color: "white" }} type="primary"><BookingUser /></Button>
+              </div>
             </ul>
           </div>
           <ul className="nav header-navbar-rht">
