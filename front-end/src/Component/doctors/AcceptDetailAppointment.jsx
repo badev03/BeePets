@@ -64,25 +64,7 @@ const AcceptDetailAppointment = () => {
           <div className="card widget-profile pat-widget-profile">
             <div className="card-body">
                 <Menudashboard/>
-              <div className="pro-widget-content">
-                <div className="profile-info-widget">
-                  <Link to="#" className="booking-doc-img">
-                    <img src="/img/patients/patient.jpg" alt="User Image" />
-                  </Link>
-                  <div className="profile-det-info">
-                    <h3>{appointments.user_name}</h3>
-                    <div className="patient-details">
-                      {/* <h5><b>Patient ID : {appointments.id}</b> </h5> */}
-                      
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* <div className="patient-info">
-                <ul>
-                  <li>SĐT <span>{appointments.id}</span></li>
-                </ul>
-              </div> */}
+             
             </div>
           </div>
           {/* <div className="card">

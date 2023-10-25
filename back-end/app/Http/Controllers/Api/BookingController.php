@@ -253,7 +253,7 @@ class BookingController extends Controller
         $doctor = auth()->user();
         $data = Appointment::where('doctor_id', $doctor->id)
         ->where('status', 1)
-        ->with('user:id,name,phone')
+        ->with('user:id,name,phone,avatar')
         ->with('service:id,name')
         ->with('type_pet:id,name')
         ->orderBy('created_at', 'desc') 

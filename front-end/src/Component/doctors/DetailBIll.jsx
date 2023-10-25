@@ -120,18 +120,18 @@ const DetailBIll = () => {
                 <div className="card widget-profile pat-widget-profile">
                   <div className="card-body">
                     <Menudashboard />
-                    <div className="pro-widget-content">
+                    {/* <div className="pro-widget-content">
                       <div className="profile-info-widget">
                         <Link to="#" className="booking-doc-img">
                           <img src={bill.customer_avatar} alt="User Image" />
                         </Link>
                         <div className="profile-det-info">
                           <h3>{bill.customer_name}</h3>
-                          {/* <div className="patient-details">
+                          <div className="patient-details">
                             <h5>
                               <b>Patient ID :</b> PT0016
                             </h5>
-                          </div> */}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -141,7 +141,7 @@ const DetailBIll = () => {
                           SĐT <span>{bill.customer_phone}</span>
                         </li>
                       </ul>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

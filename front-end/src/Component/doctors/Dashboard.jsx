@@ -306,7 +306,7 @@ const Dashboarddoctors = () => {
                     </div>
 
                     <div className="input-group">
-                    <Select
+                    {/* <Select
   mode="multiple"
   placeholder="Lọc theo lịch"
   value={selectedItems}
@@ -320,14 +320,14 @@ const Dashboarddoctors = () => {
       {item}
     </Option>
   ))}
-</Select>
-                      {/* <input
+</Select> */}
+                      <input
                         type="text"
                         id="searchShift"
                         placeholder="Lọc theo ca"
                         onChange={(e) => setSearchShift(e.target.value)}
                         className="input-group-item"
-                      /> */}
+                      />
                     </div>
 
                     <div className="input-group">
