@@ -282,9 +282,10 @@ class DoctorController extends Controller
         $doctor_id = auth()->user()->id;
         $prescription = Prescription::
         where('doctor_id', $doctor_id)
+        ->with('doctor:id,name','user:id,name')
         ->where('id', $id)
         ->get();
-       
+    
         if (count($prescription) == 0) {
             return response()->json([
                 'success' => false,
