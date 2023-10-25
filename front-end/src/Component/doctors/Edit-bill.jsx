@@ -23,7 +23,6 @@ const Editbill = () => {
   const [productPrices, setProductPrices] = useState({});
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [instructions, setInstructions] = useState({});
   const [nameError, setNameError] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
   const [instructionsError, setInstructionsError] = useState({});
