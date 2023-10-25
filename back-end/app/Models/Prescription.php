@@ -25,4 +25,5 @@ class Prescription extends Model
     {
         return $this->hasMany(Prescription_product::class);
     }
+   
 }

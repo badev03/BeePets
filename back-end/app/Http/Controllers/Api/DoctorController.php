@@ -263,7 +263,7 @@ class DoctorController extends Controller
             $doctor_id = Auth::guard('doctors')->user()->id;
             $result = DB::table('prescriptions')
                 ->join('doctors', 'doctors.id', '=', 'prescriptions.doctor_id')
-                ->select('prescriptions.created_at as prescription_created_at', 'doctors.name as doctor_name',
+                ->select('prescriptions.id','prescriptions.created_at as prescription_created_at', 'doctors.name as doctor_name',
                     'doctors.image as doctor_image',
                     'prescriptions.name as prescription_name','prescriptions.price as prescription_price')
                 ->get();
@@ -274,6 +274,37 @@ class DoctorController extends Controller
             ]);
         }
     }
+
+  
+    public function detailPrescription($id)
+    {
+
+        $doctor_id = auth()->user()->id;
+        $prescription = Prescription::
+        where('doctor_id', $doctor_id)
+        ->where('id', $id)
+        ->get();
+       
+        if (count($prescription) == 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Không tìm thấy đơn thuốc'
+            ]);
+        }
+        $result = DB::table('prescription_product')
+            ->select('products.name as product_name', 'prescription_product.quantity', 'prescription_product.price', 'prescription_product.instructions')
+            ->join('products', 'prescription_product.product_id', '=', 'products.id')
+            ->where('prescription_product.prescription_id', $id)
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Lấy chi tiết đơn thuốc thành công',
+            'prescription' => $prescription,
+            'prescription_product' => $result
+        ]);
+    }
+    
     public function getReviewDoctor()
     {
         if (!Auth::guard('doctors')->check()) {
