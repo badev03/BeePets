@@ -81,10 +81,9 @@ const DetailBIll = () => {
   }
   if (loading) {
     return (
-      <div>
-        {" "}
+     
         <LoadingSkeleton />
-      </div>
+     
     );
   }
   return (
