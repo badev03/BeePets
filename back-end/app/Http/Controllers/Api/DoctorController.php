@@ -286,7 +286,7 @@ class DoctorController extends Controller
         ->with('doctor:id,name','user:id,name')
         ->where('id', $id)
         ->get();
-    
+        // dd($prescription);
         if (count($prescription) == 0) {
             return response()->json([
                 'success' => false,
