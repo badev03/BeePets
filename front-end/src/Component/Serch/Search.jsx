@@ -4,7 +4,7 @@ import axios from "axios";
 import ReactPaginate from "react-paginate";
 import doctorsApi from "../../api/doctorsApi";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import BookingDoctor from "./BookingDoctor";
+import CustomButton from "./CustomButton";
 
 const Search = ({ data }) => {
   const [doctors, setDoctors] = useState([]);
@@ -138,30 +138,14 @@ const Search = ({ data }) => {
                 >
                   Xem hồ sơ
                 </Link>
-                <button
-                  className="btn btn-info"
-                  style={{
-                    fontSize: "13px",
-                    letterSpacing: "normal",
-                    padding: "7px 20px",
-                    width: "200px",
-                    marginTop: "10px",
-                  }}
-                  onClick={() => handleBookingg(doctor.id)}
-                >
-                  <BookingDoctor
-                    doctorId={
-                      selectedDoctorId === doctor.id ? selectedDoctorId : null
-                    }
-                  />
-                </button>
+                <CustomButton handleBookingg={handleBookingg} doctorId={doctor.id} />
               </div>
             </div>
           </div>
         </div>
       </div>
     ));
-   
+
   return (
     <div>
       {displayDoctors}

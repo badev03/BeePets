@@ -4,15 +4,13 @@ import BookingApi from "../../api/bookingApi";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useAuth } from "../../Context/ContextAuth";
-import moment from 'moment';
-import { useParams } from "react-router-dom";
-import axios from 'axios';
-
+import moment from "moment";
+import axios from "axios";
 const { TextArea } = Input;
 
 const MySwal = withReactContent(Swal);
 
-const BookingDoctor = ({ doctorId }) => {
+const CustomButton = ({ doctorId, handleBookingg }) => {
 
     const { user } = useAuth();
     const [form] = Form.useForm();
@@ -98,7 +96,7 @@ const BookingDoctor = ({ doctorId }) => {
         if (selectedServiceData) {
             setSelectedService(selectedServiceData.id);
         }
-        
+
     };
 
     const handleChange = (value) => {
@@ -159,16 +157,16 @@ const BookingDoctor = ({ doctorId }) => {
                 name: selectedName,
                 description: selectedDescription,
             };
-    
+
             await BookingApi.saveBooking(bookingData);
             MySwal.fire({
                 title: "Đặt lịch thành công!",
                 icon: "success",
             });
-    
-            console.log("Booking successful");
+
+            console.log("Đặt lịch thành công");
         } catch (error) {
-            console.error("Error while booking:", error);
+            console.error("Lỗi khi đặt lịch:", error);
             MySwal.fire({
                 title: "Đặt lịch không thành công",
                 text: error.message,
@@ -179,8 +177,8 @@ const BookingDoctor = ({ doctorId }) => {
             setIsModalOpen(false);
         }
     };
-    
-    
+
+
 
     const handleChangePet = (value) => {
         setSelectedPet(value);
@@ -233,11 +231,15 @@ const BookingDoctor = ({ doctorId }) => {
     const buttonStyle = {
         color: 'white', // Màu chữ trắng
         textDecoration: 'none', // Loại bỏ gạch chân dưới
+        backgroundColor: '#20c0f3', // Màu nền xanh
+        width: '200px', // Độ rộng 200px
+        height: '50px', // Chiều cao 50px
+        marginTop: '10px', // Khoảng cách trên 10px
     };
 
     return (
         <>
-            <button className="btn btn-link" style={buttonStyle} onClick={showModal}>
+            <button className="btn btn-link " style={buttonStyle} onClick={showModal}>
                 Đặt lịch hẹn
             </button>
             <Modal
@@ -382,4 +384,4 @@ const BookingDoctor = ({ doctorId }) => {
     );
 };
 
-export default BookingDoctor;
+export default CustomButton;

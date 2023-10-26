@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
-
-import { Link, useParams } from 'react-router-dom'
-import Sidebar from './Sidebar'
+import { Link, useParams } from 'react-router-dom';
+import Sidebar from './Sidebar';
 import axios from 'axios';
-
-
+import LoadingSkeleton from '../Loading';
 const AppointmentDetail = () => {
   const [appointments, setAppointments] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // Khởi tạo isLoading
   const { id } = useParams();
-  console.log(id);
   const token = localStorage.getItem('token');
 
   useEffect(() => {
@@ -21,7 +19,7 @@ const AppointmentDetail = () => {
             },
           });
           setAppointments(response.data.appointment);
-          // console.log(response.data.user);
+          setIsLoading(false); // Set isLoading to false when data is fetched
         } catch (error) {
           console.error('Không có dữ liệu:', error);
         }
@@ -29,6 +27,7 @@ const AppointmentDetail = () => {
       fetchAppointmentDetail();
     }
   }, [id, token]);
+  
   const formatShiftTime = (shiftName) => {
     switch (shiftName) {
       case 'Ca 1':
@@ -71,6 +70,9 @@ const AppointmentDetail = () => {
           <div className="row">
             <Sidebar />
             <div className="col-md-7 col-lg-8 col-xl-9">
+              {isLoading ? (
+                <LoadingSkeleton />
+              ) : (
 
               <div className="card">
                 <div className="card-body">
@@ -125,6 +127,7 @@ const AppointmentDetail = () => {
                   </form>
                 </div>
               </div>
+              )}
 
             </div>
           </div>
