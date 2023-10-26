@@ -115,6 +115,7 @@ const Header = () => {
       });
       // console.log('run1')
       setNoti(response.notifications);
+      console.log(response);
 
       const pusher = new Pusher("2798806e868dbe640e2e", {
         cluster: "ap1",
@@ -274,7 +275,9 @@ const Header = () => {
                       <ul className="notification-list">
                         {noti.map(notifications => (
                           <li className="notification-message" key={noti.id}>
-                            <a href="#">
+                            {/* <a href="/user/appointment/${id}"> */}
+                            <a href={handleCheckAccount(data) ? '/user/dashbroad' : '/doctors'}>
+
                               <div className="notify-block d-flex">
                                 <span className="avatar">
                                   <img
@@ -315,15 +318,6 @@ const Header = () => {
                         src={handleCheckAccount(data) ? (data?.avatar ? data?.avatar : imgDefault) : (data?.image ? data?.image : imgDefault)}
                         width={31}
                       />
-                      {/* {user.avatar ? (
-                        <a href="#" className="booking-doc-img">
-                          <img src={user.avatar} alt="User Image" />
-                        </a>
-                      ) : (
-                        <div className="default-avatar booking-doc-img">
-                          <img src="https://dvdn247.net/wp-content/uploads/2020/07/avatar-mac-dinh-1.png" alt="Default Avatar" />
-                        </div>
-                      )} */}
                     </span>
                   </a>
                   <div className="dropdown-menu dropdown-menu-end">
