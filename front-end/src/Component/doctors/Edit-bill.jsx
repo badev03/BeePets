@@ -35,7 +35,6 @@ const Editbill = () => {
   const [userId, setUserId] = useState("");
   const [doctorId, setDoctorId] = useState("");
 
-
   useEffect(() => {
     const fetchBill = async () => {
       setLoading(true);
@@ -89,7 +88,7 @@ const Editbill = () => {
     const productsData = prescriptions.map((prescription) => {
       const productName = products[prescription.id - 1]?.name || "";
       const quantity = quantities[prescription.id] || 1;
-      const selectedProduct = products.find(
+const selectedProduct = products.find(
         (product) => product.name === productName
       );
       const product_id = selectedProduct ? selectedProduct.id : null;
@@ -197,8 +196,7 @@ const Editbill = () => {
       [prescriptionId]: selectedProduct ? selectedProduct.price : "",
     };
     setProductPrices(newPrices);
-
-    // Cập nhật hướng dẫn sử dụng cho dòng này
+// Cập nhật hướng dẫn sử dụng cho dòng này
     setInstructions((prev) => ({
       ...prev,
       [prescriptionId]: instructions[prescriptionId] || "",
@@ -282,7 +280,7 @@ const Editbill = () => {
                   <div className="row">
                     <div className="col-sm-6">
                       <div className="biller-info">
-                        {/* <h4 className="d-block">{bill.user_name}</h4> */}
+{/* <h4 className="d-block">{bill.user_name}</h4> */}
                         <label htmlFor="">Tên hóa đơn:</label>
                         <input
                           className="form-control"
@@ -341,7 +339,7 @@ const Editbill = () => {
                                     onSearch={onSearch}
                                     filterOption={filterOption}
                                     options={products.map((product) => ({
-                                      value: product.name,
+value: product.name,
                                       label: product.name,
                                     }))}
                                   />
@@ -401,7 +399,7 @@ const Editbill = () => {
                                 </td>
                                 <td>
                                   <button
-                                    onClick={() =>
+onClick={() =>
                                       deletePrescriptionRow(prescription.id)
                                     }
                                     className="btn bg-danger-light trash"
@@ -463,7 +461,7 @@ const Editbill = () => {
                         </table>
                       </div>
                     </div>
-                  </div> */}
+</div> */}
                   <div className="row">
                     <div className="card">
                       <div className="card-body">
