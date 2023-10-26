@@ -36337,3 +36337,11 @@ input:checked + .tog-slider:before {
 .spinner {
   animation: spin 1s linear infinite;
 }
+.empty-appointments {
+  font-size: 22px;
+  text-align: center;
+  padding: 20px 0;
+  color: #999; 
+ height: 200px;
+  font-weight: bold;
+}

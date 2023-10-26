@@ -34,7 +34,7 @@ const DetailPrescription = () => {
         console.error("Không có dữ liệu:", error);
       }
     };
-    console.log(prescription);
+    // console.log(prescription);
     const fetchBill = async () => {
       try {
         const response = await appointmentsApi.getPresDetail(id, {
@@ -50,7 +50,7 @@ const DetailPrescription = () => {
         console.error("Không có dữ liệu:", error);
       }
     };
-    console.log(bill);
+    // console.log(bill);
     useEffect(() => {
       fetchBill();
       fetchPrescription();
@@ -138,19 +138,19 @@ const DetailPrescription = () => {
                         <div className="row">
                           <div className="col-sm-6">
                             <div className="biller-info">
-                            <h4 className="d-block"> Tên bác sĩ : {bill.doctor.name}</h4>
-                              <h4 className="d-block"> Tên khách hàng : {bill.user.name}</h4>
+                            <h4 className="d-block"> Tên bác sĩ : {bill[0].doctor.name}</h4>
+                              <h4 className="d-block"> Tên khách hàng : {bill[0].user.name}</h4>
                             </div>
                           </div>
                           <div className="col-sm-6 text-sm-end">
                             <div className="billing-info">
-                            <h4 className="d-block">Thời gian tạo : {formatDate(bill.created_at)}</h4>
+                            <h4 className="d-block">Thời gian tạo : {formatDate(bill[0].created_at)}</h4>
                             
                             </div>
                           </div>
                           <div className="col-sm-6" style={{marginTop:"30px"}}>
                             <div className="biller-info">
-                            <h4 className="d-block">Tên đơn thuốc : {bill.name}</h4>
+                            <h4 className="d-block">Tên đơn thuốc : {bill[0].name}</h4>
                             </div>
                           </div>
                         </div>
@@ -191,15 +191,15 @@ const DetailPrescription = () => {
                                         <input
                                           className="form-control"
                                           type="text"
-                                          defaultValue={pres.price}
+                                          defaultValue={formatCurrency(pres.price)}
                                         />
                                       </td>
                                       <td>
                                         <input
                                           className="form-control"
                                           type="text"
-                                          defaultValue={
-                                            pres.quantity * pres.price_product
+                                          defaultValue={formatCurrency(pres.quantity * pres.price)
+                                        
                                           }
                                         />
                                       </td>
@@ -219,7 +219,7 @@ const DetailPrescription = () => {
                         </div>
                         <div className="add-more-item text-end">
                           <div className="biller-info">
-                          <h4 className="d-block">Tổng tiền đơn thuốc : {formatCurrency(bill.prescriptions_price)} </h4>
+                          <h4 className="d-block">Tổng tiền đơn thuốc : {formatCurrency(bill[0].price)} </h4>
                           </div>
                         </div>
                       
