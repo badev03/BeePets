@@ -8,6 +8,7 @@ import { useAuth } from '../../Context/ContextAuth';
 import logoutDoctor from '../../api/logoutDoctor';
 import PatientBill from './PatientBill';
 import LoadingSkeleton from '../Loading';
+import Prescription from './Prescription';
 
 const Patientprofile = () => {
   const { id } = useParams();
@@ -57,6 +58,38 @@ const Patientprofile = () => {
 
   }
 
+
+  const initialActiveItems = JSON.parse(
+    localStorage.getItem("activeItems")
+  ) || ["Khách hàng của tôi"];
+  const [activeItems, setActiveItems] = useState(initialActiveItems);
+
+  const handleItemClick = (itemName) => {
+    setActiveItems((prevActiveItems) => {
+      if (prevActiveItems.includes(itemName)) {
+        return prevActiveItems.filter((item) => item !== itemName);
+      } else {
+        return [itemName];
+      }
+    });
+  };
+
+  const handleScroll = () => {
+    const position = window.scrollY;
+    setScrollPosition(position);
+  };
+
+  useEffect(() => {
+    localStorage.setItem("activeItems", JSON.stringify(activeItems));
+  }, [activeItems]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   if (loading) {
     return <LoadingSkeleton />
   }
@@ -109,52 +142,83 @@ const Patientprofile = () => {
                   <div className="dashboard-widget">
                     <nav className="dashboard-menu">
                       <ul>
-                        <li>
-                          <Link to="/doctors">
+                        <li
+                          className={`has-submenu megamenu ${location.pathname === "/doctors" ? "active" : ""
+                            }`}
+                          onClick={() => handleItemClick("Bảng điều khiển")}
+                        >
+                          <Link to={"/doctors"}>
                             <i className="fas fa-columns" />
-                            <span>Bộ điều khiển</span>
+                            <span>Bảng điều khiển</span>
                           </Link>
                         </li>
-                        <li>
-                          <Link to="/doctors/appointments">
+                        <li
+                          className={`has-submenu megamenu ${location.pathname === "/doctors/appointments" ? "active" : ""
+                            }`}
+                          onClick={() => handleItemClick("Cuộc hẹn")}
+                        >
+                          <Link to={"/doctors/appointments"}>
                             <i className="fas fa-calendar-check" />
                             <span>Cuộc hẹn</span>
                           </Link>
                         </li>
-                        <li className="active">
-                          <Link to="/doctors/patients">
+                        <li
+                          className='active'
+                        >
+                          <Link to={"/doctors/patients"}>
                             <i className="fas fa-user-injured" />
                             <span>Khách hàng của tôi</span>
                           </Link>
                         </li>
-
-
-                        <li>
-                          <Link to="/doctors/review">
-                            <i className="fas fa-star" />
-                            <span>Đánh Giá</span>
+                        <li
+                          className={`has-submenu megamenu ${location.pathname === "/doctors/customer-invoice" ? "active" : ""
+                            }`}
+                          onClick={() => handleItemClick("Hóa đơn của khách hàng")}
+                        >
+                          <Link to={"/doctors/customer-invoice"}>
+                            <i className="fas fa-user-injured" />
+                            <span>Hóa đơn của khách hàng</span>
                           </Link>
                         </li>
-
-
-                        <li>
-                          <Link to="/doctors/profile">
+                        <li
+                          className={`has-submenu megamenu ${location.pathname === "/doctors/review" ? "active" : ""
+                            }`}
+                          onClick={() => handleItemClick("Đánh giá")}
+                        >
+                          <Link to={"/doctors/review"}>
+                            <i className="fas fa-star" />
+                            <span>Đánh giá</span>
+                          </Link>
+                        </li>
+                        <li
+                          className={`has-submenu megamenu ${location.pathname === "/doctors/profile" ? "active" : ""
+                            }`}
+                          onClick={() => handleItemClick("Thông tin tài khoản")}
+                        >
+                          <Link to={"/doctors/profile"}>
                             <i className="fas fa-user-cog" />
                             <span>Thông tin tài khoản</span>
                           </Link>
                         </li>
-
-                        <li>
-                          <Link to="/doctors/change-password">
+                        <li
+                          className={`has-submenu megamenu ${location.pathname === "/doctors/change-password" ? "active" : ""
+                            }`}
+                          onClick={() => handleItemClick("Đổi mật khẩu")}
+                        >
+                          <Link to={"/doctors/change-password"}>
                             <i className="fas fa-lock" />
                             <span>Đổi mật khẩu</span>
                           </Link>
                         </li>
-                        <li>
-                          <Link>
-                            <i className="fas fa-sign-out-alt" onClick={() => handleLogout("Đăng xuất")} />
-                            <span>Đăng xuất</span>
-                          </Link>
+                        <li
+                          className={`has-submenu megamenu ${location.pathname === "/doctor/logout" ? "active" : ""
+                            }`}
+                          onClick={() => handleLogout("Đăng xuất")}
+                        >
+                          <a>
+                            <i className="fas fa-sign-out-alt" />
+                            <span>Đăng Xuất</span>
+                          </a>
                         </li>
                       </ul>
                     </nav>
@@ -221,103 +285,9 @@ const Patientprofile = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="tab-pane fade" id="pres">
-                      <div>
-                        <Link to="/doctors/add-prescription" className="add-new-btn">Thêm đơn thuốc</Link>
-                      </div>
-                      <div className="card card-table mb-0">
-                        <div className="card-body">
-                          <div className="table-responsive">
-                            <table className="table table-hover table-center mb-0">
-                              <thead>
-                                <tr>
-                                  <th>Ngày </th>
-                                  <th>Tên</th>
-                                  <th>Tạo bởi </th>
-                                  <th>Hoạt động</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td>14 Nov 2023</td>
-                                  <td>Prescription 1</td>
-                                  <td>
-                                    <h2 className="table-avatar">
-                                      <Link to="doctor-profile.html" className="avatar avatar-sm me-2">
-                                        <img className="avatar-img rounded-circle" src="/img/doctors/doctor-thumb-01.jpg" alt="User Image" />
-                                      </Link>
-                                      <Link to="doctor-profile.html">Dr. Ruby Perrin
-                                        <span>Dental</span></Link>
-                                    </h2>
-                                  </td>
-                                  <td>
-                                    <div className="table-action">
+                    <Prescription />
 
-                                      <Link to="/doctors/edit-prescription" className="btn btn-sm bg-info-light">
-                                        <i className="far fa-eye" /> View
-                                      </Link>
-                                    </div>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>13 Nov 2023</td>
-                                  <td>Prescription 2</td>
-                                  <td>
-                                    <h2 className="table-avatar">
-                                      <Link to="doctor-profile.html" className="avatar avatar-sm me-2">
-                                        <img className="avatar-img rounded-circle" src="/img/doctors/doctor-thumb-02.jpg" alt="User Image" />
-                                      </Link>
-                                      <Link to="doctor-profile.html">Dr. Darren Elder
-                                        <span>Dental</span></Link>
-                                    </h2>
-                                  </td>
-                                  <td>
-                                    <div className="table-action">
-
-                                      <Link to="/doctors/edit-prescription;" className="btn btn-sm bg-info-light">
-                                        <i className="far fa-eye" /> View
-                                      </Link>
-                                      <Link to="/doctors/edit-prescription" className="btn btn-sm bg-success-light">
-                                        <i className="fas fa-edit" /> Edit
-                                      </Link>
-                                      <Link to="#" className="btn btn-sm bg-danger-light">
-                                        <i className="far fa-trash-alt" /> Delete
-                                      </Link>
-                                    </div>
-                                  </td>
-                                </tr>
-
-                                <tr>
-                                  <td>11 Nov 2023</td>
-                                  <td>Prescription 4</td>
-                                  <td>
-                                    <h2 className="table-avatar">
-                                      <Link to="doctor-profile.html" className="avatar avatar-sm me-2">
-                                        <img className="avatar-img rounded-circle" src="/img/doctors/doctor-thumb-04.jpg" alt="User Image" />
-                                      </Link>
-                                      <Link to="doctor-profile.html">Dr. Sofia Brient
-                                        <span>Urology</span></Link>
-                                    </h2>
-                                  </td>
-                                  <td>
-                                    <div className="table-action">
-                                      <Link to="#" className="btn btn-sm bg-primary-light">
-                                        <i className="fas fa-print" /> Print
-                                      </Link>
-                                      <Link to="#" className="btn btn-sm bg-info-light">
-                                        <i className="far fa-eye" /> View
-                                      </Link>
-                                    </div>
-                                  </td>
-                                </tr>
-
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                   <PatientBill/>
+                    <PatientBill />
                   </div>
                 </div>
               </div>

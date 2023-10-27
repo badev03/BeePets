@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom'
 import Sidebar from './Sidebar'
 import axios from 'axios';
+import LoadingSkeleton from '../Loading';
 
 const PrescriptionDetails = () => {
   const [prescriptions, setPrescriptions] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // Khởi tạo isLoading
   const { id } = useParams();
   const token = localStorage.getItem('token');
-
   useEffect(() => {
     if (token) {
       const fetchPrescriptionDetail = async () => {
@@ -55,7 +56,9 @@ const PrescriptionDetails = () => {
           <div className="row">
             <Sidebar />
             <div className="col-md-7 col-lg-8 col-xl-9">
-              {prescriptions.length === 0 ? (
+            {isLoading ? (
+                <LoadingSkeleton />
+              ) : prescriptions.length === 0 ? (
                 <div className="card">
                   <div className="card-body">
                     <p>Đơn thuốc trống</p>

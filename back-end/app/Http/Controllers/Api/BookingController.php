@@ -176,8 +176,7 @@ class BookingController extends Controller
 
             $model->save();
 
-            //    event(new \App\Events\MessageSendNotification($user_id,'bạn đã đặt lịch hẹn của thành công vui lòng chờ xác nhận của bác sĩ', $request->doctor_id, 'Có lịch hẹn mới'));
-            $messageInterface->sendMessage($user_id, 'Vui lòng chờ xác nhận của bác sĩ', $request->doctor_id, 'Có cuộc hẹn mới ');
+            $messageInterface->sendMessage($user_id, 'Vui lòng chờ xác nhận của bác sĩ', $request->doctor_id, 'Có cuộc hẹn mới cần xác nhận ');
 
 
             return response()->json(['message' => $request->all()], 201);
@@ -285,7 +284,7 @@ class BookingController extends Controller
             
             if($appointment->status == 1){
                 $bill = $this->doctorController->createBill($appointment->id, $doctor->id, $appointment->user_id, $appointment->service_id, $service_price);
-                $messageInterface->sendMessage($appointment->user_id, 'bác sĩ '. $doctor->name.'  đã xác nhận cuộc hẹn của bạn', $doctor->id, 'Bạn đã xác nhận thành công cuộc hẹn của khách hàng ' . $appointment->user->name);
+                $messageInterface->sendMessage($appointment->user_id, 'Bác sĩ '. $doctor->name.'  đã xác nhận cuộc hẹn của bạn', $doctor->id, 'Bạn đã xác nhận thành công cuộc hẹn của khách hàng ' . $appointment->user->name);
             }else if($appointment->status == 2){
                 $messageInterface->sendMessage($appointment->user_id, 'bác sĩ '. $doctor->name.'  đã hủy cuộc hẹn của bạn', $doctor->id, 'Bạn đã hủy cuộc thành công cuộc hẹn của khách hàng ' . $appointment->user->name);
               return response()->json(['message' => 'Bạn đã hủy cuộc hẹn'], 200);
