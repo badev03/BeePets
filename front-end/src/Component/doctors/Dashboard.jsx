@@ -28,7 +28,7 @@ const Dashboarddoctors = () => {
   const [loadingId, setLoadingId] = useState(null);
   const [loadingIdd, setLoadingIdd] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const [error, setError] = useState(false);
   const filteredOptions = OPTIONS.filter((o) => !selectedItems.includes(o));
   const token = localStorage.getItem("token");
 
@@ -41,9 +41,12 @@ const Dashboarddoctors = () => {
       });
       setAppointment(response.data);
       setLoading(false);
+      setError(false);
     } catch (error) {
       console.error("Không có dữ liệu:", error);
       setAppointment([]);
+      setLoading(false);
+      setError(true);
     }
   };
 
@@ -356,14 +359,21 @@ const Dashboarddoctors = () => {
                                     <th>Trạng thái</th>
                                   </tr>
                                 </thead>
-                                <tbody> {loading ? (
-                              <tr > 
-                                <td colSpan="5" >
-                                <LoadingSkeleton />
-      </td> </tr>
-                                ) : (
-                                  displayAppointments
-                                )}</tbody>
+                                <tbody>
+                                {loading ? (
+                                    <tr>
+                                      <td colSpan="5" >
+                                        <LoadingSkeleton />
+                                      </td>
+                                    </tr>
+                                  ) : error ? (
+                                    <tr>
+                                      <td  colSpan="5" className="empty-appointments">Hiện tại chưa có lịch hẹn nào cần xác nhận</td>
+                                    </tr>
+                                  ) : (
+                                    displayAppointments
+                                  )}
+                                </tbody>
                               </table>
                             </div>
                             <div className="row">

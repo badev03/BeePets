@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Menudashboard from "./Menu-dashboard";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -89,7 +89,7 @@ const Editbill = () => {
     const productsData = prescriptions.map((prescription) => {
       const productName = products[prescription.id - 1]?.name || "";
       const quantity = quantities[prescription.id] || 1;
-      const selectedProduct = products.find(
+const selectedProduct = products.find(
         (product) => product.name === productName
       );
       const product_id = selectedProduct ? selectedProduct.id : null;
@@ -197,7 +197,6 @@ const Editbill = () => {
       [prescriptionId]: selectedProduct ? selectedProduct.price : "",
     };
     setProductPrices(newPrices);
-
     setInstructions((prev) => ({
       ...prev,
       [prescriptionId]: instructions[prescriptionId] || "",
@@ -322,7 +321,7 @@ const Editbill = () => {
                                     onSearch={onSearch}
                                     filterOption={filterOption}
                                     options={products.map((product) => ({
-                                      value: product.name,
+value: product.name,
                                       label: product.name,
                                     }))}
                                   />
@@ -382,7 +381,7 @@ const Editbill = () => {
                                 </td>
                                 <td>
                                   <button
-                                    onClick={() =>
+onClick={() =>
                                       deletePrescriptionRow(prescription.id)
                                     }
                                     className="btn bg-danger-light trash"

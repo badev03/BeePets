@@ -41,6 +41,7 @@ import FilterService from './Component/Serch/FilterService'
 import PrivateRouteDoctors from './PrivateRoute/PrivateRouteDoctors'
 import AcceptDetailAppointment from './Component/doctors/AcceptDetailAppointment'
 import DetailBIll from './Component/doctors/DetailBIll'
+import DetailPrescription from './Component/doctors/DetailPrescription'
 
 
 function App() {
@@ -82,6 +83,7 @@ function App() {
             <Route path='edit-prescription' element={<Editprescription />} />
             <Route path='add-bill' element={<Addbill />} />
             <Route path='detail-bill/:id' element={<DetailBIll />} />
+            <Route path='detail-prescription/:id' element={<DetailPrescription />} />
             <Route path='edit-bill/:id' element={<Editbill />} />
             <Route path='detail-appointments/:id' element={<DetailAppointment />} /> 
             <Route path='accept-detail-appointments/:id' element={<AcceptDetailAppointment />} /> 

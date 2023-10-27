@@ -23,6 +23,14 @@ const appointmentsApi = {
     const url = `/list-appiontment/${id}`;
     return instance.get(url, params);
   },
+  getPres(id,params) {
+    const url = `/prescription/${id}`;
+    return instance.get(url, params);
+  },
+  getPresDetail(id,params) {
+    const url = `/detail-prescription-doctor/${id}`;
+    return instance.get(url, params);
+  },
 
 };
 
