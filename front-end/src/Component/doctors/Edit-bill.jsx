@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Menudashboard from "./Menu-dashboard";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Select } from "antd";
 import billApi from "../../api/bill";
 import { useAuth } from "../../Context/ContextAuth";
-import { FaSpinner } from 'react-icons/fa';
+import { FaSpinner } from "react-icons/fa";
 import LoadingSkeleton from "../Loading";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -29,7 +29,8 @@ const Editbill = () => {
   const [instructionsError, setInstructionsError] = useState({});
   const [isloading, setIsloading] = useState(false);
   const { id } = useParams();
-  const [bill, setBill] = useState(null);
+  const [bills, setBills] = useState(null);
+  const [service, setService] = useState(null);
   const tokenn = localStorage.getItem("token");
 
   const [userId, setUserId] = useState("");
@@ -44,9 +45,10 @@ const Editbill = () => {
             Authorization: `Bearer ${tokenn}`,
           },
         });
-        setBill(response.bill);
-        setUserId(response.bill.user_id)
-        setDoctorId(response.bill.doctor_id)
+        setBills(response.bill);
+        setService(response.services);
+        setUserId(response.bill.user_id);
+        setDoctorId(response.bill.doctor_id);
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
@@ -54,7 +56,6 @@ const Editbill = () => {
 
     fetchBill();
     setLoading(false);
-
   }, []);
 
   const handleSave = async () => {
@@ -120,7 +121,7 @@ const selectedProduct = products.find(
       products: productsData,
       description: description,
     };
-    setIsloading(true)
+    setIsloading(true);
 
     try {
       const response = await billApi.updateBill(id, data, {
@@ -128,7 +129,7 @@ const selectedProduct = products.find(
           Authorization: `Bearer ${token}`,
         },
       });
-      setIsloading(false)
+      setIsloading(false);
 
       MySwal.fire({
         title: "Thêm đơn thuốc thành công!",
@@ -196,7 +197,6 @@ const selectedProduct = products.find(
       [prescriptionId]: selectedProduct ? selectedProduct.price : "",
     };
     setProductPrices(newPrices);
-// Cập nhật hướng dẫn sử dụng cho dòng này
     setInstructions((prev) => ({
       ...prev,
       [prescriptionId]: instructions[prescriptionId] || "",
@@ -246,28 +246,6 @@ const selectedProduct = products.find(
               <div className="card widget-profile pat-widget-profile">
                 <div className="card-body">
                   <Menudashboard />
-                  {/* <div className="pro-widget-content">
-                    <div className="profile-info-widget">
-                      <Link to="#" className="booking-doc-img">
-                        <img src="/img/patients/patient.jpg" alt="User Image" />
-                      </Link>
-                      <div className="profile-det-info">
-                        <h3>Richard Wilson</h3>
-                        <div className="patient-details">
-                          <h5>
-                            <b>Patient ID :</b> PT0016
-                          </h5>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="patient-info">
-                    <ul>
-                      <li>
-                        SĐT <span>+1 952 001 8563</span>
-                      </li>
-                    </ul>
-                  </div> */}
                 </div>
               </div>
             </div>
@@ -280,8 +258,10 @@ const selectedProduct = products.find(
                   <div className="row">
                     <div className="col-sm-6">
                       <div className="biller-info">
-{/* <h4 className="d-block">{bill.user_name}</h4> */}
-                        <label htmlFor="">Tên hóa đơn:</label>
+                        <h4 className="d-block">
+                          {/* Tên khách hàng: {bills.customer_name} */}
+                        </h4>
+                        <label htmlFor="">Tên đơn thuốc:</label>
                         <input
                           className="form-control"
                           type="text"
@@ -295,10 +275,12 @@ const selectedProduct = products.find(
                       </div>
                     </div>
                     <div className="col-sm-6 text-sm-end">
-                      <div className="billing-info">
-                        {/* <h4 className="d-block">{bill.date}</h4>
-                        <span className="d-block text-muted">{bill.code}</span> */}
-                      </div>
+                      {/* <div className="billing-info">
+                        <h4 className="d-block">Ngày: {bills.date}</h4>
+                        <span className="d-block text-muted">
+                          Mã hóa đơn: {bills.code}
+                        </span>
+                      </div> */}
                     </div>
                   </div>
                   <div className="add-more-item text-end">
@@ -414,7 +396,7 @@ onClick={() =>
                       </div>
                     </div>
                   </div>
-                  {/* <div className="add-more-item text-end">
+                  <div className="add-more-item text-end">
                     <a onClick={addServiceRow} className="add-prescription">
                       <i className="fas fa-plus-circle" /> Thêm dịch vụ
                     </a>
@@ -461,7 +443,7 @@ onClick={() =>
                         </table>
                       </div>
                     </div>
-</div> */}
+                  </div>
                   <div className="row">
                     <div className="card">
                       <div className="card-body">
@@ -492,12 +474,12 @@ onClick={() =>
                           onClick={handleSave}
                           className="btn btn-primary submit-btn"
                         >
-                         {isloading ? (
+                          {isloading ? (
                             <div className="loading-spinner">
                               <FaSpinner className="spinner" />
                             </div>
                           ) : (
-                            'Lưu'
+                            "Lưu"
                           )}
                         </button>
                         <Link to="/doctors/patient-profile">
