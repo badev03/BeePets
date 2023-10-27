@@ -12,7 +12,7 @@
                 <div class="card-header pb-0">
                     <div class="row">
                         <div class="col">
-                            <h4>Purchase</h4>
+                            <h4>Đơn hàng</h4>
                         </div>
                         <div class="col">
                         </div>
@@ -39,11 +39,6 @@
                             </p>
                         </div>
                         <div class="col">
-                            <p>
-                                Email : <b>{{ $bill->customer_email ?? "Không có" }}</b>
-                            </p>
-                        </div>
-                        <div class="col">
                             @if($bill->payment_method == 1)
                                 <p>
                                     Phương thức thanh toán : <b>Thanh toán tại cửa hàng</b>
@@ -57,6 +52,11 @@
                                     Phương thức thanh toán : <b>Thanh toán qua thẻ</b>
                                 </p>
                             @endif
+                        </div>
+                        <div class="col">
+                            <p>
+                                Lý do hoàn trả: <b>{{ $bill->description }}</b>
+                            </p>
                         </div>
 
                     </div>
@@ -88,7 +88,7 @@
                                     @elseif($bill->status == 2)
                                         <span class="badge badge-warning">Đã hủy</span>
                                     @elseif($bill->status == 3)
-                                        <span class="badge badge-info">Đã hoàn trả</span>
+                                        <span class="badge badge-danger">Đã hoàn trả</span>
                                 @endif
                             </p>
                         </div>
