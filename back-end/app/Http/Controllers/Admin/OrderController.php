@@ -17,9 +17,12 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function getData(Request $request) {
+
+    }
     public function index()
     {
-        $bills = Bill::where('transaction_type', 2)->get();
+        $bills = Bill::where('transaction_type', 2)->orderBy('id', 'desc')->get();
         return view('admin.purchase.index', compact('bills'));
     }
 
@@ -68,11 +71,23 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
+//    public function update(Request $request)
+//    {
+//
+//    }
+    public function returnOrder(Request $request) {
+        $request->validate([
+            'description' => 'required',
+        ],
+            [
+                'description.required' => 'Vui lòng nhập lý do hoàn trả đơn hàng',
+            ]
+        );
         try {
+            $id = $request->id;
             $model = Bill::query()->findOrFail($id);
             $model->status = $request->status;
+            $model->description = $request->description;
             $order_details = Order_detail::query()->where('bill_id', $id)
                 ->join('products', 'products.id', '=', 'order_details.product_id')
                 ->select('order_details.*', 'products.name as product_name')
@@ -83,30 +98,32 @@ class OrderController extends Controller
                 $product->save();
             }
             $model->save();
-            $data = [
-                'title' => 'Đơn hàng ' . $model->code . ' đã được cập nhật trạng thái',
-                'content' => 'Đơn hàng ' . $model->code . ' đã được cập nhật trạng thái '
-                    . ($model->status == 3 ? 'Đã hoàn trả' : ' ') .' vào lúc ' . date('H:i:s d-m-Y', strtotime($model->updated_at)),
-                'email' => $model->customer_email,
-                'name' => $model->customer_name,
-                'phone' => $model->customer_phone,
-                'code' => $model->code,
-                'total_amount' => $model->total_amount,
-                'status' => $model->status == 1 ? 'Đã thanh toán' : ($model->status == 2 ? 'Đã hủy' : ($model->status == 3 ? 'Đã hoàn trả' : 'Đã hủy')),
-                'payment_method' => $model->payment_method == 1 ? 'Thanh toán tại quầy (Tiền mặt)' : 'Thanh toán online (VNPAY)',
-                'order_detail' => $order_details,
-            ];
-            if(!empty($data)) {
-                if($data['email'] != null) {
-                    event(new SendMailEvent($data));
-                }
-            }
-
+//            $data = [
+//                'title' => 'Đơn hàng ' . $model->code . ' đã được cập nhật trạng thái',
+//                'content' => 'Đơn hàng ' . $model->code . ' đã được cập nhật trạng thái '
+//                    . ($model->status == 3 ? 'Đã hoàn trả' : ' ') .' vào lúc ' . date('H:i:s d-m-Y', strtotime($model->updated_at)),
+//                'email' => $model->customer_email,
+//                'name' => $model->customer_name,
+//                'phone' => $model->customer_phone,
+//                'code' => $model->code,
+//                'total_amount' => $model->total_amount,
+//                'status' => $model->status == 1 ? 'Đã thanh toán' : ($model->status == 2 ? 'Đã hủy' : ($model->status == 3 ? 'Đã hoàn trả' : 'Đã hủy')),
+//                'payment_method' => $model->payment_method == 1 ? 'Thanh toán tại quầy (Tiền mặt)' : 'Thanh toán online (VNPAY)',
+//                'order_detail' => $order_details,
+//            ];
+//            if(!empty($data)) {
+//                if($data['email'] != null) {
+//                    event(new SendMailEvent($data));
+//                }
+//            }
             Toastr::success('Cập nhật trạng thái thành công!', 'Success');
+            return response()->json([
+                'code' => 200,
+                'message' => 'Cập nhật trạng thái thành công!',
+            ], 200);
         } catch (\Exception $exception) {
             Toastr::error('Cập nhật trạng thái thất bại!', 'Error');
         }
-        return redirect()->route('purchase.index');
     }
 
     /**
@@ -280,62 +297,6 @@ class OrderController extends Controller
     }
 
 
-    public function momoPay(Request $request)
-    {
-        $endpoint = "https://test-payment.momo.vn/gw_payment/transactionProcessor";
-        $notifyurl = "http://localhost:8000/paymomo/ipn_momo.php";
-        $partnerCode = "MOMOBKUN20180529";
-        $accessKey = "klm05TvNBzhg7h7j";
-        $serectkey = "at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa";
-        $orderId = 'DH' . rand(100000, 999999); // Mã đơn hàng
-        $orderInfo = 'Thanh toan don hang DH' . rand(100000, 999999);
-        $amount = $_POST["total_price"];
-        $returnUrl = "http://localhost:8000/paymomo/result.php";
-        $requestId = time() . "";
-        $requestType = "captureMoMoWallet";
-        $extraData = "merchantName=;merchantId=";
-        $rawHash = "partnerCode=" . $partnerCode . "&accessKey=" . $accessKey . "&requestId=" . $requestId . "&amount=" . $amount . "&orderId=" . $orderId . "&orderInfo=" . $orderInfo . "&returnUrl=" . $returnUrl . "&notifyUrl=" . $notifyurl . "&extraData=" . $extraData;
-        $signature = hash_hmac("sha256", $rawHash, $serectkey);
-
-        $data = array('partnerCode' => $partnerCode,
-            'accessKey' => $accessKey,
-            'requestId' => $requestId,
-            'amount' => $amount,
-            'orderId' => $orderId,
-            'orderInfo' => $orderInfo,
-            'returnUrl' => $returnUrl,
-            'notifyUrl' => $notifyurl,
-            'extraData' => $extraData,
-            'requestType' => $requestType,
-            'signature' => $signature);
-        $result = $this->execPostRequest($endpoint, json_encode($data));
-        $jsonResult = json_decode($result, true);  // decode json
-        header('Location: ' . $jsonResult['payUrl']);
-    }
-
-    public function execPostRequest($url, $data)
-    {
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                'Content-Type: application/json',
-                'Content-Length: ' . strlen($data))
-        );
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-        //execute post
-        $result = curl_exec($ch);
-        //close connection
-        curl_close($ch);
-        return $result;
-    }
-
-    public function momoReturn()
-    {
-
-    }
 
 
     //khi đặt hàng xong thì số lượng sản phẩm sẽ bị trừ đi

@@ -60,7 +60,7 @@
 <script src="{{asset('backend/assets/plugins/slimscroll/jquery.slimscroll.min.js')}}"></script>
 <script src="{{asset('backend/assets/plugins/raphael/raphael.min.js')}}"></script>
 {{--<script src="{{asset('backend/assets/plugins/morris/morris.min.js')}}"></script>--}}
-<script src="{{asset('backend/assets/js/chart.morris.js')}}"></script>
+{{--<script src="{{asset('backend/assets/js/chart.morris.js')}}"></script>--}}
 
 @include('layouts.partials.script')
 @stack('script')
