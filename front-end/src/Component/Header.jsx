@@ -1,26 +1,22 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../Context/ContextAuth";
 import { Link, useNavigate } from "react-router-dom";
-import doctorsApi from "../api/doctorsApi";
-import React from "react";
-import { Dropdown } from "bootstrap";
 import logoutDoctor from "../api/logoutDoctor";
 import notification from "../api/notification";
 import BookingUser from "./User/BookingUser";
-import usersApi from "../api/usersApi";
-import Sidebar from "./User/Sidebar";
 import settingApi from "../api/settingApi";
 import { Button } from "antd";
-
 
 const Header = () => {
   const { isLoggedIn, onLogout, token } = useAuth();
   const navigate = useNavigate();
   const [noti, setNoti] = useState([]);
-  const [user, setUser] = useState();
-  const imgDefault = "https://dvdn247.net/wp-content/uploads/2020/07/avatar-mac-dinh-1.png";
+  const imgDefault =
+    "https://dvdn247.net/wp-content/uploads/2020/07/avatar-mac-dinh-1.png";
   let userLocal = localStorage.getItem("user");
   const [setting, setSetting] = useState([]);
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -39,7 +35,6 @@ const Header = () => {
   }
 
   const handleLogout = async () => {
-    // console.log(token);
     try {
       await logoutDoctor.logout({
         headers: {
@@ -55,40 +50,16 @@ const Header = () => {
     }
   };
 
-
-  const initialActiveItems = JSON.parse(
-    localStorage.getItem("activeItems")
-  ) || ["TRANG CHỦ"];
-  const [activeItems, setActiveItems] = useState(initialActiveItems);
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const [data, setData] = useState(null);
-
-  const handleItemClick = (itemName) => {
-    setActiveItems((prevActiveItems) => {
-      if (prevActiveItems.includes(itemName)) {
-        return prevActiveItems.filter((item) => item !== itemName);
-      } else {
-        return [itemName];
-      }
-    });
-  };
-
   const handleScroll = () => {
     const position = window.scrollY;
     setScrollPosition(position);
   };
 
-  const handleLogoClick = () => {
-    handleItemClick("TRANG CHỦ");
-  };
-
   useEffect(() => {
     if (userLocal) {
-      setData(JSON.parse(
-        userLocal
-      ))
+      setData(JSON.parse(userLocal));
     }
-  }, [userLocal])
+  }, [userLocal]);
 
   useEffect(() => {
     if (data) {
@@ -98,13 +69,11 @@ const Header = () => {
 
   const handleCheckAccount = (data) => {
     if (data?.role_id === 4) {
-      // return true là user
       return true;
     } else {
-      // return false là doctor
       return false;
     }
-  }
+  };
 
   const handleGetNotice = async (data) => {
     if (data?.role_id === 4) {
@@ -113,18 +82,14 @@ const Header = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      // console.log('run1')
       setNoti(response.notifications);
-      console.log(response);
 
       const pusher = new Pusher("2798806e868dbe640e2e", {
         cluster: "ap1",
       });
 
-      // Đăng ký kênh theo id người dùng
       const channel = pusher.subscribe("user-notification-" + data.id);
 
-      // Xử lý sự kiện thông báo từ Pusher
       channel.bind("notification-event-test", function (data) {
         setNoti((prevData) => {
           const newData = {
@@ -148,9 +113,7 @@ const Header = () => {
         cluster: "ap1",
       });
 
-      // Đăng ký kênh theo id người dùng
       const channel = pusher.subscribe("doctor-notification-" + data.id);
-      // Xử lý sự kiện thông báo từ Pusher
       channel.bind("notification-event-doctor", function (data) {
         setNoti((prevData) => {
           const newData = {
@@ -163,13 +126,7 @@ const Header = () => {
         });
       });
     }
-  }
-  // console.log(noti)
-  // handleGetNotice();
-
-  useEffect(() => {
-    localStorage.setItem("activeItems", JSON.stringify(activeItems));
-  }, [activeItems]);
+  };
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -179,12 +136,21 @@ const Header = () => {
     };
   }, []);
 
+  const isActive = (pathsToExclude) => {
+    return !pathsToExclude.some(
+      (path) => location.pathname === path || location.pathname.startsWith(path)
+    );
+  };
 
   return (
     <header
       id="page-header"
       className="header header-fixed header-fourteen header-twelve"
-      style={{ backgroundColor: scrollPosition > 40 ? "#fff" : "transparent", boxShadow: scrollPosition > 40 ? "rgba(0, 0, 0, 0.35) 0px 5px 15px" : "" }}
+      style={{
+        backgroundColor: scrollPosition > 40 ? "#fff" : "transparent",
+        boxShadow:
+          scrollPosition > 40 ? "rgba(0, 0, 0, 0.35) 0px 5px 15px" : "",
+      }}
     >
       <div className="container">
         <nav className="navbar navbar-expand-lg header-nav">
@@ -196,11 +162,7 @@ const Header = () => {
                 <span></span>
               </span>
             </a>
-            <a
-              href={"/"}
-              className="navbar-brand logo"
-              onClick={handleLogoClick}
-            >
+            <a href={"/"} className="navbar-brand logo">
               <img
                 src={setting.image_header}
                 className="img-fluid"
@@ -224,34 +186,47 @@ const Header = () => {
 
             <ul className="main-nav">
               <li
-                className={`has-submenu megamenu ${activeItems.includes('TRANG CHỦ') ? 'active' : ''}`}
-                onClick={() => handleItemClick('TRANG CHỦ')}
+                className={`has-submenu megamenu ${
+                  isActive(["/doctor", "/doctors", "/abouts", "/blog"])
+                    ? "active"
+                    : ""
+                }`}
               >
-                <a href="/">TRANG CHỦ </a>
+                <a href="/">TRANG CHỦ</a>
               </li>
               <li
-                className={`has-submenu ${activeItems.includes('BÁC SĨ') ? 'active' : ''}`}
-                onClick={() => handleItemClick('BÁC SĨ')}
+                className={`has-submenu ${
+                  location.pathname.startsWith("/doctor", "/doctors")
+                    ? "active"
+                    : ""
+                }`}
               >
                 <a href="/doctor">BÁC SĨ </a>
               </li>
               <li
-                className={`has-submenu ${activeItems.includes('GIỚI THIỆU') ? 'active' : ''}`}
-                onClick={() => handleItemClick('GIỚI THIỆU')}
+                className={`has-submenu ${
+                  location.pathname.startsWith("/abouts") ? "active" : ""
+                }`}
               >
                 <a href="/abouts">GIỚI THIỆU </a>
               </li>
               <li
-                className={`has-submenu ${activeItems.includes('TIN TỨC') ? 'active' : ''}`}
-                onClick={() => handleItemClick('TIN TỨC')}
+                className={`has-submenu ${
+                  location.pathname.startsWith("/blog") ? "active" : ""
+                }`}
               >
                 <a href="/blog">TIN TỨC </a>
               </li>
               <div
-                style={{ display: 'flex', alignItems: 'center', color: 'white' }}
-                onClick={() => handleItemClick('ĐẶT LỊCH NHANH')}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  color: "white",
+                }}
               >
-                <Button style={{ color: "white" }} type="primary"><BookingUser /></Button>
+                <Button style={{ color: "white" }} type="primary">
+                  <BookingUser />
+                </Button>
               </div>
             </ul>
           </div>
@@ -273,11 +248,9 @@ const Header = () => {
                     </div>
                     <div className="noti-content">
                       <ul className="notification-list">
-                        {noti.map(notifications => (
+                        {noti.map((notifications) => (
                           <li className="notification-message" key={noti.id}>
-                            {/* <a href="/user/appointment/${id}"> */}
-                            <a href={handleCheckAccount(data) ? '/user/dashbroad' : '/doctors'}>
-
+                            <a href="#">
                               <div className="notify-block d-flex">
                                 <span className="avatar">
                                   <img
@@ -301,7 +274,6 @@ const Header = () => {
                             </a>
                           </li>
                         ))}
-
                       </ul>
                     </div>
                   </div>
@@ -315,7 +287,15 @@ const Header = () => {
                     <span className="user-img">
                       <img
                         className="rounded-circle"
-                        src={handleCheckAccount(data) ? (data?.avatar ? data?.avatar : imgDefault) : (data?.image ? data?.image : imgDefault)}
+                        src={
+                          handleCheckAccount(data)
+                            ? data?.avatar
+                              ? data?.avatar
+                              : imgDefault
+                            : data?.image
+                            ? data?.image
+                            : imgDefault
+                        }
                         width={31}
                       />
                     </span>
@@ -324,36 +304,55 @@ const Header = () => {
                     <div className="user-header">
                       <div className="avatar avatar-sm">
                         <img
-                          src={handleCheckAccount(data) ? (data?.avatar ? data?.avatar : imgDefault) : (data?.image ? data?.image : imgDefault)}
+                          src={
+                            handleCheckAccount(data)
+                              ? data?.avatar
+                                ? data?.avatar
+                                : imgDefault
+                              : data?.image
+                              ? data?.image
+                              : imgDefault
+                          }
                           alt="User Image"
                           className="avatar-img rounded-circle"
                         />
                       </div>
                       <div className="user-text">
                         <h6>{data?.name}</h6>
-                        <p className="text-muted mb-0">{handleCheckAccount(data) ? 'User' : 'Doctor'}</p>
+                        <p className="text-muted mb-0">
+                          {handleCheckAccount(data) ? "User" : "Doctor"}
+                        </p>
                       </div>
                     </div>
 
-                    <Link to={handleCheckAccount(data) ? '/user/dashbroad' : '/doctors'} className="dropdown-item">
+                    <Link
+                      to={
+                        handleCheckAccount(data)
+                          ? "/user/dashbroad"
+                          : "/doctors"
+                      }
+                      className="dropdown-item"
+                    >
                       Dashboard
                     </Link>
-                    <Link to={handleCheckAccount(data) ? '/user/profilesetting' : '/doctors/profile'}
+                    <Link
+                      to={
+                        handleCheckAccount(data)
+                          ? "/user/profilesetting"
+                          : "/doctors/profile"
+                      }
                       className="dropdown-item"
                       href="doctor-profile-settings.html"
                     >
                       Profile Settings
                     </Link>
-                    {/* <a className="dropdown-item" onClick={handleLogout}>
-                      Logout
-                    </a> */}
-                    <button className="dropdown-item" onClick={handleLogout}> Logout </button>
+                    <button className="dropdown-item" onClick={handleLogout}>
+                      {" "}
+                      Logout{" "}
+                    </button>
                   </div>
                 </li>
-
               </>
-
-
             ) : (
               <>
                 <li className="searchbar searchbar-fourteen me-2">
@@ -386,8 +385,7 @@ const Header = () => {
                   >
                     <i className="feather-user me-2"></i>Đăng kí
                   </a>
-                </li> 
-
+                </li>
               </>
             )}
           </ul>
