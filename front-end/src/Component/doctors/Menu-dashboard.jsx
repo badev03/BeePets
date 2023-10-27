@@ -136,6 +136,16 @@ const Menudashboard = () => {
               </Link>
             </li>
             <li
+              className={`has-submenu megamenu ${location.pathname === "/doctors/customer-invoice" ? "active" : ""
+                }`}
+              onClick={() => handleItemClick("Hóa đơn của khách hàng")}
+            >
+              <Link to={"/doctors/customer-invoice"}>
+              <i className="fas fa-user-injured" />
+                <span>Hóa đơn của khách hàng</span>
+              </Link>
+            </li>
+            <li
               className={`has-submenu megamenu ${location.pathname === "/doctors/review" ? "active" : ""
                 }`}
               onClick={() => handleItemClick("Đánh giá")}

@@ -58,6 +58,38 @@ const Patientprofile = () => {
 
   }
 
+
+  const initialActiveItems = JSON.parse(
+    localStorage.getItem("activeItems")
+  ) || ["Khách hàng của tôi"];
+  const [activeItems, setActiveItems] = useState(initialActiveItems);
+
+  const handleItemClick = (itemName) => {
+    setActiveItems((prevActiveItems) => {
+      if (prevActiveItems.includes(itemName)) {
+        return prevActiveItems.filter((item) => item !== itemName);
+      } else {
+        return [itemName];
+      }
+    });
+  };
+
+  const handleScroll = () => {
+    const position = window.scrollY;
+    setScrollPosition(position);
+  };
+
+  useEffect(() => {
+    localStorage.setItem("activeItems", JSON.stringify(activeItems));
+  }, [activeItems]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   if (loading) {
     return <LoadingSkeleton />
   }
@@ -110,52 +142,83 @@ const Patientprofile = () => {
                   <div className="dashboard-widget">
                     <nav className="dashboard-menu">
                       <ul>
-                        <li>
-                          <Link to="/doctors">
+                        <li
+                          className={`has-submenu megamenu ${location.pathname === "/doctors" ? "active" : ""
+                            }`}
+                          onClick={() => handleItemClick("Bảng điều khiển")}
+                        >
+                          <Link to={"/doctors"}>
                             <i className="fas fa-columns" />
-                            <span>Bộ điều khiển</span>
+                            <span>Bảng điều khiển</span>
                           </Link>
                         </li>
-                        <li>
-                          <Link to="/doctors/appointments">
+                        <li
+                          className={`has-submenu megamenu ${location.pathname === "/doctors/appointments" ? "active" : ""
+                            }`}
+                          onClick={() => handleItemClick("Cuộc hẹn")}
+                        >
+                          <Link to={"/doctors/appointments"}>
                             <i className="fas fa-calendar-check" />
                             <span>Cuộc hẹn</span>
                           </Link>
                         </li>
-                        <li className="active">
-                          <Link to="/doctors/patients">
+                        <li
+                          className='active'
+                        >
+                          <Link to={"/doctors/patients"}>
                             <i className="fas fa-user-injured" />
                             <span>Khách hàng của tôi</span>
                           </Link>
                         </li>
-
-
-                        <li>
-                          <Link to="/doctors/review">
-                            <i className="fas fa-star" />
-                            <span>Đánh Giá</span>
+                        <li
+                          className={`has-submenu megamenu ${location.pathname === "/doctors/customer-invoice" ? "active" : ""
+                            }`}
+                          onClick={() => handleItemClick("Hóa đơn của khách hàng")}
+                        >
+                          <Link to={"/doctors/customer-invoice"}>
+                            <i className="fas fa-user-injured" />
+                            <span>Hóa đơn của khách hàng</span>
                           </Link>
                         </li>
-
-
-                        <li>
-                          <Link to="/doctors/profile">
+                        <li
+                          className={`has-submenu megamenu ${location.pathname === "/doctors/review" ? "active" : ""
+                            }`}
+                          onClick={() => handleItemClick("Đánh giá")}
+                        >
+                          <Link to={"/doctors/review"}>
+                            <i className="fas fa-star" />
+                            <span>Đánh giá</span>
+                          </Link>
+                        </li>
+                        <li
+                          className={`has-submenu megamenu ${location.pathname === "/doctors/profile" ? "active" : ""
+                            }`}
+                          onClick={() => handleItemClick("Thông tin tài khoản")}
+                        >
+                          <Link to={"/doctors/profile"}>
                             <i className="fas fa-user-cog" />
                             <span>Thông tin tài khoản</span>
                           </Link>
                         </li>
-
-                        <li>
-                          <Link to="/doctors/change-password">
+                        <li
+                          className={`has-submenu megamenu ${location.pathname === "/doctors/change-password" ? "active" : ""
+                            }`}
+                          onClick={() => handleItemClick("Đổi mật khẩu")}
+                        >
+                          <Link to={"/doctors/change-password"}>
                             <i className="fas fa-lock" />
                             <span>Đổi mật khẩu</span>
                           </Link>
                         </li>
-                        <li>
-                          <Link>
-                            <i className="fas fa-sign-out-alt" onClick={() => handleLogout("Đăng xuất")} />
-                            <span>Đăng xuất</span>
-                          </Link>
+                        <li
+                          className={`has-submenu megamenu ${location.pathname === "/doctor/logout" ? "active" : ""
+                            }`}
+                          onClick={() => handleLogout("Đăng xuất")}
+                        >
+                          <a>
+                            <i className="fas fa-sign-out-alt" />
+                            <span>Đăng Xuất</span>
+                          </a>
                         </li>
                       </ul>
                     </nav>
@@ -222,9 +285,9 @@ const Patientprofile = () => {
                         </div>
                       </div>
                     </div>
-                    <Prescription/>
-                  
-                   <PatientBill/>
+                    <Prescription />
+
+                    <PatientBill />
                   </div>
                 </div>
               </div>
