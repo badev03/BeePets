@@ -52,6 +52,31 @@
                                                     <img style="width: 300px" src="https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg" alt="" id="image_prev">
                                                 </div>
                                             </div>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="mb-3">
+                                                        <label class="form-label" for="values">Ảnh phụ</label>
+                                                        <input type="file" class="form-control" id="image_path" name="image_path[]" required="" multiple="multiple" value="{{old('image_path[]')}}">
+                                                        
+                                                        @error('image_path')
+                                                            <div class="text-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="col-12" id="image_preview" style="display: flex; flex-direction: row; flex-wrap: wrap;">
+                                                        @if(isset($images) && count($images) > 0)
+                                                        @foreach($images as $image)
+                                                            <img style="width: 100px; margin: 10px" src="{{ $image }}" alt="Ảnh phụ">
+                                                        @endforeach
+                                                    @endif
+                                                    
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3"></div>
+                                            </div>
+                                            
+                                            
                                         @elseif(in_array($key , FIELD_DESC))
                                             <div class="row">
                                                 <div class="col-md-8 mb-3">
@@ -89,8 +114,8 @@
                                             <div class="row">
                                                 <div class="col-md-8 mb-3">
                                                     <label class="mb-2" for="validationCustom01">{{ $item }}</label>
-                                                    <input type="text" id="date" class="form-control" name="{{ $key }}">
-                                                    <span class="form-text text-muted">dd/mm/yyyy</span>
+                                                    <input type="text" id="date" class="form-control" name="{{ $key }}" value="{{$doctor->$key ? $doctor->$key : old($key)}}">
+                                                   
                                                     @if($errors->has($key))
                                                         <div class="error text-danger mt-2">{{ $errors->first($key) }}</div>
                                                     @endif
@@ -171,6 +196,21 @@
             });
 
         });
+        $("#image_path").change(function() {
+    $('#image_preview').html("");
+    if (this.files && this.files[0]) {
+        for (let i = 0; i < this.files.length; i++) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                $('#image_preview').append('<img style="width: 100px; margin: 10px" src="' + e.target.result + '"/>');
+            }
+
+            reader.readAsDataURL(this.files[i]);
+        }
+    }
+});
+
     </script>
        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
        <script>

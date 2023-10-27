@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
 use App\Models\Doctor;
 use App\Models\Service;
 use Illuminate\Support\Str;
+use App\Models\Doctor_image;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -70,60 +72,93 @@ class DoctorController extends Controller
     }
     public function store(Request $request)
     {
+       
 
         $model = new Doctor();
         $validateStore = $this->validateStore($request);
+    
         if ($validateStore) {
             return back()->withErrors($validateStore)->withInput();
         }
-        $model->fill($request->except(['image', 'slug']));
+    
+        $model->fill($request->except(['image','image_path','slug']));
+    
         if ($request->hasFile('image')) {
-
             $image = $request->image;
             $cloudinaryResponse = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
-
             $model->image = $cloudinaryResponse;
         }
+    
         if ($request->has('name') && $this->checkerNameSlug == true) {
             $model->slug = $this->createSlug($request->name);
         }
-        $dataModel = $request->all();
-        if ($this->dataStoreAndUpdate($dataModel)) {
+    
+        if ($this->dataStoreAndUpdate($request->all())) {
             $currentDate = today();
             $model->public_date = $currentDate->format('Y-m-d');
         }
-        $this->createAndUpdatePassWord($request->password);
-
-        $model->save();
-        $selectedServices = $request->input('service_id', []);
-        $model->services()->attach($selectedServices);
-        if ($this->checkRolePermission == false) {
-            $model->assignRole($request->role);
+        if ($request->birthday) {
+            $model->birthday = Carbon::createFromFormat('d/m/Y', $request->birthday)->format('Y-m-d');
         }
-
+        
+        $this->createAndUpdatePassWord($request->password);
+    
+        $model->save();
+        if ($request->hasFile('image_path')) {
+            $imagePaths = $request->file('image_path');
+            foreach ($imagePaths as $image) {
+                $cloudinaryResponse = Cloudinary::upload($image->getRealPath())->getSecurePath();
+                $doctorImage = new Doctor_image();
+                $doctorImage->image_path = $cloudinaryResponse;
+                $doctorImage->doctor_id = $model->id;
+                $doctorImage->save();
+            }
+        }
+        
+    $selectedServices = $request->input('service_id', []);
+    $model->services()->attach($selectedServices);
+    if ($this->checkRolePermission == false) {
+        $model->assignRole($request->role);
+    }
+        
         return back()->with('success', 'Thao tác thành công');
     }
+    
+    
+
+
+  
+
+
 
 
     public function edit(string $id)
     {
+        $images = []; // Đổi tên biến này thành $images
         $doctor = Doctor::findOrFail($id);
-        $services = Service::select('id','name')->get();
+        $doctorImages = Doctor_image::where('doctor_id', $id)->get();
+        $services = Service::select('id', 'name')->get();
+        $doctor->birthday = Carbon::createFromFormat('Y-m-d', $doctor->birthday)->format('d-m-Y');
+        foreach ($doctorImages as $image) {
+            $images[] = $image->image_path; // Thay đổi thành $images
+        }
+       
         $dataViewer = [
             'title' => $this->titleEdit,
             'colums' => $this->colums,
-            'permission_crud'=> $this->permissionCheckCrud
+            'permission_crud' => $this->permissionCheckCrud
         ];
-        return view('admin.doctor.edit', compact('doctor','services'))
+        return view('admin.doctor.edit', compact('doctor', 'services', 'images'))
             ->with($dataViewer);
     }
+    
     public function update(Request $request,$id){
         $model = Doctor::findOrFail($id);
         $validateUpdate = $this->validateUpdate($request);
         if ($validateUpdate) {
             return back()->withErrors($validateUpdate)->withInput();
         }
-        $model->fill($request->except(['image', 'slug']));
+        $model->fill($request->except(['image', 'slug', 'image_path']));
         if ($request->hasFile('image')) {
             $image = $request->image;
             $cloudinaryResponse = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
@@ -137,8 +172,27 @@ class DoctorController extends Controller
             $currentDate = today();
             $model->public_date = $currentDate->format('Y-m-d');
         }
+        if ($request->birthday) {
+            $model->birthday = Carbon::createFromFormat('d/m/Y', $request->birthday)->format('Y-m-d');
+        }
+        
+        
         $this->createAndUpdatePassWord($request->password);
         $model->save();
+        if ($request->hasFile('image_path')) {
+            // Xóa các ảnh cũ trước khi thêm ảnh mới
+            $model->doctorImages()->delete();
+        
+            // Thêm ảnh mới vào bảng Doctor_image
+            $imagePaths = $request->file('image_path');
+            foreach ($imagePaths as $image) {
+                $cloudinaryResponse = Cloudinary::upload($image->getRealPath())->getSecurePath();
+                $doctorImage = new Doctor_image();
+                $doctorImage->image_path = $cloudinaryResponse;
+                $doctorImage->doctor_id = $model->id;
+                $doctorImage->save();
+            }
+        }
         $selectedServices = $request->input('service_id', []);
         $model->services()->sync($selectedServices);
         if ($this->checkRolePermission == false) {
@@ -152,20 +206,36 @@ class DoctorController extends Controller
 
     }
 
-    public function destroy(string $id)
-    {
-        if (auth()->user()->can(['delete-' . $this->permissionCheckCrud])) {
-            $model = Doctor::findOrFail($id);
+ 
 
-            $model->delete();
-            if ($model->image) {
-                Cloudinary::destroy($model->image);
-            }
-            return back()->with('success_delete', 'Đã xóa thành công');
-        } else {
-            return view(admin_403);
+public function destroy(string $id)
+{
+    if (auth()->user()->can(['delete-' . $this->permissionCheckCrud])) {
+        $model = Doctor::findOrFail($id);
+
+       
+        if ($model->image) {
+            Cloudinary::destroy($model->image);
         }
+
+        // Xóa ảnh từ bảng doctor_images
+        $doctorImages = Doctor_image::where('doctor_id', $id)->get();
+        foreach ($doctorImages as $doctorImage) {
+            if ($doctorImage->image_path) {
+                Cloudinary::destroy($doctorImage->image_path); 
+            }
+            $doctorImage->delete(); 
+        }
+
+        $model->delete(); // Xóa bác sĩ
+
+        return back()->with('success_delete', 'Đã xóa thành công');
+    } else {
+        return view('admin_403');
     }
+}
+
+    
 
 
 
