@@ -52,7 +52,7 @@ const Booking = () => {
         setServiceDoctor(response.data);
       } catch (error) {
         console.error("Không có dữ liệu:", error);
-      }finally{
+      } finally {
         setLoadingService(false)
       }
     };
@@ -86,7 +86,7 @@ const Booking = () => {
     setIsModalOpen(false);
   };
 
-  
+
   useEffect(() => {
     if (selectedDoctor && selectedDate) {
       fetchWorkingHours(selectedDoctor, selectedDate);
@@ -103,7 +103,7 @@ const Booking = () => {
       setSelectedWorkingHours(response);
     } catch (error) {
       console.error("Không có dữ liệu ca làm việc:", error);
-    }finally{
+    } finally {
       setLoadingShift(false);
     }
   };
@@ -193,7 +193,7 @@ const Booking = () => {
     if (user) {
       setSelectedName(user.name);
       setSelectedPhone(user.phone);
-      
+
       setIsNameEditable(!user.name);
       setIsPhoneEditable(!user.phone);
     }
@@ -255,7 +255,7 @@ const Booking = () => {
                 <Select
                   key={selectedService}
                   placeholder="Bác Sĩ"
-                  value={selectedDoctor} 
+                  value={selectedDoctor}
                   onChange={handleDoctorChange}
                   options={doctorOptions.map((doctor) => ({
                     value: doctor.id,
@@ -290,9 +290,9 @@ const Booking = () => {
                   options={
                     selectedWorkingHours
                       ? selectedWorkingHours.map((hour) => ({
-                          value: hour.shift_name,
-                          label: `${hour.shift_name} (${hour.start_time} - ${hour.end_time})`,
-                        }))
+                        value: hour.shift_name,
+                        label: `${hour.shift_name} (${hour.start_time} - ${hour.end_time})`,
+                      }))
                       : []
                   }
                   loading={loadingShift}

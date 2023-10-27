@@ -8,6 +8,8 @@ const MySwal = withReactContent(Swal);
 import moment from 'moment';
 import BookingApi from "../../api/bookingApi";
 
+
+
 const BookingUser = () => {
     const { user } = useAuth();
     const [form] = Form.useForm();
@@ -25,6 +27,11 @@ const BookingUser = () => {
     const [selectedDescription, setSelectedDescription] = useState("");
     const [isNameEditable, setIsNameEditable] = useState(true);
     const [isPhoneEditable, setIsPhoneEditable] = useState(true);
+    const [selectedShift, setSelectedShift] = useState("");
+
+    const [loadingService, setLoadingService] = useState(false);
+    const [loadingShift, setLoadingShift] = useState(false);
+    const [loadingDoctors, setLoadingDoctors] = useState(false);
 
     useEffect(() => {
         const fetchTypePet = async () => {
@@ -42,10 +49,13 @@ const BookingUser = () => {
     useEffect(() => {
         const fetchServiceDoctor = async () => {
             try {
+                setLoadingService(true);
                 const response = await BookingApi.getServiceDoctor();
                 setServiceDoctor(response.data);
             } catch (error) {
                 console.error("Không có dữ liệu:", error);
+            } finally {
+                setLoadingService(false)
             }
         };
 
@@ -62,31 +72,22 @@ const BookingUser = () => {
                 const doctorsForService = selectedServiceData.doctors || [];
                 setDoctorOptions([...doctorsForService]);
 
-                const doctorId =
-                    doctorsForService.length > 0 ? doctorsForService[0].id : null;
-
-                setSelectedDoctor(doctorId);
+                if (!doctorsForService.some((doctor) => doctor.id === selectedDoctor)) {
+                    setSelectedDoctor(null);
+                }
             }
         }
-    }, [selectedService, serviceDoctor]);
+    }, [selectedService, serviceDoctor, selectedDoctor]);
 
     const showModal = () => {
         setIsModalOpen(true);
     };
 
     const handleCancel = () => {
+        form.resetFields();
         setIsModalOpen(false);
     };
 
-    const handleChangeService = (value) => {
-        setSelectedService(value);
-        setDoctorOptions([]);
-        setSelectedDoctor(null);
-    };
-
-    const handleChange = (value) => {
-        console.log(`selected ${value}`);
-    };
 
     useEffect(() => {
         if (selectedDoctor && selectedDate) {
@@ -96,6 +97,7 @@ const BookingUser = () => {
 
     const fetchWorkingHours = async (selectedDoctor, selectedDate) => {
         try {
+            setLoadingShift(true);
             const response = await BookingApi.getWorkingHours(
                 selectedDoctor,
                 selectedDate
@@ -103,6 +105,8 @@ const BookingUser = () => {
             setSelectedWorkingHours(response);
         } catch (error) {
             console.error("Không có dữ liệu ca làm việc:", error);
+        } finally {
+            setLoadingShift(false);
         }
     };
 
@@ -129,10 +133,7 @@ const BookingUser = () => {
                 doctor_id: selectedDoctor,
                 date: selectedDate,
                 status: 0,
-                shift_name:
-                    selectedWorkingHours.length > 0
-                        ? selectedWorkingHours[0].shift_name
-                        : "",
+                shift_name: selectedShift,
                 type_pet_id: selectedPet,
                 phone: selectedPhone,
                 name: selectedName,
@@ -140,6 +141,9 @@ const BookingUser = () => {
             };
 
             await BookingApi.saveBooking(bookingData);
+
+            form.resetFields();
+
             MySwal.fire({
                 title: "Đặt lịch thành công!",
                 icon: "success",
@@ -154,12 +158,17 @@ const BookingUser = () => {
                 icon: "error",
             });
         } finally {
-            resetForm();
             setIsModalOpen(false);
         }
     };
     const handleDoctorChange = (value) => {
         setSelectedDoctor(value);
+    };
+
+    const handleChangeService = (value) => {
+        setSelectedService(value);
+        setSelectedDoctor(null);
+        setLoadingDoctors(true);
     };
 
     const handleChangePet = (value) => {
@@ -174,12 +183,15 @@ const BookingUser = () => {
         setSelectedName(e.target.value);
     };
 
+    const handleChangeShift = (value) => {
+        setSelectedShift(value);
+    };
+
     const handleChangeDescription = (e) => {
         setSelectedDescription(e.target.value);
     };
 
     useEffect(() => {
-
         if (user) {
             setSelectedName(user.name);
             setSelectedPhone(user.phone);
@@ -191,35 +203,16 @@ const BookingUser = () => {
 
     const disabledDate = (current) => {
         const today = moment();
-        return current && current < today.startOf('day');
+        return current && current < today.startOf("day");
     };
-
-    const resetForm = () => {
-        setIsModalOpen(false);
-        setSelectedService([]);
-        setDoctorOptions([]);
-        setSelectedDoctor(null);
-        setSelectedDate(null);
-        setSelectedWorkingHours([]);
-        setSelectedPet(null);
-        setSelectedPhone("");
-        setSelectedName("");
-        setSelectedDescription("");
-        setIsNameEditable(true);
-        setIsPhoneEditable(true);
-
-        form.resetFields();
-    };
-    
 
     return (
         <>
-            
             <a
-                    onClick={showModal}
-                >
-                   ĐẶT LỊCH NHANH
-                </a>
+                onClick={showModal}
+            >
+                ĐẶT LỊCH NHANH
+            </a>
             <Modal
                 title="Hãy Điền Thông Tin"
                 visible={isModalOpen}
@@ -229,7 +222,7 @@ const BookingUser = () => {
                 okButtonProps={{ style: { display: "none" } }}
                 cancelButtonProps={{ style: { display: "none" } }}
             >
-                <Form layout="vertical" onFinish={handleBooking} >
+                <Form layout="vertical" form={form} onFinish={handleBooking} >
                     <Row gutter={16}>
                         <Col span={12}>
                             <Form.Item
@@ -239,11 +232,13 @@ const BookingUser = () => {
                             >
                                 <Select
                                     placeholder="Dịch Vụ"
+                                    value={selectedService}
                                     onChange={handleChangeService}
                                     options={serviceDoctor.map((service) => ({
                                         value: service.id,
                                         label: service.name,
                                     }))}
+                                    loading={loadingService}
                                 />
                             </Form.Item>
                         </Col>
@@ -254,10 +249,12 @@ const BookingUser = () => {
                                 rules={[
                                     { required: true, message: "Vui lòng nhập chọn bác sĩ" },
                                 ]}
+                                loading={loadingDoctors}
                             >
                                 <Select
                                     key={selectedService}
                                     placeholder="Bác Sĩ"
+                                    value={selectedDoctor}
                                     onChange={handleDoctorChange}
                                     options={doctorOptions.map((doctor) => ({
                                         value: doctor.id,
@@ -274,7 +271,10 @@ const BookingUser = () => {
                                 name="Chọn Ngày"
                                 rules={[{ required: true, message: "Vui lòng nhập chọn ngày" }]}
                             >
-                                <DatePicker onChange={handleChangeDate} disabledDate={disabledDate} />
+                                <DatePicker
+                                    onChange={handleChangeDate}
+                                    disabledDate={disabledDate}
+                                />
                             </Form.Item>
                         </Col>
                         <Col span={12}>
@@ -285,15 +285,16 @@ const BookingUser = () => {
                             >
                                 <Select
                                     placeholder="Ca làm việc"
-                                    onChange={handleChange}
+                                    onChange={(value) => handleChangeShift(value)}
                                     options={
                                         selectedWorkingHours
                                             ? selectedWorkingHours.map((hour) => ({
-                                                value: hour.id,
+                                                value: hour.shift_name,
                                                 label: `${hour.shift_name} (${hour.start_time} - ${hour.end_time})`,
                                             }))
                                             : []
                                     }
+                                    loading={loadingShift}
                                 />
                             </Form.Item>
                         </Col>
@@ -318,13 +319,14 @@ const BookingUser = () => {
                         <Col span={12}>
                             <Form.Item
                                 label="Họ và Tên"
+                                name={user ? undefined : "name"}
                                 rules={[
                                     { required: true, message: "Vui lòng nhập tên của bạn" },
                                 ]}
                             >
                                 <Input
-                                    name="name"
                                     value={selectedName}
+                                    name="name"
                                     onChange={handleChangeName}
                                     disabled={!isNameEditable}
                                 />
@@ -333,6 +335,7 @@ const BookingUser = () => {
                         <Col span={12}>
                             <Form.Item
                                 label="Số Điện Thoại"
+                                name={user ? undefined : "phone"}
                                 rules={[
                                     { required: true, message: "Vui lòng nhập số điện thoại" },
                                     {
@@ -343,7 +346,6 @@ const BookingUser = () => {
                             >
                                 <Input
                                     type=""
-                                    name="phone"
                                     value={selectedPhone}
                                     onChange={handleChangePhone}
                                     disabled={!isPhoneEditable}
