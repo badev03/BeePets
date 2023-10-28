@@ -386,7 +386,7 @@ const Abouts = () => {
             </div>
           </div>
         </section>
-        <section className="testimonial-section">
+        {/* <section className="testimonial-section">
           <div className="testimonial-shape-img">
             <div className="testimonial-shape-left">
               <img src="../src/assets/img/shape-04.png" alt="shape-image" />
@@ -511,7 +511,7 @@ const Abouts = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
         {/* <section className="faq-section faq-section-inner">
           <div className="container">
             <div className="row">
