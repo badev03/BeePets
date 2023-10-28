@@ -8,7 +8,7 @@ import settingApi from "../api/settingApi";
 import { Button } from "antd";
 
 const Header = () => {
-  const { isLoggedIn, onLogout, token } = useAuth();
+  const { isLoggedIn, onLogout, token, role } = useAuth();
   const navigate = useNavigate();
   const [noti, setNoti] = useState([]);
   const imgDefault =
@@ -217,17 +217,19 @@ const Header = () => {
               >
                 <a href="/blog">TIN TỨC </a>
               </li>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  color: "white",
-                }}
-              >
-                <Button style={{ color: "white" }} type="primary">
-                  <BookingUser />
-                </Button>
-              </div>
+              {role !== "doctor" && ( 
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    color: "white",
+                  }}
+                >
+                  <Button style={{ color: "white" }} type="primary">
+                    <BookingUser />
+                  </Button>
+                </div>
+              )}
             </ul>
           </div>
           <ul className="nav header-navbar-rht">
