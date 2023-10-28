@@ -18,7 +18,7 @@
                         </li>
                         <li><a class="{{ request()->routeIs('appointments.trash-can') ? 'active' : '' }}" href="{{ route('appointments.trash-can') }}">Thùng Rác</a></li>
                         <li><a class="{{ request()->routeIs('appointments.trash-can') ? 'active' : '' }}" href="{{ route('appointments.trash-can') }}">Lịch Đã Hủy</a></li>
-                        <li><a class="{{ request()->routeIs('appointments.trash-can') ? 'active' : '' }}" href="{{ route('appointments.trash-can') }}">Thống kế cuộc hẹn</a></li>
+                        <li><a class="{{ request()->routeIs('appointment.statistics') ? 'active' : '' }}" href="{{ route('appointment.statistics') }}">Thống kế cuộc hẹn</a></li>
                     </ul>
                 </li>
                 <li class="submenu">

@@ -1,5 +1,5 @@
 import React from 'react';
-// import ContentLoader from 'react-content-loader';
+import ContentLoader from 'react-content-loader';
 import styled, { keyframes } from 'styled-components';
 const spin = keyframes`
   0% { transform: rotate(0deg); }

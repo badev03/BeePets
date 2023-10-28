@@ -396,4 +396,9 @@ class AppointmentController extends Controller
         }
         return $this->colums;
     }
+
+
+    public function Statistics() {
+        return view('admin.appointments.statistics');
+    }
 }

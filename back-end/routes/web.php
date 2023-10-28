@@ -56,6 +56,7 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
             Route::resource('role' , RoleController::class);
             Route::resource('people-account' , PeopleAccountController::class);
             Route::resource('permission' , PermissionController::class);
+            Route::get('appointment-statistics', [AppointmentController::class , 'Statistics'])->name('appointment.statistics');
         });
         Route::get('dashboard', [HomeController::class , 'index'])->name('dashboard');
         Route::get('appointment/get-day/{day}/{id}', [AppointmentController::class , 'getDay'])->name('appointment.get-day');
