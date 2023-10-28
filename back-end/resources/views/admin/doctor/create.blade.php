@@ -3,6 +3,23 @@
 @push('style')
     {{-- <link rel="stylesheet" href="{{asset('backend/assets/plugins/datatables/datatables.min.css')}}"> --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        .image-item {
+            position: relative;
+            margin: 10px;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: transparent;
+            border: none;
+            color: red;
+            font-size: 20px;
+        }
+    </style>
 @endpush
 @section('heading', 'hihihi')
 @section('content')
@@ -55,20 +72,21 @@
                                                 <div class="col-md-3">
                                                     <div class="mb-3">
                                                         <label class="form-label" for="values">Ảnh phụ</label>
-                                                        <input type="file" class="form-control" id="image_path" name="image_path[]" required="" multiple="multiple" value="{{old('image_path[]')}}">
-                                            
+                                                        <input type="file" class="form-control" id="image_path"
+                                                            name="image_path[]" required="" multiple="multiple"
+                                                            value="{{ old('image_path[]') }}">
+
                                                         @error('image_path')
                                                             <div class="text-danger">{{ $message }}</div>
                                                         @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col">
-                                                    <div class="col-12" id="image_preview" style="display: flex; flex-direction: row; flex-wrap: wrap;"></div>
-
+                                                    <div class="col-12" id="image_preview"
+                                                        style="display: flex; flex-direction: row; flex-wrap: wrap;"></div>
                                                 </div>
                                                 <div class="col-md-3"></div>
                                             </div>
-                                            
                                         @elseif(in_array($key, FIELD_DESC))
                                             <div class="row">
                                                 <div class="col-md-8 mb-3">
@@ -179,20 +197,29 @@
 
         });
         $("#image_path").change(function() {
-            $('#image_preview').html("");
             if (this.files && this.files[0]) {
                 for (let i = 0; i < this.files.length; i++) {
                     var reader = new FileReader();
 
                     reader.onload = function(e) {
-                        $('#image_preview').append('<img style="width: 100px; margin: 10px" src="' + e.target
-                            .result + '"/>');
+                        var imageItem = '<div class="image-item" style="position: relative; margin: 10px;">';
+                        imageItem += '<img style="width: 100px" src="' + e.target.result + '"/>';
+                        imageItem +=
+                            '<button class="delete-btn" onclick="deleteImage(this)"><i class="fas fa-times"></i></button>';
+                        imageItem += '</div>';
+                        $('#image_preview').append(imageItem);
                     }
 
                     reader.readAsDataURL(this.files[i]);
                 }
             }
         });
+
+        function deleteImage(btn) {
+            if (confirm("Bạn có chắc chắn muốn xóa ảnh này không?")) {
+                $(btn).parent().remove();
+            }
+        }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>

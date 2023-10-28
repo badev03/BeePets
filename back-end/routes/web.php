@@ -69,6 +69,7 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
         Route::get('appointment/create-data/{data}', [AppointmentController::class , 'createData'])->name('appointment.create-data');
         Route::resource('schedules', ScheduleController::class);
         Route::resource('doctors', DoctorController::class);
+        Route::post('/delete-image',[DoctorController::class,'deleteImage']);
         Route::get('pusher-tester-view' , [HomeController::class , 'PusherView']);
         Route::get('pusher-tester-view2' , [HomeController::class , 'PusherView2']);
         Route::get('trash-can/appointment' , [AppointmentController::class , 'TrashCan'])->name('appointments.trash-can');
