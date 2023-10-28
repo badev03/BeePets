@@ -110,8 +110,17 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
         Route::get('order',[OrderController::class, 'create'])->name('order.index');
         //print order
         Route::get('print-order/{id}',[OrderController::class, 'printOrder'])->name('print.order');
-
+        //get data
+        Route::get('get-data',[OrderController::class, 'getData'])->name('purchase.getData');
+        //create new order
+        Route::match(['get','post'],'create-order',[OrderController::class, 'createOrder'])->name('purchase.create');
+        //get user by phone
+//        Route::get('get-user',[OrderController::class, 'getUser'])->name('purchase.getUser');
+        Route::get('get-user',[OrderController::class, 'getUser'])->name('purchase.getCustomerName');
+        //get product
+        Route::get('get-product/{id}',[OrderController::class, 'getProduct'])->name('purchase.getProduct');
     });
+
 });
 Route::get('/', [BookingController::class, 'index'])->name('index');
 

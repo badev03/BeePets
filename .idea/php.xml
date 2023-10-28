@@ -267,6 +267,7 @@
       <path value="$PROJECT_DIR$/back-end/vendor/spatie/laravel-google-fonts" />
       <path value="$PROJECT_DIR$/back-end/vendor/livewire/livewire" />
       <path value="$PROJECT_DIR$/back-end/vendor/carlos-meneses/laravel-mpdf" />
+      <path value="$PROJECT_DIR$/back-end/vendor/yajra/laravel-datatables-oracle" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />

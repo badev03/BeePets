@@ -10,6 +10,8 @@ use App\Models\Products;
 use App\Models\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
+use Illuminate\Http\Response;
 use PDF;
 
 class OrderController extends Controller
@@ -18,13 +20,54 @@ class OrderController extends Controller
      * Display a listing of the resource.
      */
     public function getData(Request $request) {
-
+        if($request->ajax()){
+            $data = Bill::query()->where('transaction_type', 2)->orderBy('id', 'desc')->get();
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('total_amount', function($row){
+                    $price = number_format($row->total_amount, 0, ',', '.') . ' VNĐ';
+                    return $price;
+                })
+                ->addColumn('action', function($row){
+                    $btn = '<a href="'.route('purchase.show', $row->id).'" class="edit btn btn-primary btn-sm">Chi tiết</a>';
+                    $btn .= '&nbsp;&nbsp;&nbsp;<a href="'.route('print.order', $row->id).'" class="edit btn btn-success btn-sm">In hóa đơn</a>';
+                    if($row->status == 1) {
+                        $btn .= '&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger btn-sm btn-return-order" data-id="'.$row->id.'">Hoàn trả</button>';
+                    }
+                    return $btn;
+                })
+                ->addColumn('status', function($row){
+                    if($row->status == 1) {
+                        $status = '<span class="badge badge-success">Đã thanh toán</span>';
+                    } elseif ($row->status == 2) {
+                        $status = '<span class="badge badge-danger">Đã hủy</span>';
+                    } elseif ($row->status == 3) {
+                        $status = '<span class="badge badge-warning">Đã hoàn trả</span>';
+                    } else {
+                        $status = '<span class="badge badge-secondary">Chưa thanh toán</span>';
+                    }
+                    return $status;
+                })
+                ->addColumn('payment_method', function($row){
+                    if($row->payment_method == 1) {
+                        $payment_method = '<span class="badge badge-success">Thanh toán tại quầy (Tiền mặt)</span>';
+                    } elseif ($row->payment_method == 2) {
+                        $payment_method = '<span class="badge badge-primary">Thanh toán online (VNPAY)</span>';
+                    } else {
+                        $payment_method = '<span class="badge badge-secondary">Chưa thanh toán</span>';
+                    }
+                    return $payment_method;
+                })
+                ->rawColumns(['action', 'status', 'payment_method', 'total_amount'])
+                ->make(true);
+        }
     }
     public function index()
     {
-        $bills = Bill::where('transaction_type', 2)->orderBy('id', 'desc')->get();
-        return view('admin.purchase.index', compact('bills'));
+        $title = 'Đơn hàng';
+        return view('admin.purchase.index', compact('title'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -35,7 +78,43 @@ class OrderController extends Controller
         $carts = session()->get('carts');
         return view('admin.checkout.index', compact('carts', 'title'));
     }
+    public function getUser() {
+        //method get
+        $phone = $_GET['phone'];
+        $user = User::query()->where('phone', $phone)->first();
+        if($user) {
+            return response()->json([
+                'code' => 200,
+                'message' => 'Lấy thông tin khách hàng thành công!',
+                'data' => $user,
+            ], 200);
+        }else{
+            return response()->json([
+                'code' => 400,
+                'message' => 'Không tìm thấy thông tin khách hàng!',
+            ], 400);
+        }
+    }
 
+    public function createOrder(Request $request) {
+        if($request->isMethod('get')) {
+            $title = 'Tạo đơn hàng';
+            $code = 'DH' . rand(100000, 999999);
+            $products = Products::query()->get();
+            $users = User::query()->where('role_id', 4)->get();
+            return view('admin.purchase.create', compact('title', 'users', 'code', 'products'));
+        }else{
+            dd($request->all());
+        }
+    }
+    public function getProduct($id) {
+        $product = Products::query()->find($id);
+        return response()->json([
+            'code' => 200,
+            'message' => 'Lấy thông tin sản phẩm thành công!',
+            'data' => $product,
+        ], 200);
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -116,13 +195,13 @@ class OrderController extends Controller
 //                    event(new SendMailEvent($data));
 //                }
 //            }
-            Toastr::success('Cập nhật trạng thái thành công!', 'Success');
+//            Toastr::success('Cập nhật trạng thái thành công!', 'Success');
             return response()->json([
                 'code' => 200,
                 'message' => 'Cập nhật trạng thái thành công!',
             ], 200);
         } catch (\Exception $exception) {
-            Toastr::error('Cập nhật trạng thái thất bại!', 'Error');
+//            Toastr::error('Cập nhật trạng thái thất bại!', 'Error');
         }
     }
 

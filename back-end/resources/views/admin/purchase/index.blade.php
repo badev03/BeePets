@@ -2,6 +2,7 @@
 @section('title','Đơn hàng')
 @push('style')
     <link rel="stylesheet" href="{{asset('backend/assets/plugins/datatables/datatables.min.css')}}">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 @endpush
 @section('content')
 
@@ -14,7 +15,7 @@
                             <h4>Đơn hàng</h4>
                         </div>
                         <div class="col">
-                            <button class="btn btn-primary btn-sm float-end" id="btn-add-new">Thêm mới</button>
+                            <a href="{{ route('purchase.create') }}" class="btn btn-primary btn-sm float-end" id="btn-add-new">Thêm mới</a>
                         </div>
                     </div>
                 </div>
@@ -31,53 +32,11 @@
                             <th>Hành động</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        @foreach($bills as $key=>$value)
-                            <tr>
-                                <td>{{ $value->code }}</td>
-                                <td>{{ $value->customer_name }}</td>
-                                <td>{{ number_format($value->total_amount,0,',','.') }}</td>
-                                <td>
-                                    @if($value->payment_method == 1)
-                                        <span class="badge badge-success">Thanh toán tại cửa hàng</span>
-                                    @elseif($value->payment_method == 2)
-                                        <span class="badge badge-success">Thanh toán VNPAY</span>
-                                    @elseif($value->payment_method == 3)
-                                        <span class="badge badge-success">Thanh toán qua thẻ</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if($value->status == 0)
-                                        <span class="badge badge-danger">Chưa thanh toán</span>
-
-                                    @elseif($value->status == 1)
-                                        <span class="badge badge-success">Đã thanh toán</span>
-                                    @elseif($value->status == 2)
-                                        <span class="badge badge-warning">Đã hủy</span>
-                                    @elseif($value->status == 3)
-                                        <span class="badge badge-info">Đã hoàn trả</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if($value->status == 1)
-                                        <a href="{{ route('print.order',$value->id) }}" class="btn btn-sm btn-primary">In
-                                            hóa đơn</a>
-                                        <a href="javascript:void(0);" class="btn btn-danger btn-sm btn-return-order"
-                                           data-id="{{ $value->id }}">Hoàn trả</a>
-                                    @endif
-                                    <a href="{{ route('purchase.show',$value->id) }}"
-                                       class="btn btn-sm btn-info text-white">Xem</a>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-
-    {{--  modal order return  --}}
     <div class="modal fade" id="modal-handle-order" style="display: none;" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -103,41 +62,92 @@
             </div>
         </div>
     </div>
-{{--  modal create new order  --}}
-    <div class="modal fade" id="modal-create-order" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal">
-                    </button>
-                </div>
-                <form method="post" id="form-order-return">
-                    <div class="modal-body">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="description" class="form-label"> Lý do hoàn trả *</label>
-                            <textarea name="description" id="description" cols="30" rows="8"
-                                      class="form-control"></textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Hủy</button>
-                        <button type="submit" class="btn btn-primary create-order">Thêm mới</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    {{--  modal create new order  --}}
+{{--    <div class="modal fade" id="modal-create-order" style="display: none;" aria-hidden="true">--}}
+{{--        <div class="modal-dialog" role="document">--}}
+{{--            <div class="modal-content" style="width: 1200px; margin-left: -300px">--}}
+{{--                <div class="modal-header">--}}
+{{--                    <h5 class="modal-title"></h5>--}}
+{{--                    <button type="button" class="btn-close" data-bs-dismiss="modal">--}}
+{{--                    </button>--}}
+{{--                </div>--}}
+{{--                <form method="post" id="form-order-return">--}}
+{{--                    <div class="modal-body">--}}
+{{--                        @csrf--}}
+{{--                        <div class="row">--}}
+{{--                            <div class="col">--}}
+{{--                                <div class="mb-3">--}}
+{{--                                    <label for="code" class="form-label"> Mã đơn hàng *</label>--}}
+{{--                                    <input type="text" name="code" id="code" class="form-control">--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <div class="col">--}}
+{{--                                <div class="mb-3">--}}
+{{--                                    <label for="phone" class="form-label"> Số điện thoại *</label>--}}
+{{--                                    <select name="phone" id="phone" class="phone-select form-select" style="z-index: 10000">--}}
+{{--                                        <option value="">Chọn số điện thoại</option>--}}
+{{--                                        @foreach($customers as $customer)--}}
+{{--                                            <option value="{{ $customer->phone }}">{{ $customer->phone }}--}}
+{{--                                                / {{ $customer->name }}</option>--}}
+{{--                                        @endforeach--}}
+{{--                                    </select>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <div class="col">--}}
+{{--                                <div class="mb-3">--}}
+{{--                                    <label for="name" class="form-label"> Tên khách hàng *</label>--}}
+{{--                                    <input type="text" name="name" id="name" class="form-control">--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="modal-footer">--}}
+{{--                        <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Hủy</button>--}}
+{{--                        <button type="submit" class="btn btn-primary create-order">Thêm mới</button>--}}
+{{--                    </div>--}}
+{{--                </form>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 @endsection
 
 
 @push('script')
     <script src="{{asset('backend/assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('backend/assets/plugins/datatables/datatables.min.js')}}"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#myDataTable').DataTable();
+
+            var table = $('#myDataTable').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "{{ route('purchase.getData') }}",
+                    "type": "GET",
+                },
+                "columns": [
+                    {"data": "code"},
+                    {"data": "customer_name"},
+                    {"data": "total_amount"},
+                    {"data": "payment_method"},
+                    {"data": "status"},
+                    {"data": "action"},
+                ],
+                "language": {
+                    "lengthMenu": "Hiển thị _MENU_ bản ghi",
+                    "zeroRecords": "Không tìm thấy bản ghi nào",
+                    "infoEmpty": "Không có bản ghi nào",
+                    "infoFiltered": "(Được tìm kiếm từ _MAX_ bản ghi)",
+                    "paginate": {
+                        "previous": "Trước",
+                        "next": "Sau"
+                    },
+                    "search": "Tìm kiếm:",
+                    "info": "Hiển thị từ _START_ đến _END_ của _TOTAL_ bản ghi",
+
+                },
+            })
             $('body').on('click', '.btn-return-order', function () {
                 $('#modal-handle-order').modal('show');
                 $('.modal-title').html('Hoàn trả đơn hàng');
@@ -155,16 +165,16 @@
                     data: {
                         id: id,
                         description: description,
-                        status : 3,
+                        status: 3,
                         _token: "{{ csrf_token() }}"
                     },
                     success: function (response) {
-                        if(response.code === 200){
+                        if (response.code === 200) {
                             $('#modal-handle-order').modal('hide');
-                            window.location.reload();
-                        }
-                        else{
-                            console.log(response)
+                            table.ajax.reload();
+                            toastr.success(response.message);
+                        } else {
+                            toastr.error(response.message);
                         }
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
@@ -174,11 +184,11 @@
                                 $('#' + key).after('<span class="text-danger">' + value + '</span>');
                                 $('#' + key).addClass('border border-danger');
                             })
+                            toastr.error('Có lỗi xảy ra');
                         }
                     }
                 })
             })
-
             $('#btn-add-new').click(function () {
                 $('#modal-create-order').modal('show');
                 $('.modal-title').html('Thêm mới đơn hàng');
@@ -186,6 +196,9 @@
                 $('#form-order-return')[0].reset();
                 $('.form-control').removeClass('border border-danger');
             })
+
+
+
         });
     </script>
 @endpush
