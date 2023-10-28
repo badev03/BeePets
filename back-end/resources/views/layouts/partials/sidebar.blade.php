@@ -2,9 +2,6 @@
     <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
             <ul>
-                <li class="menu-title">
-                    <span>Main</span>
-                </li>
                 <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
                     <a href="{{ route('dashboard') }}"><i class="fe fe-home"></i> <span>Dashboard</span></a>
                 </li>
@@ -16,9 +13,9 @@
                         <li>
                             <a href="{{ route('appointment.index') }}" class="{{ request()->routeIs('appointment.*') ? 'active' : '' }}"> <span>Cuộc hẹn</span></a>
                         </li>
-                        <li><a class="{{ request()->routeIs('appointments.trash-can') ? 'active' : '' }}" href="{{ route('appointments.trash-can') }}">Thùng Rác</a></li>
                         <li><a class="{{ request()->routeIs('appointments.trash-can') ? 'active' : '' }}" href="{{ route('appointments.trash-can') }}">Lịch Đã Hủy</a></li>
-                        <li><a class="{{ request()->routeIs('appointments.trash-can') ? 'active' : '' }}" href="{{ route('appointments.trash-can') }}">Thống kế cuộc hẹn</a></li>
+                        <li><a class="{{ request()->routeIs('appointments.statistics') ? 'active' : '' }}" href="{{ route('appointments.statistics') }}">Thống kế cuộc hẹn</a></li>
+                        <li><a class="{{ request()->routeIs('appointments.statistics') ? 'active' : '' }}" href="{{ route('appointments.statistics') }}">Cuộc hẹn yêu cầu hủy</a></li>
                     </ul>
                 </li>
                 <li class="submenu">
@@ -40,16 +37,6 @@
                     </ul>
                 </li>
                 @role('Admin')
-                <li class="submenu">
-                    <a href="#">
-                        <i class="fe fe-bell"></i>
-                        <span> Thông báo</span> <span class="menu-arrow"></span></a>
-                    <ul style="display: none;">
-                        <li><a class="{{ request()->routeIs('notifications.index') ? 'active' : '' }}" href="{{ route('notifications.index') }}">Thông báo người dùng</a></li>
-                        <li><a class="{{ request()->routeIs('notifications.doctor') ? 'active' : '' }}" href="{{ route('notifications.doctor') }}">Thông báo bác sĩ</a></li>
-                        <li><a class="{{ request()->routeIs('notifications.time-line-notifications') ? 'active' : '' }}" href="{{ route('notifications.time-line-notifications') }}">Set thời gian gửi thông báo</a></li>
-                    </ul>
-                </li>
                 <li>
                     <a class="{{ request()->routeIs('doctors.*') ? 'active' : '' }}" href="{{ route('doctors.index') }}"><i class="fe fe-user-plus"></i> <span>Bác sĩ</span> </a>
                 </li>
@@ -73,9 +60,7 @@
                     </ul>
                 </li>
                 @role('Admin')
-                <li class="menu-title">
-                    <span>Pages</span>
-                </li>
+                <hr class="text-white"/>
                 <li class="submenu">
                     <a href="#"><i class="fe fe-user-plus"></i> <span> Tài khoản </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
@@ -84,10 +69,6 @@
                         <li><a class="{{ request()->routeIs('role.*') ? 'active' : '' }}" href="{{route('role.index')}}"> Role </a></li>
                         <li><a class="{{ request()->routeIs('permission.*') ? 'active' : '' }}" href="{{route('permission.index')}}"> Permission </a></li>
                     </ul>
-                </li>
-
-                <li>
-                    <a href="{{ route('purchase.index') }}"><i class="fe fe-activity"></i> <span>Clear cache</span></a>
                 </li>
                 @endrole
             </ul>

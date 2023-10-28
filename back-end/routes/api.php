@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\BookingHaiController;
 use \App\Http\Controllers\Api\DoctorUserController;
 use \App\Http\Controllers\Api\NotificationController;
 use \App\Http\Controllers\Api\SettingController;
+use App\Http\Controllers\Api\BillControllerHistory;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -151,6 +152,8 @@ Route::post('update-bill/{id}', [DoctorController::class, 'updateBill']);
     Route::get('/get-notification',  [NotificationController::class, 'getNotification']);
     Route::get('/get-notification-doctor',  [NotificationController::class, 'getNotificationDoctor']);
     Route::post('/send-notification',  [\App\Http\Controllers\Admin\HomeController::class, 'SendNotification']);
+    Route::get('get-list-history',  [BillControllerHistory::class, 'index']);
+    Route::get('get-list-history-bill',  [BillControllerHistory::class, 'billHistory']);
 });
 
 // xem lich hen cua user tu ben bac si

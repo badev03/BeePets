@@ -13,6 +13,7 @@
                 <div class="mt-3">
                     <div class="row">
                         <div class="col-sm-12">
+                            @if($data_first)
                             <form action="{{ route('setting') }}" class="needs-validation" novalidate="" enctype="multipart/form-data" method="POST">
                                 @csrf
                                 @method('PUT')
@@ -96,6 +97,7 @@
 
                                 <button class="col-1 btn bg-success-light" type="submit">Lưu</button>
                             </form>
+                            @endif
                         </div>
                     </div>
                 </div>

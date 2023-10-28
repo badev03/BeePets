@@ -81,4 +81,14 @@ class NotificationController extends Controller
             ]
         );
     }
+
+    public function UpdateReadNotification(Request $request) {
+        $unreadNotifications = Notification::where('read', 0)->get();
+
+        foreach ($unreadNotifications as $notification) {
+            $notification->update(['read' => 1]);
+        }
+
+        return response()->json(['message' => $unreadNotifications]);
+    }
 }
