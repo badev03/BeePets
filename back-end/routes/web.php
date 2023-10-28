@@ -68,6 +68,7 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
         Route::get('appointment/create-data/{data}', [AppointmentController::class , 'createData'])->name('appointment.create-data');
         Route::resource('schedules', ScheduleController::class);
         Route::resource('doctors', DoctorController::class);
+        Route::post('/delete-image',[DoctorController::class,'deleteImage']);
         Route::get('pusher-tester-view' , [HomeController::class , 'PusherView']);
         Route::get('pusher-tester-view2' , [HomeController::class , 'PusherView2']);
         Route::get('trash-can/appointment' , [AppointmentController::class , 'TrashCan'])->name('appointments.trash-can');
@@ -98,7 +99,7 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
         Route::post('momo-pay',[OrderController::class, 'momoPay'])->name('checkout.momo');
         Route::post('cash',[OrderController::class, 'cash'])->name('checkout.cash');
         Route::get('purchase',[OrderController::class, 'index'])->name('purchase.index');
-        Route::patch('purchase/{id}',[OrderController::class, 'update'])->name('purchase.update');
+        Route::patch('purchase',[OrderController::class, 'returnOrder'])->name('purchase.update');
         Route::get('purchase/{id}',[OrderController::class, 'show'])->name('purchase.show');
         //order
         Route::get('order',[OrderController::class, 'create'])->name('order.index');
