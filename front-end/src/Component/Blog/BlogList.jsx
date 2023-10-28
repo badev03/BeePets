@@ -47,8 +47,8 @@ const BlogList = () => {
 
   function truncateText(text, lines) {
     const words = text.split(" ");
-    const truncatedText = words.slice(0, lines * 11).join(" ");
-    if (words.length > lines * 10) {
+    const truncatedText = words.slice(0, lines * 8).join(" ");
+    if (words.length > lines * 8) {
       return `${truncatedText} ...`;
     }
     return truncatedText;
@@ -104,7 +104,7 @@ const BlogList = () => {
                           <div className="blog-content">
                             <ul className="entry-meta meta-item">
                               <li>
-                                <i className="far fa-clock" />
+                                <i style={{ marginRight: 8}} className="far fa-clock" />
                                 {blog.public_date}
                               </li>
                             </ul>
@@ -135,7 +135,7 @@ const BlogList = () => {
                           <div className="blog-content">
                             <ul className="entry-meta meta-item">
                               <li>
-                                <i className="far fa-clock" />
+                                <i style={{ marginRight: 8}} className="far fa-clock" />
                                 {blog.public_date}
                               </li>
                             </ul>

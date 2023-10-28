@@ -23,8 +23,8 @@ const Booking = () => {
   const [selectedPhone, setSelectedPhone] = useState("");
   const [selectedName, setSelectedName] = useState("");
   const [selectedDescription, setSelectedDescription] = useState("");
-  const [isNameEditable, setIsNameEditable] = useState(true);
-  const [isPhoneEditable, setIsPhoneEditable] = useState(true);
+  // const [isNameEditable, setIsNameEditable] = useState(true);
+  // const [isPhoneEditable, setIsPhoneEditable] = useState(true);
   const [selectedShift, setSelectedShift] = useState("");
 
   const [loadingService, setLoadingService] = useState(false);
@@ -193,9 +193,6 @@ const Booking = () => {
     if (user) {
       setSelectedName(user.name);
       setSelectedPhone(user.phone);
-      
-      setIsNameEditable(!user.name);
-      setIsPhoneEditable(!user.phone);
     }
   }, [user]);
 
@@ -329,7 +326,6 @@ const Booking = () => {
                   value={selectedName}
                   name="name"
                   onChange={handleChangeName}
-                  disabled={!isNameEditable}
                 />
               </Form.Item>
             </Col>
@@ -349,7 +345,6 @@ const Booking = () => {
                   type=""
                   value={selectedPhone}
                   onChange={handleChangePhone}
-                  disabled={!isPhoneEditable}
                 />
               </Form.Item>
             </Col>

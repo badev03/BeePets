@@ -121,14 +121,14 @@ const Menudashboard = () => {
                 <span>Cuộc hẹn</span>
               </Link>
             </li>
-            <li className={`has-submenu megamenu ${activeItems.includes("Khách hàng của tôi") ? "active" : ""
+            {/* <li className={`has-submenu megamenu ${activeItems.includes("Khách hàng của tôi") ? "active" : ""
               }`}
               onClick={() => handleItemClick("Khách hàng của tôi")}>
               <Link to="/doctors/patients">
                 <i className="fas fa-user-injured" />
                 <span>Khách hàng của tôi</span>
               </Link>
-            </li>
+            </li> */}
 
 
             <li className={`has-submenu megamenu ${activeItems.includes("Đánh giá") ? "active" : ""
