@@ -147,6 +147,15 @@ class PeopleAccountController extends BaseAdminController
         $people = $this->model->findOrFail($id);
         $model = Role::where('id', $request->role_id)->first();
         $people->syncRoles($model);
+        if($request->has('avatar')) {
+            $image = $request->avatar;
+            $cloudinaryResponse = Cloudinary::upload($image->getPathname());
+            $cloudinaryUrl = $cloudinaryResponse->getSecurePath();
+
+            $data['avatar'] = $cloudinaryUrl;
+            $people->update(array_merge($request->except(['_token' , 'method']) , $data));
+            return back()->with('success', 'Thao tác thành công');
+        }
         $people->update($request->except(['_token' , 'method']));
         return back()->with('success', 'Thao tác thành công');
 //    }

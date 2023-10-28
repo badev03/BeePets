@@ -14,5 +14,6 @@ class Notification extends Model
         'message',
         'doctor_id',
         'message_doctor',
+        'read',
     ];
 }

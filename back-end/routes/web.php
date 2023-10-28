@@ -56,7 +56,11 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
             Route::resource('role' , RoleController::class);
             Route::resource('people-account' , PeopleAccountController::class);
             Route::resource('permission' , PermissionController::class);
-            Route::get('appointment-statistics', [AppointmentController::class , 'Statistics'])->name('appointment.statistics');
+            Route::get('appointment-statistics', [AppointmentController::class , 'Statistics'])->name('appointments.statistics');
+            Route::get('appointment-statistics/{day}', [AppointmentController::class , 'StatisticsDay'])->name('appointments.statistics.day');
+            Route::get('appointment-statistics-date/{date}', [AppointmentController::class , 'StatisticsDate'])->name('appointments.statistics.date_time');
+            Route::get('appointment-cancel/{id}', [AppointmentController::class , 'AppointmentCancel'])->name('appointments.cancel');
+            Route::put('notification-update', [NotificationController::class , 'UpdateReadNotification'])->name('notification.update');
         });
         Route::get('dashboard', [HomeController::class , 'index'])->name('dashboard');
         Route::get('appointment/get-day/{day}/{id}', [AppointmentController::class , 'getDay'])->name('appointment.get-day');

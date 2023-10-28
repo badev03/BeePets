@@ -77,9 +77,9 @@
             </div>
 
         </li>
-        <li class="nav-item dropdown noti-dropdown">
+        <li class="nav-item dropdown noti-dropdown" id="noti_update">
             <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                <i class="fe fe-bell"></i> <span class="badge rounded-pill">{{ count($notification) }}</span>
+                <i class="fe fe-bell" id="hehe-noti"></i> <span class="badge rounded-pill">{{ $unreadNotificationCount }}</span>
             </a>
             <div class="dropdown-menu notifications">
                 <div class="topnav-dropdown-header">
@@ -93,11 +93,14 @@
                             <a href="#">
                                 <div class="notify-block d-flex">
                                     <span class="avatar avatar-sm flex-shrink-0">
-                                    <img class="avatar-img rounded-circle" alt="Image" src="{{ $value->image }}">
+                                    <img class="avatar-img rounded-circle" alt="Image" src="{{ $value->avatar }}">
                                     </span>
                                     <div class="media-body flex-grow-1">
                                         <p class="noti-details"><span class="noti-title"></span>{{ $value->message }}</p>
-                                        <p class="noti-time"><span class="notification-time">{{ $value->created_at }}</span></p>
+                                        <p class="noti-time d-flex justify-content-center align-items-center">
+                                            <span class="notification-time">{{ $value->created_at }}</span>
+                                            <a href="{{ route('appointments.cancel' , $value->appointment_id) }}">xem chi tiết</a>
+                                        </p>
                                     </div>
                                 </div>
                             </a>
@@ -115,7 +118,7 @@
 
         <li class="nav-item dropdown has-arrow">
             <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                <span class="user-img"><img class="rounded-circle" src="{{ asset('backend/assets/img/profiles/avatar-01.jpg') }}" width="31" alt="Ryan Taylor"></span>
+                <span class="user-img"><img class="rounded-circle" src="{{ auth()->user()->avatar }}" width="31" alt="{{ auth()->user()->name }}"></span>
             </a>
             <div class="dropdown-menu">
                 <div class="user-header">
@@ -166,6 +169,26 @@
             $('.badge.rounded-pill').text(currentNotificationCount);
             // Thêm thông báo mới vào giao diện
             $('#notification-container').append(notification);
+        });
+    </script>
+    <script>
+        $('#noti_update').click(function () {
+            $('.badge.rounded-pill').remove();
+            var newData = '<span class="badge rounded-pill">0</span>';
+            $('#hehe-noti').append(newData);
+           $.ajax({
+               type:'PUT',
+               url: '{{ route('notification.update') }}',
+               headers: {
+                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+               },
+               success: function (data) {
+                    console.log(data)
+               },
+               error: function (error) {
+
+               }
+           })
         });
     </script>
 @endpush

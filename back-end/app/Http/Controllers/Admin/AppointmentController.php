@@ -399,6 +399,47 @@ class AppointmentController extends Controller
 
 
     public function Statistics() {
-        return view('admin.appointments.statistics');
+        $range = Carbon::now()->startOfDay();
+        $statistics = DB::table('appointments')
+            ->select('status', DB::raw('COUNT(*) as count'))
+            ->where('created_at', '>=', $range)
+            ->groupBy('status')
+            ->get();
+        return view('admin.appointments.statistics' , compact('statistics'));
+    }
+
+    public function StatisticsDay($day) {
+        if($day == -7 || $day==-14 || $day==-21) {
+            $day = abs($day);
+            $range = Carbon::now()->subDays($day);
+        }
+        else {
+            $range = Carbon::now()->addDays($day);
+        }
+        $statistics = DB::table('appointments')
+            ->select('status', DB::raw('COUNT(*) as count'))
+            ->where('created_at', '>=', $range)
+            ->groupBy('status')
+            ->get();
+        return response()->json(['filter' => $statistics]);
+    }
+
+    public function StatisticsDate($date) {
+        $statistics = DB::table('appointments')
+            ->select('status', DB::raw('COUNT(*) as count'))
+            ->where('date', '=', $date)
+            ->groupBy('status')
+            ->get();
+        return response()->json(['filter' => $statistics]);
+    }
+
+    public function AppointmentCancel($id) {
+        $appointmentCancel = $this->queryCommon()
+            ->where('appointments.status' , 3)
+            ->where('appointments.id' , $id)
+            ->join('notifications' , 'notifications.appointment_id' , '=' , 'appointments.id')
+            ->addSelect('notifications.message_admin' , 'users.phone')
+            ->first();
+        return view('admin.appointments.appointments-cancel-edit' , compact('appointmentCancel'));
     }
 }
