@@ -21,12 +21,18 @@ const CustomButton = ({ doctorId, handleBookingg }) => {
     const [doctorOptions, setDoctorOptions] = useState([]);
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedWorkingHours, setSelectedWorkingHours] = useState([]);
+    const [selectedDoctor, setSelectedDoctor] = useState(null);
     const [selectedPet, setSelectedPet] = useState(null);
     const [selectedPhone, setSelectedPhone] = useState("");
     const [selectedName, setSelectedName] = useState("");
     const [selectedDescription, setSelectedDescription] = useState("");
-    const [isNameEditable, setIsNameEditable] = useState(true);
-    const [isPhoneEditable, setIsPhoneEditable] = useState(true);
+    // const [isNameEditable, setIsNameEditable] = useState(true);
+    // const [isPhoneEditable, setIsPhoneEditable] = useState(true);
+    const [selectedShift, setSelectedShift] = useState("");
+
+    const [loadingService, setLoadingService] = useState(false);
+    const [loadingShift, setLoadingShift] = useState(false);
+    const [loadingDoctors, setLoadingDoctors] = useState(false);
 
     useEffect(() => {
         const fetchTypePet = async () => {
@@ -40,11 +46,11 @@ const CustomButton = ({ doctorId, handleBookingg }) => {
 
         fetchTypePet();
     }, []);
-
     const [fetchedData, setFetchedData] = useState(null);
     useEffect(() => {
         const fetchServiceDoctor = async () => {
             try {
+                setLoadingService(true);
                 const response = await axios.post(
                     `http://127.0.0.1:8000/api/doctor-service?doctor_id=${doctorId}`,
                     {}
@@ -56,13 +62,32 @@ const CustomButton = ({ doctorId, handleBookingg }) => {
                 }
             } catch (error) {
                 console.error("Có lỗi xảy ra khi lấy dữ liệu bác sĩ:", error);
-            }
+            }finally {
+                setLoadingService(false)
+              }
         };
 
         if (doctorId) {
             fetchServiceDoctor();
         }
     }, [doctorId]);
+
+    //   useEffect(() => {
+    //     const fetchServiceDoctor = async () => {
+    //       try {
+    //         setLoadingService(true);
+    //         const response = await BookingApi.getServiceDoctor();
+    //         setServiceDoctor(response.data);
+    //       } catch (error) {
+    //         console.error("Không có dữ liệu:", error);
+    //       } finally {
+    //         setLoadingService(false)
+    //       }
+    //     };
+
+    //     fetchServiceDoctor();
+    //   }, []);
+
     useEffect(() => {
         if (selectedService) {
             const selectedServiceData = serviceDoctor.find(
@@ -72,36 +97,27 @@ const CustomButton = ({ doctorId, handleBookingg }) => {
             if (selectedServiceData) {
                 const doctorsForService = selectedServiceData.doctors || [];
                 setDoctorOptions([...doctorsForService]);
-
                 const doctorId =
                     doctorsForService.length > 0 ? doctorsForService[0].id : null;
 
                 setFetchedData(doctorId);
+
+                if (!doctorsForService.some((doctor) => doctor.id === selectedDoctor)) {
+                    setSelectedDoctor(null);
+                }
             }
         }
-    }, [selectedService, serviceDoctor]);
+    }, [selectedService, serviceDoctor, selectedDoctor]);
 
     const showModal = () => {
         setIsModalOpen(true);
     };
 
     const handleCancel = () => {
+        form.resetFields();
         setIsModalOpen(false);
     };
 
-    const handleChangeService = (value) => {
-        const selectedServiceData = fetchedData.data[0].services.find(
-            (service) => service.id === value
-        );
-        if (selectedServiceData) {
-            setSelectedService(selectedServiceData.id);
-        }
-
-    };
-
-    const handleChange = (value) => {
-        console.log(`selected ${value}`);
-    };
 
     useEffect(() => {
         if (fetchedData && selectedDate) {
@@ -111,6 +127,7 @@ const CustomButton = ({ doctorId, handleBookingg }) => {
 
     const fetchWorkingHours = async (doctorId, selectedDate) => {
         try {
+            setLoadingShift(true);
             const response = await BookingApi.getWorkingHours(
                 doctorId,
                 selectedDate
@@ -118,8 +135,9 @@ const CustomButton = ({ doctorId, handleBookingg }) => {
             setSelectedWorkingHours(response);
         } catch (error) {
             console.error("Không có dữ liệu ca làm việc:", error);
+        } finally {
+            setLoadingShift(false);
         }
-
     };
 
     const handleChangeDate = async (date, dateString) => {
@@ -140,18 +158,12 @@ const CustomButton = ({ doctorId, handleBookingg }) => {
 
     const handleBooking = async () => {
         try {
-            if (!selectedPet) {
-                throw new Error("Vui lòng chọn loại thú cưng");
-            }
             const bookingData = {
                 service_id: selectedService,
                 doctor_id: doctorId,
                 date: selectedDate,
                 status: 0,
-                shift_name:
-                    selectedWorkingHours.length > 0
-                        ? selectedWorkingHours[0].shift_name
-                        : "",
+                shift_name: selectedShift,
                 type_pet_id: selectedPet,
                 phone: selectedPhone,
                 name: selectedName,
@@ -159,26 +171,41 @@ const CustomButton = ({ doctorId, handleBookingg }) => {
             };
 
             await BookingApi.saveBooking(bookingData);
+
+            form.resetFields();
+
             MySwal.fire({
                 title: "Đặt lịch thành công!",
                 icon: "success",
             });
 
-            console.log("Đặt lịch thành công");
+            console.log("Booking successful");
         } catch (error) {
-            console.error("Lỗi khi đặt lịch:", error);
+            console.error("Error while booking:", error);
             MySwal.fire({
                 title: "Đặt lịch không thành công",
-                text: error.message,
+                text: "Vui lòng thử lại sau.",
                 icon: "error",
             });
         } finally {
-            resetForm();
             setIsModalOpen(false);
         }
     };
+    // const handleDoctorChange = (value) => {
+    //     setSelectedDoctor(value);
+    // };
 
-
+    const handleChangeService = (value) => {
+        setSelectedService(value);
+        setSelectedDoctor(null);
+        setLoadingDoctors(true);
+        const selectedServiceData = fetchedData.data[0].services.find(
+            (service) => service.id === value
+        );
+        if (selectedServiceData) {
+            setSelectedService(selectedServiceData.id);
+        }
+    };
 
     const handleChangePet = (value) => {
         setSelectedPet(value);
@@ -192,6 +219,10 @@ const CustomButton = ({ doctorId, handleBookingg }) => {
         setSelectedName(e.target.value);
     };
 
+    const handleChangeShift = (value) => {
+        setSelectedShift(value);
+    };
+
     const handleChangeDescription = (e) => {
         setSelectedDescription(e.target.value);
     };
@@ -200,34 +231,13 @@ const CustomButton = ({ doctorId, handleBookingg }) => {
         if (user) {
             setSelectedName(user.name);
             setSelectedPhone(user.phone);
-
-            setIsNameEditable(!user.name);
-            setIsPhoneEditable(!user.phone);
         }
     }, [user]);
 
     const disabledDate = (current) => {
         const today = moment();
-        return current && current < today.startOf('day');
+        return current && current < today.startOf("day");
     };
-
-    const resetForm = () => {
-        setIsModalOpen(false);
-        setSelectedService([]);
-        setDoctorOptions([]);
-        setFetchedData(null);
-        setSelectedDate(null);
-        setSelectedWorkingHours([]);
-        setSelectedPet(null);
-        setSelectedPhone("");
-        setSelectedName("");
-        setSelectedDescription("");
-        setIsNameEditable(true);
-        setIsPhoneEditable(true);
-
-        form.resetFields();
-    };
-
     const buttonStyle = {
         color: 'white', // Màu chữ trắng
         textDecoration: 'none', // Loại bỏ gạch chân dưới
@@ -236,12 +246,14 @@ const CustomButton = ({ doctorId, handleBookingg }) => {
         height: '50px', // Chiều cao 50px
         marginTop: '10px', // Khoảng cách trên 10px
     };
-
     return (
         <>
-            <button className="btn btn-link " style={buttonStyle} onClick={showModal}>
-                Đặt lịch hẹn
-            </button>
+            <Button
+                className="btn btn-link " style={buttonStyle}
+                onClick={showModal}
+            >
+                Đặt Lịch hẹn
+            </Button>
             <Modal
                 title="Hãy Điền Thông Tin"
                 visible={isModalOpen}
@@ -251,7 +263,7 @@ const CustomButton = ({ doctorId, handleBookingg }) => {
                 okButtonProps={{ style: { display: "none" } }}
                 cancelButtonProps={{ style: { display: "none" } }}
             >
-                <Form layout="vertical" onFinish={handleBooking} form={form}>
+                <Form layout="vertical" form={form} onFinish={handleBooking} >
                     <Row gutter={16}>
                         <Col span={12}>
                             {fetchedData && fetchedData.data && fetchedData.data.length > 0 && (
@@ -274,53 +286,64 @@ const CustomButton = ({ doctorId, handleBookingg }) => {
                             {fetchedData && fetchedData.data && fetchedData.data[0].services && (
                                 <Form.Item
                                     label="Chọn Dịch Vụ"
+                                    name="Chọn Dịch Vụ"
                                     rules={[{ required: true, message: "Vui lòng nhập dịch vụ" }]}
                                 >
                                     <Select
                                         // key={selectedService}
                                         placeholder="Dịch Vụ"
+                                        value={selectedService}
                                         onChange={handleChangeService}
                                         options={fetchedData.data[0].services.map((service) => ({
                                             value: service.id,
                                             label: service.name,
                                         }))}
+                                        loading={loadingService}
                                     />
                                 </Form.Item>
                             )}
                         </Col>
+
 
                     </Row>
                     <Row gutter={16}>
                         <Col span={12}>
                             <Form.Item
                                 label="Chọn Ngày"
+                                name="Chọn Ngày"
                                 rules={[{ required: true, message: "Vui lòng nhập chọn ngày" }]}
                             >
-                                <DatePicker onChange={handleChangeDate} disabledDate={disabledDate} />
+                                <DatePicker
+                                    onChange={handleChangeDate}
+                                    disabledDate={disabledDate}
+                                />
                             </Form.Item>
                         </Col>
                         <Col span={12}>
                             <Form.Item
                                 label="Chọn Thời Gian"
+                                name="Chọn Thời Gian"
                                 rules={[{ required: true, message: "Vui lòng nhập chọn ca" }]}
                             >
                                 <Select
                                     placeholder="Ca làm việc"
-                                    onChange={handleChange}
+                                    onChange={(value) => handleChangeShift(value)}
                                     options={
                                         selectedWorkingHours
                                             ? selectedWorkingHours.map((hour) => ({
-                                                value: hour.id,
+                                                value: hour.shift_name,
                                                 label: `${hour.shift_name} (${hour.start_time} - ${hour.end_time})`,
                                             }))
                                             : []
                                     }
+                                    loading={loadingShift}
                                 />
                             </Form.Item>
                         </Col>
                     </Row>
                     <Form.Item
                         label="Chọn loại thú cưng"
+                        name="Chọn loại thú cưng "
                         rules={[
                             { required: true, message: "Vui lòng nhập chọn loại thú cưng" },
                         ]}
@@ -338,20 +361,22 @@ const CustomButton = ({ doctorId, handleBookingg }) => {
                         <Col span={12}>
                             <Form.Item
                                 label="Họ và Tên"
+                                name={user ? undefined : "name"}
                                 rules={[
                                     { required: true, message: "Vui lòng nhập tên của bạn" },
                                 ]}
                             >
                                 <Input
                                     value={selectedName}
+                                    name="name"
                                     onChange={handleChangeName}
-                                    disabled={!isNameEditable}
                                 />
                             </Form.Item>
                         </Col>
                         <Col span={12}>
                             <Form.Item
                                 label="Số Điện Thoại"
+                                name={user ? undefined : "phone"}
                                 rules={[
                                     { required: true, message: "Vui lòng nhập số điện thoại" },
                                     {
@@ -364,13 +389,13 @@ const CustomButton = ({ doctorId, handleBookingg }) => {
                                     type=""
                                     value={selectedPhone}
                                     onChange={handleChangePhone}
-                                    disabled={!isPhoneEditable}
                                 />
                             </Form.Item>
                         </Col>
                     </Row>
                     <Form.Item
                         label="Ghi Chú"
+                        name="Ghi Chú"
                         rules={[{ required: true, message: "Vui lòng nhập ghi chú" }]}
                     >
                         <TextArea rows={3} onChange={handleChangeDescription} />

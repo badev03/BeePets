@@ -135,14 +135,7 @@ const Menudashboard = () => {
             </li> */}
 
 
-            <li className={`has-submenu megamenu ${activeItems.includes("Đánh giá") ? "active" : ""
-              }`}
-              onClick={() => handleItemClick("Đánh giá")}>
-              <Link to="/doctors/review">
-                <i className="fas fa-star" />
-                <span>Đánh Giá</span>
-              </Link>
-            </li>
+            
             <li
               className={`has-submenu megamenu ${location.pathname === "/doctors/review" ? "active" : ""
                 }`}
@@ -151,6 +144,16 @@ const Menudashboard = () => {
               <Link to={"/doctors/review"}>
               <i className="fas fa-star" />
                 <span>Đánh giá</span>
+              </Link>
+            </li>
+            <li
+              className={`has-submenu megamenu ${location.pathname === "/doctors/customer-invoice" ? "active" : ""
+                }`}
+              onClick={() => handleItemClick("Hóa đơn của khách hàng")}
+            >
+              <Link to={"/doctors/customer-invoice"}>
+              <i className="fas fa-user-injured" />
+                <span>Hóa đơn của khách hàng</span>
               </Link>
             </li>
             <li
