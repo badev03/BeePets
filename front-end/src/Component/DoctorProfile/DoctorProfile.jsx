@@ -102,7 +102,7 @@ const DoctorProfile = () => {
               </div>
          
               <div className="clinic-booking">
-                <a className="apt-btn" href="/booking">Đặt lịch hẹn</a>
+                      <a className="apt-btn" href={`/booking/${doctor.slug}`}>Đặt lịch hẹn</a>
               </div>
             </div>
           </div>

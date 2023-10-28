@@ -1,8 +1,27 @@
-import React from 'react'
-
-
-
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
+import doctorsApi from '../../api/doctorsApi';
 const Booking = () => {
+  const { id } = useParams();
+  const [doctor, setDoctors] = useState(null);
+
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        const response = await doctorsApi.get(id);
+        setDoctors(response.doctor);
+        // setDoctors(response.review);
+        console.log(response);
+      } catch (error) {
+        console.error("Không có dữ liệu:", error);
+      }
+    };
+
+    fetchBlog();
+  }, []);
+  if (!doctor) {
+    return <div>Loading...</div>;
+  }
   return (
  <div>
   <div className="breadcrumb-bar-two">
@@ -28,19 +47,20 @@ const Booking = () => {
             <div className="card-body">
               <div className="booking-doc-info">
                 <a href="doctor-profile.html" className="booking-doc-img">
-                  <img src="src/assets/img/doctors/doctor-thumb-02.jpg" alt="User Image" />
+                      <img src={doctor.image.profile} className="img-fluid" alt="User Image" />
                 </a>
                 <div className="booking-info">
-                  <h4><a href="doctor-profile.html">Dr. Thành Đoàn</a></h4>
+                      <h4><a href="doctor-profile.html">{ doctor.name}</a></h4>
                   <div className="rating">
-                    <i className="fas fa-star filled" />
-                    <i className="fas fa-star filled" />
-                    <i className="fas fa-star filled" />
-                    <i className="fas fa-star filled" />
-                    <i className="fas fa-star" />
-                    <span className="d-inline-block average-rating">35</span>
+                        {Array.from({ length: doctor.average_score }, (_, index) => (
+                          <i key={index} className="fas fa-star filled" />
+                        ))}
+                        {Array.from({ length: 5 - doctor.average_score }, (_, index) => (
+                          <i key={index} className="fas fa-star" />
+                        ))}
+                        <span className="d-inline-block average-rating">( {doctor.review_count} )</span>
                   </div>
-                  <p className="text-muted mb-0"><i className="fas fa-map-marker-alt" /> Newyork, USA</p>
+                      <p className="text-muted mb-0"><i className="fas fa-map-marker-alt" />{ doctor.address}</p>
                 </div>
               </div>
             </div>

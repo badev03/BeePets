@@ -12,6 +12,7 @@ const Appointments = () => {
   const [isLoading, setIsLoading] = useState(true); // Thêm state để theo dõi trạng thái loading
   const itemsPerPage = 5; // số mục trên mỗi trang
   const token = localStorage.getItem('token');
+  // console.log(appointments);
 
   useEffect(() => {
     if (token) {
@@ -23,6 +24,7 @@ const Appointments = () => {
             },
           });
           setAppointments(response.appointments);
+          console.log(response);
           setPageCount(Math.ceil(response.appointments.length / itemsPerPage));
           setIsLoading(false); // Khi dữ liệu đã được tải xong, set isLoading thành false
         } catch (error) {

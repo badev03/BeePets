@@ -53,7 +53,7 @@ function App() {
           <Route path='' element={<Content />} />
           <Route path='abouts' element={<Abouts />} />
           <Route path='doctor' element={<FilterService />} />
-          <Route path='booking' element={<Booking />} />
+          <Route path='booking/:id' element={<Booking />} />
           <Route path='booking/success' element={<BookingSuccess />} />
           <Route path='doctor/profile' element={<DoctorProfile />} />
 

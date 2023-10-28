@@ -10,7 +10,6 @@ import BookingUser from "./User/BookingUser";
 import usersApi from "../api/usersApi";
 import Sidebar from "./User/Sidebar";
 import settingApi from "../api/settingApi";
-import { Button } from "antd";
 
 
 const Header = () => {
@@ -184,7 +183,7 @@ const Header = () => {
     <header
       id="page-header"
       className="header header-fixed header-fourteen header-twelve"
-      style={{ backgroundColor: scrollPosition > 40 ? "#fff" : "transparent", boxShadow: scrollPosition > 40 ? "rgba(0, 0, 0, 0.35) 0px 5px 15px" : "" }}
+      style={{ backgroundColor: scrollPosition > 40 ? "#fff" : "transparent" }}
     >
       <div className="container">
         <nav className="navbar navbar-expand-lg header-nav">
@@ -247,12 +246,12 @@ const Header = () => {
               >
                 <a href="/blog">TIN TỨC </a>
               </li>
-              <div
-                style={{ display: 'flex', alignItems: 'center', color: 'white' }}
+              <li
+                className={`has-submenu ${activeItems.includes('ĐẶT LỊCH NHANH') ? 'active' : ''}`}
                 onClick={() => handleItemClick('ĐẶT LỊCH NHANH')}
               >
-                <Button style={{ color: "white" }} type="primary"><BookingUser /></Button>
-              </div>
+                <a><BookingUser /></a>
+              </li>
             </ul>
           </div>
           <ul className="nav header-navbar-rht">
