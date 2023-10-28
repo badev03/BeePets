@@ -14,6 +14,7 @@ const DoctorProfile = () => {
         setDoctors(response.doctor);
         // setDoctors(response.review);
         console.log(response);
+      
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
@@ -49,7 +50,7 @@ const DoctorProfile = () => {
           <div className="doctor-widget">
             <div className="doc-info-left">
               <div className="doctor-img">
-                <img src={doctor.image.profile} className="img-fluid" alt="User Image" />
+                <img src={doctor.image} className="img-fluid" alt="User Image" />
               </div>
               <div className="doc-info-cont">
                 <h4 className="doc-name">{doctor.name}</h4>
