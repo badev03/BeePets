@@ -14,20 +14,11 @@ const doctorsApi = {
     return instance.get(url);
   },
 
-  add(data) {
-    const url = "/doctors-clients";
-    return instance.post(url, data);
+  addReviews(data ,params) {
+    const url = "/reviews";
+    return instance.post(url, data,params);
   },
 
-  update(data) {
-    const url = `/doctors-clients`;
-    return instance.put(url, data);
-  },
-
-  remove(id) {
-    const url = `/doctors-clients/${id}`;
-    return instance.delete(url);
-  },
 };
 
 export default doctorsApi;
