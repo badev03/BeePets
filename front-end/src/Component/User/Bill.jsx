@@ -29,6 +29,21 @@ const Bill = () => {
       fetchUser();
     }
   }, [token]);
+  function formatDate(dateString) {
+    if (dateString) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+      const formattedDate = new Date(dateString).toLocaleDateString('vi-VN', options);
+      // Loại bỏ từ "lúc" từ chuỗi được định dạng
+      return formattedDate.replace('lúc', '').trim();
+    }
+    return '';
+  }
+  const formatCurrency = (value) => {
+    const numberValue = parseFloat(value);
+    return numberValue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+  };
+  
+  
 
   // Kiểm tra trạng thái isLoading và render component tương ứng
   if (isLoading) {

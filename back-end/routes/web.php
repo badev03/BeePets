@@ -99,7 +99,7 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
         Route::post('momo-pay',[OrderController::class, 'momoPay'])->name('checkout.momo');
         Route::post('cash',[OrderController::class, 'cash'])->name('checkout.cash');
         Route::get('purchase',[OrderController::class, 'index'])->name('purchase.index');
-        Route::patch('purchase/{id}',[OrderController::class, 'update'])->name('purchase.update');
+        Route::patch('purchase',[OrderController::class, 'returnOrder'])->name('purchase.update');
         Route::get('purchase/{id}',[OrderController::class, 'show'])->name('purchase.show');
         //order
         Route::get('order',[OrderController::class, 'create'])->name('order.index');
