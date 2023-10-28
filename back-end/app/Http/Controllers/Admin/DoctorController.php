@@ -180,17 +180,55 @@ class DoctorController extends Controller
         $this->createAndUpdatePassWord($request->password);
         $model->save();
         if ($request->hasFile('image_path')) {
-            // Xóa các ảnh cũ trước khi thêm ảnh mới
-            $model->doctorImages()->delete();
-        
             // Thêm ảnh mới vào bảng Doctor_image
             $imagePaths = $request->file('image_path');
+         
             foreach ($imagePaths as $image) {
                 $cloudinaryResponse = Cloudinary::upload($image->getRealPath())->getSecurePath();
                 $doctorImage = new Doctor_image();
                 $doctorImage->image_path = $cloudinaryResponse;
                 $doctorImage->doctor_id = $model->id;
                 $doctorImage->save();
+            }
+        }
+        if ($request->has('deleted_image_path')) {
+            $imagePaths = $request->input('deleted_image_path');
+            // dd($imagePaths);
+            $deleted = false; // Biến cờ để theo dõi trạng thái xóa
+            if (is_array($imagePaths)) {
+                foreach ($imagePaths as $imagePath) {
+                    // Xóa hình ảnh từ cơ sở dữ liệu
+                    $deleted = Doctor_image::where('image_path', $imagePath)->delete();
+            
+                    if (!$deleted) {
+                        return back()->with('error', 'Không thể xóa hình ảnh');
+                    }
+                }
+            } else {
+                // Xóa một ảnh duy nhất từ cơ sở dữ liệu
+                $deleted = Doctor_image::where('image_path', $imagePaths)->delete();
+            
+                if (!$deleted) {
+                    return back()->with('error', 'Không thể xóa hình ảnh');
+                }
+            }
+        
+            if ($deleted) {
+                // Xóa đường dẫn hình ảnh đã xóa khỏi request
+                $requestData = $request->except('deleted_image_path');
+                $request->replace($requestData);
+            }
+        } else {
+            if ($request->hasFile('image_path')) {
+                // Thêm ảnh mới vào bảng Doctor_image
+                $imagePaths = $request->file('image_path');
+                foreach ($imagePaths as $image) {
+                    $cloudinaryResponse = Cloudinary::upload($image->getRealPath())->getSecurePath();
+                    $doctorImage = new Doctor_image();
+                    $doctorImage->image_path = $cloudinaryResponse;
+                    $doctorImage->doctor_id = $model->id;
+                    $doctorImage->save();
+                }
             }
         }
         $selectedServices = $request->input('service_id', []);
@@ -206,7 +244,8 @@ class DoctorController extends Controller
 
     }
 
- 
+
+  
 
 public function destroy(string $id)
 {
@@ -234,6 +273,7 @@ public function destroy(string $id)
         return view('admin_403');
     }
 }
+
 
     
 
