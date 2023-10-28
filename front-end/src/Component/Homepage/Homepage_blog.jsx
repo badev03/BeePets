@@ -25,8 +25,8 @@ const Homepage_Blog = () => {
 
   function truncateText(text, lines) {
     const words = text.split(' ');
-    const truncatedText = words.slice(0, lines * 11).join(' ');
-    if (words.length > lines * 11) {
+    const truncatedText = words.slice(0, lines *8).join(' ');
+    if (words.length > lines * 8) {
       return `${truncatedText} ...`;
     }
     return truncatedText;
