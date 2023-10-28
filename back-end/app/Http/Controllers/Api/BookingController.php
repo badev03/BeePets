@@ -150,13 +150,27 @@ class BookingController extends Controller
 
             $validator = $this->validateBookingRequest($request);
 
-
             $name = $request->input('name');
             $phone = $request->input('phone');
-
+            $model = new Appointment();
+            
             if (User::where('phone', $phone)->exists()) {
                 $user = User::where('phone', $phone)->first();
                 $user_id = $user->id;
+            
+                if ($user->name != $name) {
+                    $model->fill(array_merge($request->all(), [
+                        'user_id' => $user_id,
+                        'status' => 0,
+                        'customer_name' => $name,
+                    ]));
+                } else {
+                    $model->fill(array_merge($request->all(), [
+                        'user_id' => $user_id,
+                        'status' => 0,
+                    ]));
+                }
+                $model->save();
             } else {
                 $user = new User();
                 $user->name = $name;
@@ -166,17 +180,18 @@ class BookingController extends Controller
                 $user->role_id = 4;
                 $user->save();
                 $user_id = $user->id;
+            
+                $model->fill(array_merge($request->all(), [
+                    'user_id' => $user_id,
+                    'status' => 0,
+                ]));
+                $model->save();
             }
+            
 
-            $model = new Appointment();
-            $model->fill(array_merge($request->all(), [
-                'user_id' => $user_id,
-                'status' => 0,
-            ]));
 
-            $model->save();
 
-            $messageInterface->sendMessage($user_id, 'Vui lòng chờ xác nhận của bác sĩ', $request->doctor_id, 'Có cuộc hẹn mới cần xác nhận ');
+        $messageInterface->sendMessage($user_id, 'Vui lòng chờ xác nhận của bác sĩ', $request->doctor_id, 'Có cuộc hẹn mới cần xác nhận ');
 
 
             return response()->json(['message' => $request->all()], 201);
