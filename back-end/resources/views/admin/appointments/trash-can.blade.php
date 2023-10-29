@@ -30,14 +30,17 @@
                         <table class="datatable table table-stripped">
                             <thead id="thead_table">
                                 <td>#ID</td>
-                                @foreach ($colums as $colum=>$name)
-                                    <td>{{$name}}</td>
-                                @endforeach
+                                <td>Tên bác sĩ</td>
+                                <td>Bệnh nhân</td>
+                                <td>Loại thú cưng</td>
+                                <td>Tên dịch vụ</td>
+                                <td>Mô tả</td>
                                 <td>Thời gian cuộc hẹn</td>
+                                <td>Ngày hẹn</td>
                                 <td>Hành động</td>
                             </thead>
                             <tbody id="tbody_table">
-                                    @foreach($data as $key=>$value)
+                                    @foreach($appointments as $key=>$value)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
                                             <td>{{ $value->doctor_id }}</td>
@@ -45,12 +48,13 @@
                                             <td>{{ $value->type_pet_id }}</td>
                                             <td>{{ $value->service_id }}</td>
                                             <td>{!! $value->description !!}</td>
+                                            <td>{!! $value->date !!}</td>
                                             <td>
-                                                {{ '5 Nov 2023' }}
-                                                <span class="text-primary d-block">{{ $value->date }}
-                                                    - {{ $value->date }} AM</span>
+                                                <span class="text-primary d-block">{!! $value->start_time !!}
+                                                    - {{ $value->end_time }} AM</span>
                                             </td>
                                             <td class="d-flex" style="grid-gap:1rem">
+                                                @if($value->date >= date('Y-m-d'))
                                                 <div class="actions">
                                                     <a data-bs-toggle="modal" data-delete="{{ $value->id }}" href="#delete_modal_{{ $value->id }}" class="delete_data btn btn-sm bg-danger-light">
                                                         <i class="fe fe-trash"></i> Khôi phục
@@ -79,6 +83,11 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                @else
+                                                    <a class="delete_data btn btn-sm bg-success-light">
+                                                        Qúa thời gian khôi phục
+                                                    </a>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

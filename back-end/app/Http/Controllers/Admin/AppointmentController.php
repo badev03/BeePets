@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Vonage\Voice\Endpoint\App;
 use function Laravel\Prompts\select;
 
@@ -63,6 +64,12 @@ class AppointmentController extends Controller
             ->orderByDesc('id')
             ->whereNull('appointments.deleted_at')
             ->orderBy('id', 'DESC')
+            ->addSelect('w.start_time' , 'w.end_time')
+            ->join('work_schedules as w', function ($join) {
+                $join->on('appointments.date', '=', 'w.date')
+                    ->on('appointments.doctor_id', '=', 'w.doctor_id')
+                    ->on('appointments.shift_name', '=', 'w.shift_name');
+            })
             ->get();
         return $appointments;
     }
@@ -334,17 +341,27 @@ class AppointmentController extends Controller
     }
 
     public function TrashCan() {
-        $data = $this->queryCommon()->whereNotNull('appointments.deleted_at')
+        $appointments = $this->queryCommon()
+            ->whereNotNull('appointments.deleted_at')
             ->orderByDesc('id')
             ->get();
+        $appointments->each(function ($appointment) {
+            $time_schedule = $this->tableQuery('work_schedules')
+                ->where('date', $appointment->date)
+                ->where('doctor_id', $appointment->id_doctor)
+                ->where('shift_name', $appointment->shift_name)
+                ->get();
+            $appointment->start_time = str_replace('"', '', trim($time_schedule->pluck('start_time'), '[]'));
+            $appointment->end_time = str_replace('"', '', trim($time_schedule->pluck('end_time'), '[]'));
+        });
+
         $dataViewer = [
-            'colums' => $this->colums,
             'urlbase' => $this->urlbase,
             'title_web' => $this->title,
             'FIELD_SELECT_CUSTOM_CONTROLLER' => $this->FIELD_SELECT_CUSTOM_CONTROLLER,
             'special', $this->special,
         ];
-        return view($this->pathView.'trash-can' , compact('data'))->with($dataViewer);
+        return view($this->pathView.'trash-can' , compact('appointments'))->with($dataViewer);
     }
 
     public function RestoreTrash(MessageUser $messageService ,string $id) {
@@ -440,6 +457,67 @@ class AppointmentController extends Controller
             ->join('notifications' , 'notifications.appointment_id' , '=' , 'appointments.id')
             ->addSelect('notifications.message_admin' , 'users.phone')
             ->first();
-        return view('admin.appointments.appointments-cancel-edit' , compact('appointmentCancel'));
+        if($appointmentCancel) {
+            $dataDoctor = $this->tableSelect('doctors')->get();
+            return view('admin.appointments.appointments-cancel-edit' ,
+                compact('appointmentCancel' , 'dataDoctor'));
+        }
+        return view('admin.appointments.edit-change' )->with(['error'=>'Dữ liệu đã được thay đổi']);
+    }
+
+    public function ChangeDoctorAdmin(Request $request , $id) {
+        $validator = Validator::make($request->all(), [
+            'doctor_id' => 'required',
+            'shift_name' => 'required',
+        ] , [
+            'doctor_id.required' => 'Truờng bác sĩ không được để trống',
+            'shift_name.required' => 'Trường ca không được để trống'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $data = [
+            'doctor_id' => $request->doctor_id,
+            'status' => 5,
+            'shift_name' => $request->shift_name,
+            'time' =>now(),
+            'created_at' => $this->getTimestampQuery(),
+            'updated_at' => $this->getTimestampQuery(),
+        ];
+        $this->tableQuery('appointments')
+            ->where('id' , '=' , $id)
+            ->update($data);
+        return back()->with(['success'=> 'Đã đổi lịch thành công']);
+    }
+
+    public function CancelDoctorAdmin($id , MessageUser $messageUser) {
+        $model = Appointment::findOrFail($id);
+        $userName = User::find($model->user_id);
+        $model->update([
+            'status' => 4
+        ]);
+        $model->delete();
+        $messageUser->sendMessage($model->user_id, 'Chào '.$userName->name.
+            'Chúng tôi đã hủy lịch hẹn của bạn' , $model->doctor_id , 'UserName :'.$userName->name.'đã đạt lịch của bạn');
+        return back()->with('success', 'Đã xóa thành công');
+    }
+
+    public function AppointmentCancelRequirements() {
+        $appointmentCancel = $this->queryCommon()
+            ->where('appointments.status' , 6)
+            ->join('notifications' , 'notifications.appointment_id' , '=' , 'appointments.id')
+            ->addSelect('notifications.message_admin' , 'users.phone')
+            ->get();
+        if(!$appointmentCancel->isEmpty()) {
+            return view($this->pathView.'appointments-cancel' , compact('appointmentCancel'));
+        }
+        else {
+            return view($this->pathView.'appointments-cancel')->with([
+                'error' => 'Không có dữ liệu'
+            ]);
+        }
     }
 }

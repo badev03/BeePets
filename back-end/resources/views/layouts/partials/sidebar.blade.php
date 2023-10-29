@@ -15,7 +15,8 @@
                         </li>
                         <li><a class="{{ request()->routeIs('appointments.trash-can') ? 'active' : '' }}" href="{{ route('appointments.trash-can') }}">Lịch Đã Hủy</a></li>
                         <li><a class="{{ request()->routeIs('appointments.statistics') ? 'active' : '' }}" href="{{ route('appointments.statistics') }}">Thống kế cuộc hẹn</a></li>
-                        <li><a class="{{ request()->routeIs('appointments.statistics') ? 'active' : '' }}" href="{{ route('appointments.statistics') }}">Cuộc hẹn yêu cầu hủy</a></li>
+                        <li><a class="{{ request()->routeIs('appointments.cancel.requirements') ? 'active' : '' }}" href="{{ route('appointments.cancel.requirements') }}">Cuộc hẹn yêu cầu hủy</a></li>
+                        <li><a class="{{ request()->routeIs('appointments.cancel.requirements') ? 'active' : '' }}" href="{{ route('appointments.cancel.requirements') }}">Hóa đơn cuộc hẹn</a></li>
                     </ul>
                 </li>
                 <li class="submenu">
