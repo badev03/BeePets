@@ -13,7 +13,7 @@ const BillUser = () => {
         if (token) {
             const fetchBills = async () => {
                 try {
-                    const response = await axios.get('http://127.0.0.1:8000/api/bill-user', {
+                    const response = await axios.get('http://127.0.0.1:8000/api/get-list-history-bill', {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },

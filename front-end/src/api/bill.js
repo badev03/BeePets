@@ -22,6 +22,8 @@ const billApi = {
       const url = `/update-bill/${id}`;
       return instance.post(url, data, params);
     },
+
+
     
 };
 
