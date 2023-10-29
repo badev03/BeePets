@@ -11,6 +11,7 @@ import { FaSpinner } from 'react-icons/fa';
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import LoadingSkeleton from '../Loading';
+import { Modal, Form, Input, Button } from 'antd';
 
 const MySwal = withReactContent(Swal);
 const OPTIONS = ['Ca 1', 'Ca 2', 'Ca 3'];
@@ -31,6 +32,8 @@ const Dashboarddoctors = () => {
   const [error, setError] = useState(false);
   const filteredOptions = OPTIONS.filter((o) => !selectedItems.includes(o));
   const token = localStorage.getItem("token");
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [cancelId, setCancelId] = useState(null);
 
   const fetchAppointment = async () => {
     try {
@@ -109,7 +112,7 @@ const Dashboarddoctors = () => {
                 )}
               </div>
             <div
-              onClick={() => handleCancel(appointment.id)}
+              onClick={() =>  handleCancelModal(appointment.id)}
               className="btn btn-sm bg-danger-light position-relative"
             >
                {loadingIdd === appointment.id ? (
@@ -122,6 +125,46 @@ const Dashboarddoctors = () => {
 
                   </>
                 )}
+        <Modal
+  title="Lý do hủy cuộc hẹn"
+  footer={null}
+  onCancel={() => setIsModalVisible(false)}
+  visible={isModalVisible}
+  maskClosable={true} // Cho phép đóng modal khi bấm ra ngoài
+        closable={true}
+        destroyOnClose={true}
+>
+  <Form
+    // name="cancelForm"
+     // Đảm bảo rằng name là duy nhất cho mỗi component Form
+    onFinish={(values) => {
+      console.log('Received values of form: ', values);
+      handleCancel(cancelId);
+    }}
+  >
+    <Form.Item
+      name="content"
+      rules={[
+        {
+          required: true,
+          message: 'Vui lòng nhập lí do hủy cuộc hẹn!',
+        },
+      ]}
+    >
+      <Input.TextArea
+        placeholder="Nhập lí do hủy cuộc hẹn tại đây"
+        autoSize={{ minRows: 3, maxRows: 5 }}
+      />
+    </Form.Item>
+
+    <Form.Item>
+      <Button type="primary" htmlType="submit">
+        Xác nhận hủy
+      </Button>
+    </Form.Item>
+  </Form>
+</Modal>
+
             </div>
           </div>
         </td>
@@ -146,7 +189,7 @@ const Dashboarddoctors = () => {
           },
         },
       );
-      console.log("vl")
+     
       MySwal.fire({
         title: "Cập nhật trạng thái  thành công!",
         icon: "success",
@@ -159,7 +202,12 @@ const Dashboarddoctors = () => {
       setLoadingId(null);
     }
   };
+  const handleCancelModal = (id) => {
+    setCancelId(id);
+    setIsModalVisible(true);
+  };
   const handleCancel = async (id) => {
+    setIsModalVisible(false);
     try {
       setLoadingIdd(id);
 

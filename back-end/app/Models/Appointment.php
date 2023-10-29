@@ -18,6 +18,7 @@ class Appointment extends Model
         'type_pet_id',
         'service_id',
         'doctor_id',
+        'customer_name',
         'user_id',
     ];
     public function user()

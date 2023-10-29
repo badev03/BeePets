@@ -1,4 +1,3 @@
-// AuthContext.js
 import { createContext, useContext, useEffect, useState } from 'react';
 
 const AuthContext = createContext();
@@ -8,6 +7,7 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token") || null);
   const [user, setUser] = useState(null);
+  const [role, setRole] = useState('user');
 
   const handleLoginSuccess = (newToken, newUser) => {
     setToken(newToken);
@@ -19,6 +19,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setToken(null);
     localStorage.removeItem('token');
+    setRole('user');
   };
 
   useEffect(() => {
@@ -27,6 +28,7 @@ export const AuthProvider = ({ children }) => {
       try {
         const parsedUser = JSON.parse(savedUser);
         setUser(parsedUser);
+        setRole(parsedUser.role_id === 4 ? 'user' : 'doctor');
       } catch (error) {
         console.error("Lỗi khi parse dữ liệu từ localStorage:", error);
       }
@@ -36,6 +38,7 @@ export const AuthProvider = ({ children }) => {
   const contextValue = {
     token,
     user,
+    role,
     isLoggedIn: !!token,
     onLoginSuccess: handleLoginSuccess,
     onLogout: logout,

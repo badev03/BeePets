@@ -2,24 +2,115 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import doctorsApi from '../../api/doctorsApi';
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+const MySwal = withReactContent(Swal);
+
 const ReviewsDoctor = () => {
   const { id } = useParams();
-  const [reviews, setDoctors] = useState(null);
+  const [reviews, setReviews] = useState(null);
+  const [doctor, setDoctor] = useState(null);
+  const [user, setUser] = useState(null);
+  const token = localStorage.getItem('token');
 
-  useEffect(() => {
-    const fetchBlog = async () => {
-      try {
-        const response = await doctorsApi.get(id);
-        setDoctors(response.reviews);
-        // setDoctors(response.review);
-        console.log(response.reviews);
-      } catch (error) {
-        console.error("Không có dữ liệu:", error);
+  const fetchDoctors = async () => {
+    try {
+      const response = await doctorsApi.get(id);
+      setReviews(response.reviews);
+      setDoctor(response.doctor);
+    } catch (error) {
+      console.error("Không có dữ liệu:", error);
+    }
+  };
+  const addReviews = async (data, params) => {
+    
+    try {
+      const response = await doctorsApi.addReviews( data, params);
+      return response;
+    } catch (error) {
+      throw new Error(`Error adding reviews: ${error}`);
+    }
+  };
+  const handleAddReview = async (event) => {
+    event.preventDefault();
+    const reviewContents = document.getElementById("review_desc").value;
+    const ratingInputs = document.getElementsByName("rating");
+    let score = 0;
+    for (let i = 0; i < ratingInputs.length; i++) {
+      if (ratingInputs[i].checked) {
+        score = 5 - i;
+        break;
       }
+    }
+    if (!user) {
+      MySwal.fire({
+        title: "Bạn chưa đăng nhập!",
+        text: "Vui lòng đăng nhập trước khi gửi đánh giá.",
+        icon: "error",
+      });
+      return;
+    }
+    if (reviewContents.trim() === "") {
+      MySwal.fire({
+        title: "Nội dung đánh giá không được để trống!",
+        icon: "error",
+      });
+      return;
+    }
+    if (score === 0) {
+      MySwal.fire({
+        title: "Vui lòng chọn số sao đánh giá bác sĩ!",
+        icon: "error",
+      });
+      return;
+    }
+    const data = {
+      doctor_id: doctor.id,
+      user_id: user.id,
+      contents: reviewContents,
+      score: score,
     };
+    console.log(data)
 
-    fetchBlog();
+    const params = { headers: { Authorization: `Bearer ${token}` } };
+    try {
+      const response = await addReviews(data, params);
+      console.log('Đánh giá của bạn đã được gửi thành công:', response);
+      MySwal.fire({
+        title: "Đánh giá của bạn đã được gửi thành công!",
+        icon: "success",
+      });
+      document.getElementById("review_desc").value = ""; // Clear content
+      for (let i = 0; i < ratingInputs.length; i++) {
+        ratingInputs[i].checked = false; // Clear score
+      }
+      fetchDoctors()
+      // Thực hiện các hành động cần thiết sau khi gửi đánh giá thành công
+    } catch (error) {
+      console.error('Đã xảy ra lỗi khi gửi đánh giá:', error);
+      MySwal.fire({
+        title: "Đã xảy ra lỗi khi gửi đánh giá!",
+        text: `Error: ${error.message}`,
+        icon: "error",
+      });
+    }
+  };
+  useEffect(() => {
+    const userFromLocalStorage = JSON.parse(localStorage.getItem('user'));
+    setUser(userFromLocalStorage);
+    fetchDoctors();
   }, []);
+  function formatDate(dateString) {
+    if (dateString) {
+        const options = { year: "numeric", month: "long", day: "numeric" };
+        const date = new Date(dateString);
+        const formattedDate = date.toLocaleDateString("vi-VN", options);
+        const time = date.toLocaleTimeString("vi-VN", { hour: '2-digit', minute: '2-digit' });
+        // Loại bỏ từ "lúc" từ chuỗi được định dạng
+        return `${time} ngày ${formattedDate.replace("lúc", "").trim()}`;
+    }
+    return "";
+}
   if (!reviews) {
     return <div>Loading...</div>;
   }
@@ -30,11 +121,11 @@ const ReviewsDoctor = () => {
           {reviews.map(review => (
             <li key={review.id}>
               <div className="comment">
-                <img className="avatar avatar-sm rounded-circle" alt="User Image" src="../src/assets/img/patients/patient.jpg" />
+                <img className="avatar avatar-sm rounded-circle" alt="User Image" src={review.avatar} />
                 <div className="comment-body">
                   <div className="meta-data">
-                    <span className="comment-author"></span>
-                    <span className="comment-date">Đã đánh giá vào lúc {review.created_at}</span>
+                    <span className="comment-author">{review.user_name}</span>
+                    <span className="comment-date">Đã đánh giá vào lúc {formatDate(review.created_at)}</span>
                     <div className="review-count rating">
                     {Array.from({ length: review.score }, (_, index) => (
                         <i key={index} className="fas fa-star filled" />
@@ -44,9 +135,9 @@ const ReviewsDoctor = () => {
                       ))}
                     </div>
                   </div>
-                  <p className="recommended"><i className="far fa-thumbs-up" /> Tôi đánh giá cao bác sĩ này</p>
-                  <p className="comment-content">
-                    {review.content}
+                 
+                  <p className="comment-content" style={{width:"100%"}}>
+                    Nội dung đánh giá :  {review.content}                  
                   </p>
 
                 </div>
@@ -58,8 +149,8 @@ const ReviewsDoctor = () => {
 
       </div>
       <div className="write-review">
-        <h4>Viết đánh giá cho <strong>Bác sĩ Tạ Anh Quí</strong></h4>
-        <form>
+        <h4>Viết đánh giá cho <strong>Bác sĩ {doctor.name}</strong></h4>
+        <form onSubmit={handleAddReview}>
           <div className="mb-3">
 
             <div className="star-rating">
@@ -85,20 +176,16 @@ const ReviewsDoctor = () => {
               </label>
             </div>
           </div>
-          <div className="mb-3">
-            <label className="mb-2">Tiêu đề</label>
-            <input className="form-control" type="text" placeholder="If you could say it in one sentence, what would you say?" />
-          </div>
-          <div className="mb-3">
-            <label className="mb-2">Đánh giá của bạn</label>
-            <textarea id="review_desc" maxLength={100} className="form-control" defaultValue={""} />
-            {/* <div className="d-flex justify-content-between mt-3"><small className="text-muted"><span id="chars">100</span> characters remaining</small></div> */}
-          </div>
-          <hr />
+          
 
-          <div className="submit-section">
-            <button type="submit" className="btn btn-primary submit-btn">Đánh giá</button>
-          </div>
+          <div className="mb-3">
+              <label className="mb-2">Đánh giá của bạn</label>
+              <textarea id="review_desc" maxLength={1000} className="form-control" defaultValue={""} />
+            </div>
+            <hr />
+            <div className="submit-section">
+              <button type="submit" className="btn btn-primary submit-btn">Đánh giá</button>
+            </div>
         </form>
       </div>
     </div>

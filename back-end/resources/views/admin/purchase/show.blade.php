@@ -15,6 +15,7 @@
                             <h4>Đơn hàng</h4>
                         </div>
                         <div class="col">
+                            <a href="{{ route('purchase.index') }}" class="btn btn-primary float-end mb-2">Quay lại</a>
                         </div>
                     </div>
                 </div>

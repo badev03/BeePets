@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import doctorsApi from '../../api/doctorsApi';
 import ReviewsDoctor from './ReviewsDoctor';
+import CustomButton from '../Serch/CustomButton';
 const DoctorProfile = () => {
   const { id } = useParams();
   const [doctor, setDoctors] = useState(null);
@@ -14,6 +15,7 @@ const DoctorProfile = () => {
         setDoctors(response.doctor);
         // setDoctors(response.review);
         console.log(response);
+      
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
@@ -24,6 +26,9 @@ const DoctorProfile = () => {
   if (!doctor) {
     return <div>Loading...</div>;
   }
+  const handleBookingg = (doctorId) => {
+    setSelectedDoctorId(doctorId);
+  };
   return (
     <div>
 <div>
@@ -49,7 +54,7 @@ const DoctorProfile = () => {
           <div className="doctor-widget">
             <div className="doc-info-left">
               <div className="doctor-img">
-                <img src={doctor.image.profile} className="img-fluid" alt="User Image" />
+                <img src={doctor.image} className="img-fluid" alt="User Image" />
               </div>
               <div className="doc-info-cont">
                 <h4 className="doc-name">{doctor.name}</h4>
@@ -102,7 +107,7 @@ const DoctorProfile = () => {
               </div>
          
               <div className="clinic-booking">
-                <a className="apt-btn" href="/booking">Đặt lịch hẹn</a>
+              <CustomButton handleBookingg={handleBookingg} doctorId={doctor.id} />
               </div>
             </div>
           </div>

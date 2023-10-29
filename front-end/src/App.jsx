@@ -39,6 +39,7 @@ import BillDetail from './Component/User/BillDetail'
 import PrescriptionDetails from './Component/User/PrescriptionDetails'
 import FilterService from './Component/Serch/FilterService'
 import PrivateRouteDoctors from './PrivateRoute/PrivateRouteDoctors'
+import PrivateRouteUser from './PrivateRoute/PrivateRouteUser'
 import AcceptDetailAppointment from './Component/doctors/AcceptDetailAppointment'
 import DetailBIll from './Component/doctors/DetailBIll'
 import DetailPrescription from './Component/doctors/DetailPrescription'
@@ -54,7 +55,7 @@ function App() {
           <Route path='' element={<Content />} />
           <Route path='abouts' element={<Abouts />} />
           <Route path='doctor' element={<FilterService />} />
-          <Route path='booking' element={<Booking />} />
+          <Route path='bookingprofiledoctor/profile' element={<Booking />} />
           <Route path='booking/success' element={<BookingSuccess />} />
           <Route path='doctor/profile' element={<DoctorProfile />} />
 
@@ -62,15 +63,17 @@ function App() {
           <Route path='blog' element={<BlogList />} />
           <Route path='blog/:slug' element={<BlogDetails />} />
           <Route path="blog/category/:id" element={<BlogList />} />
-
           <Route path='service-detail/:slug' element={<ServiceDetails />} />
-          <Route path='user/dashbroad' element={<Dashboard />} />
-          <Route path='user/changepassword' element={<ChangePassword />} />
-          <Route path='user/profilesetting' element={<ProfileSetting />} />
-          <Route path='user/appointment/:id' element={<AppointmentDetail />} />
-          <Route path='user/prescription/:id' element={<PrescriptionDetails />} />
-          <Route path='user/bill/:id' element={<BillDetail />} />
-          <Route path='informationuser' element={<Information />} />
+
+          <Route element={<PrivateRouteUser/>}>
+            <Route path='user/dashbroad' element={<Dashboard />} />
+            <Route path='user/changepassword' element={<ChangePassword />} />
+            <Route path='user/profilesetting' element={<ProfileSetting />} />
+            <Route path='user/appointment/:id' element={<AppointmentDetail />} />
+            <Route path='user/prescription/:id' element={<PrescriptionDetails />} />
+            <Route path='user/bill/:id' element={<BillDetail />} />
+            <Route path='informationuser' element={<Information />} />
+          </Route>
 
           <Route path="doctors" element={<PrivateRouteDoctors />}>
             <Route path="" element={<Dashboarddoctors />} />
