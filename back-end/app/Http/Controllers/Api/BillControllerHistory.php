@@ -19,7 +19,7 @@ class BillControllerHistory extends Controller
     public function billHistory() {
         if (Auth::guard('doctors')) {
             $bill = Bill::where('doctor_id' , '=' , \auth()->id())
-                ->whereIn('status', [2, 3])
+                ->whereIn('status', [6, 3])
                 ->get();
             if(!$bill->isEmpty()) {
                 return response()->json([

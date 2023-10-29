@@ -21,7 +21,7 @@ const Bill = () => {
           }
         );
         setBill(response.bills); 
-        console.log(response.bills);    
+            console.log(response.bills);
         } catch (error) {
           console.error("Không có dữ liệu:", error);
         }
