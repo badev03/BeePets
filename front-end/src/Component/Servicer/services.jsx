@@ -12,7 +12,6 @@ const Services = () => {
             try {
                 const response = await serviceApi.getHome();
                 setServices(response.service);
-                console.log(response);
             } catch (error) {
                 console.error("Không có dữ liệu:", error);
             }
