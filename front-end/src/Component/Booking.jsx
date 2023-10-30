@@ -197,7 +197,9 @@ const Booking = () => {
 
   const disabledDate = (current) => {
     const today = moment();
-    return current && current < today.startOf("day");
+    const oneWeekFromNow = today.clone().add(1, 'week');
+
+    return current && (current < today.startOf('day') || current >= oneWeekFromNow);
   };
 
   return (
@@ -320,6 +322,7 @@ const Booking = () => {
                 initialValue={user ? user.name : selectedName}
                 rules={[
                   { required: true, message: "Vui lòng nhập tên của bạn" },
+                  { min: 5, message: "Tên phải lớn hơn 5 kí tự" },
                 ]}
               >
                 <Input name="name" onChange={handleChangeName} />
@@ -333,8 +336,15 @@ const Booking = () => {
                 rules={[
                   { required: true, message: "Vui lòng nhập số điện thoại" },
                   {
-                    pattern: /^[0-9]{10}$/,
-                    message: "Số điện thoại phải có 10 chữ số",
+                    validator: (_, value) => {
+                      if (/^\d+$/.test(value)) {
+                        if (value.length === 10) {
+                          return Promise.resolve();
+                        }
+                        return Promise.reject("Số điện thoại phải có 10 chữ số");
+                      }
+                      return Promise.reject("Số điện thoại phải là chữ số");
+                    },
                   },
                 ]}
               >
