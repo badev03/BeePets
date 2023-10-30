@@ -87,16 +87,18 @@ class DoctorUserController extends BaseResponseApiController
     }
 }
 
-  
+
 
 
     public function QueryDoctorIndex() {
-        $doctors = $this->tableQuery('doctors')->select('id','name','slug','image','address','description')->get();
+        $doctors = $this->tableQuery('doctors')->select('doctors.id','name','slug','doctors.image','address','description')
+            ->get();
 
         $reviewAverages = Review::select('doctor_id', \DB::raw('AVG(score) as average_score') , \DB::raw('COUNT(*) as review_count'))
             ->groupBy('doctor_id')
-         
             ->get();
+
+        $imagesDoctor = $this->tableQuery('doctor_images')->select('id' , 'doctor_id' , 'image_path')->get();
         $reviewAveragesArray = [];
         $reviewCount = [];
         foreach ($reviewAverages as $reviewAverage) {
@@ -107,7 +109,9 @@ class DoctorUserController extends BaseResponseApiController
             $doctor_id = $doctor->id;
             $doctor->average_score = isset($reviewAveragesArray[$doctor_id]) ? $reviewAveragesArray[$doctor_id] : null;
             $doctor->review_count = isset($reviewCount[$doctor_id]) ? $reviewCount[$doctor_id] : null;
+            $doctor->images = $imagesDoctor->where('doctor_id' ,$doctor->id )->pluck('image_path')->toArray();
         }
+        dd($doctors);
         return $doctors;
     }
 }
