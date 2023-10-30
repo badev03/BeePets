@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 import doctorsApi from '../../api/doctorsApi';
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { useAuth } from '../../Context/ContextAuth';
+import LoadingSkeleton from '../Loading';
 const MySwal = withReactContent(Swal);
 
 const ReviewsDoctor = () => {
@@ -12,6 +14,7 @@ const ReviewsDoctor = () => {
   const [doctor, setDoctor] = useState(null);
   const [user, setUser] = useState(null);
   const token = localStorage.getItem('token');
+  const { role } = useAuth();
 
   const fetchDoctors = async () => {
     try {
@@ -112,17 +115,18 @@ const ReviewsDoctor = () => {
     return "";
 }
   if (!reviews) {
-    return <div>Loading...</div>;
+    return <LoadingSkeleton/>
+
   }
   return (
     <div role="tabpanel" id="doc_reviews" className="tab-pane fade">
-      <div className="widget review-listing">
-        <ul className="comments-list">
+      <div className="widget review-listing" >
+        <ul className="comments-list" >
           {reviews.map(review => (
             <li key={review.id}>
-              <div className="comment">
+              <div className="comment" >
                 <img className="avatar avatar-sm rounded-circle" alt="User Image" src={review.avatar} />
-                <div className="comment-body">
+                <div className="comment-body" style={{width:"100%"}}>
                   <div className="meta-data">
                     <span className="comment-author">{review.user_name}</span>
                     <span className="comment-date">Đã đánh giá vào lúc {formatDate(review.created_at)}</span>
@@ -136,7 +140,7 @@ const ReviewsDoctor = () => {
                     </div>
                   </div>
                  
-                  <p className="comment-content" style={{width:"100%"}}>
+                  <p className="comment-content" >
                     Nội dung đánh giá :  {review.content}                  
                   </p>
 
@@ -148,46 +152,49 @@ const ReviewsDoctor = () => {
         </ul>
 
       </div>
-      <div className="write-review">
-        <h4>Viết đánh giá cho <strong>Bác sĩ {doctor.name}</strong></h4>
-        <form onSubmit={handleAddReview}>
-          <div className="mb-3">
-
-            <div className="star-rating">
-              <input id="star-5" type="radio" name="rating" defaultValue="star-5" />
-              <label htmlFor="star-5" title="5 stars">
-                <i className="active fa fa-star" />
-              </label>
-              <input id="star-4" type="radio" name="rating" defaultValue="star-4" />
-              <label htmlFor="star-4" title="4 stars">
-                <i className="active fa fa-star" />
-              </label>
-              <input id="star-3" type="radio" name="rating" defaultValue="star-3" />
-              <label htmlFor="star-3" title="3 stars">
-                <i className="active fa fa-star" />
-              </label>
-              <input id="star-2" type="radio" name="rating" defaultValue="star-2" />
-              <label htmlFor="star-2" title="2 stars">
-                <i className="active fa fa-star" />
-              </label>
-              <input id="star-1" type="radio" name="rating" defaultValue="star-1" />
-              <label htmlFor="star-1" title="1 star">
-                <i className="active fa fa-star" />
-              </label>
-            </div>
-          </div>
-          
-
-          <div className="mb-3">
-              <label className="mb-2">Đánh giá của bạn</label>
-              <textarea id="review_desc" maxLength={1000} className="form-control" defaultValue={""} />
-            </div>
-            <hr />
-            <div className="submit-section">
-              <button type="submit" className="btn btn-primary submit-btn">Đánh giá</button>
-            </div>
-        </form>
-      </div>
+      {role !== "doctor" && ( 
+                 <div className="write-review">
+                 <h4>Viết đánh giá cho <strong>Bác sĩ {doctor.name}</strong></h4>
+                 <form onSubmit={handleAddReview}>
+                   <div className="mb-3">
+         
+                     <div className="star-rating">
+                       <input id="star-5" type="radio" name="rating" defaultValue="star-5" />
+                       <label htmlFor="star-5" title="5 stars">
+                         <i className="active fa fa-star" />
+                       </label>
+                       <input id="star-4" type="radio" name="rating" defaultValue="star-4" />
+                       <label htmlFor="star-4" title="4 stars">
+                         <i className="active fa fa-star" />
+                       </label>
+                       <input id="star-3" type="radio" name="rating" defaultValue="star-3" />
+                       <label htmlFor="star-3" title="3 stars">
+                         <i className="active fa fa-star" />
+                       </label>
+                       <input id="star-2" type="radio" name="rating" defaultValue="star-2" />
+                       <label htmlFor="star-2" title="2 stars">
+                         <i className="active fa fa-star" />
+                       </label>
+                       <input id="star-1" type="radio" name="rating" defaultValue="star-1" />
+                       <label htmlFor="star-1" title="1 star">
+                         <i className="active fa fa-star" />
+                       </label>
+                     </div>
+                   </div>
+                   
+         
+                   <div className="mb-3">
+                       <label className="mb-2">Đánh giá của bạn</label>
+                       <textarea id="review_desc" maxLength={300} className="form-control" defaultValue={""} />
+                     </div>
+                     <hr />
+                     <div className="submit-section">
+                       <button type="submit" className="btn btn-primary submit-btn">Đánh giá</button>
+                     </div>
+                 </form>
+               </div>
+              )}
+    
     </div>
 
   )

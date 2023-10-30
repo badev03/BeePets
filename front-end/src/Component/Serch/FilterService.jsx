@@ -2,8 +2,9 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import serviceApi from '../../api/serviceApi';
 import Search from './Search';
+import LoadingSkeleton from '../Loading';
 const FilterService = () => {
-  const [services, setServices] = useState([]);
+  const [services, setServices] = useState(null);
   const [selectedServices, setSelectedServices] = useState([]);
   const [searchData, setSearchData] = useState([]);
 
@@ -12,7 +13,6 @@ const FilterService = () => {
       try {
         const response = await serviceApi.getAll();
         setServices(response.service);
-        console.log(response);
       } catch (error) {
         console.error('Không có dữ liệu:', error);
       }
@@ -37,7 +37,9 @@ const FilterService = () => {
     event.preventDefault();
     setSearchData(selectedServices);
   };
-
+  if (!services) {
+    return <LoadingSkeleton/>
+  }
   return (
     <div>
   <div className="breadcrumb-bar-two">

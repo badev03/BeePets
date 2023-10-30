@@ -7,11 +7,12 @@ import { useEffect, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
 import LoadingSkeleton from "../Loading";
-
+import { Modal, Form, Input, Button } from 'antd';
 const Appointments = () => {
   const [appointments, setAppointment] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const appointmentsPerPage = 5;
   const pagesVisited = pageNumber * appointmentsPerPage;
   const token = localStorage.getItem("token");
@@ -34,6 +35,13 @@ const Appointments = () => {
       fetchAppointment();
     }, []);
   }
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
   function formatDate(dateString) {
     if (dateString) {
       const options = { year: "numeric", month: "long", day: "numeric" };
@@ -74,7 +82,7 @@ const Appointments = () => {
             <a href="doctor-profile.html">{appointment.user.name} </a>
           </h2>
         </td>
-        <td>
+        <td >
           {/* <span className="d-block text-info">
             {appointment.time ? formatTime(appointment.time) : ''}
           </span> */}
@@ -82,8 +90,11 @@ const Appointments = () => {
           <span className="d-block ">
             {formatShiftTime(appointment.shift_name)}
           </span>
+          <span className="d-block ">
+          {formatDate(appointment.date)}
+          </span>
         </td>
-        <td>{formatDate(appointment.date)}</td>
+       
         <td>{appointment.user.phone}</td>
         <td>
           {appointment.status == 1 ? (
@@ -104,21 +115,66 @@ const Appointments = () => {
           <Link to={`/doctors/accept-detail-appointments/${appointment.id}`} className="btn btn-sm bg-info-light">
               <i className="far fa-eye" /> Lịch Hẹn
             </Link>
-            <Link to={`/doctors/detail-bill/${appointment.id}`} className="btn btn-sm bg-info-light">
-              <i className="far fa-eye" /> Bill
+            <Link
+                to={appointment.bill[0]?.id ? `/doctors/detail-bill/${appointment.bill[0].id}` : "#"}
+                className="btn btn-sm bg-info-light"
+              >
+                <i className="far fa-eye" /> Bill
+              </Link>
+              <Link
+                to={appointment.bill[0]?.id ? `/doctors/edit-bill/${appointment.bill[0].id}` : "#"}
+                className="btn btn-sm bg-success-light"
+              >
+                <i className="fas fa-edit" /> Sửa Bill
+              </Link>
+            
+            <Link to="#" className="btn btn-sm bg-danger-light" onClick={showModal}>
+              <i className="far fa-trash-alt" />Y/C Hủy Lịch
             </Link>
             <Link
               to={`/doctors/edit-bill/${appointment.id}`}
               className="btn btn-sm bg-success-light"
             >
-              <i className="fas fa-edit" /> Sửa Bill
+              <i className="fas fa-edit" />Y/C Đổi Lịch
             </Link>
-            {/* <Link to="#" className="btn btn-sm bg-danger-light">
-              <i className="far fa-trash-alt" /> Delete
-            </Link> */}
-          
-            
+            <Link
+              to={`/doctors/edit-bill/${appointment.id}`}
+              className="btn btn-sm bg-success-light"
+            >
+              <i className="fas fa-edit" />Hoàn Thành
+            </Link>
           </div>
+          <Modal title="Yêu cầu Hủy Lịch" visible={isModalVisible}   onCancel={() => setIsModalVisible(false)}>
+        <Form
+         onFinish={(values) => {
+          console.log('Received values of form: ', values);
+        }}>
+          {/* Thêm các trường form tại đây */}
+          <Form.Item
+      name="content"
+      rules={[
+        {
+          required: true,
+          message: 'Vui lòng nhập lí do hủy cuộc hẹn!',
+        },
+        {
+          min: 6,
+          message: 'Lí do hủy phải có ít nhất 6 ký tự!',
+        },
+      ]}
+    >
+      <Input.TextArea
+        placeholder="Nhập lí do hủy cuộc hẹn tại đây"
+        autoSize={{ minRows: 3, maxRows: 5 }}
+      />
+    </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Gửi Yêu cầu
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
         </td>
       </tr>
     ));
@@ -164,7 +220,7 @@ const Appointments = () => {
                         <tr>
                           <th>Khách hàng</th>
                           <th>Lịch khám</th>
-                          <th> Ngày đặt lịch</th>
+                          {/* <th> Ngày đặt lịch</th> */}
                           <th>Số điện thoại</th>
                           <th>Trạng thái</th>
                           <th>Action</th>

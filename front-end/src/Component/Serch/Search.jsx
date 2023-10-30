@@ -5,10 +5,13 @@ import ReactPaginate from "react-paginate";
 import doctorsApi from "../../api/doctorsApi";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import CustomButton from "./CustomButton";
+import LoadingSkeleton from "../Loading";
 
 const Search = ({ data }) => {
   const [doctors, setDoctors] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
+  const [loading, setLoading] = useState(true);
+
   const doctorsPerPage = 3;
   const pagesVisited = pageNumber * doctorsPerPage;
   const [selectedDoctorId, setSelectedDoctorId] = useState(null);
@@ -21,6 +24,8 @@ const Search = ({ data }) => {
       try {
         const response = await doctorsApi.getAll();
         setDoctors(response.doctor);
+        setLoading(false);
+        console.log(response.doctor);
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
@@ -33,6 +38,7 @@ const Search = ({ data }) => {
           { service: data },
         );
         setDoctors(response.data.service);
+     
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
@@ -92,31 +98,41 @@ const Search = ({ data }) => {
                 </div>
                 <div className="clinic-details">
                   <p className="doc-location">
-                    <i className="fas fa-map-marker-alt" />
-                    {doctor.address}
+                    <i className="fas fa-map-marker-alt" style={{marginRight:"10px"}} />
+                    {doctor.address ? doctor.address : "Hà Nội"}
                   </p>
-                  <ul className="clinic-gallery">
-                    <li>
-                      <a href={doctor.image.anh1} data-fancybox="gallery">
-                        <img src={doctor.image.anh1} alt="Feature" />
-                      </a>
-                    </li>
-                    <li>
-                      <a href={doctor.image.anh2} data-fancybox="gallery">
-                        <img src={doctor.image.anh2} alt="Feature" />
-                      </a>
-                    </li>
-                    <li>
-                      <a href={doctor.image.anh3} data-fancybox="gallery">
-                        <img src={doctor.image.anh3} alt="Feature" />
-                      </a>
-                    </li>
-                    <li>
-                      <a href={doctor.image.anh4} data-fancybox="gallery">
-                        <img src={doctor.image.anh4} alt="Feature" />
-                      </a>
-                    </li>
-                  </ul>
+                  {doctor.images.length > 0 && (
+                    <ul className="clinic-gallery">
+                      {doctor.images[0] && (
+                        <li>
+                          <a href={doctor.images[0]} data-fancybox="gallery">
+                            <img src={doctor.images[0]} alt="Feature" />
+                          </a>
+                        </li>
+                      )}
+                      {doctor.images[1] && (
+                        <li>
+                          <a href={doctor.images[1]} data-fancybox="gallery">
+                            <img src={doctor.images[1]} alt="Feature" />
+                          </a>
+                        </li>
+                      )}
+                      {doctor.images[2] && (
+                        <li>
+                          <a href={doctor.images[2]} data-fancybox="gallery">
+                            <img src={doctor.images[2]} alt="Feature" />
+                          </a>
+                        </li>
+                      )}
+                      {doctor.images[3] && (
+                        <li>
+                          <a href={doctor.images[3]} data-fancybox="gallery">
+                            <img src={doctor.images[3]} alt="Feature" />
+                          </a>
+                        </li>
+                      )}
+                    </ul>
+                  )}
                 </div>
               </div>
             </div>
@@ -145,7 +161,9 @@ const Search = ({ data }) => {
         </div>
       </div>
     ));
-
+    if (loading) {
+      return <LoadingSkeleton/>
+    }
   return (
     <div>
       {displayDoctors}
