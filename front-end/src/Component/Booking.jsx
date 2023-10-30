@@ -65,14 +65,12 @@ const Booking = () => {
       const selectedServiceData = serviceDoctor.find(
         (service) => service.id === selectedService
       );
-
       if (selectedServiceData) {
         const doctorsForService = selectedServiceData.doctors || [];
-        setDoctorOptions([...doctorsForService]);
-
-        if (!doctorsForService.some((doctor) => doctor.id === selectedDoctor)) {
-          setSelectedDoctor(null);
-        }
+        // if (!doctorsForService.some((doctor) => doctor.id === selectedDoctor)) {
+        //   setSelectedDoctor(null);
+        // }
+          setDoctorOptions([...doctorsForService]);
       }
     }
   }, [selectedService, serviceDoctor, selectedDoctor]);
@@ -242,22 +240,21 @@ const Booking = () => {
             </Col>
             <Col span={12}>
               <Form.Item
-                label="Chọn Bác Sĩ"
-                name="Chọn Bác Sĩ"
-                rules={[
-                  { required: true, message: "Vui lòng nhập chọn bác sĩ" },
-                ]}
-                loading={loadingDoctors}
+                  label="Chọn Bác Sĩ"
+                  rules={[
+                    { required: true, message: "Vui lòng nhập chọn bác sĩ" },
+                  ]}
+                  loading={loadingDoctors}
               >
                 <Select
-                  key={selectedService}
-                  placeholder="Bác Sĩ"
-                  value={selectedDoctor}
-                  onChange={handleDoctorChange}
-                  options={doctorOptions.map((doctor) => ({
-                    value: doctor.id,
-                    label: doctor.name,
-                  }))}
+                    placeholder="Bác Sĩ"
+                    value={selectedDoctor}
+                    onChange={handleDoctorChange}
+                    options={doctorOptions.map((doctor, index) => ({
+                      value: doctor.id,
+                      label: doctor.name,
+                      key: index,
+                    }))}
                 />
               </Form.Item>
             </Col>
