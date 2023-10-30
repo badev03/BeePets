@@ -37,9 +37,9 @@ class DoctorController extends Controller
         'name' => 'Tên bác sĩ',
         'phone' => 'Số điện thoại',
         'description' => 'Mô tả',
-        'address'=>'Địa chỉ',
-        'gender'=>'Giới tính',
-        'birthday'=>'Ngày Sinh',
+        'address' => 'Địa chỉ',
+        'gender' => 'Giới tính',
+        'birthday' => 'Ngày Sinh',
         'status' => 'Trạng thái',
 
 
@@ -72,27 +72,27 @@ class DoctorController extends Controller
     }
     public function store(Request $request)
     {
-       
+
 
         $model = new Doctor();
         $validateStore = $this->validateStore($request);
-    
+
         if ($validateStore) {
             return back()->withErrors($validateStore)->withInput();
         }
-    
-        $model->fill($request->except(['image','image_path','slug']));
-    
+
+        $model->fill($request->except(['image', 'image_path', 'slug']));
+
         if ($request->hasFile('image')) {
             $image = $request->image;
             $cloudinaryResponse = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
             $model->image = $cloudinaryResponse;
         }
-    
+
         if ($request->has('name') && $this->checkerNameSlug == true) {
             $model->slug = $this->createSlug($request->name);
         }
-    
+
         if ($this->dataStoreAndUpdate($request->all())) {
             $currentDate = today();
             $model->public_date = $currentDate->format('Y-m-d');
@@ -100,9 +100,9 @@ class DoctorController extends Controller
         if ($request->birthday) {
             $model->birthday = Carbon::createFromFormat('d/m/Y', $request->birthday)->format('Y-m-d');
         }
-        
+
         $this->createAndUpdatePassWord($request->password);
-    
+
         $model->save();
         if ($request->hasFile('image_path')) {
             $imagePaths = $request->file('image_path');
@@ -114,20 +114,20 @@ class DoctorController extends Controller
                 $doctorImage->save();
             }
         }
-        
-    $selectedServices = $request->input('service_id', []);
-    $model->services()->attach($selectedServices);
-    if ($this->checkRolePermission == false) {
-        $model->assignRole($request->role);
-    }
-        
+
+        $selectedServices = $request->input('service_id', []);
+        $model->services()->attach($selectedServices);
+        if ($this->checkRolePermission == false) {
+            $model->assignRole($request->role);
+        }
+
         return back()->with('success', 'Thao tác thành công');
     }
-    
-    
 
 
-  
+
+
+
 
 
 
@@ -142,7 +142,7 @@ class DoctorController extends Controller
         foreach ($doctorImages as $image) {
             $images[] = $image->image_path; // Thay đổi thành $images
         }
-       
+
         $dataViewer = [
             'title' => $this->titleEdit,
             'colums' => $this->colums,
@@ -151,8 +151,9 @@ class DoctorController extends Controller
         return view('admin.doctor.edit', compact('doctor', 'services', 'images'))
             ->with($dataViewer);
     }
-    
-    public function update(Request $request,$id){
+
+    public function update(Request $request, $id)
+    {
         $model = Doctor::findOrFail($id);
         $validateUpdate = $this->validateUpdate($request);
         if ($validateUpdate) {
@@ -175,14 +176,20 @@ class DoctorController extends Controller
         if ($request->birthday) {
             $model->birthday = Carbon::createFromFormat('d/m/Y', $request->birthday)->format('Y-m-d');
         }
-        
-        
+
+
         $this->createAndUpdatePassWord($request->password);
+        $selectedServices = $request->input('service_id', []);
+        $model->services()->sync($selectedServices);
+        if ($this->checkRolePermission == false) {
+            $model->assignRole($request->role);
+        }
         $model->save();
+
         if ($request->hasFile('image_path')) {
             // Thêm ảnh mới vào bảng Doctor_image
             $imagePaths = $request->file('image_path');
-         
+
             foreach ($imagePaths as $image) {
                 $cloudinaryResponse = Cloudinary::upload($image->getRealPath())->getSecurePath();
                 $doctorImage = new Doctor_image();
@@ -199,7 +206,7 @@ class DoctorController extends Controller
                 foreach ($imagePaths as $imagePath) {
                     // Xóa hình ảnh từ cơ sở dữ liệu
                     $deleted = Doctor_image::where('image_path', $imagePath)->delete();
-            
+
                     if (!$deleted) {
                         return back()->with('error', 'Không thể xóa hình ảnh');
                     }
@@ -207,12 +214,12 @@ class DoctorController extends Controller
             } else {
                 // Xóa một ảnh duy nhất từ cơ sở dữ liệu
                 $deleted = Doctor_image::where('image_path', $imagePaths)->delete();
-            
+
                 if (!$deleted) {
                     return back()->with('error', 'Không thể xóa hình ảnh');
                 }
             }
-        
+
             if ($deleted) {
                 // Xóa đường dẫn hình ảnh đã xóa khỏi request
                 $requestData = $request->except('deleted_image_path');
@@ -231,51 +238,42 @@ class DoctorController extends Controller
                 }
             }
         }
-        $selectedServices = $request->input('service_id', []);
-        $model->services()->sync($selectedServices);
-        if ($this->checkRolePermission == false) {
-            $model->assignRole($request->role);
-        }
+
         return back()->with('success', 'Thao tác thành công');
-
-
-
-
-
     }
 
 
-  
 
-public function destroy(string $id)
-{
-    if (auth()->user()->can(['delete-' . $this->permissionCheckCrud])) {
-        $model = Doctor::findOrFail($id);
 
-       
-        if ($model->image) {
-            Cloudinary::destroy($model->image);
-        }
+    public function destroy(string $id)
+    {
+        if (auth()->user()->can(['delete-' . $this->permissionCheckCrud])) {
+            $model = Doctor::findOrFail($id);
 
-        // Xóa ảnh từ bảng doctor_images
-        $doctorImages = Doctor_image::where('doctor_id', $id)->get();
-        foreach ($doctorImages as $doctorImage) {
-            if ($doctorImage->image_path) {
-                Cloudinary::destroy($doctorImage->image_path); 
+
+            if ($model->image) {
+                Cloudinary::destroy($model->image);
             }
-            $doctorImage->delete(); 
+
+            // Xóa ảnh từ bảng doctor_images
+            $doctorImages = Doctor_image::where('doctor_id', $id)->get();
+            foreach ($doctorImages as $doctorImage) {
+                if ($doctorImage->image_path) {
+                    Cloudinary::destroy($doctorImage->image_path);
+                }
+                $doctorImage->delete();
+            }
+
+            $model->delete(); // Xóa bác sĩ
+
+            return back()->with('success_delete', 'Đã xóa thành công');
+        } else {
+            return view('admin_403');
         }
-
-        $model->delete(); // Xóa bác sĩ
-
-        return back()->with('success_delete', 'Đã xóa thành công');
-    } else {
-        return view('admin_403');
     }
-}
 
 
-    
+
 
 
 

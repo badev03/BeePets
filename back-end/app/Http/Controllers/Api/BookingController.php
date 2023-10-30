@@ -328,14 +328,13 @@ class BookingController extends Controller
                 return response()->json(['message' => 'Bạn đã hoàn thành cuộc hẹn'], 200);
             }
             if ($request->status == 7) {
-                $appointment->status = 7;
                 $reasonChange = $request->input('reason_change');
 
                 if (!$reasonChange) {
                     return response()->json(['message' => 'Bạn chưa nhập lý do đổi cuộc hẹn'], 400);
                 }
-                $appointment->reason_cancel = $reasonChange;
-
+                $appointment->reason_change = $reasonChange;
+                $appointment->status = 7;
                 $appointment->save();
                 $messageInterface->sendDoctorToAdmin($doctor->id, 'bạn đã gửi yêu cầu đổi lịch hẹn của khách hàng' . $appointment->user->name, 1, 'bác sĩ ' . $doctor->name . ' đã gửi yêu cầu đổi lịch hẹn của khách hàng ' . $appointment->user->name);
                 return response()->json(['message' => 'Bạn đã yêu cầu đổi cuộc hẹn'], 200);
