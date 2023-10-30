@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import register from "../../api/register";
 import Swal from "sweetalert2";
@@ -8,11 +8,33 @@ const MySwal = withReactContent(Swal);
 const Register = () => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [phoneError, setPhoneError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!phone) {
+      setPhoneError("Vui lòng nhập số điện thoại.");
+      return;
+    } else if (!/^\d{10}$/.test(phone)) {
+      setPhoneError("Số điện thoại phải có 10 chữ số.");
+      return;
+    } else {
+      setPhoneError(""); 
+    }
+
+    if (!password) {
+      setPasswordError("Vui lòng nhập mật khẩu.");
+      return;
+    } else if (password.length < 6) {
+      setPasswordError("Mật khẩu phải có ít nhất 6 ký tự.");
+      return;
+    } else {
+      setPasswordError(""); 
+    }
+    
     try {
       const response = await register.add({
         phone: phone,
@@ -22,12 +44,15 @@ const Register = () => {
       console.log(response.data);
 
       MySwal.fire({
-        title: "Đặt lịch thành công!",
+        title: "Đăng kí thành công!",
         icon: "success",
       });
-      navigate("/login")
+      navigate("/login");
     } catch (error) {
-      console.error("Đăng ký thất bại:", error);
+      MySwal.fire({
+        title: "Số điện thoại đã tồn tại",
+        icon: "error",
+      });
     }
   };
 
@@ -60,6 +85,7 @@ const Register = () => {
                         onChange={(e) => setPhone(e.target.value)}
                       />
                       <label className="focus-label">Nhập SĐT</label>
+                      <p className="text-danger">{phoneError}</p>
                     </div>
                     <div className="mb-3 form-focus">
                       <input
@@ -69,6 +95,7 @@ const Register = () => {
                         onChange={(e) => setPassword(e.target.value)}
                       />
                       <label className="focus-label">Nhập mật khẩu</label>
+                      <p className="text-danger">{passwordError}</p>
                     </div>
                     <div className="text-end">
                       <p></p>
