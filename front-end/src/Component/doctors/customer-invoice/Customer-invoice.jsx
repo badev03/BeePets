@@ -35,6 +35,7 @@ const CustomerInvoice = () => {
                                 <div className="card-body pt-0">
                                     <nav className="user-tabs mb-4">
                                         <ul className="nav nav-tabs nav-tabs-bottom nav-justified">
+                                            
                                             <li className="nav-item">
                                                 <a className={`nav-link ${activeTab === 'bill' ? 'active' : ''}`}
                                                     onClick={() => handleTabChange('bill')} data-bs-toggle="tab">Lịch sử hóa đơn</a>
@@ -48,8 +49,9 @@ const CustomerInvoice = () => {
                                         </ul>
                                     </nav>
                                     <div className="tab-content pt-0">
-                                        {activeTab === 'bill' && <BillUser />}
-                                        {activeTab === 'cancellationInvoice' && <CancellationInvoice />}
+                                        <BillUser/>
+                                        {/* {activeTab === 'bill' && <BillUser />}
+                                        {activeTab === 'cancellationInvoice' && <CancellationInvoice />} */}
 
                                     </div>
                                 </div>

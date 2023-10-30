@@ -44,6 +44,7 @@ import AcceptDetailAppointment from './Component/doctors/AcceptDetailAppointment
 import DetailBIll from './Component/doctors/DetailBIll'
 import DetailPrescription from './Component/doctors/DetailPrescription'
 import CustomerInvoice from './Component/doctors/customer-invoice/Customer-invoice'
+import BillUser from './Component/doctors/customer-invoice/Bill-user'
 
 
 function App() {
@@ -64,6 +65,8 @@ function App() {
           <Route path='blog/:slug' element={<BlogDetails />} />
           <Route path="blog/category/:id" element={<BlogList />} />
           <Route path='service-detail/:slug' element={<ServiceDetails />} />
+
+          <Route path='test' element={<BillUser />} />
 
           <Route element={<PrivateRouteUser/>}>
             <Route path='user/dashbroad' element={<Dashboard />} />
