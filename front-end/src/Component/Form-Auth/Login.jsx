@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import SweetAlert from "react-bootstrap-sweetalert";
 import { useAuth } from "../../Context/ContextAuth";
 import loginUser from "../../api/loginUser";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+const MySwal = withReactContent(Swal);
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -11,9 +13,6 @@ const Login = () => {
   });
 
   const [errors, setErrors] = useState({});
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-  const [showErrorAlert, setShowErrorAlert] = useState(false);
-  const [isRedirecting, setIsRedirecting] = useState(false);
   const navigate = useNavigate();
   const { onLoginSuccess } = useAuth();
 
@@ -27,13 +26,11 @@ const Login = () => {
     let isValid = true;
     const newErrors = {};
 
-    // Kiểm tra số điện thoại
     if (!formData.phone.trim()) {
       newErrors.phone = "Vui lòng nhập số điện thoại.";
       isValid = false;
     }
 
-    // Kiểm tra mật khẩu
     if (!formData.password.trim()) {
       newErrors.password = "Vui lòng nhập mật khẩu.";
       isValid = false;
@@ -51,24 +48,19 @@ const Login = () => {
         const response = await loginUser.add(formData);
 
         if (response.token) {
-          setShowSuccessAlert(true);
-          setIsRedirecting(true);
-
           onLoginSuccess(response.token, response.user);
-        } else {
-          setShowErrorAlert(true);
-        }
+          MySwal.fire({
+            title: "Đăng nhập thành công!",
+            icon: "success",
+          });
+          navigate("/user/dashbroad");
+        } 
       } catch (error) {
-        console.error("Đăng nhập thất bại:", error.message);
-        setShowErrorAlert(true);
+        MySwal.fire({
+          title: "Bạn đã sai tài khoản hoặc mật khẩu!",
+          icon: "error",
+        });
       }
-    }
-  };
-
-  const handleConfirmSuccess = () => {
-    setShowSuccessAlert(false);
-    if (isRedirecting) {
-      navigate("/user/dashbroad");
     }
   };
 
@@ -139,23 +131,6 @@ const Login = () => {
                       </Link>
                     </div>
                   </form>
-                  <SweetAlert
-                    success
-                    title="Đăng nhập thành công!"
-                    show={showSuccessAlert}
-                    onConfirm={handleConfirmSuccess}
-                  >
-                    Chào mừng bạn!
-                  </SweetAlert>
-
-                  <SweetAlert
-                    error
-                    title="Đăng nhập thất bại!"
-                    show={showErrorAlert}
-                    onConfirm={() => setShowErrorAlert(false)}
-                  >
-                    Vui lòng kiểm tra lại thông tin đăng nhập.
-                  </SweetAlert>
                 </div>
               </div>
             </div>

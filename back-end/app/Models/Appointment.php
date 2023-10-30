@@ -15,6 +15,8 @@ class Appointment extends Model
         'date',
         'time',
         'shift_name',
+        'reason_change',
+        'reason_cancel',
         'type_pet_id',
         'service_id',
         'doctor_id',
@@ -40,5 +42,8 @@ class Appointment extends Model
     public function bill()
     {
         return $this->hasMany(Bill::class, 'appointment_id', 'id');
+    }
+    public function work_schedule(){
+        return $this->belongsTo(Work_schedule::class,'shift_name','shift_name');
     }
 }

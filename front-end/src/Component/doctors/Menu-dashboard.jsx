@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import doctorsApi from '../../api/doctorsApi';
 import { useAuth } from '../../Context/ContextAuth';
 import logoutDoctor from '../../api/logoutDoctor';
+import TopLink from '../../Link/TopLink'
 const Menudashboard = () => {
 
   const [doctor, setDoctors] = useState([]);
@@ -125,14 +126,14 @@ const Menudashboard = () => {
                 <span>Cuộc hẹn</span>
               </Link>
             </li>
-            {/* <li className={`has-submenu megamenu ${activeItems.includes("Khách hàng của tôi") ? "active" : ""
+            <li className={`has-submenu megamenu ${location.pathname === "/doctors/patients" ? "active" : ""
               }`}
               onClick={() => handleItemClick("Khách hàng của tôi")}>
               <Link to="/doctors/patients">
                 <i className="fas fa-user-injured" />
                 <span>Khách hàng của tôi</span>
               </Link>
-            </li> */}
+            </li>
 
 
             
@@ -181,10 +182,10 @@ const Menudashboard = () => {
                   }`}
                 onClick={() => handleLogout("Đăng xuất")}
               >
-                <a>
+                <TopLink>
                 <i className="fas fa-sign-out-alt" />
                   <span>Đăng Xuất</span>
-                </a>
+                </TopLink>
               </li>
           </ul>
         </nav>

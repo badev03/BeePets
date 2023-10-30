@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('purchase.create') }}" method="post">
+                    <form action="{{ route('checkout.cash') }}" method="post">
                         @csrf
                         <div class="row">
                             <div class="col">
@@ -47,7 +47,7 @@
                             <div class="col">
                                 <div class="mb-3">
                                     <label for="user_id" class="form-label">Số điện thoại</label>
-                                    <select name="user_id" id="user_id" class="form-control user_id" multiple="multiple">
+                                    <select name="customer_phone" id="user_id" class="form-control user_id" multiple="multiple" >
                                         <option value="">Chọn số điện thoại</option>
                                         @foreach($users as $customer)
                                             <option value="{{ $customer->phone }}">{{ $customer->phone }} / {{ $customer->name }}</option>
@@ -60,7 +60,7 @@
                                     <label for="name" class="form-label">
                                         Tên khách hàng <span class="text-danger ">*</span>
                                     </label>
-                                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
+                                    <input type="text" class="form-control" id="name" name="customer_name" value="{{ old('customer_name') }}">
                                 </div>
                             </div>
                         </div>
@@ -81,29 +81,41 @@
                             <thead>
                             <tr>
                                 <th>Tên sản phẩm</th>
-                                <th>Số lượng</th>
                                 <th>Giá bán</th>
+                                <th>Số lượng</th>
                                 <th>Thành tiền</th>
                                 <th>Hành động</th>
                             </tr>
                             </thead>
                             <tbody class="list-product">
                             </tbody>
-
+                            <tfoot>
+                            <tr>
+                                <th colspan="3" class="text-start">Tổng tiền</th>
+                                <th colspan="2" class="text-start" >
+                                    <b class="total" id="total"></b>
+                                    <input type="hidden" id="total_amount" name="total_amount">
+                                </th>
+                            </tr>
                         </table>
-                        <div class="row ">
+                        <div class="row d-none" id="payment_method_handle">
                             <label for="payment_method" class="form-label">Phương thức thanh toán</label>
                             <div class="mb-3">
                                 <label for="cash" class="form-label">
-                                    <input type="radio" name="payment_method" id="cash" value="0" checked>
+                                    <input type="radio" name="payment_method" id="cash" value="1" checked>
                                     Tiền mặt
                                 </label>
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3 ">
                                 <label for="vnpay" class="form-label">
-                                    <input type="radio" name="payment_method" id="vnpay" value="1">
+                                    <input type="radio" name="payment_method" id="vnpay" value="2">
                                     Thanh toán qua VNPAY
                                 </label>
+                            </div>
+                        </div>
+                        <div class="row d-none" id="btn-save">
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary float-start">Lưu</button>
                             </div>
                         </div>
                     </form>
@@ -159,29 +171,25 @@
                         continue;
                     } else {
                         $('#table-order').removeClass('d-none');
+                        $('#payment_method_handle').removeClass('d-none');
+                        $('#btn-save').removeClass('d-none');
                         $.ajax({
                             url : '/admin/get-product/' + product_id[i],
                             type : 'GET',
                             dataType : 'json',
-                            success : function (data) {
-                                var data = data.data;
-
+                            success : function (result){
                                 var html = '';
-                                html += '<tr id="product-' + data.id + '">';
-                                html += '<td>' + data.name + '</td>';
-                                html += '<td>' + data.price + '</td>';
-                                html += '<td style="width: 150px">' +
-                                    '<div class="input-group d-flex">' +
-                                    '<button type="button" class="input-group-text minus">-</button>' +
-                                    '<input  style="width: 5px;text-align: center" type="number" class="form-control quantity" name="quantity" value="1">' +
-                                    '<button type="button" class="input-group-text plus">+</button>' +
-                                    '</div>'
-                                    +
-                                    '</td>';
-                                html += '<td class="total">' + data.price + '</td>';
-                                html += '<td><button type="button" class="btn btn-danger btn-sm remove-product" data-id="' + data.id + '">Xóa</button></td>';
+                                html += '<tr id="product-' + result.data.id + '">';
+                                html += '<td>' + result.data.name + '</td>';
+                                html += '<td>' + result.data.price + '</td>';
+                                html += '<td><input type="number" class="form-control quantity" name="quantity[]" value="1"></td>';
+
+                                html += '<td>' + result.data.price + '</td>';
+                                html += '<td><button type="button" class="btn btn-danger btn-sm remove-product" data-id="' + result.data.id + '"><i class="fas fa-trash-alt"></i></button></td>';
                                 html += '</tr>';
-                                $('tbody').append(html);
+                                $('.list-product').append(html);
+                                $('#products option[value="' + result.data.id + '"]').prop('selected', true);
+                                $('#products').trigger('change.select2');
                             }
                         });
                     }
@@ -204,6 +212,7 @@
                 $('#product-' + product_id).remove();
                 $('#products option[value="' + product_id + '"]').prop('selected', false);
                 $('#products').trigger('change.select2');
+                updateTotal();
             });
             $(document).on('click', '.plus', function() {
                 var quantity = $(this).closest('tr').find('td:nth-child(3) input').val();
@@ -223,8 +232,19 @@
                     $(this).closest('tr').find('td:nth-child(4)').text(total);
                 }
             });
-
-
+            function updateTotal() {
+                var total = 0;
+                $('.quantity').each(function() {
+                    var quantity = $(this).val();
+                    var price = $(this).closest('tr').find('td:nth-child(2)').text();
+                    total += quantity * price;
+                });
+                $('#total').text(total);
+                $('#total_amount').val(total);
+            }
+            $(document).on('DOMNodeInserted', 'tbody tr', function() {
+                updateTotal();
+            });
         });
     </script>
 @endpush

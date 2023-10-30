@@ -9,7 +9,6 @@ import BookingSuccess from './Component/Booking/BookingSuccess'
 import BlogList from './Component/Blog/BlogList'
 import BlogDetails from './Component/Blog/BlogDetails'
 import Dashboard from './Component/User/Dashboard'
-import ChangePassword from './Component/User/ChangePassword'
 import ProfileSetting from './Component/User/ProfileSetting'
 import Information from './Component/User/Information'
 import ServiceDetails from './Component/Servicer/ServiceDetails'
@@ -44,6 +43,7 @@ import AcceptDetailAppointment from './Component/doctors/AcceptDetailAppointment
 import DetailBIll from './Component/doctors/DetailBIll'
 import DetailPrescription from './Component/doctors/DetailPrescription'
 import CustomerInvoice from './Component/doctors/customer-invoice/Customer-invoice'
+import ChangePasswordUser from './Component/User/ChangePassword'
 
 
 function App() {
@@ -67,7 +67,7 @@ function App() {
 
           <Route element={<PrivateRouteUser/>}>
             <Route path='user/dashbroad' element={<Dashboard />} />
-            <Route path='user/changepassword' element={<ChangePassword />} />
+            <Route path='user/changepassword' element={<ChangePasswordUser />} />
             <Route path='user/profilesetting' element={<ProfileSetting />} />
             <Route path='user/appointment/:id' element={<AppointmentDetail />} />
             <Route path='user/prescription/:id' element={<PrescriptionDetails />} />

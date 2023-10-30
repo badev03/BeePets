@@ -29,12 +29,16 @@ const Dashboarddoctors = () => {
   const [loadingId, setLoadingId] = useState(null);
   const [loadingIdd, setLoadingIdd] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [error, setError] = useState(false);
   const filteredOptions = OPTIONS.filter((o) => !selectedItems.includes(o));
   const token = localStorage.getItem("token");
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [cancelId, setCancelId] = useState(null);
-
+  // const [cancelId, setCancelId] = useState(null);
+  const [reason, setReason] = useState("");
+  const [selectedAppointmentId, setSelectedAppointmentId] = useState(null);
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
   const fetchAppointment = async () => {
     try {
       const response = await appointmentsApi.getStatus({
@@ -67,109 +71,7 @@ const Dashboarddoctors = () => {
       appointment.service.name.toLowerCase().includes(searchService.toLowerCase())
     );
   });
-  const displayAppointments = filteredAppointments
-    .slice(pagesVisited, pagesVisited + appointmentsPerPage)
-    .map((appointment) => (
-      <tr key={appointment.id}>
-        <td>
-          <h2 className="table-avatar">
-            <Link to="patient-profile.html" className="avatar avatar-sm me-2">
-              <img
-                className="avatar-img rounded-circle"
-                src="img/patients/patient.jpg"
-                alt="User Image"
-              />
-            </Link>
-            <Link to="patient-profile.html">{appointment.user.name} </Link>
-          </h2>
-        </td>
-        <td>
-          {appointment.date}
-          <span className="d-block text-info">{appointment.shift_name}</span>
-        </td>
-        <td>{appointment.service.name}</td>
-        <td>{appointment.type_pet.name}</td>
-        <td>
-          <div className="table-action">
-            <Link
-              to={`/doctors/detail-appointments/${appointment.id}`}
-              className="btn btn-sm bg-info-light"
-            >
-              <i className="far fa-eye" /> View
-            </Link>
-            <div
-                onClick={() => handleUpdate(appointment.id)}
-                className="btn btn-sm bg-success-light position-relative"
-              >
-                {loadingId === appointment.id ? (
-                  <div className="loading-spinner">
-                  <FaSpinner className="spinner" /> Accept
-                </div>
-                ) : (
-                  <>
-                    <i className="fas fa-check me-2" /> Accept
-                  </>
-                )}
-              </div>
-            <div
-              onClick={() =>  handleCancelModal(appointment.id)}
-              className="btn btn-sm bg-danger-light position-relative"
-            >
-               {loadingIdd === appointment.id ? (
-                  <div className="loading-spinner">
-                  <FaSpinner className="spinner" /> Cancel
-                </div>
-                ) : (
-                  <>
-                  <i className="fas fa-times" /> Cancel
 
-                  </>
-                )}
-        <Modal
-  title="Lý do hủy cuộc hẹn"
-  footer={null}
-  onCancel={() => setIsModalVisible(false)}
-  visible={isModalVisible}
-  maskClosable={true} // Cho phép đóng modal khi bấm ra ngoài
-        closable={true}
-        destroyOnClose={true}
->
-  <Form
-    // name="cancelForm"
-     // Đảm bảo rằng name là duy nhất cho mỗi component Form
-    onFinish={(values) => {
-      console.log('Received values of form: ', values);
-      handleCancel(cancelId);
-    }}
-  >
-    <Form.Item
-      name="content"
-      rules={[
-        {
-          required: true,
-          message: 'Vui lòng nhập lí do hủy cuộc hẹn!',
-        },
-      ]}
-    >
-      <Input.TextArea
-        placeholder="Nhập lí do hủy cuộc hẹn tại đây"
-        autoSize={{ minRows: 3, maxRows: 5 }}
-      />
-    </Form.Item>
-
-    <Form.Item>
-      <Button type="primary" htmlType="submit">
-        Xác nhận hủy
-      </Button>
-    </Form.Item>
-  </Form>
-</Modal>
-
-            </div>
-          </div>
-        </td>
-      </tr>
-    ));
 
   const pageCount = Math.ceil(appointments.length / appointmentsPerPage);
 
@@ -202,17 +104,21 @@ const Dashboarddoctors = () => {
       setLoadingId(null);
     }
   };
-  const handleCancelModal = (id) => {
-    setCancelId(id);
+  const showModal = (id) => {
+    console.log(id);
+    setSelectedAppointmentId(id);
     setIsModalVisible(true);
   };
-  const handleCancel = async (id) => {
-    setIsModalVisible(false);
-    try {
-      setLoadingIdd(id);
 
+  const handleCancelStatus = async (id, reason) => {
+  console.log(reason);
+  console.log(id)
+    try {
+   
+      setLoadingIdd(id);
+  
       const respon = await axios.put(
-        `http://127.0.0.1:8000/api/update-appointment/${id}?status=2`,
+        `http://127.0.0.1:8000/api/update-appointment/${id}?status=4&reason_cancel=${reason}`,
         {},
         {
           headers: {
@@ -220,7 +126,8 @@ const Dashboarddoctors = () => {
           },
         },
       );
-      
+      setIsModalVisible(false);
+  
       MySwal.fire({
         title: "Cập nhật trạng thái  thành công!",
         icon: "success",
@@ -228,11 +135,112 @@ const Dashboarddoctors = () => {
       fetchAppointment();
     } catch (error) {
       console.log(error);
-    }finally {
+    } finally {
       setLoadingIdd(null);
     }
   };
- 
+  const displayAppointments = filteredAppointments
+  .slice(pagesVisited, pagesVisited + appointmentsPerPage)
+  .map((appointment) => (
+    <tr key={appointment.id}>
+      <td>
+        <h2 className="table-avatar">
+          <Link to="patient-profile.html" className="avatar avatar-sm me-2">
+            <img
+              className="avatar-img rounded-circle"
+              src="img/patients/patient.jpg"
+              alt="User Image"
+            />
+          </Link>
+          <Link to="patient-profile.html">{appointment.user.name} </Link>
+        </h2>
+      </td>
+      <td>
+        {appointment.date}
+        <span className="d-block text-info">{appointment.shift_name}</span>
+      </td>
+      <td>{appointment.service.name}</td>
+      <td>{appointment.type_pet.name}</td>
+      <td>
+        <div className="table-action">
+          <Link
+            to={`/doctors/detail-appointments/${appointment.id}`}
+            className="btn btn-sm bg-info-light"
+          >
+            <i className="far fa-eye" /> View
+          </Link>
+          <div
+              onClick={() => handleUpdate(appointment.id) }
+              className="btn btn-sm bg-success-light position-relative"
+            >
+              {loadingId === appointment.id ? (
+                <div className="loading-spinner">
+                <FaSpinner className="spinner" /> Chấp nhận
+              </div>
+              ) : (
+                <>
+                  <i className="fas fa-check me-2" /> Chập nhận
+                </>
+              )}
+            </div>
+          <div
+            onClick={() => showModal(appointment.id) }
+            className="btn btn-sm bg-danger-light position-relative"
+          >
+             {loadingIdd === appointment.id ? (
+                <div className="loading-spinner">
+                <FaSpinner className="spinner" /> Y/C Hủy
+              </div>
+              ) : (
+                <>
+                <i className="fas fa-times" /> Y/C Hủy
+
+                </>
+              )}
+
+
+          </div>
+          <Modal title="Yêu cầu Hủy Lịch" visible={isModalVisible}   onCancel={() => setIsModalVisible(false)}>
+        <Form
+         onFinish={(values) => {
+          handleCancelStatus(selectedAppointmentId, values.content)
+          console.log('Received values of form: ', reason,selectedAppointmentId);
+
+        }}>
+          {/* Thêm các trường form tại đây */}
+          <Form.Item
+            name="content"
+            rules={[
+              {
+                required: true,
+                message: 'Vui lòng nhập lí do hủy cuộc hẹn!',
+              },
+              {
+                min: 6,
+                message: 'Lí do hủy phải có ít nhất 6 ký tự!',
+              },
+            ]}
+          >
+            <Input.TextArea
+              placeholder="Nhập lí do hủy cuộc hẹn tại đây"
+              autoSize={{ minRows: 3, maxRows: 5 }}
+              onChange={(e) => setReason(e.target.value)}
+            />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Gửi Yêu cầu
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
+        </div>
+        
+      </td>
+    
+    </tr>
+    
+  ));
   return (
     <div>
       <div className="breadcrumb-bar-two">
@@ -261,70 +269,7 @@ const Dashboarddoctors = () => {
               <Menudashboard />
             </div>
             <div className="col-md-7 col-lg-8 col-xl-9">
-              {/* <div className="row">
-                <div className="col-md-12">
-                  <div className="card dash-card">
-                    <div className="card-body">
-                      <div className="row">
-                        <div className="col-md-12 col-lg-4">
-                          <div className="dash-widget dct-border-rht">
-                            <div className="circle-bar circle-bar1">
-                              <div className="circle-graph1" data-percent={75}>
-                                <img
-                                  src="/img/icon-01.png"
-                                  className="img-fluid"
-                                  alt="patient"
-                                />
-                              </div>
-                            </div>
-                            <div className="dash-widget-info">
-                              <h6>Tổng số bệnh nhân</h6>
-                              <h3>1500</h3>
-                              <p className="text-muted">cho đến nay</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-md-12 col-lg-4">
-                          <div className="dash-widget dct-border-rht">
-                            <div className="circle-bar circle-bar2">
-                              <div className="circle-graph2" data-percent={65}>
-                                <img
-                                  src="/img/icon-02.png"
-                                  className="img-fluid"
-                                  alt="Patient"
-                                />
-                              </div>
-                            </div>
-                            <div className="dash-widget-info">
-                              <h6>Bệnh nhân hôm nay</h6>
-                              <h3>160</h3>
-                              <p className="text-muted">21/06/2003</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-md-12 col-lg-4">
-                          <div className="dash-widget">
-                            <div className="circle-bar circle-bar3">
-                              <div className="circle-graph3" data-percent={50}>
-                                <img
-                                  src="/img/icon-03.png"
-                                  className="img-fluid"
-                                  alt="Patient"
-                                />
-                              </div>
-                            </div>
-                            <div className="dash-widget-info">
-                              <h6>Lịch đặt</h6>
-                              <h3>85</h3>
-                              <p className="text-muted">21/06/2003</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
+          
               <div className="row">
                 <div className="col-md-12">
                   <h4 className="mb-4">Lịch hẹn của bệnh nhân</h4>
@@ -354,21 +299,6 @@ const Dashboarddoctors = () => {
                     </div>
 
                     <div className="input-group">
-                    {/* <Select
-  mode="multiple"
-  placeholder="Lọc theo lịch"
-  value={selectedItems}
-  onChange={setSelectedItems}
-  className="custom-select" // Add custom class
-  dropdownClassName="custom-dropdown" // Add custom dropdown class
-  style={{ width: '100%' }}
->
-  {filteredOptions.map((item) => (
-    <Option key={item} value={item}>
-      {item}
-    </Option>
-  ))}
-</Select> */}
                       <input
                         type="text"
                         id="searchShift"
