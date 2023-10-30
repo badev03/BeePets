@@ -107,11 +107,10 @@ class DoctorUserController extends BaseResponseApiController
         }
         foreach ($doctors as $doctor) {
             $doctor_id = $doctor->id;
-            $doctor->average_score = isset($reviewAveragesArray[$doctor_id]) ? $reviewAveragesArray[$doctor_id] : null;
-            $doctor->review_count = isset($reviewCount[$doctor_id]) ? $reviewCount[$doctor_id] : null;
+            $doctor->average_score = isset($reviewAveragesArray[$doctor_id]) ? $reviewAveragesArray[$doctor_id] : 0;
+            $doctor->review_count = isset($reviewCount[$doctor_id]) ? $reviewCount[$doctor_id] : 0;
             $doctor->images = $imagesDoctor->where('doctor_id' ,$doctor->id )->pluck('image_path')->toArray();
         }
-        dd($doctors);
         return $doctors;
     }
 }

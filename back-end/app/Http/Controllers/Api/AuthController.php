@@ -185,7 +185,7 @@ class AuthController extends BaseResponseApiController
         $phone_number = $request->input('phone');
         $existingUser = $this->checkPhone($phone_number);
         if($existingUser) {
-            return response()->json(['msg' => 'oki đến verify cho phép ắt đầu verify'], 200);
+            return response()->json(['msg' => 'Đến Đặt lại mật khẩu'], 200);
         }
         else {
             return response()->json(['msg' => 'Xin lỗi bạn số điên thoại không hợp lệ'], 400);
@@ -354,5 +354,33 @@ class AuthController extends BaseResponseApiController
                 break;
         }
         return $validator;
+    }
+
+
+    public function ForGetPasswordUser(Request $request , $phone) {
+        $validator = $this->validateForm($request->all() , 'createPass');
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+        $existingUser = $this->checkPhone($phone);
+        $password = $request->input('password');
+        $password_again = $request->input('password_confirmation');
+        if ($existingUser) {
+            if ($password === $password_again) {
+                // Đặt mật khẩu mới và cập nhật ngày cập nhật
+                $update_user = $this->tableQuery('users')
+                    ->where('phone', '=', $phone)
+                    ->update([
+                        'password' => Hash::make($password),
+                        'updated_at' => now(),
+                    ]);
+
+                return response()->json(['msg' => 'Đặt mật khẩu mới thành công'], 200);
+            } else {
+                return response()->json(['msg' => 'Xác nhận mật khẩu không khớp'], 400);
+            }
+        } else {
+            return response()->json(['msg' => 'Số điện thoại không chính xác'], 400);
+        }
     }
 }

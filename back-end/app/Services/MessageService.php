@@ -31,7 +31,8 @@ class MessageService implements MessageUser {
             'user_id' => $userId,
             'message' => $message,
             'doctor_id' => $doctor_id,
-            'message_doctor' => $message_doctor
+            'message_doctor' => $message_doctor,
+            'read_user' => 0
         ]);
         return response()->json(['message' => 'Thông báo đã được gửi']);
     }
@@ -80,7 +81,7 @@ class MessageService implements MessageUser {
             'cluster' => config('broadcasting.connections.pusher.options.cluster'),
             'useTLS' => config('broadcasting.connections.pusher.options.useTLS'),
         ]);
-      
+
         $dataMessageDoctor = $this->tableQuery('doctors')->where('id', $doctor_id)->first();
         $message_doctors = [
             'name' => $dataMessageDoctor->name,
@@ -88,9 +89,9 @@ class MessageService implements MessageUser {
             'id' => $dataMessageDoctor->id,
             'message' => $message_doctor
         ];
-        
+
         $users = $this->tableQuery('users')->where('role_id', $roleId)->get();
-        
+
         foreach ($users as $user) {
             $messagess = [
                 'name' => $user->name,
@@ -106,13 +107,13 @@ class MessageService implements MessageUser {
                 'message_doctor' => $message_doctor
             ]);
         }
-        
+
         $pusher->trigger("doctor-notification-" . $doctor_id, 'notification-event-doctor', $message_doctors);
-        
+
         return response()->json(['message' => 'Thông báo đã được gửi đến tất cả người dùng có role_id là ' . $roleId]);
     }
-    
-    
+
+
         public function pusherWeb()
     {
         $pusher = new Pusher(config('broadcasting.connections.pusher.key'), config('broadcasting.connections.pusher.secret'), config('broadcasting.connections.pusher.app_id'), [
