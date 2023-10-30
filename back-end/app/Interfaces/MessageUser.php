@@ -9,7 +9,7 @@ interface MessageUser
     public function sendManyDoctor($doctor_id , $message_doctor);
 
     // gửi thông báo từ doctor đến admin có role_id = 1
-    public function sendDoctorToAdmin($doctor_id,$message_doctor,$roleId,$message);
+    public function sendDoctorToAdmin($doctor_id,$message_doctor,$roleId,$message_admin);
     
  
 }

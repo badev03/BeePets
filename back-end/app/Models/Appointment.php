@@ -41,4 +41,7 @@ class Appointment extends Model
     {
         return $this->hasMany(Bill::class, 'appointment_id', 'id');
     }
+    public function work_schedule(){
+        return $this->belongsTo(Work_schedule::class,'shift_name','shift_name');
+    }
 }
