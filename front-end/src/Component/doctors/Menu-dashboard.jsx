@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import doctorsApi from '../../api/doctorsApi';
 import { useAuth } from '../../Context/ContextAuth';
 import logoutDoctor from '../../api/logoutDoctor';
+import TopLink from '../../Link/TopLink'
 const Menudashboard = () => {
 
   const [doctor, setDoctors] = useState([]);
@@ -181,10 +182,10 @@ const Menudashboard = () => {
                   }`}
                 onClick={() => handleLogout("Đăng xuất")}
               >
-                <a>
+                <TopLink>
                 <i className="fas fa-sign-out-alt" />
                   <span>Đăng Xuất</span>
-                </a>
+                </TopLink>
               </li>
           </ul>
         </nav>

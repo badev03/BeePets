@@ -1,6 +1,6 @@
 import Menudashboard from "./Menu-dashboard";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ChangePassword from "../../api/changePassword";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -16,14 +16,28 @@ const Changepassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordNew, setShowPasswordNew] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
-
-  
+  const [oldPasswordError, setOldPasswordError] = useState("");
+  const [newPasswordError, setNewPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (newPassword !== confirmPassword) {
-      console.error("Mật khẩu mới không khớp");
+    setOldPasswordError("");
+    setNewPasswordError("");
+    setConfirmPasswordError("");
+
+    if (oldPassword === "") {
+      setOldPasswordError("Vui lòng nhập mật khẩu cũ.");
+    }
+    if (newPassword === "") {
+      setNewPasswordError("Vui lòng nhập mật khẩu mới.");
+    }
+    if (confirmPassword === "") {
+      setConfirmPasswordError("Vui lòng nhập lại mật khẩu mới.");
+    }
+
+    if (oldPasswordError || newPasswordError || confirmPasswordError) {
       return;
     }
 
@@ -45,23 +59,8 @@ const Changepassword = () => {
         title: "Đổi mật khẩu thành công!",
         icon: "success",
       });
-
     } catch (error) {
       console.error("Đổi mật khẩu thất bại:", error);
-
-      if (error.response && error.response.status === 401) {
-        MySwal.fire({
-          title: "Chưa đăng nhập",
-          text: "Vui lòng đăng nhập trước khi đổi mật khẩu.",
-          icon: "error",
-        });
-      } else {
-        MySwal.fire({
-          title: "Đổi mật khẩu không thành công",
-          text: "Vui lòng thử lại sau.",
-          icon: "error",
-        });
-      }
     }
   };
 
@@ -120,6 +119,7 @@ const Changepassword = () => {
                               </span>
                             </div>
                           </div>
+                          <div className="text-danger">{oldPasswordError}</div>
                         </div>
                         <div className="mb-3">
                           <label className="mb-2">Mật khẩu mới</label>
@@ -136,13 +136,16 @@ const Changepassword = () => {
                               style={{ display: "flex" }}
                             >
                               <span
-                                onClick={() => setShowPasswordNew(!showPasswordNew)}
+                                onClick={() =>
+                                  setShowPasswordNew(!showPasswordNew)
+                                }
                                 className="input-group-text cursor-pointer"
                               >
                                 {showPasswordNew ? <FaEye /> : <FaEyeSlash />}
                               </span>
                             </div>
                           </div>
+                          <div className="text-danger">{newPasswordError}</div>
                         </div>
                         <div className="mb-3">
                           <label className="mb-2">Nhập lại mật khẩu mới</label>
@@ -154,7 +157,6 @@ const Changepassword = () => {
                               onChange={(e) =>
                                 setConfirmPassword(e.target.value)
                               }
-                              
                               name="confirmPassword"
                             />
                             <div
@@ -162,13 +164,20 @@ const Changepassword = () => {
                               style={{ display: "flex" }}
                             >
                               <span
-                                onClick={() => setShowPasswordConfirm(!showPasswordConfirm)}
+                                onClick={() =>
+                                  setShowPasswordConfirm(!showPasswordConfirm)
+                                }
                                 className="input-group-text cursor-pointer"
                               >
-                                {showPasswordConfirm ? <FaEye /> : <FaEyeSlash />}
+                                {showPasswordConfirm ? (
+                                  <FaEye />
+                                ) : (
+                                  <FaEyeSlash />
+                                )}
                               </span>
                             </div>
                           </div>
+                          <div className="text-danger">{confirmPasswordError}</div>
                         </div>
                         <div className="submit-section">
                           <button
