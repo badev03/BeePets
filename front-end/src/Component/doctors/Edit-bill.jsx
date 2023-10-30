@@ -46,9 +46,10 @@ const Editbill = () => {
           },
         });
         setBills(response.bill);
-        setService(response.services);
-        setUserId(response.bill.user_id);
-        setDoctorId(response.bill.doctor_id);
+        // setService(response.services);
+        // setUserId(response.bill.user_id);
+        // setDoctorId(response.bill.doctor_id);
+        console.log(response);
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
@@ -89,7 +90,7 @@ const Editbill = () => {
     const productsData = prescriptions.map((prescription) => {
       const productName = products[prescription.id - 1]?.name || "";
       const quantity = quantities[prescription.id] || 1;
-const selectedProduct = products.find(
+      const selectedProduct = products.find(
         (product) => product.name === productName
       );
       const product_id = selectedProduct ? selectedProduct.id : null;
@@ -259,7 +260,7 @@ const selectedProduct = products.find(
                     <div className="col-sm-6">
                       <div className="biller-info">
                         <h4 className="d-block">
-                          {/* Tên khách hàng: {bills.customer_name} */}
+                          Tên khách hàng: {bills?.customer_name}
                         </h4>
                         <label htmlFor="">Tên đơn thuốc:</label>
                         <input
@@ -275,12 +276,12 @@ const selectedProduct = products.find(
                       </div>
                     </div>
                     <div className="col-sm-6 text-sm-end">
-                      {/* <div className="billing-info">
-                        <h4 className="d-block">Ngày: {bills.date}</h4>
+                      <div className="billing-info">
+                        <h4 className="d-block">Ngày: {bills?.date}</h4>
                         <span className="d-block text-muted">
-                          Mã hóa đơn: {bills.code}
+                          Mã hóa đơn: {bills?.code}
                         </span>
-                      </div> */}
+                      </div>
                     </div>
                   </div>
                   <div className="add-more-item text-end">
@@ -321,7 +322,7 @@ const selectedProduct = products.find(
                                     onSearch={onSearch}
                                     filterOption={filterOption}
                                     options={products.map((product) => ({
-value: product.name,
+                                      value: product.name,
                                       label: product.name,
                                     }))}
                                   />
@@ -381,7 +382,7 @@ value: product.name,
                                 </td>
                                 <td>
                                   <button
-onClick={() =>
+                                    onClick={() =>
                                       deletePrescriptionRow(prescription.id)
                                     }
                                     className="btn bg-danger-light trash"

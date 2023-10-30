@@ -37,4 +37,8 @@ class Appointment extends Model
     {
         return $this->belongsTo(Type_pet::class);
     }
+    public function bill()
+    {
+        return $this->hasMany(Bill::class, 'appointment_id', 'id');
+    }
 }
