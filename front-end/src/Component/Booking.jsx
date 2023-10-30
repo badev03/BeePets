@@ -88,6 +88,7 @@ const Booking = () => {
 
   useEffect(() => {
     if (selectedDoctor && selectedDate) {
+      console.log(selectedDate)
       fetchWorkingHours(selectedDoctor, selectedDate);
     }
   }, [selectedDoctor, selectedDate]);
@@ -109,14 +110,14 @@ const Booking = () => {
 
   const handleChangeDate = async (date, dateString) => {
     setSelectedDate(dateString);
-
     if (selectedService) {
       try {
         const response = await BookingApi.getWorkingHours(
           selectedDoctor,
           dateString
         );
-        setSelectedWorkingHours(response.data);
+        setSelectedWorkingHours(response);
+        console.log(response)
       } catch (error) {
         console.error("Không có dữ liệu ca làm việc:", error);
       }

@@ -25,7 +25,7 @@ const BookingApi = {
       });
       return response.data;
     } catch (error) {
-      console.error("Không có dữ liệu ca làm việc:", error);
+      console.log("Không có dữ liệu ca làm việc:", error);
       throw error;
     }
   },

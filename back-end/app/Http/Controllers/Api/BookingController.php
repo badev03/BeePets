@@ -106,7 +106,7 @@ class BookingController extends Controller
                     });
             })
             ->get();
-
+//        return response()->json(['message' => $work_schedule], 400);
         if ($work_schedule->isEmpty()) {
             return response()->json(['message' => 'Không có lịch làm việc của bác sĩ này'], 400);
         } else {
@@ -153,11 +153,11 @@ class BookingController extends Controller
             $name = $request->input('name');
             $phone = $request->input('phone');
             $model = new Appointment();
-            
+
             if (User::where('phone', $phone)->exists()) {
                 $user = User::where('phone', $phone)->first();
                 $user_id = $user->id;
-            
+
                 if ($user->name != $name) {
                     $model->fill(array_merge($request->all(), [
                         'user_id' => $user_id,
@@ -180,14 +180,14 @@ class BookingController extends Controller
                 $user->role_id = 4;
                 $user->save();
                 $user_id = $user->id;
-            
+
                 $model->fill(array_merge($request->all(), [
                     'user_id' => $user_id,
                     'status' => 0,
                 ]));
                 $model->save();
             }
-            
+
 
 
 
@@ -300,7 +300,7 @@ class BookingController extends Controller
             $service_price = floatval($service_price->price);
             $appointment->status = $request->input('status');
 
-            
+
 
             if ($request->status == 1) {
                 $bill = $this->doctorController->createBill($appointment->id, $doctor->id, $appointment->user_id, $appointment->service_id, $service_price);
