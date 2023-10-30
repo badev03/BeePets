@@ -1,47 +1,62 @@
 @extends('layouts.partials.master')
 @section('title','')
 @push('style')
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
     <link rel="stylesheet" href="{{asset('backend/assets/plugins/datatables/datatables.min.css')}}">
 @endpush
 @section('heading','hihihi')
 @section('content')
     <div class="row">
         <div class="col-sm-12">
-            @if(session()->has('success_delete'))
+            @if(!isset($appointmentCancel))
                 <div class="alert-success alert">
-                    {{ session('success_delete') }}
+                    Không tồn tại dữ liệu
                 </div>
             @endif
-            <div class="card">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="d-flex flex-wrap justify-content-between align-items-center">
-                            <h4 class="card-title">Lịch hẹn đã hủy</h4>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <h6 class="card-title text-danger">Bộ lọc thống kê</h6>
-                        <div class="col-4 mt-3">
-                            <label class="form-label">Chọn mốc thời gian</label>
-                            <select class="form-select" name="since_time" id="since_time">
-                                <option value="all">Chọn khoảng thời gian</option>
-                                <option value="-7">7 ngày trước</option>
-                                <option value="-14">14 ngày trước</option>
-                                <option value="-21">21 ngày trước</option>
-                                <option value="7">7 ngày trước</option>
-                                <option value="14">14 ngày trước</option>
-                                <option value="21">21 ngày trước</option>
-                            </select>
-                        </div>
-
-                        <div class="col-4 mt-3">
-                            <label class="form-label">Chọn ngày</label>
-                            <input style="height: 38px" type="date" class="form-control" id="time_date_filter">
-                        </div>
-                    </div>
+            @if(isset($appointmentCancel))
+                <div class="card">
+                    <div class="card-body">
+                <div class="table-responsive">
+                    <table class="datatable table table-stripped">
+                        <thead>
+                            <td>#ID</td>
+                            <td>Tên bác sĩ</td>
+                            <td>Bệnh nhân</td>
+                            <td>Loại thú cưng</td>
+                            <td>Tên dịch vụ</td>
+                            <td>Mô tả</td>
+                            <td>Thời gian cuộc hẹn</td>
+                            <td>Hành động</td>
+                        </thead>
+                        <tbody id="tbody_table_haha">
+                            @foreach($appointmentCancel as $key=>$value)
+                                <tr>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td>{{ $value->doctor_id }}</td>
+                                    <td>{{ $value->user_id }}</td>
+                                    <td>{{ $value->type_pet_id }}</td>
+                                    <td>{{ $value->service_id }}</td>
+                                    <td>{!! $value->description !!}</td>
+                                    <td>
+                                        <span class="text-primary d-block">{{ $value->date }}
+                                                    - {{ $value->date }} AM</span>
+                                    </td>
+                                    <td>
+                                        <a class='btn btn-sm bg-danger-light' href="{{  route('appointments.cancel' , $value->id) }}">
+                                            Xem chi tiết
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
+                </div>
+            @endif
         </div>
     </div>
 @endsection
+@push('script')
+    <script src="{{asset('backend/assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('backend/assets/plugins/datatables/datatables.min.js')}}"></script>
+@endpush

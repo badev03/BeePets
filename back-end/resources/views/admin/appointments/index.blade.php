@@ -110,6 +110,7 @@
                                 @foreach ($colums as $colum=>$name)
                                     <td>{{$name}}</td>
                                 @endforeach
+                                <td>Ngày hẹn</td>
                                 <td>Thời gian cuộc hẹn</td>
                                 <td>Hành động</td>
                             </thead>
@@ -122,10 +123,10 @@
                                             <td>{{ $value->type_pet_id }}</td>
                                             <td>{{ $value->service_id }}</td>
                                             <td>{!! $value->description !!}</td>
+                                            <td>{!! $value->date !!}</td>
                                             <td>
-                                                {{ '5 Nov 2023' }}
-                                                <span class="text-primary d-block">{{ $value->date }}
-                                                    - {{ $value->date }} AM</span>
+                                                <span class="text-primary d-block">{{ $value->start_time }}
+                                                    - {{ $value->end_time }} AM</span>
                                             </td>
                                         @include('admin.components.button.action-index')
                                         </tr>

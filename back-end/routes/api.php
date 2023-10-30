@@ -69,6 +69,8 @@ Route::post('reset-password/{phone}', [AuthController::class, 'ResetPassword']);
 
 Route::post('login-user', [AuthController::class, 'LoginUserOtp']); //test thôi
 
+Route::post('give-password-new/{phone}', [AuthController::class, 'ForGetPasswordUser']);
+
 
 //lấy ra danh sách dịch vụ
 Route::get('/services-doctor', [BookingController::class, 'services']);
@@ -154,6 +156,7 @@ Route::post('update-bill/{id}', [DoctorController::class, 'updateBill']);
     Route::post('/send-notification',  [\App\Http\Controllers\Admin\HomeController::class, 'SendNotification']);
     Route::get('get-list-history',  [BillControllerHistory::class, 'index']);
     Route::get('get-list-history-bill',  [BillControllerHistory::class, 'billHistory']);
+    Route::get('update-read-notification',  [NotificationController::class, 'updateNotification']);
 });
 
 // xem lich hen cua user tu ben bac si
