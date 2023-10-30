@@ -21,6 +21,35 @@ const Header = () => {
   const [setting, setSetting] = useState([]);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [data, setData] = useState(null);
+  const [updateNoti, setUpdateNoti] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleNotificationClick = async () => {
+    try {
+      // console.log(123);
+      if (updateNoti === null) {
+        setIsLoading(true); // Bắt đầu tải
+        // console.log(setIsLoading);
+        const response = await notification.getUpdate(
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        
+        setUpdateNoti(response.notification);
+        // console.log(response);
+        // console.log(123);
+      }
+    } catch (error) {
+      console.error("Không có dữ liệu:", error);
+      console.log(123);
+      // Xử lý lỗi nếu cần
+    } finally {
+      setIsLoading(false); // Khi hoàn thành gọi API (thành công hoặc thất bại), đặt isLoading thành false
+    }
+  };
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -132,6 +161,8 @@ const Header = () => {
     }
   };
 
+
+
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
 
@@ -242,8 +273,9 @@ const Header = () => {
                     <li className="nav-item dropdown noti-nav me-3 pe-0">
                       <a
                           href="#"
-                          className="dropdown-toggle nav-link p-0"
+                    className="dropdown-toggle nav-link p-0" onClick={handleNotificationClick}
                           data-bs-toggle="dropdown"
+                  
                       >
                         <i className="fa-solid fa-bell" />{" "}
                         <span className="badge">{noti.length}</span>
