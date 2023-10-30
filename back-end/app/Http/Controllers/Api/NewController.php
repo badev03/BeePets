@@ -18,7 +18,7 @@ class NewController extends BaseResponseApiController
     public function query() {
         $query = $this->tableQuery('newcs')
             ->select('newcs.id', 'newcs.name', 'newcs.slug', 'newcs.content' , 'newcs.image' , 'newcs.public_date'
-                , 'new_categories.name as nameCategories')
+                , 'new_categories.id as categories_id')
             ->join('new_categories' , 'new_categories.id' , '=' , 'newcs.new_categorie_id')
             ->where('new_categories.status', '=', 1)
             ->orderBy('newcs.created_at', 'desc');
@@ -80,7 +80,6 @@ class NewController extends BaseResponseApiController
                 ->get();
             $data[] = [
                 'id' => $category->id,
-                'name' => $category->name,
                 'new' => $newItems,
             ];
         }

@@ -128,7 +128,7 @@
                                                 <span class="text-primary d-block">{{ $value->start_time }}
                                                     - {{ $value->end_time }} AM</span>
                                             </td>
-                                        @include('admin.components.button.action-index')
+                                        @include('admin.components.button.action-index-status')
                                         </tr>
                                     @endforeach
                             </tbody>

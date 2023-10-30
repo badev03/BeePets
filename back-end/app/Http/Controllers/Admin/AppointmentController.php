@@ -452,7 +452,7 @@ class AppointmentController extends Controller
 
     public function AppointmentCancel($id) {
         $appointmentCancel = $this->queryCommon()
-            ->where('appointments.status' , 3)
+            ->where('appointments.status' , 6)
             ->where('appointments.id' , $id)
             ->join('notifications' , 'notifications.appointment_id' , '=' , 'appointments.id')
             ->addSelect('notifications.message_admin' , 'users.phone')
