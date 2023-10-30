@@ -5,6 +5,11 @@ const ChangePassword = {
     const url = `/change-password`;
     return instance.put(url,passwordData, config);
   },
+  changePasswordUser(passwordData, config = {}) {
+    const url = `/change-password-user`;
+    return instance.put(url,passwordData, config);
+  },
 };
+
 
 export default ChangePassword;
