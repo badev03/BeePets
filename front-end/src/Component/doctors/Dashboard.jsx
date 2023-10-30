@@ -33,9 +33,9 @@ const Dashboarddoctors = () => {
   const [error, setError] = useState(false);
   const filteredOptions = OPTIONS.filter((o) => !selectedItems.includes(o));
   const token = localStorage.getItem("token");
-  const [cancelId, setCancelId] = useState(null);
+  // const [cancelId, setCancelId] = useState(null);
   const [reason, setReason] = useState("");
-  
+  const [selectedAppointmentId, setSelectedAppointmentId] = useState(null);
   const handleCancel = () => {
     setIsModalVisible(false);
   };
@@ -104,15 +104,21 @@ const Dashboarddoctors = () => {
       setLoadingId(null);
     }
   };
+  const showModal = (id) => {
+    console.log(id);
+    setSelectedAppointmentId(id);
+    setIsModalVisible(true);
+  };
 
   const handleCancelStatus = async (id, reason) => {
-    setIsModalVisible(true);
-  
+  console.log(reason);
+  console.log(id)
     try {
+   
       setLoadingIdd(id);
   
       const respon = await axios.put(
-        `http://127.0.0.1:8000/api/update-appointment/${id}?status=4&reason=${reason}`,
+        `http://127.0.0.1:8000/api/update-appointment/${id}?status=4&reason_cancel=${reason}`,
         {},
         {
           headers: {
@@ -120,6 +126,7 @@ const Dashboarddoctors = () => {
           },
         },
       );
+      setIsModalVisible(false);
   
       MySwal.fire({
         title: "Cập nhật trạng thái  thành công!",
@@ -168,37 +175,37 @@ const Dashboarddoctors = () => {
             >
               {loadingId === appointment.id ? (
                 <div className="loading-spinner">
-                <FaSpinner className="spinner" /> Accept
+                <FaSpinner className="spinner" /> Chấp nhận
               </div>
               ) : (
                 <>
-                  <i className="fas fa-check me-2" /> Accept
+                  <i className="fas fa-check me-2" /> Chập nhận
                 </>
               )}
             </div>
           <div
-            onClick={() => handleCancelStatus(appointment.id, reason) }
-            // onClick={showModal}
+            onClick={() => showModal(appointment.id) }
             className="btn btn-sm bg-danger-light position-relative"
           >
              {loadingIdd === appointment.id ? (
                 <div className="loading-spinner">
-                <FaSpinner className="spinner" /> Cancel
+                <FaSpinner className="spinner" /> Y/C Hủy
               </div>
               ) : (
                 <>
-                <i className="fas fa-times" /> Cancel
+                <i className="fas fa-times" /> Y/C Hủy
 
                 </>
               )}
 
 
           </div>
-        </div>
-        <Modal title="Yêu cầu Hủy Lịch" visible={isModalVisible}   onCancel={() => setIsModalVisible(false)}>
+          <Modal title="Yêu cầu Hủy Lịch" visible={isModalVisible}   onCancel={() => setIsModalVisible(false)}>
         <Form
          onFinish={(values) => {
-          console.log('Received values of form: ', values);
+          handleCancelStatus(selectedAppointmentId, values.content)
+          console.log('Received values of form: ', reason,selectedAppointmentId);
+
         }}>
           {/* Thêm các trường form tại đây */}
           <Form.Item
@@ -227,7 +234,10 @@ const Dashboarddoctors = () => {
           </Form.Item>
         </Form>
       </Modal>
+        </div>
+        
       </td>
+    
     </tr>
     
   ));
