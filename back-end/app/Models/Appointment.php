@@ -15,6 +15,8 @@ class Appointment extends Model
         'date',
         'time',
         'shift_name',
+        'reason_change',
+        'reason_cancel',
         'type_pet_id',
         'service_id',
         'doctor_id',
