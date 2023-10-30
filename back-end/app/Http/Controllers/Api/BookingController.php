@@ -263,21 +263,25 @@ class BookingController extends Controller
 
 
     public function getAppointmentAccept()
-    {
-        $doctor = auth()->user();
-        $data = Appointment::where('doctor_id', $doctor->id)
-            ->where('status', 1)
-            ->with('user:id,name,phone,avatar')
-            ->with('service:id,name')
-            ->with('type_pet:id,name')
-            ->orderBy('created_at', 'desc')
-            ->get();
-        if ($data->isEmpty()) {
-            return response()->json(['message' => 'Không có cuộc hẹn nào'], 400);
-        } else {
-            return response()->json(['message' => 'Lấy danh sách cuộc hẹn thành công', 'data' => $data], 200);
-        }
+{
+    $doctor = auth()->user();
+    $data = Appointment::where('doctor_id', $doctor->id)
+        ->where('status', 1)
+        ->whereNull('deleted_at')
+        ->with('user:id,name,phone,avatar')
+        ->with('service:id,name')
+        ->with('type_pet:id,name')
+        ->with('bill:id,appointment_id') // Load thông tin của Bills từ Appointment
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    if ($data->isEmpty()) {
+        return response()->json(['message' => 'Không có cuộc hẹn nào'], 400);
+    } else {
+        return response()->json(['message' => 'Lấy danh sách cuộc hẹn thành công', 'data' => $data], 200);
     }
+}
+
 
 
     public function updateStatus(Request $request, $id, MessageUser $messageInterface)
@@ -295,16 +299,23 @@ class BookingController extends Controller
             //    chuyển dạng int sang float của service_price
             $service_price = floatval($service_price->price);
             $appointment->status = $request->input('status');
-            $appointment->save();
 
-            if ($appointment->status == 1) {
+            
+
+            if ($request->status == 1) {
                 $bill = $this->doctorController->createBill($appointment->id, $doctor->id, $appointment->user_id, $appointment->service_id, $service_price);
                 $messageInterface->sendMessage($appointment->user_id, 'Bác sĩ ' . $doctor->name . '  đã xác nhận cuộc hẹn của bạn', $doctor->id, 'Bạn đã xác nhận thành công cuộc hẹn của khách hàng ' . $appointment->user->name);
             }
-            if ($appointment->status == 2) {
+            if ($request->status == 2) {
+                // $reasonCancel = $request->input('reason_cancel');
+                // if(!$reasonCancel){
+                //     return response()->json(['message' => 'Bạn chưa nhập lý do hủy cuộc hẹn'], 400);
+                // }
+                // $appointment->reason_cancel = $reasonCancel;
                 $messageInterface->sendDoctorToAdmin($doctor->id, 'bạn đã gửi yêu cầu hủy lịch hẹn của khách hàng' . $appointment->user->name, 1, 'bác sĩ ' . $doctor->name . ' đã gửi yêu cầu hủy lịch hẹn của khách hàng ' . $appointment->user->name);
                 return response()->json(['message' => 'Bạn đã hủy cuộc hẹn'], 200);
             }
+            $appointment->save();
             return response()->json([
                 'message' => 'Cập nhật trạng thái thành công', 'bill' => $bill
             ], 200);

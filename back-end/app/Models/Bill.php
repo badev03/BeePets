@@ -19,8 +19,9 @@ class Bill extends Model
     public function service(){
         return $this->belongsTo(Service::class,'service_id');
     }
-    public function appointment(){
-        return $this->belongsTo(Appointment::class,'appointment_id');
+    public function appointment()
+    {
+        return $this->belongsTo(Appointment::class, 'appointment_id', 'id');
     }
     public function prescription(){
         return $this->belongsTo(Prescription::class,'prescription_id');
