@@ -215,7 +215,7 @@ const BookingUser = () => {
             </a>
             <Modal
                 title="Hãy Điền Thông Tin"
-                visible={isModalOpen}
+                open={isModalOpen}
                 onOk={handleBooking}
                 onCancel={handleCancel}
                 width={1000}

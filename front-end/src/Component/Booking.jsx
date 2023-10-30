@@ -53,7 +53,7 @@ const Booking = () => {
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       } finally {
-        setLoadingService(false)
+        setLoadingService(false);
       }
     };
 
@@ -85,7 +85,6 @@ const Booking = () => {
     form.resetFields();
     setIsModalOpen(false);
   };
-
 
   useEffect(() => {
     if (selectedDoctor && selectedDate) {
@@ -213,14 +212,14 @@ const Booking = () => {
       </Button>
       <Modal
         title="Hãy Điền Thông Tin"
-        visible={isModalOpen}
+        open={isModalOpen}
         onOk={handleBooking}
         onCancel={handleCancel}
         width={1000}
         okButtonProps={{ style: { display: "none" } }}
         cancelButtonProps={{ style: { display: "none" } }}
       >
-        <Form layout="vertical" form={form} onFinish={handleBooking} >
+        <Form layout="vertical" form={form} onFinish={handleBooking}>
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
@@ -287,9 +286,9 @@ const Booking = () => {
                   options={
                     selectedWorkingHours
                       ? selectedWorkingHours.map((hour) => ({
-                        value: hour.shift_name,
-                        label: `${hour.shift_name} (${hour.start_time} - ${hour.end_time})`,
-                      }))
+                          value: hour.shift_name,
+                          label: `${hour.shift_name} (${hour.start_time} - ${hour.end_time})`,
+                        }))
                       : []
                   }
                   loading={loadingShift}
@@ -317,22 +316,20 @@ const Booking = () => {
             <Col span={12}>
               <Form.Item
                 label="Họ và Tên"
-                name={user ? undefined : "name"}
+                name="name"
+                initialValue={user ? user.name : selectedName}
                 rules={[
                   { required: true, message: "Vui lòng nhập tên của bạn" },
                 ]}
               >
-                <Input
-                  value={selectedName}
-                  name="name"
-                  onChange={handleChangeName}
-                />
+                <Input name="name" onChange={handleChangeName} />
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item
                 label="Số Điện Thoại"
-                name={user ? undefined : "phone"}
+                name="phone"
+                initialValue={user ? user.phone : selectedPhone}
                 rules={[
                   { required: true, message: "Vui lòng nhập số điện thoại" },
                   {
@@ -341,11 +338,7 @@ const Booking = () => {
                   },
                 ]}
               >
-                <Input
-                  type=""
-                  value={selectedPhone}
-                  onChange={handleChangePhone}
-                />
+                <Input name="phone" onChange={handleChangePhone} />
               </Form.Item>
             </Col>
           </Row>
