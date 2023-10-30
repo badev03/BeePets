@@ -5,18 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="45a53ba9-6ef3-41ae-87f6-4b989cb527d7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/back-end/config/datatables.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/resources/views/admin/purchase/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/BeePets.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/BeePets.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/phpspec.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpspec.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Admin/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Admin/OrderController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/composer.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/resources/views/admin/purchase/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/resources/views/admin/purchase/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/resources/views/admin/purchase/show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/resources/views/admin/purchase/show.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/resources/views/admin/purchase/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/resources/views/admin/purchase/create.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -315,7 +307,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
-    &quot;last_opened_file_path&quot;: &quot;F:/BeePets&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/laragon/www/speed_sms&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -379,6 +371,8 @@
       <workItem from="1698421696402" duration="4887000" />
       <workItem from="1698460554071" duration="1867000" />
       <workItem from="1698471015977" duration="14808000" />
+      <workItem from="1698646206629" duration="692000" />
+      <workItem from="1698666917698" duration="10390000" />
     </task>
     <servers />
   </component>
