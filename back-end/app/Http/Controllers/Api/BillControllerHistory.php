@@ -48,7 +48,6 @@ class BillControllerHistory extends Controller
                 ->whereIn('bills.status', [6, 3])
                 ->orderBy('bills.created_at', 'desc')
                 ->get();
-
             if(!$bill->isEmpty()) {
                 return response()->json([
                     'bill' => $bill,
