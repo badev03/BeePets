@@ -80,12 +80,12 @@ const BillUser = () => {
                             </thead>
                             <tbody>
                                 {bills.map((bill) => (
-                                    <tr key={bill.id}>
+                                    <tr key={bill?.id}>
                                         <td>
-                                            <a href="#">{bill.code}</a>
+                                            <a href="#">{bill?.code}</a>
                                         </td>
-                                        <td>{formatDate(bill.date)}</td>
-                                        <td>{bill.total_amount} <span style={{ fontWeight: 'bold', color: 'red' }}>VND</span>
+                                        <td>{formatDate(bill?.date)}</td>
+                                        <td>{bill?.total_amount} <span style={{ fontWeight: 'bold', color: 'red' }}>VND</span>
                                         </td>
 
                                         <td>
@@ -93,27 +93,27 @@ const BillUser = () => {
                                                 <a href="doctor-profile.html" className="avatar avatar-sm me-2">
                                                     <img
                                                         className="avatar-img rounded-circle"
-                                                        src={bill.avatar}
+                                                        src={bill?.avatar}
                                                         alt="User Image"
                                                     />
                                                 </a>
-                                                <a href="doctor-profile.html">{bill.doctor_name}</a>
+                                                <a href="doctor-profile.html">{bill?.doctor_name}</a>
                                             </h2>
                                         </td>
                                         <td>
-                                            <span className={`badge rounded-pill ${parseInt(bill.status) === 3 ? 'bg-success-light' : parseInt(bill.status) === 6 ? 'bg-danger-light' : 'YOUR_DEFAULT_CLASS'}`}>{getStatusText(bill.status)}</span>
+                                            <span className={`badge rounded-pill ${parseInt(bill?.status) === 3 ? 'bg-success-light' : parseInt(bill?.status) === 6 ? 'bg-danger-light' : 'YOUR_DEFAULT_CLASS'}`}>{getStatusText(bill?.status)}</span>
                                         </td>
 
                                         <td>
                                             <div className="table-action">
                                                 <div className="table-action">
                                                     <button className="btn btn-sm bg-info-light">
-                                                        <Link to={`/user/detail-bill/${bill.id}`}>
+                                                        <Link to={`/user/detail-bill/${bill?.id}`}>
                                                             <i className="far fa-eye" /> View
                                                         </Link>
 
                                                     </button>
-                                                    {bill.date === today && bill.status === 6 && (
+                                                    {bill?.date === today && bill?.status === 6 && (
                                                         <button style={{ marginLeft: '5px' }} className="btn btn-sm bg-danger-light">
                                                             <Link to={'/user/billdetail'}>
                                                                 <i className="far fa-eye" /> Khôi phục
