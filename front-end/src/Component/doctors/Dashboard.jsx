@@ -197,10 +197,9 @@ const Dashboarddoctors = () => {
 
                 </>
               )}
-
-
-          </div>
-          <Modal title="Yêu cầu Hủy Lịch" visible={isModalVisible}   onCancel={() => setIsModalVisible(false)}>
+          </div>    
+        </div>
+        <Modal title="Yêu cầu Hủy Lịch" visible={isModalVisible}   onCancel={() => setIsModalVisible(false)}>
         <Form
          onFinish={(values) => {
           handleCancelStatus(selectedAppointmentId, values.content)
@@ -234,10 +233,7 @@ const Dashboarddoctors = () => {
           </Form.Item>
         </Form>
       </Modal>
-        </div>
-        
       </td>
-    
     </tr>
     
   ));
