@@ -9,6 +9,10 @@ const notification = {
         const url = "/get-notification-doctor";
         return instance.get(url, params);
     },
+    getUpdate(params) {
+        const url = "/update-read-notification";
+        return instance.get(url, params);
+    },
 };
 
 export default notification;
