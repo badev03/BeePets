@@ -97,15 +97,11 @@ class OrderController extends Controller
     }
 
     public function createOrder(Request $request) {
-        if($request->isMethod('get')) {
-            $title = 'Tạo đơn hàng';
-            $code = 'DH' . rand(100000, 999999);
-            $products = Products::query()->get();
-            $users = User::query()->where('role_id', 4)->get();
-            return view('admin.purchase.create', compact('title', 'users', 'code', 'products'));
-        }else{
-            dd($request->all());
-        }
+        $title = 'Tạo đơn hàng';
+        $code = 'DH' . rand(100000, 999999);
+        $products = Products::query()->get();
+        $users = User::query()->where('role_id', 4)->get();
+        return view('admin.purchase.create', compact('title', 'users', 'code', 'products'));
     }
     public function getProduct($id) {
         $product = Products::query()->find($id);
@@ -230,34 +226,47 @@ class OrderController extends Controller
             ]
         );
         try {
+            $user = User::query()->where('phone', $request->customer_phone)->first();
+            if($user) {
+                $user_id = $user->id;
+            }else{
+                $user = User::query()->create(
+                    [
+                        'name' => $request->customer_name,
+                        'phone' => $request->customer_phone,
+                        'status' => 1,
+                        'password' => bcrypt('123456'),
+                        'role_id' => 4,
+                    ]
+                );
+                $user_id = $user->id;
+            }
             $bill = Bill::query()->create(
                 [
-                    'code' => 'DH' . rand(100000, 999999),
+                    'code' => $request->code,
                     'customer_name' => $request->customer_name,
                     'customer_phone' => $request->customer_phone,
-                    'customer_email' => $request->customer_email,
                     'status' => 1,
-                    'total_amount' => $request->total_price,
+                    'total_amount' => $request->total_amount,
                     'note' => 'Thanh toán tại quầy',
                     'transaction_type' => 2,
                     'payment_method' => 1,
+                    'user_id' => $user_id,
                 ]
             );
             $bill_id = $bill->id;
-            $carts = session()->get('carts');
-
-            foreach ($carts as $key => $value) {
-                $this->updateQuantity($key, $value['quantity']);
+            foreach ($request->product_id as $key => $value) {
+                $prices = Products::query()->find($value);
                 Order_detail::query()->create(
                     [
                         'bill_id' => $bill_id,
-                        'product_id' => $key,
-                        'quantity' => $value['quantity'],
-                        'unit_price' => $value['price'],
+                        'product_id' => $value,
+                        'quantity' => $request->quantity[$key],
+                        'unit_price' => $prices->price,
                     ]
                 );
+                $this->updateQuantity($value, $request->quantity[$key]);
             }
-            session()->forget('carts');
             Toastr::success('Đặt hàng thành công!', 'Success');
             return redirect()->route('purchase.index');
         } catch (\Exception $exception) {

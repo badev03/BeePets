@@ -63,10 +63,11 @@
                                 <td class="d-flex" style="grid-gap:1rem">
                                     <div class="actions">
                                        
-                                            <button href="#viewer" class="btn btn-sm bg-info-light buttonView"
-                                                    data-bs-check="" data-bs-toggle="modal">
-                                                <i class="far fa-eye"></i> Xem
-                                    
+                                            
+                                                
+                                                <a class="btn btn-sm bg-success-light" href="{{route('doctors.show', $item)}}">
+                                                    <i class="far fa-eye"></i> Xem
+                                                </a>
                                         <a class="btn btn-sm bg-success-light" href="{{route('doctors.edit', $item)}}">
                                             <i class="fe fe-pencil"></i> Edit
                                         </a>
