@@ -15,6 +15,7 @@ const Header = () => {
   const { isLoggedIn, onLogout, token, role } = useAuth();
   const navigate = useNavigate();
   const [noti, setNoti] = useState([]);
+  const [countNotification , setCountNotification] = useState(0);
   const imgDefault =
       "https://dvdn247.net/wp-content/uploads/2020/07/avatar-mac-dinh-1.png";
   let userLocal = localStorage.getItem("user");
@@ -27,8 +28,6 @@ const Header = () => {
   const handleNotificationClick = async () => {
     try {
       // console.log(123);
-      if (updateNoti === null) {
-        setIsLoading(true); // Bắt đầu tải
         // console.log(setIsLoading);
         const response = await notification.getUpdate(
           {
@@ -37,17 +36,9 @@ const Header = () => {
             },
           }
         );
-        
-        setUpdateNoti(response.notification);
-        // console.log(response);
-        // console.log(123);
-      }
+        setCountNotification(0);
     } catch (error) {
       console.error("Không có dữ liệu:", error);
-      console.log(123);
-      // Xử lý lỗi nếu cần
-    } finally {
-      setIsLoading(false); // Khi hoàn thành gọi API (thành công hoặc thất bại), đặt isLoading thành false
     }
   };
 
@@ -116,7 +107,7 @@ const Header = () => {
         },
       });
       setNoti(response.notifications);
-
+      setCountNotification(response.count);
       const pusher = new Pusher("2798806e868dbe640e2e", {
         cluster: "ap1",
       });
@@ -141,7 +132,7 @@ const Header = () => {
         },
       });
       setNoti(response.notifications);
-
+      setCountNotification(response.count);
       const pusher = new Pusher("2798806e868dbe640e2e", {
         cluster: "ap1",
       });
@@ -278,7 +269,7 @@ const Header = () => {
                   
                       >
                         <i className="fa-solid fa-bell" />{" "}
-                        <span className="badge">{noti.length}</span>
+                        <span className="badge">{countNotification}</span>
                       </a>
                       <div className="dropdown-menu notifications dropdown-menu-end ">
                         <div className="topnav-dropdown-header">
