@@ -8,6 +8,7 @@ use App\Models\Service;
 use Illuminate\Support\Str;
 use App\Models\Doctor_image;
 use Illuminate\Http\Request;
+use Illuminate\Support\MessageBag;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -178,13 +179,27 @@ class DoctorController extends Controller
         }
 
 
-        $this->createAndUpdatePassWord($request->password);
         $selectedServices = $request->input('service_id', []);
+        $availableServices = Service::pluck('id')->toArray(); // Lấy tất cả id của service
+
+        $invalidServices = array_diff($selectedServices, $availableServices); // Lấy ra các id không hợp lệ
+        if (count($invalidServices) > 0) {
+            $errorMessage = 'Dịch vụ đã chọn không hợp lệ: ' . implode(', ', $invalidServices);
+            $validServices = array_diff($selectedServices, $invalidServices);
+
+            $errors = new MessageBag();
+            $errors->add('error', $errorMessage);
+            $errors->add('validServices', $validServices);
+
+            return redirect()->back()->withErrors($errors);
+        }
+
         $model->services()->sync($selectedServices);
         if ($this->checkRolePermission == false) {
             $model->assignRole($request->role);
         }
         $model->save();
+
 
         if ($request->hasFile('image_path')) {
             // Thêm ảnh mới vào bảng Doctor_image
@@ -272,7 +287,23 @@ class DoctorController extends Controller
         }
     }
 
+    public function show($id){
+        $doctor = Doctor::findOrFail($id);
+        $doctorImages = Doctor_image::where('doctor_id', $id)->get();
+        $services = Service::select('id', 'name')->get();
+        $doctor->birthday = Carbon::createFromFormat('Y-m-d', $doctor->birthday)->format('d-m-Y');
+        foreach ($doctorImages as $image) {
+            $images[] = $image->image_path; // Thay đổi thành $images
+        }
 
+        $dataViewer = [
+            'title' => $this->titleEdit,
+            'colums' => $this->colums,
+            'permission_crud' => $this->permissionCheckCrud
+        ];
+        return view('admin.doctor.show', compact('doctor', 'services', 'doctorImages'))
+            ->with($dataViewer);
+    }
 
 
 
