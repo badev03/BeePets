@@ -230,25 +230,26 @@ class BookingController extends Controller
     {
         $doctor = auth()->user();
         $currentDate = now();
-       
+
         $data = Appointment::where('doctor_id', $doctor->id)
             ->where('status', 0)
-            ->where('date', '<', $currentDate)
+            ->whereDate('date', '>=', $currentDate) // Lọc lịch hẹn từ ngày hiện tại trở đi
             ->whereHas('work_schedule', function ($query) use ($currentDate) {
                 $query->where('end_time', '>', $currentDate);
             })
-
             ->with('user:id,name,phone')
             ->with('service:id,name')
             ->with('type_pet:id,name')
             ->orderBy('created_at', 'desc')
             ->get();
+
         if ($data->isEmpty()) {
             return response()->json(['message' => 'Không có cuộc hẹn nào'], 400);
         } else {
             return response()->json(['message' => 'Lấy danh sách cuộc hẹn thành công', 'data' => $data], 200);
         }
     }
+
     // lấy ra thông tin của một cuộc hẹn với satus = 0
     public function getAppointment($id)
     {
@@ -270,10 +271,19 @@ class BookingController extends Controller
 
     public function getAppointmentAccept()
     {
+        $currentDate = now();
         $doctor = auth()->user();
+
         $data = Appointment::where('doctor_id', $doctor->id)
-            ->where('status', 1)
-            ->whereNull('deleted_at')
+            ->where(function ($query) use ($currentDate) {
+                $query->where(function ($query) use ($currentDate) {
+                    $query->where('status', 1)
+                        ->whereDate('date', '>=', $currentDate) // Lọc lịch hẹn từ ngày hiện tại trở đi
+                        ->whereHas('work_schedule', function ($query) use ($currentDate) {
+                            $query->where('end_time', '>', $currentDate);
+                        });
+                })->orWhereNotIn('status', [0, 1]);
+            })
             ->with('user:id,name,phone,avatar')
             ->with('service:id,name')
             ->with('type_pet:id,name')
@@ -287,6 +297,10 @@ class BookingController extends Controller
             return response()->json(['message' => 'Lấy danh sách cuộc hẹn thành công', 'data' => $data], 200);
         }
     }
+
+
+
+
 
 
 
