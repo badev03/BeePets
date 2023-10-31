@@ -63,52 +63,64 @@
         </div>
     </div>
     {{--  modal create new order  --}}
-{{--    <div class="modal fade" id="modal-create-order" style="display: none;" aria-hidden="true">--}}
-{{--        <div class="modal-dialog" role="document">--}}
-{{--            <div class="modal-content" style="width: 1200px; margin-left: -300px">--}}
-{{--                <div class="modal-header">--}}
-{{--                    <h5 class="modal-title"></h5>--}}
-{{--                    <button type="button" class="btn-close" data-bs-dismiss="modal">--}}
-{{--                    </button>--}}
-{{--                </div>--}}
-{{--                <form method="post" id="form-order-return">--}}
-{{--                    <div class="modal-body">--}}
-{{--                        @csrf--}}
-{{--                        <div class="row">--}}
-{{--                            <div class="col">--}}
-{{--                                <div class="mb-3">--}}
-{{--                                    <label for="code" class="form-label"> Mã đơn hàng *</label>--}}
-{{--                                    <input type="text" name="code" id="code" class="form-control">--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div class="col">--}}
-{{--                                <div class="mb-3">--}}
-{{--                                    <label for="phone" class="form-label"> Số điện thoại *</label>--}}
-{{--                                    <select name="phone" id="phone" class="phone-select form-select" style="z-index: 10000">--}}
-{{--                                        <option value="">Chọn số điện thoại</option>--}}
-{{--                                        @foreach($customers as $customer)--}}
-{{--                                            <option value="{{ $customer->phone }}">{{ $customer->phone }}--}}
-{{--                                                / {{ $customer->name }}</option>--}}
-{{--                                        @endforeach--}}
-{{--                                    </select>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div class="col">--}}
-{{--                                <div class="mb-3">--}}
-{{--                                    <label for="name" class="form-label"> Tên khách hàng *</label>--}}
-{{--                                    <input type="text" name="name" id="name" class="form-control">--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="modal-footer">--}}
-{{--                        <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Hủy</button>--}}
-{{--                        <button type="submit" class="btn btn-primary create-order">Thêm mới</button>--}}
-{{--                    </div>--}}
-{{--                </form>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
+    <div class="modal fade" id="modal-continue-order" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 1200px; margin-left: -300px">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    </button>
+                </div>
+                <form method="post" id="form-order-continue" action="{{ route('purchase.updateByCash') }}">
+                    <div class="modal-body">
+                        @csrf
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label for="code" class="form-label"> Mã đơn hàng *</label>
+                                    <input type="text" name="code" id="code" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label"> Tên khách hàng *</label>
+                                    <input type="text" name="name" id="name" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label for="total_amount" class="form-label"> Đơn giá *</label>
+                                    <input type="text" name="total_amount" id="total_amount" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label for="payment_method" class="form-label">Phương thức thanh toán</label>
+                                <div class="mb-3">
+                                    <label for="cash" class="form-label">
+                                        <input type="radio" name="payment_method" id="cash" value="1" checked>
+                                        Tiền mặt
+                                    </label>
+                                </div>
+                                <div class="mb-3 ">
+                                    <label for="vnpay" class="form-label">
+                                        <input type="radio" name="payment_method" id="vnpay" value="2">
+                                        Thanh toán qua VNPAY
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-primary btn-checkout">Thanh toán</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 
@@ -189,13 +201,40 @@
                     }
                 })
             })
-            $('#btn-add-new').click(function () {
-                $('#modal-create-order').modal('show');
-                $('.modal-title').html('Thêm mới đơn hàng');
+            $('body').on('click','.btn-continue__checkout',function (){
+                $id = $(this).data('id');
+                $('#modal-continue-order').modal('show');
+                $('.modal-title').html('Tiếp tục đơn hàng');
                 $('.text-danger').remove();
                 $('#form-order-return')[0].reset();
                 $('.form-control').removeClass('border border-danger');
+                $.ajax({
+                    url : "get-order/"+$id,
+                    type : "GET",
+                    success : function (response){
+                        console.log(response)
+                        $('#code').val(response.data.code);
+                        $('#name').val(response.data.customer_name);
+                        $('#total_amount').val(response.data.total_amount);
+                    }
+                })
             })
+            $('body').on('change','#cash',function (){
+                if($(this).is(':checked')){
+                   $('#form-order-continue').attr('action','{{ route('purchase.updateByCash') }}')
+                    $('.btn-checkout').attr('name','checkout');
+                }
+            })
+            $('body').on('change','#vnpay',function (){
+                if($(this).is(':checked')){
+                    $('#form-order-continue').attr('action','{{ route('purchase.updateByVnpay') }}')
+                    $('.btn-checkout').attr('name','redirect');
+                }
+            })
+
+
+
+
 
 
 

@@ -99,7 +99,7 @@
                                         <p class="noti-details"><span class="noti-title"></span>{{ $value->message }}</p>
                                         <p class="noti-time d-flex justify-content-center align-items-center">
                                             <span class="notification-time">{{ $value->created_at }}</span>
-                                            <a href="{{ route('appointments.cancel' , $value->appointment_id) }}">xem chi tiết</a>
+{{--                                            <a href="{{ route('appointments.cancel' , $value->appointment_id) }}">xem chi tiết</a>--}}
                                         </p>
                                     </div>
                                 </div>
