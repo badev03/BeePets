@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Bill;
 use App\Models\Doctor;
+use App\Models\Service;
 use App\Models\Products;
 use App\Models\Appointment;
 use App\Models\Prescription;
@@ -500,59 +501,55 @@ class DoctorController extends Controller
 
 
     public function detailBillDoctor($id)
-{
-    try {
-        if (Auth::guard('doctors')->check()) {
-            $bill = Bill::where('bills.id', $id)
-                ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
-                ->join('users', 'users.id', '=', 'appointments.user_id')
-                ->join('services', 'services.id', '=', 'appointments.service_id')
-                ->join('doctors', 'bills.doctor_id', '=', 'doctors.id')
-                ->join('prescriptions', 'prescriptions.bill_id', '=', 'bills.id')
-                ->select('bills.id', 'bills.code', 'bills.total_amount', 'bills.created_at',
-                    'doctors.image as image_doctor', 'doctors.name as doctor_name',
-                    'users.name as customer_name', 'users.phone as customer_phone', 'users.address as customer_address',
-                    'users.avatar as customer_avatar',
-                    'prescriptions.name as prescriptions_name',
-                    'prescriptions.price as prescriptions_price',
-                    'services.name as service_name', 'appointments.date', 'appointments.time', 'appointments.shift_name',
-                    'appointments.description', 'doctors.id as doctor_id', 'users.id as user_id')
-                ->first();
-
-            $prescription = DB::table('prescriptions')
-                ->join('prescription_product', 'prescription_product.prescription_id', '=', 'prescriptions.id')
-                ->join('products', 'products.id', '=', 'prescription_product.product_id')
-                ->select('products.name as product_name', 'prescription_product.quantity', 'prescription_product.price as price_product', 'prescription_product.instructions')
-                ->where('prescriptions.bill_id', $id)
-                ->get();
-
-            $services = DB::table('services')
-                ->join('appointments', 'appointments.service_id', '=', 'services.id')
-                ->join('bills', 'bills.appointment_id', '=', 'appointments.id')
-                ->where('bills.id', $id)
-                ->select('services.name', 'services.price', 'appointments.date', 'appointments.time', 'appointments.shift_name', 'appointments.description')
-                ->get();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Lấy thông tin hóa đơn thành công',
-                'bill' => $bill,
-                'prescription' => $prescription,
-                'services' => $services
-            ]);
-        } else {
+    {
+        try {
+            if (Auth::guard('doctors')->check()) {
+                $doctorId = Auth::guard('doctors')->user()->id; // Lấy id của bác sĩ đang đăng nhập
+    
+                $bill = Bill::select('id', 'code', 'description', 'total_amount', 'status', 'payment_method', 'transaction_type', 'created_at', 'user_id', 'doctor_id', 'appointment_id')
+                    ->where('id', $id)
+                    ->where('doctor_id', $doctorId) // Lọc theo doctor_id của bác sĩ đăng nhập
+                    ->with(['appointment.user:id,name', 'doctor:id,name', 'prescriptions.productss:id,name,price'])
+                    ->first();
+    
+                if (!$bill) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Không tìm thấy hóa đơn',
+                    ]);
+                }
+    
+                $services = Service::select('id', 'name', 'price')
+                    ->whereHas('appointments', function ($query) use ($id) {
+                        $query->whereHas('bill', function ($q) use ($id) {
+                            $q->where('id', $id);
+                        });
+                    })
+                    ->get();
+    
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Lấy thông tin hóa đơn thành công',
+                    'bill' => $bill,
+                    // 'prescription' => $prescription,
+                    'services' => $services
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Bạn chưa đăng nhập',
+                ]);
+            }
+        } catch (\Exception $exception) {
             return response()->json([
                 'success' => false,
-                'message' => 'Bạn chưa đăng nhập',
+                'message' => 'Đã xảy ra lỗi',
+                'error' => $exception->getMessage()
             ]);
         }
-    } catch (\Exception $exception) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Đã xảy ra lỗi',
-            'error' => $exception->getMessage()
-        ]);
     }
-}
+    
+    
+
 
 }
