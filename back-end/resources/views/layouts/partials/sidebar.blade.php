@@ -3,7 +3,7 @@
         <div id="sidebar-menu" class="sidebar-menu">
             <ul>
                 <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                    <a href="{{ route('dashboard') }}"><i class="fe fe-home"></i> <span>Dashboard</span></a>
+                    <a href="{{ route('dashboard') }}"><i class="fe fe-home"></i> <span>Bảng điều khiển</span></a>
                 </li>
                 <li class="submenu">
                     <a href="#">

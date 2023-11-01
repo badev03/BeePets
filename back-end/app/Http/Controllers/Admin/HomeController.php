@@ -6,17 +6,44 @@ use App\Events\AdminNotification;
 use App\Http\Controllers\BaseAdminController;
 use App\Http\Controllers\Controller;
 use App\Interfaces\MessageUser;
+use App\Models\Bill;
 use App\Models\Notification;
+use App\Models\Product_categories;
+use App\Models\Products;
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Queue;
 use Pusher\Pusher;
 class HomeController extends Controller
 {
     public function index() {
-        return view('admin.dashboard.dashboard');
+        $totalAmount = DB::table('bills')->sum('total_amount');
+        $totalAmountMonth = DB::table('bills')->whereMonth('created_at', date('m'))->sum('total_amount');
+        $totalAmountLastMonth = DB::table('bills')->whereMonth('created_at', date('m', strtotime('-1 month')))->sum('total_amount');
+        $totalAmountYear = DB::table('bills')->whereYear('created_at', date('Y'))->sum('total_amount');
+        $totalOrder = Bill::where('status', 1)->count();
+        $totalOrderNeedPay = Bill::where('status', 0)->where('transaction_type',2)->count();
+        $totalOrderReturn = Bill::where('status', 3)->where('transaction_type',2)->count();
+        $totalOrderCancel = Bill::where('status', 2)->where('transaction_type',2)->count();
+        $totalProducts = Products::query()->count();
+        $totalProductCategory = Product_categories::query()->count();
+        $bestSeller = DB::table('order_details')
+            ->join('products', 'order_details.product_id', '=', 'products.id')
+            ->select('products.name','products.price','products.image', DB::raw('SUM(order_details.quantity) as total'))
+            ->groupBy('products.name','products.price','products.image')
+            ->orderBy('total', 'desc')
+            ->limit(5)
+            ->get();
+
+        return view('admin.dashboard.dashboard',
+            compact('totalAmount', 'totalOrder', 'totalOrderCancel', 'totalAmountMonth',
+                'totalAmountLastMonth', 'totalAmountYear', 'totalOrderReturn', 'totalOrderNeedPay', 'totalProducts', 'totalProductCategory', 'bestSeller'));
     }
+
+
+
 
     public function uploadImg(Request $request) {
         if($request->has('upload')) {
