@@ -161,7 +161,7 @@ const Dashboarddoctors = () => {
               to={`/doctors/detail-appointments/${appointment.id}`}
               className="btn btn-sm bg-info-light"
             >
-              <i className="far fa-eye" /> View
+              <i className="far fa-eye" /> Xem Lịch Hẹn
             </Link>
             <div
               onClick={() => handleUpdate(appointment.id)}
