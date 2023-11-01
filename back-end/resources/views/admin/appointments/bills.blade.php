@@ -48,16 +48,8 @@
                                             <td>{{ $value->service_id }}</td>
                                             <td>{!! $value->description !!}</td>
                                             <td>
-                                                @if($value->status == 6)
+                                                @if($value->status == 3)
                                                     <button class="btn btn-sm bg-info-light">
-                                                        {{ 'Yêu cầu hủy' }}
-                                                    </button>
-                                                @elseif($value->status == 1)
-                                                    <button class="btn btn-sm bg-success-light">
-                                                        {{ 'Xác nhận' }}
-                                                    </button>
-                                                @elseif($value->status == 3)
-                                                    <button class="btn btn-sm bg-danger-light">
                                                         {{ 'Hoàn thành' }}
                                                     </button>
                                                 @endif
