@@ -16,7 +16,10 @@ class Service extends Model
     public function serviceCategorie(){
         return $this->belongsTo(Service_categorie::class,'service_categorie_id');
     }
-
+    public function bills()
+    {
+        return $this->belongsToMany(bill::class, 'bill_service', 'service_id', 'bill_id');
+    }
     public function Categories(){
         return $this->belongsTo(Service_categorie::class,'service_categorie_id');
     }

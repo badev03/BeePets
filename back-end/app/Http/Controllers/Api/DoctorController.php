@@ -77,7 +77,7 @@ class DoctorController extends Controller
                 $doctor_id = Auth::guard('doctors')->user()->id;
                 $customers = Appointment::where('doctor_id', $doctor_id)
                     ->join('users', 'users.id', '=', 'appointments.user_id')
-                    ->select('users.id', 'users.name','users.avatar', 'users.phone', 'users.email', 'users.address')
+                    ->select('users.id', 'users.name', 'users.avatar', 'users.phone', 'users.email', 'users.address')
                     ->distinct()
                     ->get();
                 return response()->json([
@@ -131,9 +131,9 @@ class DoctorController extends Controller
     {
         if (Auth::guard('doctors')->check()) {
             $doctor_id = Auth::guard('doctors')->user()->id;
-            $appointments = Appointment::select('doctors.name', 'doctors.image', 'appointments.id', 'appointments.date', 'appointments.time', 'appointments.status', 'appointments.shift_name', 'appointments.created_at as appointment_created_at','bills.code')
+            $appointments = Appointment::select('doctors.name', 'doctors.image', 'appointments.id', 'appointments.date', 'appointments.time', 'appointments.status', 'appointments.shift_name', 'appointments.created_at as appointment_created_at', 'bills.code')
                 ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
-                ->join('bills','appointments.id','=','bills.appointment_id')
+                ->join('bills', 'appointments.id', '=', 'bills.appointment_id')
                 ->where('appointments.user_id', $id)
                 ->where('appointments.doctor_id', $doctor_id)
                 ->orderBy('appointments.created_at', 'desc')
@@ -264,9 +264,14 @@ class DoctorController extends Controller
             $doctor_id = Auth::guard('doctors')->user()->id;
             $result = DB::table('prescriptions')
                 ->join('doctors', 'doctors.id', '=', 'prescriptions.doctor_id')
-                ->select('prescriptions.id','prescriptions.created_at as prescription_created_at', 'doctors.name as doctor_name',
+                ->select(
+                    'prescriptions.id',
+                    'prescriptions.created_at as prescription_created_at',
+                    'doctors.name as doctor_name',
                     'doctors.image as doctor_image',
-                    'prescriptions.name as prescription_name','prescriptions.price as prescription_price')
+                    'prescriptions.name as prescription_name',
+                    'prescriptions.price as prescription_price'
+                )
                 ->where('prescriptions.user_id', $id)
                 ->get();
             return response()->json([
@@ -282,11 +287,10 @@ class DoctorController extends Controller
     {
 
         $doctor_id = auth()->user()->id;
-        $prescription = Prescription::
-        where('doctor_id', $doctor_id)
-        ->with('doctor:id,name','user:id,name')
-        ->where('id', $id)
-        ->get();
+        $prescription = Prescription::where('doctor_id', $doctor_id)
+            ->with('doctor:id,name', 'user:id,name')
+            ->where('id', $id)
+            ->get();
         // dd($prescription);
         if (count($prescription) == 0) {
             return response()->json([
@@ -336,7 +340,7 @@ class DoctorController extends Controller
 
     // tạo hóa đơn trống cho khách hàng
 
-    public function createBill($appointmentId, $doctorId, $userId, $serviceId, $service_price)
+    public function createBill($appointmentId, $doctorId, $userId)
     {
         try {
             if (Auth::guard('doctors')->check()) {
@@ -346,10 +350,9 @@ class DoctorController extends Controller
                 $bill->appointment_id = $appointmentId;
                 $bill->doctor_id = $doctorId;
                 $bill->user_id = $userId;
-                $bill->service_id = $serviceId;
                 $bill->status = 0;
                 $bill->payment_method = 1;
-                $bill->total_amount = $service_price;
+                $bill->total_amount = 0;
                 $bill->save();
 
                 return $bill;
@@ -392,7 +395,7 @@ class DoctorController extends Controller
                     'message' => 'Không tìm thấy hóa đơn',
                 ], 404);
             }
-            $prescription = $this->createPrescription($request->name, $request->price,$request->doctor_id,$request->user_id,$request->bill_id);
+            $prescription = $this->createPrescription($request->name, $request->price, $request->doctor_id, $request->user_id, $request->bill_id);
 
             $prescription_id = $prescription->id;
 
@@ -407,8 +410,18 @@ class DoctorController extends Controller
                     'instructions' => $product['instructions'],
                 ]);
             }
+            $total_amount = 0;
 
-            $total_amount = $bill->total_amount + $request->price;
+            foreach ($request->services as $service) {
+                $selectedService = Service::find($service['service_id']);
+                if ($selectedService) {
+                    $total_amount += $selectedService->price; // Cộng giá của dịch vụ vào total_amount
+                    $bill->services()->attach($service['service_id']);
+                }
+            }
+
+
+            $total_amount += $request->price; // Cộng giá sản phẩm vào total_amount
             $bill->total_amount = $total_amount;
             $bill->description = $request->description;
             $bill->save();
@@ -425,7 +438,7 @@ class DoctorController extends Controller
         }
     }
     // tạo đơn thuốc cho bảng prescription_product và lưu vào bảng perscription
-    public function createPrescription($name, $price,$doctor_id,$user_id,$bill_id)
+    public function createPrescription($name, $price, $doctor_id, $user_id, $bill_id)
     {
 
         $prescription = new Prescription();
@@ -505,20 +518,34 @@ class DoctorController extends Controller
         try {
             if (Auth::guard('doctors')->check()) {
                 $doctorId = Auth::guard('doctors')->user()->id; // Lấy id của bác sĩ đang đăng nhập
-    
-                $bill = Bill::select('id', 'code', 'description', 'total_amount', 'status', 'payment_method', 'transaction_type', 'created_at', 'user_id', 'doctor_id', 'appointment_id')
-                    ->where('id', $id)
-                    ->where('doctor_id', $doctorId) // Lọc theo doctor_id của bác sĩ đăng nhập
+                $bill = Bill::select(
+                    'bills.id',
+                    'bills.code',
+                    'bills.description',
+                    'bills.total_amount',
+                    'bills.status',
+                    'bills.payment_method',
+                    'bills.transaction_type',
+                    'bills.created_at',
+                    'bills.user_id',
+                    'bills.doctor_id',
+                    'bills.appointment_id',
+                 
+                )
+                  
+                    ->where('bills.id', $id)
+                    ->where('bills.doctor_id', $doctorId) // Lọc theo doctor_id của bác sĩ đăng nhập
                     ->with(['appointment.user:id,name', 'doctor:id,name', 'prescriptions.productss:id,name,price'])
                     ->first();
-    
+
+
                 if (!$bill) {
                     return response()->json([
                         'success' => false,
                         'message' => 'Không tìm thấy hóa đơn',
                     ]);
                 }
-    
+
                 $services = Service::select('id', 'name', 'price')
                     ->whereHas('appointments', function ($query) use ($id) {
                         $query->whereHas('bill', function ($q) use ($id) {
@@ -526,7 +553,7 @@ class DoctorController extends Controller
                         });
                     })
                     ->get();
-    
+
                 return response()->json([
                     'success' => true,
                     'message' => 'Lấy thông tin hóa đơn thành công',
@@ -548,8 +575,4 @@ class DoctorController extends Controller
             ]);
         }
     }
-    
-    
-
-
 }

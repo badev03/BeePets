@@ -321,7 +321,7 @@ class BookingController extends Controller
             $appointment->status = $request->input('status');
             if ($request->status == 1) {
                 $appointment->save();
-                $bill = $this->doctorController->createBill($appointment->id, $doctor->id, $appointment->user_id, $appointment->service_id, $service_price);
+                $bill = $this->doctorController->createBill($appointment->id, $doctor->id, $appointment->user_id);
                 $messageInterface->sendMessage($appointment->user_id, 'Bác sĩ ' . $doctor->name . '  đã xác nhận cuộc hẹn của bạn', $doctor->id, 'Bạn đã xác nhận thành công cuộc hẹn của khách hàng ' . $appointment->user->name);
             }
             if ($request->status == 4) {
@@ -332,7 +332,7 @@ class BookingController extends Controller
                 $appointment->reason_cancel = $reasonCancel;
                 $appointment->status = 6;
                 $appointment->save();
-                $messageInterface->sendDoctorToAdmin($doctor->id, 'bạn đã gửi yêu cầu hủy lịch hẹn của khách hàng' . $appointment->user->name, 1, 'bác sĩ ' . $doctor->name . ' đã gửi yêu cầu hủy lịch hẹn của khách hàng ' . $appointment->user->name);
+                $messageInterface->sendDoctorToAdmin($doctor->id, 'bạn đã gửi yêu cầu hủy lịch hẹn của khách hàng' . $appointment->user->name, 1, 'bác sĩ ' . $doctor->name . ' đã gửi yêu cầu hủy lịch hẹn của khách hàng ' . $appointment->user->name, $appointment->id);
                 return response()->json(['message' => 'Bạn đã hủy cuộc hẹn'], 200);
             }
             if ($request->status == 3) {
@@ -350,7 +350,7 @@ class BookingController extends Controller
                 $appointment->reason_change = $reasonChange;
                 $appointment->status = 7;
                 $appointment->save();
-                $messageInterface->sendDoctorToAdmin($doctor->id, 'bạn đã gửi yêu cầu đổi lịch hẹn của khách hàng' . $appointment->user->name, 1, 'bác sĩ ' . $doctor->name . ' đã gửi yêu cầu đổi lịch hẹn của khách hàng ' . $appointment->user->name);
+                $messageInterface->sendDoctorToAdmin($doctor->id, 'bạn đã gửi yêu cầu đổi lịch hẹn của khách hàng' . $appointment->user->name, 1, 'bác sĩ ' . $doctor->name . ' đã gửi yêu cầu đổi lịch hẹn của khách hàng ' . $appointment->user->name,$appointment->id);
                 return response()->json(['message' => 'Bạn đã yêu cầu đổi cuộc hẹn'], 200);
             }
             return response()->json([
