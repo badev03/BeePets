@@ -109,8 +109,28 @@ class AppointmentController extends Controller
     }
     public function ForConfirmation($id) {
         $this->findID($id , 1);
+        $appointments = Appointment::find($id);
+            $this->createBill($appointments->id , $appointments->doctor_id , $appointments->user_id
+            , $appointments->service_id , 0);
         return back()->with(['success_delete' => 'Đã xác nhận lịch hẹn này ']);
     }
+
+    public function createBill($appointmentId, $doctorId, $userId, $serviceId, $service_price)
+    {
+        $code = 'HĐ' . rand(100000, 999999);
+        $bill = new Bill();
+        $bill->code = $code;
+        $bill->appointment_id = $appointmentId;
+        $bill->doctor_id = $doctorId;
+        $bill->user_id = $userId;
+        $bill->service_id = $serviceId;
+        $bill->status = 0;
+        $bill->payment_method = 1;
+        $bill->total_amount = $service_price;
+        $bill->save();
+        return $bill;
+    }
+
 
     public function FinishedConfirmation($id) {
         $this->findID($id , 3);
@@ -137,7 +157,7 @@ class AppointmentController extends Controller
         if($checkShift) {
             return back()->with('error', 'Xin lỗi lịch đặt của bạn đã bị trùng với lịch bạn đặt trước đó');
         }
-        $checkPhone = $this->checkPhone($request->phone);
+        $checkPhone = $this->checkPhoneAppointments($request->user_id);
         if($checkPhone) {
             $data['user_id'] = $checkPhone->id;
             $this->tableQuery('appointments')->insert(array_merge($request->except('_token' , 'user_id') , $data));
@@ -146,6 +166,7 @@ class AppointmentController extends Controller
         }
         else {
             $data['user_id'] = $this->createUserAuto($request->user_id);
+            $checkPhone = $this->checkIdAppointment($request->user_id);
             $this->tableQuery('appointments')->insert(array_merge($request->except('_token') , $data));
             $messageUser->sendMessage($data['user_id'], 'Chào '.$checkPhone->name.'Chúng tôi đã tạo thành công lịch khám cho bạn' , 'UserName :'.$checkPhone->name.'đã đạt lịch của bạn');
             return back()->with('success', 'Thao tác thành công');
@@ -184,7 +205,7 @@ class AppointmentController extends Controller
     {
         $phone = $request->user_id;
         if($phone) {
-            $checkPhone = $this->checkPhone($phone);
+            $checkPhone = $this->checkPhoneAppointments($phone);
             if($checkPhone) {
                 $data = [
                     'time' =>now(),
@@ -227,8 +248,10 @@ class AppointmentController extends Controller
         ] , '200');
     }
 
-    public function FilterDate($data) {
-        $day_appointments = $this->QueryFilter()->where('appointments.date' , '=' , $data)->get();
+    public function FilterDate($data , $status) {
+        $day_appointments = $this->QueryFilter()->where('appointments.date' , '=' , $data)
+            ->where('appointments.status' , $status)
+            ->get();
         return response()->json(['day_appointments'=> $day_appointments] , '200');
     }
 
@@ -241,21 +264,32 @@ class AppointmentController extends Controller
             ->select('appointments.description' , 'doctors.name as doctor_id' , 'users.name as user_id',
                 'type_pets.name as type_pet_id' , 'services.name as service_id' , 'appointments.id',
                  'appointments.doctor_id as id_doctor'  , 'appointments.date'
-                );
+                )
+            ->addSelect('w.start_time' , 'w.end_time')
+            ->addSelect('appointments.status')
+            ->join('work_schedules as w', function ($join) {
+                $join->on('appointments.date', '=', 'w.date')
+                    ->on('appointments.doctor_id', '=', 'w.doctor_id')
+                    ->on('appointments.shift_name', '=', 'w.shift_name');
+            });
         return $query;
     }
 
     public function FilterSearch(Request $request) {
         $searchTerm = $request->input('searchTerm');
         $searchName = $this->QueryFilter()
-            ->where('users.name' , 'like' , '%'.$searchTerm.'%')->get();
+            ->where('users.name' , 'like' , '%'.$searchTerm.'%')
+            ->where('appointments.status' , $request->status)
+            ->get();
         return response()->json([
             'searchUser' => $searchName
         ] , '200');
     }
 
-    public function FilterTime($data) {
-        $time_appointments = $this->QueryFilter()->where('appointments.shift_name' , '=' , $data)->get();
+    public function FilterTime($data , $status) {
+        $time_appointments = $this->QueryFilter()->where('appointments.shift_name' , '=' , $data)
+            ->where('appointments.status' , $status)
+            ->get();
         return response()->json(['time_appointments'=> $time_appointments] , '200');
     }
 
@@ -382,13 +416,19 @@ class AppointmentController extends Controller
         }
     }
 
-    public function FilterService($data) {
-        $service = $this->QueryFilter()->where('appointments.service_id' , '=' , $data)->get();
+    public function FilterService($data , $status) {
+        $service = $this->QueryFilter()
+            ->where('appointments.service_id' , '=' , $data)
+            ->where('appointments.status' , $status)
+            ->get();
         return response()->json(['service'=> $service] , '200');
     }
 
-    public function FilterDoctor($data) {
-        $doctor = $this->QueryFilter()->where('appointments.doctor_id' , '=' , $data)->get();
+    public function FilterDoctor($data , $status) {
+        $doctor = $this->QueryFilter()
+            ->where('appointments.doctor_id' , '=' , $data)
+            ->where('appointments.status' , $status)
+            ->get();
         return response()->json(['doctor'=> $doctor] , '200');
     }
 
@@ -645,5 +685,9 @@ class AppointmentController extends Controller
                 'urlbase' => $this->urlbase,
                 'title_web' => $this->title,
             ]);
+    }
+
+    public function AddAppointments() {
+        return view($this->pathView . 'add-appointments');
     }
 }

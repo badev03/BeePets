@@ -10,6 +10,8 @@
                         <i class="fe fe-layout"></i>
                         <span> Cuộn hẹn</span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
+                        <li><a class="{{ request()->routeIs(['appointments.add-appointments', 'create-data.appointments']) ? 'active' : '' }}
+                        " href="{{ route('appointments.add-appointments') }}">Thêm cuộc hẹn</a></li>
                         <li><a class="{{ request()->routeIs('appointments.wait-for-confirmation') ? 'active' : '' }}" href="{{ route('appointments.wait-for-confirmation') }}">Lịch chờ xác nhận</a></li>
                         <li>
                             <a href="{{ route('appointment.index') }}" class="{{ request()->routeIs('appointment.*') ? 'active' : '' }}"> <span>Cuộc hẹn</span></a>

@@ -42,6 +42,20 @@ trait QueryCommon {
         return $checkPhone;
     }
 
+    public function checkPhoneAppointments($data) {
+        $checkPhone = $this->tableQuery('users')
+            ->where('phone' , '=' , $data)
+            ->first();
+        return $checkPhone;
+    }
+
+    public function checkIdAppointment($id) {
+        $checkPhone = $this->tableQuery('users')
+            ->where('id' , '=' , $id)
+            ->first();
+        return $checkPhone;
+    }
+
     public function queryCommon() {
         $query = DB::table('appointments')
             ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
@@ -64,4 +78,32 @@ trait QueryCommon {
         return $data;
     }
 
+
+    public function validatePhone() {
+        $rules = [
+            'phone' => 'required|numeric',
+        ];
+        $customMessages = [
+            'phone.required' => 'Trường số điện thoại là bắt buộc.',
+            'phone.numeric' => 'Trường số điện thoại phải là số.',
+        ];
+        $this->validate($rules, $customMessages);
+    }
+
+    public function appointmentsCommon() {
+        $dataDoctor = $this->tableSelectCommon('doctors')->get();
+        $dataService = $this->tableSelectCommon('services')->get();
+        $dataTypePet = $this->tableSelectCommon('type_pets')->get();
+
+        return [
+            'dataDoctor' => $dataDoctor,
+            'dataService' => $dataService,
+            'dataTypePet' => $dataTypePet,
+        ];
+    }
+
+    public function tableSelectCommon($table) {
+        $query = DB::table($table)->select('id' , 'name');
+        return $query;
+    }
 }

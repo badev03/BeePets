@@ -1,9 +1,9 @@
 <td class="d-flex" style="grid-gap:1rem">
     <div class="actions">
-        @if(!request()->routeIs('wait-for-confirmation'))
-        <a href="{{ route('appointments.detail-bills-appointment' , $value->id) }}" class="delete_data btn btn-sm bg-info-light">
-            Xem chi tiết cuộc hẹn / bill
-        </a>
+        @if(!request()->routeIs('appointments.wait-for-confirmation'))
+            <a href="{{ route('appointments.detail-bills-appointment' , $value->id) }}" class="delete_data btn btn-sm bg-info-light">
+                Xem chi tiết cuộc hẹn / bill
+            </a>
         @endif
         @if($value->date < date('Y-m-d') && !request()->routeIs('appointments.bills-appointment'))
             <a class="btn btn-sm bg-success-light" href="#">
