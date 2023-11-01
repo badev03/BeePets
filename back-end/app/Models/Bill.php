@@ -13,6 +13,11 @@ class Bill extends Model
         'payment_method',
         'status','transaction_type','user_id','service_id','appointment_id','promotion_id'];
 
+        public function services()
+        {
+            return $this->belongsToMany(Service::class, 'bill_service', 'bill_id', 'service_id');
+        }
+        
     public function user(){
         return $this->belongsTo(User::class,'user_id');
     }
@@ -20,10 +25,7 @@ class Bill extends Model
         return $this->belongsTo(Service::class,'service_id');
     }
 
-    public function services()
-    {
-        return $this->belongsToMany(Service::class, 'bill_service', 'bill_id', 'service_id');
-    }
+   
     public function appointment()
     {
         return $this->belongsTo(Appointment::class, 'appointment_id', 'id');
