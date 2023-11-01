@@ -1,5 +1,11 @@
 @extends('layouts.partials.master')
+@push('style')
+    <link rel="stylesheet" href="{{asset('backend/assets/plugins/datatables/datatables.min.css')}}">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <style>
 
+    </style>
+@endpush
 @section('content')
 <div class="row">
     <div class="col">
@@ -15,7 +21,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <table class="table table-bordered table-hover">
+                <table class="table table-bordered table-hover" id="dataTable">
                     <thead>
                         <tr>
                             <th>STT</th>
@@ -55,3 +61,46 @@
 
 
 @endsection
+
+@push('script')
+    <script src="{{asset('backend/assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('backend/assets/plugins/datatables/datatables.min.js')}}"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                initComplete: function () {
+                    this.api().columns().every( function () {
+                        var column = this;
+                        var select = $('<select class="form-select form-select-sm"><option value=""></option></select>')
+                            .appendTo( $(column.footer()).empty() )
+                            .on( 'change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+                                column
+                                    .search( val ? '^'+val+'$' : '', true, false )
+                                    .draw();
+                            } );
+                        column.data().unique().sort().each( function ( d, j ) {
+                            select.append( '<option value="'+d+'">'+d+'</option>' )
+                        } );
+                    } );
+                },
+                "initComplete": function () {
+                    this.api().columns().every( function () {
+                        var column = this;
+                        var input = document.createElement("input");
+                        $(input).appendTo($(column.header()))
+                            .val('')
+                            .addClass('form-control form-control-sm')
+                            .attr('placeholder', 'Search')
+                            .on('keyup', function () {
+                                column.search($(this).val()).draw();
+                            });
+                    } );
+                }
+            });
+        });
+    </script>
+@endpush

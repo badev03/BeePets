@@ -330,16 +330,18 @@ const DetailBIll = () => {
           </div>
         </div>
       </div>
+      {bill.appointment.status === 3 && (
+          <div className="submit-section submit-section2">
+            <button
+              type="submit"
+              className="btn btn-primary submit-btn"
+              onClick={generatePDF}
+            >
+              In
+            </button>
+          </div>
+        )}
 
-      <div className="submit-section submit-section2">
-        <button
-          type="submit"
-          className="btn btn-primary submit-btn"
-          onClick={generatePDF}
-        >
-          In
-        </button>
-      </div>
     </div>
   );
 };

@@ -222,13 +222,13 @@ const Appointments = () => {
                   to={appointment.bill[0]?.id ? `/doctors/detail-bill/${appointment.bill[0].id}` : "#"}
                   className="btn btn-sm bg-info-light"
                 >
-                  <i className="far fa-eye" /> Bill
+                  <i className="far fa-eye" /> Hóa Đơn
                 </Link>
               <Link
                 to={appointment.bill[0]?.id ? `/doctors/edit-bill/${appointment.bill[0].id}` : "#"}
                 className="btn btn-sm bg-success-light"
               >
-                <i className="fas fa-edit" /> Sửa Bill
+                <i className="fas fa-edit" /> Sửa Hóa Đơn
               </Link>
             
          <Link>
