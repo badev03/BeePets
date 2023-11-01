@@ -23,8 +23,8 @@ class Bill extends Model
     {
         return $this->belongsTo(Appointment::class, 'appointment_id', 'id');
     }
-    public function prescription(){
-        return $this->belongsTo(Prescription::class,'prescription_id');
+    public function prescriptions(){
+        return $this->hasMany(Prescription::class,'bill_id');
     }
     public function order_detail(){
         return $this->hasMany(Order_detail::class,'bill_id');
@@ -32,6 +32,9 @@ class Bill extends Model
     public function promotion(){
         return $this->belongsTo(Promotion::class,'promotion_id');
     }
-
+    public function doctor()
+    {
+        return $this->belongsTo(Doctor::class);
+    }
 
 }

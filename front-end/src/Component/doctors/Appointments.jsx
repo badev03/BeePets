@@ -18,6 +18,7 @@ const Appointments = () => {
   const [appointments, setAppointment] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [loadingIddd, setLoadingIddd] = useState(null);
   const [loadingIdd, setLoadingIdd] = useState(null);
   const [loadingId, setLoadingId] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -110,7 +111,7 @@ const Appointments = () => {
   };
   const handleRescheduleStatus = async (id, reason) => {
     try {
-      setLoadingIdd(id);
+      setLoadingIddd(id);
   
       const respon = await axios.put(
         `http://127.0.0.1:8000/api/update-appointment/${id}?status=7&reason_change=${reason}`,
@@ -131,7 +132,7 @@ const Appointments = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      setLoadingIdd(null);
+      setLoadingIddd(null);
     }
   };
   const handleCancel = () => {
@@ -192,30 +193,37 @@ const Appointments = () => {
        
         <td>{appointment.user.phone}</td>
         <td>
-          {appointment.status == 1 ? (
-            <span className="badge rounded-pill bg-success-light">
-              Xác nhận
-            </span>
-          ) : appointment.status == 2 ? (
-            <span className="badge rounded-pill bg-danger-light">Đã hủy</span>
-          ) : (
-            // Optional default case
-            <span className="badge rounded-pill bg-info-light">
-              Không xác định
-            </span>
-          )}
-        </td>
+            {appointment.status == 1 ? (
+              <span className="badge rounded-pill bg-success-light">
+                Xác nhận
+              </span>
+            ) : appointment.status == 2 ? (
+              <span className="badge rounded-pill bg-danger-light">Đã xóa</span>
+            ) : appointment.status == 3 ? (
+              <span className="badge rounded-pill bg-primary-light">Đã hoàn thành</span>
+            ) : appointment.status == 6 ? (
+              <span className="badge rounded-pill bg-warning-light">Yêu cầu hủy</span>
+            ) : appointment.status == 7 ? (
+              <span className="badge rounded-pill bg-info-light">Yêu cầu đổi lịch</span>
+            ) : (
+              // Default case
+              <span className="badge rounded-pill bg-info-light">
+                Không xác định
+              </span>
+            )}
+          </td>
+          {appointment.status == 1 && (
         <td>
           <div className="table-action">
-          <Link to={`/doctors/accept-detail-appointments/${appointment.id}`} className="btn btn-sm bg-info-light">
-              <i className="far fa-eye" /> Lịch Hẹn
-            </Link>
-            <Link
-                to={appointment.bill[0]?.id ? `/doctors/detail-bill/${appointment.bill[0].id}` : "#"}
-                className="btn btn-sm bg-info-light"
-              >
-                <i className="far fa-eye" /> Bill
+            <Link to={`/doctors/accept-detail-appointments/${appointment.id}`} className="btn btn-sm bg-info-light">
+                <i className="far fa-eye" /> Lịch Hẹn
               </Link>
+              <Link
+                  to={appointment.bill[0]?.id ? `/doctors/detail-bill/${appointment.bill[0].id}` : "#"}
+                  className="btn btn-sm bg-info-light"
+                >
+                  <i className="far fa-eye" /> Bill
+                </Link>
               <Link
                 to={appointment.bill[0]?.id ? `/doctors/edit-bill/${appointment.bill[0].id}` : "#"}
                 className="btn btn-sm bg-success-light"
@@ -246,7 +254,7 @@ const Appointments = () => {
                  onClick={() => showModal(appointment.id) }
               className="btn btn-sm bg-success-light"
             >
-               {loadingIdd === appointment.id ? (
+               {loadingIddd === appointment.id ? (
                 <div className="loading-spinner">
                 <FaSpinner className="spinner" /> Y/C Đổi Lịch
               </div>
@@ -271,7 +279,11 @@ const Appointments = () => {
             </div>
             </Link>
           </div>
-          <Modal title="Yêu cầu Hủy Lịch" visible={isModalVisible}   onCancel={() => setIsModalVisible(false)}>
+          <Modal title="Yêu cầu Hủy Lịch" visible={isModalVisible}   onCancel={() => setIsModalVisible(false)} footer={[
+  <Button key="cancel" onClick={() => setIsModalVisible(false)}>
+    Cancel
+  </Button>
+]}>
         <Form
          onFinish={(values) => {
           handleCancelStatus(selectedAppointmentId, values.content)
@@ -309,7 +321,11 @@ const Appointments = () => {
   title="Yêu cầu Đổi Lịch"
   visible={isModalVisible}
   onCancel={() => setIsModalVisible(false)}
->
+  footer={[
+    <Button key="cancel" onClick={() => setIsModalVisible(false)}>
+      Cancel
+    </Button>
+  ]}>
   <Form
     onFinish={(values) => {
       handleRescheduleStatus(selectedAppointmentId, values.content);
@@ -344,6 +360,19 @@ const Appointments = () => {
   </Form>
 </Modal>
         </td>
+        )}
+        {appointment.status != 1 && (
+        <td>
+          <div className="table-action">
+            <Link to={`/doctors/accept-detail-appointments/${appointment.id}`} className="btn btn-sm bg-info-light">
+              <i className="far fa-eye" /> Lịch Hẹn
+            </Link>
+            <Link to={appointment.bill[0]?.id ? `/doctors/detail-bill/${appointment.bill[0].id}` : "#"} className="btn btn-sm bg-info-light">
+              <i className="far fa-eye" /> Bill
+            </Link>
+          </div>
+        </td>
+        )}
       </tr>
     ));
 

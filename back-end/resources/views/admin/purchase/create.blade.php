@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('checkout.cash') }}" method="post">
+                    <form action="{{ route('checkout.cash') }}" method="post" id="form-payment">
                         @csrf
                         <div class="row">
                             <div class="col">
@@ -47,7 +47,7 @@
                             <div class="col">
                                 <div class="mb-3">
                                     <label for="user_id" class="form-label">Số điện thoại</label>
-                                    <select name="customer_phone" id="user_id" class="form-control user_id" multiple="multiple" >
+                                    <select name="customer_phone" id="user_id" class="form-control user_id"  >
                                         <option value="">Chọn số điện thoại</option>
                                         @foreach($users as $customer)
                                             <option value="{{ $customer->phone }}">{{ $customer->phone }} / {{ $customer->name }}</option>
@@ -65,7 +65,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-3">
+                            <div class="col-12">
                                 <div class="mb-3">
                                     <label for="products" class="form-label">Sản phẩm</label>
                                     <select class="form-control products  select" id="products" multiple="multiple"
@@ -80,6 +80,7 @@
                         <table class="table table-bordered d-none" id="table-order">
                             <thead>
                             <tr>
+                                <th>Hình ảnh</th>
                                 <th>Tên sản phẩm</th>
                                 <th>Giá bán</th>
                                 <th>Số lượng</th>
@@ -91,7 +92,7 @@
                             </tbody>
                             <tfoot>
                             <tr>
-                                <th colspan="3" class="text-start">Tổng tiền</th>
+                                <th colspan="4" class="text-start">Tổng tiền</th>
                                 <th colspan="2" class="text-start" >
                                     <b class="total" id="total"></b>
                                     <input type="hidden" id="total_amount" name="total_amount">
@@ -115,7 +116,7 @@
                         </div>
                         <div class="row d-none" id="btn-save">
                             <div class="col">
-                                <button type="submit" class="btn btn-primary float-start">Lưu</button>
+                                <button type="submit" class="btn btn-primary float-start btn-checkout">Lưu</button>
                             </div>
                         </div>
                     </form>
@@ -133,37 +134,6 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function () {
-            $("select.user_id").select2({
-
-                tags: true,
-                tokenSeparators: [',', ' '],
-            }).on('select2:selecting', function(e) {
-                var value = e.params.args.data.id.trim().toLowerCase();
-                var selectedValues = $(this).val() || [];
-                selectedValues = selectedValues.map(v => v.trim().toLowerCase());
-                if (selectedValues.indexOf(value) > -1) {
-                    e.preventDefault();
-                    $(this).val(selectedValues).trigger('change.select2');
-                }
-            });
-            $('#user_id').on('select2:select', function (e) {
-                var data = e.params.data;
-                if(data.id != ''){
-                    $.ajax({
-                        url: "{{ route('purchase.getCustomerName') }}",
-                        type: "GET",
-                        data: {
-                            phone: data.id
-                        },
-                        success: function (response) {
-                            $('#name').val(response.data.name);
-                        }
-                    });
-                }else {
-                    $('#name').val('');
-                    $('#phone').val('');
-                }
-            });
             $('.products').on('change', function () {
                 var product_id = $(this).val();
                 for (var i = 0; i < product_id.length; i++) {
@@ -180,10 +150,10 @@
                             success : function (result){
                                 var html = '';
                                 html += '<tr id="product-' + result.data.id + '">';
+                                html += '<td><img src="' + result.data.image + '" alt="" width="60"></td>';
                                 html += '<td>' + result.data.name + '</td>';
                                 html += '<td>' + result.data.price + '</td>';
                                 html += '<td><input type="number" class="form-control quantity" name="quantity[]" value="1"></td>';
-
                                 html += '<td>' + result.data.price + '</td>';
                                 html += '<td><button type="button" class="btn btn-danger btn-sm remove-product" data-id="' + result.data.id + '"><i class="fas fa-trash-alt"></i></button></td>';
                                 html += '</tr>';
@@ -199,9 +169,9 @@
 
             $(document).on('change', '.quantity', function() {
                 var quantity = $(this).val();
-                var price = $(this).closest('tr').find('td:nth-child(2)').text();
+                var price = $(this).closest('tr').find('td:nth-child(3)').text();
                 var total = quantity * price;
-                $(this).closest('tr').find('td:nth-child(4)').text(total);
+                $(this).closest('tr').find('td:nth-child(5)').text(total);
             });
             $('.products').on('select2:unselecting', function(e) {
                 var product_id = e.params.args.data.id;
@@ -214,37 +184,86 @@
                 $('#products').trigger('change.select2');
                 updateTotal();
             });
-            $(document).on('click', '.plus', function() {
-                var quantity = $(this).closest('tr').find('td:nth-child(3) input').val();
-                quantity++;
-                $(this).closest('tr').find('td:nth-child(3) input').val(quantity);
-                var price = $(this).closest('tr').find('td:nth-child(2)').text();
-                var total = quantity * price;
-                $(this).closest('tr').find('td:nth-child(4)').text(total);
-            });
-            $(document).on('click', '.minus', function() {
-                var quantity = $(this).closest('tr').find('td:nth-child(3) input').val();
-                if (quantity > 1) {
-                    quantity--;
-                    $(this).closest('tr').find('td:nth-child(3) input').val(quantity);
-                    var price = $(this).closest('tr').find('td:nth-child(2)').text();
-                    var total = quantity * price;
-                    $(this).closest('tr').find('td:nth-child(4)').text(total);
-                }
-            });
+            // $(document).on('click', '.plus', function() {
+            //     var quantity = $(this).closest('tr').find('td:nth-child(4) input').val();
+            //     quantity++;
+            //     $(this).closest('tr').find('td:nth-child(4) input').val(quantity);
+            //     var price = $(this).closest('tr').find('td:nth-child(3)').text();
+            //     var total = quantity * price;
+            //     $(this).closest('tr').find('td:nth-child(5)').text(total);
+            // });
+            // $(document).on('click', '.minus', function() {
+            //     var quantity = $(this).closest('tr').find('td:nth-child(4) input').val();
+            //     if (quantity > 1) {
+            //         quantity--;
+            //         $(this).closest('tr').find('td:nth-child(4) input').val(quantity);
+            //         var price = $(this).closest('tr').find('td:nth-child(3)').text();
+            //         var total = quantity * price;
+            //         $(this).closest('tr').find('td:nth-child(5)').text(total);
+            //     }
+            // });
             function updateTotal() {
                 var total = 0;
                 $('.quantity').each(function() {
                     var quantity = $(this).val();
-                    var price = $(this).closest('tr').find('td:nth-child(2)').text();
+                    var price = $(this).closest('tr').find('td:nth-child(3)').text();
                     total += quantity * price;
                 });
-                $('#total').text(total);
+                //format lại số tiền
+
                 $('#total_amount').val(total);
+                $('#total').text(total);
             }
             $(document).on('DOMNodeInserted', 'tbody tr', function() {
                 updateTotal();
             });
+
+
+
+            $("select.user_id").select2({
+                tags: true,
+            }).on('select2:selecting', function(e) {
+                var value = e.params.args.data.id.trim().toLowerCase();
+
+                if (!/^\d{10}$/.test(value)) {
+                    e.preventDefault();
+                   toastr.error('Số điện thoại không hợp lệ', 'Error');
+                    return;
+                }
+            });
+            $('#user_id').on('select2:select', function (e) {
+                var data = e.params.data;
+                if(data.id !== '') {
+                    $.ajax({
+                        url: "{{ route('purchase.getCustomerName') }}",
+                        type: "GET",
+                        data: {
+                            phone: data.id
+                        },
+                        success: function (response) {
+                            $('#name').val(response.data.name);
+                        }
+                    });
+                } else {
+                    $('#name').val('');
+                    $('#phone').val('');
+                }
+            });
+            $('#vnpay').change(function () {
+                if($(this).is(':checked')) {
+                    $('.btn-checkout').attr('name', 'redirect');
+                    $('#form-payment').attr('action', '{{ route('checkout.vnpay') }}');
+                }
+            });
+            $('#cash').change(function () {
+                if($(this).is(':checked')) {
+                    $('.btn-checkout').attr('name', 'cash');
+                    $('#form-payment').attr('action', '{{ route('checkout.cash') }}');
+                }
+            });
+
+
+
         });
     </script>
 @endpush

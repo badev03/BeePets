@@ -4,34 +4,27 @@ import { Link } from "react-router-dom";
 import appointmentsApi from "../../api/appointmentsApi";
 import { useEffect, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { Select } from 'antd';
 import axios from "axios";
 import ReactPaginate from "react-paginate";
-import { FaSpinner } from 'react-icons/fa';
+import { FaSpinner } from "react-icons/fa";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import LoadingSkeleton from '../Loading';
-import { Modal, Form, Input, Button } from 'antd';
+import LoadingSkeleton from "../Loading";
+import { Modal, Form, Input, Button } from "antd";
 
 const MySwal = withReactContent(Swal);
-const OPTIONS = ['Ca 1', 'Ca 2', 'Ca 3'];
-const { Option } = Select;
-const handleChange = (value) => {
-  console.log(`selected ${value}`);
-};
+
 const Dashboarddoctors = () => {
   const [appointments, setAppointment] = useState([]);
-  const [searchName, setSearchName] = useState('');
-  const [searchDate, setSearchDate] = useState('');
-  const [searchShift, setSearchShift] = useState('');
-  const [searchService, setSearchService] = useState('');
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [searchName, setSearchName] = useState("");
+  const [searchDate, setSearchDate] = useState("");
+  const [searchShift, setSearchShift] = useState("");
+  const [searchService, setSearchService] = useState("");
   const [loadingId, setLoadingId] = useState(null);
   const [loadingIdd, setLoadingIdd] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [error, setError] = useState(false);
-  const filteredOptions = OPTIONS.filter((o) => !selectedItems.includes(o));
   const token = localStorage.getItem("token");
   // const [cancelId, setCancelId] = useState(null);
   const [reason, setReason] = useState("");
@@ -67,11 +60,14 @@ const Dashboarddoctors = () => {
     return (
       appointment.user.name.toLowerCase().includes(searchName.toLowerCase()) &&
       appointment.date.toLowerCase().includes(searchDate.toLowerCase()) &&
-      appointment.shift_name.toLowerCase().includes(searchShift.toLowerCase()) &&
-      appointment.service.name.toLowerCase().includes(searchService.toLowerCase())
+      appointment.shift_name
+        .toLowerCase()
+        .includes(searchShift.toLowerCase()) &&
+      appointment.service.name
+        .toLowerCase()
+        .includes(searchService.toLowerCase())
     );
   });
-
 
   const pageCount = Math.ceil(appointments.length / appointmentsPerPage);
 
@@ -91,16 +87,15 @@ const Dashboarddoctors = () => {
           },
         },
       );
-     
+
       MySwal.fire({
         title: "Cập nhật trạng thái  thành công!",
         icon: "success",
       });
       fetchAppointment();
-
     } catch (error) {
       console.log(error);
-    }finally {
+    } finally {
       setLoadingId(null);
     }
   };
@@ -111,14 +106,13 @@ const Dashboarddoctors = () => {
   };
 
   const handleCancelStatus = async (id, reason) => {
-  console.log(reason);
-  console.log(id)
+    console.log(reason);
+    console.log(id);
     try {
-   
       setLoadingIdd(id);
-  
+
       const respon = await axios.put(
-        `http://127.0.0.1:8000/api/update-appointment/${id}?status=4&reason_cancel=${reason}`,
+        `http://127.0.0.1:8000/api/update-appointment/${id}?status=6&reason_cancel=${reason}`,
         {},
         {
           headers: {
@@ -127,7 +121,7 @@ const Dashboarddoctors = () => {
         },
       );
       setIsModalVisible(false);
-  
+
       MySwal.fire({
         title: "Cập nhật trạng thái  thành công!",
         icon: "success",
@@ -140,107 +134,110 @@ const Dashboarddoctors = () => {
     }
   };
   const displayAppointments = filteredAppointments
-  .slice(pagesVisited, pagesVisited + appointmentsPerPage)
-  .map((appointment) => (
-    <tr key={appointment.id}>
-      <td>
-        <h2 className="table-avatar">
-          <Link to="patient-profile.html" className="avatar avatar-sm me-2">
-            <img
-              className="avatar-img rounded-circle"
-              src="img/patients/patient.jpg"
-              alt="User Image"
-            />
-          </Link>
-          <Link to="patient-profile.html">{appointment.user.name} </Link>
-        </h2>
-      </td>
-      <td>
-        {appointment.date}
-        <span className="d-block text-info">{appointment.shift_name}</span>
-      </td>
-      <td>{appointment.service.name}</td>
-      <td>{appointment.type_pet.name}</td>
-      <td>
-        <div className="table-action">
-          <Link
-            to={`/doctors/detail-appointments/${appointment.id}`}
-            className="btn btn-sm bg-info-light"
-          >
-            <i className="far fa-eye" /> View
-          </Link>
-          <div
-              onClick={() => handleUpdate(appointment.id) }
+    .slice(pagesVisited, pagesVisited + appointmentsPerPage)
+    .map((appointment) => (
+      <tr key={appointment.id}>
+        <td>
+          <h2 className="table-avatar">
+            <Link to="patient-profile.html" className="avatar avatar-sm me-2">
+              <img
+                className="avatar-img rounded-circle"
+                src="img/patients/patient.jpg"
+                alt="User Image"
+              />
+            </Link>
+            <Link to="patient-profile.html">{appointment.user.name} </Link>
+          </h2>
+        </td>
+        <td>
+          {appointment.date}
+          <span className="d-block text-info">{appointment.shift_name}</span>
+        </td>
+        <td>{appointment.service.name}</td>
+        <td>{appointment.type_pet.name}</td>
+        <td>
+          <div className="table-action">
+            <Link
+              to={`/doctors/detail-appointments/${appointment.id}`}
+              className="btn btn-sm bg-info-light"
+            >
+              <i className="far fa-eye" /> View
+            </Link>
+            <div
+              onClick={() => handleUpdate(appointment.id)}
               className="btn btn-sm bg-success-light position-relative"
             >
               {loadingId === appointment.id ? (
                 <div className="loading-spinner">
-                <FaSpinner className="spinner" /> Chấp nhận
-              </div>
+                  <FaSpinner className="spinner" /> Chấp nhận
+                </div>
               ) : (
                 <>
                   <i className="fas fa-check me-2" /> Chập nhận
                 </>
               )}
             </div>
-          <div
-            onClick={() => showModal(appointment.id) }
-            className="btn btn-sm bg-danger-light position-relative"
-          >
-             {loadingIdd === appointment.id ? (
+            <div
+              onClick={() => showModal(appointment.id)}
+              className="btn btn-sm bg-danger-light position-relative"
+            >
+              {loadingIdd === appointment.id ? (
                 <div className="loading-spinner">
-                <FaSpinner className="spinner" /> Y/C Hủy
-              </div>
+                  <FaSpinner className="spinner" /> Y/C Hủy
+                </div>
               ) : (
                 <>
-                <i className="fas fa-times" /> Y/C Hủy
-
+                  <i className="fas fa-times" /> Y/C Hủy
                 </>
               )}
-
-
+            </div>
           </div>
-          <Modal title="Yêu cầu Hủy Lịch" visible={isModalVisible}   onCancel={() => setIsModalVisible(false)}>
-        <Form
-         onFinish={(values) => {
-          handleCancelStatus(selectedAppointmentId, values.content)
-          console.log('Received values of form: ', reason,selectedAppointmentId);
-
-        }}>
-          {/* Thêm các trường form tại đây */}
-          <Form.Item
-            name="content"
-            rules={[
-              {
-                required: true,
-                message: 'Vui lòng nhập lí do hủy cuộc hẹn!',
-              },
-              {
-                min: 6,
-                message: 'Lí do hủy phải có ít nhất 6 ký tự!',
-              },
-            ]}
+        </td>
+        <Modal
+          title="Yêu cầu Hủy Lịch"
+          visible={isModalVisible}
+          onCancel={() => setIsModalVisible(false)}
+          footer={[
+            <Button key="cancel" onClick={() => setIsModalVisible(false)}>
+              Cancel
+            </Button>,
+          ]}
+        >
+          <Form
+            onFinish={(values) => {
+              handleCancelStatus(selectedAppointmentId, values.content);
+              // console.log('Received values of form: ', reason,selectedAppointmentId);
+            }}
           >
-            <Input.TextArea
-              placeholder="Nhập lí do hủy cuộc hẹn tại đây"
-              autoSize={{ minRows: 3, maxRows: 5 }}
-              onChange={(e) => setReason(e.target.value)}
-            />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Gửi Yêu cầu
-            </Button>
-          </Form.Item>
-        </Form>
-      </Modal>
-        </div>
-        
-      </td>
-    
-    </tr>
-    
-  ));
+            {/* Thêm các trường form tại đây */}
+            <Form.Item
+              name="content"
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng nhập lí do hủy cuộc hẹn!",
+                },
+                {
+                  min: 6,
+                  message: "Lí do hủy phải có ít nhất 6 ký tự!",
+                },
+              ]}
+            >
+              <Input.TextArea
+                placeholder="Nhập lí do hủy cuộc hẹn tại đây"
+                autoSize={{ minRows: 3, maxRows: 5 }}
+                onChange={(e) => setReason(e.target.value)}
+              />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Gửi Yêu cầu
+              </Button>
+            </Form.Item>
+          </Form>
+        </Modal>
+      </tr>
+    ));
   return (
     <div>
       <div className="breadcrumb-bar-two">
@@ -269,56 +266,51 @@ const Dashboarddoctors = () => {
               <Menudashboard />
             </div>
             <div className="col-md-7 col-lg-8 col-xl-9">
-          
               <div className="row">
                 <div className="col-md-12">
                   <h4 className="mb-4">Lịch hẹn của bệnh nhân</h4>
                   <div className="appointment-tab">
-                  
-                  <div className="search-container">
-                    <div className="input-group">
-                    
-                      <input
-                        type="text"
-                        id="searchName"
-                        placeholder="Lọc theo tên"
-                        onChange={(e) => setSearchName(e.target.value)}
-                        className="input-group-item"
-                      />
-                    </div>
+                    <div className="search-container">
+                      <div className="input-group">
+                        <input
+                          type="text"
+                          id="searchName"
+                          placeholder="Lọc theo tên"
+                          onChange={(e) => setSearchName(e.target.value)}
+                          className="input-group-item"
+                        />
+                      </div>
 
-                    <div className="input-group">
-                     
-                      <input
-                        type="text"
-                        id="searchDate"
-                        placeholder="Lọc theo ngày"
-                        onChange={(e) => setSearchDate(e.target.value)}
-                        className="input-group-item"
-                      />
-                    </div>
+                      <div className="input-group">
+                        <input
+                          type="text"
+                          id="searchDate"
+                          placeholder="Lọc theo ngày"
+                          onChange={(e) => setSearchDate(e.target.value)}
+                          className="input-group-item"
+                        />
+                      </div>
 
-                    <div className="input-group">
-                      <input
-                        type="text"
-                        id="searchShift"
-                        placeholder="Lọc theo ca"
-                        onChange={(e) => setSearchShift(e.target.value)}
-                        className="input-group-item"
-                      />
-                    </div>
+                      <div className="input-group">
+                        <input
+                          type="text"
+                          id="searchShift"
+                          placeholder="Lọc theo ca"
+                          onChange={(e) => setSearchShift(e.target.value)}
+                          className="input-group-item"
+                        />
+                      </div>
 
-                    <div className="input-group">
-                      
-                      <input
-                        type="text"
-                        id="searchService"
-                        placeholder="Lọc theo dịch vụ"
-                        onChange={(e) => setSearchService(e.target.value)}
-                        className="input-group-item"
-                      />
+                      <div className="input-group">
+                        <input
+                          type="text"
+                          id="searchService"
+                          placeholder="Lọc theo dịch vụ"
+                          onChange={(e) => setSearchService(e.target.value)}
+                          className="input-group-item"
+                        />
+                      </div>
                     </div>
-                  </div>
                     <div className="tab-content">
                       <div
                         className="tab-pane show active"
@@ -338,15 +330,21 @@ const Dashboarddoctors = () => {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                {loading ? (
+                                  {loading ? (
                                     <tr>
-                                      <td colSpan="5" >
+                                      <td colSpan="5">
                                         <LoadingSkeleton />
                                       </td>
                                     </tr>
                                   ) : error ? (
                                     <tr>
-                                      <td  colSpan="5" className="empty-appointments">Hiện tại chưa có lịch hẹn nào cần xác nhận</td>
+                                      <td
+                                        colSpan="5"
+                                        className="empty-appointments"
+                                      >
+                                        Hiện tại chưa có lịch hẹn nào cần xác
+                                        nhận
+                                      </td>
                                     </tr>
                                   ) : (
                                     displayAppointments

@@ -25,6 +25,11 @@ const Header = () => {
   const [updateNoti, setUpdateNoti] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  const handleDeleteNotification = (notificationId) => {
+    // Thực hiện việc xóa thông báo dựa trên notificationId
+    // Sau khi xóa, bạn cần cập nhật danh sách thông báo bằng cách loại bỏ thông báo có notificationId này
+  };
+
   const handleNotificationClick = async () => {
     try {
       // console.log(123);
@@ -298,7 +303,14 @@ const Header = () => {
                                         <p className="noti-details">
                                           {notifications.message}
                                         </p>
-                                      </div>
+                                    </div>
+                                    <button
+                                      className="custom-delete-button btn sm"
+                                      onClick={() => handleDeleteNotification(notification.id)}
+                                    >
+                                      {/* <i className="custom-icon">&#10006;</i> */}
+                                      <i class="fa-solid fa-delete-left"></i>
+                                    </button>
                                     </div>
                                   </a>
                                 </li>

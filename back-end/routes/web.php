@@ -128,6 +128,14 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
         Route::get('get-user',[OrderController::class, 'getUser'])->name('purchase.getCustomerName');
         //get product
         Route::get('get-product/{id}',[OrderController::class, 'getProduct'])->name('purchase.getProduct');
+        //getOrderByID
+        Route::get('get-order/{id}',[OrderController::class, 'getOrderByID'])->name('purchase.getOrder');
+        //updateByCash
+        Route::post('update-order-cash',[OrderController::class, 'updateByCash'])->name('purchase.updateByCash');
+        //updateByVnpay
+        Route::post('update-order-vnpay',[OrderController::class, 'updateByVnpay'])->name('purchase.updateByVnpay');
+        //return-vnpay
+        Route::get('return-vnpay',[OrderController::class, 'returnVnpay'])->name('purchase.returnVnpay');
     });
 
 });
