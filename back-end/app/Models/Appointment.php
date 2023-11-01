@@ -21,6 +21,7 @@ class Appointment extends Model
         'service_id',
         'doctor_id',
         'customer_name',
+        'group_service_id',
         'user_id',
     ];
     public function user()

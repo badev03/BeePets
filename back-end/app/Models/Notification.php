@@ -17,5 +17,6 @@ class Notification extends Model
         'message_admin',
         'read',
         'read_user',
+        'appointment_id'
     ];
 }
