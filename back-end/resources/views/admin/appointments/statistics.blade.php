@@ -17,7 +17,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="d-flex flex-wrap justify-content-between align-items-center">
-                            <h4 class="card-title">Thông kê cuộc hẹn</h4>
+                            <h4 class="card-title">Thống kê cuộc hẹn</h4>
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -95,11 +95,17 @@
                             var statusName = '';
 
                             if (stat.status == 0) {
-                                statusName = 'Hóa đơn đã chờ xác nhận';
+                                statusName = 'Hóa đơn chờ xác nhận';
                             } else if (stat.status == 1) {
                                 statusName = 'Hóa đơn đã xác nhận';
-                            } else {
-                                statusName = 'Hóa đơn đã hủy';
+                            } else if(stat.status == 3) {
+                                statusName = 'Hóa đơn đã hoàn thành';
+                            }
+                            else if(stat.status == 7) {
+                                statusName = 'Hóa đơn yêu cầu đổi lịch';
+                            }
+                            else if(stat.status == 6) {
+                                statusName = 'Hóa đơn yêu cầu hủy lịch';
                             }
                             chartData.push({date: statusName, value: stat.count});
                         });
@@ -140,11 +146,17 @@
                             var statusName = '';
 
                             if (stat.status == 0) {
-                                statusName = 'Hóa đơn đã chờ xác nhận';
+                                statusName = 'Hóa đơn chờ xác nhận';
                             } else if (stat.status == 1) {
                                 statusName = 'Hóa đơn đã xác nhận';
-                            } else {
-                                statusName = 'Hóa đơn đã hủy';
+                            } else if(stat.status == 3) {
+                                statusName = 'Hóa đơn đã hoàn thành';
+                            }
+                            else if(stat.status == 7) {
+                                statusName = 'Hóa đơn yêu cầu đổi lịch';
+                            }
+                            else if(stat.status == 6) {
+                                statusName = 'Hóa đơn yêu cầu hủy lịch';
                             }
                             chartData.push({date: statusName, value: stat.count});
                         });

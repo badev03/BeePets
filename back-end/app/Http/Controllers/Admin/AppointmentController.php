@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\AppointmentRequest;
 use App\Interfaces\MessageUser;
 use App\Models\Appointment;
+use App\Models\Bill;
 use App\Models\Doctor;
 use App\Models\Service;
 use App\Models\Type_pet;
@@ -35,7 +36,9 @@ class AppointmentController extends Controller
 
     public function index()
     {
-        $data = $this->QuerySpecialIndex();
+        $data = $this->QuerySpecialIndex()
+            ->whereIn('appointments.status' , [1 , 6])
+            ->get();;
         $dataDoctor = $this->tableSelect('doctors')->get();
         $dataService = $this->tableSelect('services')->get();
         $dataTypePet = $this->tableSelect('type_pets')->get();
@@ -49,15 +52,6 @@ class AppointmentController extends Controller
             ]);
     }
 
-    public function tableSelect($table) {
-        $query = DB::table($table)->select('id' , 'name');
-        return $query;
-    }
-
-    public function create() {
-        return view(admin_403);
-    }
-
     public function QuerySpecialIndex()
     {
         $appointments = $this->queryCommon()
@@ -65,13 +59,71 @@ class AppointmentController extends Controller
             ->whereNull('appointments.deleted_at')
             ->orderBy('id', 'DESC')
             ->addSelect('w.start_time' , 'w.end_time')
+            ->addSelect('appointments.status')
             ->join('work_schedules as w', function ($join) {
                 $join->on('appointments.date', '=', 'w.date')
                     ->on('appointments.doctor_id', '=', 'w.doctor_id')
                     ->on('appointments.shift_name', '=', 'w.shift_name');
-            })
-            ->get();
+            });
         return $appointments;
+    }
+
+    public function WaitForConfirmation() {
+        $data = $this->QuerySpecialIndex()->whereIn('appointments.status' , [0])->get();
+        $dataDoctor = $this->tableSelect('doctors')->get();
+        $dataService = $this->tableSelect('services')->get();
+        $dataTypePet = $this->tableSelect('type_pets')->get();
+        $permission_crud = $this->permissionCheckCrud;
+        return view($this->pathView.'wait-for-confirmation' , compact('data' , 'permission_crud'
+            , 'dataService' , 'dataTypePet' , 'dataDoctor'))
+            ->with([
+                'colums' => $this->columns('index'),
+                'urlbase' => $this->urlbase,
+                'title_web' => $this->title,
+            ]);
+    }
+
+    public function ForHistoryAppointment() {
+        $data = $this->QuerySpecialIndex()->whereIn('appointments.status' , [3])->get();
+        $dataDoctor = $this->tableSelect('doctors')->get();
+        $dataService = $this->tableSelect('services')->get();
+        $dataTypePet = $this->tableSelect('type_pets')->get();
+        $permission_crud = $this->permissionCheckCrud;
+        return view($this->pathView .'history-appointments'  , compact('data' , 'permission_crud'
+            , 'dataService' , 'dataTypePet' , 'dataDoctor'))
+            ->with([
+                'colums' => $this->columns('index'),
+                'urlbase' => $this->urlbase,
+                'title_web' => $this->title,
+            ]);
+    }
+
+    public function ForConfirmationFinished($id) {
+        $this->findID($id , 3);
+        return back()->with(['success_delete' => 'Đã xác nhận hoàn thành lịch hẹn này ']);
+    }
+
+    public function findID($id , $status) {
+        $model = Appointment::find($id)->update(['status' => $status]);
+        return $model;
+    }
+    public function ForConfirmation($id) {
+        $this->findID($id , 1);
+        return back()->with(['success_delete' => 'Đã xác nhận lịch hẹn này ']);
+    }
+
+    public function FinishedConfirmation($id) {
+        $this->findID($id , 3);
+        return back()->with(['success_delete' => 'Đã xác nhận lịch hẹn này ']);
+    }
+
+    public function tableSelect($table) {
+        $query = DB::table($table)->select('id' , 'name');
+        return $query;
+    }
+
+    public function create() {
+        return view(admin_403);
     }
 
     public function store(AppointmentRequest $request , MessageUser $messageUser)
@@ -519,5 +571,79 @@ class AppointmentController extends Controller
                 'error' => 'Không có dữ liệu'
             ]);
         }
+    }
+
+    public function detailBills ($id) {
+        $model = Bill::where('bills.appointment_id', $id)
+            ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
+            ->join('users', 'users.id', '=', 'appointments.user_id')
+            ->join('services', 'services.id', '=', 'appointments.service_id')
+            ->join('doctors', 'bills.doctor_id', '=', 'doctors.id')
+            ->select('bills.id', 'bills.code', 'bills.total_amount', 'bills.created_at',
+                'doctors.image as image_doctor', 'doctors.name as doctor_name',
+                'users.name as customer_name', 'users.phone as customer_phone', 'users.address as customer_address',
+                'users.avatar as customer_avatar',
+                'services.name as service_name', 'appointments.date', 'appointments.time', 'appointments.shift_name',
+                'appointments.description', 'doctors.id as doctor_id', 'users.id as user_id' , 'appointments.status')
+            ->first();
+        if(!$model) {
+            $model = Bill::where('bills.appointment_id', $id)
+                ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
+                ->join('users', 'users.id', '=', 'appointments.user_id')
+                ->join('services', 'services.id', '=', 'appointments.service_id')
+                ->join('doctors', 'bills.doctor_id', '=', 'doctors.id')
+                ->join('prescriptions', 'prescriptions.bill_id', '=', 'bills.id')
+                ->select('bills.id', 'bills.code', 'bills.total_amount', 'bills.created_at',
+                DB::raw('COALESCE(doctors.image, "n/a") as image_doctor'),
+                DB::raw('COALESCE(doctors.name, "n/a") as doctor_name'),
+                DB::raw('COALESCE(users.name, "n/a") as customer_name'),
+                DB::raw('COALESCE(users.phone, "n/a") as customer_phone'),
+                DB::raw('COALESCE(users.address, "n/a") as customer_address'),
+                DB::raw('COALESCE(users.avatar, "n/a") as customer_avatar'),
+                DB::raw('COALESCE(prescriptions.name, "n/a") as prescriptions_name'),
+                DB::raw('COALESCE(prescriptions.price, "n/a") as prescriptions_price'),
+                DB::raw('COALESCE(services.name, "n/a") as service_name'),
+                'appointments.date', 'appointments.time', 'appointments.shift_name', 'appointments.shift_name' ,
+                DB::raw('COALESCE(appointments.description, "n/a") as description'),
+                'doctors.id as doctor_id', 'users.id as user_id')
+            ->first();
+        }
+
+        $dataDoctor = $this->tableSelect('doctors')->get();
+        $dataService = $this->tableSelect('services')->get();
+        $dataTypePet = $this->tableSelect('type_pets')->get();
+        $permission_crud = $this->permissionCheckCrud;
+        return view($this->pathView.'detail-view' , compact('model' , 'permission_crud'
+            , 'dataService' , 'dataTypePet' , 'dataDoctor'))
+            ->with([
+                'colums' => $this->columns('index'),
+                'urlbase' => $this->urlbase,
+                'title_web' => $this->title,
+            ]);
+    }
+
+    public function BillsAppointments () {
+        $data = $this->queryCommon()
+            ->join('bills' , 'bills.appointment_id' , '=' , 'appointments.id')
+            ->join('work_schedules as w', function ($join) {
+                $join->on('appointments.date', '=', 'w.date')
+                    ->on('appointments.doctor_id', '=', 'w.doctor_id')
+                    ->on('appointments.shift_name', '=', 'w.shift_name');
+            })
+            ->addSelect('w.start_time' , 'w.end_time')
+            ->addSelect('appointments.status')
+            ->where('appointments.status' , 3)
+            ->get();
+        $dataDoctor = $this->tableSelect('doctors')->get();
+        $dataService = $this->tableSelect('services')->get();
+        $dataTypePet = $this->tableSelect('type_pets')->get();
+        $permission_crud = $this->permissionCheckCrud;
+        return view($this->pathView.'bills' , compact('data' , 'permission_crud'
+            , 'dataService' , 'dataTypePet' , 'dataDoctor'))
+            ->with([
+                'colums' => $this->columns('index'),
+                'urlbase' => $this->urlbase,
+                'title_web' => $this->title,
+            ]);
     }
 }

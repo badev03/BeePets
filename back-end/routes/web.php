@@ -60,10 +60,16 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
             Route::get('appointment-requirements-cancel', [AppointmentController::class , 'AppointmentCancelRequirements'])->name('appointments.cancel.requirements');
             Route::get('appointment-statistics/{day}', [AppointmentController::class , 'StatisticsDay'])->name('appointments.statistics.day');
             Route::get('appointment-statistics-date/{date}', [AppointmentController::class , 'StatisticsDate'])->name('appointments.statistics.date_time');
-            Route::get('appointment-cancel/{id}', [AppointmentController::class , 'AppointmentCancel'])->name('appointments.cancel');
+            Route::get('appointment-cancel/{id?}', [AppointmentController::class , 'AppointmentCancel'])->name('appointments.cancel');
             Route::put('notification-update', [NotificationController::class , 'UpdateReadNotification'])->name('notification.update');
             Route::put('change-doctor-admin/{id}', [AppointmentController::class , 'ChangeDoctorAdmin'])->name('appointments.change-doctor-admin');
             Route::delete('cancel-doctor-admin/{id}', [AppointmentController::class , 'CancelDoctorAdmin'])->name('appointments.cancel-doctor-admin');
+            Route::get('wait-for-confirmation', [AppointmentController::class , 'WaitForConfirmation'])->name('appointments.wait-for-confirmation');
+            Route::get('for-confirmation/{id}', [AppointmentController::class , 'ForConfirmation'])->name('appointments.for-confirmation');
+            Route::get('for-confirmation-finished/{id}', [AppointmentController::class , 'ForConfirmationFinished'])->name('appointments.for-confirmation-finished');
+            Route::get('history-appointment', [AppointmentController::class , 'ForHistoryAppointment'])->name('appointments.history-appointment');
+            Route::get('bills-appointment/{id}', [AppointmentController::class , 'detailBills'])->name('appointments.detail-bills-appointment');
+            Route::get('bills-appointment/', [AppointmentController::class , 'BillsAppointments'])->name('appointments.bills-appointment');
         });
         Route::get('dashboard', [HomeController::class , 'index'])->name('dashboard');
         Route::get('appointment/get-day/{day}/{id}', [AppointmentController::class , 'getDay'])->name('appointment.get-day');

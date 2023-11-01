@@ -22,54 +22,131 @@
                             </div>
                         </div>
                     </div>
-                    @include('admin.appointments.filter-data-module-appointments')
+                    <div class="row mt-3">
+                        <h6 class="card-title text-danger">Bộ lọc</h6>
+                        <div class="col-4 mt-3">
+                            <label class="form-label">Loại thú cưng</label>
+                            <select class="form-select" name="type_pet_id">
+                                @foreach($dataTypePet as $key=>$value)
+                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-4 mt-3">
+                            <label class="form-label">Chọn bác sĩ</label>
+                            <select class="form-select doctor_id_index" name="doctor_id">
+                                @foreach($dataDoctor as $key=>$value)
+                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-4 mt-3">
+                            <label class="form-label">Dịch vụ</label>
+                            <select class="form-select service_id_index" name="service_id">
+                                @foreach($dataService as $key=>$value)
+                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-4 mt-3">
+                            <label class="form-label">Chọn ngày</label>
+                            <input style="height: 38px" type="date" class="form-control" id="date_filter">
+                        </div>
+                        <div class="col-4 mt-3">
+                            <label class="form-label">Ca làm việc</label>
+                            <select class="form-select" id="time_appointments" name="time_appointments">
+                                <option value="Ca 1">Ca 1</option>
+                                <option value="Ca 2">Ca 2</option>
+                                <option value="Ca 3">Ca 3</option>
+                            </select>
+                        </div>
+                        <div class="col-4 mt-3">
+                            <label class="form-label">Tên người dùng</label>
+                            <input style="height: 38px" id="search_input" name="name" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <button id="filter_searchName" class="btn me-2 btn-sm bg-success-light mt-3">Filter</button>
+                    <a href="{{ route($urlbase.'index') }}" class="btn btn-sm bg-danger-light mt-3">Clear Filter</a>
+                    <hr class="hr"/>
+
+                    <h6 class="card-title text-danger">Bộ lọc ngày</h6>
+                    <div class="row">
+                        <div class="col-4 mt-3">
+                            <label class="form-label">Ca sắp tới</label>
+                            <select class="form-select" name="type_pet_id">
+                                @foreach($dataTypePet as $key=>$value)
+                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-4 mt-3">
+                            <label class="form-label">Ca sắp tới</label>
+                            <select class="form-select" name="type_pet_id">
+                                @foreach($dataTypePet as $key=>$value)
+                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr class="hr"/>
+
+                    <div class="row mt-3">
+                        <h6 class="card-title text-danger">Tìm kiếm tài khoản </h6>
+                        <div class="col-4 mt-3">
+                            <label class="form-label">Số điện thoại người dùng</label>
+                            <input style="height: 38px" id="search_phone" name="phoneSearch" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <button id="filter_searchPhone" class="btn me-2 btn-sm bg-success-light mt-3">Tìm kiếm</button>
 
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="datatable table table-stripped">
                             <thead id="thead_table">
-                                <td>#ID</td>
-                                @foreach ($colums as $colum=>$name)
-                                    <td>{{$name}}</td>
-                                @endforeach
-                                <td>Trạng thái</td>
-                                <td>Ngày hẹn</td>
-                                <td>Thời gian cuộc hẹn</td>
-                                <td>Hành động</td>
+                            <td>#ID</td>
+                            @foreach ($colums as $colum=>$name)
+                                <td>{{$name}}</td>
+                            @endforeach
+                            <td>Trạng thái</td>
+                            <td>Ngày hẹn</td>
+                            <td>Thời gian cuộc hẹn</td>
+                            <td>Hành động</td>
                             </thead>
                             <tbody id="tbody_table">
-                                    @foreach($data as $key=>$value)
-                                        <tr>
-                                            <td>{{ $key + 1 }}</td>
-                                            <td>{{ $value->doctor_id }}</td>
-                                            <td>{{ $value->user_id }}</td>
-                                            <td>{{ $value->type_pet_id }}</td>
-                                            <td>{{ $value->service_id }}</td>
-                                            <td>{!! $value->description !!}</td>
-                                            <td>
-                                                @if($value->status == 6)
-                                                    <button class="btn btn-sm bg-info-light">
-                                                        {{ 'Yêu cầu hủy' }}
-                                                    </button>
-                                                @elseif($value->status == 1)
-                                                    <button class="btn btn-sm bg-success-light">
-                                                        {{ 'Xác nhận' }}
-                                                    </button>
-                                                @elseif($value->status == 3)
-                                                    <button class="btn btn-sm bg-danger-light">
-                                                        {{ 'Hoàn thành' }}
-                                                    </button>
-                                                @endif
-                                            </td>
-                                            <td>{!! $value->date !!}</td>
-                                            <td>
+                            @foreach($data as $key=>$value)
+                                <tr>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td>{{ $value->doctor_id }}</td>
+                                    <td>{{ $value->user_id }}</td>
+                                    <td>{{ $value->type_pet_id }}</td>
+                                    <td>{{ $value->service_id }}</td>
+                                    <td>{!! $value->description !!}</td>
+                                    <td>
+                                        @if($value->status == 0)
+                                            <button class="btn btn-sm bg-info-light">
+                                                {{ 'Chờ xác nhận' }}
+                                            </button>
+                                        @elseif($value->status == 1)
+                                            <button class="btn btn-sm bg-success-light">
+                                                {{ 'Xác nhận' }}
+                                            </button>
+                                        @elseif($value->status == 3)
+                                            <button class="btn btn-sm bg-danger-light">
+                                                {{ 'Hoàn thành' }}
+                                            </button>
+                                        @endif
+                                    </td>
+                                    <td>{!! $value->date !!}</td>
+                                    <td>
                                                 <span class="text-primary d-block">{{ $value->start_time }}
                                                     - {{ $value->end_time }} AM</span>
-                                            </td>
-                                        @include('admin.components.button.action-index-status')
-                                        </tr>
-                                    @endforeach
+                                    </td>
+                                    @include('admin.components.button.action-index-status')
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -88,7 +165,7 @@
         var dateInput = document.getElementById('date_filter');
         dateInput.min = currentDateString;
 
-    //    bộ lọc
+        //    bộ lọc
         $(document).ready(function () {
             $('#date_filter').change(function () {
                 var data = $(this).val();
