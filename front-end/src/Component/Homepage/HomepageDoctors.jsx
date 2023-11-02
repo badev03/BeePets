@@ -64,11 +64,11 @@ const HomepageDoctors = () => {
                                             </div>
                                         </a>
                                         <h4 className="blog-inner-right-fourt-care">
-                                            <a href="doctor-profile.html">{doctor.name}</a>
+                                            <a href={`/doctor/profile/${doctor.slug}`} >{doctor.name}</a>
                                         </h4>
                                         <ul className="articles-list nav blog-articles-list">
                                             <li>
-                                                <i className="fa fa-location-dot" />{doctor.address}
+                                                <i className="fa fa-location-dot" />{doctor.address ? doctor.address : 'Ha Noi'}
                                             </li>
                                         </ul>
                                         <div className="blog-list-ratings">
@@ -85,7 +85,7 @@ const HomepageDoctors = () => {
                                             ))}
                                             <span>({doctor.review_count})</span>
                                         </div>
-                                        <a href="/booking" className="btn btn-primary">Đặt Ngay</a>
+                                        <a href={`/doctor/profile/${doctor.slug}`} className="btn btn-primary">Xem chi tiết</a>
                                     </div>
                                 </div>
                             </div>

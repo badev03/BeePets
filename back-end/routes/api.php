@@ -129,6 +129,7 @@ Route::post('update-bill/{id}', [DoctorController::class, 'updateBill']);
     //câp nhật trạng thái lịch khám
     Route::put('/update-appointment/{id}', [BookingController::class, 'updateStatus']);
 
+    Route::post('/update-service/{id}', [DoctorController::class, 'updateService']);
     //lấy ra thông tin bác sĩ đang đăng nhập
     Route::get('/doctor-info', [DoctorController::class, 'getDoctor']);
     Route::post('/save-infor-user', [InforController::class, 'saveInfor']);

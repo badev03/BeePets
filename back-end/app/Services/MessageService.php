@@ -76,7 +76,7 @@ class MessageService implements MessageUser {
         ]);
         return response()->json(['message' => 'Thông báo đã được gửi']);
     }
-    public function sendDoctorToAdmin($doctor_id, $message_doctor, $roleId, $message_admin)
+    public function sendDoctorToAdmin($doctor_id, $message_doctor, $roleId, $message_admin,$appointmentId)
     {
         $pusher = new Pusher(config('broadcasting.connections.pusher.key'), config('broadcasting.connections.pusher.secret'), config('broadcasting.connections.pusher.app_id'), [
             'cluster' => config('broadcasting.connections.pusher.options.cluster'),
@@ -98,7 +98,8 @@ class MessageService implements MessageUser {
                 'name' => $user->name,
                 'avatar' => $user->avatar,
                 'role_id' => $user->role_id,
-                'message_admin' => $message_admin
+                'message_admin' => $message_admin,
+                'appointment_id' => $appointmentId
             ];
             $pusher->trigger("user-notification-" . $user->id, 'notification-event-test', $messagess);
             Notification::create([
@@ -106,7 +107,8 @@ class MessageService implements MessageUser {
                 'message_admin' => $message_admin,
                 'message' => '',
                 'doctor_id' => $doctor_id,
-                'message_doctor' => $message_doctor
+                'message_doctor' => $message_doctor,
+                'appointment_id' => $appointmentId
             ]);
         }
 

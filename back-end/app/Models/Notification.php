@@ -19,6 +19,7 @@ class Notification extends Model
         'read',
         'read_user',
         'delete_user',
-        'delete_doctor'
+        'delete_doctor',
+        'appointment_id'
     ];
 }
