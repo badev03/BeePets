@@ -4,6 +4,7 @@ import ReactPaginate from "react-paginate";
 import BlogSideBar from "./BlogSideBar";
 import blogApi from "../../api/blogApi";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import TopLink from "../../Link/TopLink";
 
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
@@ -72,7 +73,7 @@ const BlogList = () => {
               <nav aria-label="breadcrumb" className="page-breadcrumb">
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
-                    <a href="index.html">Trang Chủ</a>
+                    <TopLink to="/">Trang Chủ</TopLink>
                   </li>
                   <li className="breadcrumb-item" aria-current="page">
                     Tin Tức
