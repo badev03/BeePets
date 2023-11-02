@@ -330,7 +330,7 @@ const DetailBIll = () => {
           </div>
         </div>
       </div>
-      {bill.appointment.status === 3 && (
+      {bill.appointment.status == 3 && (
           <div className="submit-section submit-section2">
             <button
               type="submit"
