@@ -69,10 +69,6 @@ const Booking = () => {
       if (selectedServiceData) {
         const doctorsForService = selectedServiceData.doctors || [];
         setDoctorOptions([...doctorsForService]);
-
-        if (!doctorsForService.some((doctor) => doctor.id === selectedDoctor)) {
-          setSelectedDoctor(null);
-        }
       }
     }
   }, [selectedService, serviceDoctor, selectedDoctor]);
@@ -109,6 +105,7 @@ const Booking = () => {
 
   const handleChangeDate = async (date, dateString) => {
     setSelectedDate(dateString);
+    setSelectedShift(null);
 
     if (selectedService) {
       try {
@@ -116,7 +113,7 @@ const Booking = () => {
           selectedDoctor,
           dateString
         );
-        setSelectedWorkingHours(response.data);
+        setSelectedWorkingHours(response);
       } catch (error) {
         console.error("Không có dữ liệu ca làm việc:", error);
       }
@@ -160,6 +157,7 @@ const Booking = () => {
   };
   const handleDoctorChange = (value) => {
     setSelectedDoctor(value);
+    setSelectedShift(null);
   };
 
   const handleChangeService = (value) => {
@@ -244,14 +242,13 @@ const Booking = () => {
             <Col span={12}>
               <Form.Item
                 label="Chọn Bác Sĩ"
-                name="Chọn Bác Sĩ"
+                name={undefined}
                 rules={[
                   { required: true, message: "Vui lòng nhập chọn bác sĩ" },
                 ]}
                 loading={loadingDoctors}
               >
                 <Select
-                  key={selectedService}
                   placeholder="Bác Sĩ"
                   value={selectedDoctor}
                   onChange={handleDoctorChange}

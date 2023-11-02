@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../Context/ContextAuth";
 import { Link, useNavigate } from "react-router-dom";
-import doctorsApi from "../api/doctorsApi";
-import React from "react";
-import { Dropdown } from "bootstrap";
 import logoutDoctor from "../api/logoutDoctor";
 import notification from "../api/notification";
 import BookingUser from "./User/BookingUser";
 import settingApi from "../api/settingApi";
 import { Button } from "antd";
+import TopLink from "../Link/TopLink";
+
 
 
 const Header = () => {
@@ -193,23 +192,23 @@ const Header = () => {
                 <span></span>
               </span>
               </a>
-              <a href={"/"} className="navbar-brand logo">
+              <TopLink to={"/"} className="navbar-brand logo">
                 <img
                     src={setting.image_header}
                     className="img-fluid"
                     alt="Logo"
                 />
-              </a>
+              </TopLink>
             </div>
             <div className="main-menu-wrapper" role="list">
               <div className="menu-header">
-                <a href="/" className="menu-logo">
+                <TopLink to="/" className="menu-logo">
                   <img
                       src="../src/assets/img/logo.png"
                       className="img-fluid"
                       alt="Logo"
                   />
-                </a>
+                </TopLink>
                 <a id="menu_close" className="menu-close" href="#">
                   <i className="fas fa-times"></i>
                 </a>
@@ -223,7 +222,7 @@ const Header = () => {
                             : ""
                     }`}
                 >
-                  <a href="/">TRANG CHỦ</a>
+                  <TopLink to="/">TRANG CHỦ</TopLink>
                 </li>
                 <li
                     className={`has-submenu ${
@@ -232,21 +231,21 @@ const Header = () => {
                             : ""
                     }`}
                 >
-                  <a href="/doctor">BÁC SĨ </a>
+                  <TopLink to="/doctor">BÁC SĨ </TopLink>
                 </li>
                 <li
                     className={`has-submenu ${
                         location.pathname.startsWith("/abouts") ? "active" : ""
                     }`}
                 >
-                  <a href="/abouts">GIỚI THIỆU </a>
+                  <TopLink to="/abouts">GIỚI THIỆU </TopLink>
                 </li>
                 <li
                     className={`has-submenu ${
                         location.pathname.startsWith("/blog") ? "active" : ""
                     }`}
                 >
-                  <a href="/blog">TIN TỨC </a>
+                  <TopLink to="/blog">TIN TỨC </TopLink>
                 </li>
                 {role !== "doctor" && (
                     <div
