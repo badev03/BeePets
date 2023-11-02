@@ -7,6 +7,7 @@ import BookingUser from "./User/BookingUser";
 import settingApi from "../api/settingApi";
 import { Button } from "antd";
 import TopLink from "../Link/TopLink";
+import deleteNoti from "../api/deleteNoti";
 
 
 
@@ -24,10 +25,21 @@ const Header = () => {
   const [updateNoti, setUpdateNoti] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleDeleteNotification = (notificationId) => {
-    // Thực hiện việc xóa thông báo dựa trên notificationId
-    // Sau khi xóa, bạn cần cập nhật danh sách thông báo bằng cách loại bỏ thông báo có notificationId này
-  };
+  // const handleDeleteNotification = async (notificationId) => {
+  //   // Thực hiện việc xóa thông báo dựa trên notificationId
+  //   // Sau khi xóa, bạn cần cập nhật danh sách thông báo bằng cách loại bỏ thông báo có notificationId này
+  //   try {
+  //     // Thực hiện logic xóa thông báo dựa trên notificationId
+  //     // Ví dụ: Gọi API để xóa thông báo
+  //     await deleteNoti.removeNoti(notificationId);
+
+  //     // Sau khi xóa thành công, bạn cần cập nhật danh sách thông báo bằng cách loại bỏ thông báo có notificationId này
+  //     const updatedNotifications = noti.filter(notification => notification.id !== notificationId);
+  //     setNoti(updatedNotifications);
+  //   } catch (error) {
+  //     console.error("Lỗi xóa thông báo:", error);
+  //   }
+  // };
 
   const handleNotificationClick = async () => {
     try {
