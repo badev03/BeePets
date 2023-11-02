@@ -1,7 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import ReactHtmlParser from 'react-html-parser';
 import servicesDetailApi from '../../api/serviceApi';
 import LoadingSkeleton from '../Loading';
 import serviceApi from '../../api/serviceApi';
@@ -76,9 +75,9 @@ const ServiceDetails = () => {
                                         </a>
                                     </div>
                                     <div className="blog-info clearfix"></div>
-                                    <div className="blog-content">
-                                        {ReactHtmlParser(service['service-detail'].description)}
-                                    </div>
+                                    {service && service['service-detail'] && (
+                                        <div dangerouslySetInnerHTML={{ __html: service['service-detail'].description }} />
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -98,27 +97,25 @@ const ServiceDetails = () => {
                                     <h4 className="card-title">Dịch vụ liên quan</h4>
                                 </div>
                                 <div className="card-body">
-                                {services.map(services => (
-                                    <ul className="latest-posts">
-                                    <li>
-                                        <div className="post-thumb">
-                                            <a href="blog-details.html">
-                                                <img className="img-fluslug" src="../src/assets/img/blog/blog-thumb-01.jpg" alt="blog-image" />
-                                            </a>
-                                        </div>
-                                        <div className="post-info">
-                                            <h4>
-                                                <a href="blog-details.html">{services.name}</a>
-                                            </h4>
-                                            <p><div>Ngày hôm nay: {currentDate}</div></p>
-                                        </div>
-                                    </li>
-                                    <br />
-                                    
-                                    
-                                </ul>
-                                ))}
-                                    
+                                    {services.map((service, index) => (
+                                        <ul className="latest-posts" key={index}>
+                                            <li>
+                                                <div className="post-thumb">
+                                                    <a href="blog-details.html">
+                                                        <img className="img-fluslug" src="../src/assets/img/blog/blog-thumb-01.jpg" alt="blog-image" />
+                                                    </a>
+                                                </div>
+                                                <div className="post-info">
+                                                    <h4>
+                                                        <a href="blog-details.html">{service.name}</a>
+                                                    </h4>
+                                                    <p><div>Ngày hôm nay: {currentDate}</div></p>
+                                                </div>
+                                            </li>
+                                            <br />
+                                        </ul>
+                                    ))}
+
                                 </div>
                             </div>
                         </div>
