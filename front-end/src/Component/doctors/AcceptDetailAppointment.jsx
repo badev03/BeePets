@@ -5,6 +5,7 @@ import Menudashboard from './Menu-dashboard'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import appointmentsApi from '../../api/appointmentsApi';
+import LoadingSkeleton from '../Loading';
 
 
 const AcceptDetailAppointment = () => {
@@ -39,7 +40,7 @@ const AcceptDetailAppointment = () => {
     console.log(appointments);
    }
     if (!appointments) {
-        return <div>Loading...</div>;
+        return <LoadingSkeleton/>;
     }
   return (
     <div>    <div><div className="breadcrumb-bar-two">

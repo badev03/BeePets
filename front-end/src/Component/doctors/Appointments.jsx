@@ -368,7 +368,7 @@ const Appointments = () => {
               <i className="far fa-eye" /> Lịch Hẹn
             </Link>
             <Link to={appointment.bill[0]?.id ? `/doctors/detail-bill/${appointment.bill[0].id}` : "#"} className="btn btn-sm bg-info-light">
-              <i className="far fa-eye" /> Bill
+              <i className="far fa-eye" /> Hóa Đơn
             </Link>
           </div>
         </td>
