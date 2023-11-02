@@ -124,4 +124,37 @@ class MessageService implements MessageUser {
         ]);
         return $pusher;
     }
+
+
+    public function sendMessageNew($userId ='', $message='' , $doctor_id='' , $message_doctor = '' , $appointment_id='')
+    {
+        $dataMessage = $this->tableQuery('users')->where('id' , $userId)->first();
+        $messagess = [
+            'name' => $dataMessage->name,
+            'avatar' => $dataMessage->avatar,
+            'id' => $dataMessage->id,
+            'message' => $message,
+            'appointment_id' => $appointment_id,
+        ];
+        $dataMessageDoctor = $this->tableQuery('doctors')->where('id' , $doctor_id)->first();
+        $message_doctors = [
+            'name' => $dataMessageDoctor->name,
+            'avatar' => $dataMessageDoctor->image,
+            'id' => $dataMessageDoctor->id,
+            'message' => $message_doctor,
+            'appointment_id' => $appointment_id,
+        ];
+        $this->pusherWeb()->trigger("user-notification-".$userId, 'notification-event-test', $messagess );
+        $this->pusherWeb()->trigger("doctor-notification-".$doctor_id, 'notification-event-doctor', $message_doctors);
+        Notification::create([
+            'user_id' => $userId,
+            'message' => $message,
+            'doctor_id' => $doctor_id,
+            'message_doctor' => $message_doctor,
+            'read_user' => 0,
+            'read_doctor' => 0,
+            'appointment_id' => $appointment_id,
+        ]);
+        return response()->json(['message' => 'Thông báo đã được gửi']);
+    }
 }

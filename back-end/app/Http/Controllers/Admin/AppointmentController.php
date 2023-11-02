@@ -107,11 +107,13 @@ class AppointmentController extends Controller
         $model = Appointment::find($id)->update(['status' => $status]);
         return $model;
     }
-    public function ForConfirmation($id) {
+    public function ForConfirmation($id , MessageUser $message) {
         $this->findID($id , 1);
         $appointments = Appointment::find($id);
             $this->createBill($appointments->id , $appointments->doctor_id , $appointments->user_id
             , $appointments->service_id , 0);
+        $message->sendMessageNew($appointments->user_id , 'Đã xác nhận thành công'
+            , $appointments->doctor_id , 'Đã xác nhận thành công cho khách hàng' , $appointments->id);
         return back()->with(['success_delete' => 'Đã xác nhận lịch hẹn này ']);
     }
 
@@ -214,7 +216,7 @@ class AppointmentController extends Controller
                 $this->tableQuery('appointments')
                     ->where('id' , '=' , $id)
                     ->update(array_merge($request->except(['_token' , '_method' , 'user_id']) , $data));
-                $messageUser->sendMessage($checkPhone->id, 'Chào '.$checkPhone->name.'Chúng tôi đã update thành công lịch khám cho bạn' , $request->doctor_id , 'UserName :'.$checkPhone->name.'đã update lại đạt lịch của bạn');
+                $messageUser->sendMessageNew($checkPhone->id, 'Chào '.$checkPhone->name.'Chúng tôi đã update thành công lịch khám cho bạn' , $request->doctor_id , 'UserName :'.$checkPhone->name.'đã update lại đạt lịch của bạn' ,$id );
                 return back()->with('success', 'Thao tác thành công');
             }
             else {
@@ -233,7 +235,7 @@ class AppointmentController extends Controller
                 $this->tableQuery('appointments')
                     ->where('id' , '=' , $id)
                     ->update($data);
-                $messageUser->sendMessage($checkPhone->id, 'Chào '.$checkPhone->name.'Chúng tôi đã update thành công lịch khám cho bạn' , $request->doctor_id , 'UserName :'.$checkPhone->name.'đã update lại đạt lịch của bạn');
+                $messageUser->sendMessageNew($checkPhone->id, 'Chào '.$checkPhone->name.'Chúng tôi đã update thành công lịch khám cho bạn' , $request->doctor_id , 'UserName :'.$checkPhone->name.'đã update lại đạt lịch của bạn' , $id);
                 return back()->with('success', 'Thao tác thành công');
             }
         }
@@ -459,8 +461,8 @@ class AppointmentController extends Controller
     public function RestoreTrash(MessageUser $messageService ,string $id) {
         $appointment = Appointment::withTrashed()->find($id);
         if($appointment) {
-//            $appointment->restore();
-            $messageService->sendMessage($appointment->user_id, 'ok la nhé', $appointment->doctor_id, 'Ok ã khôi phục thành công');
+            $appointment->restore();
+            $messageService->sendMessageNew($appointment->user_id, 'ok la nhé', $appointment->doctor_id, 'Ok ã khôi phục thành công' , $id);
 //            event(new \App\Events\MessageSendNotification($appointment->user_id, 'Đã khôi phục thành công hihah ok la', $appointment->doctor_id, 'Ok ã khôi phục thành công'));
             return back()->with(['success_delete' => 'Đã khôi phục dữ liệu thành công']);
         }
@@ -472,8 +474,8 @@ class AppointmentController extends Controller
             $model = Appointment::findOrFail($id);
             $userName = User::find($model->user_id);
             $model->delete();
-            $messageUser->sendMessage($model->user_id, 'Chào '.$userName->name.
-                'Chúng tôi đã hủy lịch hẹn của bạn' , $model->doctor_id , 'UserName :'.$userName->name.'đã đạt lịch của bạn');
+            $messageUser->sendMessageNew($model->user_id, 'Chào '.$userName->name.
+                'Chúng tôi đã hủy lịch hẹn của bạn' , $model->doctor_id , 'UserName :'.$userName->name.'đã đạt lịch của bạn' , $id);
             return back()->with('success_delete', 'Đã xóa thành công');
         }
         else {
