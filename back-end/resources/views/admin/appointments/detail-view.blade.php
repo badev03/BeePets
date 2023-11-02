@@ -48,7 +48,7 @@
 
                                         <div class="row">
                                             <div class="col-md-10 mb-3">
-                                                <label class="mb-2" for="validationCustom01">Tên khách hàng</label>
+                                                <label class="mb-2" for="validationCustom01">Ca làm việc</label>
                                                 <input class="form-control" disabled value="{{ $model->shift_name }}">
                                             </div>
                                         </div>
@@ -64,7 +64,7 @@
                                         <div class="row">
                                             <div class="col-md-10 mb-3">
                                                 <label class="mb-2" for="validationCustom01">Dịch vụ</label>
-                                                <input class="form-control" disabled value="{{ $model->service_name }}">
+                                                <input class="form-control" name="service_id" value="{{ $model->service_name }}">
                                             </div>
                                         </div>
 
@@ -78,6 +78,13 @@
                                         <div class="row">
                                             <div class="col-md-10 mb-3">
                                                 <label class="mb-2" for="validationCustom01">Tổng tiền</label>
+                                                <input class="form-control" disabled value="{{ $model->doctor_name }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-10 mb-3">
+                                                <label class="mb-2" for="validationCustom01">Thêm đơn thuốc</label>
                                                 <input class="form-control" disabled value="{{ $model->total_amount }}">
                                             </div>
                                         </div>

@@ -26,11 +26,11 @@
     </div>
     <div class="col-4 mt-3">
         <label class="form-label">Chọn ngày</label>
-        <input style="height: 38px" type="date" class="form-control" id="date_filter">
+        <input style="height: 38px" type="date" class="form-control date_filter" id="date_filter">
     </div>
     <div class="col-4 mt-3">
         <label class="form-label">Ca làm việc</label>
-        <select class="form-select" id="time_appointments" name="time_appointments">
+        <select class="form-select time_appointments" id="time_appointments" name="time_appointments">
             <option value="Ca 1">Ca 1</option>
             <option value="Ca 2">Ca 2</option>
             <option value="Ca 3">Ca 3</option>
@@ -38,41 +38,21 @@
     </div>
     <div class="col-4 mt-3">
         <label class="form-label">Tên người dùng</label>
-        <input style="height: 38px" id="search_input" name="name" type="text" class="form-control">
+        <input style="height: 38px" id="search_input" name="name" type="text" class="form-control search_input">
     </div>
 </div>
-<button id="filter_searchName" class="btn me-2 btn-sm bg-success-light mt-3">Filter</button>
-<a href="{{ route($urlbase.'index') }}" class="btn btn-sm bg-danger-light mt-3">Clear Filter</a>
+<button id="filter_searchName" class="btn me-2 btn-sm bg-success-light mt-3">Lọc dự liệu</button>
+<a href="{{ route($urlbase.'index') }}" class="btn btn-sm bg-danger-light mt-3">Làm mới dữ liệu</a>
 <hr class="hr"/>
 
-<h6 class="card-title text-danger">Bộ lọc ngày</h6>
-<div class="row">
-    <div class="col-4 mt-3">
-        <label class="form-label">Ca sắp tới</label>
-        <select class="form-select" name="type_pet_id">
-            @foreach($dataTypePet as $key=>$value)
-                <option value="{{ $value->id }}">{{ $value->name }}</option>
-            @endforeach
-        </select>
-    </div>
 
-    <div class="col-4 mt-3">
-        <label class="form-label">Ca sắp tới</label>
-        <select class="form-select" name="type_pet_id">
-            @foreach($dataTypePet as $key=>$value)
-                <option value="{{ $value->id }}">{{ $value->name }}</option>
-            @endforeach
-        </select>
-    </div>
-</div>
+{{--<hr class="hr"/>--}}
 
-<hr class="hr"/>
-
-<div class="row mt-3">
-    <h6 class="card-title text-danger">Tìm kiếm tài khoản </h6>
-    <div class="col-4 mt-3">
-        <label class="form-label">Số điện thoại người dùng</label>
-        <input style="height: 38px" id="search_phone" name="phoneSearch" type="text" class="form-control">
-    </div>
-</div>
-<button id="filter_searchPhone" class="btn me-2 btn-sm bg-success-light mt-3">Tìm kiếm</button>
+{{--<div class="row mt-3">--}}
+{{--    <h6 class="card-title text-danger">Tìm kiếm tài khoản </h6>--}}
+{{--    <div class="col-4 mt-3">--}}
+{{--        <label class="form-label">Số điện thoại người dùng</label>--}}
+{{--        <input style="height: 38px" id="search_phone" name="phoneSearch" type="text" class="form-control">--}}
+{{--    </div>--}}
+{{--</div>--}}
+{{--<button id="filter_searchPhone" class="btn me-2 btn-sm bg-success-light mt-3">Tìm kiếm</button>--}}

@@ -1,9 +1,9 @@
 <td class="d-flex" style="grid-gap:1rem">
     <div class="actions">
-        @if(!request()->routeIs('wait-for-confirmation'))
-        <a href="{{ route('appointments.detail-bills-appointment' , $value->id) }}" class="delete_data btn btn-sm bg-info-light">
-            Xem chi tiết cuộc hẹn / bill
-        </a>
+        @if(!request()->routeIs('appointments.wait-for-confirmation'))
+            <a href="{{ route('appointments.detail-bills-appointment' , $value->id) }}" class="delete_data btn btn-sm bg-info-light">
+                Xem chi tiết cuộc hẹn / bill
+            </a>
         @endif
         @if($value->date < date('Y-m-d') && !request()->routeIs('appointments.bills-appointment'))
             <a class="btn btn-sm bg-success-light" href="#">
@@ -27,6 +27,10 @@
             <a data-bs-toggle="modal" data-delete="{{ $value->id }}" href="#delete_modal_{{ $value->id }}" class="delete_data btn btn-sm bg-danger-light">
                 <i class="fe fe-trash"></i> Hủy lịch
             </a>
+
+            <a class="btn btn-sm bg-success-light" href="{{ route($urlbase . 'edit', $value->id) }}">
+                <i class="fe fe-pencil"></i> Edit
+            </a>
         @elseif(date('Y-m-d') >= $value->date && $value->status == 6)
             <a data-bs-toggle="modal" data-delete="{{ $value->id }}" href="#huy_lich{{ $value->id }}" class="delete_data btn btn-sm bg-danger-light">
                 <i class="fe fe-trash"></i> Hủy lịch
@@ -36,12 +40,6 @@
                     </i> In Hóa Đơn
                 </a>
         @else
-            @can('edit-'.$permission_crud)
-                <a class="btn btn-sm bg-success-light" href="{{ route($urlbase . 'edit', $value->id) }}">
-                    <i class="fe fe-pencil"></i> Edit
-                </a>
-            @endcan
-
                 @can('delete-'.$permission_crud)
                     <a data-bs-toggle="modal" data-delete="{{ $value->id }}" href="#delete_modal_{{ $value->id }}" class="delete_data btn btn-sm bg-danger-light">
                         <i class="fe fe-trash"></i> Delete
