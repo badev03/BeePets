@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import blogApi from "../../api/BlogApi";
 import BlogSideBar from "./BlogSideBar";
 import LoadingSkeleton from "../Loading";
+import TopLink from "../../Link/TopLink";
+
 
 const BlogDetails = () => {
   const { slug } = useParams();
@@ -35,7 +37,7 @@ const BlogDetails = () => {
               <nav aria-label="breadcrumb" className="page-breadcrumb">
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
-                    <a href="index.html">Trang Chủ</a>
+                    <TopLink to="/">Trang Chủ</TopLink>
                   </li>
                   <li className="breadcrumb-item" aria-current="page">
                     Chi tiết tin tức
@@ -66,7 +68,7 @@ const BlogDetails = () => {
                     <div className="post-left">
                       <ul>
                         <li>
-                          <i className="far fa-calendar" />
+                          <i className="far fa-clock" />
                           {blog.public_date}{" "}
                         </li>
                       </ul>

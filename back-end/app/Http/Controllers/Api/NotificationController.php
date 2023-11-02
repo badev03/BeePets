@@ -13,9 +13,11 @@ class NotificationController extends Controller
     public function getNotification()
     {
         $notifications = Notification::where('user_id', auth()->id())
-            ->select('notifications.user_id as id' , 'users.avatar' , 'users.name' , 'notifications.message')
+            ->select('notifications.user_id as id' , 'users.avatar' , 'users.name' , 'notifications.message'
+                , 'notifications.id as id_notification')
             ->join('users' , 'users.id' , '=' , 'notifications.user_id')
             ->where('notifications.message' , '!=' , '')
+            ->where('notifications.delete_user' , '=' , 0)
             ->orderBy('notifications.id', 'DESC')
             ->get();
         if ($notifications) {
@@ -34,6 +36,7 @@ class NotificationController extends Controller
             ->select('notifications.doctor_id as id' , 'doctors.image as avatar' , 'doctors.name' , 'notifications.message_doctor as message')
             ->join('doctors' , 'doctors.id' , '=' , 'notifications.doctor_id')
             ->where('notifications.message_doctor' , '!=' , '')
+            ->where('notifications.delete_doctor' , '=' , 0)
             ->orderBy('notifications.id', 'DESC')
             ->get();
         if ($notifications) {
@@ -66,6 +69,18 @@ class NotificationController extends Controller
             } else {
                 return response()->json(['msg' => 'Không có dữ liệu cần cập nhật'], 400);
             }
+        }
+    }
+
+    public function deleteNotification($id) {
+        if(Auth::guard('doctors')->check()) {
+            $notifications = Notification::where('id', $id)
+                ->update(['delete_doctor' => 1]);
+        }
+        elseif (Auth::check()) {
+            $notifications = Notification::where('id', $id)
+                ->update(['delete_user' => 1]);
+            return response()->json(['msg' => 'đã xóa thành công']);
         }
     }
 

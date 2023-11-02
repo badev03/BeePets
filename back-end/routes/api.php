@@ -158,6 +158,7 @@ Route::post('update-bill/{id}', [DoctorController::class, 'updateBill']);
     Route::get('get-list-history',  [BillControllerHistory::class, 'index']);
     Route::get('get-list-history-bill',  [BillControllerHistory::class, 'billHistory']);
     Route::get('update-read-notification',  [NotificationController::class, 'updateNotification']);
+    Route::delete('delete-read-notification/{id}',  [NotificationController::class, 'deleteNotification']);
 });
 
 // xem lich hen cua user tu ben bac si
