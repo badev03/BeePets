@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Handler\Proxy;
 use App\Models\bill_prescription;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\Prescription_product;
 use Illuminate\Support\Facades\Auth;
@@ -436,23 +437,21 @@ class DoctorController extends Controller
                             ], 400);
                         }
 
-                       // Cộng giá của dịch vụ vào total_amount
-
-                        if (is_array($service['service_id'])) {
-                            foreach ($service['service_id'] as $id) {
+                        $total_amount += $selectedService->price; // Cộng giá của dịch vụ vào total_amount
+                   
+                            if (is_array($service['service_id'])) {
+                                foreach ($service['service_id'] as $id) {
+                                    $bill->services()->attach($id); // Thêm dịch vụ vào hóa đơn
+                                }
+                            } else {
+                                $id = $service['service_id'];
                                 $bill->services()->attach($id); // Thêm dịch vụ vào hóa đơn
-                                $total_amount += $selectedService->price;
                             }
-                        } else {
-                            $id = $service['service_id'];
-                            $bill->services()->attach($id); // Thêm dịch vụ vào hóa đơn
-                            $total_amount += $selectedService->price;
-                        }
-
-
-
-
-
+                      
+                    
+                     
+                     
+                        
                         // Cập nhật trường group_service_id trong bảng appointments
                         $groupServiceIds[] = $service['service_id'];
                         $appointment->group_service_id = implode(',', $groupServiceIds);
@@ -487,7 +486,71 @@ class DoctorController extends Controller
         }
     }
 
+    public function updateService(Request $request, $id)
+    {
+        if (Auth::guard('doctors')->check()) {
+            $bill = Bill::find($id);
+    
+            if (!$bill) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Không tìm thấy hóa đơn',
+                ], 404);
+            }
+    
+            $appointment = Appointment::find($bill->appointment_id);
+    
+            if (!$appointment) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Không tìm thấy cuộc hẹn',
+                ], 404);
+            }
+    
+            // Kiểm tra trùng lặp trong trường group_service_id của bảng appointments
+            $groupServiceIds = explode(',', $appointment->group_service_id);
+    
+            $oldServiceId = $appointment->service_id;
+    
+            if (($key = array_search($oldServiceId, $groupServiceIds)) !== false) {
+                // Kiểm tra xem service_id mới đã tồn tại trong group_service_id chưa
+                if (in_array($request->service_id, $groupServiceIds)) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Dịch vụ chính mới đã tồn tại trong cuộc hẹn',
+                    ], 400);
+                } else {
+                    // Thay thế oldServiceId bằng service_id mới trong groupServiceIds
+                    $groupServiceIds[$key] = $request->service_id;
+                    $appointment->group_service_id = implode(',', $groupServiceIds);
+                    $appointment->service_id = $request->service_id;
+                    $appointment->save();
+                }
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Không tìm thấy dịch vụ chính trong cuộc hẹn',
+                ], 404);
+            }
+    
+            return response()->json([
+                'success' => true,
+                'message' => 'Cập nhật dịch vụ chính và group_service_id thành công',
+                'appointment' => $appointment
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bạn chưa đăng nhập',
+            ]);
+        }
+    }
+    
+    
+    
+    
 
+    
     // tạo đơn thuốc cho bảng prescription_product và lưu vào bảng perscription
     public function createPrescription($name, $price, $doctor_id, $user_id, $bill_id)
     {
