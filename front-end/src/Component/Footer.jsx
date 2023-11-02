@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import settingApi from '../api/settingApi';
 import TopLink from '../Link/TopLink';
+import LoadingSkeleton from './Loading';
 
 const Footer = () => {
   const [setting, setSetting] = useState([]);
@@ -17,7 +18,7 @@ const Footer = () => {
     fetchBlog();
   }, []);
   if (!setting) {
-    return <div>Loading...</div>;
+    return <LoadingSkeleton/>;
   }
   return (
     <>
