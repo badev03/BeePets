@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\CartController;
 use App\Http\Controllers\Admin\OrderController;
 use Illuminate\Support\Facades\Route;
@@ -48,6 +49,7 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
             'new-categories' => NewCategorieController::class,
             'new' => NewController::class,
             'notifications' => NotificationController::class,
+            'about' => AboutController::class,
         ];
         foreach ($objects as $key => $controller) {
             Route::resource($key, $controller);
