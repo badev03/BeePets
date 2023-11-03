@@ -6,6 +6,7 @@ import notification from "../api/notification";
 import BookingUser from "./User/BookingUser";
 import settingApi from "../api/settingApi";
 import { Button } from "antd";
+import LoadingSkeleton from "./Loading";
 import TopLink from "../Link/TopLink";
 import deleteNoti from "../api/deleteNoti";
 import { Dropdown } from "bootstrap";
@@ -80,7 +81,7 @@ const handleDeleteNotification = async (id, token) => {
     fetchBlog();
   }, []);
   if (!setting) {
-    return <div>Loading...</div>;
+    return <LoadingSkeleton/>;
   }
 
   const handleLogout = async () => {

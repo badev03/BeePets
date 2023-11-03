@@ -117,6 +117,10 @@ const DetailBIll = () => {
                             {" "}
                             Tên khách hàng : {bill.appointment.user.name}
                           </h4>
+                          <h4 className="d-block">
+                            {" "}
+                            Lịch khám : {bill.appointment.shift_name}
+                          </h4>
                         </div>
                       </div>
                       <div className="col-sm-6 text-sm-end">
@@ -157,6 +161,8 @@ const DetailBIll = () => {
                             )}
                           </h4>
                         </div>
+
+                        
                       </div>
                     </div>
                     {bill.prescriptions && bill.prescriptions.length > 0 && (
@@ -257,45 +263,36 @@ const DetailBIll = () => {
                               <thead>
                                 <tr>
                                   <th className="table-name">Tên dịch vụ</th>
-                                  <th>Lịch khám</th>
+                                  {/* <th>Lịch khám</th> */}
                                   <th className="table-name">Giá tiền</th>
                                   {/* <th className="table-name">Mô tả</th> */}
                                   {/* <th>Action</th> */}
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr className="test">
-                                  <td>
-                                    <input
-                                      className="form-control"
-                                      type="text"
-                                      defaultValue={service[0].name}
-                                    />
-                                  </td>
-                                  <td>
-                                    <input
-                                      className="form-control"
-                                      type="text"
-                                      defaultValue={bill.appointment.shift_name}
-                                    />
-                                  </td>
-                                  <td>
-                                    <input
-                                      className="form-control"
-                                      type="text"
-                                      defaultValue={formatCurrency(
-                                        service[0].price,
-                                      )}
-                                    />
-                                  </td>
-                                  {/* <td>
-                                    <input
-                                      className="form-control"
-                                      type="text"
-                                      defaultValue={service.description}
-                                    />
-                                  </td> */}
-                                </tr>
+                                {service.map(ser=>(
+                                        <tr className="test">
+                                        <td>
+                                          <input
+                                            className="form-control"
+                                            type="text"
+                                            defaultValue={ser.name}
+                                          />
+                                        </td>
+
+                                        <td>
+                                          <input
+                                            className="form-control"
+                                            type="text"
+                                            defaultValue={formatCurrency(
+                                              ser.price,
+                                            )}
+                                          />
+                                        </td>
+
+                                        </tr>
+                                ))}
+                               
                               </tbody>
                             </table>
                           </div>
@@ -330,7 +327,7 @@ const DetailBIll = () => {
           </div>
         </div>
       </div>
-      {bill.appointment.status === 3 && (
+      {bill.appointment.status == 3 && (
           <div className="submit-section submit-section2">
             <button
               type="submit"
