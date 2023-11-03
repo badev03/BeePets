@@ -268,6 +268,8 @@
       <path value="$PROJECT_DIR$/back-end/vendor/livewire/livewire" />
       <path value="$PROJECT_DIR$/back-end/vendor/carlos-meneses/laravel-mpdf" />
       <path value="$PROJECT_DIR$/back-end/vendor/yajra/laravel-datatables-oracle" />
+      <path value="$PROJECT_DIR$/back-end/vendor/consoletvs/charts" />
+      <path value="$PROJECT_DIR$/back-end/vendor/balping/json-raw-encoder" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />
