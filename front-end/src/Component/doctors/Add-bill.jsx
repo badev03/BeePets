@@ -6,6 +6,7 @@ import { Select } from "antd";
 import billApi from "../../api/bill";
 import { useAuth } from "../../Context/ContextAuth";
 import { useParams } from 'react-router-dom';
+import LoadingSkeleton from "../Loading";
 
 const Addbill = () => {
   const { token } = useAuth();
@@ -113,7 +114,7 @@ const Addbill = () => {
   }, []); 
       console.log(bill)
       if (!bill) {
-          return <div>Loading...</div>;
+          return <LoadingSkeleton/>;
       }
 return (
 <div>

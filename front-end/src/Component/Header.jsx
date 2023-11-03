@@ -7,6 +7,7 @@ import notification from "../api/notification";
 import BookingUser from "./User/BookingUser";
 import settingApi from "../api/settingApi";
 import { Button } from "antd";
+import LoadingSkeleton from "./Loading";
 import TopLink from "../Link/TopLink";
 
 
@@ -60,7 +61,7 @@ const Header = () => {
     fetchBlog();
   }, []);
   if (!setting) {
-    return <div>Loading...</div>;
+    return <LoadingSkeleton/>;
   }
 
   const handleLogout = async () => {

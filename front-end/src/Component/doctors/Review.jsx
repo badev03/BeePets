@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import reviewsDoctorApi from '../../api/reviews-doctor'
 import axios from 'axios'
+import LoadingSkeleton from '../Loading'
 
 
 
@@ -40,7 +41,7 @@ const Review = () => {
     }
   }
   if (!reviews) {
-    return <div>Loading...</div>;
+    return <LoadingSkeleton/>;
   }
 
 

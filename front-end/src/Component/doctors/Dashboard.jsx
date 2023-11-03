@@ -173,7 +173,7 @@ const Dashboarddoctors = () => {
                 </div>
               ) : (
                 <>
-                  <i className="fas fa-check me-2" /> Chập nhận
+                  <i className="fas fa-check me-2" /> Chấp nhận
                 </>
               )}
             </div>
