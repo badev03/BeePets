@@ -10,6 +10,7 @@ import LoadingSkeleton from "./Loading";
 import TopLink from "../Link/TopLink";
 import deleteNoti from "../api/deleteNoti";
 import { Dropdown } from "bootstrap";
+import axios from "axios";
 
 
 
@@ -24,30 +25,58 @@ const Header = () => {
   const [setting, setSetting] = useState([]);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [data, setData] = useState(null);
-  const [updateNoti, setUpdateNoti] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [updateNoti, setUpdateNoti] = useState(null);
+  // const [isLoading, setIsLoading] = useState(false);
 
-const handleDeleteNotification = async (id, token) => {
-  try {
-    const response = await deleteNoti.removeNoti(id, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    console.log(response);
-    if (response && response.data) {
-      if (response.status === 200) {
-        console.log("Thông báo đã được xóa thành công");
-        // Thực hiện cập nhật danh sách thông báo nếu cần
+  const handleDeleteNotification = async (id, token) => {
+    console.log(id);
+    console.log(token);
+//   try {
+//     const response = await deleteNoti.removeNoti(id, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//       // console.log(headers);
+//     });
+  
+//     if (response) {
+//       if (response.status === 200) {
+//         console.log("Thông báo đã được xóa thành công");
+//         // Thực hiện cập nhật danh sách thông báo nếu cần
+//       } else {
+//         console.error("Lỗi xóa thông báo:", response.data.error);
+//       }
+//     } else {
+//       console.error("Lỗi xóa thông báo: Phản hồi từ máy chủ không hợp lệ");
+//     }
+//   } catch (error) {
+//     console.error("Lỗi xóa thông báo:", error);
+    //   }
+    try {
+      if (token) {
+        // const response = await deleteNoti.removeNoti(id, token);
+        const response1 = await axios.delete(`http://127.0.0.1:8000/api/delete-read-notification/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        })
+        console.log("🚀 ~ file: Header.jsx:60 ~ handleDeleteNotification ~ response1:", response1)
+        // console.log("🚀 ~ file: Header.jsx:57 ~ handleDeleteNotification ~ response:", response)
+        // console.log(response);
+        // if (response && response.data) {
+        //   if (response.status === 200) {
+        //     console.log("Thông báo đã được xóa thành công");
+        //     // Thực hiện cập nhật danh sách thông báo nếu cần
+        //   } else {
+        //     console.error("Lỗi xóa thông báo:", response);
+        //   }
+        // }
       } else {
-        console.error("Lỗi xóa thông báo:", response.data.error);
+        console.error('Không có token xác thực trong Local Storage.');
       }
-    } else {
-      console.error("Lỗi xóa thông báo: Phản hồi từ máy chủ không hợp lệ");
+    } catch (error) {
+      console.error("Lỗi khi xóa thông báo:", error);
     }
-  } catch (error) {
-    console.error("Lỗi xóa thông báo:", error);
-  }
 };
 
 
@@ -133,6 +162,7 @@ const handleDeleteNotification = async (id, token) => {
         },
       });
       setNoti(response.notifications);
+      console.log(response.notifications);
       setCountNotification(response.count);
       const pusher = new Pusher("2798806e868dbe640e2e", {
         cluster: "ap1",
@@ -327,7 +357,8 @@ const handleDeleteNotification = async (id, token) => {
                                     </div>
                                     <button
                                       className="custom-delete-button btn sm"
-                                      onClick={() => handleDeleteNotification(notification.id,token)}
+                                      onClick={() => handleDeleteNotification(notifications.id, token)}
+                                      
                                     >
                                       {/* <i className="custom-icon">&#10006;</i> */}
                                       <i class="fa-solid fa-delete-left"></i>
