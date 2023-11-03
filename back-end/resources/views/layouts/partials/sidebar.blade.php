@@ -58,6 +58,9 @@
                     <a href="{{ route('purchase.index') }}"><i class="fe fe-activity"></i> <span>Đơn hàng</span></a>
                 </li>
                 <li>
+                    <a  class="{{ request()->routeIs('about.*') ? 'active' : '' }}"href="{{ route('about.index') }}"><i class="fe fe-activity"></i> <span>Giới Thiệu</span></a>
+                </li>
+                <li>
                     <a href="{{ route('setting') }}"><i class="fe fe-vector"></i> <span>Cấu hình</span></a>
                 </li>
                 <li class="submenu">
