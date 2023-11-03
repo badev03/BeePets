@@ -144,7 +144,7 @@ class HomeController extends Controller
         /**
          * Tiếp theo tạo một instance của class SpeedSMSAPI và truyền vào tham số là api access token của bạn.
          */
-        $smsAPI = new SmsNotificationBeepets("sZU_gcsQQIVSa1xWStK8HUGXQi8zZMvV");
+        $smsAPI = new SmsNotificationBeepets(env('accessToken'));
 //        /**
 //         * Để lấy thông tin về tài khoản như: email, số dư tài khoản bạn sử dụng hàm getUserInfo()
 //         */

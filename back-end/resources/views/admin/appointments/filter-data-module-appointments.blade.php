@@ -41,12 +41,11 @@
         <input style="height: 38px" id="search_input" name="name" type="text" class="form-control search_input">
     </div>
 </div>
-<button id="filter_searchName" class="btn me-2 btn-sm bg-success-light mt-3">Lọc dự liệu</button>
+<button id="filter_searchName" class="btn me-2 btn-sm bg-success-light mt-3">Lọc dữ liệu</button>
 <a href="{{ route($urlbase.'index') }}" class="btn btn-sm bg-danger-light mt-3">Làm mới dữ liệu</a>
 <hr class="hr"/>
 
 
-{{--<hr class="hr"/>--}}
 
 {{--<div class="row mt-3">--}}
 {{--    <h6 class="card-title text-danger">Tìm kiếm tài khoản </h6>--}}

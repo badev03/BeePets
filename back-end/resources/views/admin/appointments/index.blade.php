@@ -23,6 +23,26 @@
                         </div>
                     </div>
                     @include('admin.appointments.filter-data-module-appointments')
+                    <a data-bs-toggle="modal" href="#appointments-clear-appointment-data"  class="btn btn-sm bg-info-light">Hủy các cuộc hẹn không đến</a>
+
+                    <div class="modal fade" id="appointments-clear-appointment-data" aria-hidden="true" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="form-content p-2 text-center">
+                                        <h4 class="modal-title">Xóa các cuộc hẹn đã quá thời gian đến</h4>
+                                        <p class="mb-4">Bạn có chắc chắn xóa không</p>
+                                        <div class="d-flex justify-content-center" style="gap: 1rem">
+                                            <a href="{{ route('appointments.clear-appointment-data') }}" class="btn bg-success-light"
+                                                    type="submit">Xóa
+                                            </a>
+                                            <button type="button" class="btn bg-danger-light" data-bs-dismiss="modal">Đóng</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
                 <div class="card-body">
