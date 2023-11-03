@@ -5,9 +5,11 @@ import doctorsApi from '../../api/doctorsApi';
 import ReviewsDoctor from './ReviewsDoctor';
 import CustomButton from '../Serch/CustomButton';
 import LoadingSkeleton from '../Loading';
+import { useAuth } from '../../Context/ContextAuth';
 const DoctorProfile = () => {
   const { id } = useParams();
   const [doctor, setDoctors] = useState(null);
+  const { role } = useAuth();
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -107,10 +109,12 @@ const DoctorProfile = () => {
                  
                 </ul>
               </div>
-         
-              <div className="clinic-booking">
-              <CustomButton handleBookingg={handleBookingg} doctorId={doctor.id} />
-              </div>
+              {role !== "doctor" && (
+                  <div className="clinic-booking">
+                  <CustomButton handleBookingg={handleBookingg} doctorId={doctor.id} />
+                  </div>
+              )}
+            
             </div>
           </div>
         </div>
