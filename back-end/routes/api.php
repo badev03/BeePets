@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AboutController;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Route;
@@ -98,6 +99,7 @@ Route::get('get-services', [DoctorController::class, 'getServices']);
 Route::post('update-bill/{id}', [DoctorController::class, 'updateBill']);
 
 
+
     Route::get('pusher-tester', [\App\Http\Controllers\Admin\HomeController::class, 'Pusher']);
     // get info user when login
     Route::get('/info-user', [UserController::class, 'getInfoUser']);
@@ -185,7 +187,7 @@ Route::get('/prescription/{id}', [DoctorController::class, 'prescriptionByUser']
 //change password doctor
 Route::put('/change-password', [DoctorController::class, 'changePassword']);
 
-
+Route::get('about', [AboutController::class, 'index']);
 
 //get review when doctor login
 Route::get('/reviews-doctor', [DoctorController::class, 'getReviewDoctor']);

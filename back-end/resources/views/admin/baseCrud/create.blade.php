@@ -60,6 +60,18 @@
                                                     @endif
                                                 </div>
                                             </div>
+                                            {{-- @elseif(in_array($key, FIELD_DESCS))
+                                            <div class="row">
+                                                <div class="col-md-8 mb-3">
+                                                    <label class="mb-2"
+                                                        for="validationCustom01">{{ $item }}</label>
+                                                    <textarea id="editor" name="{{ $key }}">
+                                                    </textarea>
+                                                    @if ($errors->has($key))
+                                                        <div class="error text-danger mt-2">{{ $errors->first($key) }}</div>
+                                                    @endif
+                                                </div>
+                                            </div> --}}
                                         @elseif(in_array($key, $FIELD_SELECT_CUSTOM_CONTROLLER) && isset($dataSelect))
                                             <div class="row">
                                                 <div class="col-md-8 mb-3">
