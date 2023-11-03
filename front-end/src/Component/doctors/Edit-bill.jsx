@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import Menudashboard from "./Menu-dashboard";
-import { Link } from "react-router-dom";
+import { Navigate ,Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Select } from "antd";
 import billApi from "../../api/bill";
+import BookingApi from "../../api/bookingApi";
 import { useAuth } from "../../Context/ContextAuth";
 import { FaSpinner } from "react-icons/fa";
 import LoadingSkeleton from "../Loading";
@@ -30,7 +31,13 @@ const Editbill = () => {
   const [isloading, setIsloading] = useState(false);
   const { id } = useParams();
   const [bills, setBills] = useState(null);
-  const [service, setService] = useState(null);
+  const [serviceBill, setServiceBill] = useState([]);
+  const [servicePrices, setServicePrices] = useState({});
+  const [serviceDefault, setServiceDefault] = useState({});
+  const [selectedServicePrice, setSelectedServicePrice] = useState("");
+  const [selectedServiceIds, setSelectedServiceIds] = useState([]);
+  const navigate = useNavigate();
+
   const tokenn = localStorage.getItem("token");
 
   const [userId, setUserId] = useState("");
@@ -46,10 +53,9 @@ const Editbill = () => {
           },
         });
         setBills(response.bill);
-        // setService(response.services);
-        // setUserId(response.bill.user_id);
-        // setDoctorId(response.bill.doctor_id);
-        console.log(response);
+        setServiceDefault(response.services[0]);
+        setUserId(response.bill.user_id);
+        setDoctorId(response.bill.doctor_id);
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
@@ -58,6 +64,39 @@ const Editbill = () => {
     fetchBill();
     setLoading(false);
   }, []);
+
+  useEffect(() => {
+    const fetchService = async () => {
+      setLoading(true);
+      try {
+        const response = await BookingApi.getServiceDoctor();
+        setServiceBill(response.data);
+      } catch (error) {
+        console.error("Không có dữ liệu:", error);
+      }
+    };
+
+    fetchService();
+    setLoading(false);
+  }, []);
+
+  function formatDate(dateString) {
+    if (dateString) {
+      const options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      };
+      const formattedDate = new Date(dateString).toLocaleDateString(
+        "vi-VN",
+        options,
+      );
+      return formattedDate.replace("lúc", "").trim();
+    }
+    return "";
+  }
 
   const handleSave = async () => {
     if (name.trim() === "") {
@@ -104,6 +143,10 @@ const Editbill = () => {
       };
     });
 
+    const selectedServices = selectedServiceIds.map((serviceId) => ({
+      service_id: serviceId,
+    }));
+
     const data = {
       name: name,
       price: prescriptions
@@ -120,6 +163,7 @@ const Editbill = () => {
       user_id: userId,
       doctor_id: doctorId,
       products: productsData,
+      services: selectedServices,
       description: description,
     };
     setIsloading(true);
@@ -136,6 +180,7 @@ const Editbill = () => {
         title: "Thêm đơn thuốc thành công!",
         icon: "success",
       });
+      navigate(`/doctors/detail-bill/${id}`)
     } catch (error) {
       console.error("Lỗi khi gửi hóa đơn:", error);
     }
@@ -148,8 +193,15 @@ const Editbill = () => {
   };
 
   const addServiceRow = () => {
-    setServices([...services, { id: services.length + 1 }]);
+    const newServiceId = services.length + 1;
+    setServices([...services, { id: newServiceId }]);
+    setSelectedServicePrice("");
+    setServicePrices((prevPrices) => ({
+      ...prevPrices,
+      [newServiceId]: "", 
+    }));
   };
+
   const deletePrescriptionRow = (id) => {
     const updatedPrescriptions = prescriptions.filter((item) => item.id !== id);
     setPrescriptions(updatedPrescriptions);
@@ -158,7 +210,14 @@ const Editbill = () => {
   const deleteServiceRow = (id) => {
     const updatedServices = services.filter((item) => item.id !== id);
     setServices(updatedServices);
+
   };
+
+  useEffect(() => {
+    const availableServices = serviceBill.filter((service) => !selectedServiceIds.includes(service.id));
+    setServiceBill(availableServices);
+  }, [selectedServiceIds]);
+
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -202,6 +261,21 @@ const Editbill = () => {
       ...prev,
       [prescriptionId]: instructions[prescriptionId] || "",
     }));
+  };
+
+  const onChangeService = (value, serviceId) => {
+    const selectedService = serviceBill.find((service) => service.name === value);
+    const newServicePrices = { ...servicePrices };
+    newServicePrices[serviceId] = selectedService ? selectedService.price : "";
+    setServicePrices(newServicePrices);
+
+    setSelectedServiceIds((prevSelectedServiceIds) => {
+      const updatedIds = [...prevSelectedServiceIds];
+      if (selectedService) {
+        updatedIds.push(selectedService.id);
+      }
+      return updatedIds;
+    });
   };
 
   const onSearch = (value) => {
@@ -260,7 +334,7 @@ const Editbill = () => {
                     <div className="col-sm-6">
                       <div className="biller-info">
                         <h4 className="d-block">
-                          Tên khách hàng: {bills?.customer_name}
+                          Tên khách hàng: {bills?.appointment.user.name}
                         </h4>
                         <label htmlFor="">Tên đơn thuốc:</label>
                         <input
@@ -277,7 +351,7 @@ const Editbill = () => {
                     </div>
                     <div className="col-sm-6 text-sm-end">
                       <div className="billing-info">
-                        <h4 className="d-block">Ngày: {bills?.date}</h4>
+                        <h4 className="d-block">Ngày: {formatDate(bills?.created_at)}</h4>
                         <span className="d-block text-muted">
                           Mã hóa đơn: {bills?.code}
                         </span>
@@ -409,26 +483,42 @@ const Editbill = () => {
                           <thead>
                             <tr>
                               <th className="table-name">Tên dịch vụ</th>
-                              <th>Số lượng</th>
                               <th className="table-name">Giá tiền</th>
-                              <th className="table-name">Mô tả</th>
                               <th>Action</th>
                             </tr>
                           </thead>
                           <tbody>
+                          <tr className="test">
+                                <td>{serviceDefault?.name}</td>
+                                <td>{serviceDefault?.price}</td>
+                                <td></td>
+                            </tr>
                             {services.map((service) => (
                               <tr key={service.id} className="test">
                                 <td>
-                                  <input className="form-control" type="text" />
+                                  <Select
+                                    showSearch
+                                    placeholder="Chọn dịch vụ"
+                                    optionFilterProp="children"
+                                    style={{ width: 350, height: 43 }}
+                                    onChange={(value) =>
+                                      onChangeService(value, service.id)
+                                    }
+                                    onSearch={onSearch}
+                                    filterOption={filterOption}
+                                    options={serviceBill.map((ser) => ({
+                                      value: ser.name,
+                                      label: ser.name,
+                                    }))}
+                                  />
                                 </td>
                                 <td>
-                                  <input className="form-control" type="text" />
-                                </td>
-                                <td>
-                                  <input className="form-control" type="text" />
-                                </td>
-                                <td>
-                                  <input className="form-control" type="text" />
+                                  <input
+                                    className="form-control"
+                                    type="text"
+                                    value={servicePrices[service.id] || ""}
+                                    readOnly
+                                  />
                                 </td>
                                 <td>
                                   <button
@@ -450,7 +540,6 @@ const Editbill = () => {
                       <div className="card-body">
                         <h4 className="card-title">Kết quả</h4>
                         <div className="mb-0">
-                          {/* <label className="mb-2">Tiểu sử</label> */}
                           <textarea
                             className="form-control"
                             rows={5}
