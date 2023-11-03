@@ -8,6 +8,7 @@ import settingApi from "../api/settingApi";
 import { Button } from "antd";
 import TopLink from "../Link/TopLink";
 import deleteNoti from "../api/deleteNoti";
+import { Dropdown } from "bootstrap";
 
 
 
@@ -25,21 +26,29 @@ const Header = () => {
   const [updateNoti, setUpdateNoti] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // const handleDeleteNotification = async (notificationId) => {
-  //   // Thực hiện việc xóa thông báo dựa trên notificationId
-  //   // Sau khi xóa, bạn cần cập nhật danh sách thông báo bằng cách loại bỏ thông báo có notificationId này
-  //   try {
-  //     // Thực hiện logic xóa thông báo dựa trên notificationId
-  //     // Ví dụ: Gọi API để xóa thông báo
-  //     await deleteNoti.removeNoti(notificationId);
+const handleDeleteNotification = async (id, token) => {
+  try {
+    const response = await deleteNoti.removeNoti(id, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(response);
+    if (response && response.data) {
+      if (response.status === 200) {
+        console.log("Thông báo đã được xóa thành công");
+        // Thực hiện cập nhật danh sách thông báo nếu cần
+      } else {
+        console.error("Lỗi xóa thông báo:", response.data.error);
+      }
+    } else {
+      console.error("Lỗi xóa thông báo: Phản hồi từ máy chủ không hợp lệ");
+    }
+  } catch (error) {
+    console.error("Lỗi xóa thông báo:", error);
+  }
+};
 
-  //     // Sau khi xóa thành công, bạn cần cập nhật danh sách thông báo bằng cách loại bỏ thông báo có notificationId này
-  //     const updatedNotifications = noti.filter(notification => notification.id !== notificationId);
-  //     setNoti(updatedNotifications);
-  //   } catch (error) {
-  //     console.error("Lỗi xóa thông báo:", error);
-  //   }
-  // };
 
   const handleNotificationClick = async () => {
     try {
@@ -317,7 +326,7 @@ const Header = () => {
                                     </div>
                                     <button
                                       className="custom-delete-button btn sm"
-                                      onClick={() => handleDeleteNotification(notification.id)}
+                                      onClick={() => handleDeleteNotification(notification.id,token)}
                                     >
                                       {/* <i className="custom-icon">&#10006;</i> */}
                                       <i class="fa-solid fa-delete-left"></i>
