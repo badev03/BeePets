@@ -218,6 +218,13 @@ const Editbill = () => {
     setServiceBill(availableServices);
   }, [selectedServiceIds]);
 
+  const availableServiceOptions = serviceBill
+  .filter((ser) => ser.name !== serviceDefault?.name)
+  .map((ser) => ({
+    value: ser.name,
+    label: ser.name,
+  }));
+
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -506,10 +513,7 @@ const Editbill = () => {
                                     }
                                     onSearch={onSearch}
                                     filterOption={filterOption}
-                                    options={serviceBill.map((ser) => ({
-                                      value: ser.name,
-                                      label: ser.name,
-                                    }))}
+                                    options={availableServiceOptions}
                                   />
                                 </td>
                                 <td>
