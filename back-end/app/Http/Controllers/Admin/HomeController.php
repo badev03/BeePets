@@ -12,12 +12,15 @@ use App\Models\Product_categories;
 use App\Models\Products;
 use App\Notifications\SmsNotificationBeepets;
 use App\Traits\QueryCommon;
+//use ConsoleTVs\Charts\Classes\C3\Chart;
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Queue;
 use Pusher\Pusher;
+//use ConsoleTVs\Charts\
+use App\Charts\MyChart;
 class HomeController extends Controller
 {
 
@@ -41,9 +44,15 @@ class HomeController extends Controller
             ->limit(5)
             ->get();
 
+
+        $charts = new MyChart();
+        $charts->labels(['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5','Tháng 6','Tháng 7','Tháng 8','Tháng 9','Tháng 10', 'Tháng 11', 'Tháng 12']);
+        $charts->dataset('Doanh thu', 'line', [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000 , 9000, 10000, 11000, 12000, 13000])->color('#ff0000');
+//        $charts->dataset('Đơn hàng', 'line', [100, 200, 300, 400, 500, 600, 700, 800 , 900, 1000, 1100, 1200])->color('#0000ff');
+
         return view('admin.dashboard.dashboard',
             compact('totalAmount', 'totalOrder', 'totalOrderCancel', 'totalAmountMonth',
-                'totalAmountLastMonth', 'totalAmountYear', 'totalOrderReturn', 'totalOrderNeedPay', 'totalProducts', 'totalProductCategory', 'bestSeller'));
+                'totalAmountLastMonth', 'totalAmountYear', 'totalOrderReturn', 'totalOrderNeedPay', 'totalProducts', 'totalProductCategory', 'bestSeller', 'charts'));
     }
 
 
