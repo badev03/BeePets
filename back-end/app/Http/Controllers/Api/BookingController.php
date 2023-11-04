@@ -122,7 +122,7 @@ class BookingController extends Controller
         $date = $request->input('date');
         $work_schedule = Work_schedule::where('doctor_id', $doctor_id)->where('date', $date)->get();
         if ($work_schedule->isEmpty()) {
-            return response()->json(['message' => 'Không có lịch làm việc của bác sĩ này'], 400);
+            return response()->json(['message' => 'Không có lịch làm việc của bác sĩ này',[]],200);
         }
         return response()->json(['message' => 'Lấy danh sách lịch làm việc thành công', 'data' => $work_schedule], 200);
     }
