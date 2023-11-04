@@ -328,7 +328,7 @@ class BookingController extends Controller
                 $bill = $this->doctorController->createBill($appointment->id, $doctor->id, $appointment->user_id,$service_price);
                 $messageInterface->sendMessage($appointment->user_id, 'Bác sĩ ' . $doctor->name . '  đã xác nhận cuộc hẹn của bạn', $doctor->id, 'Bạn đã xác nhận thành công cuộc hẹn của khách hàng ' . $appointment->user->name);
             }
-            if ($request->status == 4) {
+            if ($request->status == 6) {
                 $reasonCancel = $request->input('reason_cancel');
                 if (!$reasonCancel) {
                     return response()->json(['message' => 'Bạn chưa nhập lý do hủy cuộc hẹn'], 400);
