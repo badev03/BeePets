@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    @if($charts)
+{{--    @if($charts)--}}
 {{--        {!! $charts->script() !!}--}}
-    @endif
+{{--    @endif--}}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="The responsive professional Doccure template offers many features, like scheduling appointments with  top doctors, clinics, and hospitals via voice, video call & chat.">
     <meta name="keywords" content="practo clone, doccure, doctor appointment, Practo clone html template, doctor booking template">

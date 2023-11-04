@@ -24,7 +24,7 @@
                     </h3>
                 </div>
                 <div class="col-md-8">
-                    {!! $charts->container() !!}
+{{--                    {!! $charts->container() !!}--}}
                 </div>
             </div>
         </div>

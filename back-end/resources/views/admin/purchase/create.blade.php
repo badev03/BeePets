@@ -18,6 +18,23 @@
             border: 1px solid #ced4da !important;
             height: 38px !important;
         }
+        .select2-results__option {
+            overflow: hidden !important;
+            white-space: nowrap !important;
+            text-overflow: ellipsis !important;
+        }
+        .select2-selection__choice {
+            background: #0ce0ff !important;
+            border: 1px solid #0ce0ff !important;
+            color: #fff !important;
+            width: 70px !important;
+            overflow: hidden !important;
+            white-space: nowrap !important;
+            text-overflow: ellipsis !important;
+        }
+        .select2-selection__choice__remove {
+            color: #fff !important;
+        }
     </style>
 @endpush
 @section('content')
