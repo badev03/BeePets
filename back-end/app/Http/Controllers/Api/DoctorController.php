@@ -436,7 +436,7 @@ class DoctorController extends Controller
                             ], 400);
                         }
 
-                       // Cộng giá của dịch vụ vào total_amount
+                        // Cộng giá của dịch vụ vào total_amount
 
                         if (is_array($service['service_id'])) {
                             foreach ($service['service_id'] as $id) {
@@ -564,11 +564,15 @@ class DoctorController extends Controller
     }
 
 
+
+
+
     public function detailBillDoctor($id)
     {
         try {
             if (Auth::guard('doctors')->check()) {
-                $doctorId = Auth::guard('doctors')->user()->id; // Lấy id của bác sĩ đang đăng nhập
+                $doctorId = Auth::guard('doctors')->user()->id;
+    
                 $bill = Bill::select(
                     'bills.id',
                     'bills.code',
@@ -582,34 +586,32 @@ class DoctorController extends Controller
                     'bills.doctor_id',
                     'bills.appointment_id',
 
-                )
-
-                    ->where('bills.id', $id)
-                    ->where('bills.doctor_id', $doctorId) // Lọc theo doctor_id của bác sĩ đăng nhập
-                    ->with(['appointment.user:id,name', 'doctor:id,name', 'prescriptions.productss:id,name,price'])
+                )->with(['appointment.user' => function ($query) {
+                    $query->select('id', 'name');
+                }, 'doctor:id,name', 'prescriptions.productss:id,name,price'])
+                    ->where('id', $id)
+                    ->where('doctor_id', $doctorId)
                     ->first();
-
-
+    
                 if (!$bill) {
                     return response()->json([
                         'success' => false,
                         'message' => 'Không tìm thấy hóa đơn',
                     ]);
                 }
-
+    
+                $groupServiceIds = explode(',', $bill->appointment->group_service_id);
+    
                 $services = Service::select('id', 'name', 'price')
-                    ->whereHas('appointments', function ($query) use ($id) {
-                        $query->whereHas('bill', function ($q) use ($id) {
-                            $q->where('id', $id);
-                        });
-                    })
+                    ->whereIn('id', $groupServiceIds)
                     ->get();
-
+    
+              
+    
                 return response()->json([
                     'success' => true,
                     'message' => 'Lấy thông tin hóa đơn thành công',
                     'bill' => $bill,
-                    // 'prescription' => $prescription,
                     'services' => $services
                 ]);
             } else {
@@ -626,4 +628,6 @@ class DoctorController extends Controller
             ]);
         }
     }
+    
+
 }

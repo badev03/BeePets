@@ -13,6 +13,7 @@ const BUTTON_HEADER_ADMIN_LINK = 'admin.components.button.button-header';
 const IMAGES_FIELD ="image";
 
 const DESC_FIELD ="description";
+const FIELD_DESCS="reason";
 
 const FIELD_CHECK_FOR = ['service_categorie_id' , 'role_id', 'product_categorie_id'];
 

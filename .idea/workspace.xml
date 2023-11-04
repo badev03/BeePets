@@ -5,8 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="45a53ba9-6ef3-41ae-87f6-4b989cb527d7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/back-end/app/Charts/MyChart.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/BeePets.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/BeePets.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/phpspec.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpspec.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/resources/views/admin/schedules/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/resources/views/admin/schedules/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Admin/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Admin/HomeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/config/app.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/resources/views/admin/dashboard/dashboard.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/resources/views/admin/dashboard/dashboard.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/resources/views/layouts/partials/master.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/resources/views/layouts/partials/master.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -289,6 +298,8 @@
       <path value="$PROJECT_DIR$/back-end/vendor/livewire/livewire" />
       <path value="$PROJECT_DIR$/back-end/vendor/carlos-meneses/laravel-mpdf" />
       <path value="$PROJECT_DIR$/back-end/vendor/yajra/laravel-datatables-oracle" />
+      <path value="$PROJECT_DIR$/back-end/vendor/consoletvs/charts" />
+      <path value="$PROJECT_DIR$/back-end/vendor/balping/json-raw-encoder" />
     </include_path>
   </component>
   <component name="ProjectId" id="2VuhhQXDza3ZsemU1n74U22XaJR" />
@@ -374,6 +385,9 @@
       <workItem from="1698717403048" duration="1353000" />
       <workItem from="1698755448990" duration="5043000" />
       <workItem from="1698761605658" duration="6189000" />
+      <workItem from="1699004923460" duration="1019000" />
+      <workItem from="1699016199496" duration="23000" />
+      <workItem from="1699018862268" duration="2510000" />
     </task>
     <servers />
   </component>

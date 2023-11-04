@@ -6,11 +6,13 @@ import doctorsApi from "../../api/doctorsApi";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import CustomButton from "./CustomButton";
 import LoadingSkeleton from "../Loading";
+import { useAuth } from "../../Context/ContextAuth";
 
 const Search = ({ data }) => {
   const [doctors, setDoctors] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
   const [loading, setLoading] = useState(true);
+  const { role } = useAuth();
 
   const doctorsPerPage = 3;
   const pagesVisited = pageNumber * doctorsPerPage;
@@ -154,7 +156,9 @@ const Search = ({ data }) => {
                 >
                   Xem hồ sơ
                 </Link>
+              {role !== "doctor" && (
                 <CustomButton handleBookingg={handleBookingg} doctorId={doctor.id} />
+              )}
               </div>
             </div>
           </div>
