@@ -7,6 +7,7 @@
             margin-top: -10px;
         }
     </style>
+
 @endpush
 @section('content')
     <div class="page-header">
@@ -182,40 +183,84 @@
             </div>
             <div class="row mt-5">
                 <div class="col">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>Top 5 sản phẩm bán chạy</h3>
-                        </div>
-                        <div class="card-body">
-                            <table class="table table-bordered table-hover">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th></th>
-                                    <th>Tên sản phẩm</th>
-                                    <th>Giá</th>
-                                    <th>Số lượng đã bán</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($bestSeller as $key => $value)
-                                    <tr>
-                                        <td>{{ $key + 1 }}</td>
-                                        <td>
-                                            <img src="{{ asset($value->image) }}" alt="" width="50px">
-                                        </td>
-                                        <td>{{ $value->name }}</td>
-                                        <td>{{ number_format($value->price) }} VNĐ</td>
-                                        <td>{{ $value->total }}</td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                    <div style="width: 50%;">
+                        <canvas id="myChart"></canvas>
                     </div>
                 </div>
             </div>
+         
         </div>
     </div>
+
+
+    
 @endsection
+
+
+@push('script')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Đoạn mã JavaScript của bạn ở đây
+    var labels = [];
+    var totals = [];
+    var dataFromLaravel = @json($bestSeller);
+
+    dataFromLaravel.forEach(function (item) {
+        labels.push(item.name);
+        totals.push(parseInt(item.total));
+    });
+
+    var labelsForChart = [];
+    dataFromLaravel.forEach(function (item) {
+        labelsForChart.push(item.name);
+    });
+
+    const dataForChart = {
+        labels: labelsForChart,
+        datasets: [{
+            label: 'Sản phẩm bán chạy nhất',
+            data: totals,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 205, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(201, 203, 207, 0.2)'
+            ],
+            borderColor: [
+                'rgb(255, 99, 132)',
+                'rgb(255, 159, 64)',
+                'rgb(255, 205, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(54, 162, 235)',
+                'rgb(153, 102, 255)',
+                'rgb(201, 203, 207)'
+            ],
+            borderWidth: 1
+        }]
+    };
+
+    const config = {
+        type: 'bar',
+        data: dataForChart,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        },
+    };
+
+    // Tạo biểu đồ
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, config);
+</script>
+
+
+
+@endpush
 
