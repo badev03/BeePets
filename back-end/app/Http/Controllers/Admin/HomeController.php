@@ -43,19 +43,37 @@ class HomeController extends Controller
             ->orderBy('total', 'desc')
             ->limit(5)
             ->get();
-
-
-        $charts = new MyChart();
-        $charts->labels(['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5','Tháng 6','Tháng 7','Tháng 8','Tháng 9','Tháng 10', 'Tháng 11', 'Tháng 12']);
-        $charts->dataset('Doanh thu', 'line', [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000 , 9000, 10000, 11000, 12000, 13000])->color('#ff0000');
-//        $charts->dataset('Đơn hàng', 'line', [100, 200, 300, 400, 500, 600, 700, 800 , 900, 1000, 1100, 1200])->color('#0000ff');
+        $months = range(1, 12);
+        $totalAmountMonth1 = DB::table('bills')->whereMonth('created_at', 1)->sum('total_amount');
+        $totalAmountMonth2 = DB::table('bills')->whereMonth('created_at', 2)->sum('total_amount');
+        $totalAmountMonth3 = DB::table('bills')->whereMonth('created_at', 3)->sum('total_amount');
+        $totalAmountMonth4 = DB::table('bills')->whereMonth('created_at', 4)->sum('total_amount');
+        $totalAmountMonth5 = DB::table('bills')->whereMonth('created_at', 5)->sum('total_amount');
+        $totalAmountMonth6 = DB::table('bills')->whereMonth('created_at', 6)->sum('total_amount');
+        $totalAmountMonth7 = DB::table('bills')->whereMonth('created_at', 7)->sum('total_amount');
+        $totalAmountMonth8 = DB::table('bills')->whereMonth('created_at', 8)->sum('total_amount');
+        $totalAmountMonth9 = DB::table('bills')->whereMonth('created_at', 9)->sum('total_amount');
+        $totalAmountMonth10 = DB::table('bills')->whereMonth('created_at', 10)->sum('total_amount');
+        $totalAmountMonth11 = DB::table('bills')->whereMonth('created_at', 11)->sum('total_amount');
+        $totalAmountMonth12 = DB::table('bills')->whereMonth('created_at', 12)->sum('total_amount');
+        $totalAmountMonth1LastYear = DB::table('bills')->whereMonth('created_at', 1)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
+        $totalAmountMonth2LastYear = DB::table('bills')->whereMonth('created_at', 2)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
+        $totalAmountMonth3LastYear = DB::table('bills')->whereMonth('created_at', 3)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
+        $totalAmountMonth4LastYear = DB::table('bills')->whereMonth('created_at', 4)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
+        $totalAmountMonth5LastYear = DB::table('bills')->whereMonth('created_at', 5)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
+        $totalAmountMonth6LastYear = DB::table('bills')->whereMonth('created_at', 6)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
+        $totalAmountMonth7LastYear = DB::table('bills')->whereMonth('created_at', 7)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
+        $totalAmountMonth8LastYear = DB::table('bills')->whereMonth('created_at', 8)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
+        $totalAmountMonth9LastYear = DB::table('bills')->whereMonth('created_at', 9)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
+        $totalAmountMonth10LastYear = DB::table('bills')->whereMonth('created_at', 10)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
+        $totalAmountMonth11LastYear = DB::table('bills')->whereMonth('created_at', 11)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
+        $totalAmountMonth12LastYear = DB::table('bills')->whereMonth('created_at', 12)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
 
         return view('admin.dashboard.dashboard',
             compact('totalAmount', 'totalOrder', 'totalOrderCancel', 'totalAmountMonth',
-                'totalAmountLastMonth', 'totalAmountYear', 'totalOrderReturn', 'totalOrderNeedPay', 'totalProducts', 'totalProductCategory', 'bestSeller', 'charts'));
+                'totalAmountLastMonth', 'totalAmountYear', 'totalOrderReturn', 'totalOrderNeedPay', 'totalAmountMonth1LastYear', 'totalAmountMonth2LastYear', 'totalAmountMonth3LastYear', 'totalAmountMonth4LastYear', 'totalAmountMonth5LastYear', 'totalAmountMonth6LastYear', 'totalAmountMonth7LastYear', 'totalAmountMonth8LastYear', 'totalAmountMonth9LastYear', 'totalAmountMonth10LastYear', 'totalAmountMonth11LastYear', 'totalAmountMonth12LastYear',
+                'totalProducts', 'totalProductCategory', 'bestSeller', 'totalAmountMonth1','totalAmountMonth2', 'totalAmountMonth3', 'totalAmountMonth4', 'totalAmountMonth5', 'totalAmountMonth6', 'totalAmountMonth7', 'totalAmountMonth8', 'totalAmountMonth9', 'totalAmountMonth10', 'totalAmountMonth11', 'totalAmountMonth12'));
     }
-
-
 
 
     public function uploadImg(Request $request) {

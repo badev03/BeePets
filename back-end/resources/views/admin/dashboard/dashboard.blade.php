@@ -24,9 +24,7 @@
                         Biểu đồ doanh thu
                     </h3>
                 </div>
-                <div class="col-md-8">
-{{--                    {!! $charts->container() !!}--}}
-                </div>
+
             </div>
         </div>
         <div class="row mt-5">
@@ -91,6 +89,12 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-12">
+                <canvas id="chartRevenue" height="100px"></canvas>
+            </div>
+        </div>
+        <div class="row mt-5">
+
             <div class="col-lg-3 col-md-6 col-sm-6  mb-3 col-hover" >
                 <div class="d-block">
                     <div class="rounded-2 shadow text-dark p-2">
@@ -188,12 +192,12 @@
                     </div>
                 </div>
             </div>
-         
+
         </div>
     </div>
 
 
-    
+
 @endsection
 
 
@@ -260,6 +264,47 @@
     var myChart = new Chart(ctx, config);
 </script>
 
+    <script>
+       // biểu đồ line tổng doanh thu
+        var ctx = document.getElementById('chartRevenue').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4','Tháng 5','Tháng 6','Tháng 7','Tháng 8','Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+                datasets: [{
+                    label: 'Doanh thu năm nay',
+                    data: [{{ $totalAmountMonth1 ?? 0 }}, {{ $totalAmountMonth2 ?? 0 }}, {{ $totalAmountMonth3 ?? 0 }}, {{ $totalAmountMonth4 ?? 0 }}, {{ $totalAmountMonth5 ?? 0 }}, {{ $totalAmountMonth6 ?? 0 }}, {{ $totalAmountMonth7 ?? 0 }}, {{ $totalAmountMonth8 ?? 0 }}, {{ $totalAmountMonth9 ?? 0 }}, {{ $totalAmountMonth10 ?? 0 }}, {{ $totalAmountMonth11 ?? 0 }}, {{ $totalAmountMonth12 ?? 0 }}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgb(255, 99, 132)',
+                    ],
+                    borderWidth: 1
+                },
+                {
+                    label: 'Doanh thu năm trước',
+                    data: [{{ $totalAmountMonth1LastYear ?? 0 }}, {{ $totalAmountMonth2LastYear ?? 0 }}, {{ $totalAmountMonth3LastYear ?? 0 }}, {{ $totalAmountMonth4LastYear ?? 0 }}, {{ $totalAmountMonth5LastYear ?? 0 }}, {{ $totalAmountMonth6LastYear ?? 0 }}, {{ $totalAmountMonth7LastYear ?? 0 }}, {{ $totalAmountMonth8LastYear ?? 0 }}, {{ $totalAmountMonth9LastYear ?? 0 }}, {{ $totalAmountMonth10LastYear ?? 0 }}, {{ $totalAmountMonth11LastYear ?? 0 }}, {{ $totalAmountMonth12LastYear ?? 0 }}],
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgb(54, 162, 235)',
+                    ],
+                    borderWidth: 1
+                }
+            ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            },
+        });
+
+    </script>
 
 
 @endpush
