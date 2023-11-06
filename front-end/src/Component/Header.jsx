@@ -18,6 +18,7 @@ const Header = () => {
   const { isLoggedIn, onLogout, token, role } = useAuth();
   const navigate = useNavigate();
   const [noti, setNoti] = useState([]);
+  console.log(noti)
   const [countNotification , setCountNotification] = useState(0);
   const imgDefault =
       "https://dvdn247.net/wp-content/uploads/2020/07/avatar-mac-dinh-1.png";
@@ -90,7 +91,8 @@ const Header = () => {
               Authorization: `Bearer ${token}`,
             },
           }
-        );
+      );
+      // console.log(notification);
         setCountNotification(0);
     } catch (error) {
       console.error("Không có dữ liệu:", error);
@@ -189,7 +191,7 @@ const Header = () => {
       });
       setNoti(response.notifications);
       setCountNotification(response.count);
-      const pusher = new Pusher("2798806e868dbe640e2e", {
+      const pusher = new Pusher("59deaefaec6129103d3d", {
         cluster: "ap1",
       });
 
@@ -333,7 +335,7 @@ const Header = () => {
                         </div>
                         <div className="noti-content">
                           <ul className="notification-list">
-                            {noti.map((notifications) => (
+                        {noti.map((notifications) => (
                                 <li className="notification-message" key={noti.id}>
                                   <a href="#">
                                     <div className="notify-block d-flex">
@@ -357,7 +359,7 @@ const Header = () => {
                                     </div>
                                     <button
                                       className="custom-delete-button btn sm"
-                                      onClick={() => handleDeleteNotification(notifications.id, token)}
+                                      onClick={() => handleDeleteNotification(notifications.id_notification, token)}
                                       
                                     >
                                       {/* <i className="custom-icon">&#10006;</i> */}
