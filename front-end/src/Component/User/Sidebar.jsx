@@ -94,7 +94,7 @@ const Sidebar = () => {
               </a>
             ) : (
               <div className="default-avatar booking-doc-img">
-                <img src="https://dvdn247.net/wp-content/uploads/2020/07/avatar-mac-dinh-1.png" alt="Default Avatar" />
+                <img src="https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" alt="Default Avatar" />
               </div>
             )}
             <div className="profile-det-info" style={{ display: user && (user.name || user.phone || user.address) ? 'block' : 'none' }}>
