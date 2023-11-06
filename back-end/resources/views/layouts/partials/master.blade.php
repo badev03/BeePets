@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     @if(isset($charts))
-{{--        {!! $charts->script() !!}--}}
+        {!! $charts->script() !!}
     @endif
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="The responsive professional Doccure template offers many features, like scheduling appointments with  top doctors, clinics, and hospitals via voice, video call & chat.">
