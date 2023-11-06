@@ -198,161 +198,99 @@ const DetailBIll = () => {
                         
                       </div>
                     </div>
-                    {bill.prescriptions && bill.prescriptions.length > 0 && (
-                      <div className="col-sm-6" style={{ marginTop: "30px" }}>
-                        <div className="biller-info">
-                          <h4 className="d-block">
-                            Tên đơn thuốc : {bill.prescriptions[0].name}
-                          </h4>
-                        </div>
-                      </div>
-                    )}
+                    
+                    {bill.prescriptions &&
+  bill.prescriptions.length > 0 &&
+  bill.prescriptions.map((prescription, prescriptionIndex) => (
+    <div className="col-sm-12" style={{ marginTop: "30px" }} key={prescriptionIndex}>
+      <div className="biller-info">
+        <h4 className="d-block">Tên đơn thuốc : {prescription.name}</h4>
+      </div>
+      {prescription.productss && prescription.productss.length > 0 && (
+        <div className="card card-table">
+          <div className="card-body">
+            <div className="table-responsive">
+              <table className="table table-hover table-center add-table-prescription">
+                <thead>
+                  <tr>
+                    <th >Stt</th>
+                    <th className="table-name">Tên loại thuốc</th>
+                    <th>Số lượng</th>
+                    <th>Giá tiền</th>
+                    <th>Tổng tiền</th>
+                    <th className="table-name">Hướng dẫn sử dụng</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {prescription.productss.map((pres, index) => (
+                    <tr className="test" key={index}>
+                      <td>{index + 1}</td>
+                      <td>{pres.name}</td>
+                      <td>{pres.pivot.quantity}</td>
+                      <td>{formatCurrency(pres.pivot.price)}</td>
+                      <td>{formatCurrency(pres.pivot.quantity * pres.price)}</td>
+                      <td>{pres.pivot.instructions}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
+      {prescription.productss && prescription.productss.length > 0 && (
+        <div className="add-more-item text-end">
+          <div className="biller-info">
+            <h4 className="d-block">
+              Tổng tiền đơn thuốc : {formatCurrency(prescription.price)}{" "}
+            </h4>
+          </div>
+        </div>
+      )}
+    </div>
+  ))}
 
-                    {bill.prescriptions && bill.prescriptions.length > 0 && (
-                      <div className="card card-table">
-                        <div className="card-body">
-                          <div className="table-responsive">
-                            <table className="table table-hover table-center add-table-prescription">
-                              <thead>
-                                <tr>
-                                  <th className="table-name">Tên loại thuốc</th>
-                                  <th>Số lượng</th>
-                                  <th>Giá tiền</th>
-                                  <th>Tổng tiền</th>
-                                  <th className="table-name">
-                                    Hướng dẫn sử dụng
-                                  </th>
-                                  {/* <th>Action</th> */}
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {bill.prescriptions[0].productss.map(
-                                  (pres, index) => (
-                                    <tr className="test" key={index}>
-                                      <td>
-                                        <input
-                                          className="form-control"
-                                          type="text"
-                                          defaultValue={pres.name}
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          className="form-control"
-                                          type="text"
-                                          defaultValue={pres.pivot.quantity}
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          className="form-control"
-                                          type="text"
-                                          defaultValue={formatCurrency(
-                                            pres.pivot.price,
-                                          )}
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          className="form-control"
-                                          type="text"
-                                          defaultValue={formatCurrency(
-                                            pres.pivot.quantity * pres.price,
-                                          )}
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          className="form-control"
-                                          type="text"
-                                          defaultValue={pres.pivot.instructions}
-                                        />
-                                      </td>
-                                    </tr>
-                                  ),
-                                )}
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                    {bill.prescriptions && bill.prescriptions.length > 0 && (
-                      <div className="add-more-item text-end">
-                        <div className="biller-info">
-                          <h4 className="d-block">
-                            Tổng tiền đơn thuốc :{" "}
-                            {formatCurrency(bill.prescriptions[0].price)}{" "}
-                          </h4>
-                        </div>
-                      </div>
-                    )}
-
-                    {service && service.length > 0 && (
-                      <div className="card card-table">
-                        <div className="card-body">
-                          <div className="table-responsive">
-                            <table className="table table-hover table-center add-table-prescription">
-                              <thead>
-                                <tr>
-                                  <th className="table-name">Tên dịch vụ</th>
-                                  {/* <th>Lịch khám</th> */}
-                                  <th className="table-name">Giá tiền</th>
-                                  {/* <th className="table-name">Mô tả</th> */}
-                                  {/* <th>Action</th> */}
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {service.map(ser=>(
-                                        <tr className="test">
-                                        <td>
-                                          <input
-                                            className="form-control"
-                                            type="text"
-                                            defaultValue={ser.name}
-                                          />
-                                        </td>
-
-                                        <td>
-                                          <input
-                                            className="form-control"
-                                            type="text"
-                                            defaultValue={formatCurrency(
-                                              ser.price,
-                                            )}
-                                          />
-                                        </td>
-
-                                        </tr>
-                                ))}
-                               
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+{service && service.length > 0 && (
+  <div className="card card-table">
+    <div className="card-body">
+      <div className="table-responsive">
+        <table className="table table-hover table-center add-table-prescription">
+          <thead>
+            <tr>
+            <th className="table-name">Stt</th>
+              <th className="table-name">Tên dịch vụ</th>
+              <th className="table-name">Giá tiền</th>
+            </tr>
+          </thead>
+          <tbody>
+            {service.map((ser, index) => (
+              <tr className="test" key={index}>
+                              <td>{index + 1}</td>
+                <td>{ser.name}</td>
+                <td>{formatCurrency(ser.price)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+)}
                     <div className="row">
-                      <div className="card">
-                        <div className="card-body">
-                          <h4 className="card-title">Kết quả</h4>
-                          <div className="mb-0">
-                            <textarea
-                              className="form-control"
-                              rows={5}
-                              defaultValue={bill.description}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="add-more-item text-end">
-                        <div className="biller-info">
-                          <h2 className="d-block">
-                            Tổng tiền : {formatCurrency(bill.total_amount)}
-                          </h2>
-                        </div>
-                      </div>
-                    </div>
+  <div >
+    <div className="card-body">
+      <h3 className="card-title">Ghi chú : {bill.description}</h3>
+    
+    </div>
+  </div>
+  <div className="add-more-item text-end">
+    <div className="biller-info">
+      <h2 className="d-block">
+        Tổng tiền : {formatCurrency(bill.total_amount)}
+      </h2>
+    </div>
+  </div>
+</div>
                   </div>
                 </div>
               </div>
