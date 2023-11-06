@@ -88,7 +88,7 @@
                 type: 'GET',
                 url : '{{ route('appointments.statistics.day' , '') }}' + '/' + day,
                 success: function (data) {
-                    var chartData = [];
+                    var chartDatas = [];
 
                     if (data.filter.length > 0) {
                         $.each(data.filter, function (index, stat) {
@@ -107,19 +107,20 @@
                             else if(stat.status == 6) {
                                 statusName = 'Hóa đơn yêu cầu hủy lịch';
                             }
-                            chartData.push({date: statusName, value: stat.count});
+                            chartDatas.push({date: statusName, value: stat.count});
                         });
-
+                        console.log(chartDatas);
                         // Xóa biểu đồ cũ nếu có
                         $('#chart').empty();
 
                         // Vẽ biểu đồ mới
                         Morris.Bar({
                             element: 'chart',
-                            data: chartData,
+                            data: chartDatas,
                             xkey: 'date',
                             ykeys: ['value'],
-                            labels: ['Cuộc hẹn']
+                            labels: ['Cuộc hẹn'],
+
                         });
                     } else {
                         // Hiển thị thông báo nếu không có dữ liệu
@@ -140,7 +141,6 @@
                 url : '{{ route('appointments.statistics.date_time' , '') }}' + '/' + date,
                 success: function (data) {
                     var chartData = [];
-                    console.log(data)
                     if (data.filter.length > 0) {
                         $.each(data.filter, function (index, stat) {
                             var statusName = '';
