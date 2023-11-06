@@ -74,6 +74,8 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
             Route::get('bills-appointment/', [AppointmentController::class , 'BillsAppointments'])->name('appointments.bills-appointment');
             Route::get('add-appointments/', [AppointmentController::class , 'AddAppointments'])->name('appointments.add-appointments');
             Route::get('testSMS/', [HomeController::class , 'testSMS']);
+            Route::put('appointment-cart/{id}', [AppointmentController::class , 'billAppointmentAdd'])->name('appointments.add-appointments-bills');
+            Route::get('appointment-clear-data/', [AppointmentController::class , 'clearAppointmentData'])->name('appointments.clear-appointment-data');
         });
         Route::get('dashboard', [HomeController::class , 'index'])->name('dashboard');
         Route::get('appointment/get-day/{day}/{id}', [AppointmentController::class , 'getDay'])->name('appointment.get-day');

@@ -30,7 +30,6 @@ const Booking = () => {
   const [loadingService, setLoadingService] = useState(false);
   const [loadingShift, setLoadingShift] = useState(false);
   const [loadingDoctors, setLoadingDoctors] = useState(false);
-
   useEffect(() => {
     const fetchTypePet = async () => {
       try {

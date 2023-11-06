@@ -8,7 +8,10 @@ use App\Http\Requests\Admin\AppointmentRequest;
 use App\Interfaces\MessageUser;
 use App\Models\Appointment;
 use App\Models\Bill;
+use App\Models\Bill_service;
 use App\Models\Doctor;
+use App\Models\Order_detail;
+use App\Models\Products;
 use App\Models\Service;
 use App\Models\Type_pet;
 use App\Models\User;
@@ -111,13 +114,13 @@ class AppointmentController extends Controller
         $this->findID($id , 1);
         $appointments = Appointment::find($id);
             $this->createBill($appointments->id , $appointments->doctor_id , $appointments->user_id
-            , $appointments->service_id , 0);
+            , 0);
         $message->sendMessageNew($appointments->user_id , 'Đã xác nhận thành công'
             , $appointments->doctor_id , 'Đã xác nhận thành công cho khách hàng' , $appointments->id);
         return back()->with(['success_delete' => 'Đã xác nhận lịch hẹn này ']);
     }
 
-    public function createBill($appointmentId, $doctorId, $userId, $serviceId, $service_price)
+    public function createBill($appointmentId, $doctorId, $userId, $service_price)
     {
         $code = 'HĐ' . rand(100000, 999999);
         $bill = new Bill();
@@ -125,7 +128,6 @@ class AppointmentController extends Controller
         $bill->appointment_id = $appointmentId;
         $bill->doctor_id = $doctorId;
         $bill->user_id = $userId;
-        $bill->service_id = $serviceId;
         $bill->status = 0;
         $bill->payment_method = 1;
         $bill->total_amount = $service_price;
@@ -160,17 +162,26 @@ class AppointmentController extends Controller
             return back()->with('error', 'Xin lỗi lịch đặt của bạn đã bị trùng với lịch bạn đặt trước đó');
         }
         $checkPhone = $this->checkPhoneAppointments($request->user_id);
+        $id_appointments = '';
         if($checkPhone) {
             $data['user_id'] = $checkPhone->id;
-            $this->tableQuery('appointments')->insert(array_merge($request->except('_token' , 'user_id') , $data));
+            $id_appointments = $this->tableQuery('appointments')->insertGetId(array_merge($request->except('_token' , 'user_id') , $data));
             $messageUser->sendMessage($checkPhone->id, 'Chào '.$checkPhone->name.'Chúng tôi đã tạo thành công lịch khám cho bạn' , $request->doctor_id , 'UserName :'.$checkPhone->name.'đã đạt lịch của bạn');
+            if($request->status == 1) {
+                $this->createBill($id_appointments, $request->doctor_id , $data['user_id']
+                    , 0);
+            }
             return back()->with('success', 'Thao tác thành công');
         }
         else {
             $data['user_id'] = $this->createUserAuto($request->user_id);
             $checkPhone = $this->checkIdAppointment($request->user_id);
-            $this->tableQuery('appointments')->insert(array_merge($request->except('_token') , $data));
+            $id_appointments = $this->tableQuery('appointments')->insertGetId(array_merge($request->except('_token') , $data));
             $messageUser->sendMessage($data['user_id'], 'Chào '.$checkPhone->name.'Chúng tôi đã tạo thành công lịch khám cho bạn' , 'UserName :'.$checkPhone->name.'đã đạt lịch của bạn');
+            if($request->status == 1) {
+                $this->createBill($id_appointments, $request->doctor_id , $data['user_id']
+                    ,  0);
+            }
             return back()->with('success', 'Thao tác thành công');
         }
     }
@@ -437,6 +448,7 @@ class AppointmentController extends Controller
     public function TrashCan() {
         $appointments = $this->queryCommon()
             ->whereNotNull('appointments.deleted_at')
+            ->where('appointments.status' , 4)
             ->orderByDesc('id')
             ->get();
         $appointments->each(function ($appointment) {
@@ -473,6 +485,7 @@ class AppointmentController extends Controller
         if (auth()->user()->can(['delete-appointment'])) {
             $model = Appointment::findOrFail($id);
             $userName = User::find($model->user_id);
+            $model->update(['status' => 4]);
             $model->delete();
             $messageUser->sendMessageNew($model->user_id, 'Chào '.$userName->name.
                 'Chúng tôi đã hủy lịch hẹn của bạn' , $model->doctor_id , 'UserName :'.$userName->name.'đã đạt lịch của bạn' , $id);
@@ -615,33 +628,55 @@ class AppointmentController extends Controller
         }
     }
 
-    public function detailBills ($id) {
+    public function billCommon($id) {
         $model = Bill::where('bills.appointment_id', $id)
             ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
             ->join('users', 'users.id', '=', 'appointments.user_id')
             ->join('services', 'services.id', '=', 'appointments.service_id')
             ->join('doctors', 'bills.doctor_id', '=', 'doctors.id')
-            ->select('bills.id', 'bills.code', 'bills.total_amount', 'bills.created_at',
-                'doctors.image as image_doctor', 'doctors.name as doctor_name',
-                'users.name as customer_name', 'users.phone as customer_phone', 'users.address as customer_address',
-                'users.avatar as customer_avatar',
-                'services.name as service_name', 'appointments.date', 'appointments.time', 'appointments.shift_name',
-                'appointments.description', 'doctors.id as doctor_id', 'users.id as user_id' , 'appointments.status')
-            ->first();
-        if(!$model) {
-            $model = Bill::where('bills.appointment_id', $id)
-                ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
-                ->join('users', 'users.id', '=', 'appointments.user_id')
-                ->join('services', 'services.id', '=', 'appointments.service_id')
-                ->join('doctors', 'bills.doctor_id', '=', 'doctors.id')
-                ->join('prescriptions', 'prescriptions.bill_id', '=', 'bills.id')
-                ->select('bills.id', 'bills.code', 'bills.total_amount', 'bills.created_at',
+            ->select('bills.id', 'bills.code', 'bills.total_amount', 'bills.created_at','appointments.status',
                 DB::raw('COALESCE(doctors.image, "n/a") as image_doctor'),
                 DB::raw('COALESCE(doctors.name, "n/a") as doctor_name'),
                 DB::raw('COALESCE(users.name, "n/a") as customer_name'),
                 DB::raw('COALESCE(users.phone, "n/a") as customer_phone'),
+                'appointments.date', 'appointments.time', 'appointments.shift_name', 'appointments.shift_name' ,
                 DB::raw('COALESCE(users.address, "n/a") as customer_address'),
-                DB::raw('COALESCE(users.avatar, "n/a") as customer_avatar'),
+                DB::raw('COALESCE(services.name, "n/a") as service_name'),
+                DB::raw('COALESCE(users.avatar, "n/a") as customer_avatar'));
+        return $model;
+    }
+
+    public function detailBills ($id) {
+        $products = Products::query()->get();
+        $model = $this->billCommon($id)->first();
+        $services = Service::query()->get();
+        $services_bills = $this->tableQuery('bill_service')
+            ->where('bill_id' , $model->id)
+            ->get();
+        $services_bills = $services_bills->pluck('service_id')->toArray();
+
+        $products_prescription = $this->tableQuery('order_details')
+            ->where('bill_id' , $model->id)
+            ->get();
+        $products_prescription = $products_prescription->pluck('product_id')->toArray();
+
+        if (!$products_prescription) {
+            $products_prescription = $this->tableQuery('prescriptions')
+                ->join('prescription_product' ,'prescription_product.prescription_id' , '='
+                , 'prescriptions.id' )
+                ->join('products' ,'products.id' , '='
+                    , 'prescription_product.product_id' )
+                ->select('prescription_product.product_id')
+                ->where('prescriptions.bill_id' , $model->id)
+                ->get();
+            $products_prescription = $products_prescription->pluck('product_id')->toArray();
+        }
+
+
+        if(!$model) {
+            $model = $this->billCommon($id)
+                ->join('prescriptions', 'prescriptions.bill_id', '=', 'bills.id')
+                ->addSelect(
                 DB::raw('COALESCE(prescriptions.name, "n/a") as prescriptions_name'),
                 DB::raw('COALESCE(prescriptions.price, "n/a") as prescriptions_price'),
                 DB::raw('COALESCE(services.name, "n/a") as service_name'),
@@ -649,6 +684,10 @@ class AppointmentController extends Controller
                 DB::raw('COALESCE(appointments.description, "n/a") as description'),
                 'doctors.id as doctor_id', 'users.id as user_id')
             ->first();
+            $services = Service::query()->get();
+            $services = $services->filter(function ($service) use ($model) {
+                return $service->name !== $model->service_name;
+            });
         }
 
         $dataDoctor = $this->tableSelect('doctors')->get();
@@ -661,10 +700,67 @@ class AppointmentController extends Controller
                 'colums' => $this->columns('index'),
                 'urlbase' => $this->urlbase,
                 'title_web' => $this->title,
+                'products' => $products,
+                'services' => $services,
+                'services_bills' => $services_bills,
+                'products_prescription' => $products_prescription,
             ]);
     }
 
+
+    public function billAppointmentAdd(Request $request, $id) {
+        if ($request->service_id) {
+            // Xóa tất cả các bản ghi hiện có trong bảng trung gian cho hóa đơn có id là $id
+            DB::table('bill_service')->where('bill_id', $id)->delete();
+
+            // Thêm mới dữ liệu từ request vào bảng trung gian
+            foreach ($request->service_id as $key => $value) {
+                DB::table('bill_service')->insert([
+                    'bill_id' => $id,
+                    'service_id' => $value,
+                ]);
+            }
+        } else {
+            // Nếu không có service_id nào được gửi, bạn có thể xóa tất cả các bản ghi hiện có trong bảng trung gian
+            DB::table('bill_service')->where('bill_id', $id)->delete();
+        }
+        if($request->total_amount) {
+            $this->tableQuery('bills')
+                ->where('id' , $id)
+                ->updateOrInsert([
+                    'total_amount' => $request->total_amount,
+                    'code' => $request->code,
+                    'user_id' => $request->user_id,
+                    'doctor_id' => $request->doctor_id,
+                    'payment_method' => $request->payment_method,
+                ]);
+
+            foreach ($request->product_id as $key => $value) {
+                $prices = Products::query()->find($value);
+                Order_detail::query()->create(
+                    [
+                        'bill_id' => $id,
+                        'product_id' => $value,
+                        'quantity' => $request->quantity[$key],
+                        'unit_price' => $prices->price,
+                    ]
+                );
+                $this->updateQuantity($value, $request->quantity[$key]);
+            }
+        }
+
+        return back()->with(['success' => 'Thao tác thành công']);
+    }
+
+    public function updateQuantity($id, $quantity)
+    {
+        $product = Products::query()->find($id);
+        $product->quantity = $product->quantity - $quantity;
+        $product->save();
+    }
+
     public function BillsAppointments () {
+        $products = Products::query()->get();
         $data = $this->queryCommon()
             ->join('bills' , 'bills.appointment_id' , '=' , 'appointments.id')
             ->join('work_schedules as w', function ($join) {
@@ -686,10 +782,40 @@ class AppointmentController extends Controller
                 'colums' => $this->columns('index'),
                 'urlbase' => $this->urlbase,
                 'title_web' => $this->title,
+                'products' => $products,
             ]);
     }
 
     public function AddAppointments() {
         return view($this->pathView . 'add-appointments');
+    }
+
+    public function clearAppointmentData() {
+        $currentDate = Carbon::now()->toDateString(); // Lấy ngày hiện tại
+        $currentTime = now()->toTimeString();
+        Appointment::whereIn('status', [0, 1, 6, 7])
+            ->whereDate('date', '<', $currentDate)
+            ->update(['status' => 4]);
+
+        // Soft delete records
+        Appointment::whereIn('status', [0, 1, 6, 7])
+            ->whereDate('date', '<', $currentDate)
+            ->delete();
+
+        $bills = Bill::whereIn('appointments.status', [0, 1, 6, 7])
+            ->whereDate('appointments.date', '<=', $currentDate)
+            ->where('w.end_time', '<', $currentTime)
+            ->select('appointments.status' , 'appointments.date' , 'appointments.id')
+            ->addSelect('w.start_time' , 'w.end_time')
+            ->addSelect('appointments.status')
+            ->join('doctors', 'doctors.id', '=', 'bills.doctor_id')
+            ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
+            ->join('work_schedules as w', function ($join) {
+                $join->on('appointments.date', '=', 'w.date')
+                    ->on('appointments.doctor_id', '=', 'w.doctor_id')
+                    ->on('appointments.shift_name', '=', 'w.shift_name');
+            })->delete();
+
+        return back()->with(['success' => 'Đã hủy thành công']);
     }
 }

@@ -28,7 +28,8 @@ class ViewProviderAdmin extends ServiceProvider
             $notification = Notification::select('notifications.id', 'users.name' ,'users.avatar',
                 'message' , 'notifications.created_at' , 'notifications.appointment_id' , 'notifications.message_admin')
                 ->join('users' , 'users.id' , '=' , 'notifications.user_id')
-                ->whereNotNull('notifications.admin_id')
+                ->whereNotNull('notifications.message_admin')
+                ->orderBy('id','desc')
                 ->get();
             $unreadNotificationCount = Notification::where('read', 0)
                 ->count();

@@ -153,6 +153,8 @@
       <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/livewire/livewire" />
       <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/carlos-meneses/laravel-mpdf" />
       <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/yajra/laravel-datatables-oracle" />
+      <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/balping/json-raw-encoder" />
+      <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/consoletvs/charts" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
