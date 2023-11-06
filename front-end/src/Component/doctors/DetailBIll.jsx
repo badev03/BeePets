@@ -1,17 +1,22 @@
 import { useRef } from "react";
 // import Menudashboard from "./Menu-dashboard";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import billApi from "../../api/bill";
 import LoadingSkeleton from "../Loading";
 import { useReactToPrint } from "react-to-print";
-
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { FaSpinner } from 'react-icons/fa';
+const MySwal = withReactContent(Swal);
 const DetailBIll = () => {
   const { id } = useParams();
   const [bill, setBill] = useState({});
   const [service, setService] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingId, setLoadingId] = useState(null);
   const componetPDF = useRef();
 
   const generatePDF = useReactToPrint({
@@ -29,6 +34,7 @@ const DetailBIll = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log(response);
       setBill(response.bill);
       setService(response.services);
 
@@ -66,6 +72,33 @@ const DetailBIll = () => {
     }
     return "";
   }
+  const handleUpdate = async (id) => {
+    console.log(id);
+    setLoadingId(id);
+    try {
+      const respon = await axios.put(
+        `http://127.0.0.1:8000/api/update-appointment/${id}?status=3`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+    fetchBill();
+     
+      MySwal.fire({
+        title: "Cuộc hẹn đã hoàn thành!",
+        icon: "success",
+      });
+   
+
+    } catch (error) {
+      console.log(error);
+    }finally {
+      setLoadingId(null);
+    }
+  };
   if (loading) {
     return (
       <div>
@@ -327,8 +360,44 @@ const DetailBIll = () => {
           </div>
         </div>
       </div>
-      {bill.appointment.status == 3 && (
-          <div className="submit-section submit-section2">
+ 
+     
+                 <div className="submit-section submit-section2">
+
+                 
+              <Link style={{color:"white" ,marginRight:"10px"}} to={`/doctors/appointments`}>
+              <button
+              type="submit"
+              className="btn btn-secondary submit-btn"
+              
+            >
+              Quay Lại
+            </button>
+
+              </Link>
+            {bill.appointment.status == 1 && (
+       
+            <button
+              type="submit"
+              className="btn btn-primary submit-btn"
+              onClick={() => handleUpdate(bill.appointment.id) }
+            >
+            
+              {loadingId === bill.id ? (
+                <div className="loading-spinner">
+                <FaSpinner className="spinner" /> 
+              </div>
+              ) : (
+                <>
+                   Hoàn thành
+                </>
+              )}
+            </button>
+        
+          
+        )}
+             {bill.appointment.status == 3 && (
+      
             <button
               type="submit"
               className="btn btn-primary submit-btn"
@@ -336,9 +405,9 @@ const DetailBIll = () => {
             >
               In
             </button>
-          </div>
+        
         )}
-
+            </div>
     </div>
   );
 };
