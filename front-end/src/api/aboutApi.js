@@ -1,10 +1,10 @@
 import instance from "./instance";
 
-const aboutApi = {
+const aboutsApi = {
     getAll(params) {
-        const url = "/new-home";
+        const url = "/about";
         return instance.get(url, { params });
     },
 };
 
-export default aboutApi;
+export default aboutsApi;
