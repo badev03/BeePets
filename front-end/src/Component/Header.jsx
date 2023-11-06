@@ -114,7 +114,7 @@ const Header = () => {
       });
       setNoti(response.notifications);
       setCountNotification(response.count);
-      const pusher = new Pusher("2798806e868dbe640e2e", {
+      const pusher = new Pusher("59deaefaec6129103d3d", {
         cluster: "ap1",
       });
 
@@ -139,7 +139,7 @@ const Header = () => {
       });
       setNoti(response.notifications);
       setCountNotification(response.count);
-      const pusher = new Pusher("2798806e868dbe640e2e", {
+      const pusher = new Pusher("59deaefaec6129103d3d", {
         cluster: "ap1",
       });
 

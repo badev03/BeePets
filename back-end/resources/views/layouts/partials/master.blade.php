@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    @if($charts)
+    @if(isset($charts))
 {{--        {!! $charts->script() !!}--}}
     @endif
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

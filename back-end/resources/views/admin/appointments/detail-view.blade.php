@@ -165,7 +165,9 @@
                                         </div>
                                     </div>
                                 <a href="{{ URL::previous() }}" class="btn btn-primary">Quay lại</a>
-                                <button href="" class="btn bg-danger-light">Lưu</button>
+                                @if($model->status != 3)
+                                    <button href="" class="btn bg-danger-light">Lưu</button>
+                                @endif
                             </form>
                         </div>
                     </div>

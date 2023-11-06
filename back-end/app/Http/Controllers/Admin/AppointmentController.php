@@ -634,7 +634,7 @@ class AppointmentController extends Controller
             ->join('users', 'users.id', '=', 'appointments.user_id')
             ->join('services', 'services.id', '=', 'appointments.service_id')
             ->join('doctors', 'bills.doctor_id', '=', 'doctors.id')
-            ->select('bills.id', 'bills.code', 'bills.total_amount', 'bills.created_at',
+            ->select('bills.id', 'bills.code', 'bills.total_amount', 'bills.created_at','appointments.status',
                 DB::raw('COALESCE(doctors.image, "n/a") as image_doctor'),
                 DB::raw('COALESCE(doctors.name, "n/a") as doctor_name'),
                 DB::raw('COALESCE(users.name, "n/a") as customer_name'),
@@ -658,8 +658,20 @@ class AppointmentController extends Controller
         $products_prescription = $this->tableQuery('order_details')
             ->where('bill_id' , $model->id)
             ->get();
-
         $products_prescription = $products_prescription->pluck('product_id')->toArray();
+
+        if (!$products_prescription) {
+            $products_prescription = $this->tableQuery('prescriptions')
+                ->join('prescription_product' ,'prescription_product.prescription_id' , '='
+                , 'prescriptions.id' )
+                ->join('products' ,'products.id' , '='
+                    , 'prescription_product.product_id' )
+                ->select('prescription_product.product_id')
+                ->where('prescriptions.bill_id' , $model->id)
+                ->get();
+            $products_prescription = $products_prescription->pluck('product_id')->toArray();
+        }
+
 
         if(!$model) {
             $model = $this->billCommon($id)
@@ -780,15 +792,30 @@ class AppointmentController extends Controller
 
     public function clearAppointmentData() {
         $currentDate = Carbon::now()->toDateString(); // Lấy ngày hiện tại
-
-        $appointments = $this->tableQuery('appointments')
-            ->whereIn('status', [0, 1, 6, 7])
+        $currentTime = now()->toTimeString();
+        Appointment::whereIn('status', [0, 1, 6, 7])
             ->whereDate('date', '<', $currentDate)
-            ->get();
-        foreach ($appointments as $appointment) {
-            $appointment->update(['status' => 4]);
-            $appointment->delete(); // Xóa mềm cuộc hẹn
-        }
+            ->update(['status' => 4]);
+
+        // Soft delete records
+        Appointment::whereIn('status', [0, 1, 6, 7])
+            ->whereDate('date', '<', $currentDate)
+            ->delete();
+
+        $bills = Bill::whereIn('appointments.status', [0, 1, 6, 7])
+            ->whereDate('appointments.date', '<=', $currentDate)
+            ->where('w.end_time', '<', $currentTime)
+            ->select('appointments.status' , 'appointments.date' , 'appointments.id')
+            ->addSelect('w.start_time' , 'w.end_time')
+            ->addSelect('appointments.status')
+            ->join('doctors', 'doctors.id', '=', 'bills.doctor_id')
+            ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
+            ->join('work_schedules as w', function ($join) {
+                $join->on('appointments.date', '=', 'w.date')
+                    ->on('appointments.doctor_id', '=', 'w.doctor_id')
+                    ->on('appointments.shift_name', '=', 'w.shift_name');
+            })->delete();
+
         return back()->with(['success' => 'Đã hủy thành công']);
     }
 }

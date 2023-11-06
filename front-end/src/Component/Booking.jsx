@@ -30,7 +30,6 @@ const Booking = () => {
   const [loadingService, setLoadingService] = useState(false);
   const [loadingShift, setLoadingShift] = useState(false);
   const [loadingDoctors, setLoadingDoctors] = useState(false);
-
   useEffect(() => {
     const fetchTypePet = async () => {
       try {
@@ -106,6 +105,7 @@ const Booking = () => {
   const handleChangeDate = async (date, dateString) => {
     setSelectedDate(dateString);
     setSelectedShift(null);
+    console.log(selectedShift);
 
     if (selectedService) {
       try {
