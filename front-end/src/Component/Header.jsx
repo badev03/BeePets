@@ -55,12 +55,12 @@ const Header = () => {
     try {
       if (token) {
         // const response = await deleteNoti.removeNoti(id, token);
-        const response1 = await axios.delete(`http://127.0.0.1:8000/api/delete-read-notification/${id}`, {
+        const response = await axios.delete(`http://127.0.0.1:8000/api/delete-read-notification/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           }
         })
-        console.log("🚀 ~ file: Header.jsx:60 ~ handleDeleteNotification ~ response1:", response1)
+        console.log("🚀 ~ file: Header.jsx:60 ~ handleDeleteNotification ~ response1:", response)
         // console.log("🚀 ~ file: Header.jsx:57 ~ handleDeleteNotification ~ response:", response)
         // console.log(response);
         // if (response && response.data) {
