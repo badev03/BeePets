@@ -74,13 +74,20 @@ class NotificationController extends Controller
 
     public function deleteNotification($id) {
         if(Auth::guard('doctors')->check()) {
-            $notifications = Notification::where('id', $id)
-                ->update(['delete_doctor' => 1]);
+            $notifications = Notification::where('id', $id)->where('delete_doctor' , 0)->first();
+            if($notifications) {
+                $notifications->update(['delete_doctor' => 1]);
+                return response()->json(['msg' => 'đã xóa thành công'] , 200);
+            }
+            return response()->json(['msg' => 'Không có dữ liệu để xóa'] , 400);
         }
         elseif (Auth::check()) {
-            $notifications = Notification::where('id', $id)
-                ->update(['delete_user' => 1]);
-            return response()->json(['msg' => 'đã xóa thành công']);
+            $notifications = Notification::where('id', $id)->where('delete_user' , 0)->first();
+            if($notifications) {
+                $notifications->update(['delete_user' => 1]);
+                return response()->json(['msg' => 'đã xóa thành công'] , 200);
+            }
+            return response()->json(['msg' => 'Không có dữ liệu cần xóa'] , 400);
         }
     }
 
