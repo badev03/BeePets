@@ -79,7 +79,7 @@ const ForgotPassword = () => {
 
   function onOTPVerify() {
     const formatPh = "+" + ph;
-    const formattedPh = formatPh.replace("+84", "0");
+    const formattedPh = formatPh.replace("+84", "");
     setLoading(true);
     window.confirmationResult
       .confirm(otp)
@@ -88,10 +88,12 @@ const ForgotPassword = () => {
         setUser(res.user);
         setLoading(false);
         window.location.href = `/create-password?phone=${encodeURIComponent(formattedPh)}`;
+        toast.success("OTP chính xác!"); // Hiển thị thông báo khi OTP chính xác
       })
       .catch((err) => {
         console.error(err);
         setLoading(false);
+        toast.error("OTP không chính xác!"); // Hiển thị thông báo khi OTP không chính xác
       });
   }
 
@@ -109,13 +111,15 @@ const ForgotPassword = () => {
                     <img src="src/assets/img/login-banner.png" className="img-fluid" alt="Doccure Register" />
                   </div>
                   <div className="col-md-12 col-lg-6 login-right">
-                    <div className="login-header">
-                      <h2>Quên mật khẩu ? <a href="doctor-register.html"></a></h2>
-                      <p>Nhập SĐT của bạn để nhận link đặt lại mật khẩu</p>
-                    </div>
+                    
                     <form action="https://doccure.dreamguystech.com/html/template/patient-register-step1.html">
                       {showOTP ? (
-                        <div className="mb-3 form-focus">
+                        <div>
+                          <div className="login-header">
+                            <h2>Xác minh OTP <a href="doctor-register.html"></a></h2>
+                            <p>Nhập OTP của bạn để đặt lại mật khẩu</p>
+                          </div>
+                          <div className="mb-3 form-focus">
                           <OtpInput
                             value={otp}
                             onChange={setOtp}
@@ -126,10 +130,18 @@ const ForgotPassword = () => {
                             className="opt-container "
                           ></OtpInput>
                         </div>
-                      ) : (
-                        <div className="mb-3 form-focus">
-                          <PhoneInput country={"vn"} value={ph} onChange={setPh} countryCodeEditable={false} />
                         </div>
+                      ) : (
+                        <div>
+                          <div className="login-header">
+                            <h2>Quên mật khẩu ? <a href="doctor-register.html"></a></h2>
+                            <p>Nhập SĐT của bạn để nhận link đặt lại mật khẩu</p>
+                          </div>
+                          <div className="mb-3 form-focus">
+                            <PhoneInput country={"vn"} value={ph} onChange={setPh} countryCodeEditable={false} />
+                          </div>
+                        </div>
+
                       )}
                       <div className="text-end">
                         <Link className="forgot-link" to="/login">Đăng nhập nếu bạn đã có tài khoản ?</Link>
