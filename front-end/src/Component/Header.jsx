@@ -9,7 +9,6 @@ import { Button } from "antd";
 import LoadingSkeleton from "./Loading";
 import TopLink from "../Link/TopLink";
 import deleteNoti from "../api/deleteNoti";
-import { Dropdown } from "bootstrap";
 import axios from "axios";
 
 
