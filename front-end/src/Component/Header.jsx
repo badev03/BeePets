@@ -10,6 +10,7 @@ import LoadingSkeleton from "./Loading";
 import TopLink from "../Link/TopLink";
 import deleteNoti from "../api/deleteNoti";
 import axios from "axios";
+import { Dropdown } from "bootstrap";
 
 
 
@@ -17,7 +18,7 @@ const Header = () => {
   const { isLoggedIn, onLogout, token, role } = useAuth();
   const navigate = useNavigate();
   const [noti, setNoti] = useState([]);
-  console.log(noti)
+  // console.log(noti)
   const [countNotification , setCountNotification] = useState(0);
   const imgDefault =
       "https://dvdn247.net/wp-content/uploads/2020/07/avatar-mac-dinh-1.png";
@@ -25,6 +26,7 @@ const Header = () => {
   const [setting, setSetting] = useState([]);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [data, setData] = useState(null);
+  const [notifications, setNotifications] = useState([]);
   // const [updateNoti, setUpdateNoti] = useState(null);
   // const [isLoading, setIsLoading] = useState(false);
 
@@ -38,7 +40,7 @@ const Header = () => {
 //       },
 //       // console.log(headers);
 //     });
-  
+
 //     if (response) {
 //       if (response.status === 200) {
 //         console.log("Thông báo đã được xóa thành công");
@@ -52,6 +54,19 @@ const Header = () => {
 //   } catch (error) {
 //     console.error("Lỗi xóa thông báo:", error);
     //   }
+
+
+
+    // console.log("🚀 ~ file: Header.jsx:57 ~ handleDeleteNotification ~ response:", response)
+    // console.log(response);
+    // if (response && response.data) {
+    //   if (response.status === 200) {
+    //     console.log("Thông báo đã được xóa thành công");
+    //     // Thực hiện cập nhật danh sách thông báo nếu cần
+    //   } else {
+    //     console.error("Lỗi xóa thông báo:", response);
+    //   }
+    // }
     try {
       if (token) {
         // const response = await deleteNoti.removeNoti(id, token);
@@ -61,16 +76,7 @@ const Header = () => {
           }
         })
         console.log("🚀 ~ file: Header.jsx:60 ~ handleDeleteNotification ~ response1:", response)
-        // console.log("🚀 ~ file: Header.jsx:57 ~ handleDeleteNotification ~ response:", response)
-        // console.log(response);
-        // if (response && response.data) {
-        //   if (response.status === 200) {
-        //     console.log("Thông báo đã được xóa thành công");
-        //     // Thực hiện cập nhật danh sách thông báo nếu cần
-        //   } else {
-        //     console.error("Lỗi xóa thông báo:", response);
-        //   }
-        // }
+        window.location.reload();
       } else {
         console.error('Không có token xác thực trong Local Storage.');
       }
@@ -78,6 +84,9 @@ const Header = () => {
       console.error("Lỗi khi xóa thông báo:", error);
     }
 };
+
+  
+  
 
 
   const handleNotificationClick = async () => {

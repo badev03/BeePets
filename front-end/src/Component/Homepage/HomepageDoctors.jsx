@@ -96,7 +96,8 @@ const HomepageDoctors = () => {
 
 
                 <div className="blog-btn-sec text-center aos aos-init aos-animate" >
-                    <a href="/doctor" className="btn btn-primary btn-view">Tất Cả Bác Sĩ</a>
+                    <Link to="/doctor" className="btn btn-primary btn-view">Tất Cả Bác Sĩ</Link>
+                    {/* <a href="/doctor" className="btn btn-primary btn-view">Tất Cả Bác Sĩ</a> */}
                 </div>
             </div>
         </div>
