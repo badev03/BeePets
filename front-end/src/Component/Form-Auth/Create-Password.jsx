@@ -1,9 +1,28 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-
-/// COPPY HTML -> PASTE -> CONVERT TO JSX -> PASTE CSS,JS VAO INDEX.HTML
-
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 const CreatePassword = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const phone = queryParams.get('phone');
+  const [password, setPassword] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const handleFormSubmit = (event, ph) => {
+    event.preventDefault();
+    const data = { password, password_confirmation: passwordConfirmation };
+    const formattedPh = ph.startsWith("0") ? ph : "0" + ph.replace(/^84/, "");
+    axios.post(`http://127.0.0.1:8000/api/give-password-new/${encodeURIComponent(formattedPh)}`, data)
+      .then(response => {
+        console.log(response.data);
+        // Xử lý dữ liệu phản hồi theo yêu cầu của bạn
+      })
+      .catch(error => {
+        console.error(error);
+        // Xử lý lỗi theo yêu cầu của bạn
+      });
+  };
+
   return (
     <div className="content top-space">
       <div className="container-fluid">
@@ -18,21 +37,17 @@ const CreatePassword = () => {
                   <div className="login-header">
                     <h2>Tạo mật khẩu<a href="doctor-register.html"></a></h2>
                   </div>
-                  <form action="https://doccure.dreamguystech.com/html/template/patient-register-step1.html">
-
+                  <form onSubmit={(e) => handleFormSubmit(e, phone)}>
                     <div className="mb-3 form-focus">
-                      <input type="text" className="form-control floating" />
+                      <input type="password" className="form-control floating" value={password} onChange={(e) => setPassword(e.target.value)} />
                       <label className="focus-label">Nhập mật khẩu</label>
                     </div>
                     <div className="mb-3 form-focus">
-                      <input type="text" className="form-control floating" />
+                      <input type="password" className="form-control floating" value={passwordConfirmation} onChange={(e) => setPasswordConfirmation(e.target.value)} />
                       <label className="focus-label">Nhập lại mật khẩu</label>
                     </div>
-                    <Link to="/login"><button className="btn btn-primary w-100 btn-lg login-btn" type="submit">Xác nhận</button></Link>
-                    <div className="login-or">
-
-                    </div>
-
+                    <button className="btn btn-primary w-100 btn-lg login-btn" type="submit">Xác nhận</button>
+                    <div className="login-or"></div>
                   </form>
                 </div>
               </div>
@@ -41,11 +56,7 @@ const CreatePassword = () => {
         </div>
       </div>
     </div>
+  );
+};
 
-
-
-
-  )
-}
-
-export default CreatePassword
+export default CreatePassword;

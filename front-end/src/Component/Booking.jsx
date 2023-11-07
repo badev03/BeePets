@@ -105,9 +105,9 @@ const Booking = () => {
   const handleChangeDate = async (date, dateString) => {
     setSelectedDate(dateString);
     setSelectedShift(null);
-    console.log(selectedShift);
+    form.setFieldValue('Chọn Thời Gian', 'Ca làm việc')
 
-    if (selectedService) {
+    if (selectedService && selectedDoctor) {
       try {
         const response = await BookingApi.getWorkingHours(
           selectedDoctor,
@@ -158,6 +158,7 @@ const Booking = () => {
   const handleDoctorChange = (value) => {
     setSelectedDoctor(value);
     setSelectedShift(null);
+    form.setFieldValue('Chọn Thời Gian', 'Ca làm việc')
   };
 
   const handleChangeService = (value) => {
@@ -195,9 +196,11 @@ const Booking = () => {
 
   const disabledDate = (current) => {
     const today = moment();
-    const oneWeekFromNow = today.clone().add(1, 'week');
+    const oneWeekFromNow = today.clone().add(1, "week");
 
-    return current && (current < today.startOf('day') || current >= oneWeekFromNow);
+    return (
+      current && (current < today.startOf("day") || current >= oneWeekFromNow)
+    );
   };
 
   return (
@@ -242,7 +245,7 @@ const Booking = () => {
             <Col span={12}>
               <Form.Item
                 label="Chọn Bác Sĩ"
-                name={undefined}
+                // name="Chọn Bác Sĩ"
                 rules={[
                   { required: true, message: "Vui lòng nhập chọn bác sĩ" },
                 ]}
@@ -265,9 +268,12 @@ const Booking = () => {
               <Form.Item
                 label="Chọn Ngày"
                 name="Chọn Ngày"
-                rules={[{ required: true, message: "Vui lòng nhập chọn ngày" }]}
+                rules={[
+                  { required: true, message: "Vui lòng nhập chọn ngày" },
+                ]}
               >
                 <DatePicker
+                  placeholder="Ngày"
                   onChange={handleChangeDate}
                   disabledDate={disabledDate}
                 />
@@ -277,16 +283,28 @@ const Booking = () => {
               <Form.Item
                 label="Chọn Thời Gian"
                 name="Chọn Thời Gian"
-                rules={[{ required: true, message: "Vui lòng nhập chọn ca" }]}
+                rules={[
+                  { required: true, message: "Vui lòng nhập chọn ca" },
+                  {
+                    validator: (_, value) => {
+                      if (value === 'Ca làm việc') { 
+                        return Promise.reject(new Error("Vui lòng chọn ca"));
+                      }
+                      return Promise.resolve();
+                    },
+                  },
+                ]}
               >
                 <Select
                   placeholder="Ca làm việc"
-                  onChange={(value) => handleChangeShift(value)}
+                  onChange={(value) => handleChangeShift(value)} 
                   options={
                     selectedWorkingHours
                       ? selectedWorkingHours.map((hour) => ({
                           value: hour.shift_name,
-                          label: `${hour.shift_name} (${hour.start_time} - ${hour.end_time})`,
+                          label: loadingShift
+                            ? ""
+                            : `${hour.shift_name} (${hour.start_time} - ${hour.end_time})`,
                         }))
                       : []
                   }
@@ -338,7 +356,9 @@ const Booking = () => {
                         if (value.length === 10) {
                           return Promise.resolve();
                         }
-                        return Promise.reject("Số điện thoại phải có 10 chữ số");
+                        return Promise.reject(
+                          "Số điện thoại phải có 10 chữ số"
+                        );
                       }
                       return Promise.reject("Số điện thoại phải là chữ số");
                     },

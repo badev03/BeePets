@@ -45,7 +45,7 @@ const Appointments = () => {
       setError(true);
     }
   };
-console.log(appointments);
+// console.log(appointments);
     useEffect(() => {
       fetchAppointment();
     }, []);

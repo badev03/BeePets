@@ -1,19 +1,22 @@
-import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import doctorsApi from '../../api/doctorsApi';
 import { useAuth } from '../../Context/ContextAuth';
 import logoutDoctor from '../../api/logoutDoctor';
-import TopLink from '../../Link/TopLink'
+import TopLink from '../../Link/TopLink';
 const Menudashboard = () => {
 
-  const [doctor, setDoctors] = useState([]);
+  const [doctor, setDoctors] = useState(() => {
+    const savedData = localStorage.getItem("doctorData");
+    return savedData ? JSON.parse(savedData) : [];
+  });
+
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
-  const { onLogout } = useAuth(); // Sử dụng context để lấy hàm onLogout
+  const location = useLocation();
+  const { onLogout } = useAuth();
 
   const handleLogout = async () => {
-    // Gọi hàm logout khi người dùng nhấp vào "Đăng Xuất"
     try {
       await logoutDoctor.logout({
         headers: {
@@ -22,41 +25,34 @@ const Menudashboard = () => {
       });
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      onLogout(); // Gọi hàm onLogout để xác định người dùng đã đăng xuất
-      navigate('/'); // Sau khi đăng xuất, điều hướng đến trang chính hoặc trang bạn muốn
+      onLogout();
+      navigate('/');
     } catch (error) {
       console.log(error);
     }
   };
 
+  useEffect(() => {
+    const fetchDoctor = async () => {
+      try {
+        const response = await doctorsApi.getDoctor({
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setDoctors(response.doctor);
+        localStorage.setItem("doctorData", JSON.stringify(response.doctor));
+      } catch (error) {
+        console.error("Không có dữ liệu:", error);
+      }
+    };
 
-
-
-  if (token) {
-    useEffect(() => {
-      const fetchDoctor = async () => {
-        try {
-          const response = await doctorsApi.getDoctor(
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          setDoctors(response.doctor);
-        } catch (error) {
-          console.error("Không có dữ liệu:", error);
-        }
-      };
-
+    if (token && !doctor.length) {
       fetchDoctor();
-    }, []);
-  }
+    }
+  }, [token, doctor]);
 
-
-  const initialActiveItems = JSON.parse(
-    localStorage.getItem("activeItems")
-  ) || ["Bộ điều khiển"];
+  const initialActiveItems = JSON.parse(localStorage.getItem("activeItems")) || ["Bộ điều khiển"];
   const [activeItems, setActiveItems] = useState(initialActiveItems);
 
   const handleItemClick = (itemName) => {
