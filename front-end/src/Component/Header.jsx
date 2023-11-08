@@ -18,7 +18,7 @@ const Header = () => {
   const { isLoggedIn, onLogout, token, role } = useAuth();
   const navigate = useNavigate();
   const [noti, setNoti] = useState([]);
-  // console.log(noti)
+  console.log(noti)
   const [countNotification , setCountNotification] = useState(0);
   const imgDefault =
       "https://dvdn247.net/wp-content/uploads/2020/07/avatar-mac-dinh-1.png";
@@ -27,56 +27,19 @@ const Header = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [data, setData] = useState(null);
   const [notifications, setNotifications] = useState([]);
-  // const [updateNoti, setUpdateNoti] = useState(null);
-  // const [isLoading, setIsLoading] = useState(false);
-
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
   const handleDeleteNotification = async (id, token) => {
-    console.log(id);
-    console.log(token);
-//   try {
-//     const response = await deleteNoti.removeNoti(id, {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//       // console.log(headers);
-//     });
 
-//     if (response) {
-//       if (response.status === 200) {
-//         console.log("Thông báo đã được xóa thành công");
-//         // Thực hiện cập nhật danh sách thông báo nếu cần
-//       } else {
-//         console.error("Lỗi xóa thông báo:", response.data.error);
-//       }
-//     } else {
-//       console.error("Lỗi xóa thông báo: Phản hồi từ máy chủ không hợp lệ");
-//     }
-//   } catch (error) {
-//     console.error("Lỗi xóa thông báo:", error);
-    //   }
-
-
-
-    // console.log("🚀 ~ file: Header.jsx:57 ~ handleDeleteNotification ~ response:", response)
-    // console.log(response);
-    // if (response && response.data) {
-    //   if (response.status === 200) {
-    //     console.log("Thông báo đã được xóa thành công");
-    //     // Thực hiện cập nhật danh sách thông báo nếu cần
-    //   } else {
-    //     console.error("Lỗi xóa thông báo:", response);
-    //   }
-    // }
     try {
       if (token) {
-        // const response = await deleteNoti.removeNoti(id, token);
         const response = await axios.delete(`http://127.0.0.1:8000/api/delete-read-notification/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           }
         })
-        console.log("🚀 ~ file: Header.jsx:60 ~ handleDeleteNotification ~ response1:", response)
-        window.location.reload();
+  
+        // console.log("🚀 ~ file: Header.jsx:60 ~ handleDeleteNotification ~ response1:", response)
+        setNoti(response.data.notification);
       } else {
         console.error('Không có token xác thực trong Local Storage.');
       }
@@ -84,10 +47,6 @@ const Header = () => {
       console.error("Lỗi khi xóa thông báo:", error);
     }
 };
-
-  
-  
-
 
   const handleNotificationClick = async () => {
     try {
