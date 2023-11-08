@@ -3,7 +3,7 @@
 
     <div class="header-left">
         <a href="{{ route('dashboard') }}" class="logo">
-            <img src="{{asset('backend/assets/img/logo.png')}}" alt="Logo">
+            <img src="https://res.cloudinary.com/dgr1k5tf5/image/upload/v1697884317/tgaqy9cgyffuneqzysjb.png" alt="Logo">
         </a>
         <a href="index.html" class="logo logo-small">
             <img src="{{asset('backend/assets/img/logo-small.png')}}" alt="Logo" width="30" height="30">
