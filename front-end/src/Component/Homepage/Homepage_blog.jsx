@@ -72,7 +72,8 @@ const Homepage_Blog = () => {
         </div>
 
         <div className="blog-btn-sec text-center aos aos-init aos-animate" data-aos="fade-up">
-          <a href="/blog" className="btn btn-primary btn-view">Đọc Thêm Bài Viết</a>
+          {/* <a href="/blog" className="btn btn-primary btn-view">Đọc Thêm Bài Viết</a> */}
+          <Link to="/blog" className="btn btn-primary btn-view">Đọc Thêm Bài Viết</Link>
         </div>
       </div>
     </div>
