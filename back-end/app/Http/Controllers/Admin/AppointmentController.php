@@ -52,6 +52,7 @@ class AppointmentController extends Controller
                 'colums' => $this->columns('index'),
                 'urlbase' => $this->urlbase,
                 'title_web' => $this->title,
+                'title' => $this->title,
             ]);
     }
 
@@ -83,6 +84,7 @@ class AppointmentController extends Controller
                 'colums' => $this->columns('index'),
                 'urlbase' => $this->urlbase,
                 'title_web' => $this->title,
+                'title' => $this->title,
             ]);
     }
 
@@ -98,6 +100,7 @@ class AppointmentController extends Controller
                 'colums' => $this->columns('index'),
                 'urlbase' => $this->urlbase,
                 'title_web' => $this->title,
+                'title' => $this->title,
             ]);
     }
 
@@ -208,6 +211,7 @@ class AppointmentController extends Controller
                 'getDayDefault' , 'dataDoctor' , 'dataService' , 'dataTypePet' , 'time_set_up_shift'))
             ->with([
                 'title_web'=>$this->title,
+                'title' => $this->title,
                 'urlbase'=>$this->urlbase,
                 'colums' => $this->columns('edit')
             ]);
@@ -376,6 +380,7 @@ class AppointmentController extends Controller
             'colums' => $this->colums,
             'urlbase' => $this->urlbase,
             'title_web' => $this->title,
+            'title' => $this->title,
             'dataDoctor' => $dataDoctor,
             'dataService' => $dataService,
             'timeWork' => $timeWork,
@@ -466,6 +471,7 @@ class AppointmentController extends Controller
             'title_web' => $this->title,
             'FIELD_SELECT_CUSTOM_CONTROLLER' => $this->FIELD_SELECT_CUSTOM_CONTROLLER,
             'special', $this->special,
+            'title' => $this->title,
         ];
         return view($this->pathView.'trash-can' , compact('appointments'))->with($dataViewer);
     }

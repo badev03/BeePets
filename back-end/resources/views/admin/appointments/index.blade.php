@@ -3,9 +3,10 @@
 @push('style')
     <link rel="stylesheet" href="{{asset('backend/assets/plugins/datatables/datatables.min.css')}}">
 @endpush
-@section('heading','hihihi')
+@section('heading','đ')
 @section('content')
     <div class="row">
+    
         <div class="col-sm-12">
             @if(session()->has('success_delete'))
                 <div class="alert-success alert">

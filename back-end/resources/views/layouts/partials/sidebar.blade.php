@@ -8,7 +8,7 @@
                 <li class="submenu">
                     <a href="#">
                         <i class="fe fe-layout"></i>
-                        <span> Cuộn hẹn</span> <span class="menu-arrow"></span></a>
+                        <span> Cuộc hẹn</span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a class="{{ request()->routeIs(['appointments.add-appointments', 'create-data.appointments']) ? 'active' : '' }}
                         " href="{{ route('appointments.add-appointments') }}">Thêm cuộc hẹn</a></li>
@@ -53,13 +53,13 @@
                     <a href="{{ route('reviews.index') }}"><i class="fe fe-star-o"></i> <span>Đánh giá</span></a>
                 </li>
                 <li>
-                    <a href="{{ route('products.index') }}"><i class="fe fe-activity"></i> <span>Sản phẩm</span></a>
+                    <a href="{{ route('products.index') }}"><i class="fa-brands fa-product-hunt"></i> <span>Sản phẩm</span></a>
                 </li>
                 <li>
-                    <a href="{{ route('purchase.index') }}"><i class="fe fe-activity"></i> <span>Đơn hàng</span></a>
+                    <a href="{{ route('purchase.index') }}"><i class="fa-solid fa-cart-shopping"></i><span>Đơn hàng</span></a>
                 </li>
                 <li>
-                    <a  class="{{ request()->routeIs('about.*') ? 'active' : '' }}"href="{{ route('about.index') }}"><i class="fe fe-activity"></i> <span>Giới Thiệu</span></a>
+                    <a  class="{{ request()->routeIs('about.*') ? 'active' : '' }}"href="{{ route('about.index') }}"><i class="fa-solid fa-inbox"></i><span>Giới Thiệu</span></a>
                 </li>
                 <li>
                     <a href="{{ route('setting') }}"><i class="fe fe-vector"></i> <span>Cấu hình</span></a>
