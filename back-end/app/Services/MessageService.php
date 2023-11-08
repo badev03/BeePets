@@ -159,4 +159,18 @@ class MessageService implements MessageUser {
         ]);
         return response()->json(['message' => 'Thông báo đã được gửi']);
     }
+
+    public function sendAdmin($appointment_id='' , $message_admin = '' , $message= '' , $userId='')
+    {
+        $this->pusherWeb()->trigger("admin-notification", 'notification-event-admin', $message_admin);
+        Notification::create([
+            'appointment_id' => $appointment_id,
+            'message_admin' => $message_admin,
+            'message' => $message,
+            'read' => 0,
+            'admin_id' => 1,
+            'user_id' => $userId,
+        ]);
+        return response()->json(['message' => 'Thông báo đã được gửi']);
+    }
 }

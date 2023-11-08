@@ -142,12 +142,12 @@
 @push('script')
     <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
     <script>
-        var pusher = new Pusher('2798806e868dbe640e2e', {
+        var pusher = new Pusher('59deaefaec6129103d3d', {
             cluster: 'ap1'
         });
 
-        var channel = pusher.subscribe('user-notification-3');
-        channel.bind('notification-event', function(data) {
+        var channel = pusher.subscribe('admin-notification');
+        channel.bind('notification-event-admin', function(data) {
 
             let notification = `
                 <li class="notification-message">
