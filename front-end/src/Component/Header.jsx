@@ -326,7 +326,10 @@ const Header = () => {
                                     </div>
                                     <button
                                       className="custom-delete-button btn sm"
-                                      onClick={() => handleDeleteNotification(notifications.id_notification, token)}
+                                  onClick={(e) => {
+                                    e.stopPropagation(); // Ngăn sự kiện lan truyền
+                                    handleDeleteNotification(notifications.id_notification, token);
+                                  }}
                                       
                                     >
                                       {/* <i className="custom-icon">&#10006;</i> */}
