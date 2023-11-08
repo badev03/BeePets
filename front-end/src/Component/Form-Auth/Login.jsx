@@ -76,17 +76,17 @@ const Login = () => {
 
         if (response.token) {
           onLoginSuccess(response.token, response.user);
-          MySwal.fire({
-            title: "Đăng nhập thành công!",
-            icon: "success",
-          });
+          
           // navigate("/user/dashbroad");
         }
       } catch (error) {
         MySwal.fire({
           title: "Bạn đã sai tài khoản hoặc mật khẩu!",
           icon: "error",
+          
         });
+        return;
+
       }
     }
   };
@@ -107,6 +107,10 @@ const Login = () => {
         setLoading(false);
         setShowOTP(true);
         toast.success("OTP sended successfully!");
+        MySwal.fire({
+            title: "Đăng nhập thành công!",
+            icon: "success",
+          });
       })
       .catch((error) => {
         console.log(error);
