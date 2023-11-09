@@ -11,14 +11,14 @@ import TopLink from "../Link/TopLink";
 import deleteNoti from "../api/deleteNoti";
 import axios from "axios";
 import { UserOutlined } from "@ant-design/icons"
-
+import {Dropdown} from "bootstrap";
 
 
 const Header = () => {
   const { isLoggedIn, onLogout, token, role } = useAuth();
   const navigate = useNavigate();
   const [noti, setNoti] = useState([]);
-  console.log(noti)
+  // console.log(noti)
   const [countNotification , setCountNotification] = useState(0);
   const imgDefault =
       "https://dvdn247.net/wp-content/uploads/2020/07/avatar-mac-dinh-1.png";

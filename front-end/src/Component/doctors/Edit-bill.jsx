@@ -211,6 +211,11 @@ const Editbill = () => {
     const updatedServices = services.filter((item) => item.id !== id);
     setServices(updatedServices);
 
+    const updatedServicesDelete = selectedServiceIds.filter((item) => item !== id);
+    setSelectedServiceIds(updatedServicesDelete);
+
+    console.log(selectedServiceIds);
+
   };
 
   const availableServiceOptions = serviceBill
@@ -265,6 +270,12 @@ const Editbill = () => {
     }));
   };
 
+  useEffect(() => {
+    const availableServices = serviceBill.filter((service) => !selectedServiceIds.includes(service.id));
+    setServiceBill(availableServices);
+
+  }, [selectedServiceIds]);
+
   const onChangeService = (value, serviceId) => {
     const selectedService = serviceBill.find((service) => service.name === value);
     const newServicePrices = { ...servicePrices };
@@ -278,6 +289,7 @@ const Editbill = () => {
       }
       return updatedIds;
     });
+    console.log(selectedServiceIds);
   };
 
   const onSearch = (value) => {
