@@ -38,15 +38,15 @@
         <div class="container">
             <div class="loginbox">
                 <div class="login-left">
-                    <img class="img-fluid" src="{{asset('backend/assets/img/ok_login.jpg')}}" alt="Logo">
+                    <img class="img-fluid" src="{{asset('https://res.cloudinary.com/dgr1k5tf5/image/upload/v1697884317/tgaqy9cgyffuneqzysjb.png')}}" style="background-color: white;padding:10px"  alt="Logo">
                 </div>
                 <div class="login-right">
                     <div class="login-right-wrap">
-                        <h1>Login</h1>
+                        <h1>Đăng Nhập</h1>
                         @if(session()->has('msg'))
                             <p class="account-subtitle text-danger">{{ session('msg') }}</p>
                         @else
-                        <p class="account-subtitle">Access to our dashboard</p>
+                        <p class="account-subtitle">Truy cập vào trang quản trị</p>
                         @endif
                         <form action="{{ route('admin.login.post') }}" method="POST">
                             @csrf
@@ -62,12 +62,7 @@
                         </form>
 
                         <div class="text-center forgotpass"><a href="forgot-password.html">Quên mật khẩu?</a></div>
-                        <div class="login-or">
-                            <span class="or-line"></span>
-                            <span class="span-or">or</span>
-                        </div>
 
-                        <div class="text-center dont-have">Bạn đã có tài khoản chưa? <a href="register.html">Register</a></div>
                     </div>
                 </div>
             </div>

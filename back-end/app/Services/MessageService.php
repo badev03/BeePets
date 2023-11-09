@@ -16,7 +16,7 @@ class MessageService implements MessageUser {
             'name' => $dataMessage->name,
             'avatar' => $dataMessage->avatar,
             'id' => $dataMessage->id,
-            'message' => $message
+            'message' => $message,
         ];
         $dataMessageDoctor = $this->tableQuery('doctors')->where('id' , $doctor_id)->first();
         $message_doctors = [

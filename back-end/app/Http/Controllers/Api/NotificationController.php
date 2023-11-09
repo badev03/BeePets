@@ -14,7 +14,7 @@ class NotificationController extends Controller
     {
         $notifications = Notification::where('user_id', auth()->id())
             ->select('notifications.user_id as id' , 'users.avatar' , 'users.name' , 'notifications.message'
-                , 'notifications.id as id_notification')
+                , 'notifications.id as id_notification' , 'notifications.appointment_id')
             ->join('users' , 'users.id' , '=' , 'notifications.user_id')
             ->where('notifications.message' , '!=' , '')
             ->where('notifications.delete_user' , '=' , 0)
@@ -33,8 +33,9 @@ class NotificationController extends Controller
     public function getNotificationDoctor()
     {
         $notifications = Notification::where('doctor_id', auth()->guard('doctors')->id())
-            ->select('notifications.doctor_id as id' , 'doctors.image as avatar' , 'doctors.name' , 'notifications.message_doctor as message'
-            , 'notifications.id as id_notification')
+            ->select('notifications.doctor_id as id' , 'doctors.image as avatar' ,
+                'doctors.name' , 'notifications.message_doctor as message'
+            , 'notifications.id as id_notification' , 'notifications.appointment_id')
             ->join('doctors' , 'doctors.id' , '=' , 'notifications.doctor_id')
             ->where('notifications.message_doctor' , '!=' , '')
             ->where('notifications.delete_doctor' , '=' , 0)
