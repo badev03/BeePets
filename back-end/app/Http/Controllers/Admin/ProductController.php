@@ -16,8 +16,9 @@ class ProductController extends BaseAdminController
     public $slug = 'slug';
     public $fieldImage = 'image';
     public $folderImage = 'image/products';
-
-
+    protected $permissionCheckCrud = 'role';
+    protected $FIELD_SELECT_CUSTOM_CONTROLLER = ['product_categorie_id'];
+    public $listIndex = ['Categories'];
     public $titleIndex = 'Danh sách sản phẩm';
     public $titleCreate = 'Thêm mới sản phẩm';
     public $titleShow = 'Xem chi tiết  sản phẩm';
@@ -33,9 +34,13 @@ class ProductController extends BaseAdminController
         'image' => 'Ảnh',
         'product_categorie_id' => 'Danh mục sản phẩm'
     ];
-    public function addData()
+    public function addDataSelect()
     {
-        return Product_categories::all();
+        $product_categories = Product_categories::all();
+        $dataForMergeArray = [
+            'product_categorie_id' => $product_categories
+        ];
+        return $dataForMergeArray;
     }
     public function validateStore($request,$id = null)
     {

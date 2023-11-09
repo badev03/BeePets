@@ -2,15 +2,18 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import blogApi from "../../api/BlogApi";
 import BlogSideBar from "./BlogSideBar";
+import LoadingSkeleton from "../Loading";
+import TopLink from "../../Link/TopLink";
+
 
 const BlogDetails = () => {
-  const { id } = useParams();
+  const { slug } = useParams();
   const [blog, setBlog] = useState(null);
 
   useEffect(() => {
     const fetchBlogDetails = async () => {
       try {
-        const response = await blogApi.get(id);
+        const response = await blogApi.get(slug);
         setBlog(response.newDetail);
       } catch (error) {
         console.error("Error fetching blog details:", error);
@@ -18,10 +21,10 @@ const BlogDetails = () => {
     };
 
     fetchBlogDetails();
-  }, [id]);
+  }, [slug]);
 
   if (!blog) {
-    return <div>Loading...</div>;
+    return <LoadingSkeleton/>;
   }
 
   return (
@@ -34,7 +37,7 @@ const BlogDetails = () => {
               <nav aria-label="breadcrumb" className="page-breadcrumb">
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
-                    <a href="index.html">Trang Chủ</a>
+                    <TopLink to="/">Trang Chủ</TopLink>
                   </li>
                   <li className="breadcrumb-item" aria-current="page">
                     Chi tiết tin tức
@@ -65,7 +68,7 @@ const BlogDetails = () => {
                     <div className="post-left">
                       <ul>
                         <li>
-                          <i className="far fa-calendar" />
+                          <i className="far fa-clock" />
                           {blog.public_date}{" "}
                         </li>
                       </ul>

@@ -1,378 +1,373 @@
-import React from 'react'
-import Menudashboard from './Menu-dashboard'
-import {Link} from 'react-router-dom'
-import appointmentsApi from '../../api/appointmentsApi';
+import React from "react";
+import Menudashboard from "./Menu-dashboard";
+import { Link } from "react-router-dom";
+import appointmentsApi from "../../api/appointmentsApi";
 import { useEffect, useState } from "react";
-// import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import axios from "axios";
+import ReactPaginate from "react-paginate";
+import { FaSpinner } from "react-icons/fa";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import LoadingSkeleton from "../Loading";
+import { Modal, Form, Input, Button } from "antd";
+
+const MySwal = withReactContent(Swal);
+
 const Dashboarddoctors = () => {
   const [appointments, setAppointment] = useState([]);
-  // const navigate = useNavigate()
-  const token = localStorage.getItem('token');
-  console.log(appointments)
-  
+  const [searchName, setSearchName] = useState("");
+  const [searchDate, setSearchDate] = useState("");
+  const [searchShift, setSearchShift] = useState("");
+  const [searchService, setSearchService] = useState("");
+  const [loadingId, setLoadingId] = useState(null);
+  const [loadingIdd, setLoadingIdd] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [error, setError] = useState(false);
+  const token = localStorage.getItem("token");
+  // const [cancelId, setCancelId] = useState(null);
+  const [reason, setReason] = useState("");
+  const [selectedAppointmentId, setSelectedAppointmentId] = useState(null);
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+  const fetchAppointment = async () => {
+    try {
+      const response = await appointmentsApi.getStatus({
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setAppointment(response.data);
+      setLoading(false);
+      setError(false);
+    } catch (error) {
+      console.error("Không có dữ liệu:", error);
+      setAppointment([]);
+      setLoading(false);
+      setError(true);
+    }
+  };
 
-    const fetchAppointment = async () => {
-      try {
-       const response = await appointmentsApi.getStatus(
+  useEffect(() => {
+    fetchAppointment();
+  }, []);
+  const [pageNumber, setPageNumber] = useState(0);
+  const appointmentsPerPage = 5;
+  const pagesVisited = pageNumber * appointmentsPerPage;
+  const filteredAppointments = appointments.filter((appointment) => {
+    return (
+      appointment.user.name.toLowerCase().includes(searchName.toLowerCase()) &&
+      appointment.date.toLowerCase().includes(searchDate.toLowerCase()) &&
+      appointment.shift_name
+        .toLowerCase()
+        .includes(searchShift.toLowerCase()) &&
+      appointment.service.name
+        .toLowerCase()
+        .includes(searchService.toLowerCase())
+    );
+  });
+
+  const pageCount = Math.ceil(appointments.length / appointmentsPerPage);
+
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  };
+
+  const handleUpdate = async (id) => {
+    setLoadingId(id);
+    try {
+      const respon = await axios.put(
+        `http://127.0.0.1:8000/api/update-appointment/${id}?status=1`,
+        {},
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
-      setAppointment(response.data);     
-      // console.log(response.data);
-      } catch (error) {
-      
-        console.error("Không có dữ liệu:", error);
-        setAppointment([]);
-      }
-    };
- 
-      useEffect(() => {
-        fetchAppointment();
-      }, []); 
 
-  
-  
-   const handleUpdate = async (id) => {
-     try {
-      console.log(id)
-      console.log(token)
-       const respon = await axios.put(`http://127.0.0.1:8000/api/update-appointment/${id}?status=1`, {}, {
-         headers: {
-           Authorization: `Bearer ${token}`
-          }
-        })
-      console.log(respon)
-     
-        fetchAppointment();
-      
-
-    
+      MySwal.fire({
+        title: "Cập nhật trạng thái  thành công!",
+        icon: "success",
+      });
+      fetchAppointment();
     } catch (error) {
-      console.log(error)
+      console.log(error);
+    } finally {
+      setLoadingId(null);
     }
-   } 
+  };
+  const showModal = (id) => {
+    console.log(id);
+    setSelectedAppointmentId(id);
+    setIsModalVisible(true);
+  };
 
+  const handleCancelStatus = async (id, reason) => {
+    console.log(reason);
+    console.log(id);
+    try {
+      setLoadingIdd(id);
+
+      const respon = await axios.put(
+        `http://127.0.0.1:8000/api/update-appointment/${id}?status=6&reason_cancel=${reason}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      setIsModalVisible(false);
+
+      MySwal.fire({
+        title: "Cập nhật trạng thái  thành công!",
+        icon: "success",
+      });
+      fetchAppointment();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingIdd(null);
+    }
+  };
+  const displayAppointments = filteredAppointments
+    .slice(pagesVisited, pagesVisited + appointmentsPerPage)
+    .map((appointment) => (
+      <tr key={appointment.id}>
+        <td>
+          <h2 className="table-avatar">
+            <Link to="patient-profile.html" className="avatar avatar-sm me-2">
+              <img
+                className="avatar-img rounded-circle"
+                src="img/patients/patient.jpg"
+                alt="User Image"
+              />
+            </Link>
+            <Link to="patient-profile.html">{appointment.user.name} </Link>
+          </h2>
+        </td>
+        <td>
+          {appointment.date}
+          <span className="d-block text-info">{appointment.shift_name}</span>
+        </td>
+        <td>{appointment.service.name}</td>
+        <td>{appointment.type_pet.name}</td>
+        <td>
+          <div className="table-action">
+            <Link
+              to={`/doctors/detail-appointments/${appointment.id}`}
+              className="btn btn-sm bg-info-light"
+            >
+              <i className="far fa-eye" /> Xem Lịch Hẹn
+            </Link>
+            <div
+              onClick={() => handleUpdate(appointment.id)}
+              className="btn btn-sm bg-success-light position-relative"
+            >
+              {loadingId === appointment.id ? (
+                <div className="loading-spinner">
+                  <FaSpinner className="spinner" /> Chấp nhận
+                </div>
+              ) : (
+                <>
+                  <i className="fas fa-check me-2" /> Chấp nhận
+                </>
+              )}
+            </div>
+            <div
+              onClick={() => showModal(appointment.id)}
+              className="btn btn-sm bg-danger-light position-relative"
+            >
+              {loadingIdd === appointment.id ? (
+                <div className="loading-spinner">
+                  <FaSpinner className="spinner" /> Y/C Hủy
+                </div>
+              ) : (
+                <>
+                  <i className="fas fa-times" /> Y/C Hủy
+                </>
+              )}
+            </div>
+          </div>
+        </td>
+        <Modal
+          title="Yêu cầu Hủy Lịch"
+          visible={isModalVisible}
+          onCancel={() => setIsModalVisible(false)}
+          footer={[
+            <Button key="cancel" onClick={() => setIsModalVisible(false)}>
+              Cancel
+            </Button>,
+          ]}
+        >
+          <Form
+            onFinish={(values) => {
+              handleCancelStatus(selectedAppointmentId, values.content);
+              // console.log('Received values of form: ', reason,selectedAppointmentId);
+            }}
+          >
+            {/* Thêm các trường form tại đây */}
+            <Form.Item
+              name="content"
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng nhập lí do hủy cuộc hẹn!",
+                },
+                {
+                  min: 6,
+                  message: "Lí do hủy phải có ít nhất 6 ký tự!",
+                },
+              ]}
+            >
+              <Input.TextArea
+                placeholder="Nhập lí do hủy cuộc hẹn tại đây"
+                autoSize={{ minRows: 3, maxRows: 5 }}
+                onChange={(e) => setReason(e.target.value)}
+              />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Gửi Yêu cầu
+              </Button>
+            </Form.Item>
+          </Form>
+        </Modal>
+      </tr>
+    ));
   return (
     <div>
-  <div className="breadcrumb-bar-two">
-    <div className="container">
-      <div className="row align-items-center inner-banner">
-        <div className="col-md-12 col-12 text-center">
-          <h2 className="breadcrumb-title">Bảng điều khiển</h2>
-          <nav aria-label="breadcrumb" className="page-breadcrumb">
-            <ol className="breadcrumb">
-              <li className="breadcrumb-item"><Link to="/">Trang chủ</Link></li>
-              <li className="breadcrumb-item" aria-current="page">Bảng điều khiển</li>
-            </ol>
-          </nav>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div className="content">
-    <div className="container">
-      <div className="row">
-        <div className="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
-          <Menudashboard/>
-        </div>
-        <div className="col-md-7 col-lg-8 col-xl-9">
-          <div className="row">
-            <div className="col-md-12">
-              <div className="card dash-card">
-                <div className="card-body">
-                  <div className="row">
-                    <div className="col-md-12 col-lg-4">
-                      <div className="dash-widget dct-border-rht">
-                        <div className="circle-bar circle-bar1">
-                          <div className="circle-graph1" data-percent={75}>
-                            <img src="/img/icon-01.png" className="img-fluid" alt="patient" />
-                          </div>
-                        </div>
-                        <div className="dash-widget-info">
-                          <h6>Tổng số bệnh nhân</h6>
-                          <h3>1500</h3>
-                          <p className="text-muted">cho đến nay</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-md-12 col-lg-4">
-                      <div className="dash-widget dct-border-rht">
-                        <div className="circle-bar circle-bar2">
-                          <div className="circle-graph2" data-percent={65}>
-                            <img src="/img/icon-02.png" className="img-fluid" alt="Patient" />
-                          </div>
-                        </div>
-                        <div className="dash-widget-info">
-                          <h6>Bệnh nhân hôm nay</h6>
-                          <h3>160</h3>
-                          <p className="text-muted">21/06/2003</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-md-12 col-lg-4">
-                      <div className="dash-widget">
-                        <div className="circle-bar circle-bar3">
-                          <div className="circle-graph3" data-percent={50}>
-                            <img src="/img/icon-03.png" className="img-fluid" alt="Patient" />
-                          </div>
-                        </div>
-                        <div className="dash-widget-info">
-                          <h6>Lịch đặt</h6>
-                          <h3>85</h3>
-                          <p className="text-muted">21/06/2003</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-12">
-              <h4 className="mb-4">Lịch hẹn của bệnh nhân</h4>
-              <div className="appointment-tab">
-                <ul className="nav nav-tabs nav-tabs-solid nav-tabs-rounded">
-                  <li className="nav-item">
-                    <Link className="nav-link active" to="#upcoming-appointments" data-bs-toggle="tab">Lịch hẹn sắp tới</Link>
+      <div className="breadcrumb-bar-two">
+        <div className="container">
+          <div className="row align-items-center inner-banner">
+            <div className="col-md-12 col-12 text-center">
+              <h2 className="breadcrumb-title">Bảng điều khiển</h2>
+              <nav aria-label="breadcrumb" className="page-breadcrumb">
+                <ol className="breadcrumb">
+                  <li className="breadcrumb-item">
+                    <Link to="/">Trang chủ</Link>
                   </li>
-                  
-                </ul>
-                <div className="tab-content">
-                  <div className="tab-pane show active" id="upcoming-appointments">
-                    <div className="card card-table mb-0">
-                      <div className="card-body">
-                        <div className="table-responsive">
-                          <table className="table table-hover table-center mb-0">
-                            <thead>
-                              <tr>
-                                <th>Tên bệnh nhân</th>
-                                <th>Thời gian</th>
-                                <th>Dịch vụ</th>
-                                <th>Loại thú cưng</th>
-                                <th>Trạng thái</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {appointments.map(appointment=>(
-                              <tr key={appointment.id}>
-                              <td>
-                                <h2 className="table-avatar">
-                                  <Link to="patient-profile.html" className="avatar avatar-sm me-2"><img className="avatar-img rounded-circle" src="img/patients/patient.jpg" alt="User Image" /></Link>
-                                  <Link to="patient-profile.html">{appointment.user.name} </Link>
-                                </h2>
-                              </td>
-                              <td>{appointment.date}<span className="d-block text-info">{appointment.shift_name}</span>
-                              </td>
-                              <td>{appointment.service.name}</td>
-                              <td>{appointment.type_pet.name}</td>
-                              <td>
-                                <div className="table-action">
-                                <Link to={`/doctors/detail-appointments/${appointment.id}`} className="btn btn-sm bg-info-light">
-                                  <i className="far fa-eye" /> View
-                                </Link>
-                                  <div onClick={() => handleUpdate(appointment.id)} className="btn btn-sm bg-success-light">
-                                    <i className="fas fa-check" /> Accept
-                                  </div>
-                                  <Link to="javascript:void(0);" className="btn btn-sm bg-danger-light">
-                                    <i className="fas fa-times" /> Cancel
-                                  </Link>
-                                </div>
-                              </td>
-                              </tr>
-                              ))}
-                             
-                         
-                            </tbody>
-                          </table>
-                        </div>
+                  <li className="breadcrumb-item" aria-current="page">
+                    Bảng điều khiển
+                  </li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="content">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+              <Menudashboard />
+            </div>
+            <div className="col-md-7 col-lg-8 col-xl-9">
+              <div className="row">
+                <div className="col-md-12">
+                  <h4 className="mb-4">Lịch hẹn của bệnh nhân</h4>
+                  <div className="appointment-tab">
+                    <div className="search-container">
+                      <div className="input-group">
+                        <input
+                          type="text"
+                          id="searchName"
+                          placeholder="Lọc theo tên"
+                          onChange={(e) => setSearchName(e.target.value)}
+                          className="input-group-item"
+                        />
+                      </div>
+
+                      <div className="input-group">
+                        <input
+                          type="text"
+                          id="searchDate"
+                          placeholder="Lọc theo ngày"
+                          onChange={(e) => setSearchDate(e.target.value)}
+                          className="input-group-item"
+                        />
+                      </div>
+
+                      <div className="input-group">
+                        <input
+                          type="text"
+                          id="searchShift"
+                          placeholder="Lọc theo ca"
+                          onChange={(e) => setSearchShift(e.target.value)}
+                          className="input-group-item"
+                        />
+                      </div>
+
+                      <div className="input-group">
+                        <input
+                          type="text"
+                          id="searchService"
+                          placeholder="Lọc theo dịch vụ"
+                          onChange={(e) => setSearchService(e.target.value)}
+                          className="input-group-item"
+                        />
                       </div>
                     </div>
-                  </div>
-                  <div className="tab-pane" id="today-appointments">
-                    <div className="card card-table mb-0">
-                      <div className="card-body">
-                        <div className="table-responsive">
-                          <table className="table table-hover table-center mb-0">
-                            <thead>
-                              <tr>
-                                <th>Patient Name</th>
-                                <th>Appt Date</th>
-                                <th>Purpose</th>
-                                <th>Type</th>
-                                <th>Paid Amount</th>
-                                <th>Action</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>
-                                  <h2 className="table-avatar">
-                                    <Link to="patient-profile.html" className="avatar avatar-sm me-2"><img className="avatar-img rounded-circle" src="img/patients/patient6.jpg" alt="User Image" /></Link>
-                                    <Link to="patient-profile.html">Elsie Gilley
-                                      <span>#PT0006</span></Link>
-                                  </h2>
-                                </td>
-                                <td>14 Nov 2023 <span className="d-block text-info">6.00
-                                    PM</span></td>
-                                <td>Fever</td>
-                                <td>Old Patient</td>
-                                <td>$300</td>
-                                <td>
-                                  <div className="table-action">
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-info-light">
-                                      <i className="far fa-eye" /> View
-                                    </Link>
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-success-light">
-                                      <i className="fas fa-check" /> Accept
-                                    </Link>
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-danger-light">
-                                      <i className="fas fa-times" /> Cancel
-                                    </Link>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <h2 className="table-avatar">
-                                    <Link to="patient-profile.html" className="avatar avatar-sm me-2"><img className="avatar-img rounded-circle" src="img/patients/patient7.jpg" alt="User Image" /></Link>
-                                    <Link to="patient-profile.html">Joan Gardner
-                                      <span>#PT0006</span></Link>
-                                  </h2>
-                                </td>
-                                <td>14 Nov 2023 <span className="d-block text-info">5.00
-                                    PM</span></td>
-                                <td>Khám bệnh</td>
-                                <td>Old Patient</td>
-                                <td>$100</td>
-                                <td>
-                                  <div className="table-action">
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-info-light">
-                                      <i className="far fa-eye" /> View
-                                    </Link>
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-success-light">
-                                      <i className="fas fa-check" /> Accept
-                                    </Link>
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-danger-light">
-                                      <i className="fas fa-times" /> Cancel
-                                    </Link>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <h2 className="table-avatar">
-                                    <Link to="patient-profile.html" className="avatar avatar-sm me-2"><img className="avatar-img rounded-circle" src="img/patients/patient8.jpg" alt="User Image" /></Link>
-                                    <Link to="patient-profile.html">Daniel
-                                      Griffing <span>#PT0007</span></Link>
-                                  </h2>
-                                </td>
-                                <td>14 Nov 2023 <span className="d-block text-info">3.00
-                                    PM</span></td>
-                                <td>Khám bệnh</td>
-                                
-                                <td>$75</td>
-                                <td>
-                                  <div className="table-action">
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-info-light">
-                                      <i className="far fa-eye" /> View
-                                    </Link>
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-success-light">
-                                      <i className="fas fa-check" /> Accept
-                                    </Link>
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-danger-light">
-                                      <i className="fas fa-times" /> Cancel
-                                    </Link>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <h2 className="table-avatar">
-                                    <Link to="patient-profile.html" className="avatar avatar-sm me-2"><img className="avatar-img rounded-circle" src="img/patients/patient9.jpg" alt="User Image" /></Link>
-                                    <Link to="patient-profile.html">Walter
-                                      Roberson <span>#PT0008</span></Link>
-                                  </h2>
-                                </td>
-                                <td>14 Nov 2023 <span className="d-block text-info">1.00
-                                    PM</span></td>
-                                <td>Khám bệnh</td>
-                                <td>Old Patient</td>
-                                <td>$350</td>
-                                <td>
-                                  <div className="table-action">
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-info-light">
-                                      <i className="far fa-eye" /> View
-                                    </Link>
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-success-light">
-                                      <i className="fas fa-check" /> Accept
-                                    </Link>
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-danger-light">
-                                      <i className="fas fa-times" /> Cancel
-                                    </Link>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <h2 className="table-avatar">
-                                    <Link to="patient-profile.html" className="avatar avatar-sm me-2"><img className="avatar-img rounded-circle" src="img/patients/patient10.jpg" alt="User Image" /></Link>
-                                    <Link to="patient-profile.html">Robert Rhodes
-                                      <span>#PT0010</span></Link>
-                                  </h2>
-                                </td>
-                                <td>14 Nov 2023 <span className="d-block text-info">10.00 AM</span>
-                                </td>
-                                <td>Khám bệnh</td>
-                                
-                                <td>$175</td>
-                                <td>
-                                  <div className="table-action">
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-info-light">
-                                      <i className="far fa-eye" /> View
-                                    </Link>
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-success-light">
-                                      <i className="fas fa-check" /> Accept
-                                    </Link>
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-danger-light">
-                                      <i className="fas fa-times" /> Cancel
-                                    </Link>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <h2 className="table-avatar">
-                                    <Link to="patient-profile.html" className="avatar avatar-sm me-2"><img className="avatar-img rounded-circle" src="img/patients/patient11.jpg" alt="User Image" /></Link>
-                                    <Link to="patient-profile.html">Harry
-                                      Williams <span>#PT0011</span></Link>
-                                  </h2>
-                                </td>
-                                <td>14 Nov 2023 <span className="d-block text-info">11.00 AM</span>
-                                </td>
-                                <td>Khám bệnh</td>
-                                
-                                <td>$450</td>
-                                <td>
-                                  <div className="table-action">
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-info-light">
-                                      <i className="far fa-eye" /> View
-                                    </Link>
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-success-light">
-                                      <i className="fas fa-check" /> Accept
-                                    </Link>
-                                    <Link to="javascript:void(0);" className="btn btn-sm bg-danger-light">
-                                      <i className="fas fa-times" /> Cancel
-                                    </Link>
-                                  </div>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                    <div className="tab-content">
+                      <div
+                        className="tab-pane show active"
+                        id="upcoming-appointments"
+                      >
+                        <div className="card card-table mb-0">
+                          <div className="card-body">
+                            <div className="table-responsive">
+                              <table className="table table-hover table-center mb-0">
+                                <thead>
+                                  <tr>
+                                    <th>Tên bệnh nhân</th>
+                                    <th>Thời gian</th>
+                                    <th>Dịch vụ</th>
+                                    <th>Loại thú cưng</th>
+                                    <th>Trạng thái</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {loading ? (
+                                    <tr>
+                                      <td colSpan="5">
+                                        <LoadingSkeleton />
+                                      </td>
+                                    </tr>
+                                  ) : error ? (
+                                    <tr>
+                                      <td
+                                        colSpan="5"
+                                        className="empty-appointments"
+                                      >
+                                        Hiện tại chưa có lịch hẹn nào cần xác
+                                        nhận
+                                      </td>
+                                    </tr>
+                                  ) : (
+                                    displayAppointments
+                                  )}
+                                </tbody>
+                              </table>
+                            </div>
+                            <div className="row">
+                              <div className="col-md-12">
+                                <div className="pagination-doctor">
+                                  <ReactPaginate
+                                    nextLabel={<FaChevronRight />}
+                                    previousLabel={<FaChevronLeft />}
+                                    pageCount={pageCount}
+                                    onPageChange={changePage}
+                                    containerClassName={"pagination"}
+                                    previousLinkClassName={"previousBttn"}
+                                    activeClassName={"active"}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -384,10 +379,7 @@ const Dashboarddoctors = () => {
         </div>
       </div>
     </div>
-  </div>
-</div>
+  );
+};
 
-  )
-}
-
-export default Dashboarddoctors
+export default Dashboarddoctors;

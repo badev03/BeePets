@@ -94,7 +94,6 @@ class PeopleAccountController extends BaseAdminController
             ->join('permissions' , 'permissions.id' , '=' , 'role_has_permissions.permission_id')
             ->select('permission_id' , 'permissions.name' , 'permissions.id')
             ->get();
-        // Lấy danh sách các quyền riêng của người dùng.
         $userPermissions = DB::table('model_has_permissions')
             ->join('permissions', 'permissions.id', '=', 'model_has_permissions.permission_id')
             ->where('model_has_permissions.model_id', $model->id)
@@ -126,25 +125,43 @@ class PeopleAccountController extends BaseAdminController
 
     public function update(Request $request, string $id)
     {
-        if(auth()->user()->can(['update-PeopleAccount'])) {
-        $model = $this->model->findOrFail($id);
+//        if(auth()->user()->can(['update-PeopleAccount'])) {
+        $this->validate($request,[
+            'name' => 'required',
+            'email' => 'required',
+            'phone' => 'required|min:0|max:10',
+            'password' => 'required|min:0',
+            'address' => 'required|',
+        ],
+            [
+                'name.required' => 'Tên user không được để trống',
+                'email.required' => 'Email không được để trống',
+                'phone.required' => 'Phone không được để trống',
+                'phone.min' => 'Phone phải có ít nhất :min ký tự',
+                'phone.max' => 'Phone không được vượt quá :max ký tự',
+                'password.required' => 'Mật khẩu không được để trống',
+                'password.min' => 'Mật khẩu phải có ít nhất :min ký tự',
+                'address.required' => 'Địa chỉ không được để trống',
+            ]
+        );
+        $people = $this->model->findOrFail($id);
+        $model = Role::where('id', $request->role_id)->first();
+        $people->syncRoles($model);
+        if($request->has('avatar')) {
+            $image = $request->avatar;
+            $cloudinaryResponse = Cloudinary::upload($image->getPathname());
+            $cloudinaryUrl = $cloudinaryResponse->getSecurePath();
 
-        // Lấy danh sách quyền từ request (ví dụ: 'permission_name_1', 'permission_name_2')
-        $permissions = $request->input('permissions', []);
-
-        // Trước tiên, gỡ bỏ tất cả quyền hiện có của người dùng
-        $model->revokePermissionTo($model->permissions);
-
-        // Sau đó, trao quyền cho người dùng dựa trên danh sách quyền từ request
-        $model->givePermissionTo($permissions);
-
-        // Lưu lại thông tin người dùng
-        $model->save();
-        return back()->with('success', 'Thao tác thành công');
-    }
-        else {
-             return view(admin_403);
+            $data['avatar'] = $cloudinaryUrl;
+            $people->update(array_merge($request->except(['_token' , 'method']) , $data));
+            return back()->with('success', 'Thao tác thành công');
         }
+        $people->update($request->except(['_token' , 'method']));
+        return back()->with('success', 'Thao tác thành công');
+//    }
+//        else {
+//             return view(admin_403);
+//        }
 
     }
 

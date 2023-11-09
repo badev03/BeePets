@@ -6,7 +6,7 @@
 - Api về service 
 1. http://127.0.0.1:8000/api/service-show  :: lấy ra tối đa 4 dữ liệu ở trang hôm dưới banner
 - Api về news
-1. http://127.0.0.1:8000/api/new-post  :: lấy ra bài viết mới nhất
+1. http://127.0.0.1:8000/api/new-post/{name}  :: lấy ra bài viết mới nhất
 2. http://127.0.0.1:8000/api/new-post/id  :: lấy ra chi tiết bài viết theo id
 3. http://127.0.0.1:8000/api/new-categories :: lấy ra danh mục bài viết
 4. http://127.0.0.1:8000/api/new-search/{name} :: name là giá trị được gửi lên tìm kiếm tên bài viết
@@ -63,3 +63,22 @@ check kiểm tra xem số điện thoaại đã tồn tại hay rồi mới ti�
 
 // api lấy dữ liệu notifications 
 1. http://127.0.0.1:8000/api/get-notification
+
+
+
+
+
+// đạt viêt api đăng ký ko cần otp 
+1. http://127.0.0.1:8000/api/register-user-password **POST**
+// đạt viết api home 
+1. http://127.0.0.1:8000/api/doctor-home-user lất ra 4 Records trang home
+2. http://127.0.0.1:8000/api/setting api cho toàn bộ setting
+
+// đạt viết api quên mật khẩu user 
+1. http://127.0.0.1:8000/api/forget-password dùng **post** kiểm tra số điện thoại có hợp lệ hay không nếu có thì gọi api
+đặt lại mật khẩu 
+2. http://127.0.0.1:8000/api/give-password-new/{phone} đổi mật khẩu 
+
+//đạt viết api cập nhật trạng thái notification 
+1. http://127.0.0.1:8000/api/update-read-notification khi click xem thông báo thì lập tức cập nhật lại từ chưa đọc sang
+đã đọc **GET**  

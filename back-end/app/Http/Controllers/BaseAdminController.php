@@ -60,6 +60,7 @@ class BaseAdminController extends Controller
                 }
                 $selectedColumns = '`' . implode('`,`', $selectedColumns) . '`';
                 $data = $this->model->select('id', DB::raw($selectedColumns))
+                    ->orderBy('id', 'DESC')
                     ->get();
                 if($this->removeColumns) {
                     $this->colums = array_diff_key($this->colums, array_flip($this->removeColumns));
@@ -196,13 +197,14 @@ class BaseAdminController extends Controller
         else {
             $this->addFunctionDataEdit($id);
             if($this->permissionCheckCrud === 'permission') {
-                $permission = Permission::findByName($model->name);
-                $permissionWasCheck = $permission->roles->pluck('name')->toArray();
-                $permissionArray = [
-                    'permissionWasCheck' => $permissionWasCheck
-                ];
-                return view($this->pathView . __FUNCTION__, compact('model'))
-                    ->with(array_merge($dataViewer, $this->addForDataViewer ,$permissionArray));
+                $permission = DB::table('role_has_permissions')
+                    ->select('role_has_permissions.role_id as id')
+                    ->join('permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+                    ->join('roles', 'roles.id', '=', 'role_has_permissions.role_id')
+                    ->where('permissions.name', $model->name)
+                    ->get();
+                return view($this->pathView . __FUNCTION__, compact('model' , 'permission'))
+                    ->with(array_merge($dataViewer, $this->addForDataViewer));
             }
             else {
                 return view($this->pathView . __FUNCTION__, compact('model'))

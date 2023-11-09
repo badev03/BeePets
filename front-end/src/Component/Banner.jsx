@@ -1,7 +1,8 @@
 import Booking from "./Booking";
+import { useAuth } from "../Context/ContextAuth";
 
 const Banner = () => {
- 
+  const { role } = useAuth();
   return (
     <div>
       <div>
@@ -50,7 +51,7 @@ const Banner = () => {
                     Hãy để chúng tôi <span>chăm sóc thú cưng của bạn</span>
                   </h1>
                 </div>
-                <Booking/>
+                {role !== "doctor" && <Booking />}
               </div>
             </div>
           </div>

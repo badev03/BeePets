@@ -11,20 +11,27 @@ const appointmentsApi = {
     const url = "/appoinments-status";
     return instance.get(url,  params );
   },
- 
+  getAcceptAppointment(id,params ) {
+    const url = `/get-appiontment/${id}`;
+    return instance.get(url,  params);
+  },
   get(id,params ) {
     const url = `/appoinment/${id}`;
     return instance.get(url,  params);
   },
-  update(id,params) {
-    const url = `/update-appointment/${id}?status=1`;
-    return instance.put(url,params);
+  getAppoinmentsUser(id,params) {
+    const url = `/list-appiontment/${id}`;
+    return instance.get(url, params);
+  },
+  getPres(id,params) {
+    const url = `/prescription/${id}`;
+    return instance.get(url, params);
+  },
+  getPresDetail(id,params) {
+    const url = `/detail-prescription-doctor/${id}`;
+    return instance.get(url, params);
   },
 
-  remove(id) {
-    const url = `/appointments/${id}`;
-    return instance.delete(url);
-  },
 };
 
 export default appointmentsApi;

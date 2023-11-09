@@ -1,17 +1,12 @@
+// PrivateRouteDoctors.js
 import React from "react";
-import { Route, Navigate } from "react-router-dom";
+import { Navigate, Outlet, } from "react-router-dom";
 import { useAuth } from "../Context/ContextAuth";
 
-const PrivateRouteDoctors = ({ element, ...rest }) => {
+const PrivateRouteDoctors = ({ children }) => {
   const { isLoggedIn } = useAuth();
 
-  if (!isLoggedIn) {
-    // Nếu người dùng chưa đăng nhập, chuyển hướng đến trang đăng nhập
-    return <Navigate to="/login-doctor" />;
-  }
-
-  // Nếu người dùng đã đăng nhập, cho phép họ truy cập trang `/doctors`
-  return <Route {...rest} element={element} />;
+  return isLoggedIn ? <Outlet /> : <Navigate to="/Login-Doctor" />;
 };
 
 export default PrivateRouteDoctors;

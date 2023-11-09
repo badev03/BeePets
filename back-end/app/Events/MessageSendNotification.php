@@ -22,14 +22,22 @@ class MessageSendNotification
     public $message;
     public $doctorId;
     public $messageDoctor;
+    public $roleId;
+    public $message_admin;
+    public $appointmentId;
 
 
-    public function __construct($userId, $message, $doctorId = '', $messageDoctor = '')
+
+    public function __construct($userId='', $message='', $doctorId = '', $messageDoctor = '',$roleId='', $message_admin='',$appointmentId='')
     {
         $this->userId = $userId;
         $this->message = $message;
         $this->doctorId = $doctorId;
         $this->messageDoctor = $messageDoctor;
+        $this->roleId = $roleId;
+        $this->message_admin = $message_admin;
+        $this->$appointmentId = $appointmentId;
+
     }
 
     /**

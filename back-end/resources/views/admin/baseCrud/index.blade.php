@@ -71,13 +71,15 @@
                                                     <i class="far fa-eye"></i> Xem
                                                 </button>
                                             @endif
+                                                @if (route('products.index')==url()->current())
+                                                    <a href="javascript:void(0)" data-id="{{ $item->id }}" class="btn btn-sm btn-success add-to-cart">Add to cart</a>
+                                                @endif
                                             <a class="btn btn-sm bg-success-light" href="{{ route($urlbase . 'edit', $item) }}">
                                                 <i class="fe fe-pencil"></i> Edit
                                             </a>
                                             <a data-bs-toggle="modal" href="#delete_modal_{{$item->id}}" class="btn btn-sm bg-danger-light">
                                                 <i class="fe fe-trash"></i> Delete
                                             </a>
-
                                                 @if(count($data)>0)
                                                     <div class="modal fade" id="delete_modal_{{ $item->id }}" aria-hidden="true" role="dialog">
                                                         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -146,6 +148,31 @@
                     }
                 });
             });
+
+
+            $('.add-to-cart').on('click',function (){
+                var product_id = $(this).data('id');
+                $.ajax({
+                    url: "{{ route('carts.store') }}",
+                    type: "POST",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        "product_id": product_id,
+                        "quantity": "1",
+                    },
+                    success:function (response){
+                        if(response.status === 'success'){
+                            window.location.reload();
+                        }else{
+                            console.log(response.message)
+                        }
+                    }
+                });
+            })
         });
+
+
+
     </script>
+
 @endpush

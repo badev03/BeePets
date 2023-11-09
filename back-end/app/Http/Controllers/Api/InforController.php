@@ -27,7 +27,7 @@ class InforController extends Controller
             }
             if ($request->filled('email') && $user->email !== $request->email) {
                 if (User::where('email', $request->email)->where('id', '!=', $user->id)->exists()) {
-                    return response()->json(['error' => 'Số điện thoại là duy nhất'], 422);
+                    return response()->json(['error' => 'email là duy nhất'], 422);
                 }
                 $user->email = $request->email;
             }
@@ -43,6 +43,7 @@ class InforController extends Controller
             
             if($request->hasFile('avatar')){
                 $file = $request->file('avatar');
+                // dd($file);
                 $cloudinaryResponse = Cloudinary::upload($file->getRealPath())->getSecurePath();
                 $user->avatar = $cloudinaryResponse;
             }

@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import loginDoctor from "../../api/loginDoctor";
-import SweetAlert from "react-bootstrap-sweetalert";
 import { useAuth } from "../../Context/ContextAuth";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+const MySwal = withReactContent(Swal);
 
 const LoginDoctor = () => {
   const [formData, setFormData] = useState({
@@ -11,8 +13,6 @@ const LoginDoctor = () => {
   });
 
   const [errors, setErrors] = useState({});
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-  const [showErrorAlert, setShowErrorAlert] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
   const navigate = useNavigate();
   const { onLoginSuccess } = useAuth();
@@ -23,30 +23,43 @@ const LoginDoctor = () => {
     setErrors({ ...errors, [name]: "" });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = {};
 
-    try {
-      const response = await loginDoctor.add(formData);
-      if (response.doctor ?? response.access_token) {
-        setShowSuccessAlert(true);
-        setIsRedirecting(true);
-
-        onLoginSuccess(response.access_token, response.doctor);
-
-      } else {
-        setShowErrorAlert(true);
-      }
-    } catch (error) {
-      console.error("Đăng nhập thất bại:", error.message);
-      setShowErrorAlert(true);
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Vui lòng nhập số điện thoại.";
+      isValid = false;
     }
+
+    if (!formData.password.trim()) {
+      newErrors.password = "Vui lòng nhập mật khẩu.";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
   };
 
-  const handleConfirmSuccess = () => {
-    setShowSuccessAlert(false);
-    if (isRedirecting) {
-      navigate("/doctors");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      try {
+        const response = await loginDoctor.add(formData);
+        if (response.doctor ?? response.access_token) {
+          onLoginSuccess(response.access_token, response.doctor);
+          MySwal.fire({
+            title: "Đăng nhập thành công!",
+            icon: "success",
+          });
+          navigate("/doctors");
+        }
+      } catch (error) {
+        MySwal.fire({
+          title: "Bạn đã sai tài khoản hoặc mật khẩu!",
+          icon: "error",
+        });
+      }
     }
   };
 
@@ -66,64 +79,51 @@ const LoginDoctor = () => {
                 </div>
                 <div className="col-md-12 col-lg-6 login-right">
                   <div className="login-header">
-                    <h2>ĐĂNG NHẬP (doctor)</h2>
-                    <Link to="/login">Đăng nhập với tư cách là user</Link>
+                    <h2>ĐĂNG NHẬP (Bác sĩ)</h2>
+                    <Link to="/login">Đăng nhập với tư cách là người dùng</Link>
                   </div>
                   <form onSubmit={handleSubmit}>
                     <div className="mb-3 form-focus">
                       <input
                         type="text"
-                        className="form-control floating"
+                        className={`form-control floating ${
+                          errors.phone ? "is-invalid" : ""
+                        }`}
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
                       />
                       <label className="focus-label">Nhập số điện thoại</label>
+                      {errors.phone && (
+                        <div className="invalid-feedback">{errors.phone}</div>
+                      )}
                     </div>
                     <div className="mb-3 form-focus">
                       <input
                         type="password"
-                        className="form-control floating"
+                        className={`form-control floating ${
+                          errors.password ? "is-invalid" : ""
+                        }`}
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
                       />
                       <label className="focus-label">Mật khẩu</label>
+                      {errors.password && (
+                        <div className="invalid-feedback">
+                          {errors.password}
+                        </div>
+                      )}
                     </div>
-                    <div className="text-end">
-                      <Link
-                        to="/forgot-password-doctor"
-                        className="forgot-link"
-                        href="forgot-password-Doctor"
-                      >
-                        Quên mật khẩu ?
-                      </Link>
-                    </div>
+
                     <button
                       className="btn btn-info w-100 btn-lg login-btn"
                       type="submit"
-                      style={{ color: 'white' }} // thêm dòng này để đổi màu chữ thành trắng
+                      style={{ color: "white" }}
                     >
                       Đăng nhập
                     </button>
                   </form>
-                  <SweetAlert
-                    success
-                    title="Đăng nhập thành công!"
-                    show={showSuccessAlert}
-                    onConfirm={handleConfirmSuccess}
-                  >
-                    Chào mừng bạn!
-                  </SweetAlert>
-
-                  <SweetAlert
-                    error
-                    title="Đăng nhập thất bại!"
-                    show={showErrorAlert}
-                    onConfirm={() => setShowErrorAlert(false)}
-                  >
-                    Vui lòng kiểm tra lại thông tin đăng nhập.
-                  </SweetAlert>
                 </div>
               </div>
             </div>

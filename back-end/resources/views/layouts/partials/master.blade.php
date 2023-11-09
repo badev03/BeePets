@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    @if(isset($charts))
+        {!! $charts->script() !!}
+    @endif
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="The responsive professional Doccure template offers many features, like scheduling appointments with  top doctors, clinics, and hospitals via voice, video call & chat.">
     <meta name="keywords" content="practo clone, doccure, doctor appointment, Practo clone html template, doctor booking template">
@@ -17,25 +20,30 @@
     <meta name="twitter:title" content="Doctors Appointment HTML Website Templates | Doccure">
     <meta name="twitter:description" content="The responsive professional Doccure template offers many features, like scheduling appointments with  top doctors, clinics, and hospitals via voice, video call & chat.">
     <meta name="twitter:image" content="assets/img/preview-banner.html">
-    <title>Dashboard</title>
+    <title>{{ $title ?? "Dashboard" }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('backend/assets/img/favicon.png')}}">
-
     <link rel="stylesheet" href="{{asset('backend/assets/css/bootstrap.min.css')}}">
-
     <link rel="stylesheet" href="{{asset('backend/assets/plugins/fontawesome/css/fontawesome.min.css')}}">
     <link rel="stylesheet" href="{{asset('backend/assets/plugins/fontawesome/css/all.min.css')}}">
-
     <link rel="stylesheet" href="{{asset('backend/assets/css/feathericon.min.css')}}">
     <link rel="stylesheet" href="{{asset('backend/assets/plugins/morris/morris.css')}}">
-
     <link rel="stylesheet" href="{{asset('backend/assets/css/custom.css')}}">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
+    <script src="https://kit.fontawesome.com/081aeecef0.js" crossorigin="anonymous"></script>
 
     @stack('style')
-</head>
-<body>
 
+</head>
+<style>
+    * {
+        font-family: 'Roboto Condensed', sans-serif;
+    }
+</style>
+<body>
+<script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+{!! Toastr::message() !!}
 <div class="main-wrapper">
 @include('layouts.partials.header')
 
@@ -56,11 +64,30 @@
 <script src="{{asset('backend/assets/plugins/slimscroll/jquery.slimscroll.min.js')}}"></script>
 <script src="{{asset('backend/assets/plugins/raphael/raphael.min.js')}}"></script>
 {{--<script src="{{asset('backend/assets/plugins/morris/morris.min.js')}}"></script>--}}
-<script src="{{asset('backend/assets/js/chart.morris.js')}}"></script>
+{{--<script src="{{asset('backend/assets/js/chart.morris.js')}}"></script>--}}
 
 @include('layouts.partials.script')
 @stack('script')
 
+<script>
+    $('.btn-remove').on('click', function(e) {
+        e.preventDefault();
+
+        data = {
+            "_token": '{{ csrf_token() }}',
+            "product_id": $(this).attr("data-id")
+        };
+        $.ajax({
+            url: '{{ route('carts.removeCart') }}',
+            method: "post",
+            data: data,
+            success: function(response) {
+                window.location.reload();
+                toastr.success(response.message, 'Success');
+            }
+        });
+    });
+</script>
 <script src="{{asset('backend/assets/js/script.js')}}"></script>
 </body>
 

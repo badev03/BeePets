@@ -14,15 +14,21 @@ class NewController extends BaseResponseApiController
     use QueryCommon;
     public $model = Newc::class;
     public $title = 'Tin tức ';
+
+    public function query() {
+        $query = $this->tableQuery('newcs')
+            ->select('newcs.id', 'newcs.name', 'newcs.slug', 'newcs.content' , 'newcs.image' , 'newcs.public_date'
+                , 'new_categories.id as categories_id')
+            ->join('new_categories' , 'new_categories.id' , '=' , 'newcs.new_categorie_id')
+            ->where('new_categories.status', '=', 1)
+            ->orderBy('newcs.created_at', 'desc');
+        return $query;
+    }
     public function index()
     {
-        $data = $this->tableQuery('newcs')
-            ->select('newcs.id', 'newcs.name', 'newcs.slug', 'newcs.content' , 'newcs.image' , 'newcs.public_date'
-                , 'new_categories.name as nameCategories')
-            ->join('new_categories' , 'new_categories.id' , '=' , 'newcs.new_categorie_id')
-            ->where('new_categories.status' , '=' , 1)
+        $data = $this->query()
             ->paginate(4);
-        if(!$data) {
+        if($data->isEmpty()) {
             return response()->json(['message' => $this->title.'không tồn tại'], 404);
         }
         return response()->json([
@@ -31,13 +37,8 @@ class NewController extends BaseResponseApiController
     }
 
     public function showNew() {
-        $data = $this->tableQuery('newcs')
-            ->select('newcs.id', 'newcs.name', 'newcs.slug', 'newcs.content' , 'newcs.image' , 'newcs.public_date'
-                , 'new_categories.name as nameCategories')
-            ->join('new_categories' , 'new_categories.id' , '=' , 'newcs.new_categorie_id')
-            ->where('new_categories.status' , '=' , 1)
-            ->limit(3)
-            ->get();
+        $data = $this->query()
+            ->limit(3)->get();
         if(!$data) {
             return response()->json(['message' => $this->title.'không tồn tại'], 404);
         }
@@ -46,21 +47,22 @@ class NewController extends BaseResponseApiController
         ] , '200');
     }
 
-    public function postNew() {
-        $data = $this->tableQuery('newcs')
-            ->select('newcs.id', 'newcs.name', 'newcs.slug', 'newcs.content' , 'newcs.image' , 'newcs.public_date'
-                , 'new_categories.name as nameCategories')
-            ->join('new_categories' , 'new_categories.id' , '=' , 'newcs.new_categorie_id')
-            ->where('new_categories.status', '=', 1)
-            ->orderBy('newcs.created_at', 'desc')
-            ->limit(5)
-            ->get();
-        if(!$data) {
-            return response()->json(['message' => $this->title.'không tồn tại'], 404);
+    public function postNew($name=null) {
+        $query = $this->query();
+        if($name) {
+            $data = $query->where('newcs.name', 'like', '%'.$name.'%')->get();
         }
-        return response()->json([
-            'new'=>$data
-        ] , '200');
+        else {
+            $data = $query->limit(5)->get();
+        }
+        if($data->isEmpty()) {
+            return response()->json(['message' => $this->title.'không có dữ liệu'], 404);
+        }
+        else {
+            return response()->json([
+                'new'=>$data
+            ] , '200');
+        }
     }
 
     public function categoriesNew() {
@@ -68,18 +70,16 @@ class NewController extends BaseResponseApiController
             ->select('new_categories.id', 'new_categories.name')
             ->where('new_categories.status', '=', 1)
             ->get();
-        if(!$categoriesNew) {
+        if($categoriesNew->isEmpty()) {
             return response()->json(['message' => $this->title.'không tồn tại'], 404);
         }
         $data = [];
         foreach ($categoriesNew as $category) {
-            $newItems = $this->tableQuery('newcs')
-                ->select('newcs.id', 'newcs.name')
+            $newItems = $this->query()
                 ->where('newcs.new_categorie_id', $category->id)
                 ->get();
             $data[] = [
                 'id' => $category->id,
-                'name' => $category->name,
                 'new' => $newItems,
             ];
         }
@@ -88,39 +88,19 @@ class NewController extends BaseResponseApiController
         ] , '200');
     }
 
-    public function searchNew($name) {
-        $data = $this->tableQuery('newcs')
-            ->select('newcs.id', 'newcs.name', 'newcs.slug', 'newcs.content' , 'newcs.image' , 'newcs.public_date'
-                , 'new_categories.name as nameCategories')
-            ->join('new_categories' , 'new_categories.id' , '=' , 'newcs.new_categorie_id')
-            ->where('new_categories.status', '=', 1)
-            ->where('newcs.name', 'like', '%'.$name.'%')
-            ->get();
-        if(!$data) {
-            return response()->json(['message' => $this->title.'không tồn tại'], 404);
-        }
-        return response()->json([
-            'new'=>$data
-        ] , '200');
-    }
-
     public function show(string $slug) {
-        $data = $this->tableQuery('newcs')
-            ->select('newcs.id', 'newcs.name', 'newcs.slug', 'newcs.content' , 'newcs.image' , 'newcs.public_date'
-                , 'new_categories.name as nameCategories')
-            ->join('new_categories' , 'new_categories.id' , '=' , 'newcs.new_categorie_id')
-            ->where('new_categories.status', '=', 1)
+        $data = $this->query()
             ->where('newcs.slug', '=', $slug)
             ->first();
         if(!$data) {
-            return response()->json(['message' => $this->title.'không tồn tại'], 404);
+            return response()->json(['message' => $this->title.'không có dữ liệu'], 404);
         }
         $relatedNew = $this->tableQuery('newcs')
             ->select('newcs.id', 'newcs.name')
             ->join('new_categories' , 'new_categories.id' , '=' , 'newcs.new_categorie_id')
             ->get();
         return response()->json([
-            'new-detail' => $data ,
+            'newDetail' => $data ,
             'new-related' => $relatedNew
         ],
             '200');
@@ -143,11 +123,7 @@ class NewController extends BaseResponseApiController
             ->get();
         return response()->json([
             'newDetail' => $data ,
-            'newRelated' => $relatedNew
         ],
             '200');
     }
-
-
-
 }

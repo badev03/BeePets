@@ -9,7 +9,16 @@ class AuthController extends Controller
 {
     public function index()
     {
-        return view('admin.users.login');
+        if(\auth()->check()) {
+            if(auth()->user()->hasAnyRole(['Admin', 'User' , 'Staff'])) {
+                return redirect()->route('dashboard');
+            }else {
+                return view('admin.users.login');
+            }
+        }
+        else {
+            return view('admin.users.login');
+        }
     }
 
     public function checkLogin(Request $rq)
@@ -66,4 +75,9 @@ class AuthController extends Controller
         Auth::logout();
         return redirect()->route('index');
     }
+
+    // public function myProfile()
+    // {
+    //     return view('');
+    // }
 }

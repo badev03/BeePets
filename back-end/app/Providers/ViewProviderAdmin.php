@@ -25,10 +25,16 @@ class ViewProviderAdmin extends ServiceProvider
 
     private function Notification() {
         View::composer('layouts.partials.header', function ($view) {
-            $notification = Notification::select('notifications.id', 'users.name' , 'message' , 'notifications.created_at')
+            $notification = Notification::select('notifications.id', 'users.name' ,'users.avatar',
+                'message' , 'notifications.created_at' , 'notifications.appointment_id' , 'notifications.message_admin')
                 ->join('users' , 'users.id' , '=' , 'notifications.user_id')
+                ->whereNotNull('notifications.message_admin')
+                ->orderBy('id','desc')
                 ->get();
+            $unreadNotificationCount = Notification::where('read', 0)
+                ->count();
             $view->with('notification', $notification);
+            $view->with('unreadNotificationCount' , $unreadNotificationCount);
         });
     }
 }

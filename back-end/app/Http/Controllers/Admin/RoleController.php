@@ -46,6 +46,7 @@ class RoleController extends BaseAdminController
             ]
         );
         $model->fill($request->except([$this->fieldImage,$this->slug]));
+        $model->guard_name = 'web';
         $model->save();
         if (isset($request->permissions)) {
             foreach ($request->permissions as $permissionName) {
@@ -107,7 +108,7 @@ class RoleController extends BaseAdminController
         $model = Role::findOrFail($id);
 
         $model->fill($request->except([$this->fieldImage]));
-
+        $model->guard_name = 'web';
         $model->save();
         if (isset($request->permissions)) {
             $model->syncPermissions($request->permissions);

@@ -2,7 +2,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import blogApi from '../../api/BlogApi';
+import HomepageBlogApi from '../../api/homepageBlog';
 
 const Homepage_Blog = () => {
   const [blogs, setBlogs] = useState([]);
@@ -10,10 +10,8 @@ const Homepage_Blog = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await blogApi.getAll();
+        const response = await HomepageBlogApi.getAll();
         setBlogs(response.new);
-        console(response);
-        console(12312321);
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
@@ -27,8 +25,8 @@ const Homepage_Blog = () => {
 
   function truncateText(text, lines) {
     const words = text.split(' ');
-    const truncatedText = words.slice(0, lines * 11).join(' ');
-    if (words.length > lines * 11) {
+    const truncatedText = words.slice(0, lines *8).join(' ');
+    if (words.length > lines * 8) {
       return `${truncatedText} ...`;
     }
     return truncatedText;
@@ -51,18 +49,21 @@ const Homepage_Blog = () => {
         </div>
         <div className="col-lg- col-md-12">
           <div className="row blog-grid-row">
-            {blogs.slice(0, 3).map(blog => (
+            {blogs.map(blog => (
               <div key={blog.id} className="col-md-4 col-sm-12">
                 <div className="blog grid-blog">
                   <div className="blog-image">
-                    <Link to={`/blog/${blog.id}`}><img className="img-fluid" src={blog.image} alt="Post Image" /></Link>
+                    <Link to={`/blog/${blog.slug}`}><img className="img-fluid" src={blog.image} alt="Post Image" /></Link>
                   </div>
                   <div className="blog-content">
                     <ul className="entry-meta meta-item">
                       <li><i className="far fa-clock" />{blog.public_date}</li>
                     </ul>
-                    <h3 className="blog-title"><Link to={`/blog/${blog.id}`}>{blog.name}</Link></h3>
-                    <p className="mb-0">{truncateText(blog.content, 2)}</p>
+                    <h3 className="blog-title"><Link to={`/blog/${blog.slug}`}>{blog.name}</Link></h3>
+                    <p
+                      className="mb-0"
+                      dangerouslySetInnerHTML={{ __html: truncateText(blog.content, 2) }}
+                    ></p>
                   </div>
                 </div>
               </div>
@@ -71,7 +72,8 @@ const Homepage_Blog = () => {
         </div>
 
         <div className="blog-btn-sec text-center aos aos-init aos-animate" data-aos="fade-up">
-          <a href="/blog" className="btn btn-primary btn-view">Đọc Thêm Bài Viết</a>
+          {/* <a href="/blog" className="btn btn-primary btn-view">Đọc Thêm Bài Viết</a> */}
+          <Link to="/blog" className="btn btn-primary btn-view">Đọc Thêm Bài Viết</Link>
         </div>
       </div>
     </div>

@@ -3,9 +3,10 @@
 @push('style')
     <link rel="stylesheet" href="{{asset('backend/assets/plugins/datatables/datatables.min.css')}}">
 @endpush
-@section('heading','hihihi')
+@section('heading','đ')
 @section('content')
     <div class="row">
+    
         <div class="col-sm-12">
             @if(session()->has('success_delete'))
                 <div class="alert-success alert">
@@ -22,84 +23,27 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-3">
-                        <h6 class="card-title text-danger">Bộ lọc</h6>
-                        <div class="col-4 mt-3">
-                            <label class="form-label">Loại thú cưng</label>
-                            <select class="form-select" name="type_pet_id">
-                                @foreach($dataTypePet as $key=>$value)
-                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-4 mt-3">
-                            <label class="form-label">Chọn bác sĩ</label>
-                            <select class="form-select doctor_id_index" name="doctor_id">
-                                @foreach($dataDoctor as $key=>$value)
-                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-4 mt-3">
-                            <label class="form-label">Dịch vụ</label>
-                            <select class="form-select service_id_index" name="service_id">
-                                @foreach($dataService as $key=>$value)
-                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-4 mt-3">
-                            <label class="form-label">Chọn ngày</label>
-                            <input style="height: 38px" type="date" class="form-control" id="date_filter">
-                        </div>
-                        <div class="col-4 mt-3">
-                            <label class="form-label">Ca làm việc</label>
-                            <select class="form-select" id="time_appointments" name="time_appointments">
-                                    <option value="Ca 1">Ca 1</option>
-                                    <option value="Ca 2">Ca 2</option>
-                                    <option value="Ca 3">Ca 3</option>
-                            </select>
-                        </div>
-                        <div class="col-4 mt-3">
-                            <label class="form-label">Tên người dùng</label>
-                            <input style="height: 38px" id="search_input" name="name" type="text" class="form-control">
+                    @include('admin.appointments.filter-data-module-appointments')
+                    <a data-bs-toggle="modal" href="#appointments-clear-appointment-data"  class="btn btn-sm bg-info-light">Hủy các cuộc hẹn không đến</a>
+
+                    <div class="modal fade" id="appointments-clear-appointment-data" aria-hidden="true" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="form-content p-2 text-center">
+                                        <h4 class="modal-title">Xóa các cuộc hẹn đã quá thời gian đến</h4>
+                                        <p class="mb-4">Bạn có chắc chắn xóa không</p>
+                                        <div class="d-flex justify-content-center" style="gap: 1rem">
+                                            <a href="{{ route('appointments.clear-appointment-data') }}" class="btn bg-success-light"
+                                                    type="submit">Xóa
+                                            </a>
+                                            <button type="button" class="btn bg-danger-light" data-bs-dismiss="modal">Đóng</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <button id="filter_searchName" class="btn me-2 btn-sm bg-success-light mt-3">Filter</button>
-                    <a href="{{ route($urlbase.'index') }}" class="btn btn-sm bg-danger-light mt-3">Clear Filter</a>
-                    <hr class="hr"/>
-
-                    <h6 class="card-title text-danger">Bộ lọc ngày</h6>
-                    <div class="row">
-                        <div class="col-4 mt-3">
-                            <label class="form-label">Ca sắp tới</label>
-                            <select class="form-select" name="type_pet_id">
-                                @foreach($dataTypePet as $key=>$value)
-                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="col-4 mt-3">
-                            <label class="form-label">Ca sắp tới</label>
-                            <select class="form-select" name="type_pet_id">
-                                @foreach($dataTypePet as $key=>$value)
-                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                    <hr class="hr"/>
-
-                    <div class="row mt-3">
-                        <h6 class="card-title text-danger">Tìm kiếm tài khoản </h6>
-                        <div class="col-4 mt-3">
-                            <label class="form-label">Số điện thoại người dùng</label>
-                            <input style="height: 38px" id="search_phone" name="phoneSearch" type="text" class="form-control">
-                        </div>
-                    </div>
-                    <button id="filter_searchPhone" class="btn me-2 btn-sm bg-success-light mt-3">Tìm kiếm</button>
 
                 </div>
                 <div class="card-body">
@@ -110,6 +54,8 @@
                                 @foreach ($colums as $colum=>$name)
                                     <td>{{$name}}</td>
                                 @endforeach
+                                <td>Trạng thái</td>
+                                <td>Ngày hẹn</td>
                                 <td>Thời gian cuộc hẹn</td>
                                 <td>Hành động</td>
                             </thead>
@@ -123,11 +69,26 @@
                                             <td>{{ $value->service_id }}</td>
                                             <td>{!! $value->description !!}</td>
                                             <td>
-                                                {{ '5 Nov 2023' }}
-                                                <span class="text-primary d-block">{{ $value->date }}
-                                                    - {{ $value->date }} AM</span>
+                                                @if($value->status == 6)
+                                                    <button class="btn btn-sm bg-info-light">
+                                                        {{ 'Yêu cầu hủy' }}
+                                                    </button>
+                                                @elseif($value->status == 1)
+                                                    <button class="btn btn-sm bg-success-light">
+                                                        {{ 'Xác nhận' }}
+                                                    </button>
+                                                @elseif($value->status == 3)
+                                                    <button class="btn btn-sm bg-danger-light">
+                                                        {{ 'Hoàn thành' }}
+                                                    </button>
+                                                @endif
                                             </td>
-                                        @include('admin.components.button.action-index')
+                                            <td>{!! $value->date !!}</td>
+                                            <td>
+                                                <span class="text-primary d-block">{{ $value->start_time }}
+                                                    - {{ $value->end_time }} AM</span>
+                                            </td>
+                                        @include('admin.components.button.action-index-status')
                                         </tr>
                                     @endforeach
                             </tbody>
@@ -147,14 +108,16 @@
 
         var dateInput = document.getElementById('date_filter');
         dateInput.min = currentDateString;
-
-    //    bộ lọc
+        //    bộ lọc
         $(document).ready(function () {
-            $('#date_filter').change(function () {
+            var status_cho_xac_nhan = 1;
+            $('.date_filter').change(function () {
                 var data = $(this).val();
+                var route = '{{ route($urlbase.'filter-date', '') }}/' + data + '/' + status_cho_xac_nhan;
+                console.log(route)
                 $.ajax({
                     type : 'GET',
-                    url : '{{ route($urlbase.'filter-date' , '') }}' + '/' + data,
+                    url :route,
                     success: function (data) {
                         clearData()
                         var html = '';
@@ -163,38 +126,37 @@
                             html += '<tr><td colspan="7">KHÔNG CÓ DỮ LIỆU</td></tr>';
                         }
                         else {
-                            $.each(data.day_appointments , function (key , value) {
-                                if(value.shift_appointment === 2) {
-                                    time+= '<td>' + value.day_appointments +'' +
+                            $.each(data.day_appointments, function (key, value) {
+                                if (value.shift_appointment === 2) {
+                                    time += '<td>' + value.day_appointments + '' +
                                         '<span class="text-primary d-block">11:00:00 - 13:00:00 AM</span>' +
                                         '</td>'
-                                }
-                                else if(value.shift_appointment === 1) {
-                                    time+= '<td>' + value.day_appointments +'' +
+                                } else if (value.shift_appointment === 1) {
+                                    time += '<td>' + value.day_appointments + '' +
                                         '<span class="text-primary d-block">09:00:00 - 11:00:00 AM</span>' +
                                         '</td>'
-                                }
-                                else if(value.shift_appointment === 3) {
-                                    time+= '<td>' + value.day_appointments +'' +
+                                } else if (value.shift_appointment === 3) {
+                                    time += '<td>' + value.day_appointments + '' +
                                         '<span class="text-primary d-block">13:00:00 - 15:00:00 AM</span>' +
                                         '</td>'
                                 }
-                                html+= '<tr>' +
-                                    '<td>' + (key+1) +'</td>' +
+                                html += '<tr>' +
+                                    '<td>' + (key + 1) + '</td>' +
                                     '<td>' + value.doctor_id + '</td>' +
                                     '<td>' + value.user_id + '</td>' +
                                     '<td>' + value.type_pet_id + '</td>' +
                                     '<td>' + value.service_id + '</td>' +
-                                    '<td>' + value.service_id + '</td>' +
-                                    '<td>'+ value.description +'</td>' +
-                                    button_action(value.id) +
+                                    '<td>' + value.description + '</td>' +
+                                    status(value.status) +
+                                    '<td>' + value.date + '</td>' +
+                                    '<td>' + value.start_time + ' - ' + value.end_time + ' AM</td>' +
+                                    action_status(value.status, value.id) +
                                     '</tr>';
-                            })
-                            button_action()
-                        }
-                        $('#tbody_table').html(html);
+                                button_action()
+                                $('#tbody_table').html(html);
 
-                    },
+                            })
+                        }},
                     error: function (xhr, status, error) {
                         console.log(error);
                     }
@@ -203,9 +165,10 @@
 
             $('.service_id_index').change(function () {
                 var data = $(this).val();
+                var route = '{{ route($urlbase.'filter-service', '') }}/' + data + '/' + status_cho_xac_nhan;
                 $.ajax({
                     type : 'GET',
-                    url : '{{ route($urlbase.'filter-service' , '') }}' + '/' + data,
+                    url : route,
                     success: function (data) {
                         clearData()
                         var html = '';
@@ -221,9 +184,11 @@
                                     '<td>' + value.user_id + '</td>' +
                                     '<td>' + value.type_pet_id + '</td>' +
                                     '<td>' + value.service_id + '</td>' +
-                                    '<td>' + value.service_id + '</td>' +
-                                    '<td>'+ value.description +'</td>' +
-                                    button_action(value.id) +
+                                    '<td>' + value.description + '</td>' +
+                                    status(value.status)+
+                                    '<td>' + value.date + '</td>' +
+                                    '<td>' + value.start_time + ' - ' + value.end_time + ' AM</td>' +
+                                    action_status(value.status , value.id) +
                                     '</tr>';
                             })
                             button_action()
@@ -239,9 +204,10 @@
 
             $('.doctor_id_index').change(function () {
                 var data = $(this).val();
+                var route = '{{ route($urlbase.'filter-doctor', '') }}/' + data + '/' + status_cho_xac_nhan;
                 $.ajax({
                     type : 'GET',
-                    url : '{{ route($urlbase.'filter-doctor' , '') }}' + '/' + data,
+                    url : route,
                     success: function (data) {
                         clearData()
                         var html = '';
@@ -257,9 +223,11 @@
                                     '<td>' + value.user_id + '</td>' +
                                     '<td>' + value.type_pet_id + '</td>' +
                                     '<td>' + value.service_id + '</td>' +
-                                    '<td>' + value.service_id + '</td>' +
-                                    '<td>'+ value.description +'</td>' +
-                                    button_action(value.id) +
+                                    '<td>' + value.description + '</td>' +
+                                    status(value.status)+
+                                    '<td>' + value.date + '</td>' +
+                                    '<td>' + value.start_time + ' - ' + value.end_time + ' AM</td>' +
+                                    action_status(value.status , value.id) +
                                     '</tr>';
                             })
                             button_action()
@@ -273,10 +241,11 @@
                 })
             })
 
-            $('#filter_searchName').click(function () {
-                var searchTerm = $('#search_input').val();
+            $('.filter_searchName').click(function () {
+                var searchTerm = $('.search_input').val();
                 var postData = {
-                    searchTerm: searchTerm
+                    searchTerm: searchTerm ,
+                    status : status_cho_xac_nhan
                 };
 
                 $.ajax({
@@ -310,15 +279,17 @@
                                         '<span class="text-primary d-block">13:00:00 - 15:00:00 AM</span>' +
                                         '</td>'
                                 }
-                                html+= '<tr>' +
-                                    '<td>' + (key+1) +'</td>' +
+                                html += '<tr>' +
+                                    '<td>' + (key + 1) + '</td>' +
                                     '<td>' + value.doctor_id + '</td>' +
                                     '<td>' + value.user_id + '</td>' +
                                     '<td>' + value.type_pet_id + '</td>' +
                                     '<td>' + value.service_id + '</td>' +
-                                    '<td>' + value.service_id + '</td>' +
-                                    '<td>'+ value.description +'</td>' +
-                                    button_action(value.id) +
+                                    '<td>' + value.description + '</td>' +
+                                    status(value.status) +
+                                    '<td>' + value.date + '</td>' +
+                                    '<td>' + value.start_time + ' - ' + value.end_time + ' AM</td>' +
+                                    action_status(value.status, value.id) +
                                     '</tr>';
                             })
                             button_action()
@@ -395,13 +366,14 @@
             })
         })
 
-        $('#time_appointments').change(function () {
-            var time_appointments = $('#time_appointments').find(":selected").val();
+        $('.time_appointments').change(function () {
+            var time_appointments = $('.time_appointments').find(":selected").val();
+            var status_cho_xac_nhan = 1;
+            var route = '{{ route($urlbase.'time', '') }}/' + time_appointments + '/' + status_cho_xac_nhan;
             $.ajax({
                 type: 'GET',
-                url : '{{ route($urlbase.'time' , '') }}' + '/' + time_appointments,
+                url : route,
                 success: function (data) {
-                    console.log(data)
                     clearData()
                     var html = '';
                     var time = '';
@@ -425,15 +397,17 @@
                                     '<span class="text-primary d-block">13:00:00 - 15:00:00 AM</span>' +
                                     '</td>'
                             }
-                            html+= '<tr>' +
-                                '<td>' + (key+1) +'</td>' +
+                            html += '<tr>' +
+                                '<td>' + (key + 1) + '</td>' +
                                 '<td>' + value.doctor_id + '</td>' +
                                 '<td>' + value.user_id + '</td>' +
                                 '<td>' + value.type_pet_id + '</td>' +
                                 '<td>' + value.service_id + '</td>' +
-                                '<td>' + value.service_id + '</td>' +
-                                '<td>'+ value.description +'</td>' +
-                                button_action(value.id) +
+                                '<td>' + value.description + '</td>' +
+                                status(value.status) +
+                                '<td>' + value.date + '</td>' +
+                                '<td>' + value.start_time + ' - ' + value.end_time + ' AM</td>' +
+                                action_status(value.status, value.id) +
                                 '</tr>';
                         })
                         button_action()
@@ -475,5 +449,68 @@
                 '</div>' +
                 '</td>';
         }
+
+        function status(status) {
+            let html = '';
+            if (status == 0) {
+                html += '<td>' +
+                    '<button class="btn btn-sm bg-info-light">Chờ xác nhận</button>' +
+                    '</td>';
+            }
+            else if(status == 1) {
+                html += '<td>' +
+                    '<button class="btn btn-sm bg-info-light">Xác nhận</button>' +
+                    '</td>';
+            }
+            return html;
+        }
+
+        function action_status(status , id) {
+            let html = '';
+            var Route = '{{ route('appointments.detail-bills-appointment', ":id") }}'
+            Route = Route.replace(':id', id);
+            if (status == 0) {
+                html += '<td class="d-flex" style="grid-gap:1rem">' +
+                    '<div class="d-flex" style="grid-gap:0.5rem">' +
+                    '<a href="'+Route+'" class="delete_data btn btn-sm bg-info-light">' +
+                    'Xem chi tiết cuộc hẹn / bill' +
+                    '</a>' +
+                    '<a class="btn btn-sm bg-success-light" href="#xac_nhan_'+id+'" data-bs-toggle="modal">' +
+                    '<svg fill="#e63c3c" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" xml:space="preserve" width="19px" height="19px">' +
+                    '<g id="SVGRepo_bgCarrier" stroke-width="0"></g>' +
+                    '<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>' +
+                    '<g id="SVGRepo_iconCarrier"> ' +
+                    '<style type="text/css"> .st0{fill:none;} </style>' +
+                    '<path d="M19.3,5.3L9,15.6l-4.3-4.3l-1.4,1.4l5,5L9,18.4l0.7-0.7l11-11L19.3,5.3z"></path> ' +
+                    '<rect class="st0" width="24" height="24"></rect>' +
+                    '</g>' +
+                    '</svg>' +
+                    'Xác nhận' +
+                    '</a>' +
+                    '<a data-bs-toggle="modal" data-delete="' + id + '" href="#delete_modal_' + id + '" class="delete_data btn btn-sm bg-danger-light">' +
+                    '<i class="fe fe-trash"></i> Hủy lịch' +
+                    '</a>' +
+                    '</div>' +
+                    '</td>';
+            }
+            else if (status == 1) {
+                html += '<td class="d-flex" style="grid-gap:1rem">' +
+                    '<div class="d-flex" style="grid-gap:0.5rem">' +
+                    '<a href="' + Route + '" class="delete_data btn btn-sm bg-info-light">' +
+                    'Xem chi tiết cuộc hẹn / bill' +
+                    '</a>' +
+                    '<a class="btn btn-sm bg-danger-light" href="#finished_' + id + '" data-bs-toggle="modal">' +
+                    '<svg fill="#e63c3c" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" xml:space="preserve" width="19px" height="19px"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css"> .st0{fill:none;} </style> <path d="M19.3,5.3L9,15.6l-4.3-4.3l-1.4,1.4l5,5L9,18.4l0.7-0.7l11-11L19.3,5.3z"></path> <rect class="st0" width="24" height="24"></rect> </g></svg> Hoàn thành</a>' +
+                    '<a data-bs-toggle="modal" data-delete="' + id + '" href="#delete_modal_' + id + '" class="delete_data btn btn-sm bg-danger-light">' +
+                    '<i class="fe fe-trash"></i> Hủy lịch' +
+                    '</a>' +
+                    '</div>' +
+                    '</td>';
+            }
+            return html;
+        }
+
+
     </script>
 @endpush
+

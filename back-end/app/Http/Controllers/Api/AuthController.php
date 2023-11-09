@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Models\OtpToken;
 use App\Models\User;
 use App\Traits\QueryCommon;
 use Illuminate\Http\Request;
@@ -19,64 +17,49 @@ class AuthController extends BaseResponseApiController
 
     }
 
-    public function checkPhone() {
-        return view('api.login');
-    }
-
     public function checkerPhone(Request $request) {
-        $validator = $this->validateForm($request->all() , 'loginOtp');
+        $validator = $this->validateForm($request->all() , 'register');
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         }
-        $phone_number = '0969025884';
+        $phone_number = $request->input('phone');
         if($phone_number) {
-            $check_exit_phone = $this->tableQuery('users')
-                ->where('role_id' , '=' , 4)
-                ->where('phone' , '=' , $phone_number)->first();
+            $check_exit_phone = $this->checkPhone($phone_number);
             if($check_exit_phone) {
                 return response()->json(['exists' => true , 'msg' => 'Có số điện thoại'], 200);
             }
             else {
-                return response()->json(['exists' => false , 'msg' => 'xin lỗi ko tồn tại số điện thoại'], 200);
+                return response()->json(['exists' => false , 'msg' => 'xin lỗi ko tồn tại số điện thoại'], 400);
             }
         }
+        return response()->json(['msg'=>'bạn phải nhập số điện thoại'], 400);
     }
 
     public function LoginUserOtp(Request $request) {
-        $validator = $this->validateForm($request->all() , 'loginOtp');
+        $validator = $this->validateForm($request->all() , 'register');
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         }
         $phone_number = '0981608298';
         if($phone_number) {
-            $check_exit_phone = $this->tableQuery('users')
-                ->where('role_id' , '=' , 4)
-                ->where('phone' , '=' , $phone_number)->first();
+            $check_exit_phone = $this->checkPhone($phone_number);
             if($check_exit_phone) {
                 return response()->json(['exists' => true , 'msg' => 'Có số điện thoại'], 200);
             }
             else {
-                return response()->json(['exists' => false , 'msg' => 'xin lỗi ko tồn tại số điện thoại'], 200);
+                return response()->json(['exists' => false , 'msg' => 'xin lỗi ko tồn tại số điện thoại'], 400);
             }
         }
     }
 
     public function CheckVerify(Request $request) {
-//        $phone_number = $request->input('phone');
-        $phone_number = '0981608298';
+        $phone_number = $request->input('phone');
         if($phone_number) {
-            $check_exit_phone = User::where('phone', $phone_number)
-                ->where('role_id' , '=' , 4)
-                ->first();
-//            $check_exit_phone = $this->tableQuery('users')
-//                ->where('role_id' , '=' , 4)
-//                ->where('phone' , '=' , $phone_number)->first();
-
+            $check_exit_phone = $this->checkPhone($phone_number);
             if($check_exit_phone) {
                 Auth::login($check_exit_phone);
                 $user = Auth::user();
                 $token = $user->createToken('AccessToken', ['*'])->plainTextToken;
-//                $token = $check_exit_phone->createToken('AccessToken')->plainTextToken;
                 return response()->json([
                     'users' => $user ,
                     'token' => $token ,
@@ -106,19 +89,13 @@ class AuthController extends BaseResponseApiController
             if (Auth::guard('web')->attempt(['phone' => $phone_number, 'password' => $password])) {
                 $userToken = Auth::user();
                 $token = $userToken->createToken('AccessToken', ['*'])->plainTextToken;
-                $user = $this->tableQuery('users')->where('phone', '=', $phone_number)
-                    ->where('role_id', '=', 4)->first();
+                $user = $this->checkPhone($phone_number);
                 return response()->json(['message' => 'Đăng nhập thành công', 'user' => $userToken , 'token'=>$token], 200);
             } else {
                 return response()->json(['message' => 'Bạn đã sai tài khoản hoặc mật khẩu'], 400);
             }
         }
     }
-
-    // public function LogoutUser(Request $request) {
-    //         $request->user()->currentAccessToken()->delete();
-    //     return response()->json(['msg'=>'Đăng xuất thành công']);
-    // }
 
     public function LogoutUser(Request $request) {
         if (auth()->guard('doctors')->check()) {
@@ -144,16 +121,167 @@ class AuthController extends BaseResponseApiController
             }
         }
         $phone_number = $request->input('phone');
-        $existingUser = $this->tableQuery('users')
-            ->where('phone' , '=' , $phone_number)
-            ->where('role_id' , '=' , 4)
-            ->first();
-
+        $existingUser = $this->checkPhone($phone_number);
         if($existingUser) {
             return response()->json(['msg' => 'Số điện thoại này đã được đăng ký'], 400);
         }
         else {
             return response()->json(['msg' => 'oki đến verify'], 200);
+        }
+    }
+
+
+    public function CheckVerifyRegister(Request $request) {
+        $validator = $this->validateForm($request->all() , 'register');
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+        $phone_number = $request->input('phone');
+        $existingUser = $this->checkPhone($phone_number);
+        if($phone_number) {
+            if($existingUser) {
+                return response()->json(['msg' => 'Số điện thoại này đã được đăng ký'], 400);
+            }
+            else {
+                return response()->json(['msg' => 'Đi đến tạo mật khẩu'], 200);
+            }
+        }
+    }
+
+    public function CreatePassword(Request $request) {
+        $validator = $this->validateForm($request->all() , 'login');
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+        $password = $request->input('password');
+        $phoneNumber = $request->input('phone');
+        $existingUser = $this->checkPhone($phoneNumber);
+            if($existingUser) {
+                return response()->json(['msg' => 'Số điện thoại này đã tồn tại'] , 400);
+            }
+            else {
+                $this->tableQuery('users')->insert([
+                    'name' => $phoneNumber,
+                    'email' => $phoneNumber.'@gmail.com',
+                    'password' => Hash::make($password),
+                    'role_id' => 4,
+                    'status' => 1,
+                    'phone' => $phoneNumber,
+                ]);
+            return response()->json(['msg' => 'Đã tạo tài khoản thành công'], 200);
+        }
+    }
+
+    public function ForgetPassWord(Request $request) {
+        $validator = $this->validateForm($request->all() , 'register');
+        if ($validator->fails()) {
+            if($validator->errors()->has('phone') || $validator->errors()->has('password')) {
+                return response()->json(
+                    [
+                        'phone' => $validator->errors()->first('phone') ,
+                    ], 400);
+            }
+        }
+        $phone_number = $request->input('phone');
+        $existingUser = $this->checkPhone($phone_number);
+        if($existingUser) {
+            return response()->json(['msg' => 'Đến Đặt lại mật khẩu'], 200);
+        }
+        else {
+            return response()->json(['msg' => 'Xin lỗi bạn số điên thoại không hợp lệ'], 400);
+        }
+    }
+
+    public function CheckVerifyForgetPassword(Request $request) {
+        $phone_number = $request->input('phone');
+        if($phone_number) {
+            $update_user = $this->tableQuery('users')
+                ->where('phone' , '=' , $phone_number)
+                ->update(
+                [
+                    'password' => Hash::make($phone_number),
+                    'updated_at' => now(),
+                ]
+            );
+            if($update_user) {
+                $user = $this->checkPhone($phone_number);
+
+                return response()->json([
+                    'msg' => 'Đã update dữ liệu thành công hehe',
+                    'users' => $user,
+                ], 200);
+            }
+            else {
+                return response()->json([
+                    'msg' => 'Dữ liệu chưa được update',
+                ], 400);
+            }
+        }
+    }
+
+    public function ResetPassword(Request $request , $phone_number) {
+        $validator = $this->validateForm($request->all() , 'password_reset');
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+        $password = $request->input('password');
+        if($phone_number) {
+            $update_user = $this->tableQuery('users')
+                ->where('phone' , '=' , $phone_number)
+                ->update(
+                    [
+                        'password' => Hash::make($password),
+                        'updated_at' => now(),
+                    ]
+                );
+            if($update_user) {
+                $user = $this->checkPhone($phone_number);
+                return response()->json([
+                    'msg' => 'Đã update dữ liệu thành công hehe',
+                    'users' => $user,
+                ], 200);
+            }
+            else {
+                return response()->json([
+                    'msg' => 'Dữ liệu chưa được update',
+                ], 400);
+            }
+        }
+    }
+
+
+
+    public function ChangePassword(Request $request , $phone) {
+        $validator = $this->validateForm($request->all() , 'change_password');
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+        $existingUser = $this->checkPhone($phone);
+        $password = $request->input('new_password');
+        $password_again = $request->input('password_confirmation');
+        if($existingUser) {
+            if (password_verify($request->input('old_password'), $existingUser->password)) {
+                if($password === $password_again) {
+                    $update_user = $this->tableQuery('users')
+                        ->where('phone' , '=' , $phone)
+                        ->update(
+                            [
+                                'password' => Hash::make($password),
+                                'updated_at' => now(),
+                            ]
+                        );
+                    return response()->json(['msg' => 'Đổi mật khẩu thành công'], 200);
+                }
+                else {
+                    return response()->json(['msg' => 'Mật khẩu hiện tại không chính xác'], 400);
+                }
+            } else {
+                return response()->json(['msg' => 'Mật khẩu hiện tại không chính xác'], 400);
+            }
+        }
+
+        else {
+            return response()->json(['msg' => 'Số điện thoại không chính xác'], 200);
         }
     }
 
@@ -194,14 +322,6 @@ class AuthController extends BaseResponseApiController
                     'password.confirmed' => 'Trường password_confirmation không khớp với trường password xác nhận',
                 ]);
                 break;
-            case 'loginOtp' :
-                $validator = Validator::make($data, [
-                    'phone' => 'required|numeric',
-                ] , [
-                    'phone.required' => 'Trường phone không được để trống',
-                    'phone.numeric' => 'Trường phone phải là số',
-                ]);
-                break;
             case 'createPass':
                 $validator = Validator::make($data, [
                     'password' => 'required|min:6|confirmed',
@@ -237,173 +357,30 @@ class AuthController extends BaseResponseApiController
     }
 
 
-    public function CheckVerifyRegister(Request $request) {
-        $validator = $this->validateForm($request->all() , 'register');
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 400);
-        }
-        $phone_number = $request->input('phone');
-        $existingUser = $this->tableQuery('users')
-            ->where('phone' , '=' , $phone_number)
-            ->where('role_id' , '=' , 4)
-            ->first();
-        if($phone_number) {
-            if($existingUser) {
-                return response()->json(['msg' => 'Số điện thoại này đã được đăng ký'], 400);
-            }
-            else {
-                return response()->json(['msg' => 'Đi đến tạo mật khẩu'], 200);
-            }
-        }
-    }
-
-    public function CreatePassword(Request $request , $phone) {
+    public function ForGetPasswordUser(Request $request , $phone) {
         $validator = $this->validateForm($request->all() , 'createPass');
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         }
+        $existingUser = $this->checkPhone($phone);
         $password = $request->input('password');
         $password_again = $request->input('password_confirmation');
-        if ($password === $password_again) {
-            $insert_user = $this->tableQuery('users')->insert(
-                [
-                    'name' => $phone,
-                    'phone' => $phone,
-                    'email' => $phone.'@gmail.com',
-                    'password' => Hash::make($password),
-                    'status' => 1,
-                    'role_id' => 4,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]
-            );
-            return response()->json(['msg' => 'Đã tạo tài khoản thành công'], 200);
-        }
-        elseif($password != $password_again) {
-            return response()->json(['errors' => ['password_confirmation' => 'Xác nhận mật khẩu không khớp']], 400);
-        }
-    }
-
-    public function ForgetPassWord(Request $request) {
-        $validator = $this->validateForm($request->all() , 'register');
-        if ($validator->fails()) {
-            if($validator->errors()->has('phone') || $validator->errors()->has('password')) {
-                return response()->json(
-                    [
-                        'phone' => $validator->errors()->first('phone') ,
-                    ], 400);
-            }
-        }
-        $phone_number = $request->input('phone');
-        $existingUser = $this->tableQuery('users')
-            ->where('phone' , '=' , $phone_number)
-            ->where('role_id' , '=' , 4)
-            ->first();
-        if($existingUser) {
-            return response()->json(['msg' => 'oki đến verify cho phép ắt đầu verify'], 200);
-        }
-        else {
-            return response()->json(['msg' => 'Xin lỗi bạn số điên thoại không hợp lệ'], 400);
-        }
-    }
-
-    public function CheckVerifyForgetPassword(Request $request) {
-        $phone_number = $request->input('phone');
-        if($phone_number) {
-            $update_user = $this->tableQuery('users')
-                ->where('phone' , '=' , $phone_number)
-                ->update(
-                [
-                    'password' => Hash::make($phone_number),
-                    'updated_at' => now(),
-                ]
-            );
-            if($update_user) {
-                $user = $this->tableQuery('users')
-                    ->where('role_id' , '=' , 4)
-                    ->where('phone' , '=' , $phone_number)->first();
-
-                return response()->json([
-                    'msg' => 'Đã update dữ liệu thành công hehe',
-                    'users' => $user,
-                ], 200);
-            }
-            else {
-                return response()->json([
-                    'msg' => 'Dữ liệu chưa được update',
-                ], 400);
-            }
-        }
-    }
-
-    public function ResetPassword(Request $request , $phone_number) {
-        $validator = $this->validateForm($request->all() , 'password_reset');
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 400);
-        }
-        $password = $request->input('password');
-        if($phone_number) {
-            $update_user = $this->tableQuery('users')
-                ->where('phone' , '=' , $phone_number)
-                ->update(
-                    [
+        if ($existingUser) {
+            if ($password === $password_again) {
+                // Đặt mật khẩu mới và cập nhật ngày cập nhật
+                $update_user = $this->tableQuery('users')
+                    ->where('phone', '=', $phone)
+                    ->update([
                         'password' => Hash::make($password),
                         'updated_at' => now(),
-                    ]
-                );
-            if($update_user) {
-                $user = $this->tableQuery('users')
-                    ->where('role_id' , '=' , 4)
-                    ->where('phone' , '=' , $phone_number)->first();
-                return response()->json([
-                    'msg' => 'Đã update dữ liệu thành công hehe',
-                    'users' => $user,
-                ], 200);
-            }
-            else {
-                return response()->json([
-                    'msg' => 'Dữ liệu chưa được update',
-                ], 400);
-            }
-        }
-    }
+                    ]);
 
-
-
-    public function ChangePassword(Request $request , $phone) {
-        $validator = $this->validateForm($request->all() , 'change_password');
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 400);
-        }
-        $existingUser = $this->tableQuery('users')
-            ->where('phone' , '=' , $phone)
-            ->where('role_id' , '=' , 4)
-            ->first();
-        $password = $request->input('new_password');
-        $password_again = $request->input('password_confirmation');
-        if($existingUser) {
-            if (password_verify($request->input('old_password'), $existingUser->password)) {
-                if($password === $password_again) {
-                    $update_user = $this->tableQuery('users')
-                        ->where('phone' , '=' , $phone)
-                        ->update(
-                            [
-                                'password' => Hash::make($password),
-                                'updated_at' => now(),
-                            ]
-                        );
-                    return response()->json(['msg' => 'Đổi mật khẩu thành công'], 200);
-                }
-                else {
-                    return response()->json(['msg' => 'Mật khẩu hiện tại không chính xác'], 400);
-                }
+                return response()->json(['msg' => 'Đặt mật khẩu mới thành công'], 200);
             } else {
-                return response()->json(['msg' => 'Mật khẩu hiện tại không chính xác'], 400);
+                return response()->json(['msg' => 'Xác nhận mật khẩu không khớp'], 400);
             }
-        }
-
-        else {
-            return response()->json(['msg' => 'Số điện thoại không chính xác'], 200);
+        } else {
+            return response()->json(['msg' => 'Số điện thoại không chính xác'], 400);
         }
     }
 }

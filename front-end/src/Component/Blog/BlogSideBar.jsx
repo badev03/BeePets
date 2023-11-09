@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import blogCategoryApi from "../../api/categoryBlogApi";
 import BlogTopList from "./BlogTopList";
+import { Link } from "react-router-dom";
 
 const BlogSideBar = ({ onSearchChange, onSearchSubmit, searchTerm }) => {
   const [categoryBlogs, setCategoryBlogs] = useState([]);
@@ -18,11 +19,6 @@ const BlogSideBar = ({ onSearchChange, onSearchSubmit, searchTerm }) => {
     fetchCategoryBlog();
   }, []);
 
-  const getBlogCount = (categoryId) => {
-    return categoryBlogs.filter((blog) => blog.new_categorie_id === categoryId)
-      .length;
-  };
-
   return (
     <div className="col-lg-4 col-md-12 sidebar-right theiaStickySidebar">
       <BlogTopList
@@ -38,10 +34,10 @@ const BlogSideBar = ({ onSearchChange, onSearchSubmit, searchTerm }) => {
           <ul className="categories">
             {categoryBlogs.map((category) => (
               <li key={category.id}>
-                <a href={`/blogs/category/${category.id}`}>
+                <Link to={`/blog/category/${category.id}`}>
                   {category.name}{" "}
-                  <span>({getBlogCount(category.new_categorie_id)})</span>
-                </a>
+                  <span>{category.new.length}</span>
+                </Link>
               </li>
             ))}
           </ul>

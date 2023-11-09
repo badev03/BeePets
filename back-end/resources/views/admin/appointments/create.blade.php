@@ -95,6 +95,13 @@
                                                 @endif
                                             @endforeach
                                             <div class="col-md-10 mb-3">
+                                                <label class="col-form-label col-md-2 text-success">Trạng thái</label>
+                                                <select class="form-select" name="status" id="status">
+                                                    <option value="0">Chờ xác nhận</option>
+                                                    <option value="1">Xác nhận</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-10 mb-3">
                                                 <label class="col-form-label col-md-2 text-success">Chọn ngày</label>
                                                 <input id="day-create" type="date" class="form-control api_day_create" name="date" value="{{ date('Y-m-d') }}"/>
                                                 @if($errors->has('date'))

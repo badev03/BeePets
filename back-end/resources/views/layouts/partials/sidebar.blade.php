@@ -2,22 +2,28 @@
     <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
             <ul>
-                <li class="menu-title">
-                    <span>Main</span>
-                </li>
                 <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                    <a href="{{ route('dashboard') }}"><i class="fe fe-home"></i> <span>Dashboard</span></a>
+                    <a href="{{ route('dashboard') }}"><i class="fe fe-home"></i> <span>Bảng điều khiển</span></a>
                 </li>
                 <li class="submenu">
                     <a href="#">
                         <i class="fe fe-layout"></i>
-                        <span> Cuộn hẹn</span> <span class="menu-arrow"></span></a>
+                        <span> Cuộc hẹn</span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
+                        <li><a class="{{ request()->routeIs(['appointments.add-appointments', 'create-data.appointments']) ? 'active' : '' }}
+                        " href="{{ route('appointments.add-appointments') }}">Thêm cuộc hẹn</a></li>
+                        <li><a class="{{ request()->routeIs('appointments.wait-for-confirmation') ? 'active' : '' }}" href="{{ route('appointments.wait-for-confirmation') }}">Lịch chờ xác nhận</a></li>
                         <li>
                             <a href="{{ route('appointment.index') }}" class="{{ request()->routeIs('appointment.*') ? 'active' : '' }}"> <span>Cuộc hẹn</span></a>
                         </li>
-                        <li><a class="{{ request()->routeIs('appointments.trash-can') ? 'active' : '' }}" href="{{ route('appointments.trash-can') }}">Thùng Rác</a></li>
+                        <li>
+                            <a href="{{ route('appointments.history-appointment') }}" class="{{ request()->routeIs('appointments.history-appointment') ? 'active' : '' }}"> <span>Lịch sử cuộc hẹn</span></a>
+                        </li>
                         <li><a class="{{ request()->routeIs('appointments.trash-can') ? 'active' : '' }}" href="{{ route('appointments.trash-can') }}">Lịch Đã Hủy</a></li>
+                        <li><a class="{{ request()->routeIs('appointments.statistics') ? 'active' : '' }}" href="{{ route('appointments.statistics') }}">Thống kế cuộc hẹn</a></li>
+                        <li><a class="{{ request()->routeIs('appointments.cancel.requirements') ? 'active' : '' }}" href="{{ route('appointments.cancel.requirements') }}">Cuộc hẹn yêu cầu hủy</a></li>
+                        <li><a class="{{ request()->routeIs('appointments.cancel.requirements') ? 'active' : '' }}" href="{{ route('appointments.cancel.requirements') }}">Cuộc hẹn yêu cầu đổi</a></li>
+                        <li><a class="{{ request()->routeIs('appointments.bills-appointment') ? 'active' : '' }}" href="{{ route('appointments.bills-appointment') }}">Hóa đơn cuộc hẹn</a></li>
                     </ul>
                 </li>
                 <li class="submenu">
@@ -38,31 +44,37 @@
                         <li><a class="{{ request()->routeIs('new.*') ? 'active' : '' }}" href="{{ route('new.index') }}">Tin tức</a></li>
                     </ul>
                 </li>
-                <li>
-                    <a href="specialities.html"><i class="fe fe-bell"></i> <span>Thông báo</span></a>
-                </li>
+                @role('Admin')
                 <li>
                     <a class="{{ request()->routeIs('doctors.*') ? 'active' : '' }}" href="{{ route('doctors.index') }}"><i class="fe fe-user-plus"></i> <span>Bác sĩ</span> </a>
                 </li>
+                @endrole
                 <li>
                     <a href="{{ route('reviews.index') }}"><i class="fe fe-star-o"></i> <span>Đánh giá</span></a>
                 </li>
                 <li>
-                    <a href="transactions-list.html"><i class="fe fe-activity"></i> <span>Bill</span></a>
+                    <a href="{{ route('products.index') }}"><i class="fa-brands fa-product-hunt"></i> <span>Sản phẩm</span></a>
                 </li>
                 <li>
-                    <a href="settings.html"><i class="fe fe-vector"></i> <span>Cấu hình</span></a>
+                    <a href="{{ route('purchase.index') }}"><i class="fa-solid fa-cart-shopping"></i><span>Đơn hàng</span></a>
                 </li>
-                <li class="submenu">
-                    <a href="#"><i class="fe fe-document"></i> <span> Báo cáo</span> <span class="menu-arrow"></span></a>
-                    <ul style="display: none;">
-                        <li><a href="invoice-report.html">Báo cáo hóa đơn</a></li>
-                    </ul>
+                <li class="{{ request()->routeIs('about.*') ? 'active' : '' }}">
+                    <a href="{{ route('about.index') }}"><i class="fa-solid fa-inbox"></i><span>Giới Thiệu</span></a>
                 </li>
-                <li class="menu-title">
-                    <span>Pages</span>
+                <li class="{{ request()->routeIs('setting') ? 'active' : '' }}">
+                    <a href="{{ route('setting') }}"><i class="fe fe-vector"></i> <span>Cấu hình</span></a>
                 </li>
+{{--                <li class="submenu">--}}
+{{--                    <a href="#"><i class="fe fe-document"></i> <span> Báo cáo</span> <span class="menu-arrow"></span></a>--}}
+{{--                    <ul style="display: none;">--}}
+{{--                        <li><a href="invoice-report.html">Báo cáo hóa đơn</a></li>--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
                 @role('Admin')
+                <hr class="text-white"/>
+                <li>
+                    <a href="{{ route('setting') }}"><i class="fe fe-user-plus"></i> <span>Hồ sơ</span></a>
+                </li>
                 <li class="submenu">
                     <a href="#"><i class="fe fe-user-plus"></i> <span> Tài khoản </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">

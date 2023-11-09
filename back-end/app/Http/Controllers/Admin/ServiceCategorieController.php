@@ -26,7 +26,7 @@ class ServiceCategorieController extends BaseAdminController
         'name' => 'Tên dịch vụ',
         'slug' => 'Slug',
         'description' => 'mô tả',
-        'image'=>'Ảnh'
+        // 'image'=>'Ảnh'
     ];
 
     public function validateStore($request , $id = null)

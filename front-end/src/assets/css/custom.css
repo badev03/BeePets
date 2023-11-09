@@ -18,6 +18,18 @@
   color: red;
   float: left;
 }
+/* .custom-delete-button {
+  background-color: transparent;
+  border: none;
+  padding: 3px 10px;
+  cursor: pointer;
+  outline: none;
+}
+
+.custom-delete-button:hover {
+  background-color: #ff0000; /* Màu nền khi di chuột qua */
+  /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); */
+/* } */ */
 .time-slot li .timing,
 .consultation-types a,
 .coming-soon-info,
@@ -3479,7 +3491,7 @@ button.bg-danger:hover {
   font-size: 10px;
 }
 .form-focus {
-  height: 50px;
+  height: 70px;
   position: relative;
 }
 .form-focus .focus-label {
@@ -14053,6 +14065,14 @@ html.menu-opened body {
     margin-top: 2px;
   }
 }
+
+.submit-section2{
+  display: flex;
+    justify-content: flex-end;
+    margin: -65px 112px 18px 0;
+    
+}
+
 .submit-section .submit-btn {
   padding: 12px 30px;
   font-weight: 600;
@@ -25870,6 +25890,9 @@ a.mute-video.stop {
   font-weight: 600;
   margin: 0 0 10px;
 }
+.blog-inner-right-fourt-care{
+  text-transform: capitalize
+}
 .main-wrapper.home-twelve
   .blog-section-fourteen.our-doctor-twelve
   .blog-inner-fourt-all
@@ -36228,4 +36251,121 @@ input:checked + .tog-slider:before {
   .success-dashboard-link a {
     font-size: 14px;
   }
+}
+.pagination-doctor {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px;
+  margin-right: 10px;
+}
+
+.pagination {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.pagination li {
+  margin: 0 3px;
+}
+
+.pagination a {
+  /* color: #007bff; */
+  border: 1px solid #007bff;
+  padding: 5px 10px;
+  text-decoration: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.previousBttn,
+.nextBttn {
+  /* background-color: #007bff; */
+  color: #fff;
+  border: 1px solid #007bff;
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+
+/* .active {
+  background-color: #007bff;
+  color: #fff;
+} */
+
+@media (max-width: 768px) {
+  .pagination-doctor {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .pagination {
+    margin-top: 15px;
+  }
+}
+
+/* CSS for search inputs */
+
+/* CSS for search container */
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* CSS for search container label */
+.search-container label {
+  margin-right: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* CSS for search container input group */
+.search-container .input-group {
+  display: flex;
+  align-items: center;
+}
+
+/* CSS for search container input group item */
+.search-container .input-group-item {
+  margin-right: 10px;
+  width: 100%;
+  height: 40px;
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+.empty-appointments {
+  font-size: 22px;
+  text-align: center;
+  padding: 20px 0;
+  color: #999; 
+ height: 200px;
+  font-weight: bold;
+}
+.table-action a {
+    margin-right: 5px;
+}
+
+.custom-button:hover{
+  background-color: #1677ff;
+  border: none;
+  color: #fff !important;
 }

@@ -15,9 +15,13 @@ class Appointment extends Model
         'date',
         'time',
         'shift_name',
+        'reason_change',
+        'reason_cancel',
         'type_pet_id',
         'service_id',
         'doctor_id',
+        'customer_name',
+        'group_service_id',
         'user_id',
     ];
     public function user()
@@ -35,5 +39,12 @@ class Appointment extends Model
     public function type_pet()
     {
         return $this->belongsTo(Type_pet::class);
+    }
+    public function bill()
+    {
+        return $this->hasMany(Bill::class, 'appointment_id', 'id');
+    }
+    public function work_schedule(){
+        return $this->belongsTo(Work_schedule::class,'shift_name','shift_name');
     }
 }

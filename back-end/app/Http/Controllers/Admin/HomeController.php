@@ -6,16 +6,75 @@ use App\Events\AdminNotification;
 use App\Http\Controllers\BaseAdminController;
 use App\Http\Controllers\Controller;
 use App\Interfaces\MessageUser;
+use App\Models\Bill;
 use App\Models\Notification;
+use App\Models\Product_categories;
+use App\Models\Products;
+use App\Notifications\SmsNotificationBeepets;
+use App\Traits\QueryCommon;
+//use ConsoleTVs\Charts\Classes\C3\Chart;
 use Illuminate\Http\Request;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Queue;
 use Pusher\Pusher;
+//use ConsoleTVs\Charts\
+use App\Charts\MyChart;
 class HomeController extends Controller
 {
+
+    use QueryCommon;
     public function index() {
-        return view('admin.dashboard.dashboard');
+        $totalAmount = DB::table('bills')->sum('total_amount');
+        $totalAmountMonth = DB::table('bills')->whereMonth('created_at', date('m'))->sum('total_amount');
+        $totalAmountLastMonth = DB::table('bills')->whereMonth('created_at', date('m', strtotime('-1 month')))->sum('total_amount');
+        $totalAmountYear = DB::table('bills')->whereYear('created_at', date('Y'))->sum('total_amount');
+        $totalOrder = Bill::where('status', 1)->count();
+        $totalOrderNeedPay = Bill::where('status', 0)->where('transaction_type',2)->count();
+        $totalOrderReturn = Bill::where('status', 3)->where('transaction_type',2)->count();
+        $totalOrderCancel = Bill::where('status', 2)->where('transaction_type',2)->count();
+        $totalProducts = Products::query()->count();
+        $totalProductCategory = Product_categories::query()->count();
+        $bestSeller = DB::table('order_details')
+            ->join('products', 'order_details.product_id', '=', 'products.id')
+            ->select('products.name','products.price','products.image', DB::raw('SUM(order_details.quantity) as total'))
+            ->groupBy('products.name','products.price','products.image')
+            ->orderBy('total', 'desc')
+            ->limit(5)
+            ->get();
+        $months = range(1, 12);
+        $totalAmountMonth1 = DB::table('bills')->whereMonth('created_at', 1)->sum('total_amount');
+        $totalAmountMonth2 = DB::table('bills')->whereMonth('created_at', 2)->sum('total_amount');
+        $totalAmountMonth3 = DB::table('bills')->whereMonth('created_at', 3)->sum('total_amount');
+        $totalAmountMonth4 = DB::table('bills')->whereMonth('created_at', 4)->sum('total_amount');
+        $totalAmountMonth5 = DB::table('bills')->whereMonth('created_at', 5)->sum('total_amount');
+        $totalAmountMonth6 = DB::table('bills')->whereMonth('created_at', 6)->sum('total_amount');
+        $totalAmountMonth7 = DB::table('bills')->whereMonth('created_at', 7)->sum('total_amount');
+        $totalAmountMonth8 = DB::table('bills')->whereMonth('created_at', 8)->sum('total_amount');
+        $totalAmountMonth9 = DB::table('bills')->whereMonth('created_at', 9)->sum('total_amount');
+        $totalAmountMonth10 = DB::table('bills')->whereMonth('created_at', 10)->sum('total_amount');
+        $totalAmountMonth11 = DB::table('bills')->whereMonth('created_at', 11)->sum('total_amount');
+        $totalAmountMonth12 = DB::table('bills')->whereMonth('created_at', 12)->sum('total_amount');
+        $totalAmountMonth1LastYear = DB::table('bills')->whereMonth('created_at', 1)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
+        $totalAmountMonth2LastYear = DB::table('bills')->whereMonth('created_at', 2)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
+        $totalAmountMonth3LastYear = DB::table('bills')->whereMonth('created_at', 3)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
+        $totalAmountMonth4LastYear = DB::table('bills')->whereMonth('created_at', 4)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
+        $totalAmountMonth5LastYear = DB::table('bills')->whereMonth('created_at', 5)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
+        $totalAmountMonth6LastYear = DB::table('bills')->whereMonth('created_at', 6)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
+        $totalAmountMonth7LastYear = DB::table('bills')->whereMonth('created_at', 7)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
+        $totalAmountMonth8LastYear = DB::table('bills')->whereMonth('created_at', 8)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
+        $totalAmountMonth9LastYear = DB::table('bills')->whereMonth('created_at', 9)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
+        $totalAmountMonth10LastYear = DB::table('bills')->whereMonth('created_at', 10)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
+        $totalAmountMonth11LastYear = DB::table('bills')->whereMonth('created_at', 11)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
+        $totalAmountMonth12LastYear = DB::table('bills')->whereMonth('created_at', 12)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
+
+        return view('admin.dashboard.dashboard',
+            compact('totalAmount', 'totalOrder', 'totalOrderCancel', 'totalAmountMonth',
+                'totalAmountLastMonth', 'totalAmountYear', 'totalOrderReturn', 'totalOrderNeedPay', 'totalAmountMonth1LastYear', 'totalAmountMonth2LastYear', 'totalAmountMonth3LastYear', 'totalAmountMonth4LastYear', 'totalAmountMonth5LastYear', 'totalAmountMonth6LastYear', 'totalAmountMonth7LastYear', 'totalAmountMonth8LastYear', 'totalAmountMonth9LastYear', 'totalAmountMonth10LastYear', 'totalAmountMonth11LastYear', 'totalAmountMonth12LastYear',
+                'totalProducts', 'totalProductCategory', 'bestSeller', 'totalAmountMonth1','totalAmountMonth2', 'totalAmountMonth3', 'totalAmountMonth4', 'totalAmountMonth5', 'totalAmountMonth6', 'totalAmountMonth7', 'totalAmountMonth8', 'totalAmountMonth9', 'totalAmountMonth10', 'totalAmountMonth11', 'totalAmountMonth12'));
     }
+
 
     public function uploadImg(Request $request) {
         if($request->has('upload')) {
@@ -88,4 +147,65 @@ class HomeController extends Controller
     public function pusherApi(MessageUser $messageService) {
         $messageService->sendMessage(3, 'Vũ anh bá');
     }
+
+    public function indexAdmin() {
+        if(\auth()->check()) {
+            if(auth()->user()->hasAnyRole(['Admin', 'User' , 'Staff'])) {
+                return redirect()->route('dashboard');
+            }else {
+                return view('admin.users.login');
+            }
+        }
+        else {
+            return view('admin.users.login');
+        }
+    }
+
+    public function QueueTest() {
+        $jobs = Queue::getJobs('TimeLineNotification');
+        dd($jobs);
+    }
+
+
+    public function testSMS() {
+//        $nexmoClient = new \Vonage\Client\Credentials\Basic("a942b359", "jQOo5hCLR3LRfzfM");
+//        $client = new \Vonage\Client($nexmoClient);
+//        $response = $client->sms()->send(
+//            new \Vonage\SMS\Message\SMS("84981608298", 'Beepets', 'A text message sent using the Nexmo SMS API')
+//        );
+//        $message = $response->current();
+//
+//        if ($message->getStatus() == 0) {
+//            echo "The message was sent successfully\n";
+//        } else {
+//            echo "The message failed with status: " . $message->getStatus() . "\n";
+//        }
+        $basic  = new \Nexmo\Client\Credentials\Basic(env("NEXMO_KEY"), env("NEXMO_SECRET"));
+
+        $client = new \Nexmo\Client($basic);
+
+        $receiverNumber = "91846XXXXX";
+
+        $message = "This is testing from ItSolutionStuff.com";
+
+
+
+        $message = $client->message()->send([
+
+            'to' => $receiverNumber,
+
+            'from' => 'Vonage APIs',
+
+            'text' => $message
+
+        ]);
+        dd('SMS Sent Successfully.');
+//        $text = new \Vonage\SMS\Message\SMS('84981608298', '', 'Tôi đang test dữ liệu');
+//        $text->setClientRef('test-message');
+    }
+
+    public function Profile() {
+
+    }
 }
+

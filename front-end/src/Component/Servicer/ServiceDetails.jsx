@@ -1,27 +1,50 @@
-//sevies detail
-import React from 'react'
-import { useEffect, useState } from 'react'
+import React from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import servicesDetailApi from '../../api/serviceApi';
+import LoadingSkeleton from '../Loading';
+import serviceApi from '../../api/serviceApi';
+
 const ServiceDetails = () => {
     const { slug } = useParams();
-    const [services, setServices] = useState(null);
+    const [service, setService] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [currentDate, setCurrentDate] = useState('');
 
     useEffect(() => {
         const fetchBlog = async () => {
             try {
                 const response = await servicesDetailApi.get(slug);
-                setServices(response);
+                setService(response);
+                setIsLoading(false);
             } catch (error) {
-                console.error("Không có dữ liệu:", error);
+                console.error('Không có dữ liệu:', error);
+                setIsLoading(false);
             }
         };
 
         fetchBlog();
     }, []);
-    if (!services) {
-        return <div>Loading...</div>;
+    const [services, setServices] = useState([]);
+
+    useEffect(() => {
+        const fetchService = async () => {
+            try {
+                const response = await serviceApi.getAll();
+                setServices(response.service);
+            } catch (error) {
+                console.error("Không có dữ liệu:", error);
+            }
+        };
+
+        fetchService();
+        setCurrentDate(new Date().toLocaleDateString());
+    }, []);
+
+    if (isLoading) {
+        return <LoadingSkeleton />;
     }
+
     return (
         <>
             <div className="breadcrumb-bar-two">
@@ -31,9 +54,7 @@ const ServiceDetails = () => {
                             <h2 className="breadcrumb-title">CHI TIẾT DỊCH VỤ</h2>
                             <nav aria-label="breadcrumb" className="page-breadcrumb">
                                 <ol className="breadcrumb">
-                                    <li className="breadcrumb-item"><a href="index.html">Trang Chủ</a></li>
-                                    <li className="breadcrumb-item" aria-current="page">Giới Thiệu</li>
-                                    <li className="breadcrumb-item" aria-current="page">Dịch Vụ</li>
+                                    <li className="breadcrumb-item"><a href="/">Trang Chủ</a></li>
                                     <li className="breadcrumb-item" aria-current="page">Tiêm chủng</li>
                                 </ol>
                             </nav>
@@ -47,23 +68,21 @@ const ServiceDetails = () => {
                         <div className="col-lg-8 col-md-12">
                             <div className="blog-view">
                                 <div className="blog blog-single-post">
-                                    <h3 className="blog-title">{services['service-detail'].name}</h3>
+                                    <h3 className="blog-title">{service['service-detail'].name}</h3>
                                     <div className="blog-image">
-                                        <a href="" ><img alt="blog-image" src={services['service-detail'].image} className="img-fluslug" /></a>
-
+                                        <a href="">
+                                            <img alt="blog-image" src={service['service-detail'].image} className="img-fluid" />
+                                        </a>
                                     </div>
-                                    <div className="blog-info clearfix">
-
-                                    </div>
-                                    <div className="blog-content">
-                                        {services['service-detail'].description}
-
-                                    </div>
+                                    <div className="blog-info clearfix"></div>
+                                    {service && service['service-detail'] && (
+                                        <div dangerouslySetInnerHTML={{ __html: service['service-detail'].description }} />
+                                    )}
                                 </div>
                             </div>
                         </div>
                         <div className="col-lg-4 col-md-12 sslugebar-right theiaStickySslugebar">
-                            <div className="card search-wslugget">
+                            {/* <div className="card search-wslugget">
                                 <div className="card-body">
                                     <form className="search-form">
                                         <div className="input-group">
@@ -72,79 +91,31 @@ const ServiceDetails = () => {
                                         </div>
                                     </form>
                                 </div>
-                            </div>
+                            </div> */}
                             <div className="card post-wslugget">
                                 <div className="card-header">
-                                    <h4 className="card-title">Bài viết mới nhất</h4>
+                                    <h4 className="card-title">Dịch vụ liên quan</h4>
                                 </div>
                                 <div className="card-body">
-                                    <ul className="latest-posts">
-                                        <li>
-                                            <div className="post-thumb">
-                                                <a href="blog-details.html">
-                                                    <img className="img-fluslug" src="../src/assets/img/blog/blog-thumb-01.jpg" alt="blog-image" />
-                                                </a>
-                                            </div>
-                                            <div className="post-info">
-                                                <h4>
-                                                    <a href="blog-details.html">Doccure – Making your clinic painless visit?</a>
-                                                </h4>
-                                                <p>4 Dec 2023</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div className="post-thumb">
-                                                <a href="blog-details.html">
-                                                    <img className="img-fluslug" src="../src/assets/img/blog/blog-thumb-02.jpg" alt="blog-image" />
-                                                </a>
-                                            </div>
-                                            <div className="post-info">
-                                                <h4>
-                                                    <a href="blog-details.html">What are the benefits of Online Doctor Booking?</a>
-                                                </h4>
-                                                <p>3 Dec 2023</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div className="post-thumb">
-                                                <a href="blog-details.html">
-                                                    <img className="img-fluslug" src="../src/assets/img/blog/blog-thumb-03.jpg" alt="blog-image" />
-                                                </a>
-                                            </div>
-                                            <div className="post-info">
-                                                <h4>
-                                                    <a href="blog-details.html">Benefits of consulting with an Online Doctor</a>
-                                                </h4>
-                                                <p>3 Dec 2023</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div className="post-thumb">
-                                                <a href="blog-details.html">
-                                                    <img className="img-fluslug" src="../src/assets/img/blog/blog-thumb-04.jpg" alt="blog-image" />
-                                                </a>
-                                            </div>
-                                            <div className="post-info">
-                                                <h4>
-                                                    <a href="blog-details.html">5 Great reasons to use an Online Doctor</a>
-                                                </h4>
-                                                <p>2 Dec 2023</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div className="post-thumb">
-                                                <a href="blog-details.html">
-                                                    <img className="img-fluslug" src="../src/assets/img/blog/blog-thumb-05.jpg" alt="blog-image" />
-                                                </a>
-                                            </div>
-                                            <div className="post-info">
-                                                <h4>
-                                                    <a href="blog-details.html">Online Doctor Appointment Scheduling</a>
-                                                </h4>
-                                                <p>1 Dec 2023</p>
-                                            </div>
-                                        </li>
-                                    </ul>
+                                    {services.map((service, index) => (
+                                        <ul className="latest-posts" key={index}>
+                                            <li>
+                                                <div className="post-thumb">
+                                                    <a href="blog-details.html">
+                                                        <img className="img-fluslug" src="../src/assets/img/blog/blog-thumb-01.jpg" alt="blog-image" />
+                                                    </a>
+                                                </div>
+                                                <div className="post-info">
+                                                    <h4>
+                                                        <a href="blog-details.html">{service.name}</a>
+                                                    </h4>
+                                                    <p><div>Ngày hôm nay: {currentDate}</div></p>
+                                                </div>
+                                            </li>
+                                            <br />
+                                        </ul>
+                                    ))}
+
                                 </div>
                             </div>
                         </div>
@@ -152,7 +123,7 @@ const ServiceDetails = () => {
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default ServiceDetails
+export default ServiceDetails;

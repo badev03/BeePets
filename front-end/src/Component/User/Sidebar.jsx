@@ -1,30 +1,27 @@
-import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import usersApi from '../../api/usersApi';
-import { useEffect, useState } from "react";
-import logoutDoctor from '../../api/logoutDoctor';
-import { useAuth } from '../../Context/ContextAuth';
-import Booking from '../Booking';
-import BookingUser from './BookingUser';
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import usersApi from "../../api/usersApi";
+import logoutDoctor from "../../api/logoutDoctor";
+import { useAuth } from "../../Context/ContextAuth";
 
 const Sidebar = () => {
   const [user, setUser] = useState([]);
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  const { onLogout } = useAuth(); // Sử dụng context để lấy hàm onLogout
+  const { onLogout } = useAuth();
+
 
   const handleLogout = async () => {
-    // Gọi hàm logout khi người dùng nhấp vào "Đăng Xuất"
     try {
       await logoutDoctor.logout({
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      onLogout(); // Gọi hàm onLogout để xác định người dùng đã đăng xuất
-      navigate('/'); // Sau khi đăng xuất, điều hướng đến trang chính hoặc trang bạn muốn
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      onLogout();
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -44,7 +41,7 @@ const Sidebar = () => {
             }
           );
           setUser(response.user);
-          console.log(response.user);
+          // console.log(response.user);
         } catch (error) {
           console.error("Không có dữ liệu:", error);
         }
@@ -97,7 +94,7 @@ const Sidebar = () => {
               </a>
             ) : (
               <div className="default-avatar booking-doc-img">
-                <img src="https://dvdn247.net/wp-content/uploads/2020/07/avatar-mac-dinh-1.png" alt="Default Avatar" />
+                <img src="https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" alt="Default Avatar" />
               </div>
             )}
             <div className="profile-det-info" style={{ display: user && (user.name || user.phone || user.address) ? 'block' : 'none' }}>
@@ -113,31 +110,44 @@ const Sidebar = () => {
         <div className="dashboard-widget">
           <nav className="dashboard-menu">
             <ul>
-              <li className={`has-submenu megamenu ${activeItems.includes("Bảng điều khiển") ? "active" : ""
-                }`}
-                onClick={() => handleItemClick("Bảng điều khiển")}>
-                <Link to={"/user/dashbroad"}><i className="fas fa-columns" />
-                  <span>Bảng điều khiển</span></Link>
-
+              <li
+                className={`has-submenu megamenu ${location.pathname === "/user/dashbroad" ? "active" : ""
+                  }`}
+                onClick={() => handleItemClick("Bảng điều khiển")}
+              >
+                <Link to={"/user/dashbroad"}>
+                  <i className="fas fa-columns" />
+                  <span>Bảng điều khiển</span>
+                </Link>
               </li>
 
-              <li className={`has-submenu megamenu ${activeItems.includes("Thông tin cá nhân") ? "active" : ""
-                }`}
-                onClick={() => handleItemClick("Thông tin cá nhân")}>
-                <Link to={"/user/profilesetting"}><i className="fas fa-user-cog" />
-                  <span>Thông Tin Cá Nhân</span></Link>
-
+              {/* Thêm các menu khác tương tự */}
+              <li
+                className={`has-submenu megamenu ${location.pathname === "/user/profilesetting" ? "active" : ""
+                  }`}
+                onClick={() => handleItemClick("Thông tin cá nhân")}
+              >
+                <Link to={"/user/profilesetting"}>
+                  <i className="fas fa-user-cog" />
+                  <span>Thông Tin Cá Nhân</span>
+                </Link>
               </li>
-              <li className={`has-submenu megamenu ${activeItems.includes("Thay đổi mật khẩu") ? "active" : ""
-                }`}
-                onClick={() => handleItemClick("Thay đổi mật khẩu")}>
-                <Link to={"/user/changepassword"}><i className="fas fa-lock" />
-                  <span>Thay Đổi Mật Khẩu</span></Link>
-
+              <li
+                className={`has-submenu megamenu ${location.pathname === "/user/changepassword" ? "active" : ""
+                  }`}
+                onClick={() => handleItemClick("Thay đổi mật khẩu")}
+              >
+                <Link to={"/user/changepassword"}>
+                  <i className="fas fa-lock" />
+                  <span>Thay Đổi Mật Khẩu</span>
+                </Link>
               </li>
-              <li className={`has-submenu megamenu ${activeItems.includes("Đăng xuất") ? "active" : ""
-                }`}
-                onClick={() => handleLogout("Đăng xuất")}>
+
+              <li
+                className={`has-submenu megamenu ${location.pathname === "/user/logout" ? "active" : ""
+                  }`}
+                onClick={() => handleLogout("Đăng xuất")}
+              >
                 <a>
                   <i className="fas fa-sign-out-alt" />
                   <span>Đăng Xuất</span>

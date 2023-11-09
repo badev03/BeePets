@@ -87,34 +87,6 @@
                                                         @endif
                                                     </div>
                                                 </div>
-                                            @elseif(in_array($key , $FIELD_SELECT_CUSTOM_CONTROLLER) && isset($addDataSelect))
-                                                <div class="row">
-                                                    <div class="col-md-10 mb-3">
-                                                        <label class="mb-2" for="validationCustom01">{{ $item }}</label>
-                                                        <select class="form-select" name="{{ $key }}">
-                                                            @foreach($addDataSelect[$key] as $keyDataAction=>$valueAction )
-                                                                <option value="{{ $valueAction->id }}" @if($valueAction->id == $model->$key) selected @endif>{{ $valueAction->name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                        @if($errors->has($key))
-                                                            <div class="error text-danger mt-2">{{ $errors->first($key) }}</div>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                            @elseif(array_key_exists($key , FIELD_SELECT_CUSTOM))
-                                                <div class="row">
-                                                    <div class="col-md-10 mb-3">
-                                                        <label class="mb-2" for="validationCustom01">{{ $item }}</label>
-                                                        <select class="form-select" name="{{ $key }}">
-                                                            @foreach(FIELD_SELECT_CUSTOM[$key] as $keyCustom=>$itemCustom)
-                                                                <option value="{{ $keyCustom }}" @if($keyCustom == $model->$key) selected @endif>{{ $itemCustom }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                        @if($errors->has($key))
-                                                            <div class="error text-danger mt-2">{{ $errors->first($key) }}</div>
-                                                        @endif
-                                                    </div>
-                                                </div>
                                             @endif
                                         @endforeach
                                         <div class="col-md-10 mb-3">

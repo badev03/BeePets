@@ -13,8 +13,9 @@ const BUTTON_HEADER_ADMIN_LINK = 'admin.components.button.button-header';
 const IMAGES_FIELD ="image";
 
 const DESC_FIELD ="description";
+const FIELD_DESCS="reason";
 
-const FIELD_CHECK_FOR = ['service_categorie_id' , 'role_id'];
+const FIELD_CHECK_FOR = ['service_categorie_id' , 'role_id', 'product_categorie_id'];
 
 const FIELD_DATE = ['birthday'];
 /**
@@ -37,3 +38,13 @@ const FIELD_SELECT_CUSTOM = [
  * */
 
 const admin_403 = 'admin.components.errors.403';
+
+
+const errors_notification = 'admin.components.errors.errors_notification';
+
+
+const SMS_TYPE_QC = 1; // loai tin nhan quang cao
+const SMS_TYPE_CSKH = 2; // loai tin nhan cham soc khach hang
+const SMS_TYPE_BRANDNAME = 3; // loai tin nhan brand name cskh
+const SMS_TYPE_NOTIFY = 4; // sms gui bang brandname Notify
+const SMS_TYPE_GATEWAY = 5; // sms gui bang so di dong ca nhan tu app android, download app tai day: https://speedsms.vn/sms

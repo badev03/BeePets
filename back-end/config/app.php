@@ -170,6 +170,9 @@ return [
         App\Providers\RouteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         \App\Providers\ViewProviderAdmin::class,
+        Brian2694\Toastr\ToastrServiceProvider::class,
+        Mccarlosen\LaravelMpdf\LaravelMpdfServiceProvider::class,
+//        ConsoleTVs\Charts\ChartsServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -187,6 +190,8 @@ return [
         // 'Example' => App\Facades\Example::class,
         'Cloudinary' => CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary::class,
         'Pusher' => Pusher\Pusher::class,
+        'Toastr'  => Brian2694\Toastr\Facades\Toastr::class,
+        'PDF' => Mccarlosen\LaravelMpdf\Facades\LaravelMpdf::class,
+//        'Charts' => ConsoleTVs\Charts\Facades\Charts::class,
     ])->toArray(),
-
 ];

@@ -24,6 +24,7 @@ class Doctor extends Authenticatable
         'avatar',
         'status',
         'role_id',
+        'birthday',
         'gender',
     ];
 
@@ -39,6 +40,10 @@ class Doctor extends Authenticatable
     }
     public function customers() {
         return $this->belongsToMany(User::class);
+    }
+    public function doctorImages()
+    {
+        return $this->hasMany(Doctor_image::class);
     }
    
 }

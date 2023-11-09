@@ -21,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\MessageSendNotification::class => [
             \App\Listeners\SendMessage::class,
         ],
+        \App\Events\SendMailEvent::class => [
+            \App\Listeners\SendMailListener::class,
+        ],
     ];
 
     /**

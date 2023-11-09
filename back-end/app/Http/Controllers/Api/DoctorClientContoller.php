@@ -7,5 +7,5 @@ use Illuminate\Http\Request;
 
 class DoctorClientContoller extends Controller
 {
-    lấy ra 4 bác sĩ khác có nhiều số s
+    
 }

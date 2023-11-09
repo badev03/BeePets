@@ -4,15 +4,17 @@ import ReactPaginate from "react-paginate";
 import BlogSideBar from "./BlogSideBar";
 import blogApi from "../../api/blogApi";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import TopLink from "../../Link/TopLink";
 
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
-  const { categoryId } = useParams();
+  const { id } = useParams()
   const [currentPage, setCurrentPage] = useState(0);
   const [postsPerPage] = useState(2);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchedBlogs, setSearchedBlogs] = useState([]);
   const [showPagination, setShowPagination] = useState(true);
+  const [noSearchResults, setNoSearchResults] = useState(false);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -20,29 +22,40 @@ const BlogList = () => {
   };
 
   const handleSearchSubmit = (searchResults) => {
-    setSearchedBlogs(searchResults);
-    setBlogs([]); // Đặt blogs thành mảng trống để ẩn danh sách gốc khi hiển thị kết quả tìm kiếm
-    setShowPagination(false);
+    if (searchResults.length === 0) {
+      setNoSearchResults(true);
+    } else {
+      setSearchedBlogs(searchResults);
+      setBlogs([]); 
+      setShowPagination(false);
+      setNoSearchResults(false);
+    }
   };
 
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await blogApi.getAll({ new_categorie_id: categoryId });
-        // console.log(response.new[0]);
-        setBlogs(response.new);
+        const response = await blogApi.getAll();
+        if (id) {
+          const categoryBlogs = response.new.data.filter(
+            (blog) => console.log(blog.nameCategories) === id
+          );
+          setBlogs(categoryBlogs);
+        } else {
+          setBlogs(response.new.data);
+        }
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
     };
 
     fetchBlog();
-  }, [categoryId]);
+  }, [id]);
 
   function truncateText(text, lines) {
     const words = text.split(" ");
-    const truncatedText = words.slice(0, lines * 11).join(" ");
-    if (words.length > lines * 10) {
+    const truncatedText = words.slice(0, lines * 8).join(" ");
+    if (words.length > lines * 8) {
       return `${truncatedText} ...`;
     }
     return truncatedText;
@@ -66,7 +79,7 @@ const BlogList = () => {
               <nav aria-label="breadcrumb" className="page-breadcrumb">
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
-                    <a href="index.html">Trang Chủ</a>
+                    <TopLink to="/">Trang Chủ</TopLink>
                   </li>
                   <li className="breadcrumb-item" aria-current="page">
                     Tin Tức
@@ -82,69 +95,75 @@ const BlogList = () => {
           <div className="row">
             <div className="col-lg-8 col-md-12">
               <div className="row blog-grid-row">
-                {searchedBlogs.length > 0
-                  ? searchedBlogs.map((blog) => (
-                      <div key={blog.id} className="col-md-6 col-sm-12">
-                        <div className="blog grid-blog">
-                          <div className="blog-image">
-                            <Link to={`/blog/${blog.id}`}>
-                              <img
-                                className="img-fluid"
-                                src={blog.image}
-                                alt="Post Image"
+                {noSearchResults ? (
+                  <p>Không có tin tức</p>
+                ) : (
+                  searchedBlogs.length > 0
+                    ? searchedBlogs.map((blog) => (
+                        <div key={blog.id} className="col-md-6 col-sm-12">
+                          <div className="blog grid-blog">
+                            <div className="blog-image">
+                              <Link to={`/blog/${blog.slug}`}>
+                                <img
+                                  className="img-fluid"
+                                  src={blog.image}
+                                  alt="Post Image"
+                                />
+                              </Link>
+                            </div>
+                            <div className="blog-content">
+                              <ul className="entry-meta meta-item">
+                                <li>
+                                  <i style={{ marginRight: 8}} className="far fa-clock" />
+                                  {blog.public_date}
+                                </li>
+                              </ul>
+                              <h3 className="blog-title">
+                                <Link to={`/blog/${blog.slug}`}>{blog.name}</Link>
+                              </h3>
+                              <div
+                                dangerouslySetInnerHTML={{
+                                  __html: truncateText(blog.content, 2),
+                                }}
                               />
-                            </Link>
-                          </div>
-                          <div className="blog-content">
-                            <ul className="entry-meta meta-item">
-                              <li>
-                                <i className="far fa-clock" />
-                                {blog.public_date}
-                              </li>
-                            </ul>
-                            <h3 className="blog-title">
-                              <Link to={`/blog/${blog.id}`}>{blog.name}</Link>
-                            </h3>
-                            <div
-                              dangerouslySetInnerHTML={{
-                                __html: truncateText(blog.content, 2),
-                              }}
-                            />
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))
-                  : currentPosts.map((blog) => (
-                      <div key={blog.id} className="col-md-6 col-sm-12">
-                        <div className="blog grid-blog">
-                          <div className="blog-image">
-                            <Link to={`/blog/${blog.id}`}>
-                              <img
-                                className="img-fluid"
-                                src={blog.image}
-                                alt="Post Image"
+                      ))
+                    : currentPosts.map((blog) => (
+                        <div key={blog.id} className="col-md-6 col-sm-12">
+                          <div className="blog grid-blog">
+                            <div className="blog-image">
+                              <Link to={`/blog/${blog.slug}`}>
+                                <img
+                                  className="img-fluid"
+                                  src={blog.image}
+                                  alt="Post Image"
+                                />
+                              </Link>
+                            </div>
+                            <div className="blog-content">
+                              <ul className="entry-meta meta-item">
+                                <li>
+                                  <i style={{ marginRight: 8}} className="far fa-clock" />
+                                  {blog.public_date}
+                                </li>
+                              </ul>
+                              <h3 className="blog-title">
+                                <Link to={`/blog/${blog.slug}`}>{blog.name}</Link>
+                              </h3>
+                              <div
+                                dangerouslySetInnerHTML={{
+                                  __html: truncateText(blog.content, 2),
+                                }}
                               />
-                            </Link>
-                          </div>
-                          <div className="blog-content">
-                            <ul className="entry-meta meta-item">
-                              <li>
-                                <i className="far fa-clock" />
-                                {blog.public_date}
-                              </li>
-                            </ul>
-                            <h3 className="blog-title">
-                              <Link to={`/blog/${blog.id}`}>{blog.name}</Link>
-                            </h3>
-                            <div
-                              dangerouslySetInnerHTML={{
-                                __html: truncateText(blog.content, 2),
-                              }}
-                            />
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      ))
+
+                )}
+
               </div>
               <div className="row">
                 <div className="col-md-12">
