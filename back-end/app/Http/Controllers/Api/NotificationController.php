@@ -14,7 +14,7 @@ class NotificationController extends Controller
     {
         $notifications = Notification::where('user_id', auth()->id())
             ->select('notifications.user_id as id' , 'users.avatar' , 'users.name' , 'notifications.message'
-                , 'notifications.id as id_notification')
+                , 'notifications.id as id_notification' , 'notifications.appointment_id')
             ->join('users' , 'users.id' , '=' , 'notifications.user_id')
             ->where('notifications.message' , '!=' , '')
             ->where('notifications.delete_user' , '=' , 0)
@@ -33,7 +33,9 @@ class NotificationController extends Controller
     public function getNotificationDoctor()
     {
         $notifications = Notification::where('doctor_id', auth()->guard('doctors')->id())
-            ->select('notifications.doctor_id as id' , 'doctors.image as avatar' , 'doctors.name' , 'notifications.message_doctor as message')
+            ->select('notifications.doctor_id as id' , 'doctors.image as avatar' ,
+                'doctors.name' , 'notifications.message_doctor as message'
+            , 'notifications.id as id_notification' , 'notifications.appointment_id')
             ->join('doctors' , 'doctors.id' , '=' , 'notifications.doctor_id')
             ->where('notifications.message_doctor' , '!=' , '')
             ->where('notifications.delete_doctor' , '=' , 0)
@@ -77,7 +79,19 @@ class NotificationController extends Controller
             $notifications = Notification::where('id', $id)->where('delete_doctor' , 0)->first();
             if($notifications) {
                 $notifications->update(['delete_doctor' => 1]);
-                return response()->json(['msg' => 'đã xóa thành công'] , 200);
+                $notifications_update = Notification::where('doctor_id', auth()->guard('doctors')->id())
+                    ->select('notifications.doctor_id as id' , 'doctors.image as avatar' , 'doctors.name' , 'notifications.message_doctor as message')
+                    ->join('doctors' , 'doctors.id' , '=' , 'notifications.doctor_id')
+                    ->where('notifications.message_doctor' , '!=' , '')
+                    ->where('notifications.delete_doctor' , '=' , 0)
+                    ->orderBy('notifications.id', 'DESC')
+                    ->get();
+                return response()->json(
+                    [
+                        'msg' => 'đã xóa thành công' ,
+                        'notification' =>$notifications_update
+                    ] ,
+                    200);
             }
             return response()->json(['msg' => 'Không có dữ liệu để xóa'] , 400);
         }
@@ -85,7 +99,20 @@ class NotificationController extends Controller
             $notifications = Notification::where('id', $id)->where('delete_user' , 0)->first();
             if($notifications) {
                 $notifications->update(['delete_user' => 1]);
-                return response()->json(['msg' => 'đã xóa thành công'] , 200);
+                $notifications_update = Notification::where('user_id', auth()->id())
+                    ->select('notifications.user_id as id' , 'users.avatar' , 'users.name' , 'notifications.message'
+                        , 'notifications.id as id_notification')
+                    ->join('users' , 'users.id' , '=' , 'notifications.user_id')
+                    ->where('notifications.message' , '!=' , '')
+                    ->where('notifications.delete_user' , '=' , 0)
+                    ->orderBy('notifications.id', 'DESC')
+                    ->get();
+                return response()->json(
+                    [
+                        'msg' => 'đã xóa thành công',
+                        'notification' =>  $notifications_update
+                    ] , 200
+                );
             }
             return response()->json(['msg' => 'Không có dữ liệu cần xóa'] , 400);
         }

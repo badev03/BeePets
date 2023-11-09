@@ -23,6 +23,8 @@ use \App\Http\Controllers\Admin\NewController;
 use App\Http\Controllers\Api\AuthController as ApiAuthController;
 use \App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\AuthController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -76,6 +78,7 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
             Route::get('testSMS/', [HomeController::class , 'testSMS']);
             Route::put('appointment-cart/{id}', [AppointmentController::class , 'billAppointmentAdd'])->name('appointments.add-appointments-bills');
             Route::get('appointment-clear-data/', [AppointmentController::class , 'clearAppointmentData'])->name('appointments.clear-appointment-data');
+            // Route::get('profile', [AuthController::class , 'myProfile'])->name('myProfile');
         });
         Route::get('dashboard', [HomeController::class , 'index'])->name('dashboard');
         Route::get('appointment/get-day/{day}/{id}', [AppointmentController::class , 'getDay'])->name('appointment.get-day');
@@ -98,6 +101,7 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
         Route::get('birthDayDoctor/notifications' , [NotificationController::class , 'storeBirthdayDoctor'])->name('notifications.birthdayDoctor');
         Route::get('doctors-notifications' , [NotificationController::class , 'DoctorIndex'])->name('notifications.doctor');
         Route::get('time-line-notifications' , [NotificationController::class , 'TimeLine'])->name('notifications.time-line-notifications');
+        Route::get('profile' , [HomeController::class , 'Profile'])->name('profile');
         Route::post('send-notifications-user' , [NotificationController::class , 'SendNotificationUser'])->name('notifications.send-notifications-user');
         Route::post('send-notifications-doctor' , [NotificationController::class , 'SendNotificationDoctor'])->name('notifications.send-notifications-doctor');
         Route::match(['put' , 'get'] , 'setting' , [SettingController::class , 'index'])->name('setting');

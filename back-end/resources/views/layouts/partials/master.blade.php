@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="{{asset('backend/assets/plugins/morris/morris.css')}}">
     <link rel="stylesheet" href="{{asset('backend/assets/css/custom.css')}}">
     <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
+    <script src="https://kit.fontawesome.com/081aeecef0.js" crossorigin="anonymous"></script>
 
     @stack('style')
 

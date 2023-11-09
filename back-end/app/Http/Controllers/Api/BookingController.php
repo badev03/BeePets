@@ -195,7 +195,7 @@ class BookingController extends Controller
 
 
 
-            $messageInterface->sendMessage($user_id, 'Vui lòng chờ xác nhận của bác sĩ', $request->doctor_id, 'Có cuộc hẹn mới cần xác nhận ');
+            $messageInterface->sendMessage($user_id, 'Vui lòng chờ xác nhận của bác sĩ', $request->doctor_id, 'Có cuộc hẹn mới cần xác nhận ', $model->id );
 
 
             return response()->json(['message' => $request->all()], 201);
@@ -326,7 +326,7 @@ class BookingController extends Controller
             if ($request->status == 1) {
                 $appointment->save();
                 $bill = $this->doctorController->createBill($appointment->id, $doctor->id, $appointment->user_id,$service_price);
-                $messageInterface->sendMessage($appointment->user_id, 'Bác sĩ ' . $doctor->name . '  đã xác nhận cuộc hẹn của bạn', $doctor->id, 'Bạn đã xác nhận thành công cuộc hẹn của khách hàng ' . $appointment->user->name);
+                $messageInterface->sendMessage($appointment->user_id, 'Bác sĩ ' . $doctor->name . '  đã xác nhận cuộc hẹn của bạn', $doctor->id, 'Bạn đã xác nhận thành công cuộc hẹn của khách hàng ' . $appointment->user->name, $appointment->id);
             }
             if ($request->status == 6) {
                 $reasonCancel = $request->input('reason_cancel');
@@ -342,7 +342,7 @@ class BookingController extends Controller
             if ($request->status == 4) {
                 $appointment->status = 4;
                 $appointment->save();
-                $messageInterface->sendMessage($appointment->user_id, 'Cuộc hẹn của bạn đã hoàn thành', $doctor->id, 'Cuộc hẹn của' . $appointment->user->name . ' đã hoàn thành');
+                $messageInterface->sendMessage($appointment->user_id, 'Cuộc hẹn của bạn đã hoàn thành', $doctor->id, 'Cuộc hẹn của' . $appointment->user->name . ' đã hoàn thành', $appointment->id);
                 return response()->json(['message' => 'Bạn đã hoàn thành cuộc hẹn'], 200);
             }
             if ($request->status == 7) {

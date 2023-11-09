@@ -52,6 +52,7 @@ class AppointmentController extends Controller
                 'colums' => $this->columns('index'),
                 'urlbase' => $this->urlbase,
                 'title_web' => $this->title,
+                'title' => $this->title,
             ]);
     }
 
@@ -83,6 +84,7 @@ class AppointmentController extends Controller
                 'colums' => $this->columns('index'),
                 'urlbase' => $this->urlbase,
                 'title_web' => $this->title,
+                'title' => $this->title,
             ]);
     }
 
@@ -98,6 +100,7 @@ class AppointmentController extends Controller
                 'colums' => $this->columns('index'),
                 'urlbase' => $this->urlbase,
                 'title_web' => $this->title,
+                'title' => $this->title,
             ]);
     }
 
@@ -208,6 +211,7 @@ class AppointmentController extends Controller
                 'getDayDefault' , 'dataDoctor' , 'dataService' , 'dataTypePet' , 'time_set_up_shift'))
             ->with([
                 'title_web'=>$this->title,
+                'title' => $this->title,
                 'urlbase'=>$this->urlbase,
                 'colums' => $this->columns('edit')
             ]);
@@ -376,6 +380,7 @@ class AppointmentController extends Controller
             'colums' => $this->colums,
             'urlbase' => $this->urlbase,
             'title_web' => $this->title,
+            'title' => $this->title,
             'dataDoctor' => $dataDoctor,
             'dataService' => $dataService,
             'timeWork' => $timeWork,
@@ -466,6 +471,7 @@ class AppointmentController extends Controller
             'title_web' => $this->title,
             'FIELD_SELECT_CUSTOM_CONTROLLER' => $this->FIELD_SELECT_CUSTOM_CONTROLLER,
             'special', $this->special,
+            'title' => $this->title,
         ];
         return view($this->pathView.'trash-can' , compact('appointments'))->with($dataViewer);
     }
@@ -474,7 +480,9 @@ class AppointmentController extends Controller
         $appointment = Appointment::withTrashed()->find($id);
         if($appointment) {
             $appointment->restore();
-            $messageService->sendMessageNew($appointment->user_id, 'ok la nhé', $appointment->doctor_id, 'Ok ã khôi phục thành công' , $id);
+            $messageService->sendAdmin($id , 'bạn vừa không phục cuộc hẹn của khách hàng :' .$appointment->id
+                , 'Cuôc hẹn đã khôi phục thành công' , $appointment->user_id);
+//            $messageService->sendMessageNew($appointment->user_id, 'ok la nhé', $appointment->doctor_id, 'Ok ã khôi phục thành công' , $id);
 //            event(new \App\Events\MessageSendNotification($appointment->user_id, 'Đã khôi phục thành công hihah ok la', $appointment->doctor_id, 'Ok ã khôi phục thành công'));
             return back()->with(['success_delete' => 'Đã khôi phục dữ liệu thành công']);
         }

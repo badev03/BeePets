@@ -75,4 +75,9 @@ class AuthController extends Controller
         Auth::logout();
         return redirect()->route('index');
     }
+
+    // public function myProfile()
+    // {
+    //     return view('');
+    // }
 }
