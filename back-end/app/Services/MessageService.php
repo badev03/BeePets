@@ -34,6 +34,9 @@ class MessageService implements MessageUser {
             'message_doctor' => $message_doctor,
             'read_user' => 0,
             'read_doctor' => 0,
+            'read'=>0,
+            'delete_user'=>0,
+            'delete_doctor'=>0,
             'appointment_id' => $appointment_id,
         ]);
         return response()->json(['message' => 'Thông báo đã được gửi']);
