@@ -165,6 +165,7 @@ const Booking = () => {
     setSelectedService(value);
     setSelectedDoctor(null);
     setLoadingDoctors(true);
+    form.setFieldValue('Chọn Bác Sĩ', 'Bác sĩ')
   };
 
   const handleChangePet = (value) => {
@@ -245,9 +246,17 @@ const Booking = () => {
             <Col span={12}>
               <Form.Item
                 label="Chọn Bác Sĩ"
-                // name="Chọn Bác Sĩ"
+                name="Chọn Bác Sĩ"
                 rules={[
                   { required: true, message: "Vui lòng nhập chọn bác sĩ" },
+                  {
+                    validator: (_, value) => {
+                      if (value === 'Bác sĩ') { 
+                        return Promise.reject(new Error("Vui lòng chọn bác sĩ"));
+                      }
+                      return Promise.resolve();
+                    },
+                  },
                 ]}
                 loading={loadingDoctors}
               >

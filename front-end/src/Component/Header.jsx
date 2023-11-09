@@ -11,6 +11,7 @@ import TopLink from "../Link/TopLink";
 import deleteNoti from "../api/deleteNoti";
 import { Dropdown } from "bootstrap";
 import axios from "axios";
+import { UserOutlined } from "@ant-design/icons"
 
 
 
@@ -448,36 +449,27 @@ const Header = () => {
                   </>
               ) : (
                   <>
-                    <li className="searchbar searchbar-fourteen me-2">
-                      <a href="#">
-                        <i className="feather-search"></i>
-                      </a>
-                      <div className="togglesearch">
-                        <form action="https://doccure.dreamguystech.com/html/template/search-2.html">
-                          <div className="input-group">
-                            <input type="text" className="form-control" />
-                            <button type="submit" className="btn btn-primary">
-                              Tìm kiếm
-                            </button>
-                          </div>
-                        </form>
-                      </div>
-                    </li>
-                    <li className="login-link">
-                      <a href="login">Đăng nhập / Đăng kí</a>
+                    <li className="login-in-fourteen">
+                      <TopLink to= "login">
+                        <Button 
+                          icon={<UserOutlined />} 
+                          type="default"
+                          size="large"
+                          style={{ height: 45, border: 'none' }}
+                          className="custom-button"
+                        >Đăng nhập</Button>
+                      </TopLink>
                     </li>
                     <li className="login-in-fourteen">
-                      <a href="login" className="btn reg-btn">
-                        <i className="feather-user me-2"></i>Đăng nhập
-                      </a>
-                    </li>
-                    <li className="login-in-fourteen">
-                      <a
-                          href="register"
-                          className="btn btn-primary reg-btn reg-btn-fourteen"
-                      >
-                        <i className="feather-user me-2"></i>Đăng kí
-                      </a>
+                      <TopLink to= "register">
+                        <Button 
+                          icon={<UserOutlined />} 
+                          type="primary"
+                          size="large"
+                          style={{ height: 45 }}
+                          className="custom-button"
+                        >Đăng kí</Button>
+                      </TopLink>
                     </li>
                   </>
               )}
