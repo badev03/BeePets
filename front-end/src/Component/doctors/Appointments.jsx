@@ -368,6 +368,7 @@ const Appointments = () => {
         {appointment.status != 1 && (
         <td>
           <div className="table-action">
+            
             <Link to={`/doctors/accept-detail-appointments/${appointment.id}`} className="btn btn-sm bg-info-light">
               <i className="far fa-eye" /> Lịch Hẹn
             </Link>

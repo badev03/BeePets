@@ -47,6 +47,7 @@ const Patientprofile = () => {
             }
           );
           setCustomers(response.customer);
+          // console.log(response);
           setLoading(false);
         } catch (error) {
           console.error("Không có dữ liệu:", error);
@@ -121,7 +122,7 @@ const Patientprofile = () => {
                       <div className="pro-widget-content">
                         <div className="profile-info-widget">
                           <Link to="#" className="booking-doc-img">
-                            <img src="/img/patients/patient.jpg" alt="User Image" />
+                            <img src="https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" alt="User Image" />
                           </Link>
                           <div className="profile-det-info">
                             <h3>{customers.name}</h3>

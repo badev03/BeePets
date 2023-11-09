@@ -40,6 +40,7 @@ const Dashboarddoctors = () => {
         },
       });
       setAppointment(response.data);
+      // console.log(response);
       setLoading(false);
       setError(false);
     } catch (error) {
@@ -166,7 +167,7 @@ const Dashboarddoctors = () => {
             <Link to="patient-profile.html" className="avatar avatar-sm me-2">
               <img
                 className="avatar-img rounded-circle"
-                src="img/patients/patient.jpg"
+                src={appointment.user.avatar}
                 alt="User Image"
               />
             </Link>
