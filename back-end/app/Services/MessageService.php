@@ -9,7 +9,7 @@ use Pusher\Pusher;
 class MessageService implements MessageUser {
 
     use QueryCommon;
-    public function sendMessage($userId ='', $message='' , $doctor_id='' , $message_doctor = '')
+    public function sendMessage($userId ='', $message='' , $doctor_id='' , $message_doctor = '', $appointment_id='')
     {
         $dataMessage = $this->tableQuery('users')->where('id' , $userId)->first();
         $messagess = [
@@ -34,6 +34,7 @@ class MessageService implements MessageUser {
             'message_doctor' => $message_doctor,
             'read_user' => 0,
             'read_doctor' => 0,
+            'appointment_id' => $appointment_id,
         ]);
         return response()->json(['message' => 'Thông báo đã được gửi']);
     }

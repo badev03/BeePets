@@ -4,7 +4,7 @@ namespace App\Interfaces;
 
 interface MessageUser
 {
-    public function sendMessage($userId, $message , $doctor_id , $message_doctor);
+    public function sendMessage($userId, $message , $doctor_id , $message_doctor, $appointment_id);
     public function sendMessageNew($userId, $message , $doctor_id , $message_doctor , $appointment_id);
     public function sendManyUser($userId , $message);
     public function sendManyDoctor($doctor_id , $message_doctor);
