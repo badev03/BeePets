@@ -16,6 +16,7 @@ class Notification extends Model
         'doctor_id',
         'message_doctor',
         'message_admin',
+        'read_doctor',
         'read',
         'read_user',
         'delete_user',
