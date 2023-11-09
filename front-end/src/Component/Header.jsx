@@ -314,7 +314,7 @@ const Header = () => {
                                       className="avatar-img"
                                       alt="Ruby perin"
                                       src={notifications.avatar}
-                                  />s
+                                  />
                                 </span>
                                       <div className="media-body">
                                         <h6>
