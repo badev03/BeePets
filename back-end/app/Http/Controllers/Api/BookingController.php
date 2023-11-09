@@ -108,7 +108,7 @@ class BookingController extends Controller
             ->get();
 
         if ($work_schedule->isEmpty()) {
-            return response()->json(['message' => 'Không có lịch làm việc của bác sĩ này'], 400);
+            return response()->json(['message' => 'Không có lịch làm việc của bác sĩ này'], 200);
         } else {
             return response()->json(['message' => 'Lấy danh sách lịch làm việc thành công', 'data' => $work_schedule], 200);
         }

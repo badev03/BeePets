@@ -36363,3 +36363,9 @@ input:checked + .tog-slider:before {
 .table-action a {
     margin-right: 5px;
 }
+
+.custom-button:hover{
+  background-color: #1677ff;
+  border: none;
+  color: #fff !important;
+}
