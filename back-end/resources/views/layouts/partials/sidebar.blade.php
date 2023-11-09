@@ -58,20 +58,23 @@
                 <li>
                     <a href="{{ route('purchase.index') }}"><i class="fa-solid fa-cart-shopping"></i><span>Đơn hàng</span></a>
                 </li>
-                <li>
-                    <a  class="{{ request()->routeIs('about.*') ? 'active' : '' }}"href="{{ route('about.index') }}"><i class="fa-solid fa-inbox"></i><span>Giới Thiệu</span></a>
+                <li class="{{ request()->routeIs('about.*') ? 'active' : '' }}">
+                    <a href="{{ route('about.index') }}"><i class="fa-solid fa-inbox"></i><span>Giới Thiệu</span></a>
                 </li>
-                <li>
+                <li class="{{ request()->routeIs('setting') ? 'active' : '' }}">
                     <a href="{{ route('setting') }}"><i class="fe fe-vector"></i> <span>Cấu hình</span></a>
                 </li>
-                <li class="submenu">
-                    <a href="#"><i class="fe fe-document"></i> <span> Báo cáo</span> <span class="menu-arrow"></span></a>
-                    <ul style="display: none;">
-                        <li><a href="invoice-report.html">Báo cáo hóa đơn</a></li>
-                    </ul>
-                </li>
+{{--                <li class="submenu">--}}
+{{--                    <a href="#"><i class="fe fe-document"></i> <span> Báo cáo</span> <span class="menu-arrow"></span></a>--}}
+{{--                    <ul style="display: none;">--}}
+{{--                        <li><a href="invoice-report.html">Báo cáo hóa đơn</a></li>--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
                 @role('Admin')
                 <hr class="text-white"/>
+                <li>
+                    <a href="{{ route('setting') }}"><i class="fe fe-user-plus"></i> <span>Hồ sơ</span></a>
+                </li>
                 <li class="submenu">
                     <a href="#"><i class="fe fe-user-plus"></i> <span> Tài khoản </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">

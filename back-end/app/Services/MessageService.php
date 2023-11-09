@@ -16,7 +16,7 @@ class MessageService implements MessageUser {
             'name' => $dataMessage->name,
             'avatar' => $dataMessage->avatar,
             'id' => $dataMessage->id,
-            'message' => $message
+            'message' => $message,
         ];
         $dataMessageDoctor = $this->tableQuery('doctors')->where('id' , $doctor_id)->first();
         $message_doctors = [
@@ -157,6 +157,20 @@ class MessageService implements MessageUser {
             'read_user' => 0,
             'read_doctor' => 0,
             'appointment_id' => $appointment_id,
+        ]);
+        return response()->json(['message' => 'Thông báo đã được gửi']);
+    }
+
+    public function sendAdmin($appointment_id='' , $message_admin = '' , $message= '' , $userId='')
+    {
+        $this->pusherWeb()->trigger("admin-notification", 'notification-event-admin', $message_admin);
+        Notification::create([
+            'appointment_id' => $appointment_id,
+            'message_admin' => $message_admin,
+            'message' => $message,
+            'read' => 0,
+            'admin_id' => 1,
+            'user_id' => $userId,
         ]);
         return response()->json(['message' => 'Thông báo đã được gửi']);
     }

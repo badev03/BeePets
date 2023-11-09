@@ -168,81 +168,44 @@ class HomeController extends Controller
 
 
     public function testSMS() {
-        /**
-         * Tiếp theo tạo một instance của class SpeedSMSAPI và truyền vào tham số là api access token của bạn.
-         */
-        $smsAPI = new SmsNotificationBeepets(env('accessToken'));
-//        /**
-//         * Để lấy thông tin về tài khoản như: email, số dư tài khoản bạn sử dụng hàm getUserInfo()
-//         */
+//        $nexmoClient = new \Vonage\Client\Credentials\Basic("a942b359", "jQOo5hCLR3LRfzfM");
+//        $client = new \Vonage\Client($nexmoClient);
+//        $response = $client->sms()->send(
+//            new \Vonage\SMS\Message\SMS("84981608298", 'Beepets', 'A text message sent using the Nexmo SMS API')
+//        );
+//        $message = $response->current();
 //
-        $userInfo = $smsAPI->getUserInfo();
-//        /* * Hàm getUserInfo() sẽ trả về một mảng như sau:
-//         * /
-//        ["email"=>"test@speedsms.vn", "balance" =>100000.0, "currency" => "VND"]
-//
-//        /** Để gửi SMS bạn sử dụng hàm sendSMS như sau:
-//        */
-        $phones = ["84981608298"];
-//        /* tối đa 100 số cho 1 lần gọi API */
-        $content = "tôi đang test dữ liệu";
-        $type = 1;
-//
-        $response = $smsAPI->sendSMS($phones, $content, $type, '84981608298');
-        if($response) {
-            dd($response);
-        }
-//
-///**
-//sms_type có các giá trị như sau:
-//2: tin nhắn gửi bằng đầu số ngẫu nhiên
-//3: tin nhắn gửi bằng brandname
-//4: tin nhắn gửi bằng brandname mặc định (Verify hoặc Notify)
-//5: tin nhắn gửi bằng app android
-// */
-//$sender = "brandname";
-///**
-//brandname là tên thương hiệu hoặc số điện thoại đã đăng ký với SpeedSMS
-// */
-//
-//$response = $smsAPI->sendSMS($phones, $content, $type, $sender);
-//
-///**hàm sendSMS sẽ trả về một mảng như sau:*/
-//[
-//    "status"=>"success", "code"=> "00",
-//    "data"=>[
-//        "tranId"=>123456, "totalSMS"=>2,
-//        "totalPrice"=>500, "invalidPhone"=>[]
-//    ]
-//]
-//*/
-//// Trong trường hợp gửi sms bị lỗi, hàm sendSMS sẽ trả về mảng như sau:
-//[
-//    "status"=>"error", "code"=>"error code", "message" => "error description",
-//    "invalidPhone"=>["danh sách sdt lỗi"]
-//];
+//        if ($message->getStatus() == 0) {
+//            echo "The message was sent successfully\n";
+//        } else {
+//            echo "The message failed with status: " . $message->getStatus() . "\n";
+//        }
+        $basic  = new \Nexmo\Client\Credentials\Basic(env("NEXMO_KEY"), env("NEXMO_SECRET"));
 
-///** Để gửi VOICE OTP bạn sử dụng hàm sendVoice như sau:
-// */
-//$phone = "8491xxxxx";
-//$content = "xxxx";
-///* nội dung chỉ chứa mã code, ví dụ: 1234 */
-//$response = $smsAPI->sendVoice($phone, $content);
-//
-///**hàm sendVoice sẽ trả về một mảng như sau:*/
-//[
-//    "status"=>"success", "code"=> "00",
-//    "data"=>[
-//        "tranId"=>123456,
-//        "totalPrice"=>400, "invalidPhone"=>[]
-//    ]
-//]
-//*/
-//// Trong trường hợp gửi voice otp bị lỗi, hàm sẽ trả về mảng như sau:
-//[
-//    "status"=>"error", "code"=>"error code", "message" => "error description",
-//    "invalidPhone"=>["danh sách sdt lỗi"]
-//]
+        $client = new \Nexmo\Client($basic);
+
+        $receiverNumber = "91846XXXXX";
+
+        $message = "This is testing from ItSolutionStuff.com";
+
+
+
+        $message = $client->message()->send([
+
+            'to' => $receiverNumber,
+
+            'from' => 'Vonage APIs',
+
+            'text' => $message
+
+        ]);
+        dd('SMS Sent Successfully.');
+//        $text = new \Vonage\SMS\Message\SMS('84981608298', '', 'Tôi đang test dữ liệu');
+//        $text->setClientRef('test-message');
+    }
+
+    public function Profile() {
+
     }
 }
 

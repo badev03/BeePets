@@ -121,18 +121,17 @@
                 <span class="user-img"><img class="rounded-circle" src="{{ auth()->user()->avatar }}" width="31" alt="{{ auth()->user()->name }}"></span>
             </a>
             <div class="dropdown-menu">
-                <div class="user-header">
+                <div class="user-header align-items-center">
                     <div class="avatar avatar-sm">
                         <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}" class="avatar-img rounded-circle">
                     </div>
                     <div class="user-text">
                         <h6>{{ Auth::user()->name }}</h6>
-                        <p class="text-muted mb-0">Administrator</p>
                     </div>
                 </div>
-                <a class="dropdown-item" href="profile.html">My Profile</a>
-                <a class="dropdown-item" href="settings.html">Settings</a>
-                <a class="dropdown-item" href="{{ route('admin.logout') }}">Logout</a>
+                <a class="dropdown-item" href="{{ route('profile') }}">Hồ sơ</a>
+                <a class="dropdown-item" href="{{ route('setting') }}">Cài đặt</a>
+                <a class="dropdown-item" href="{{ route('admin.logout') }}">Đăng xuất</a>
             </div>
         </li>
 
@@ -142,12 +141,12 @@
 @push('script')
     <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
     <script>
-        var pusher = new Pusher('2798806e868dbe640e2e', {
+        var pusher = new Pusher('59deaefaec6129103d3d', {
             cluster: 'ap1'
         });
 
-        var channel = pusher.subscribe('user-notification-3');
-        channel.bind('notification-event', function(data) {
+        var channel = pusher.subscribe('admin-notification');
+        channel.bind('notification-event-admin', function(data) {
 
             let notification = `
                 <li class="notification-message">

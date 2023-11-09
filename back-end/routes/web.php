@@ -101,6 +101,7 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
         Route::get('birthDayDoctor/notifications' , [NotificationController::class , 'storeBirthdayDoctor'])->name('notifications.birthdayDoctor');
         Route::get('doctors-notifications' , [NotificationController::class , 'DoctorIndex'])->name('notifications.doctor');
         Route::get('time-line-notifications' , [NotificationController::class , 'TimeLine'])->name('notifications.time-line-notifications');
+        Route::get('profile' , [HomeController::class , 'Profile'])->name('profile');
         Route::post('send-notifications-user' , [NotificationController::class , 'SendNotificationUser'])->name('notifications.send-notifications-user');
         Route::post('send-notifications-doctor' , [NotificationController::class , 'SendNotificationDoctor'])->name('notifications.send-notifications-doctor');
         Route::match(['put' , 'get'] , 'setting' , [SettingController::class , 'index'])->name('setting');

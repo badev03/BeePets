@@ -330,7 +330,6 @@ const Header = () => {
                                     e.stopPropagation(); // Ngăn sự kiện lan truyền
                                     handleDeleteNotification(notifications.id_notification, token);
                                   }}
-                                      
                                     >
                                       {/* <i className="custom-icon">&#10006;</i> */}
                                       <i class="fa-solid fa-delete-left"></i>

@@ -61,8 +61,17 @@
                         $statusName = 'Hóa đơn đã chờ xác nhận';
                     } elseif ($stat->status == 1) {
                         $statusName = 'Hóa đơn đã xác nhận';
-                    } else {
-                        $statusName = 'Hóa đơn đã hủy';
+                    } elseif($stat->status == 4) {
+                        $statusName = 'Hóa đơn đã hoàn thành';
+                    }
+                    elseif($stat->status == 3) {
+                        $statusName = 'Đã hủy';
+                    }
+                    elseif($stat->status == 7) {
+                        $statusName = 'Hóa đơn yêu cầu đổi lịch';
+                    }
+                    elseif($stat->status == 6) {
+                        $statusName = 'Hóa đơn yêu cầu hủy lịch';
                     }
                 @endphp
             { date: "{{ $statusName }}", value: {{ $stat->count }} },
@@ -99,6 +108,9 @@
                             } else if (stat.status == 1) {
                                 statusName = 'Hóa đơn đã xác nhận';
                             } else if(stat.status == 3) {
+                                statusName = 'Hóa đơn đã hủy';
+                            }
+                            else if(stat.status == 4) {
                                 statusName = 'Hóa đơn đã hoàn thành';
                             }
                             else if(stat.status == 7) {
@@ -150,6 +162,9 @@
                             } else if (stat.status == 1) {
                                 statusName = 'Hóa đơn đã xác nhận';
                             } else if(stat.status == 3) {
+                                statusName = 'Hóa đơn đã hủy';
+                            }
+                            else if(stat.status == 4) {
                                 statusName = 'Hóa đơn đã hoàn thành';
                             }
                             else if(stat.status == 7) {
