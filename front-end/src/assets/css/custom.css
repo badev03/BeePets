@@ -36382,3 +36382,9 @@ input:checked + .tog-slider:before {
   display: inline-block;
   margin-left: 20px;
 }
+
+.custom-button:hover{
+  background-color: #1677ff;
+  border: none;
+  color: #fff !important;
+}

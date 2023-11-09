@@ -213,11 +213,6 @@ const Editbill = () => {
 
   };
 
-  useEffect(() => {
-    const availableServices = serviceBill.filter((service) => !selectedServiceIds.includes(service.id));
-    setServiceBill(availableServices);
-  }, [selectedServiceIds]);
-
   const availableServiceOptions = serviceBill
   .filter((ser) => ser.name !== serviceDefault?.name)
   .map((ser) => ({
