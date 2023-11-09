@@ -304,14 +304,17 @@ const Header = () => {
                           <ul className="notification-list">
                         {noti.map((notifications) => (
                                 <li className="notification-message" key={noti.id}>
-                                  <a href="#">
+                            <a href={
+                            handleCheckAccount(data)
+                                ? `/user/appointment/${195}`
+                                : `/doctors/accept-detail-appointments/${134}`}>
                                     <div className="notify-block d-flex">
                                 <span className="avatar">
                                   <img
                                       className="avatar-img"
                                       alt="Ruby perin"
                                       src={notifications.avatar}
-                                  />
+                                  />s
                                 </span>
                                       <div className="media-body">
                                         <h6>
