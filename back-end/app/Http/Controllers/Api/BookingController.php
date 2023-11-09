@@ -108,7 +108,7 @@ class BookingController extends Controller
             ->get();
 
         if ($work_schedule->isEmpty()) {
-            return response()->json(['message' => 'Không có lịch làm việc của bác sĩ này'], 200);
+            return response()->json(['message' => 'Không có lịch làm việc của bác sĩ này',], 200);
         } else {
             return response()->json(['message' => 'Lấy danh sách lịch làm việc thành công', 'data' => $work_schedule], 200);
         }
@@ -241,7 +241,7 @@ class BookingController extends Controller
             // ->whereHas('work_schedule', function ($query) use ($currentDate) {
             //     $query->where('end_time', '>', $currentDate);
             // })
-            ->with('user:id,name,phone')
+            ->with('user:id,name,phone,avatar')
             ->with('service:id,name')
             ->with('type_pet:id,name')
             ->orderBy('created_at', 'desc')
