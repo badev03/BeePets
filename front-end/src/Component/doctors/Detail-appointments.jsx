@@ -26,7 +26,7 @@ const DetailAppointment = () => {
           }
         );
         setAppointments(response.data);     
-        console.log(response.data);
+       
       
 
         } catch (error) {
@@ -38,6 +38,37 @@ const DetailAppointment = () => {
     }, []); 
     console.log(appointments);
    }
+   function formatDate(dateString) {
+    if (dateString) {
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      const formattedDate = new Date(dateString).toLocaleDateString(
+        "vi-VN",
+        options,
+      );
+      // Loại bỏ từ "lúc" từ chuỗi được định dạng
+      return formattedDate.replace("lúc", "").trim();
+    }
+    return "";
+  }
+  const formatShiftTime = (shiftName) => {
+    switch (shiftName) {
+      case "Ca 1":
+        return " 8:00h-12:00h";
+      case "Ca 2":
+        return "13:00h-17:00h";
+      case "Ca 3":
+        return "18:00h-20:00h";
+      default:
+        return "";
+    }
+  };
+  const formatCurrency = (value) => {
+    const numberValue = parseFloat(value);
+    return numberValue.toLocaleString("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    });
+  };
     if (!appointments) {
         return <LoadingSkeleton/>;
     }
@@ -49,7 +80,9 @@ const DetailAppointment = () => {
           <h2 className="breadcrumb-title">Chi tiết lịch khám</h2>
           <nav aria-label="breadcrumb" className="page-breadcrumb">
             <ol className="breadcrumb">
-              <li className="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+            <li className="breadcrumb-item">
+                    <Link to="/">Trang chủ</Link>
+                  </li>
               <li className="breadcrumb-item" aria-current="page">Chi tiết lịch khám</li>
             </ol>
           </nav>
@@ -61,61 +94,9 @@ const DetailAppointment = () => {
     <div className="container">
       <div className="row">
       <div className="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar dct-dashbd-lft">
-          <div className="card widget-profile pat-widget-profile">
-            <div className="card-body">
-                <Menudashboard/>
-              {/* <div className="pro-widget-content">
-                <div className="profile-info-widget">
-                  <Link to="#" className="booking-doc-img">
-                    <img src="/img/patients/patient.jpg" alt="User Image" />
-                  </Link>
-                  <div className="profile-det-info">
-                    <h3>{appointments[0].user.name}</h3>
-                    <div className="patient-details">
-                      <h5><b>Patient ID :</b> {appointments[0].user_id}</h5>
-                      
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="patient-info">
-                <ul>
-                  <li>SĐT <span>{appointments[0].user.phone}</span></li>
-                </ul>
-              </div> */}
-            </div>
-          </div>
-          <div className="card">
-            <div className="card-header">
-              <h4 className="card-title">Lịch đặt gần đây</h4>
-            </div>
-            <ul className="list-group list-group-flush">
-              <li className="list-group-item">
-                <div className="notify-block align-items-center d-flex">
-                  <div className="me-3 flex-shrink-0">
-                    <img alt="Image placeholder" src="/img/doctors/doctor-thumb-02.jpg" className="avatar  rounded-circle" />
-                  </div>
-                  <div className="media-body flex-grow-1">
-                    <h5 className="d-block mb-0">Dr. Darren Elder </h5>
-                    <span className="d-block text-sm text-muted">Dentist</span>
-                    <span className="d-block text-sm text-muted">14 Nov 2023 5.00 PM</span>
-                  </div>
-                </div>
-              </li>
-              <li className="list-group-item">
-                <div className="notify-block align-items-center d-flex">
-                  <div className="me-3 flex-shrink-0">
-                    <img alt="Image placeholder" src="/img/doctors/doctor-thumb-02.jpg" className="avatar  rounded-circle" />
-                  </div>
-                  <div className="media-body flex-grow-1">
-                    <h5 className="d-block mb-0">Dr. Darren Elder </h5>
-                    <span className="d-block text-sm text-muted">Dentist</span>
-                    <span className="d-block text-sm text-muted">12 Nov 2023 11.00 AM</span>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
+       
+          <Menudashboard/>
+          
         </div>
         <div className="col-md-7 col-lg-8 col-xl-9">
        
@@ -124,52 +105,55 @@ const DetailAppointment = () => {
               <form>
               
                 <div className="row">
-               
-                  <div className="col-12 col-md-6">
-                    <div className="mb-3">
-                      <label className="mb-2">Tên khách hàng</label>
-                      <input type="text" className="form-control" value={appointments[0].user.name} />
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-6">
-                    <div className="mb-3">
-                      <label className="mb-2">Số điện thoại</label>
-                      <input type="text" className="form-control" value={appointments[0].user.phone} />
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-6">
-                    <div className="mb-3">
-                      <label className="mb-2">Loại thú cưng</label>
-                      <input type="text" className="form-control" value={appointments[0].type_pet.name}  />
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-6">
-                    <div className="mb-3">
-                      <label className="mb-2">Ngày đặt lịch</label>
-                      <input type="text" className="form-control" value={appointments[0].date} />
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-6">
-                    <div className="mb-3">
-                      <label className="mb-2">Lịch khám</label>
-                      <input type="text" className="form-control" value={appointments[0].shift_name} />
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-6">
-                    <div className="mb-3">
-                      <label className="mb-2">Dịch vụ</label>
-                      <input type="text" className="form-control" value={appointments[0].service.name} />
-                    </div>
-                  </div>
-                 
-                  <div className="col-12 col-md-12">
-                    <div className="mb-3">
-                      <label className="mb-2">Ghi chú</label>
-                     
-                        <textarea type="text" className="form-control datetimepicker" value={appointments[0].description} />
-                      
-                    </div>
-                  </div>
+                <div className="col-xl-6">   <div className="profile-info">
+  <div className="profile-item">
+    <span className="profile-label">Tên khách hàng:</span>
+    <span className="profile-value">{appointments[0].user.name} </span>
+  </div>
+  <div className="profile-item">
+    <span className="profile-label">Số điện thoại:</span>
+    <span className="profile-value">{appointments[0].user.phone}</span>
+  </div>
+  <div className="profile-item">
+    <span className="profile-label">Loại thú cưng:</span>
+    <span className="profile-value">{appointments[0].type_pet.name}</span>
+  </div>
+  <div className="profile-item">
+    <span className="profile-label">Dịch vụ:</span>
+    <span className="profile-value">{appointments[0].service.name}</span>
+  </div>
+  <div className="profile-item">
+    <span className="profile-label">Ngày đặt lịch:</span>
+    <span className="profile-value">{formatDate(appointments[0].date)}</span>
+  </div>
+  <div className="profile-item">
+    <span className="profile-label">Lịch khám:</span>
+    <span className="profile-value">{formatShiftTime(appointments[0].shift_name)}</span>
+    <span className="profile-value">{formatDate(appointments[0].date)}</span>
+  </div>
+
+  <div className="profile-item">
+    <span className="profile-label">Ghi chú:</span>
+    <span className="profile-value">{appointments[0].description}</span>
+  </div>
+</div>
+</div>
+<div className="col-xl-6">  {appointments[0].user.image ? (
+             <div className="profile-img d-flex justify-content-center align-items-center">
+             <img src={appointments.user.image} alt="User Image" className="rounded-0"
+               style={{ width: '50%', border: 'none', marginBottom: '20px' }} />
+           </div>
+            ) : (
+              <div className="profile-img d-flex justify-content-center align-items-center">
+                        <img src="https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" alt="User Image" className="rounded-0"
+                          style={{ width: '50%', border: 'none', marginBottom: '20px' }} />
+                      </div>
+              // <div className="default-avatar booking-doc-img">
+              //   <img src="https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" alt="Default Avatar" />
+              // </div>
+            )}
+</div>     
+                
                  
                   
   

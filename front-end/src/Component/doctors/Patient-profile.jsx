@@ -114,7 +114,7 @@ const Patientprofile = () => {
         <div className="container">
           <div className="row">
             <div className="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar dct-dashbd-lft">
-              <div className="card-body">
+              <div >
                 <div className="profile-sidebar" >
                   <div className="widget-profile pro-widget-content">
                     <div className="profile-info-widget">
@@ -266,9 +266,9 @@ const Patientprofile = () => {
                       <li className="nav-item">
                         <Link className="nav-link active" to="#pat_appointments" data-bs-toggle="tab">Cuộc hẹn</Link>
                       </li>
-                      <li className="nav-item">
+                      {/* <li className="nav-item">
                         <Link className="nav-link" to="#pres" data-bs-toggle="tab"><span>Đơn thuốc</span></Link>
-                      </li>
+                      </li> */}
                       {/* <li className="nav-item">
                     <Link className="nav-link" to="#medical" data-bs-toggle="tab"><span className="med-records">Hóa đơn</span></Link>
                   </li> */}

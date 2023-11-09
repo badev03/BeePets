@@ -103,7 +103,7 @@ const Search = ({ data }) => {
                     <i className="fas fa-map-marker-alt" style={{marginRight:"10px"}} />
                     {doctor.address ? doctor.address : "Hà Nội"}
                   </p>
-                  {doctor.images.length > 0 && (
+                  {doctor?.images?.length > 0 && (
                     <ul className="clinic-gallery">
                       {doctor.images[0] && (
                         <li>

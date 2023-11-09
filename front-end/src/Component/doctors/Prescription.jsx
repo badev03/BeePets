@@ -37,9 +37,9 @@ const Prescription = () => {
         fetchAppointments();
       }
     }, [id, token]);
-    if (loading) {
-      return <LoadingSkeleton />
-    }
+    // if (loading) {
+    //   return <LoadingSkeleton />
+    // }
     const formatCurrency = (value) => {
         const numberValue = parseFloat(value);
         return numberValue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
