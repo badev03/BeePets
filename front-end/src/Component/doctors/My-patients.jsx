@@ -24,6 +24,7 @@ const Mypatients = () => {
          }
        );
        setCustomers(response.customers);
+       console.log(response);
           setLoading(false);
               
        } catch (error) {
@@ -91,7 +92,7 @@ const Mypatients = () => {
                                     <div className="pro-widget-content">
                                       <div className="profile-info-widget">
                                         <Link to={`/doctors/patient-profile/${customers.id}`} className="booking-doc-img">
-                                          <img src="/img/patients/patient.jpg" alt="User Image" />
+                                          <img src={customers.avatar} alt="User Image" />
                                         </Link>
                                         <div className="profile-det-info">
                                           <h3><Link to={`/doctors/patient-profile/${customers.id}`}>{customers.name}</Link></h3>

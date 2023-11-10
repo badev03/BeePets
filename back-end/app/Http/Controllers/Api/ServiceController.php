@@ -115,9 +115,10 @@ class ServiceController extends BaseResponseApiController
             }
             foreach ($checkService as $doctor) {
                 $doctor_id = $doctor->id;
-                $doctor->average_score = isset($reviewAveragesArray[$doctor_id]) ? $reviewAveragesArray[$doctor_id] : null;
-                $doctor->review_count = isset($reviewCount[$doctor_id]) ? $reviewCount[$doctor_id] : null;
+                $doctor->average_score = isset($reviewAveragesArray[$doctor_id]) ? $reviewAveragesArray[$doctor_id] : 0;
+                $doctor->review_count = isset($reviewCount[$doctor_id]) ? $reviewCount[$doctor_id] : 0;
             }
+            $checkService = $checkService->sortByDesc('average_score')->values();
                 if( $checkService){
                     return response()->json([
                         'service' => $checkService ],

@@ -19,10 +19,10 @@
                         <li>
                             <a href="{{ route('appointments.history-appointment') }}" class="{{ request()->routeIs('appointments.history-appointment') ? 'active' : '' }}"> <span>Lịch sử cuộc hẹn</span></a>
                         </li>
-                        <li><a class="{{ request()->routeIs('appointments.trash-can') ? 'active' : '' }}" href="{{ route('appointments.trash-can') }}">Lịch Đã Hủy</a></li>
+{{--                        <li><a class="{{ request()->routeIs('appointments.trash-can') ? 'active' : '' }}" href="{{ route('appointments.trash-can') }}">Lịch Đã Hủy</a></li>--}}
                         <li><a class="{{ request()->routeIs('appointments.statistics') ? 'active' : '' }}" href="{{ route('appointments.statistics') }}">Thống kế cuộc hẹn</a></li>
-                        <li><a class="{{ request()->routeIs('appointments.cancel.requirements') ? 'active' : '' }}" href="{{ route('appointments.cancel.requirements') }}">Cuộc hẹn yêu cầu hủy</a></li>
-                        <li><a class="{{ request()->routeIs('appointments.cancel.requirements') ? 'active' : '' }}" href="{{ route('appointments.cancel.requirements') }}">Cuộc hẹn yêu cầu đổi</a></li>
+{{--                        <li><a class="{{ request()->routeIs('appointments.cancel.requirements') ? 'active' : '' }}" href="{{ route('appointments.cancel.requirements') }}">Cuộc hẹn yêu cầu hủy</a></li>--}}
+{{--                        <li><a class="{{ request()->routeIs('appointments.cancel.requirements') ? 'active' : '' }}" href="{{ route('appointments.cancel.requirements') }}">Cuộc hẹn yêu cầu đổi</a></li>--}}
                         <li><a class="{{ request()->routeIs('appointments.bills-appointment') ? 'active' : '' }}" href="{{ route('appointments.bills-appointment') }}">Hóa đơn cuộc hẹn</a></li>
                     </ul>
                 </li>

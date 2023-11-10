@@ -6,7 +6,7 @@
 @section('heading','đ')
 @section('content')
     <div class="row">
-    
+
         <div class="col-sm-12">
             @if(session()->has('success_delete'))
                 <div class="alert-success alert">
@@ -77,7 +77,7 @@
                                                     <button class="btn btn-sm bg-success-light">
                                                         {{ 'Xác nhận' }}
                                                     </button>
-                                                @elseif($value->status == 3)
+                                                @elseif($value->status == 4)
                                                     <button class="btn btn-sm bg-danger-light">
                                                         {{ 'Hoàn thành' }}
                                                     </button>

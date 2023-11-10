@@ -18,7 +18,6 @@ const Header = () => {
   const { isLoggedIn, onLogout, token, role } = useAuth();
   const navigate = useNavigate();
   const [noti, setNoti] = useState([]);
-  // console.log(noti)
   const [countNotification , setCountNotification] = useState(0);
   const imgDefault =
       "https://dvdn247.net/wp-content/uploads/2020/07/avatar-mac-dinh-1.png";
@@ -133,13 +132,14 @@ const Header = () => {
       setNoti(response.notifications);
       console.log(response.notifications);
       setCountNotification(response.count);
-      const pusher = new Pusher("2798806e868dbe640e2e", {
+      const pusher = new Pusher("59deaefaec6129103d3d", {
         cluster: "ap1",
       });
 
       const channel = pusher.subscribe("user-notification-" + data.id);
 
       channel.bind("notification-event-test", function (data) {
+        setCountNotification((prevCount) => prevCount + 1);
         setNoti((prevData) => {
           const newData = {
             message: data.message,
@@ -164,6 +164,7 @@ const Header = () => {
 
       const channel = pusher.subscribe("doctor-notification-" + data.id);
       channel.bind("notification-event-doctor", function (data) {
+        setCountNotification((prevCount) => prevCount + 1);
         setNoti((prevData) => {
           const newData = {
             message: data.message,
@@ -291,7 +292,7 @@ const Header = () => {
                           href="#"
                     className="dropdown-toggle nav-link p-0" onClick={handleNotificationClick}
                           data-bs-toggle="dropdown"
-                  
+
                       >
                         <i className="fa-solid fa-bell" />{" "}
                         <span className="badge">{countNotification}</span>
@@ -327,18 +328,18 @@ const Header = () => {
                                           {notifications.message}
                                         </p>
                                     </div>
-                                    <button
-                                      className="custom-delete-button btn sm"
-                                  onClick={(e) => {
-                                    e.stopPropagation(); // Ngăn sự kiện lan truyền
-                                    handleDeleteNotification(notifications.id_notification, token);
-                                  }}
-                                    >
-                                      {/* <i className="custom-icon">&#10006;</i> */}
-                                      <i class="fa-solid fa-delete-left"></i>
-                                    </button>
                                     </div>
                                   </a>
+                                  <button
+                                      className="custom-delete-button btn sm"
+                                      onClick={(e) => {
+                                        e.stopPropagation(); // Ngăn sự kiện lan truyền
+                                        handleDeleteNotification(notifications.id_notification, token);
+                                      }}
+                                  >
+                                    {/* <i className="custom-icon">&#10006;</i> */}
+                                    <i className="fa-solid fa-delete-left"></i>
+                                  </button>
                                 </li>
                             ))}
                           </ul>

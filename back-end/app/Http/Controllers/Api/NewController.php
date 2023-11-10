@@ -56,7 +56,9 @@ class NewController extends BaseResponseApiController
             $data = $query->limit(5)->get();
         }
         if($data->isEmpty()) {
-            return response()->json(['message' => $this->title.'không có dữ liệu'], 404);
+            return response()->json([
+                'new'=>$data
+            ] , '200');
         }
         else {
             return response()->json([

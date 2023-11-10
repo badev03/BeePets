@@ -52,9 +52,10 @@ const Appointments = () => {
   
   const handleUpdate = async (id) => {
     setLoadingId(id);
+    console.log(id)
     try {
       const respon = await axios.put(
-        `http://127.0.0.1:8000/api/update-appointment/${id}?status=3`,
+        `http://127.0.0.1:8000/api/update-appointment/${id}?status=4`,
         {},
         {
           headers: {
@@ -199,9 +200,9 @@ const Appointments = () => {
               </span>
             ) : appointment.status == 2 ? (
               <span className="badge rounded-pill bg-danger-light">Đã xóa</span>
-            ) : appointment.status == 3 ? (
-              <span className="badge rounded-pill bg-primary-light">Đã hoàn thành</span>
             ) : appointment.status == 4 ? (
+              <span className="badge rounded-pill bg-primary-light">Đã hoàn thành</span>
+            ) : appointment.status == 3 ? (
               <span className="badge rounded-pill bg-danger-light">Đã hủy</span>
             ) : appointment.status == 6 ? (
               <span className="badge rounded-pill bg-warning-light">Yêu cầu hủy</span>
@@ -363,18 +364,30 @@ const Appointments = () => {
 </Modal>
         </td>
         )}
+      
         {appointment.status != 1 && (
         <td>
           <div className="table-action">
+            
             <Link to={`/doctors/accept-detail-appointments/${appointment.id}`} className="btn btn-sm bg-info-light">
               <i className="far fa-eye" /> Lịch Hẹn
             </Link>
-            <Link to={appointment.bill[0]?.id ? `/doctors/detail-bill/${appointment.bill[0].id}` : "#"} className="btn btn-sm bg-info-light">
-              <i className="far fa-eye" /> Hóa Đơn
-            </Link>
+            
+          <Link
+            to={
+              appointment.bill[0]?.id
+                ? `/doctors/detail-bill/${appointment.bill[0].id}`
+                : "#"
+            }
+            className="btn btn-sm bg-info-light"
+          >
+            <i className="far fa-eye" /> Hóa Đơn
+          </Link>
+       
           </div>
         </td>
         )}
+        
       </tr>
     ));
 

@@ -38,6 +38,8 @@ const Editbill = () => {
   const [selectedServiceIds, setSelectedServiceIds] = useState([]);
   const navigate = useNavigate();
 
+  const [serviceBillSpecialEdit ,setServiceBillSpecialEdit] = useState([]);
+
   const tokenn = localStorage.getItem("token");
 
   const [userId, setUserId] = useState("");
@@ -71,6 +73,7 @@ const Editbill = () => {
       try {
         const response = await BookingApi.getServiceDoctor();
         setServiceBill(response.data);
+        setServiceBillSpecialEdit(response.data);
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
@@ -211,10 +214,28 @@ const Editbill = () => {
     const updatedServices = services.filter((item) => item.id !== id);
     setServices(updatedServices);
 
-    const updatedServicesDelete = selectedServiceIds.filter((item) => item !== id);
-    setSelectedServiceIds(updatedServicesDelete);
+    // setServiceBill((prevServiceBill) => {
+    //   const updatedServiceBill = prevServiceBill.map((service) => {
+    //     if (service.id === id) {
+    //       // Thực hiện các thay đổi cần thiết trong dịch vụ đã xóa
+    //       // Ví dụ: Cập nhật trường thông tin name và price thành giá trị mới
+    //       console.log(1111);
+    //       debugger
+    //     }
+    //     return service;
+    //   });
 
-    console.log(selectedServiceIds);
+    //   return updatedServiceBill;
+    // });
+
+    // console.log(serviceBill);
+    // console.log(1111);
+    // debugger
+    // setServiceBill(prevServices => {
+    //   const updatedServices = [...prevServices];
+    //   updatedServices.splice(id, 1);
+    //   return updatedServices;
+    // });
 
   };
 
@@ -272,15 +293,17 @@ const Editbill = () => {
 
   useEffect(() => {
     const availableServices = serviceBill.filter((service) => !selectedServiceIds.includes(service.id));
-    setServiceBill(availableServices);
+    // setServiceBill(availableServices);
 
-  }, [selectedServiceIds]);
+  });
 
   const onChangeService = (value, serviceId) => {
     const selectedService = serviceBill.find((service) => service.name === value);
-    const newServicePrices = { ...servicePrices };
-    newServicePrices[serviceId] = selectedService ? selectedService.price : "";
-    setServicePrices(newServicePrices);
+
+    // const newServicePrices = { ...servicePrices };
+    // newServicePrices[serviceId] = selectedService ? selectedService.price : "";
+    // setServicePrices(newServicePrices);
+
 
     setSelectedServiceIds((prevSelectedServiceIds) => {
       const updatedIds = [...prevSelectedServiceIds];
@@ -289,7 +312,10 @@ const Editbill = () => {
       }
       return updatedIds;
     });
-    console.log(selectedServiceIds);
+
+    const availableServices = serviceBill.filter((service) => service.name = selectedService.name);
+    // setServiceBill(availableServices);
+    console.log('availableServices' , availableServices);
   };
 
   const onSearch = (value) => {
@@ -511,15 +537,15 @@ const Editbill = () => {
                               <tr key={service.id} className="test">
                                 <td>
                                   <Select
-                                    showSearch
+                                    // showSearch
                                     placeholder="Chọn dịch vụ"
-                                    optionFilterProp="children"
+                                    // optionFilterProp="children"
                                     style={{ width: 350, height: 43 }}
                                     onChange={(value) =>
                                       onChangeService(value, service.id)
                                     }
-                                    onSearch={onSearch}
-                                    filterOption={filterOption}
+                                    // onSearch={onSearch}
+                                    // filterOption={filterOption}
                                     options={availableServiceOptions}
                                   />
                                 </td>

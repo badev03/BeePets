@@ -55,7 +55,7 @@ const CustomButton = ({ doctorId, handleBookingg }) => {
                     `http://127.0.0.1:8000/api/doctor-service?doctor_id=${doctorId}`,
                     {}
                 );
-                console.log(response.data);
+                // console.log(response.data);
                 // Lưu trữ dữ liệu vào state nếu response.data không rỗng
                 if (response.data) {
                     setFetchedData(response.data);

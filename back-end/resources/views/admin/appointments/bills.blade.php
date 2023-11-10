@@ -48,7 +48,7 @@
                                             <td>{{ $value->service_id }}</td>
                                             <td>{!! $value->description !!}</td>
                                             <td>
-                                                @if($value->status == 3)
+                                                @if($value->status == 4)
                                                     <button class="btn btn-sm bg-info-light">
                                                         {{ 'Hoàn thành' }}
                                                     </button>

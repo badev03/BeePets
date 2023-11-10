@@ -57,7 +57,9 @@ const AppointmentDetail = () => {
             <h2 className="breadcrumb-title">Chi tiết lịch khám</h2>
             <nav aria-label="breadcrumb" className="page-breadcrumb">
               <ol className="breadcrumb">
-                <li className="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+                <li className="breadcrumb-item">
+                  <Link to="/">Trang chủ</Link>
+                </li>
                 <li className="breadcrumb-item" aria-current="page">Chi tiết lịch khám</li>
               </ol>
             </nav>

@@ -36363,6 +36363,25 @@ input:checked + .tog-slider:before {
 .table-action a {
     margin-right: 5px;
 }
+.profile-info {
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.profile-item {
+  margin-bottom: 1.5rem;
+}
+
+.profile-label {
+  font-weight: bold;
+  display: inline-block;
+  min-width: 150px;
+}
+
+.profile-value {
+  display: inline-block;
+  margin-left: 20px;
+}
 
 .custom-button:hover{
   background-color: #1677ff;

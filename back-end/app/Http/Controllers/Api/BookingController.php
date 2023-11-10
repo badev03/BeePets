@@ -343,6 +343,7 @@ class BookingController extends Controller
                 $appointment->status = 4;
                 $appointment->save();
                 $messageInterface->sendMessage($appointment->user_id, 'Cuộc hẹn của bạn đã hoàn thành', $doctor->id, 'Cuộc hẹn của' . $appointment->user->name . ' đã hoàn thành', $appointment->id);
+                $messageInterface->sendDoctorToAdmin($doctor->id, 'bạn đã xác nhận hoàn thành lịch hẹn' . $appointment->user->name, 1, 'bác sĩ ' . $doctor->name . ' lich hẹn đã hoàn thành ' . $appointment->user->name, $appointment->id);
                 return response()->json(['message' => 'Bạn đã hoàn thành cuộc hẹn'], 200);
             }
             if ($request->status == 7) {

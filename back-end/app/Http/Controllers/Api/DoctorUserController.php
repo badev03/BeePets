@@ -111,6 +111,7 @@ class DoctorUserController extends BaseResponseApiController
             $doctor->review_count = isset($reviewCount[$doctor_id]) ? $reviewCount[$doctor_id] : 0;
             $doctor->images = $imagesDoctor->where('doctor_id' ,$doctor->id )->pluck('image_path')->toArray();
         }
+        $doctors = $doctors->sortByDesc('average_score')->values();
         return $doctors;
     }
 }
