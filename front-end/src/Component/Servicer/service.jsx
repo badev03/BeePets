@@ -34,13 +34,10 @@ const Servicer = () => {
             <div className="row">
                 <div className="col-lg-12 aos">
                     <div className="section-header-fourteen service-inner-fourteen">
-                        <div className="service-inner-fourteen">
-                            <div className="service-inner-fourteen-two">
-                                <h3>DỊCH VỤ CỦA CHÚNG TÔI</h3>
-                            </div>
+                        <div className="service-inner-fourteen">        
                         </div>
-                        <h2>Chúng tôi có thể</h2>
-                        <p>Dịch vụ chuyên nghiệp của chúng tôi</p>
+                        <h2>Tại sao lại chọn chúng tôi ?</h2>
+                        <br /><br />
                     </div>
                 </div>
             </div>
