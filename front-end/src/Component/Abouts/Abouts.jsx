@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import aboutsApi from "../../api/aboutApi";
+import Services from "../Servicer/services";
+import Servicer from "../Servicer/service";
 
 const Abouts = () => {
   const [abouts, setAbouts] = useState([]);
-
   useEffect(() => {
     const fetchAbout = async () => {
       try {
@@ -31,7 +32,7 @@ const Abouts = () => {
                 <nav aria-label="breadcrumb" className="page-breadcrumb">
                   <ol className="breadcrumb">
                     <li className="breadcrumb-item">
-                      <a href="index.html">Trang Chủ</a>
+                      <a href="/">Trang Chủ</a>
                     </li>
                     <li className="breadcrumb-item" aria-current="page">
                       Giới Thiệu
@@ -114,107 +115,12 @@ const Abouts = () => {
             </div>
           </div>
         </section>
-        <section className="why-choose-section">
-          <div className="container">
-            <div className="row">
-              <div className="col-md-12">
-                <div className="section-inner-header text-center">
-                  <h2>Tại sao lại chọn chúng tôi ?</h2>
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-lg-3 col-md-6 d-flex">
-                <div className="card why-choose-card w-100">
-                  <div className="card-body">
-                    <div className="why-choose-icon">
-                      <span>
-                        <img
-                          src="../src/assets/img/icons/choose-01.svg"
-                          alt="choose-image"
-                        />
-                      </span>
-                    </div>
-                    <div className="why-choose-content">
-                      <h4>Dịch vụ Y Tế Vượt Trội</h4>
-                      <p>
-                        Với đội ngũ bác sĩ thú y chuyên nghiệp, trang thiết bị
-                        hiện đại chúng tôi tự hào là đối tác đáng tin cậy cho
-                        sức khỏe của thú cưng bạn.{" "}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-6 d-flex">
-                <div className="card why-choose-card w-100">
-                  <div className="card-body">
-                    <div className="why-choose-icon">
-                      <span>
-                        <img
-                          src="../src/assets/img/icons/choose-02.svg"
-                          alt="choose-image"
-                        />
-                      </span>
-                    </div>
-                    <div className="why-choose-content">
-                      <h4>Dịch vụ Y tế 24/7</h4>
-                      <p>
-                        Với cam kết phục vụ 24/7, chúng tôi là đối tác đáng tin
-                        cậy của bạn trong việc giữ cho thú cưng luôn khỏe mạnh
-                        và hạnh phúc, bất kể lúc nào, mọi nơi.{" "}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-6 d-flex">
-                <div className="card why-choose-card w-100">
-                  <div className="card-body">
-                    <div className="why-choose-icon">
-                      <span>
-                        <img
-                          src="../src/assets/img/icons/choose-03.svg"
-                          alt="choose-image"
-                        />
-                      </span>
-                    </div>
-                    <div className="why-choose-content">
-                      <h4>Dịch Vụ Y Tế Hiện Đại</h4>
-                      <p>
-                        Với trang thiết bị y tế tiên tiến và phương pháp điều
-                        trị hiện đại, chúng tôi không chỉ điều trị bệnh lý mà
-                        còn đảm bảo sự thoải mái và an tâm tuyệt đối cho thú
-                        cưng của bạn.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-6 d-flex">
-                <div className="card why-choose-card w-100">
-                  <div className="card-body">
-                    <div className="why-choose-icon">
-                      <span>
-                        <img
-                          src="../src/assets/img/icons/choose-04.svg"
-                          alt="choose-image"
-                        />
-                      </span>
-                    </div>
-                    <div className="why-choose-content">
-                      <h4>Chăm Sóc Thú Cưng Tận Tâm</h4>
-                      <p>
-                        Với tâm huyết và sự chuyên nghiệp, chúng tôi không chỉ
-                        là đội ngũ bác sĩ thú y, mà còn là những người yêu thú
-                        cưng.{" "}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <section className="services-section-fourteen">
+          <div className="floating-bg">
+            <img src="../src/assets/img/bg/big-paw.png" alt="paw-image" />
+            <img src="../src/assets/img/bg/small-paw.png" alt="paw-image" />
           </div>
+          <Servicer />
         </section>
         <section className="doctors-section professional-section">
           <div className="container">
