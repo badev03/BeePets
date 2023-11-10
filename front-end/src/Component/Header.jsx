@@ -132,14 +132,13 @@ const Header = () => {
       setNoti(response.notifications);
       console.log(response.notifications);
       setCountNotification(response.count);
-      const pusher = new Pusher("59deaefaec6129103d3d", {
+      const pusher = new Pusher("2798806e868dbe640e2e", {
         cluster: "ap1",
       });
 
       const channel = pusher.subscribe("user-notification-" + data.id);
 
       channel.bind("notification-event-test", function (data) {
-        setCountNotification((prevCount) => prevCount + 1);
         setNoti((prevData) => {
           const newData = {
             message: data.message,
@@ -164,7 +163,6 @@ const Header = () => {
 
       const channel = pusher.subscribe("doctor-notification-" + data.id);
       channel.bind("notification-event-doctor", function (data) {
-        setCountNotification((prevCount) => prevCount + 1);
         setNoti((prevData) => {
           const newData = {
             message: data.message,
@@ -328,18 +326,18 @@ const Header = () => {
                                           {notifications.message}
                                         </p>
                                     </div>
+                                    <button
+                                      className="custom-delete-button btn sm"
+                                  onClick={(e) => {
+                                    e.stopPropagation(); // Ngăn sự kiện lan truyền
+                                    handleDeleteNotification(notifications.id_notification, token);
+                                  }}
+                                    >
+                                      {/* <i className="custom-icon">&#10006;</i> */}
+                                      <i class="fa-solid fa-delete-left"></i>
+                                    </button>
                                     </div>
                                   </a>
-                                  <button
-                                      className="custom-delete-button btn sm"
-                                      onClick={(e) => {
-                                        e.stopPropagation(); // Ngăn sự kiện lan truyền
-                                        handleDeleteNotification(notifications.id_notification, token);
-                                      }}
-                                  >
-                                    {/* <i className="custom-icon">&#10006;</i> */}
-                                    <i className="fa-solid fa-delete-left"></i>
-                                  </button>
                                 </li>
                             ))}
                           </ul>
