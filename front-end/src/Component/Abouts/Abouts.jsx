@@ -3,6 +3,7 @@ import aboutsApi from "../../api/aboutApi";
 import Services from "../Servicer/services";
 import Servicer from "../Servicer/service";
 import DoctorAbout from "../Homepage/DoctorAbout";
+import { Link } from "react-router-dom";
 
 const Abouts = () => {
   const [abouts, setAbouts] = useState([]);
@@ -33,7 +34,8 @@ const Abouts = () => {
                 <nav aria-label="breadcrumb" className="page-breadcrumb">
                   <ol className="breadcrumb">
                     <li className="breadcrumb-item">
-                      <a href="/">Trang Chủ</a>
+                      {/* <a href="/">Trang Chủ</a> */}
+                      <Link to={"/"}>Trang chủ</Link>
                     </li>
                     <li className="breadcrumb-item" aria-current="page">
                       Giới Thiệu
