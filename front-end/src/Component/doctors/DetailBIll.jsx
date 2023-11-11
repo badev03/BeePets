@@ -83,7 +83,7 @@ const DetailBIll = () => {
     setLoadingId(id);
     try {
       const respon = await axios.put(
-        `http://127.0.0.1:8000/api/update-appointment/${id}?status=3`,
+        `http://127.0.0.1:8000/api/update-appointment/${id}?status=4`,
         {},
         {
           headers: {
@@ -178,7 +178,11 @@ const DetailBIll = () => {
                               <span className="badge rounded-pill bg-danger-light">
                                 Đã xóa
                               </span>
-                            ) : bill.appointment.status == 3 ? (
+                              ) : bill.appointment.status == 3 ? (
+                              <span className="badge rounded-pill bg-danger-light">
+                                Đã hủy
+                              </span>
+                            ) : bill.appointment.status == 4 ? (
                               <span className="badge rounded-pill bg-primary-light">
                                 Đã hoàn thành
                               </span>
