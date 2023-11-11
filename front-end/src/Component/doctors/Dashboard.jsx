@@ -40,6 +40,7 @@ const Dashboarddoctors = () => {
         },
       });
       setAppointment(response.data);
+      // console.log(response);
       setLoading(false);
       setError(false);
     } catch (error) {
@@ -133,6 +134,30 @@ const Dashboarddoctors = () => {
       setLoadingIdd(null);
     }
   };
+  function formatDate(dateString) {
+    if (dateString) {
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      const formattedDate = new Date(dateString).toLocaleDateString(
+        "vi-VN",
+        options,
+      );
+      // Loại bỏ từ "lúc" từ chuỗi được định dạng
+      return formattedDate.replace("lúc", "").trim();
+    }
+    return "";
+  }
+  const formatShiftTime = (shiftName) => {
+    switch (shiftName) {
+      case "Ca 1":
+        return " 8:00h-12:00h";
+      case "Ca 2":
+        return "13:00h-17:00h";
+      case "Ca 3":
+        return "18:00h-20:00h";
+      default:
+        return "";
+    }
+  };
   const displayAppointments = filteredAppointments
     .slice(pagesVisited, pagesVisited + appointmentsPerPage)
     .map((appointment) => (
@@ -142,7 +167,7 @@ const Dashboarddoctors = () => {
             <Link to="patient-profile.html" className="avatar avatar-sm me-2">
               <img
                 className="avatar-img rounded-circle"
-                src="img/patients/patient.jpg"
+                src={appointment.user.avatar}
                 alt="User Image"
               />
             </Link>
@@ -150,8 +175,13 @@ const Dashboarddoctors = () => {
           </h2>
         </td>
         <td>
-          {appointment.date}
-          <span className="d-block text-info">{appointment.shift_name}</span>
+        <span className="d-block text-info">{appointment.shift_name}</span>
+          <span className="d-block ">
+            {formatShiftTime(appointment.shift_name)}
+          </span>
+          <span className="d-block ">
+          {formatDate(appointment.date)}
+          </span>
         </td>
         <td>{appointment.service.name}</td>
         <td>{appointment.type_pet.name}</td>
@@ -166,6 +196,7 @@ const Dashboarddoctors = () => {
             <div
               onClick={() => handleUpdate(appointment.id)}
               className="btn btn-sm bg-success-light position-relative"
+              style={{marginRight:"5px"}}
             >
               {loadingId === appointment.id ? (
                 <div className="loading-spinner">
