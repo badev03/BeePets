@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import Menudashboard from "./Menu-dashboard";
-import { Navigate ,Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Select } from "antd";
 import billApi from "../../api/bill";
@@ -16,7 +16,6 @@ const MySwal = withReactContent(Swal);
 const Editbill = () => {
   const { token } = useAuth();
   const [prescriptions, setPrescriptions] = useState([{ id: 1 }]);
-  const [services, setServices] = useState([{ id: 1 }]);
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [selectedProductPrice, setSelectedProductPrice] = useState("");
@@ -33,8 +32,7 @@ const Editbill = () => {
   const [bills, setBills] = useState(null);
   const [serviceBill, setServiceBill] = useState([]);
   const [servicePrices, setServicePrices] = useState({});
-  const [serviceDefault, setServiceDefault] = useState({});
-  const [selectedServicePrice, setSelectedServicePrice] = useState("");
+  const [serviceDefault, setServiceDefault] = useState([]);
   const [selectedServiceIds, setSelectedServiceIds] = useState([]);
   const navigate = useNavigate();
 
@@ -42,6 +40,13 @@ const Editbill = () => {
 
   const [userId, setUserId] = useState("");
   const [doctorId, setDoctorId] = useState("");
+
+  const styles = {
+    maxTdWidth: {
+      maxWidth: '100px',
+      wordBreak: 'break-all',
+    },
+  };
 
   useEffect(() => {
     const fetchBill = async () => {
@@ -53,14 +58,15 @@ const Editbill = () => {
           },
         });
         setBills(response.bill);
-        setServiceDefault(response.services[0]);
+        console.log(response.bill);
+        
+        setServiceDefault(response.services);
         setUserId(response.bill.user_id);
         setDoctorId(response.bill.doctor_id);
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
     };
-
     fetchBill();
     setLoading(false);
   }, []);
@@ -91,7 +97,7 @@ const Editbill = () => {
       };
       const formattedDate = new Date(dateString).toLocaleDateString(
         "vi-VN",
-        options,
+        options
       );
       return formattedDate.replace("lúc", "").trim();
     }
@@ -180,7 +186,7 @@ const Editbill = () => {
         title: "Thêm đơn thuốc thành công!",
         icon: "success",
       });
-      navigate(`/doctors/detail-bill/${id}`)
+      navigate(`/doctors/detail-bill/${id}`);
     } catch (error) {
       console.error("Lỗi khi gửi hóa đơn:", error);
     }
@@ -192,34 +198,17 @@ const Editbill = () => {
     setSelectedProductPrice("");
   };
 
-  const addServiceRow = () => {
-    const newServiceId = services.length + 1;
-    setServices([...services, { id: newServiceId }]);
-    setSelectedServicePrice("");
-    setServicePrices((prevPrices) => ({
-      ...prevPrices,
-      [newServiceId]: "", 
-    }));
-  };
-
   const deletePrescriptionRow = (id) => {
     const updatedPrescriptions = prescriptions.filter((item) => item.id !== id);
     setPrescriptions(updatedPrescriptions);
   };
 
-  const deleteServiceRow = (id) => {
-    const updatedServices = services.filter((item) => item.id !== id);
-    setServices(updatedServices);
-
-  };
-
   const availableServiceOptions = serviceBill
-  .filter((ser) => ser.name !== serviceDefault?.name)
-  .map((ser) => ({
-    value: ser.name,
-    label: ser.name,
-  }));
-
+    .filter((ser) => ser.name !== serviceDefault?.name)
+    .map((ser) => ({
+      value: ser.name,
+      label: ser.name,
+    }));
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -266,7 +255,9 @@ const Editbill = () => {
   };
 
   const onChangeService = (value, serviceId) => {
-    const selectedService = serviceBill.find((service) => service.name === value);
+    const selectedService = serviceBill.find(
+      (service) => service.name === value
+    );
     const newServicePrices = { ...servicePrices };
     newServicePrices[serviceId] = selectedService ? selectedService.price : "";
     setServicePrices(newServicePrices);
@@ -353,7 +344,9 @@ const Editbill = () => {
                     </div>
                     <div className="col-sm-6 text-sm-end">
                       <div className="billing-info">
-                        <h4 className="d-block">Ngày: {formatDate(bills?.created_at)}</h4>
+                        <h4 className="d-block">
+                          Ngày: {formatDate(bills?.created_at)}
+                        </h4>
                         <span className="d-block text-muted">
                           Mã hóa đơn: {bills?.code}
                         </span>
@@ -375,20 +368,99 @@ const Editbill = () => {
                         <table className="table table-hover table-center add-table-prescription">
                           <thead>
                             <tr>
-                              <th className="table-name">Tên loại thuốc</th>
-                              <th>Số lượng</th>
-                              <th className="table-name">Giá tiền</th>
-                              <th className="table-name">Tổng tiền</th>
-                              <th className="table-name">Hướng dẫn sử dụng</th>
+                              <th className="table-name1">Tên loại thuốc</th>
+                              <th style={{ width: 50 }}>Số lượng</th>
+                              <th className="table-name1">Giá tiền</th>
+                              <th className="table-name1">Tổng tiền</th>
+                              <th className="table-name1">Hướng dẫn sử dụng</th>
                               <th>Action</th>
                             </tr>
                           </thead>
                           <tbody>
+                          {bills && bills.prescriptions.map((prescription) => (
+                            prescription.productss.map((pres, innerIndex) => (
+                              <tr key={innerIndex} className="test">
+                                <td>
+                                  <input
+                                  className="form-control"
+                                    placeholder="Chọn thuốc"
+                                    style={{ width: 176, height: 43 }}
+                                    onChange={(value) =>
+                                      onChange(value, prescription.id)
+                                    }
+                                    value={pres.name}
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                    className="form-control"
+                                    type="number"
+                                    value={pres.pivot.quantity}
+                                    onChange={(e) =>
+                                      handleQuantityChange(
+                                        prescription.id,
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                    value={pres.pivot.price }
+                                    readOnly
+                                    className="form-control"
+                                    type="text"
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                    className="form-control"
+                                    type="text"
+                                    value={pres.pivot.price * pres.pivot.quantity}
+                                    readOnly
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                    className="form-control"
+                                    type="text"
+                                    value={pres.pivot.instructions}
+                                    onChange={(e) => {
+                                      const value = e.target.value;
+                                      setInstructionsError((prev) => ({
+                                        ...prev,
+                                        [prescription.id]: "",
+                                      }));
+                                      setInstructions((prev) => ({
+                                        ...prev,
+                                        [prescription.id]: value,
+                                      }));
+                                    }}
+                                  />
+                                  <span className="text-danger">
+                                    {instructionsError[prescription.id]}
+                                  </span>
+                                </td>
+                                <td>
+                                  <button
+                                    onClick={() =>
+                                      deletePrescriptionRow(prescription.id)
+                                    }
+                                    className="btn bg-danger-light trash"
+                                  >
+                                    <i className="far fa-trash-alt" />
+                                  </button>
+                                </td>
+                              </tr>
+                            ))
+                          ))}
+
                             {prescriptions.map((prescription) => (
+                              
                               <tr key={prescription.id} className="test">
                                 <td>
                                   <Select
-                                    showSearch
+                                    showSearch 
                                     placeholder="Chọn thuốc"
                                     optionFilterProp="children"
                                     style={{ width: 176, height: 43 }}
@@ -473,11 +545,6 @@ const Editbill = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="add-more-item text-end">
-                    <a onClick={addServiceRow} className="add-prescription">
-                      <i className="fas fa-plus-circle" /> Thêm dịch vụ
-                    </a>
-                  </div>
                   <div className="card card-table">
                     <div className="card-body">
                       <div className="table-responsive">
@@ -490,49 +557,40 @@ const Editbill = () => {
                             </tr>
                           </thead>
                           <tbody>
-                          <tr className="test">
-                                <td>{serviceDefault?.name}</td>
-                                <td>{serviceDefault?.price}</td>
-                                <td></td>
+                              {serviceDefault.map((service) => (
+                            <tr key={service.id} className="test">
+                                
+                              <td>{service.name}</td>
+                              <td>{service.price}</td>
+                              <td>
+                                <button className="btn bg-danger-light trash">
+                                  <i className="far fa-trash-alt" />
+                                </button>
+                              </td>
+                                
                             </tr>
-                            {services.map((service) => (
-                              <tr key={service.id} className="test">
-                                <td>
-                                  <Select
-                                    showSearch
-                                    placeholder="Chọn dịch vụ"
-                                    optionFilterProp="children"
-                                    style={{ width: 350, height: 43 }}
-                                    onChange={(value) =>
-                                      onChangeService(value, service.id)
-                                    }
-                                    onSearch={onSearch}
-                                    filterOption={filterOption}
-                                    options={availableServiceOptions}
-                                  />
-                                </td>
-                                <td>
-                                  <input
-                                    className="form-control"
-                                    type="text"
-                                    value={servicePrices[service.id] || ""}
-                                    readOnly
-                                  />
-                                </td>
-                                <td>
-                                  <button
-                                    onClick={() => deleteServiceRow(service.id)}
-                                    className="btn bg-danger-light trash"
-                                  >
-                                    <i className="far fa-trash-alt" />
-                                  </button>
-                                </td>
-                              </tr>
-                            ))}
+                              ))}
                           </tbody>
                         </table>
                       </div>
                     </div>
+                  </div>
+                  <div className="">
+                    <p style={{ fontWeight:"bold" }}>Thêm dịch vụ</p>
+                    <Select
+                      mode="multiple"
+                      size="large"
+                      allowClear
+                      style={{
+                        width: "100%",
+                        marginBottom: "24px",
+                      }}
+                      placeholder="Vui lòng chọn dịch vụ"
+                      // onChange={(value) =>
+                      //   onChangeService(value, service.id)
+                      // }
+                      options={availableServiceOptions}
+                    />
                   </div>
                   <div className="row">
                     <div className="card">
