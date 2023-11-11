@@ -2,44 +2,48 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Events\AdminNotification;
-use App\Http\Controllers\BaseAdminController;
-use App\Http\Controllers\Controller;
-use App\Interfaces\MessageUser;
-use App\Models\Bill;
-use App\Models\Notification;
-use App\Models\Product_categories;
-use App\Models\Products;
-use App\Notifications\SmsNotificationBeepets;
-use App\Traits\QueryCommon;
-//use ConsoleTVs\Charts\Classes\C3\Chart;
-use Illuminate\Http\Request;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Queue;
+use Hash;
 use Pusher\Pusher;
-//use ConsoleTVs\Charts\
+use App\Models\Bill;
 use App\Charts\MyChart;
+use App\Models\Products;
+use App\Traits\QueryCommon;
+use App\Models\Notification;
+use Illuminate\Http\Request;
+use App\Interfaces\MessageUser;
+use App\Events\AdminNotification;
+//use ConsoleTVs\Charts\Classes\C3\Chart;
+use App\Models\Product_categories;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\Session;
+//use ConsoleTVs\Charts\
+use App\Http\Controllers\BaseAdminController;
+use App\Notifications\SmsNotificationBeepets;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+
 class HomeController extends Controller
 {
 
     use QueryCommon;
-    public function index() {
+    public function index()
+    {
         $totalAmount = DB::table('bills')->sum('total_amount');
         $totalAmountMonth = DB::table('bills')->whereMonth('created_at', date('m'))->sum('total_amount');
         $totalAmountLastMonth = DB::table('bills')->whereMonth('created_at', date('m', strtotime('-1 month')))->sum('total_amount');
         $totalAmountYear = DB::table('bills')->whereYear('created_at', date('Y'))->sum('total_amount');
         $totalOrder = Bill::where('status', 1)->count();
-        $totalOrderNeedPay = Bill::where('status', 0)->where('transaction_type',2)->count();
-        $totalOrderReturn = Bill::where('status', 3)->where('transaction_type',2)->count();
-        $totalOrderCancel = Bill::where('status', 2)->where('transaction_type',2)->count();
+        $totalOrderNeedPay = Bill::where('status', 0)->where('transaction_type', 2)->count();
+        $totalOrderReturn = Bill::where('status', 3)->where('transaction_type', 2)->count();
+        $totalOrderCancel = Bill::where('status', 2)->where('transaction_type', 2)->count();
         $totalProducts = Products::query()->count();
         $totalProductCategory = Product_categories::query()->count();
         $bestSeller = DB::table('order_details')
             ->join('products', 'order_details.product_id', '=', 'products.id')
-            ->select('products.name','products.price','products.image', DB::raw('SUM(order_details.quantity) as total'))
-            ->groupBy('products.name','products.price','products.image')
+            ->select('products.name', 'products.price', 'products.image', DB::raw('SUM(order_details.quantity) as total'))
+            ->groupBy('products.name', 'products.price', 'products.image')
             ->orderBy('total', 'desc')
             ->limit(5)
             ->get();
@@ -69,32 +73,71 @@ class HomeController extends Controller
         $totalAmountMonth11LastYear = DB::table('bills')->whereMonth('created_at', 11)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
         $totalAmountMonth12LastYear = DB::table('bills')->whereMonth('created_at', 12)->whereYear('created_at', date('Y', strtotime('-1 year')))->sum('total_amount');
 
-        return view('admin.dashboard.dashboard',
-            compact('totalAmount', 'totalOrder', 'totalOrderCancel', 'totalAmountMonth',
-                'totalAmountLastMonth', 'totalAmountYear', 'totalOrderReturn', 'totalOrderNeedPay', 'totalAmountMonth1LastYear', 'totalAmountMonth2LastYear', 'totalAmountMonth3LastYear', 'totalAmountMonth4LastYear', 'totalAmountMonth5LastYear', 'totalAmountMonth6LastYear', 'totalAmountMonth7LastYear', 'totalAmountMonth8LastYear', 'totalAmountMonth9LastYear', 'totalAmountMonth10LastYear', 'totalAmountMonth11LastYear', 'totalAmountMonth12LastYear',
-                'totalProducts', 'totalProductCategory', 'bestSeller', 'totalAmountMonth1','totalAmountMonth2', 'totalAmountMonth3', 'totalAmountMonth4', 'totalAmountMonth5', 'totalAmountMonth6', 'totalAmountMonth7', 'totalAmountMonth8', 'totalAmountMonth9', 'totalAmountMonth10', 'totalAmountMonth11', 'totalAmountMonth12'));
+        return view(
+            'admin.dashboard.dashboard',
+            compact(
+                'totalAmount',
+                'totalOrder',
+                'totalOrderCancel',
+                'totalAmountMonth',
+                'totalAmountLastMonth',
+                'totalAmountYear',
+                'totalOrderReturn',
+                'totalOrderNeedPay',
+                'totalAmountMonth1LastYear',
+                'totalAmountMonth2LastYear',
+                'totalAmountMonth3LastYear',
+                'totalAmountMonth4LastYear',
+                'totalAmountMonth5LastYear',
+                'totalAmountMonth6LastYear',
+                'totalAmountMonth7LastYear',
+                'totalAmountMonth8LastYear',
+                'totalAmountMonth9LastYear',
+                'totalAmountMonth10LastYear',
+                'totalAmountMonth11LastYear',
+                'totalAmountMonth12LastYear',
+                'totalProducts',
+                'totalProductCategory',
+                'bestSeller',
+                'totalAmountMonth1',
+                'totalAmountMonth2',
+                'totalAmountMonth3',
+                'totalAmountMonth4',
+                'totalAmountMonth5',
+                'totalAmountMonth6',
+                'totalAmountMonth7',
+                'totalAmountMonth8',
+                'totalAmountMonth9',
+                'totalAmountMonth10',
+                'totalAmountMonth11',
+                'totalAmountMonth12'
+            )
+        );
     }
 
 
-    public function uploadImg(Request $request) {
-        if($request->has('upload')) {
+    public function uploadImg(Request $request)
+    {
+        if ($request->has('upload')) {
             $originName = $request->file('upload')->getClientOriginalName();
-            $fileName = pathinfo($originName , PATHINFO_FILENAME);
+            $fileName = pathinfo($originName, PATHINFO_FILENAME);
             $extension = $request->file('upload')->getClientOriginalExtension();
-            $fileName = $fileName .'_'.time().'_'.$extension;
-            $request->file('upload')->move(public_path('media') , $fileName);
-            $url = asset('media/'. $fileName);
+            $fileName = $fileName . '_' . time() . '_' . $extension;
+            $request->file('upload')->move(public_path('media'), $fileName);
+            $url = asset('media/' . $fileName);
             return response()->json([
-                'fileName' => $fileName , 'uploaded' => 1, 'url' => $url
+                'fileName' => $fileName, 'uploaded' => 1, 'url' => $url
             ]);
         }
     }
 
-    public function upload(Request $request) {
+    public function upload(Request $request)
+    {
         $uploadedFileUrl = cloudinary()->upload($request->file('image')->getRealPath())->getSecurePath();
     }
 
-    public function Pusher() {
+    public function Pusher()
+    {
         $userId = 3;
 
         $pusher = new Pusher(config('broadcasting.connections.pusher.key'), config('broadcasting.connections.pusher.secret'), config('broadcasting.connections.pusher.app_id'), [
@@ -114,7 +157,8 @@ class HomeController extends Controller
     }
 
 
-    public function SendNotification(Request $request) {
+    public function SendNotification(Request $request)
+    {
         $user_id = $request->input('user_id');
         $message = $request->input('message');
         Notification::create([
@@ -128,58 +172,64 @@ class HomeController extends Controller
             'useTLS' => config('broadcasting.connections.pusher.options.useTLS'),
         ]);
 
-        $data = ['message' => $message , 'now' => now()];
+        $data = ['message' => $message, 'now' => now()];
 
         $pusher->trigger("user-notification-$userId", 'notification-event', $data);
         return response()->json(
-            ['msg' => 'đã gửi thông báo thành công']
-        , 200);
+            ['msg' => 'đã gửi thông báo thành công'],
+            200
+        );
     }
 
-    public function PusherView() {
+    public function PusherView()
+    {
         return view('api.pusher');
     }
 
-    public function PusherView2() {
+    public function PusherView2()
+    {
         return view('api.pusher_2');
     }
 
-    public function pusherApi(MessageUser $messageService) {
+    public function pusherApi(MessageUser $messageService)
+    {
         $messageService->sendMessage(3, 'Vũ anh bá');
     }
 
-    public function indexAdmin() {
-        if(\auth()->check()) {
-            if(auth()->user()->hasAnyRole(['Admin', 'User' , 'Staff'])) {
+    public function indexAdmin()
+    {
+        if (\auth()->check()) {
+            if (auth()->user()->hasAnyRole(['Admin', 'User', 'Staff'])) {
                 return redirect()->route('dashboard');
-            }else {
+            } else {
                 return view('admin.users.login');
             }
-        }
-        else {
+        } else {
             return view('admin.users.login');
         }
     }
 
-    public function QueueTest() {
+    public function QueueTest()
+    {
         $jobs = Queue::getJobs('TimeLineNotification');
         dd($jobs);
     }
 
 
-    public function testSMS() {
-//        $nexmoClient = new \Vonage\Client\Credentials\Basic("a942b359", "jQOo5hCLR3LRfzfM");
-//        $client = new \Vonage\Client($nexmoClient);
-//        $response = $client->sms()->send(
-//            new \Vonage\SMS\Message\SMS("84981608298", 'Beepets', 'A text message sent using the Nexmo SMS API')
-//        );
-//        $message = $response->current();
-//
-//        if ($message->getStatus() == 0) {
-//            echo "The message was sent successfully\n";
-//        } else {
-//            echo "The message failed with status: " . $message->getStatus() . "\n";
-//        }
+    public function testSMS()
+    {
+        //        $nexmoClient = new \Vonage\Client\Credentials\Basic("a942b359", "jQOo5hCLR3LRfzfM");
+        //        $client = new \Vonage\Client($nexmoClient);
+        //        $response = $client->sms()->send(
+        //            new \Vonage\SMS\Message\SMS("84981608298", 'Beepets', 'A text message sent using the Nexmo SMS API')
+        //        );
+        //        $message = $response->current();
+        //
+        //        if ($message->getStatus() == 0) {
+        //            echo "The message was sent successfully\n";
+        //        } else {
+        //            echo "The message failed with status: " . $message->getStatus() . "\n";
+        //        }
         $basic  = new \Nexmo\Client\Credentials\Basic(env("NEXMO_KEY"), env("NEXMO_SECRET"));
 
         $client = new \Nexmo\Client($basic);
@@ -200,12 +250,39 @@ class HomeController extends Controller
 
         ]);
         dd('SMS Sent Successfully.');
-//        $text = new \Vonage\SMS\Message\SMS('84981608298', '', 'Tôi đang test dữ liệu');
-//        $text->setClientRef('test-message');
+        //        $text = new \Vonage\SMS\Message\SMS('84981608298', '', 'Tôi đang test dữ liệu');
+        //        $text->setClientRef('test-message');
     }
 
-    public function Profile() {
+    public function myProfile()
+    {
 
+        $user = Auth::user();
+        // dd($user);
+
+        return view('admin.profile.index', compact('user'));
     }
+    public function changePassword(Request $request)
+    {
+        $user = Auth::user();
+        // dd($user);
+        // dd($request->all());
+        $request->validate([
+            'old_password' => 'required|min:6',
+            'new_password' => 'required|min:6|confirmed',
+        ], [
+            'old_password.required' => 'Mật khẩu cũ không được để trống',
+            'new_password.required' => 'Mật khẩu mới không được để trống',
+            'new_password.confirmed' => 'Mật khẩu mới không trùng khớp',
+        ]);
+    
+        if (!Hash::check($request->old_password, $user->password)) {
+            return redirect()->route('myProfile')->with('current_tab', 'password_tab')->withErrors(['old_password' => 'Mật khẩu cũ không chính xác.']);
+        }
+    
+        $user->update(['password' => Hash::make($request->new_password)]);
+    
+        return redirect()->route('myProfile')->with('current_tab', 'password_tab')->with('success', 'Mật khẩu đã được cập nhật thành công.');
+    }
+    
 }
-
