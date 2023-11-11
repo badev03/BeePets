@@ -81,7 +81,7 @@ class NotificationController extends Controller
                 $notifications->update(['delete_doctor' => 1]);
                 $notifications_update = Notification::where('doctor_id', auth()->guard('doctors')->id())
                     ->select('notifications.doctor_id as id' , 'doctors.image as avatar' , 'doctors.name' , 'notifications.message_doctor as message')
-                    ->join('doctors' , 'doctors.id' , '=' , 'notifications.doctor_id')
+                    ->join('doctors' , 'doctors.id' , '=' , 'notifications.doctor_id' , 'notifications.appointment_id')
                     ->where('notifications.message_doctor' , '!=' , '')
                     ->where('notifications.delete_doctor' , '=' , 0)
                     ->orderBy('notifications.id', 'DESC')
@@ -101,7 +101,7 @@ class NotificationController extends Controller
                 $notifications->update(['delete_user' => 1]);
                 $notifications_update = Notification::where('user_id', auth()->id())
                     ->select('notifications.user_id as id' , 'users.avatar' , 'users.name' , 'notifications.message'
-                        , 'notifications.id as id_notification')
+                        , 'notifications.id as id_notification' , 'notifications.appointment_id')
                     ->join('users' , 'users.id' , '=' , 'notifications.user_id')
                     ->where('notifications.message' , '!=' , '')
                     ->where('notifications.delete_user' , '=' , 0)
