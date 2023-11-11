@@ -9,7 +9,7 @@ import ReactPaginate from "react-paginate";
 import LoadingSkeleton from "../Loading";
 import axios from "axios";
 import { FaSpinner } from 'react-icons/fa';
-import { Modal, Form, Input, Button } from 'antd';
+import { Modal, Form, Input, Button ,Dropdown, Menu} from 'antd';
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal);
@@ -28,6 +28,7 @@ const Appointments = () => {
   const appointmentsPerPage = 5;
   const pagesVisited = pageNumber * appointmentsPerPage;
   const token = localStorage.getItem("token");
+  
   const fetchAppointment = async () => {
     try {
       const response = await appointmentsApi.getAll({
@@ -216,178 +217,184 @@ const Appointments = () => {
             )}
           </td>
           {appointment.status == 1 && (
-        <td>
-          <div className="table-action">
-            <Link to={`/doctors/accept-detail-appointments/${appointment.id}`} className="btn btn-sm bg-info-light">
-                <i className="far fa-eye" /> Lịch Hẹn
-              </Link>
-              <Link
-                  to={appointment.bill[0]?.id ? `/doctors/detail-bill/${appointment.bill[0].id}` : "#"}
-                  className="btn btn-sm bg-info-light"
-                >
-                  <i className="far fa-eye" /> Hóa Đơn
-                </Link>
-              <Link
-                to={appointment.bill[0]?.id ? `/doctors/edit-bill/${appointment.bill[0].id}` : "#"}
-                className="btn btn-sm bg-success-light"
-              >
-                <i className="fas fa-edit" /> Sửa Hóa Đơn
-              </Link>
-            
-         <Link>
-         <div
-            onClick={() => showModal(appointment.id) }
-            className="btn btn-sm bg-danger-light position-relative"
-          >
-             {loadingIdd === appointment.id ? (
-                <div className="loading-spinner">
-                <FaSpinner className="spinner" /> Y/C Hủy
-              </div>
-              ) : (
-                <>
-                <i className="fas fa-times" /> Y/C Hủy
+       <td>
+       <div className="table-action">
+         <Dropdown
+           overlay={
+             <Menu>
+               <Menu.Item>
+                 <Link to={`/doctors/accept-detail-appointments/${appointment.id}`} className="btn btn-sm bg-info-light" 
+                  style={{width:"100%"}}
+                  >
+                   <i className="far fa-eye" /> Lịch Hẹn
+                 </Link>
+               </Menu.Item>
+               <Menu.Item>
+                 <Link to={appointment.bill[0]?.id ? `/doctors/detail-bill/${appointment.bill[0].id}` : "#"} 
+                  style={{width:"100%"}}
+                  className="btn btn-sm bg-info-light">
+                   <i className="far fa-eye" /> Hóa Đơn
+                 </Link>
+               </Menu.Item>
+               <Menu.Item>
+                 <Link to={appointment.bill[0]?.id ? `/doctors/edit-bill/${appointment.bill[0].id}` : "#"} 
+                  style={{width:"100%"}}
+                  className="btn btn-sm bg-success-light">
+                   <i className="fas fa-edit" /> Sửa Hóa Đơn
+                 </Link>
+               </Menu.Item>
+               <Menu.Item>
+                 <div onClick={() => showModal(appointment.id)}
+                  style={{width:"100%"}}
+                  className="btn btn-sm bg-danger-light position-relative">
+                   {loadingIdd === appointment.id ? (
+                     <div className="loading-spinner">
+                       <FaSpinner className="spinner" /> Y/C Hủy
+                     </div>
+                   ) : (
+                     <>
+                       <i className="fas fa-times" /> Y/C Hủy
+                     </>
+                   )}
+                 </div>
+               </Menu.Item>
+               <Menu.Item>
+                 <div onClick={() => showModal(appointment.id)} 
+                  style={{width:"100%"}}
+                  className="btn btn-sm bg-success-light">
+                   {loadingIddd === appointment.id ? (
+                     <div className="loading-spinner">
+                       <FaSpinner className="spinner" /> Y/C Đổi Lịch
+                     </div>
+                   ) : (
+                     <>
+                       <i className="fas fa-edit" /> Y/C Đổi Lịch
+                     </>
+                   )}
+                 </div>
+               </Menu.Item>
+               <Menu.Item>
+                 <div className="btn btn-sm bg-success-light"
+                  style={{width:"100%"}}
+                  onClick={() => handleUpdate(appointment.id)}>
+                   {loadingId === appointment.id ? (
+                     <div className="loading-spinner">
+                       <FaSpinner className="spinner" /> Hoàn thành
+                     </div>
+                   ) : (
+                     <>
+                       <i className="fas fa-check me-2" /> Hoàn thành
+                     </>
+                   )}
+                 </div>
+               </Menu.Item>
+             </Menu>
+           }
+         >
+           <a className="btn btn-sm bg-info-light" onClick={(e) => e.preventDefault()}>
+           Hành động
 
-                </>
-              )}
-
-
-          </div></Link>
-          <Link>
-          <div
-                 onClick={() => showModal(appointment.id) }
-              className="btn btn-sm bg-success-light"
-            >
-               {loadingIddd === appointment.id ? (
-                <div className="loading-spinner">
-                <FaSpinner className="spinner" /> Y/C Đổi Lịch
-              </div>
-              ) : (
-                <>
-                <i className="fas fa-edit" /> Y/C Đổi Lịch
-
-                </>
-              )}
-            </div></Link>
-            <Link >
-            <div className="btn btn-sm bg-success-light" onClick={() => handleUpdate(appointment.id) }>
-            {loadingId === appointment.id ? (
-                <div className="loading-spinner">
-                <FaSpinner className="spinner" /> Hoàn thành
-              </div>
-              ) : (
-                <>
-                  <i className="fas fa-check me-2" /> Hoàn thành
-                </>
-              )}
-            </div>
-            </Link>
-          </div>
-          <Modal title="Yêu cầu Hủy Lịch" visible={isModalVisible}   onCancel={() => setIsModalVisible(false)} footer={[
-  <Button key="cancel" onClick={() => setIsModalVisible(false)}>
-    Cancel
-  </Button>
-]}>
-        <Form
-         onFinish={(values) => {
-          handleCancelStatus(selectedAppointmentId, values.content)
-          // console.log('Received values of form: ', reason,selectedAppointmentId);
-
-        }}>
-          {/* Thêm các trường form tại đây */}
-          <Form.Item
-            name="content"
-            rules={[
-              {
-                required: true,
-                message: 'Vui lòng nhập lí do hủy cuộc hẹn!',
-              },
-              {
-                min: 6,
-                message: 'Lí do hủy phải có ít nhất 6 ký tự!',
-              },
-            ]}
-          >
-            <Input.TextArea
-              placeholder="Nhập lí do hủy cuộc hẹn tại đây"
-              autoSize={{ minRows: 3, maxRows: 5 }}
-              onChange={(e) => setReason(e.target.value)}
-            />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Gửi Yêu cầu
-            </Button>
-          </Form.Item>
-        </Form>
-      </Modal>
-      <Modal
-  title="Yêu cầu Đổi Lịch"
-  visible={isModalVisible}
-  onCancel={() => setIsModalVisible(false)}
-  footer={[
-    <Button key="cancel" onClick={() => setIsModalVisible(false)}>
-      Cancel
-    </Button>
-  ]}>
-  <Form
-    onFinish={(values) => {
-      handleRescheduleStatus(selectedAppointmentId, values.content);
-      // console.log('Received values of form: ', reason, selectedAppointmentId);
-    }}
-  >
-    {/* Thêm các trường form tại đây */}
-    <Form.Item
-      name="content"
-      rules={[
-        {
-          required: true,
-          message: 'Vui lòng nhập lí do đổi lịch!',
-        },
-        {
-          min: 6,
-          message: 'Lí do đổi lịch phải có ít nhất 6 ký tự!',
-        },
-      ]}
-    >
-      <Input.TextArea
-        placeholder="Nhập lí do đổi lịch tại đây"
-        autoSize={{ minRows: 3, maxRows: 5 }}
-        onChange={(e) => setReason(e.target.value)}
-      />
-    </Form.Item>
-    <Form.Item>
-      <Button type="primary" htmlType="submit">
-        Gửi Yêu cầu
-      </Button>
-    </Form.Item>
-  </Form>
-</Modal>
-        </td>
+           </a>
+           
+         </Dropdown>
+       </div>
+       <Modal title="Yêu cầu Hủy Lịch" visible={isModalVisible} onCancel={() => setIsModalVisible(false)} footer={[
+         <Button key="cancel" onClick={() => setIsModalVisible(false)}>
+           Cancel
+         </Button>
+       ]}>
+         <Form onFinish={(values) => { handleCancelStatus(selectedAppointmentId, values.content) }}>
+           <Form.Item
+             name="content"
+             rules={[
+               {
+                 required: true,
+                 message: 'Vui lòng nhập lí do hủy cuộc hẹn!',
+               },
+               {
+                 min: 6,
+                 message: 'Lí do hủy phải có ít nhất 6 ký tự!',
+               },
+             ]}
+           >
+             <Input.TextArea
+               placeholder="Nhập lí do hủy cuộc hẹn tại đây"
+               autoSize={{ minRows: 3, maxRows: 5 }}
+               onChange={(e) => setReason(e.target.value)}
+             />
+           </Form.Item>
+           <Form.Item>
+             <Button type="primary" htmlType="submit">
+               Gửi Yêu cầu
+             </Button>
+           </Form.Item>
+         </Form>
+       </Modal>
+       <Modal title="Yêu cầu Đổi Lịch" visible={isModalVisible} onCancel={() => setIsModalVisible(false)} footer={[
+         <Button key="cancel" onClick={() => setIsModalVisible(false)}>
+           Cancel
+         </Button>
+       ]}>
+         <Form onFinish={(values) => { handleRescheduleStatus(selectedAppointmentId, values.content) }}>
+           <Form.Item
+             name="content"
+             rules={[
+               {
+                 required: true,
+                 message: 'Vui lòng nhập lí do đổi lịch!',
+               },
+               {
+                 min: 6,
+                 message: 'Lí do đổi lịch phải có ít nhất 6 ký tự!',
+               },
+             ]}
+           >
+             <Input.TextArea
+               placeholder="Nhập lí do đổi lịch tại đây"
+               autoSize={{ minRows: 3, maxRows: 5 }}
+               onChange={(e) => setReason(e.target.value)}
+             />
+           </Form.Item>
+           <Form.Item>
+             <Button type="primary" htmlType="submit">
+               Gửi Yêu cầu
+             </Button>
+           </Form.Item>
+         </Form>
+       </Modal>
+     </td>
         )}
       
-        {appointment.status != 1 && (
-        <td>
-          <div className="table-action">
-            
-            <Link to={`/doctors/accept-detail-appointments/${appointment.id}`} className="btn btn-sm bg-info-light">
-              <i className="far fa-eye" /> Lịch Hẹn
-            </Link>
-            
-          <Link
-            to={
-              appointment.bill[0]?.id
-                ? `/doctors/detail-bill/${appointment.bill[0].id}`
-                : "#"
-            }
-            className="btn btn-sm bg-info-light"
-          >
-            <i className="far fa-eye" /> Hóa Đơn
-          </Link>
-       
-          </div>
-        </td>
-        )}
-        
+      {appointment.status != 1 && (
+  <td>
+    <div className="table-action">
+      <Dropdown
+        overlay={
+          <Menu>
+            <Menu.Item>
+              <Link to={`/doctors/accept-detail-appointments/${appointment.id}`} 
+                  style={{width:"100%"}}
+                  className="btn btn-sm bg-info-light">
+                <i className="far fa-eye" /> Lịch Hẹn
+              </Link>
+            </Menu.Item>
+            <Menu.Item>
+              <Link to={appointment.bill[0]?.id ? `/doctors/detail-bill/${appointment.bill[0].id}` : "#"}
+                  style={{width:"100%"}}
+                  className="btn btn-sm bg-info-light">
+                <i className="far fa-eye" /> Hóa Đơn
+              </Link>
+            </Menu.Item>
+          </Menu>
+        }
+      >
+        <a className="btn btn-sm bg-info-light" onClick={(e) => e.preventDefault()}>
+        Hành động
+           </a>
+      </Dropdown>
+    </div>
+  </td>
+)}
       </tr>
     ));
 
