@@ -18,7 +18,6 @@ const Header = () => {
   const { isLoggedIn, onLogout, token, role } = useAuth();
   const navigate = useNavigate();
   const [noti, setNoti] = useState([]);
-  
   const [countNotification , setCountNotification] = useState(0);
   const imgDefault =
       "https://dvdn247.net/wp-content/uploads/2020/07/avatar-mac-dinh-1.png";
@@ -424,12 +423,12 @@ const Header = () => {
                   <>
                     <li className="login-in-fourteen">
                       <TopLink to= "login">
-                        <Button
-                            icon={<UserOutlined />}
-                            type="default"
-                            size="large"
-                            style={{ height: 45, border: 'none' }}
-                            className="custom-button"
+                        <Button 
+                          icon={<UserOutlined />} 
+                          type="default"
+                          size="large"
+                          style={{ height: 45, border: 'none', boxShadow: "none" }}
+                          className="custom-button"
                         >Đăng nhập</Button>
                       </TopLink>
                     </li>

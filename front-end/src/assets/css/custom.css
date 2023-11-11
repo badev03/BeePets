@@ -3806,6 +3806,13 @@ table .table-hover tbody tr:hover td {
   white-space: nowrap;
   padding: 1rem 0.75rem;
 }
+
+.card-table1 .card-body .table tr th,
+.card-table1 .card-body .table tr td {
+  border-top: 1px solid #e2e5e8;
+  padding: 1rem 0.75rem;
+}
+
 .card-table .card-body .table tr th:first-child,
 .card-table .card-body .table tr td:first-child {
   padding-left: 1.5rem;
