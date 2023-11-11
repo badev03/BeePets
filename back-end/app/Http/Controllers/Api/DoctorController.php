@@ -395,7 +395,14 @@ class DoctorController extends Controller
                     'message' => 'Không tìm thấy hóa đơn',
                 ], 404);
             }
-            $prescription = $this->createPrescription($request->name, $request->price, $request->doctor_id, $request->user_id, $request->bill_id);
+            $existingPrescription = Prescription::where('bill_id', $bill->id)->first();
+            if ($existingPrescription) {
+                $prescription = $existingPrescription;
+            } else {
+                // Nếu không, tạo mới đơn thuốc
+                $prescription = $this->createPrescription($request->name, $request->price, $request->doctor_id, $request->user_id, $request->bill_id);
+            }
+
 
             $prescription_id = $prescription->id;
 
