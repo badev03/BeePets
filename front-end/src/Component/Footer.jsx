@@ -29,7 +29,7 @@ const Footer = () => {
               <div className="col-lg-4 col-md-4">
                 <div className="footer-widget footer-about">
                   <div className="footer-logo">
-                    <TopLink to="index-10.html"><img src={setting.image_footer} alt="logo" /></TopLink>
+                    <TopLink to="/"><img src={setting.image_footer} alt="logo" /></TopLink>
                   </div>
                   <div className="footer-about-content">
                     <p>{setting.description}</p>

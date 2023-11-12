@@ -94,20 +94,22 @@ const formatShiftTime = (shiftName) => {
               <span className="badge rounded-pill bg-success-light">
                 Xác nhận
               </span>
-            ) : appointment.status == 2 ? (
-              <span className="badge rounded-pill bg-danger-light">Đã xóa</span>
-            ) : appointment.status == 3 ? (
-              <span className="badge rounded-pill bg-primary-light">Đã hoàn thành</span>
-            ) : appointment.status == 6 ? (
-              <span className="badge rounded-pill bg-warning-light">Yêu cầu hủy</span>
-            ) : appointment.status == 7 ? (
-              <span className="badge rounded-pill bg-info-light">Yêu cầu đổi lịch</span>
-            ) : (
-              // Default case
-              <span className="badge rounded-pill bg-info-light">
-                Không xác định
-              </span>
-            )}
+           ) : appointment.status == 2 ? (
+            <span className="badge rounded-pill bg-danger-light">Đã xóa</span>
+          ) : appointment.status == 4 ? (
+            <span className="badge rounded-pill bg-primary-light">Đã hoàn thành</span>
+          ) : appointment.status == 3 ? (
+            <span className="badge rounded-pill bg-danger-light">Đã hủy</span>
+          ) : appointment.status == 6 ? (
+            <span className="badge rounded-pill bg-warning-light">Yêu cầu hủy</span>
+          ) : appointment.status == 7 ? (
+            <span className="badge rounded-pill bg-info-light">Yêu cầu đổi lịch</span>
+          ) : (
+            // Default case
+            <span className="badge rounded-pill bg-info-light">
+              Không xác định
+            </span>
+          )}
           </td>
 
         <td>

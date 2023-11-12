@@ -3806,6 +3806,13 @@ table .table-hover tbody tr:hover td {
   white-space: nowrap;
   padding: 1rem 0.75rem;
 }
+
+.card-table1 .card-body .table tr th,
+.card-table1 .card-body .table tr td {
+  border-top: 1px solid #e2e5e8;
+  padding: 1rem 0.75rem;
+}
+
 .card-table .card-body .table tr th:first-child,
 .card-table .card-body .table tr td:first-child {
   padding-left: 1.5rem;
@@ -36362,6 +36369,25 @@ input:checked + .tog-slider:before {
 }
 .table-action a {
     margin-right: 5px;
+}
+.profile-info {
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.profile-item {
+  margin-bottom: 1.5rem;
+}
+
+.profile-label {
+  font-weight: bold;
+  display: inline-block;
+  min-width: 150px;
+}
+
+.profile-value {
+  display: inline-block;
+  margin-left: 20px;
 }
 
 .custom-button:hover{

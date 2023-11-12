@@ -27,7 +27,7 @@ const AcceptDetailAppointment = () => {
           }
         );
         setAppointments(response.appointment);     
-        console.log(response.appointment);
+     
       
 
         } catch (error) {
@@ -37,8 +37,39 @@ const AcceptDetailAppointment = () => {
   
       fetchAppointment();
     }, []); 
-    console.log(appointments);
+    
    }
+   function formatDate(dateString) {
+    if (dateString) {
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      const formattedDate = new Date(dateString).toLocaleDateString(
+        "vi-VN",
+        options,
+      );
+      // Loại bỏ từ "lúc" từ chuỗi được định dạng
+      return formattedDate.replace("lúc", "").trim();
+    }
+    return "";
+  }
+  const formatShiftTime = (shiftName) => {
+    switch (shiftName) {
+      case "Ca 1":
+        return " 8:00h-12:00h";
+      case "Ca 2":
+        return "13:00h-17:00h";
+      case "Ca 3":
+        return "18:00h-20:00h";
+      default:
+        return "";
+    }
+  };
+  const formatCurrency = (value) => {
+    const numberValue = parseFloat(value);
+    return numberValue.toLocaleString("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    });
+  };
     if (!appointments) {
         return <LoadingSkeleton/>;
     }
@@ -107,61 +138,59 @@ const AcceptDetailAppointment = () => {
               <form>
               
                 <div className="row">
-               
-                  <div className="col-12 col-md-6">
-                    <div className="mb-3">
-                      <label className="mb-2">Tên khách hàng</label>
-                      <input type="text" className="form-control" value={appointments.user_name} />
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-6">
-                    <div className="mb-3">
-                      <label className="mb-2">Tên bác sĩ</label>
-                      <input type="text" className="form-control" value={appointments.doctor_name} />
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-6">
-                    <div className="mb-3">
-                      <label className="mb-2">Dịch vụ</label>
-                      <input type="text" className="form-control" value={appointments.service_name} />
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-6">
-                    <div className="mb-3">
-                      <label className="mb-2">Ca</label>
-                      <input type="text" className="form-control" value={appointments.shift_name}  />
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-6">
-                    <div className="mb-3">
-                      <label className="mb-2">Ngày đặt lịch</label>
-                      <input type="text" className="form-control" value={appointments.appointment_created_at} />
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-6">
-                    <div className="mb-3">
-                      <label className="mb-2">Lịch khám</label>
-                      <input type="text" className="form-control" value={appointments.date} />
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-6">
-                    <div className="mb-3">
-                      <label className="mb-2">Tổng tiền</label>
-                      <input type="text" className="form-control" value={appointments.total_amount} />
-                    </div>
-                  </div>
-                 
-                  <div className="col-12 col-md-12">
-                    <div className="mb-3">
-                      <label className="mb-2">Ghi chú</label>
-                     
-                        <textarea type="text" className="form-control datetimepicker" value={appointments.description} />
-                      
-                    </div>
-                  </div>
-                 
-                  
-  
+              
+<div className="col-xl-6">   <div className="profile-info">
+  <div className="profile-item">
+    <span className="profile-label">Tên khách hàng:</span>
+    <span className="profile-value">{appointments.user_name}</span>
+  </div>
+  <div className="profile-item">
+    <span className="profile-label">Tên bác sĩ:</span>
+    <span className="profile-value">{appointments.doctor_name}</span>
+  </div>
+  <div className="profile-item">
+    <span className="profile-label">Dịch vụ:</span>
+    <span className="profile-value">{appointments.service_name}</span>
+  </div>
+  <div className="profile-item">
+    <span className="profile-label">Ca:</span>
+    <span className="profile-value">{appointments.shift_name}</span>
+  </div>
+  <div className="profile-item">
+    <span className="profile-label">Ngày đặt lịch:</span>
+    <span className="profile-value">{formatDate(appointments.appointment_created_at)}</span>
+  </div>
+  <div className="profile-item">
+    <span className="profile-label">Lịch khám:</span>
+    <span className="profile-value">{formatShiftTime(appointments.shift_name)}</span>
+    <span className="profile-value">{formatDate(appointments.date)}</span>
+  </div>
+  <div className="profile-item">
+    <span className="profile-label">Tổng tiền:</span>
+    <span className="profile-value">{formatCurrency(appointments.total_amount)}</span>
+  </div>
+  <div className="profile-item">
+    <span className="profile-label">Ghi chú:</span>
+    <span className="profile-value">{appointments.description}</span>
+  </div>
+</div>
+</div>
+<div className="col-xl-6">     {appointments.doctor_image ? (
+             <div className="profile-img d-flex justify-content-center align-items-center">
+             <img src={appointments.doctor_image} alt="User Image" className="rounded-0"
+               style={{ width: '50%', border: 'none', marginBottom: '20px' }} />
+           </div>
+            ) : (
+              <div className="profile-img d-flex justify-content-center align-items-center">
+                        <img src="https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" alt="User Image" className="rounded-0"
+                          style={{ width: '50%', border: 'none', marginBottom: '20px' }} />
+                      </div>
+              // <div className="default-avatar booking-doc-img">
+              //   <img src="https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" alt="Default Avatar" />
+              // </div>
+            )}
+
+</div>     
                 </div>
                 {/* <div className="submit-section">
                   <button type="submit" className="btn btn-primary submit-btn">Lưu</button>
