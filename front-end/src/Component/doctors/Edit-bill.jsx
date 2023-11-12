@@ -36,10 +36,11 @@ const Editbill = () => {
   const [serviceDefault, setServiceDefault] = useState({});
   const [selectedServicePrice, setSelectedServicePrice] = useState("");
   const [selectedServiceIds, setSelectedServiceIds] = useState([]);
+
+  const [giveServiceId , setGiveServiceId] = useState({});
   const navigate = useNavigate();
 
   const [serviceBillSpecialEdit ,setServiceBillSpecialEdit] = useState([]);
-
   const tokenn = localStorage.getItem("token");
 
   const [userId, setUserId] = useState("");
@@ -73,7 +74,6 @@ const Editbill = () => {
       try {
         const response = await BookingApi.getServiceDoctor();
         setServiceBill(response.data);
-        setServiceBillSpecialEdit(response.data);
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
@@ -201,8 +201,12 @@ const Editbill = () => {
     setSelectedServicePrice("");
     setServicePrices((prevPrices) => ({
       ...prevPrices,
-      [newServiceId]: "", 
+      [newServiceId]: "",
     }));
+    const availableServices = serviceBill.filter((service) => !selectedServiceIds.includes(service.id));
+    setServiceBill(availableServices);
+
+
   };
 
   const deletePrescriptionRow = (id) => {
@@ -210,34 +214,6 @@ const Editbill = () => {
     setPrescriptions(updatedPrescriptions);
   };
 
-  const deleteServiceRow = (id) => {
-    const updatedServices = services.filter((item) => item.id !== id);
-    setServices(updatedServices);
-
-    // setServiceBill((prevServiceBill) => {
-    //   const updatedServiceBill = prevServiceBill.map((service) => {
-    //     if (service.id === id) {
-    //       // Thực hiện các thay đổi cần thiết trong dịch vụ đã xóa
-    //       // Ví dụ: Cập nhật trường thông tin name và price thành giá trị mới
-    //       console.log(1111);
-    //       debugger
-    //     }
-    //     return service;
-    //   });
-
-    //   return updatedServiceBill;
-    // });
-
-    // console.log(serviceBill);
-    // console.log(1111);
-    // debugger
-    // setServiceBill(prevServices => {
-    //   const updatedServices = [...prevServices];
-    //   updatedServices.splice(id, 1);
-    //   return updatedServices;
-    // });
-
-  };
 
   const availableServiceOptions = serviceBill
   .filter((ser) => ser.name !== serviceDefault?.name)
@@ -245,6 +221,7 @@ const Editbill = () => {
     value: ser.name,
     label: ser.name,
   }));
+
 
 
   useEffect(() => {
@@ -291,20 +268,51 @@ const Editbill = () => {
     }));
   };
 
-  useEffect(() => {
-    const availableServices = serviceBill.filter((service) => !selectedServiceIds.includes(service.id));
-    // setServiceBill(availableServices);
+  // useEffect(() => {
+  //   const availableServices = serviceBill.filter((service) => !selectedServiceIds.includes(service.id));
+  //   setServiceBill(availableServices);
+  // }, [selectedServiceIds]);
 
-  });
+  const deleteServiceRow = (id) => {
+    const updatedServices = services.filter((item) => item.id !== id);
+    const selectedService = serviceBill.find((service) => service.id === id);
+
+    // const selectedServiceCheck = serviceBill.filter((service) => {
+    //   if(service.id == id){
+    //     return true;
+    //   }
+    // });
+    //
+    // console.log(selectedServiceCheck)
+
+    const availableServices = serviceBill.filter((service) => selectedServiceIds.includes(service.id));
+    // debugger
+
+    // debugger
+    setServices(updatedServices);
+    const combinedServices = [...serviceBill, ...availableServices];
+    setServiceBill(combinedServices);
+
+    // console.log(selectedServiceCheck)
+    // setServiceBill(selectedServiceCheck);
+
+
+  };
 
   const onChangeService = (value, serviceId) => {
     const selectedService = serviceBill.find((service) => service.name === value);
 
-    // const newServicePrices = { ...servicePrices };
-    // newServicePrices[serviceId] = selectedService ? selectedService.price : "";
-    // setServicePrices(newServicePrices);
+    const newServicePrices = { ...servicePrices };
+    newServicePrices[serviceId] = selectedService ? selectedService.price : "";
+    setServicePrices(newServicePrices);
+    const checkPrevServiceLength = services.length;
 
+    // console.log(serviceId , 'serviceId');
+    // console.log(checkPrevServiceLength , 'checkPrevServiceLength');
+    // khi lặp qua thì giá trị là 1 , 2 ,3 và change gửi lên là 4
 
+    // muốn gì đã => tôi muốn ở 1 input cố định thì vẫn được thay đổi service
+    // setGiveServiceId(serviceId);
     setSelectedServiceIds((prevSelectedServiceIds) => {
       const updatedIds = [...prevSelectedServiceIds];
       if (selectedService) {
@@ -313,9 +321,33 @@ const Editbill = () => {
       return updatedIds;
     });
 
-    const availableServices = serviceBill.filter((service) => service.name = selectedService.name);
+    // if(giveServiceId != serviceId) {
+    //   const availableServices = serviceBill.filter((service) => !selectedServiceIds.includes(service.id));
+    //   // setServiceBill(availableServices);
+    //   console.log('availableServices' , availableServices);
+    // }
+    // else {
+    //   console.log('ok ');
+    // }
+
+    // làm sao để nhận bieets giá trị có cùng 1 input đây
+    // ví dụ input 1 sẽ ko thay đổi
+    // input 2 thì có sự thay đổi
+    // tương tự
+    // for (let i = 1 ; i<services.length ; i++) {
+    //   if(i == serviceId) {
+    //     console.log('đúng' , serviceId);
+    //     return true;
+    //   }
+    //   else {
+    //     console.log('sain');
+    //     return false;
+    //   }
+    // }
+
+
+    // const availableServices = serviceBill.filter((service) => service.name = selectedService.name);
     // setServiceBill(availableServices);
-    console.log('availableServices' , availableServices);
   };
 
   const onSearch = (value) => {
@@ -539,13 +571,13 @@ const Editbill = () => {
                                   <Select
                                     // showSearch
                                     placeholder="Chọn dịch vụ"
-                                    // optionFilterProp="children"
+                                    optionFilterProp="children"
                                     style={{ width: 350, height: 43 }}
                                     onChange={(value) =>
                                       onChangeService(value, service.id)
                                     }
-                                    // onSearch={onSearch}
-                                    // filterOption={filterOption}
+                                    onSearch={onSearch}
+                                    filterOption={filterOption}
                                     options={availableServiceOptions}
                                   />
                                 </td>
