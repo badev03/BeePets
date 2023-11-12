@@ -89,22 +89,22 @@
                 <div class="noti-content">
                     <ul class="notification-list">
                         @foreach($notification as $key=>$value)
-                        <li class="notification-message">
-                            <a href="#">
-                                <div class="notify-block d-flex">
+                            <li class="notification-message">
+                                <a href="#">
+                                    <div class="notify-block d-flex">
                                     <span class="avatar avatar-sm flex-shrink-0">
                                     <img class="avatar-img rounded-circle" alt="Image" src="{{ $value->avatar }}">
                                     </span>
-                                    <div class="media-body flex-grow-1">
-                                        <p class="noti-details"><span class="noti-title"></span>{{ $value->message_admin }}</p>
-                                        <p class="noti-time d-flex justify-content-center align-items-center">
-                                            <span class="notification-time">{{ $value->created_at }}</span>
-                                            <a href="{{ route('appointments.cancel' , $value->appointment_id) }}">xem chi tiết</a>
-                                        </p>
+                                        <div class="media-body flex-grow-1">
+                                            <p class="noti-details"><span class="noti-title"></span>{{ $value->message_admin }}</p>
+                                            <p class="noti-time d-flex justify-content-center align-items-center">
+                                                <span class="notification-time">{{ $value->created_at }}</span>
+                                                <a href="{{ route('appointment.show' , $value->appointment_id) }}">xem chi tiết</a>
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
-                        </li>
+                                </a>
+                            </li>
                         @endforeach
                         <li id="notification-container"></li>
                     </ul>
@@ -129,7 +129,7 @@
                         <h6>{{ Auth::user()->name }}</h6>
                     </div>
                 </div>
-                <a class="dropdown-item" href="{{ route('myProfile') }}">Hồ sơ</a>
+                <a class="dropdown-item" href="{{ route('profile') }}">Hồ sơ</a>
                 <a class="dropdown-item" href="{{ route('setting') }}">Cài đặt</a>
                 <a class="dropdown-item" href="{{ route('admin.logout') }}">Đăng xuất</a>
             </div>
@@ -175,19 +175,19 @@
             $('.badge.rounded-pill').remove();
             var newData = '<span class="badge rounded-pill">0</span>';
             $('#hehe-noti').append(newData);
-           $.ajax({
-               type:'PUT',
-               url: '{{ route('notification.update') }}',
-               headers: {
-                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-               },
-               success: function (data) {
+            $.ajax({
+                type:'PUT',
+                url: '{{ route('notification.update') }}',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (data) {
                     console.log(data)
-               },
-               error: function (error) {
+                },
+                error: function (error) {
 
-               }
-           })
+                }
+            })
         });
     </script>
 @endpush
