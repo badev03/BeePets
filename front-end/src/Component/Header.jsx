@@ -18,6 +18,7 @@ const Header = () => {
   const { isLoggedIn, onLogout, token, role } = useAuth();
   const navigate = useNavigate();
   const [noti, setNoti] = useState([]);
+  // console.log(noti);
   const [countNotification , setCountNotification] = useState(0);
   const imgDefault =
       "https://dvdn247.net/wp-content/uploads/2020/07/avatar-mac-dinh-1.png";
@@ -308,15 +309,16 @@ const Header = () => {
                                 <li className="notification-message" key={noti.id}>
                                   <a href={
                                     handleCheckAccount(data)
-                                        ? `/user/appointment/${195}`
-                                        : `/doctors/accept-detail-appointments/${134}`}>
+                                    ? `/user/appointment/${notifications.appointment_id}`
+                                    : `/doctors/accept-detail-appointments/${notifications.appointment_id}`}>
+                                  {/* : `/doctors/doctors/detail-bill/${notifications.appointment_id}`}> */}
                                     <div className="notify-block d-flex">
                                 <span className="avatar">
                                   <img
                                       className="avatar-img"
                                       alt="Ruby perin"
                                       src={notifications.avatar}
-                                  />s
+                                  />
                                 </span>
                                       <div className="media-body">
                                         <h6>
