@@ -132,11 +132,13 @@ const Header = () => {
       });
       setNoti(response.notifications);
       console.log(response.notifications);
-      setCountNotification(response.count);
+
+      // Tăng giá trị countNotification dựa trên số lượng thông báo mới
+      setCountNotification((prevCount) => prevCount + response.count);
+
       const pusher = new Pusher("2798806e868dbe640e2e", {
         cluster: "ap1",
       });
-
       const channel = pusher.subscribe("user-notification-" + data.id);
 
       channel.bind("notification-event-test", function (data) {
@@ -149,6 +151,7 @@ const Header = () => {
           };
           return [newData, ...prevData];
         });
+        setCountNotification((prevCount) => prevCount + 1);
       });
     } else {
       const response = await notification.getDoctor({
