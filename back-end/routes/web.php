@@ -106,7 +106,10 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
         Route::post('send-notifications-doctor' , [NotificationController::class , 'SendNotificationDoctor'])->name('notifications.send-notifications-doctor');
         Route::match(['put' , 'get'] , 'setting' , [SettingController::class , 'index'])->name('setting');
 
+        Route::get('my-profile' , [HomeController::class , 'myProfile'])->name('myProfile');
 
+
+        Route::post('my-profile/change-password' , [HomeController::class , 'changePassword'])->name('myProfile.changePassword');
 
         Route::get('create-service/{id}' , [AppointmentController::class , 'getDoctor'])->name('get.doctor');
         Route::get('create-doctor-shift/{id}/{day}' , [AppointmentController::class , 'getShiftDoctor'])->name('get.shift.doctor');
