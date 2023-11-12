@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import serviceApi from '../../api/serviceApi';
 import Search from './Search';
 import LoadingSkeleton from '../Loading';
+import { Link } from 'react-router-dom';
 const FilterService = () => {
   const [services, setServices] = useState(null);
   const [selectedServices, setSelectedServices] = useState([]);
@@ -49,7 +50,7 @@ const FilterService = () => {
           <h2 className="breadcrumb-title">BÁC SĨ</h2>
           <nav aria-label="breadcrumb" className="page-breadcrumb">
             <ol className="breadcrumb">
-              <li className="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+            <li className="breadcrumb-item"><Link to={`/`}>Trang chủ</Link></li>
               <li className="breadcrumb-item" aria-current="page"> Bác Sĩ</li>
             </ol>
           </nav>

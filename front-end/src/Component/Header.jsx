@@ -11,14 +11,13 @@ import TopLink from "../Link/TopLink";
 import deleteNoti from "../api/deleteNoti";
 import axios from "axios";
 import { UserOutlined } from "@ant-design/icons"
-
+import {Dropdown} from "bootstrap";
 
 
 const Header = () => {
   const { isLoggedIn, onLogout, token, role } = useAuth();
   const navigate = useNavigate();
   const [noti, setNoti] = useState([]);
-  console.log(noti)
   const [countNotification , setCountNotification] = useState(0);
   const imgDefault =
       "https://dvdn247.net/wp-content/uploads/2020/07/avatar-mac-dinh-1.png";
@@ -37,7 +36,7 @@ const Header = () => {
             Authorization: `Bearer ${token}`,
           }
         })
-  
+
         // console.log("🚀 ~ file: Header.jsx:60 ~ handleDeleteNotification ~ response1:", response)
         setNoti(response.data.notification);
       } else {
@@ -46,13 +45,13 @@ const Header = () => {
     } catch (error) {
       console.error("Lỗi khi xóa thông báo:", error);
     }
-};
+  };
 
   const handleNotificationClick = async () => {
     try {
       // console.log(123);
-        // console.log(setIsLoading);
-        const response = await notification.getUpdate(
+      // console.log(setIsLoading);
+      const response = await notification.getUpdate(
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -60,7 +59,7 @@ const Header = () => {
           }
       );
       // console.log(notification);
-        setCountNotification(0);
+      setCountNotification(0);
     } catch (error) {
       console.error("Không có dữ liệu:", error);
     }
@@ -292,9 +291,9 @@ const Header = () => {
                     <li className="nav-item dropdown noti-nav me-3 pe-0">
                       <a
                           href="#"
-                    className="dropdown-toggle nav-link p-0" onClick={handleNotificationClick}
+                          className="dropdown-toggle nav-link p-0" onClick={handleNotificationClick}
                           data-bs-toggle="dropdown"
-                  
+
                       >
                         <i className="fa-solid fa-bell" />{" "}
                         <span className="badge">{countNotification}</span>
@@ -305,12 +304,12 @@ const Header = () => {
                         </div>
                         <div className="noti-content">
                           <ul className="notification-list">
-                        {noti.map((notifications) => (
+                            {noti.map((notifications) => (
                                 <li className="notification-message" key={noti.id}>
-                            <a href={
-                            handleCheckAccount(data)
-                                ? `/user/appointment/${195}`
-                                : `/doctors/accept-detail-appointments/${134}`}>
+                                  <a href={
+                                    handleCheckAccount(data)
+                                        ? `/user/appointment/${195}`
+                                        : `/doctors/accept-detail-appointments/${134}`}>
                                     <div className="notify-block d-flex">
                                 <span className="avatar">
                                   <img
@@ -329,17 +328,17 @@ const Header = () => {
                                         <p className="noti-details">
                                           {notifications.message}
                                         </p>
-                                    </div>
-                                    <button
-                                      className="custom-delete-button btn sm"
-                                  onClick={(e) => {
-                                    e.stopPropagation(); // Ngăn sự kiện lan truyền
-                                    handleDeleteNotification(notifications.id_notification, token);
-                                  }}
-                                    >
-                                      {/* <i className="custom-icon">&#10006;</i> */}
-                                      <i class="fa-solid fa-delete-left"></i>
-                                    </button>
+                                      </div>
+                                      <button
+                                          className="custom-delete-button btn sm"
+                                          onClick={(e) => {
+                                            e.stopPropagation(); // Ngăn sự kiện lan truyền
+                                            handleDeleteNotification(notifications.id_notification, token);
+                                          }}
+                                      >
+                                        {/* <i className="custom-icon">&#10006;</i> */}
+                                        <i class="fa-solid fa-delete-left"></i>
+                                      </button>
                                     </div>
                                   </a>
                                 </li>
@@ -431,19 +430,19 @@ const Header = () => {
                           icon={<UserOutlined />} 
                           type="default"
                           size="large"
-                          style={{ height: 45, border: 'none' }}
+                          style={{ height: 45, border: 'none', boxShadow: "none" }}
                           className="custom-button"
                         >Đăng nhập</Button>
                       </TopLink>
                     </li>
                     <li className="login-in-fourteen">
                       <TopLink to= "register">
-                        <Button 
-                          icon={<UserOutlined />} 
-                          type="primary"
-                          size="large"
-                          style={{ height: 45 }}
-                          className="custom-button"
+                        <Button
+                            icon={<UserOutlined />}
+                            type="primary"
+                            size="large"
+                            style={{ height: 45 }}
+                            className="custom-button"
                         >Đăng kí</Button>
                       </TopLink>
                     </li>

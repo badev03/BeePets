@@ -31,25 +31,25 @@ const Menudashboard = () => {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    const fetchDoctor = async () => {
-      try {
-        const response = await doctorsApi.getDoctor({
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setDoctors(response.doctor);
-        localStorage.setItem("doctorData", JSON.stringify(response.doctor));
-      } catch (error) {
-        console.error("Không có dữ liệu:", error);
-      }
-    };
-
-    if (token && !doctor.length) {
-      fetchDoctor();
+  const fetchDoctor = async () => {
+    try {
+      const response = await doctorsApi.getDoctor({
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setDoctors(response.doctor);
+      localStorage.setItem("doctorData", JSON.stringify(response.doctor));
+    } catch (error) {
+      console.error("Không có dữ liệu:", error);
     }
+  };
+  useEffect(() => {
+  
+
+ 
+      fetchDoctor();
+    
   }, [token, doctor]);
 
   const initialActiveItems = JSON.parse(localStorage.getItem("activeItems")) || ["Bộ điều khiển"];
@@ -87,9 +87,17 @@ const Menudashboard = () => {
     <div className="profile-sidebar" >
       <div className="widget-profile pro-widget-content">
         <div className="profile-info-widget">
-          <Link to="#" className="booking-doc-img">
-            <img src={doctor.image} alt="User Image" />
-          </Link>
+        {doctor.image ? (
+             <div className="booking-doc-img">
+                         <img src={doctor.image} alt="User Image" />
+
+           </div>
+            ) : (
+             
+              <div className="default-avatar booking-doc-img">
+                <img src="https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" alt="Default Avatar" />
+              </div>
+            )}
           <div className="profile-det-info">
             <h3>{doctor.name}</h3>
             <div className="patient-details">

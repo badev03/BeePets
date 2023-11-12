@@ -1,27 +1,32 @@
-{{-- @extends('layouts.partials.master')
+
+@extends('layouts.partials.master')
 @section('content')
     <div class="row">
-
+        @if(session()->has('success'))
+        <div class="alert-success alert">
+            {{ session('success') }}
+        </div>
+    @endif
         <div class="col-md-12">
             <div class="profile-header">
                 <div class="row align-items-center">
                     <div class="col-auto profile-image">
                         <a href="#">
-                            <img class="rounded-circle" alt="User Image" src="assets/img/profiles/avatar-01.jpg">
+                            <img class="rounded-circle" alt="{{$user->avatar?:'chưa cập nhật'}}"  src="{{$user->avatar}}">
                         </a>
                     </div>
                     <div class="col ml-md-n2 profile-user-info">
-                        <h4 class="user-name mb-0">Ryan Taylor</h4>
-                        <h6 class="text-muted"><a href="https://doccure.dreamguystech.com/cdn-cgi/l/email-protection"
-                                class="__cf_email__"
-                                data-cfemail="fd8f849c93899c8491928fbd9c99909493d39e9290">[email&#160;protected]</a></h6>
-                        <div class="user-Location"><i class="fa-solid fa-location-dot"></i> Florida, United States</div>
-                        <div class="about-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                            tempor incididunt ut labore et dolore magna aliqua.</div>
+                        <h4 class="user-name mb-0">{{$user->name}}</h4>
+             
+                        <div class="user-Location"><i class="fa-solid fa-location-dot"></i>{{$user->address?:' Chưa cập nhật...'}}</div>
+           
+       
+                        <div class="about-text">{{$user->description?:' Chưa cập nhật...'}}</div>
+      
                     </div>
                     <div class="col-auto profile-btn">
-                        <a href class="btn btn-primary">
-                            Edit
+                        <a href="" class="btn btn-primary">
+                            Sửa
                         </a>
                     </div>
                 </div>
@@ -29,13 +34,16 @@
             <div class="profile-menu">
                 <ul class="nav nav-tabs nav-tabs-solid">
                     <li class="nav-item">
-                        <a class="nav-link active" data-bs-toggle="tab" href="#per_details_tab">About</a>
+                        <a class="nav-link active"
+                            data-bs-toggle="tab" href="#per_details_tab">Về Tôi</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" href="#password_tab">Password</a>
+                        <a class="nav-link"
+                            data-bs-toggle="tab" href="#password_tab">Mật Khẩu</a>
                     </li>
                 </ul>
             </div>
+            
             <div class="tab-content profile-tab-cont">
 
                 <div class="tab-pane fade show active" id="per_details_tab">
@@ -45,38 +53,31 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title d-flex justify-content-between">
-                                        <span>Personal Details</span>
-                                        <a class="edit-link" data-bs-toggle="modal" href="#edit_personal_details"><i
-                                                class="fa fa-edit me-1"></i>Edit</a>
+                                        <span>Thông tin chi tiết</span>
+                                        <a class="edit-link" data-bs-toggle="modal" href="#edit_personal_details"><i class="fa fa-edit me-1"></i>Sửa</a>
                                     </h5>
                                     <div class="row">
                                         <p class="col-sm-2 text-muted">Name</p>
-                                        <p class="col-sm-10">John Doe</p>
+                                        <p class="col-sm-10">{{$user->name ?: 'Chưa cập nhật...'}}</p>
                                     </div>
                                     <div class="row">
                                         <p class="col-sm-2 text-muted">Date of Birth</p>
-                                        <p class="col-sm-10">24 Jul 1983</p>
+                                        <p class="col-sm-10">{{$user->birthday ?: 'Chưa cập nhật...'}}</p>
                                     </div>
                                     <div class="row">
                                         <p class="col-sm-2 text-muted">Email ID</p>
-                                        <p class="col-sm-10"><a
-                                                href="https://doccure.dreamguystech.com/cdn-cgi/l/email-protection"
-                                                class="__cf_email__"
-                                                data-cfemail="147e7b7c7a707b7154716c75796478713a777b79">[email&#160;protected]</a>
-                                        </p>
+                                        <p class="col-sm-10">{{$user->email ?: 'Chưa cập nhật...'}}</p>
                                     </div>
                                     <div class="row">
                                         <p class="col-sm-2 text-muted">Mobile</p>
-                                        <p class="col-sm-10">305-310-5857</p>
+                                        <p class="col-sm-10">{{$user->phone ?: 'Chưa cập nhật...'}}</p>
                                     </div>
                                     <div class="row">
                                         <p class="col-sm-2 text-muted">Address</p>
-                                        <p class="col-sm-10 mb-0">4663 Agriculture Lane,<br>
-                                            Miami,<br>
-                                            Florida - 33165,<br>
-                                            United States.</p>
+                                        <p class="col-sm-10 mb-0">{{$user->address ?: 'Chưa cập nhật...'}}<br></p>
                                     </div>
                                 </div>
+                                
                             </div>
 
                             <div class="modal fade" id="edit_personal_details" aria-hidden="true" role="dialog">
@@ -173,27 +174,36 @@
 
                 </div>
 
-
                 <div id="password_tab" class="tab-pane fade">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Change Password</h5>
+                            <h5 class="card-title">Thay đổi mật khẩu</h5>
                             <div class="row">
                                 <div class="col-md-10 col-lg-6">
-                                    <form>
+                                    <form action="{{route('myProfile.changePassword')}}" method="post">
+                                        @csrf
                                         <div class="mb-3">
-                                            <label class="mb-2">Old Password</label>
-                                            <input type="password" class="form-control">
+                                            <label class="mb-2">Mật khẩu cũ</label>
+                                            <input type="password" class="form-control" name="old_password">
+                                            @error('old_password')
+                                            <span class="text-danger">{{$message}}</span>
+                                        @enderror
                                         </div>
                                         <div class="mb-3">
-                                            <label class="mb-2">New Password</label>
-                                            <input type="password" class="form-control">
+                                            <label class="mb-2">Mật khẩu mới</label>
+                                            <input type="password" class="form-control" name="new_password">
+                                            @error('new_password')
+                                            <span class="text-danger">{{$message}}</span>
+                                        @enderror
                                         </div>
                                         <div class="mb-3">
-                                            <label class="mb-2">Confirm Password</label>
-                                            <input type="password" class="form-control">
+                                            <label class="mb-2">Nhập lại mật khẩu</label>
+                                            <input type="password" class="form-control" name="new_password_confirmation">
+                                            @error('new_password_confirmation')
+                                                <span class="text-danger">{{$message}}</span>
+                                            @enderror
                                         </div>
-                                        <button class="btn btn-primary" type="submit">Save Changes</button>
+                                        <button class="btn btn-primary" type="submit">Lưu lại</button>
                                     </form>
                                 </div>
                             </div>
@@ -204,4 +214,10 @@
             </div>
         </div>
     </div>
-@endsection --}}
+@endsection
+
+
+
+
+
+

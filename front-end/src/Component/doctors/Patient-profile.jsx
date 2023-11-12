@@ -47,6 +47,7 @@ const Patientprofile = () => {
             }
           );
           setCustomers(response.customer);
+          // console.log(response);
           setLoading(false);
         } catch (error) {
           console.error("Không có dữ liệu:", error);
@@ -114,14 +115,14 @@ const Patientprofile = () => {
         <div className="container">
           <div className="row">
             <div className="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar dct-dashbd-lft">
-              <div className="card-body">
+              <div >
                 <div className="profile-sidebar" >
                   <div className="widget-profile pro-widget-content">
                     <div className="profile-info-widget">
                       <div className="pro-widget-content">
                         <div className="profile-info-widget">
                           <Link to="#" className="booking-doc-img">
-                            <img src="/img/patients/patient.jpg" alt="User Image" />
+                            <img src="https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" alt="User Image" />
                           </Link>
                           <div className="profile-det-info">
                             <h3>{customers.name}</h3>
@@ -266,9 +267,9 @@ const Patientprofile = () => {
                       <li className="nav-item">
                         <Link className="nav-link active" to="#pat_appointments" data-bs-toggle="tab">Cuộc hẹn</Link>
                       </li>
-                      <li className="nav-item">
+                      {/* <li className="nav-item">
                         <Link className="nav-link" to="#pres" data-bs-toggle="tab"><span>Đơn thuốc</span></Link>
-                      </li>
+                      </li> */}
                       {/* <li className="nav-item">
                     <Link className="nav-link" to="#medical" data-bs-toggle="tab"><span className="med-records">Hóa đơn</span></Link>
                   </li> */}
