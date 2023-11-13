@@ -10,7 +10,8 @@ import LoadingSkeleton from '../Loading';
 
 const AcceptDetailAppointment = () => {
   const { id } = useParams();
-    const [appointments, setAppointments] = useState(null);
+  const [appointments, setAppointments] = useState(null);
+  console.log(appointments);
 
     const token = localStorage.getItem('token');
 
