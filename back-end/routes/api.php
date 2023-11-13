@@ -17,6 +17,8 @@ use \App\Http\Controllers\Api\DoctorUserController;
 use \App\Http\Controllers\Api\NotificationController;
 use \App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\BillControllerHistory;
+use \App\Http\Controllers\Api\FilterAppointmentController;
+use \App\Http\Controllers\Api\StatisticsAppointmentController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -161,6 +163,9 @@ Route::post('update-bill/{id}', [DoctorController::class, 'updateBill']);
     Route::get('get-list-history-bill',  [BillControllerHistory::class, 'billHistory']);
     Route::get('update-read-notification',  [NotificationController::class, 'updateNotification']);
     Route::delete('delete-read-notification/{id}',  [NotificationController::class, 'deleteNotification']);
+
+    Route::post('filter-appointments',  [FilterAppointmentController::class, 'index']);
+    Route::post('filter-appointments-statistics',  [StatisticsAppointmentController::class, 'index']);
 });
 
 // xem lich hen cua user tu ben bac si
@@ -197,3 +202,4 @@ Route::get('pusher-tester-view', [\App\Http\Controllers\Admin\HomeController::cl
 
 
 Route::get('check-api-notification', [\App\Http\Controllers\Admin\HomeController::class, 'pusherApi']);
+

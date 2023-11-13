@@ -140,7 +140,7 @@ class AuthController extends BaseResponseApiController
         $existingUser = $this->checkPhone($phone_number);
         if($phone_number) {
             if($existingUser) {
-                return response()->json(['msg' => 'Số điện thoại này đã được đăng ký'], 400);
+                return response()->json(['msg' => 'Số điện thoại này đã được đăng ký'], 403);
             }
             else {
                 return response()->json(['msg' => 'Đi đến tạo mật khẩu'], 200);
