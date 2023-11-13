@@ -60,13 +60,9 @@
                                 <option value="Ca 3">Ca 3</option>
                             </select>
                         </div>
-                        <div class="col-4 mt-3">
-                            <label class="form-label">Tên người dùng</label>
-                            <input style="height: 38px" id="search_input" name="name" type="text" class="form-control search_input">
-                        </div>
                     </div>
                     <button id="filter_searchName" class="btn me-2 btn-sm bg-success-light mt-3 filter_searchName">Lọc dữ liệu</button>
-                    <a href="{{ route($urlbase.'index') }}" class="btn btn-sm bg-danger-light mt-3">Làm mới bộ lọc</a>
+                    <a href="#" class="btn btn-sm bg-danger-light mt-3">Làm mới bộ lọc</a>
 
                 </div>
                 <div class="card-body">
@@ -485,13 +481,13 @@
 
         function action_status(status , id) {
             let html = '';
-            var Route = '{{ route('appointments.detail-bills-appointment', ":id") }}'
+            var Route = '{{ route('appointment.edit', ":id") }}'
             Route = Route.replace(':id', id);
             if (status == 0) {
                 html += '<td class="d-flex" style="grid-gap:1rem">' +
                     '<div class="d-flex" style="grid-gap:0.5rem">' +
                     '<a href="'+Route+'" class="delete_data btn btn-sm bg-info-light">' +
-                    'Xem chi tiết cuộc hẹn / bill' +
+                    'Edit' +
                     '</a>' +
                     '<a class="btn btn-sm bg-success-light" href="#xac_nhan_118" data-bs-toggle="modal">' +
                     '<svg fill="#e63c3c" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" xml:space="preserve" width="19px" height="19px">' +

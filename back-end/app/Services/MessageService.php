@@ -17,15 +17,13 @@ class MessageService implements MessageUser {
             'avatar' => $dataMessage->avatar,
             'id' => $dataMessage->id,
             'message' => $message,
-            'appointment_id' => $appointment_id,
         ];
         $dataMessageDoctor = $this->tableQuery('doctors')->where('id' , $doctor_id)->first();
         $message_doctors = [
             'name' => $dataMessageDoctor->name,
             'avatar' => $dataMessageDoctor->image,
             'id' => $dataMessageDoctor->id,
-            'message' => $message_doctor,
-            'appointment_id' => $appointment_id,
+            'message' => $message_doctor
         ];
         $this->pusherWeb()->trigger("user-notification-".$userId, 'notification-event-test', $messagess );
         $this->pusherWeb()->trigger("doctor-notification-".$doctor_id, 'notification-event-doctor', $message_doctors);
@@ -129,7 +127,7 @@ class MessageService implements MessageUser {
     }
 
 
-        public function pusherWeb()
+    public function pusherWeb()
     {
         $pusher = new Pusher(config('broadcasting.connections.pusher.key'), config('broadcasting.connections.pusher.secret'), config('broadcasting.connections.pusher.app_id'), [
             'cluster' => config('broadcasting.connections.pusher.options.cluster'),

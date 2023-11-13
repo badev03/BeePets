@@ -109,63 +109,63 @@
                                         </div>
 
 
-                                </div>
-                                        <div class="col-sm-6">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div class="mb-3">
-                                                        <label for="products" class="form-label">Sản phẩm</label>
-                                                        <select class="form-control products  select" id="products" multiple="multiple"
-                                                                name="product_id[]">
-                                                            @foreach($products as $key=>$value)
-                                                                <option @if(in_array($value->id, $products_prescription)) selected @endif value="{{ $value->id }}">{{ $value->name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <table class="table table-bordered d-none" id="table-order">
-                                                <thead>
-                                                <tr>
-                                                    <th>Hình ảnh</th>
-                                                    <th>Tên sản phẩm</th>
-                                                    <th>Giá bán</th>
-                                                    <th>Số lượng</th>
-                                                    <th>Thành tiền</th>
-                                                    <th>Hành động</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody class="list-product">
-                                                </tbody>
-                                                <tfoot>
-                                                <tr>
-                                                    <th colspan="4" class="text-start">Tổng tiền</th>
-                                                    <th colspan="2" class="text-start" >
-                                                        <b class="total" id="total"></b>
-                                                        <input type="hidden" id="total_amount" name="total_amount">
-                                                    </th>
-                                                </tr>
-                                            </table>
-{{--                                            <div class="row d-none" id="payment_method_handle">--}}
-{{--                                                <label for="payment_method" class="form-label">Phương thức thanh toán</label>--}}
-{{--                                                <div class="mb-3">--}}
-{{--                                                    <label for="cash" class="form-label">--}}
-{{--                                                        <input type="radio" name="payment_method" id="cash" value="1" checked>--}}
-{{--                                                        Tiền mặt--}}
-{{--                                                    </label>--}}
-{{--                                                </div>--}}
-{{--                                                <div class="mb-3 ">--}}
-{{--                                                    <label for="vnpay" class="form-label">--}}
-{{--                                                        <input type="radio" name="payment_method" id="vnpay" value="2">--}}
-{{--                                                        Thanh toán qua VNPAY--}}
-{{--                                                    </label>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-                                        </div>
                                     </div>
+                                    <div class="col-sm-6">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="mb-3">
+                                                    <label for="products" class="form-label">Sản phẩm</label>
+                                                    <select class="form-control products  select" id="products" multiple="multiple"
+                                                            name="product_id[]">
+                                                        @foreach($products as $key=>$value)
+                                                            <option @if(in_array($value->id, $products_prescription)) selected @endif value="{{ $value->id }}">{{ $value->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <table class="table table-bordered d-none" id="table-order">
+                                            <thead>
+                                            <tr>
+                                                <th>Hình ảnh</th>
+                                                <th>Tên sản phẩm</th>
+                                                <th>Giá bán</th>
+                                                <th>Số lượng</th>
+                                                <th>Thành tiền</th>
+                                                <th>Hành động</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody class="list-product">
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                <th colspan="4" class="text-start">Tổng tiền</th>
+                                                <th colspan="2" class="text-start" >
+                                                    <b class="total" id="total"></b>
+                                                    <input type="hidden" id="total_amount" name="total_amount">
+                                                </th>
+                                            </tr>
+                                        </table>
+                                        {{--                                            <div class="row d-none" id="payment_method_handle">--}}
+                                        {{--                                                <label for="payment_method" class="form-label">Phương thức thanh toán</label>--}}
+                                        {{--                                                <div class="mb-3">--}}
+                                        {{--                                                    <label for="cash" class="form-label">--}}
+                                        {{--                                                        <input type="radio" name="payment_method" id="cash" value="1" checked>--}}
+                                        {{--                                                        Tiền mặt--}}
+                                        {{--                                                    </label>--}}
+                                        {{--                                                </div>--}}
+                                        {{--                                                <div class="mb-3 ">--}}
+                                        {{--                                                    <label for="vnpay" class="form-label">--}}
+                                        {{--                                                        <input type="radio" name="payment_method" id="vnpay" value="2">--}}
+                                        {{--                                                        Thanh toán qua VNPAY--}}
+                                        {{--                                                    </label>--}}
+                                        {{--                                                </div>--}}
+                                        {{--                                            </div>--}}
+                                    </div>
+                                </div>
                                 <a href="{{ URL::previous() }}" class="btn btn-primary">Quay lại</a>
-                                @if($model->status != 3)
+                                @if($model->status != 4)
                                     <button href="" class="btn bg-danger-light">Lưu</button>
                                 @endif
                             </form>
@@ -362,4 +362,3 @@
         });
     </script>
 @endpush
-
