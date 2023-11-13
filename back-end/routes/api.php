@@ -73,6 +73,7 @@ Route::post('reset-password/{phone}', [AuthController::class, 'ResetPassword']);
 Route::post('login-user', [AuthController::class, 'LoginUserOtp']); //test thôi
 
 Route::post('give-password-new/{phone}', [AuthController::class, 'ForGetPasswordUser']);
+Route::post('register-password-new/{phone}', [AuthController::class, 'RegisterUserOtp']);
 
 
 //lấy ra danh sách dịch vụ
