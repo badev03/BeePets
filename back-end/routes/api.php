@@ -17,6 +17,8 @@ use App\Http\Controllers\Api\statisticController;
 use App\Http\Controllers\Api\BookingHaiController;
 use \App\Http\Controllers\Api\DoctorUserController;
 use App\Http\Controllers\Api\BillControllerHistory;
+use \App\Http\Controllers\Api\FilterAppointmentController;
+use \App\Http\Controllers\Api\StatisticsAppointmentController;
 use \App\Http\Controllers\Api\NotificationController;
 /*
 |--------------------------------------------------------------------------
@@ -72,6 +74,7 @@ Route::post('reset-password/{phone}', [AuthController::class, 'ResetPassword']);
 Route::post('login-user', [AuthController::class, 'LoginUserOtp']); //test thôi
 
 Route::post('give-password-new/{phone}', [AuthController::class, 'ForGetPasswordUser']);
+Route::post('register-password-new/{phone}', [AuthController::class, 'RegisterUserOtp']);
 
 
 //lấy ra danh sách dịch vụ
@@ -162,6 +165,9 @@ Route::post('update-bill/{id}', [DoctorController::class, 'updateBill']);
     Route::get('get-list-history-bill',  [BillControllerHistory::class, 'billHistory']);
     Route::get('update-read-notification',  [NotificationController::class, 'updateNotification']);
     Route::delete('delete-read-notification/{id}',  [NotificationController::class, 'deleteNotification']);
+
+    Route::post('filter-appointments',  [FilterAppointmentController::class, 'index']);
+    Route::post('filter-appointments-statistics',  [StatisticsAppointmentController::class, 'index']);
 });
 
 Route::get('statistic-type-pet', [statisticController::class, 'statisticPetType']);
@@ -205,3 +211,4 @@ Route::get('pusher-tester-view', [\App\Http\Controllers\Admin\HomeController::cl
 
 
 Route::get('check-api-notification', [\App\Http\Controllers\Admin\HomeController::class, 'pusherApi']);
+

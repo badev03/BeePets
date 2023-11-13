@@ -48,3 +48,12 @@ const SMS_TYPE_CSKH = 2; // loai tin nhan cham soc khach hang
 const SMS_TYPE_BRANDNAME = 3; // loai tin nhan brand name cskh
 const SMS_TYPE_NOTIFY = 4; // sms gui bang brandname Notify
 const SMS_TYPE_GATEWAY = 5; // sms gui bang so di dong ca nhan tu app android, download app tai day: https://speedsms.vn/sms
+
+
+const status_wait_confirm = 0;
+const status_have_confirm = 1;
+const status_have_delete = 2;
+const status_have_cancel = 3;
+const status_have_finish = 4;
+const status_request_cancel = 6;
+const status_request_change_work = 7;
