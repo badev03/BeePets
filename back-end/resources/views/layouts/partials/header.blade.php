@@ -129,7 +129,7 @@
                         <h6>{{ Auth::user()->name }}</h6>
                     </div>
                 </div>
-                <a class="dropdown-item" href="{{ route('profile') }}">Hồ sơ</a>
+                <a class="dropdown-item" href="{{ route('myProfile') }}">Hồ sơ</a>
                 <a class="dropdown-item" href="{{ route('setting') }}">Cài đặt</a>
                 <a class="dropdown-item" href="{{ route('admin.logout') }}">Đăng xuất</a>
             </div>
