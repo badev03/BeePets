@@ -24,6 +24,7 @@ const Prescription = () => {
           setPrescription(response.prescriptions);
           setPageCount(Math.ceil(response.prescriptions.length / itemsPerPage));
           setIsLoading(false);
+          console.log(response.prescriptions);
         } catch (error) {
           console.error('Không có dữ liệu:', error);
         }
@@ -75,14 +76,14 @@ const Prescription = () => {
         </td>
       </tr>
     ));
-    if (isLoading) {
-      return <LoadingSkeleton />;
-    }
-  
-    if (prescription.length === 0) {
-      return <div colSpan="5" className="empty-appointments">Hiện tại chưa có lịch hẹn nào </div>;
-    }
-    
+
+  if (isLoading) {
+    return <LoadingSkeleton />;
+  }
+
+  if (prescription.length === 0) {
+    return <div colSpan="5" className="empty-appointments">Hiện tại chưa có lịch hẹn nào </div>;
+  }
 
   return (
     <div className="tab-pane fade" id="pat_prescriptions">

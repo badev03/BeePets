@@ -112,9 +112,26 @@
           </td>
           <td>{formatDate(appointment.date)}</td>
           <td>
-            <span className={`badge rounded-pill ${parseInt(appointment.status) === 1 ? 'bg-success-light' : parseInt(appointment.status) === 0 ? 'bg-warning-light' : parseInt(appointment.status) === 2 ? 'bg-danger-light' : ''}`}>
-              {parseInt(appointment.status) === 1 ? 'Xác nhận' : parseInt(appointment.status) === 0 ? 'Chờ xác nhận' : parseInt(appointment.status) === 2 ? 'Đã hủy' : ''}
-            </span>
+            {appointment.status == 1 ? (
+              <span className="badge rounded-pill bg-success-light">
+                Xác nhận
+              </span>
+            ) : appointment.status == 2 ? (
+              <span className="badge rounded-pill bg-danger-light">Đã xóa</span>
+            ) : appointment.status == 3 ? (
+              <span className="badge rounded-pill bg-primary-light">Đã hoàn thành</span>
+            ) : appointment.status == 4 ? (
+              <span className="badge rounded-pill bg-danger-light">Đã hủy</span>
+            ) : appointment.status == 6 ? (
+              <span className="badge rounded-pill bg-warning-light">Yêu cầu hủy</span>
+            ) : appointment.status == 7 ? (
+              <span className="badge rounded-pill bg-info-light">Yêu cầu đổi lịch</span>
+            ) : (
+              // Default case
+              <span className="badge rounded-pill bg-info-light">
+                Không xác định
+              </span>
+            )}
 
           </td>
           <td>
