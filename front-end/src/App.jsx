@@ -45,6 +45,7 @@ import DetailPrescription from './Component/doctors/DetailPrescription'
 import CustomerInvoice from './Component/doctors/customer-invoice/Customer-invoice'
 import ChangePasswordUser from './Component/User/ChangePassword'
 import StatisticalPet from './Component/doctors/statisticalPet'
+import CreateRegister from './Component/Form-Auth/Create-Register'
 
 
 function App() {
