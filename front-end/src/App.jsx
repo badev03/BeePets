@@ -44,6 +44,7 @@ import DetailBIll from './Component/doctors/DetailBIll'
 import DetailPrescription from './Component/doctors/DetailPrescription'
 import CustomerInvoice from './Component/doctors/customer-invoice/Customer-invoice'
 import ChangePasswordUser from './Component/User/ChangePassword'
+import CreateRegister from './Component/Form-Auth/Create-Register'
 
 
 function App() {
@@ -103,6 +104,7 @@ function App() {
           <Route path='Forgot-Password-Doctor' element={<ForgotPasswordDoctor />} />
           <Route path='Reset-Password-Doctor' element={<ResetPasswordDoctor />} />
           <Route path='Create-Password' element={<CreatePassword />} />
+          <Route path='Register-Password' element={<CreateRegister />} />
 
 
         </Route>
