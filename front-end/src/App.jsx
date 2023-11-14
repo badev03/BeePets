@@ -44,6 +44,7 @@ import DetailBIll from './Component/doctors/DetailBIll'
 import DetailPrescription from './Component/doctors/DetailPrescription'
 import CustomerInvoice from './Component/doctors/customer-invoice/Customer-invoice'
 import ChangePasswordUser from './Component/User/ChangePassword'
+import StatisticalPet from './Component/doctors/statisticalPet'
 
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
           <Route path='bookingprofiledoctor/profile' element={<Booking />} />
           <Route path='booking/success' element={<BookingSuccess />} />
           <Route path='doctor/profile' element={<DoctorProfile />} />
+          <Route path='doctors/statisticalPet' element={<StatisticalPet />} />
 
           <Route path='doctor/profile/:id' element={<DoctorProfile />} />
           <Route path='blog' element={<BlogList />} />
