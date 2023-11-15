@@ -560,6 +560,7 @@ class DoctorController extends Controller
             // 'doctor_id' => 'required|exists:doctors,id',
             // 'user_id' => 'required|exists:users,id',
             // 'bill_id' => 'required|exists:bills,id',
+            'services' => 'required|array',
             'products' => 'required|array',
             'products.*.product_id' => 'required|exists:products,id',
             'products.*.quantity' => 'required|numeric',
