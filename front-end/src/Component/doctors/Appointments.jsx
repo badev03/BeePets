@@ -13,7 +13,6 @@ import { Modal, Form, Input, Button ,Dropdown, Menu} from 'antd';
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal);
-import { CSVLink } from "react-csv";
 
 const Appointments = () => {
   const [appointments, setAppointment] = useState([]);
