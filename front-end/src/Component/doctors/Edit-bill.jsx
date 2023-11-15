@@ -15,38 +15,22 @@ const MySwal = withReactContent(Swal);
 
 const Editbill = () => {
   const { token } = useAuth();
-  const [prescriptions, setPrescriptions] = useState([{ id: 1 }]);
   const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState([]);
-  const [selectedProductPrice, setSelectedProductPrice] = useState("");
-  const [quantities, setQuantities] = useState({});
-  const [productPrices, setProductPrices] = useState({});
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [instructions, setInstructions] = useState({});
-  const [nameError, setNameError] = useState("");
-  const [descriptionError, setDescriptionError] = useState("");
-  const [instructionsError, setInstructionsError] = useState({});
   const [isloading, setIsloading] = useState(false);
   const { id } = useParams();
   const [bills, setBills] = useState(null);
-  const [serviceBill, setServiceBill] = useState([]);
-  const [servicePrices, setServicePrices] = useState({});
-  const [serviceDefault, setServiceDefault] = useState([]);
-  const [selectedServiceIds, setSelectedServiceIds] = useState([]);
+  const [services, setServices] = useState([]);
   const navigate = useNavigate();
-
   const tokenn = localStorage.getItem("token");
-
   const [userId, setUserId] = useState("");
   const [doctorId, setDoctorId] = useState("");
+  const [description, setDescription] = useState("");
+  const [editedName, setEditedName] = useState("");
+  const [products, setProducts] = useState([]);
+  const [serviceBill, setServiceBill] = useState([]);
 
-  const styles = {
-    maxTdWidth: {
-      maxWidth: '100px',
-      wordBreak: 'break-all',
-    },
-  };
+  const [selectedProducts, setSelectedProducts] = useState([]);
+  const [selectedServices, setSelectedServices] = useState([]);
 
   useEffect(() => {
     const fetchBill = async () => {
@@ -58,9 +42,8 @@ const Editbill = () => {
           },
         });
         setBills(response.bill);
-        console.log(response.bill);
-        
-        setServiceDefault(response.services);
+        setServices(response.services);
+        console.log(response.services);
         setUserId(response.bill.user_id);
         setDoctorId(response.bill.doctor_id);
       } catch (error) {
@@ -70,145 +53,6 @@ const Editbill = () => {
     fetchBill();
     setLoading(false);
   }, []);
-
-  useEffect(() => {
-    const fetchService = async () => {
-      setLoading(true);
-      try {
-        const response = await BookingApi.getServiceDoctor();
-        setServiceBill(response.data);
-      } catch (error) {
-        console.error("Không có dữ liệu:", error);
-      }
-    };
-
-    fetchService();
-    setLoading(false);
-  }, []);
-
-  function formatDate(dateString) {
-    if (dateString) {
-      const options = {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      };
-      const formattedDate = new Date(dateString).toLocaleDateString(
-        "vi-VN",
-        options
-      );
-      return formattedDate.replace("lúc", "").trim();
-    }
-    return "";
-  }
-
-  const handleSave = async () => {
-    if (name.trim() === "") {
-      setNameError("Tên hóa đơn không được để trống");
-      return;
-    }
-
-    if (description.trim() === "") {
-      setDescriptionError("Kết quả không được để trống");
-      return;
-    }
-
-    let isValid = true;
-
-    for (const prescription of prescriptions) {
-      const instruction = instructions[prescription.id];
-      if (!instruction || instruction.trim() === "") {
-        setInstructionsError((prev) => ({
-          ...prev,
-          [prescription.id]: "Không được để trống",
-        }));
-        isValid = false;
-      }
-    }
-
-    if (!isValid) {
-      return;
-    }
-
-    const productsData = prescriptions.map((prescription) => {
-      const productName = products[prescription.id - 1]?.name || "";
-      const quantity = quantities[prescription.id] || 1;
-      const selectedProduct = products.find(
-        (product) => product.name === productName
-      );
-      const product_id = selectedProduct ? selectedProduct.id : null;
-      const instruction = instructions[prescription.id] || "";
-
-      return {
-        product_id: product_id,
-        quantity: quantity,
-        price_product: productPrices[prescription.id] || 0,
-        instructions: instruction,
-      };
-    });
-
-    const selectedServices = selectedServiceIds.map((serviceId) => ({
-      service_id: serviceId,
-    }));
-
-    const data = {
-      name: name,
-      price: prescriptions
-        .reduce(
-          (total, prescription) =>
-            total +
-            parseFloat(
-              calculateTotal(prescription, productPrices[prescription.id])
-            ),
-          0
-        )
-        .toFixed(2),
-      bill_id: id,
-      user_id: userId,
-      doctor_id: doctorId,
-      products: productsData,
-      services: selectedServices,
-      description: description,
-    };
-    setIsloading(true);
-
-    try {
-      const response = await billApi.updateBill(id, data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setIsloading(false);
-
-      MySwal.fire({
-        title: "Thêm đơn thuốc thành công!",
-        icon: "success",
-      });
-      navigate(`/doctors/detail-bill/${id}`);
-    } catch (error) {
-      console.error("Lỗi khi gửi hóa đơn:", error);
-    }
-  };
-
-  const addPrescriptionRow = () => {
-    setPrescriptions([...prescriptions, { id: prescriptions.length + 1 }]);
-    setQuantities((prev) => ({ ...prev, [prescriptions.length + 1]: 1 }));
-    setSelectedProductPrice("");
-  };
-
-  const deletePrescriptionRow = (id) => {
-    const updatedPrescriptions = prescriptions.filter((item) => item.id !== id);
-    setPrescriptions(updatedPrescriptions);
-  };
-
-  const availableServiceOptions = serviceBill
-    .filter((ser) => ser.name !== serviceDefault?.name)
-    .map((ser) => ({
-      value: ser.name,
-      label: ser.name,
-    }));
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -227,56 +71,126 @@ const Editbill = () => {
     fetchProduct();
   }, []);
 
-  const handleQuantityChange = (prescriptionId, value) => {
-    const newQuantities = {
-      ...quantities,
-      [prescriptionId]: parseInt(value, 10),
-    };
-    setQuantities(newQuantities);
+  const handleSelectChange = (selectedValues) => {
+    const selectedProductsInfo = selectedValues.map((value) => {
+      const selectedProduct = products.find((product) => product.id === value);
+      return {
+        label: selectedProduct.name,
+        value: selectedProduct.id,
+        price: selectedProduct.price,
+        quantity: 1,
+      };
+    });
+
+    setSelectedProducts(selectedProductsInfo);
   };
 
-  const calculateTotal = (prescription, productPrice) => {
-    const quantity = quantities[prescription.id] || 1;
-    const price = productPrice || 0;
-    return (quantity * price).toFixed(2);
+  const handleServiceSelectChange = (selectedValues) => {
+    const selectedServicesInfo = selectedValues.map((value) => {
+      const selectedService = serviceBill.find((service) => service.id === value);
+      return {
+        label: selectedService.name,
+        value: selectedService.id,
+        price: selectedService.price,
+      };
+    });
+  
+    setSelectedServices(selectedServicesInfo);
   };
 
-  const onChange = (value, prescriptionId) => {
-    const selectedProduct = products.find((product) => product.name === value);
-    const newPrices = {
-      ...productPrices,
-      [prescriptionId]: selectedProduct ? selectedProduct.price : "",
-    };
-    setProductPrices(newPrices);
-    setInstructions((prev) => ({
-      ...prev,
-      [prescriptionId]: instructions[prescriptionId] || "",
+  const handleInstructionChange = (e, prescriptionIndex) => {
+    const updatedPrescriptions = [...bills.prescriptions];
+    updatedPrescriptions[prescriptionIndex].productss[0].pivot.instructions =
+      e.target.value;
+    setBills((prevBills) => ({
+      ...prevBills,
+      prescriptions: updatedPrescriptions,
     }));
   };
 
-  const onChangeService = (value, serviceId) => {
-    const selectedService = serviceBill.find(
-      (service) => service.name === value
-    );
-    const newServicePrices = { ...servicePrices };
-    newServicePrices[serviceId] = selectedService ? selectedService.price : "";
-    setServicePrices(newServicePrices);
+  const handleQuantityChange = (e, productIndex) => {
+    const newQuantity = e.target.value;
 
-    setSelectedServiceIds((prevSelectedServiceIds) => {
-      const updatedIds = [...prevSelectedServiceIds];
-      if (selectedService) {
-        updatedIds.push(selectedService.id);
+    if (newQuantity >= 1) {
+      const updatedSelectedProducts = selectedProducts.map((product, index) => {
+        if (index === productIndex) {
+          return {
+            ...product,
+            quantity: newQuantity,
+          };
+        }
+        return product;
+      });
+
+      setSelectedProducts(updatedSelectedProducts);
+    }
+  };
+
+  const handleSave = async () => {
+    const products = selectedProducts.map((selectedProduct) => ({
+      product_id: selectedProduct.value,
+      quantity: selectedProduct.quantity,
+      price_product: selectedProduct.price,
+      instructions: selectedProduct.instructions,
+    }));
+
+    const totalPrice = bills?.prescriptions?.reduce((acc, prescription) => {
+      const product = prescription.productss[0];
+      const quantity = product.pivot.quantity;
+      const price = product.price;
+      return acc + quantity * price;
+    }, 0);
+
+    const services = selectedServices.map((selectedService) => ({
+      service_id: selectedService.value,
+    }));
+
+    const data = {
+      name: editedName,
+      price: totalPrice,
+      bill_id: id,
+      user_id: userId,
+      doctor_id: doctorId,
+      products: products,
+      services:services,
+      description: description,
+    };
+    try {
+      await billApi.updateBill(id, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      MySwal.fire({
+        icon: "success",
+        title: "Cập nhật thành công!",
+      });
+    } catch (error) {
+      console.error("Lỗi cập nhật hóa đơn:", error);
+      MySwal.fire({
+        icon: "error",
+        title: "Lỗi cập nhật hóa đơn",
+        text: error.message,
+      });
+    } finally {
+      setIsloading(false);
+    }
+  };
+
+  useEffect(() => {
+    const fetchService = async () => {
+      setLoading(true);
+      try {
+        const response = await BookingApi.getServiceDoctor();
+        setServiceBill(response.data);
+      } catch (error) {
+        console.error("Không có dữ liệu:", error);
       }
-      return updatedIds;
-    });
-  };
+    };
 
-  const onSearch = (value) => {
-    console.log("search:", value);
-  };
-
-  const filterOption = (input, option) =>
-    (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
+    fetchService();
+    setLoading(false);
+  }, []);
 
   if (loading) {
     return (
@@ -322,326 +236,223 @@ const Editbill = () => {
                 <div className="card-header">
                   <h4 className="card-title mb-0">Sửa hóa đơn</h4>
                 </div>
-                <div className="card-body">
-                  <div className="row">
-                    <div className="col-sm-6">
-                      <div className="biller-info">
-                        <h4 className="d-block">
-                          Tên khách hàng: {bills?.appointment.user.name}
-                        </h4>
-                        <label htmlFor="">Tên đơn thuốc:</label>
-                        <input
-                          className="form-control"
-                          type="text"
-                          value={name}
-                          onChange={(e) => {
-                            setName(e.target.value);
-                            setNameError("");
-                          }}
-                        />
-                        <span className="text-danger">{nameError}</span>
+                {bills?.prescriptions?.map(
+                  (prescription, prescriptionIndex) => (
+                    <div key={prescriptionIndex} className="card-body">
+                      <div className="row">
+                        <div className="col-sm-6">
+                          <div className="biller-info">
+                            <h4 className="d-block">
+                              Tên khách hàng: {bills?.appointment.user.name}
+                            </h4>
+                            <label htmlFor="">Tên đơn thuốc:</label>
+                            <input
+                              className="form-control"
+                              type="text"
+                              value={
+                                editedName !== ""
+                                  ? editedName
+                                  : prescription.name
+                              }
+                              onChange={(e) => setEditedName(e.target.value)}
+                            />
+                          </div>
+                        </div>
+                        <div className="col-sm-6 text-sm-end">
+                          <div className="billing-info">
+                            <h4 className="d-block">
+                              Ngày: {bills?.created_at}
+                            </h4>
+                            <span className="d-block text-muted">
+                              Mã hóa đơn: {bills?.code}
+                            </span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-sm-6 text-sm-end">
-                      <div className="billing-info">
-                        <h4 className="d-block">
-                          Ngày: {formatDate(bills?.created_at)}
-                        </h4>
-                        <span className="d-block text-muted">
-                          Mã hóa đơn: {bills?.code}
-                        </span>
+                      <div className="card card-table">
+                        <div className="card-body">
+                          <div className="table-responsive">
+                            <Select
+                              mode="multiple"
+                              size="large"
+                              allowClear
+                              style={{
+                                width: "100%",
+                                marginBottom: "24px",
+                              }}
+                              placeholder="Vui lòng chọn thuốc"
+                              options={products.map((product) => ({
+                                label: product.name,
+                                value: product.id,
+                              }))}
+                              onChange={handleSelectChange}
+                            />
+                            <table className="table table-hover table-center add-table-prescription">
+                              <thead>
+                                <tr>
+                                  <th className="table-name1">
+                                    Tên loại thuốc
+                                  </th>
+                                  <th style={{ width: 50 }}>Số lượng</th>
+                                  <th className="table-name1">Giá tiền</th>
+                                  <th className="table-name1">Tổng tiền</th>
+                                  <th className="table-name1">
+                                    Hướng dẫn sử dụng
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {selectedProducts.map(
+                                  (selectedProduct, index) => (
+                                    <tr key={index} className="test">
+                                      <td>
+                                        <input
+                                          className="form-control"
+                                          placeholder="Chọn thuốc"
+                                          style={{ width: 176, height: 43 }}
+                                          value={selectedProduct.label}
+                                        />
+                                      </td>
+                                      <td>
+                                        <input
+                                          className="form-control"
+                                          type="number"
+                                          value={selectedProduct.quantity}
+                                          onChange={(e) =>
+                                            handleQuantityChange(e, index)
+                                          }
+                                        />
+                                      </td>
+                                      <td>
+                                        <input
+                                          className="form-control"
+                                          type="text"
+                                          value={selectedProduct.price}
+                                          disabled
+                                        />
+                                      </td>
+                                      <td>
+                                        <input
+                                          className="form-control"
+                                          type="text"
+                                          value={
+                                            selectedProduct.price *
+                                            selectedProduct.quantity
+                                          }
+                                          disabled
+                                        />
+                                      </td>
+                                      <td>
+                                        <input
+                                          className="form-control"
+                                          type="text"
+                                          value={selectedProduct.instructions}
+                                          onChange={(e) =>
+                                            handleInstructionChange(
+                                              e,
+                                              prescriptionIndex
+                                            )
+                                          }
+                                        />
+                                      </td>
+                                    </tr>
+                                  )
+                                )}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  <div className="add-more-item text-end">
-                    <a
-                      onClick={addPrescriptionRow}
-                      className="add-prescription"
-                    >
-                      <i className="fas fa-plus-circle" /> Thêm đơn thuốc
-                    </a>
-                  </div>
 
-                  <div className="card card-table">
-                    <div className="card-body">
-                      <div className="table-responsive">
-                        <table className="table table-hover table-center add-table-prescription">
-                          <thead>
-                            <tr>
-                              <th className="table-name1">Tên loại thuốc</th>
-                              <th style={{ width: 50 }}>Số lượng</th>
-                              <th className="table-name1">Giá tiền</th>
-                              <th className="table-name1">Tổng tiền</th>
-                              <th className="table-name1">Hướng dẫn sử dụng</th>
-                              <th>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                          {bills && bills.prescriptions.map((prescription) => (
-                            prescription.productss.map((pres, innerIndex) => (
-                              <tr key={innerIndex} className="test">
-                                <td>
-                                  <input
-                                  className="form-control"
-                                    placeholder="Chọn thuốc"
-                                    style={{ width: 176, height: 43 }}
-                                    onChange={(value) =>
-                                      onChange(value, prescription.id)
-                                    }
-                                    value={pres.name}
-                                  />
-                                </td>
-                                <td>
-                                  <input
-                                    className="form-control"
-                                    type="number"
-                                    value={pres.pivot.quantity}
-                                    onChange={(e) =>
-                                      handleQuantityChange(
-                                        prescription.id,
-                                        e.target.value
-                                      )
-                                    }
-                                  />
-                                </td>
-                                <td>
-                                  <input
-                                    value={pres.pivot.price }
-                                    readOnly
-                                    className="form-control"
-                                    type="text"
-                                  />
-                                </td>
-                                <td>
-                                  <input
-                                    className="form-control"
-                                    type="text"
-                                    value={pres.pivot.price * pres.pivot.quantity}
-                                    readOnly
-                                  />
-                                </td>
-                                <td>
-                                  <input
-                                    className="form-control"
-                                    type="text"
-                                    value={pres.pivot.instructions}
-                                    onChange={(e) => {
-                                      const value = e.target.value;
-                                      setInstructionsError((prev) => ({
-                                        ...prev,
-                                        [prescription.id]: "",
-                                      }));
-                                      setInstructions((prev) => ({
-                                        ...prev,
-                                        [prescription.id]: value,
-                                      }));
-                                    }}
-                                  />
-                                  <span className="text-danger">
-                                    {instructionsError[prescription.id]}
-                                  </span>
-                                </td>
-                                <td>
-                                  <button
-                                    onClick={() =>
-                                      deletePrescriptionRow(prescription.id)
-                                    }
-                                    className="btn bg-danger-light trash"
-                                  >
-                                    <i className="far fa-trash-alt" />
-                                  </button>
-                                </td>
-                              </tr>
-                            ))
-                          ))}
-
-                            {prescriptions.map((prescription) => (
-                              
-                              <tr key={prescription.id} className="test">
-                                <td>
-                                  <Select
-                                    showSearch 
-                                    placeholder="Chọn thuốc"
-                                    optionFilterProp="children"
-                                    style={{ width: 176, height: 43 }}
-                                    onChange={(value) =>
-                                      onChange(value, prescription.id)
-                                    }
-                                    onSearch={onSearch}
-                                    filterOption={filterOption}
-                                    options={products.map((product) => ({
-                                      value: product.name,
-                                      label: product.name,
-                                    }))}
-                                  />
-                                </td>
-                                <td>
-                                  <input
-                                    className="form-control"
-                                    type="number"
-                                    value={quantities[prescription.id] || 1}
-                                    onChange={(e) =>
-                                      handleQuantityChange(
-                                        prescription.id,
-                                        e.target.value
-                                      )
-                                    }
-                                  />
-                                </td>
-                                <td>
-                                  <input
-                                    value={productPrices[prescription.id] || ""}
-                                    readOnly
-                                    className="form-control"
-                                    type="text"
-                                  />
-                                </td>
-                                <td>
-                                  <input
-                                    className="form-control"
-                                    type="text"
-                                    value={calculateTotal(
-                                      prescription,
-                                      productPrices[prescription.id]
-                                    )}
-                                    readOnly
-                                  />
-                                </td>
-                                <td>
-                                  <input
-                                    className="form-control"
-                                    type="text"
-                                    value={instructions[prescription.id] || ""}
-                                    onChange={(e) => {
-                                      const value = e.target.value;
-                                      setInstructionsError((prev) => ({
-                                        ...prev,
-                                        [prescription.id]: "",
-                                      }));
-                                      setInstructions((prev) => ({
-                                        ...prev,
-                                        [prescription.id]: value,
-                                      }));
-                                    }}
-                                  />
-                                  <span className="text-danger">
-                                    {instructionsError[prescription.id]}
-                                  </span>
-                                </td>
-                                <td>
-                                  <button
-                                    onClick={() =>
-                                      deletePrescriptionRow(prescription.id)
-                                    }
-                                    className="btn bg-danger-light trash"
-                                  >
-                                    <i className="far fa-trash-alt" />
-                                  </button>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="card card-table">
-                    <div className="card-body">
-                      <div className="table-responsive">
-                        <table className="table table-hover table-center add-table-prescription">
-                          <thead>
-                            <tr>
-                              <th className="table-name">Tên dịch vụ</th>
-                              <th className="table-name">Giá tiền</th>
-                              <th>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                              {serviceDefault.map((service) => (
-                            <tr key={service.id} className="test">
-                                
-                              <td>{service.name}</td>
-                              <td>{service.price}</td>
-                              <td>
-                                <button className="btn bg-danger-light trash">
-                                  <i className="far fa-trash-alt" />
-                                </button>
-                              </td>
-                                
-                            </tr>
+                      <div className="card card-table">
+                        <div className="card-body">
+                          <div className="table-responsive">
+                          <Select
+                              mode="multiple"
+                              size="large"
+                              allowClear
+                              style={{
+                                width: "100%",
+                                marginBottom: "24px",
+                              }}
+                              placeholder="Vui lòng chọn dịch vụ"
+                              options={serviceBill.map((service) => ({
+                                label: service.name,
+                                value: service.id,
+                              }))}
+                              onChange={handleServiceSelectChange}
+                            />
+                            <table className="table table-hover table-center add-table-prescription">
+                              <thead>
+                                <tr>
+                                  <th className="table-name">Tên dịch vụ</th>
+                                  <th className="table-name">Giá tiền</th>
+                                  
+                                </tr>
+                              </thead>
+                              <tbody>
+                              {selectedServices.map((selectedService) => (
+                                <tr key={selectedService.value} className="test">
+                                  <td>{selectedService.label}</td>
+                                  <td>{selectedService.price}</td>
+                                </tr>
                               ))}
-                          </tbody>
-                        </table>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  <div className="">
-                    <p style={{ fontWeight:"bold" }}>Thêm dịch vụ</p>
-                    <Select
-                      mode="multiple"
-                      size="large"
-                      allowClear
-                      style={{
-                        width: "100%",
-                        marginBottom: "24px",
-                      }}
-                      placeholder="Vui lòng chọn dịch vụ"
-                      // onChange={(value) =>
-                      //   onChangeService(value, service.id)
-                      // }
-                      options={availableServiceOptions}
-                    />
-                  </div>
-                  <div className="row">
-                    <div className="card">
-                      <div className="card-body">
-                        <h4 className="card-title">Kết quả</h4>
-                        <div className="mb-0">
-                          <textarea
-                            className="form-control"
-                            rows={5}
-                            value={description}
-                            onChange={(e) => {
-                              setDescription(e.target.value);
-                              setDescriptionError("");
-                            }}
-                          />
-                          <span className="text-danger">
-                            {descriptionError}
-                          </span>
+
+                      <div className="row">
+                        <div className="card">
+                          <div className="card-body">
+                            <h4 className="card-title">Kết quả</h4>
+                            <div className="mb-0">
+                              <textarea
+                                className="form-control"
+                                rows={5}
+                                value={
+                                  description !== ""
+                                    ? description
+                                    : bills.description
+                                }
+                                onChange={(e) => setDescription(e.target.value)}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-md-12">
+                          <div className="submit-section">
+                            <button
+                              type="submit"
+                              onClick={handleSave}
+                              className="btn btn-primary submit-btn"
+                            >
+                              {isloading ? (
+                                <div className="loading-spinner">
+                                  <FaSpinner className="spinner" />
+                                </div>
+                              ) : (
+                                "Lưu"
+                              )}
+                            </button>
+                            <Link to="/doctors/patient-profile">
+                              {" "}
+                              <button
+                                type="reset"
+                                className="btn btn-secondary submit-btn"
+                              >
+                                Quay lại
+                              </button>
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-12">
-                      <div className="submit-section">
-                        <button
-                          type="submit"
-                          onClick={handleSave}
-                          className="btn btn-primary submit-btn"
-                        >
-                          {isloading ? (
-                            <div className="loading-spinner">
-                              <FaSpinner className="spinner" />
-                            </div>
-                          ) : (
-                            "Lưu"
-                          )}
-                        </button>
-                        <Link to="/doctors/patient-profile">
-                          {" "}
-                          <button
-                            type="reset"
-                            className="btn btn-secondary submit-btn"
-                          >
-                            Quay lại
-                          </button>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  )
+                )}
               </div>
             </div>
           </div>
