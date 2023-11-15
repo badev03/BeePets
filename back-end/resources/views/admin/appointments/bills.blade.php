@@ -29,39 +29,39 @@
                     <div class="table-responsive">
                         <table class="datatable table table-stripped">
                             <thead id="thead_table">
-                                <td>#ID</td>
-                                @foreach ($colums as $colum=>$name)
-                                    <td>{{$name}}</td>
-                                @endforeach
-                                <td>Trạng thái</td>
-                                <td>Ngày hẹn</td>
-                                <td>Thời gian cuộc hẹn</td>
-                                <td>Hành động</td>
+                            <td>#ID</td>
+                            @foreach ($colums as $colum=>$name)
+                                <td>{{$name}}</td>
+                            @endforeach
+                            <td>Trạng thái</td>
+                            <td>Ngày hẹn</td>
+                            <td>Thời gian cuộc hẹn</td>
+                            <td>Hành động</td>
                             </thead>
                             <tbody id="tbody_table">
-                                    @foreach($data as $key=>$value)
-                                        <tr>
-                                            <td>{{ $key + 1 }}</td>
-                                            <td>{{ $value->doctor_id }}</td>
-                                            <td>{{ $value->user_id }}</td>
-                                            <td>{{ $value->type_pet_id }}</td>
-                                            <td>{{ $value->service_id }}</td>
-                                            <td>{!! $value->description !!}</td>
-                                            <td>
-                                                @if($value->status == 3)
-                                                    <button class="btn btn-sm bg-info-light">
-                                                        {{ 'Hoàn thành' }}
-                                                    </button>
-                                                @endif
-                                            </td>
-                                            <td>{!! $value->date !!}</td>
-                                            <td>
+                            @foreach($data as $key=>$value)
+                                <tr>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td>{{ $value->doctor_id }}</td>
+                                    <td>{{ $value->user_id }}</td>
+                                    <td>{{ $value->type_pet_id }}</td>
+                                    <td>{{ $value->service_id }}</td>
+                                    <td>{!! $value->description !!}</td>
+                                    <td>
+                                        @if($value->status == 4)
+                                            <button class="btn btn-sm bg-info-light">
+                                                {{ 'Hoàn thành' }}
+                                            </button>
+                                        @endif
+                                    </td>
+                                    <td>{!! $value->date !!}</td>
+                                    <td>
                                                 <span class="text-primary d-block">{{ $value->start_time }}
                                                     - {{ $value->end_time }} AM</span>
-                                            </td>
-                                        @include('admin.components.button.action-index-status')
-                                        </tr>
-                                    @endforeach
+                                    </td>
+                                    @include('admin.components.button.action-index-status')
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -80,7 +80,7 @@
         var dateInput = document.getElementById('date_filter');
         dateInput.min = currentDateString;
 
-    //    bộ lọc
+        //    bộ lọc
         $(document).ready(function () {
             $('#date_filter').change(function () {
                 var data = $(this).val();

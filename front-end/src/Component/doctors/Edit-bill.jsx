@@ -194,40 +194,41 @@ const Editbill = () => {
 
   if (loading) {
     return (
-      <div>
-        {" "}
-        <LoadingSkeleton />
-      </div>
+        <div>
+          {" "}
+          <LoadingSkeleton />
+        </div>
     );
   }
   return (
-    <div>
-      <div className="breadcrumb-bar-two">
-        <div className="container">
-          <div className="row align-items-center inner-banner">
-            <div className="col-md-12 col-12 text-center">
-              <h2 className="breadcrumb-title">Sửa hóa đơn</h2>
-              <nav aria-label="breadcrumb" className="page-breadcrumb">
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item">
-                    <Link to="/">Trang chủ</Link>
-                  </li>
-                  <li className="breadcrumb-item" aria-current="page">
-                    Thêm hóa đơn
-                  </li>
-                </ol>
-              </nav>
+      <div>
+        <div className="breadcrumb-bar-two">
+          <div className="container">
+            <div className="row align-items-center inner-banner">
+              <div className="col-md-12 col-12 text-center">
+                <h2 className="breadcrumb-title">Sửa hóa đơn</h2>
+                <nav aria-label="breadcrumb" className="page-breadcrumb">
+                  <ol className="breadcrumb">
+                    <li className="breadcrumb-item">
+                      <Link to="/">Trang chủ</Link>
+                    </li>
+                    <li className="breadcrumb-item" aria-current="page">
+                      Thêm hóa đơn
+                    </li>
+                  </ol>
+                </nav>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="content">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
-              <div className="card widget-profile pat-widget-profile">
-                <div className="card-body">
-                  <Menudashboard />
+        <div className="content">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+                <div className="card widget-profile pat-widget-profile">
+                  <div className="card-body">
+                    <Menudashboard />
+                  </div>
                 </div>
               </div>
             </div>
@@ -458,7 +459,6 @@ const Editbill = () => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 export default Editbill;

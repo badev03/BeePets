@@ -36,10 +36,10 @@
             <option value="Ca 3">Ca 3</option>
         </select>
     </div>
-    <div class="col-4 mt-3">
-        <label class="form-label">Tên người dùng</label>
-        <input style="height: 38px" id="search_input" name="name" type="text" class="form-control search_input">
-    </div>
+    {{--    <div class="col-4 mt-3">--}}
+    {{--        <label class="form-label">Tên người dùng</label>--}}
+    {{--        <input style="height: 38px" id="search_input" name="name" type="text" class="form-control search_input">--}}
+    {{--    </div>--}}
 </div>
 <button id="filter_searchName" class="btn me-2 btn-sm bg-success-light mt-3">Lọc dữ liệu</button>
 <a href="{{ route($urlbase.'index') }}" class="btn btn-sm bg-danger-light mt-3">Làm mới dữ liệu</a>

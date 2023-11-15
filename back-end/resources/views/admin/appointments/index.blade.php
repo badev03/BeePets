@@ -6,7 +6,7 @@
 @section('heading','đ')
 @section('content')
     <div class="row">
-    
+
         <div class="col-sm-12">
             @if(session()->has('success_delete'))
                 <div class="alert-success alert">
@@ -35,7 +35,7 @@
                                         <p class="mb-4">Bạn có chắc chắn xóa không</p>
                                         <div class="d-flex justify-content-center" style="gap: 1rem">
                                             <a href="{{ route('appointments.clear-appointment-data') }}" class="btn bg-success-light"
-                                                    type="submit">Xóa
+                                               type="submit">Xóa
                                             </a>
                                             <button type="button" class="btn bg-danger-light" data-bs-dismiss="modal">Đóng</button>
                                         </div>
@@ -50,47 +50,47 @@
                     <div class="table-responsive">
                         <table class="datatable table table-stripped">
                             <thead id="thead_table">
-                                <td>#ID</td>
-                                @foreach ($colums as $colum=>$name)
-                                    <td>{{$name}}</td>
-                                @endforeach
-                                <td>Trạng thái</td>
-                                <td>Ngày hẹn</td>
-                                <td>Thời gian cuộc hẹn</td>
-                                <td>Hành động</td>
+                            <td>#ID</td>
+                            @foreach ($colums as $colum=>$name)
+                                <td>{{$name}}</td>
+                            @endforeach
+                            <td>Trạng thái</td>
+                            <td>Ngày hẹn</td>
+                            <td>Thời gian cuộc hẹn</td>
+                            <td>Hành động</td>
                             </thead>
                             <tbody id="tbody_table">
-                                    @foreach($data as $key=>$value)
-                                        <tr>
-                                            <td>{{ $key + 1 }}</td>
-                                            <td>{{ $value->doctor_id }}</td>
-                                            <td>{{ $value->user_id }}</td>
-                                            <td>{{ $value->type_pet_id }}</td>
-                                            <td>{{ $value->service_id }}</td>
-                                            <td>{!! $value->description !!}</td>
-                                            <td>
-                                                @if($value->status == 6)
-                                                    <button class="btn btn-sm bg-info-light">
-                                                        {{ 'Yêu cầu hủy' }}
-                                                    </button>
-                                                @elseif($value->status == 1)
-                                                    <button class="btn btn-sm bg-success-light">
-                                                        {{ 'Xác nhận' }}
-                                                    </button>
-                                                @elseif($value->status == 3)
-                                                    <button class="btn btn-sm bg-danger-light">
-                                                        {{ 'Hoàn thành' }}
-                                                    </button>
-                                                @endif
-                                            </td>
-                                            <td>{!! $value->date !!}</td>
-                                            <td>
+                            @foreach($data as $key=>$value)
+                                <tr>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td>{{ $value->doctor_id }}</td>
+                                    <td>{{ $value->user_id }}</td>
+                                    <td>{{ $value->type_pet_id }}</td>
+                                    <td>{{ $value->service_id }}</td>
+                                    <td>{!! $value->description !!}</td>
+                                    <td>
+                                        @if($value->status == 6)
+                                            <button class="btn btn-sm bg-info-light">
+                                                {{ 'Yêu cầu hủy' }}
+                                            </button>
+                                        @elseif($value->status == 1)
+                                            <button class="btn btn-sm bg-success-light">
+                                                {{ 'Xác nhận' }}
+                                            </button>
+                                        @elseif($value->status == 4)
+                                            <button class="btn btn-sm bg-danger-light">
+                                                {{ 'Hoàn thành' }}
+                                            </button>
+                                        @endif
+                                    </td>
+                                    <td>{!! $value->date !!}</td>
+                                    <td>
                                                 <span class="text-primary d-block">{{ $value->start_time }}
                                                     - {{ $value->end_time }} AM</span>
-                                            </td>
-                                        @include('admin.components.button.action-index-status')
-                                        </tr>
-                                    @endforeach
+                                    </td>
+                                    @include('admin.components.button.action-index-status')
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -513,4 +513,3 @@
 
     </script>
 @endpush
-

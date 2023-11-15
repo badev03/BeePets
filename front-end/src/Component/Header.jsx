@@ -18,6 +18,7 @@ const Header = () => {
   const { isLoggedIn, onLogout, token, role } = useAuth();
   const navigate = useNavigate();
   const [noti, setNoti] = useState([]);
+  // console.log(noti);
   const [countNotification , setCountNotification] = useState(0);
   const imgDefault =
       "https://dvdn247.net/wp-content/uploads/2020/07/avatar-mac-dinh-1.png";
@@ -131,11 +132,13 @@ const Header = () => {
       });
       setNoti(response.notifications);
       console.log(response.notifications);
-      setCountNotification(response.count);
+
+      // Tăng giá trị countNotification dựa trên số lượng thông báo mới
+      setCountNotification((prevCount) => prevCount + response.count);
+
       const pusher = new Pusher("2798806e868dbe640e2e", {
         cluster: "ap1",
       });
-
       const channel = pusher.subscribe("user-notification-" + data.id);
 
       channel.bind("notification-event-test", function (data) {
@@ -148,6 +151,7 @@ const Header = () => {
           };
           return [newData, ...prevData];
         });
+        setCountNotification((prevCount) => prevCount + 1);
       });
     } else {
       const response = await notification.getDoctor({
@@ -305,15 +309,16 @@ const Header = () => {
                                 <li className="notification-message" key={noti.id}>
                                   <a href={
                                     handleCheckAccount(data)
-                                        ? `/user/appointment/${195}`
-                                        : `/doctors/accept-detail-appointments/${134}`}>
+                                    ? `/user/appointment/${notifications.appointment_id}`
+                                    : `/doctors/accept-detail-appointments/${notifications.appointment_id}`}>
+                                  {/* : `/doctors/doctors/detail-bill/${notifications.appointment_id}`}> */}
                                     <div className="notify-block d-flex">
                                 <span className="avatar">
                                   <img
                                       className="avatar-img"
                                       alt="Ruby perin"
                                       src={notifications.avatar}
-                                  />s
+                                  />
                                 </span>
                                       <div className="media-body">
                                         <h6>
@@ -423,12 +428,12 @@ const Header = () => {
                   <>
                     <li className="login-in-fourteen">
                       <TopLink to= "login">
-                        <Button 
-                          icon={<UserOutlined />} 
-                          type="default"
-                          size="large"
-                          style={{ height: 45, border: 'none', boxShadow: "none" }}
-                          className="custom-button"
+                        <Button
+                            icon={<UserOutlined />}
+                            type="default"
+                            size="large"
+                            style={{ height: 45, border: 'none', boxShadow: "none" }}
+                            className="custom-button"
                         >Đăng nhập</Button>
                       </TopLink>
                     </li>

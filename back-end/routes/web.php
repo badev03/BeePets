@@ -108,7 +108,7 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
 
         Route::get('my-profile' , [HomeController::class , 'myProfile'])->name('myProfile');
 
-       
+
         Route::post('my-profile/change-password' , [HomeController::class , 'changePassword'])->name('myProfile.changePassword');
 
         Route::get('create-service/{id}' , [AppointmentController::class , 'getDoctor'])->name('get.doctor');
