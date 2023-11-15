@@ -1,5 +1,3 @@
-//appoi
-import React from "react";
 import Menudashboard from "./Menu-dashboard";
 import { Link } from "react-router-dom";
 import appointmentsApi from "../../api/appointmentsApi";
@@ -9,10 +7,11 @@ import ReactPaginate from "react-paginate";
 import LoadingSkeleton from "../Loading";
 import axios from "axios";
 import { FaSpinner } from 'react-icons/fa';
-import { Modal, Form, Input, Button ,Dropdown, Menu} from 'antd';
+import { Modal, Form, Input, Button} from 'antd';
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal);
+
 
 const Appointments = () => {
   const [appointments, setAppointment] = useState([]);
@@ -191,9 +190,6 @@ const Appointments = () => {
       setLoadingIddd(null);
     }
   };
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
   function formatDate(dateString) {
     if (dateString) {
       const options = { year: "numeric", month: "long", day: "numeric" };
@@ -201,7 +197,6 @@ const Appointments = () => {
         "vi-VN",
         options
       );
-      // Loại bỏ từ "lúc" từ chuỗi được định dạng
       return formattedDate.replace("lúc", "").trim();
     }
     return "";
@@ -235,9 +230,6 @@ const Appointments = () => {
           </h2>
         </td>
         <td>
-          {/* <span className="d-block text-info">
-            {appointment.time ? formatTime(appointment.time) : ''}
-          </span> */}
           <span className="d-block text-info">{appointment.shift_name}</span>
           <span className="d-block ">
             {formatShiftTime(appointment.shift_name)}
@@ -268,7 +260,6 @@ const Appointments = () => {
               Yêu cầu đổi lịch
             </span>
           ) : (
-            // Default case
             <span className="badge rounded-pill bg-info-light">
               Không xác định
             </span>
@@ -366,10 +357,8 @@ const Appointments = () => {
               <Form
                 onFinish={(values) => {
                   handleCancelStatus(selectedAppointmentId, values.content);
-                  // console.log('Received values of form: ', reason,selectedAppointmentId);
                 }}
               >
-                {/* Thêm các trường form tại đây */}
                 <Form.Item
                   name="content"
                   rules={[
@@ -409,10 +398,8 @@ const Appointments = () => {
               <Form
                 onFinish={(values) => {
                   handleRescheduleStatus(selectedAppointmentId, values.content);
-                  // console.log('Received values of form: ', reason, selectedAppointmentId);
                 }}
               >
-                {/* Thêm các trường form tại đây */}
                 <Form.Item
                   name="content"
                   rules={[
@@ -509,7 +496,6 @@ const Appointments = () => {
                         <tr>
                           <th>Khách hàng</th>
                           <th>Lịch khám</th>
-                          {/* <th> Ngày đặt lịch</th> */}
                           <th>Số điện thoại</th>
                           <th>Trạng thái</th>
                           <th>Action</th>
@@ -533,7 +519,6 @@ const Appointments = () => {
                         )}
                       </tbody>
                     </table>
-                    
                   </div>
                   <div className="row">
                     <div className="col-md-12">
