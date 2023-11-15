@@ -45,6 +45,7 @@ import DetailPrescription from './Component/doctors/DetailPrescription'
 import CustomerInvoice from './Component/doctors/customer-invoice/Customer-invoice'
 import ChangePasswordUser from './Component/User/ChangePassword'
 import CreateRegister from './Component/Form-Auth/Create-Register'
+import StatisticalPet from './Component/doctors/statisticalPet'
 
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
           <Route path='bookingprofiledoctor/profile' element={<Booking />} />
           <Route path='booking/success' element={<BookingSuccess />} />
           <Route path='doctor/profile' element={<DoctorProfile />} />
+          <Route path='doctors/statisticalPet' element={<StatisticalPet />} />
 
           <Route path='doctor/profile/:id' element={<DoctorProfile />} />
           <Route path='blog' element={<BlogList />} />
@@ -66,7 +68,7 @@ function App() {
           <Route path="blog/category/:id" element={<BlogList />} />
           <Route path='service-detail/:slug' element={<ServiceDetails />} />
 
-          <Route element={<PrivateRouteUser/>}>
+          <Route element={<PrivateRouteUser />}>
             <Route path='user/dashbroad' element={<Dashboard />} />
             <Route path='user/changepassword' element={<ChangePasswordUser />} />
             <Route path='user/profilesetting' element={<ProfileSetting />} />
@@ -90,9 +92,9 @@ function App() {
             <Route path='detail-bill/:id' element={<DetailBIll />} />
             <Route path='detail-prescription/:id' element={<DetailPrescription />} />
             <Route path='edit-bill/:id' element={<Editbill />} />
-            <Route path='detail-appointments/:id' element={<DetailAppointment />} /> 
-            <Route path='customer-invoice' element={<CustomerInvoice />} /> 
-            <Route path='accept-detail-appointments/:id' element={<AcceptDetailAppointment />} /> 
+            <Route path='detail-appointments/:id' element={<DetailAppointment />} />
+            <Route path='customer-invoice' element={<CustomerInvoice />} />
+            <Route path='accept-detail-appointments/:id' element={<AcceptDetailAppointment />} />
           </Route>
 
 
