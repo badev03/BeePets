@@ -43,9 +43,21 @@ const Editbill = () => {
         });
         setBills(response.bill);
         setServices(response.services);
-        console.log(response.services);
+        console.log(response.bill);
         setUserId(response.bill.user_id);
         setDoctorId(response.bill.doctor_id);
+
+        const productdefault = response.bill.prescriptions.map((prescription) =>{
+          return{
+            label: prescription.productss[0].name,
+            value: prescription.productss[0].id,
+            price: prescription.productss[0].price,
+            quantity: prescription.productss[0].pivot.quantity,
+            instructions: prescription.productss[0].pivot.instructions,
+          }
+        })
+    
+        setSelectedProducts(productdefault)
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
@@ -82,7 +94,17 @@ const Editbill = () => {
       };
     });
 
-    setSelectedProducts(selectedProductsInfo);
+    const productdefault = bills?.prescriptions.map((prescription) =>{
+          return{
+            label: prescription.productss[0].name,
+            value: prescription.productss[0].id,
+            price: prescription.productss[0].price,
+            quantity: prescription.productss[0].pivot.quantity,
+            instructions: prescription.productss[0].pivot.instructions,
+          }
+        })
+        
+    setSelectedProducts([...productdefault,...selectedProductsInfo]);
   };
 
   const handleServiceSelectChange = (selectedValues) => {
@@ -106,7 +128,7 @@ const Editbill = () => {
       ...prevBills,
       prescriptions: updatedPrescriptions,
     }));
-  };
+  };  
 
   const handleQuantityChange = (e, productIndex) => {
     const newQuantity = e.target.value;
@@ -231,7 +253,6 @@ const Editbill = () => {
                   </div>
                 </div>
               </div>
-            </div>
             <div className="col-md-7 col-lg-8 col-xl-9">
               <div className="card">
                 <div className="card-header">
@@ -344,17 +365,12 @@ const Editbill = () => {
                                         />
                                       </td>
                                       <td>
-                                        <input
-                                          className="form-control"
-                                          type="text"
-                                          value={selectedProduct.instructions}
-                                          onChange={(e) =>
-                                            handleInstructionChange(
-                                              e,
-                                              prescriptionIndex
-                                            )
-                                          }
-                                        />
+                                      <input
+                                        className="form-control"
+                                        type="text"
+                                        value={selectedProduct.instructions}
+                                        onChange={(e) => handleInstructionChange(e, prescriptionIndex)}
+                                      />
                                       </td>
                                     </tr>
                                   )
@@ -455,6 +471,7 @@ const Editbill = () => {
                   )
                 )}
               </div>
+            </div>
             </div>
           </div>
         </div>
