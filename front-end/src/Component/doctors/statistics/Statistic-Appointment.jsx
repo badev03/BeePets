@@ -212,6 +212,7 @@ const StatisticAppointment = () => {
                                                             <YAxis />
                                                             <Tooltip />
                                                             <Legend />
+                                                            
                                                             <Bar dataKey="count" fill="#009efb" label={(props) => props.value} />
                                                             <Bar dataKey="count" fill="#ff0100" label={(props) => props.value} />
                                                             
