@@ -65,6 +65,7 @@ const StatisticalPet = () => {
         setAppointmentData(result.data);
       } else {
         console.error('Lỗi khi lấy dữ liệu thống kê:', result ? result.msg : 'Không xác định');
+        setAppointmentData([])
       }
     } catch (error) {
       console.error('Lỗi khi gọi API:', error);
@@ -133,7 +134,7 @@ const StatisticalPet = () => {
                   <div className="card-body">
                     <div className="col-md-12">
                       <br />
-                      <h4 className="mb-4">Thống kê lịch hẹn</h4>
+                      <h4 className="mb-4">Thống kê loại thú cưng</h4>
                       <div className="appointment-tab">
                         <div className="search-container">
                           <div className="input-group mb-3">
@@ -175,7 +176,7 @@ const StatisticalPet = () => {
                               <YAxis />
                               <Tooltip />
                               <Legend />
-                              <Bar dataKey="count" fill="#009efb" label={(props) => props.value} />
+                              <Bar dataKey="Chó" fill="#009efb" label={(props) => props.value} />
                             </BarChart>
                           </ResponsiveContainer>
                         </div>

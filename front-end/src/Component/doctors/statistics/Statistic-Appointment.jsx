@@ -48,7 +48,7 @@ const StatisticAppointment = () => {
             );
 
             const result = response.data;
-            console.log(result);
+            console.log('Kết quả:', result);    
             if (result.msg === 'Lọc dữ liệu thành công') {
                 setAppointmentData(result.data);
             } else {
