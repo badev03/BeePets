@@ -5,7 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="45a53ba9-6ef3-41ae-87f6-4b989cb527d7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/ServiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/ServiceController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/BeePets.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/BeePets.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/phpspec.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpspec.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/config/app.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/config/excel.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -300,21 +308,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "develop",
-    "last_opened_file_path": "C:/Users/lehuy/OneDrive/Desktop/project_graduate",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
+    &quot;last_opened_file_path&quot;: &quot;F:/BeePets&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\lehuy\OneDrive\Desktop\project_graduate\BeePets\BackEnd\resources\views\layouts\partials" />
@@ -382,6 +390,8 @@
       <workItem from="1699060198386" duration="12000" />
       <workItem from="1699063119008" duration="647000" />
       <workItem from="1699840383565" duration="46000" />
+      <workItem from="1700137111643" duration="779000" />
+      <workItem from="1700139013647" duration="2421000" />
     </task>
     <servers />
   </component>
