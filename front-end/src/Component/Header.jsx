@@ -134,14 +134,16 @@ const Header = () => {
       console.log(response.notifications);
 
       // Tăng giá trị countNotification dựa trên số lượng thông báo mới
-      setCountNotification((prevCount) => prevCount + response.count);
+      // setCountNotification((prevCount) => prevCount + response.count);
+      setCountNotification(response.count);
 
-      const pusher = new Pusher("2798806e868dbe640e2e", {
+      const pusher = new Pusher("59deaefaec6129103d3d", {
         cluster: "ap1",
       });
       const channel = pusher.subscribe("user-notification-" + data.id);
 
       channel.bind("notification-event-test", function (data) {
+        console.log(data)
         setNoti((prevData) => {
           const newData = {
             message: data.message,
@@ -176,6 +178,7 @@ const Header = () => {
           };
           return [newData, ...prevData];
         });
+        setCountNotification((prevCount) => prevCount + 1);
       });
     }
   };
