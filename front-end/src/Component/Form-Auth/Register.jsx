@@ -36,13 +36,9 @@ const Register = () => {
   function checkPhoneNumberExistsAndSignup() {
     const data = { phone: ph.replace(/^840/, '0') };
     axios.post('http://127.0.0.1:8000/api/check-verify-register', data)
-      .then(response => {
-        if (response.data.exists) {
-          onSignup();
-        } else {
-          toast.success("OTP gửi về máy bạn");
-        }
-      })
+    .then(response => {
+      onSignup()
+    })
       .catch(error => {
         toast.error("Số điện thoại đã đăng ký");
         console.error(error);
@@ -152,7 +148,7 @@ const Register = () => {
                       {showOTP ? (
                         <button className="btn btn-primary w-100 btn-lg login-btn" onClick={onOTPVerify} type="button"> Xác minh OTP</button>
                       ) : (
-                        <button className="btn btn-primary w-100 btn-lg login-btn" onClick={onSignup} type="button"> Gửi mã qua SMS</button>
+                        <button className="btn btn-primary w-100 btn-lg login-btn" onClick={checkPhoneNumberExistsAndSignup} type="button"> Gửi mã qua SMS</button>
                       )}
                     </form>
                     <div className="login-or"></div>
