@@ -32,6 +32,9 @@ const Editbill = () => {
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [selectedServices, setSelectedServices] = useState([]);
 
+  const [nameError, setNameError] = useState("");
+  const [descriptionError, setDescriptionError] = useState("");
+
   useEffect(() => {
     const fetchBill = async () => {
       setLoading(true);
@@ -47,24 +50,41 @@ const Editbill = () => {
         setUserId(response.bill.user_id);
         setDoctorId(response.bill.doctor_id);
 
-        const productdefault = response.bill.prescriptions.map((prescription) =>{
-          return{
-            label: prescription.productss[0].name,
-            value: prescription.productss[0].id,
-            price: prescription.productss[0].price,
-            quantity: prescription.productss[0].pivot.quantity,
-            instructions: prescription.productss[0].pivot.instructions,
+        const productdefault = response.bill.prescriptions.map(
+          (prescription) => {
+            return {
+              label: prescription.productss[0].name,
+              value: prescription.productss[0].id,
+              price: prescription.productss[0].price,
+              quantity: prescription.productss[0].pivot.quantity,
+              instructions: prescription.productss[0].pivot.instructions,
+            };
           }
-        })
-    
-        setSelectedProducts(productdefault)
+        );
+
+        const servicedefault = response.services.map((service) => {
+          return {
+            label: service.name,
+            value: service.id,
+            price: service.price,
+          };
+        });
+
+        setSelectedProducts(productdefault);
+        setSelectedServices(servicedefault);
+        setEditedName(response.bill.prescriptions[0].name);
+        setDescription(response.bill.description);
       } catch (error) {
         console.error("Không có dữ liệu:", error);
+      } finally {
+        setLoading(false);
       }
     };
-    fetchBill();
-    setLoading(false);
-  }, []);
+
+    if (id) {
+      fetchBill();
+    }
+  }, [id, tokenn, token]);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -94,44 +114,67 @@ const Editbill = () => {
       };
     });
 
-    const productdefault = bills?.prescriptions.map((prescription) =>{
-          return{
-            label: prescription.productss[0].name,
-            value: prescription.productss[0].id,
-            price: prescription.productss[0].price,
-            quantity: prescription.productss[0].pivot.quantity,
-            instructions: prescription.productss[0].pivot.instructions,
-          }
-        })
-        
-    setSelectedProducts([...productdefault,...selectedProductsInfo]);
+    const productdefault = bills?.prescriptions.map((prescription) => {
+      return {
+        label: prescription.productss[0].name,
+        value: prescription.productss[0].id,
+        price: prescription.productss[0].price,
+        quantity: prescription.productss[0].pivot.quantity,
+        instructions: prescription.productss[0].pivot.instructions,
+      };
+    });
+
+    setSelectedProducts([...productdefault, ...selectedProductsInfo]);
   };
 
   const handleServiceSelectChange = (selectedValues) => {
     const selectedServicesInfo = selectedValues.map((value) => {
-      const selectedService = serviceBill.find((service) => service.id === value);
+      const selectedService = serviceBill.find(
+        (service) => service.id === value
+      );
       return {
         label: selectedService.name,
         value: selectedService.id,
         price: selectedService.price,
       };
     });
-  
-    setSelectedServices(selectedServicesInfo);
+
+    const servicedefault = services.map((service) => {
+      return {
+        label: service.name,
+        value: service.id,
+        price: service.price,
+      };
+    });
+
+    setSelectedServices([...servicedefault, ...selectedServicesInfo]);
   };
 
-  const handleInstructionChange = (e, prescriptionIndex) => {
+  const handleInstructionChange = (e, prescriptionIndex, productIndex) => {
     const updatedPrescriptions = [...bills.prescriptions];
-    updatedPrescriptions[prescriptionIndex].productss[0].pivot.instructions =
-      e.target.value;
+    updatedPrescriptions[prescriptionIndex].productss[
+      productIndex
+    ].pivot.instructions = e.target.value;
+
+    const newSelectedProducts = selectedProducts.map((product, index) => {
+      if (index === productIndex) {
+        return {
+          ...product,
+          instructions: e.target.value,
+        };
+      }
+      return product;
+    });
+
+    setSelectedProducts(newSelectedProducts);
     setBills((prevBills) => ({
       ...prevBills,
       prescriptions: updatedPrescriptions,
     }));
-  };  
+  };
 
   const handleQuantityChange = (e, productIndex) => {
-    const newQuantity = e.target.value;
+    const newQuantity = +e.target.value;
 
     if (newQuantity >= 1) {
       const updatedSelectedProducts = selectedProducts.map((product, index) => {
@@ -149,6 +192,22 @@ const Editbill = () => {
   };
 
   const handleSave = async () => {
+    const trimmedName = editedName.trim();
+    if (!trimmedName) {
+      setNameError("Vui lòng nhập tên đơn thuốc");
+      return;
+    } else {
+      setNameError("");
+    }
+
+    const trimmedDescription = description.trim();
+    if (!trimmedDescription) {
+      setDescriptionError("Vui lòng nhập kết quả");
+      return;
+    } else {
+      setDescriptionError("");
+    }
+
     const products = selectedProducts.map((selectedProduct) => ({
       product_id: selectedProduct.value,
       quantity: selectedProduct.quantity,
@@ -157,10 +216,15 @@ const Editbill = () => {
     }));
 
     const totalPrice = bills?.prescriptions?.reduce((acc, prescription) => {
-      const product = prescription.productss[0];
-      const quantity = product.pivot.quantity;
-      const price = product.price;
-      return acc + quantity * price;
+      const productsTotal = prescription.productss.reduce(
+        (productAcc, product) => {
+          const quantity = product.pivot.quantity;
+          const price = product.price;
+          return productAcc + quantity * price;
+        },
+        0
+      );
+      return acc + productsTotal;
     }, 0);
 
     const services = selectedServices.map((selectedService) => ({
@@ -174,9 +238,10 @@ const Editbill = () => {
       user_id: userId,
       doctor_id: doctorId,
       products: products,
-      services:services,
+      services: services,
       description: description,
     };
+
     try {
       await billApi.updateBill(id, data, {
         headers: {
@@ -216,43 +281,43 @@ const Editbill = () => {
 
   if (loading) {
     return (
-        <div>
-          {" "}
-          <LoadingSkeleton />
-        </div>
+      <div>
+        {" "}
+        <LoadingSkeleton />
+      </div>
     );
   }
   return (
-      <div>
-        <div className="breadcrumb-bar-two">
-          <div className="container">
-            <div className="row align-items-center inner-banner">
-              <div className="col-md-12 col-12 text-center">
-                <h2 className="breadcrumb-title">Sửa hóa đơn</h2>
-                <nav aria-label="breadcrumb" className="page-breadcrumb">
-                  <ol className="breadcrumb">
-                    <li className="breadcrumb-item">
-                      <Link to="/">Trang chủ</Link>
-                    </li>
-                    <li className="breadcrumb-item" aria-current="page">
-                      Thêm hóa đơn
-                    </li>
-                  </ol>
-                </nav>
-              </div>
+    <div>
+      <div className="breadcrumb-bar-two">
+        <div className="container">
+          <div className="row align-items-center inner-banner">
+            <div className="col-md-12 col-12 text-center">
+              <h2 className="breadcrumb-title">Sửa hóa đơn</h2>
+              <nav aria-label="breadcrumb" className="page-breadcrumb">
+                <ol className="breadcrumb">
+                  <li className="breadcrumb-item">
+                    <Link to="/">Trang chủ</Link>
+                  </li>
+                  <li className="breadcrumb-item" aria-current="page">
+                    Thêm hóa đơn
+                  </li>
+                </ol>
+              </nav>
             </div>
           </div>
         </div>
-        <div className="content">
-          <div className="container">
-            <div className="row">
-              <div className="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
-                <div className="card widget-profile pat-widget-profile">
-                  <div className="card-body">
-                    <Menudashboard />
-                  </div>
+      </div>
+      <div className="content">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+              <div className="card widget-profile pat-widget-profile">
+                <div className="card-body">
+                  <Menudashboard />
                 </div>
               </div>
+            </div>
             <div className="col-md-7 col-lg-8 col-xl-9">
               <div className="card">
                 <div className="card-header">
@@ -269,15 +334,21 @@ const Editbill = () => {
                             </h4>
                             <label htmlFor="">Tên đơn thuốc:</label>
                             <input
-                              className="form-control"
+                              className={`form-control ${
+                                nameError ? "is-invalid" : ""
+                              }`}
                               type="text"
-                              value={
-                                editedName !== ""
-                                  ? editedName
-                                  : prescription.name
-                              }
-                              onChange={(e) => setEditedName(e.target.value)}
+                              value={editedName}
+                              onChange={(e) => {
+                                setEditedName(e.target.value);
+                                setNameError(""); 
+                              }}
                             />
+                            {nameError && (
+                              <div className="invalid-feedback">
+                                {nameError}
+                              </div>
+                            )}
                           </div>
                         </div>
                         <div className="col-sm-6 text-sm-end">
@@ -325,8 +396,8 @@ const Editbill = () => {
                               </thead>
                               <tbody>
                                 {selectedProducts.map(
-                                  (selectedProduct, index) => (
-                                    <tr key={index} className="test">
+                                  (selectedProduct, productIndex) => (
+                                    <tr key={productIndex} className="test">
                                       <td>
                                         <input
                                           className="form-control"
@@ -341,7 +412,10 @@ const Editbill = () => {
                                           type="number"
                                           value={selectedProduct.quantity}
                                           onChange={(e) =>
-                                            handleQuantityChange(e, index)
+                                            handleQuantityChange(
+                                              e,
+                                              productIndex
+                                            )
                                           }
                                         />
                                       </td>
@@ -365,12 +439,18 @@ const Editbill = () => {
                                         />
                                       </td>
                                       <td>
-                                      <input
-                                        className="form-control"
-                                        type="text"
-                                        value={selectedProduct.instructions}
-                                        onChange={(e) => handleInstructionChange(e, prescriptionIndex)}
-                                      />
+                                        <input
+                                          className="form-control"
+                                          type="text"
+                                          value={selectedProduct.instructions}
+                                          onChange={(e) =>
+                                            handleInstructionChange(
+                                              e,
+                                              prescriptionIndex,
+                                              productIndex
+                                            )
+                                          }
+                                        />
                                       </td>
                                     </tr>
                                   )
@@ -384,7 +464,7 @@ const Editbill = () => {
                       <div className="card card-table">
                         <div className="card-body">
                           <div className="table-responsive">
-                          <Select
+                            <Select
                               mode="multiple"
                               size="large"
                               allowClear
@@ -404,16 +484,18 @@ const Editbill = () => {
                                 <tr>
                                   <th className="table-name">Tên dịch vụ</th>
                                   <th className="table-name">Giá tiền</th>
-                                  
                                 </tr>
                               </thead>
                               <tbody>
-                              {selectedServices.map((selectedService) => (
-                                <tr key={selectedService.value} className="test">
-                                  <td>{selectedService.label}</td>
-                                  <td>{selectedService.price}</td>
-                                </tr>
-                              ))}
+                                {selectedServices.map((selectedService) => (
+                                  <tr
+                                    key={selectedService.value}
+                                    className="test"
+                                  >
+                                    <td>{selectedService.label}</td>
+                                    <td>{selectedService.price}</td>
+                                  </tr>
+                                ))}
                               </tbody>
                             </table>
                           </div>
@@ -426,15 +508,21 @@ const Editbill = () => {
                             <h4 className="card-title">Kết quả</h4>
                             <div className="mb-0">
                               <textarea
-                                className="form-control"
+                                className={`form-control ${
+                                  descriptionError ? "is-invalid" : ""
+                                }`}
                                 rows={5}
-                                value={
-                                  description !== ""
-                                    ? description
-                                    : bills.description
-                                }
-                                onChange={(e) => setDescription(e.target.value)}
+                                value={description}
+                                onChange={(e) => {
+                                  setDescription(e.target.value);
+                                  setDescriptionError("");
+                                }}
                               />
+                              {descriptionError && (
+                                <div className="invalid-feedback">
+                                  {descriptionError}
+                                </div>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -472,10 +560,10 @@ const Editbill = () => {
                 )}
               </div>
             </div>
-            </div>
           </div>
         </div>
       </div>
+    </div>
   );
 };
 export default Editbill;
