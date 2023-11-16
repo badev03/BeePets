@@ -1,5 +1,3 @@
-//appoi
-import React from "react";
 import Menudashboard from "./Menu-dashboard";
 import { Link } from "react-router-dom";
 import appointmentsApi from "../../api/appointmentsApi";
@@ -8,11 +6,12 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
 import LoadingSkeleton from "../Loading";
 import axios from "axios";
-import { FaSpinner } from 'react-icons/fa';
-import { Modal, Form, Input, Button ,Dropdown, Menu} from 'antd';
+import { FaSpinner } from "react-icons/fa";
+import { Modal, Form, Input, Button } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal);
+import { CSVLink } from "react-csv";
 
 const Appointments = () => {
   const [appointments, setAppointment] = useState([]);
@@ -29,62 +28,44 @@ const Appointments = () => {
   const pagesVisited = pageNumber * appointmentsPerPage;
   const token = localStorage.getItem("token");
 
-  const DataSet = [
-    {
-      columns: [
-        {
-          title: "Tên khách hàng",
-          style: { font: { sz: "18", bold: true } },
-          width: { wpx: 125 },
-        },
-        {
-          title: "Ca",
-          style: { font: { sz: "18", bold: true } },
-          width: { wch: 30 },
-        },
-        {
-          title: "Ngày",
-          style: { font: { sz: "18", bold: true } },
-          width: { wpx: 100 },
-        },
-        {
-          title: "Số điện thoại",
-          style: { font: { sz: "18", bold: true } },
-          width: { wpx: 125 },
-        },
-        {
-          title: "Trạng thái",
-          style: { font: { sz: "18", bold: true } },
-          width: { wpx: 100 },
-        },
-      ],
-      data: appointments.map((data) => [
-        { value: data.user.name, style: { font: { sz: "14" } } },
-        { value: data.shift_name, style: { font: { sz: "14" } } },
-        {
-          value: data.date,
-          style: {
-            font: { color: { rgb: "ffffff" } },
-            fill: { patternType: "solid", fgColor: { rgb: "3461eb" } },
-          },
-        },
-        {
-          value: data.user.phone,
-          style: {
-            font: { color: { rgb: "ffffff" } },
-            fill: { patternType: "solid", fgColor: { rgb: "eb1207" } },
-          },
-        },
-        {
-          value: data.status,
-          style: {
-            font: { color: { rgb: "ffffff" } },
-            fill: { patternType: "solid", fgColor: { rgb: "4bd909" } },
-          },
-        },
-      ]),
-    },
+  const headers = [
+    { label: "Tên", key: "Tên" },
+    { label: "Số điện thoại", key: "Số điện thoại" },
+    { label: "Ca làm việc", key: "Ca làm việc" },
+    { label: "Giờ dự kiến", key: "Giờ dự kiến" },
+    { label: "Ngày", key: "Ngày" },
+    { label: "Trạng thái", key: "Trạng thái" },
   ];
+  const data = appointments.map((appointment) => ({
+    Tên: appointment.user.name,
+    "Số điện thoại": "${appointment.user.phone}",
+    "Ca làm việc": appointment.shift_name,
+    "Giờ dự kiến": appointment.shift_name,
+    Ngày: appointment.date,
+    "Trạng thái":
+      appointment.status == 1
+        ? "Xác nhận"
+        : appointment.status == 2
+        ? " Đã xóa"
+        : appointment.status == 4
+        ? "Đã hoàn thành"
+        : appointment.status == 3
+        ? "Đã hủy"
+        : appointment.status == 6
+        ? "Yêu cầu hủy"
+        : appointment.status == 7
+        ? "Yêu cầu đổi lịch"
+        : "Không xác định",
+  }));
+
+  const cell = (row, col) => {
+    const style = {
+      width: col.label === "Tên" ? "400px" : "auto",
+      height: "auto",
+    };
+
+    return { style };
+  };
 
   const fetchAppointment = async () => {
     try {
@@ -94,7 +75,6 @@ const Appointments = () => {
         },
       });
       setAppointment(response.data);
-      console.log(response.data);
       setLoading(false);
       setError(false);
     } catch (error) {
@@ -104,7 +84,6 @@ const Appointments = () => {
       setError(true);
     }
   };
-  // console.log(appointments);
   useEffect(() => {
     fetchAppointment();
   }, []);
@@ -191,9 +170,7 @@ const Appointments = () => {
       setLoadingIddd(null);
     }
   };
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
+
   function formatDate(dateString) {
     if (dateString) {
       const options = { year: "numeric", month: "long", day: "numeric" };
@@ -201,7 +178,6 @@ const Appointments = () => {
         "vi-VN",
         options
       );
-      // Loại bỏ từ "lúc" từ chuỗi được định dạng
       return formattedDate.replace("lúc", "").trim();
     }
     return "";
@@ -235,9 +211,6 @@ const Appointments = () => {
           </h2>
         </td>
         <td>
-          {/* <span className="d-block text-info">
-            {appointment.time ? formatTime(appointment.time) : ''}
-          </span> */}
           <span className="d-block text-info">{appointment.shift_name}</span>
           <span className="d-block ">
             {formatShiftTime(appointment.shift_name)}
@@ -268,7 +241,6 @@ const Appointments = () => {
               Yêu cầu đổi lịch
             </span>
           ) : (
-            // Default case
             <span className="badge rounded-pill bg-info-light">
               Không xác định
             </span>
@@ -366,10 +338,8 @@ const Appointments = () => {
               <Form
                 onFinish={(values) => {
                   handleCancelStatus(selectedAppointmentId, values.content);
-                  // console.log('Received values of form: ', reason,selectedAppointmentId);
                 }}
               >
-                {/* Thêm các trường form tại đây */}
                 <Form.Item
                   name="content"
                   rules={[
@@ -409,10 +379,8 @@ const Appointments = () => {
               <Form
                 onFinish={(values) => {
                   handleRescheduleStatus(selectedAppointmentId, values.content);
-                  // console.log('Received values of form: ', reason, selectedAppointmentId);
                 }}
               >
-                {/* Thêm các trường form tại đây */}
                 <Form.Item
                   name="content"
                   rules={[
@@ -509,7 +477,6 @@ const Appointments = () => {
                         <tr>
                           <th>Khách hàng</th>
                           <th>Lịch khám</th>
-                          {/* <th> Ngày đặt lịch</th> */}
                           <th>Số điện thoại</th>
                           <th>Trạng thái</th>
                           <th>Action</th>
@@ -533,7 +500,15 @@ const Appointments = () => {
                         )}
                       </tbody>
                     </table>
-                    
+                    <CSVLink
+                      className="btn btn-primary "
+                      data={data}
+                      headers={headers}
+                      cell={cell}
+                      filename={"appointments.csv"}
+                    >
+                      Export
+                    </CSVLink>
                   </div>
                   <div className="row">
                     <div className="col-md-12">
