@@ -313,6 +313,54 @@ class UserController extends Controller
 
 
     public function getDoctor(){
-         
+
+    }
+    public function filterAppointments(Request $request)
+    {
+        //nếu chưa đăng nhập
+        if (!auth()->check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bạn chưa đăng nhập'
+            ]);
+        }else {
+            // Lọc theo trạng thái
+            $status = $request->input('status');
+            $query = Appointment::query();
+
+            if ($status) {
+                $query->where('status', $status);
+            }
+
+            // Lọc theo ngày
+            $date = $request->input('date');
+            if ($date) {
+                $query->whereDate('date', $date);
+            }
+
+            // Lọc theo khoảng thời gian
+            $startTime = $request->input('start_time');
+            $endTime = $request->input('end_time');
+            if ($startTime && $endTime) {
+                $query->whereBetween('time', [$startTime, $endTime]);
+            }
+
+            // Lọc theo dịch vụ
+            $serviceId = $request->input('service_id');
+            if ($serviceId) {
+                $query->where('service_id', $serviceId);
+            }
+
+            // Lọc theo loại thú cưng
+            $petTypeId = $request->input('type_pet_id');
+            if ($petTypeId) {
+                $query->where('type_pet_id', $petTypeId);
+            }
+
+            // Thực hiện truy vấn và trả về kết quả
+            $appointments = $query->get();
+
+            return response()->json($appointments);
+        }
     }
 }

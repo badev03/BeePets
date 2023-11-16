@@ -35,6 +35,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
 $objects = [
     'service' => ServiceController::class,
     'reviews' => ReviewsController::class,
@@ -121,6 +122,7 @@ Route::post('update-bill/{id}', [DoctorController::class, 'updateBill']);
     Route::get('/history-user', [UserController::class, 'getHistoryByUser']);
 
 
+    Route::get('/appointments-filter', [UserController::class, 'filterAppointments']);
 
     //lấy ra các lịch khám trạng thái chưa xác nhận
     Route::get('/appoinments-status', [BookingController::class, 'getAppointmentByStatus']);
