@@ -1,5 +1,3 @@
-//appoi
-import React from "react";
 import Menudashboard from "./Menu-dashboard";
 import { Link } from "react-router-dom";
 import appointmentsApi from "../../api/appointmentsApi";
@@ -8,13 +6,14 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
 import LoadingSkeleton from "../Loading";
 import axios from "axios";
-import { FaSpinner } from 'react-icons/fa';
-import { Modal, Form, Input, Button ,Dropdown, Menu} from 'antd';
+import { FaSpinner } from "react-icons/fa";
+import { Modal, Form, Input, Button } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { CSVLink } from "react-csv";
 
 const MySwal = withReactContent(Swal);
+import { CSVLink } from "react-csv";
 
 const Appointments = () => {
   const [appointments, setAppointment] = useState([]);
@@ -104,7 +103,6 @@ const handleResetFilter = () => {
         },
       });
       setAppointment(response.data);
-      console.log(response.data);
       setLoading(false);
       setError(false);
     } catch (error) {
@@ -231,9 +229,7 @@ const handleResetFilter = () => {
       setLoadingIddd(null);
     }
   };
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
+
   function formatDate(dateString) {
     if (dateString) {
       const options = { year: "numeric", month: "long", day: "numeric" };
@@ -241,7 +237,6 @@ const handleResetFilter = () => {
         "vi-VN",
         options
       );
-      // Loại bỏ từ "lúc" từ chuỗi được định dạng
       return formattedDate.replace("lúc", "").trim();
     }
     return "";
@@ -275,9 +270,6 @@ const handleResetFilter = () => {
           </h2>
         </td>
         <td>
-          {/* <span className="d-block text-info">
-            {appointment.time ? formatTime(appointment.time) : ''}
-          </span> */}
           <span className="d-block text-info">{appointment.shift_name}</span>
           <span className="d-block ">
             {formatShiftTime(appointment.shift_name)}
@@ -308,7 +300,6 @@ const handleResetFilter = () => {
               Yêu cầu đổi lịch
             </span>
           ) : (
-            // Default case
             <span className="badge rounded-pill bg-info-light">
               Không xác định
             </span>
@@ -632,7 +623,6 @@ const handleResetFilter = () => {
                         <tr>
                           <th>Khách hàng</th>
                           <th>Lịch khám</th>
-                          {/* <th> Ngày đặt lịch</th> */}
                           <th>Số điện thoại</th>
                           <th>Trạng thái</th>
                           <th>Action</th>
@@ -665,7 +655,15 @@ const handleResetFilter = () => {
                       Xuất ra Excel
                     </CSVLink>
                     </table>
-                    
+                    <CSVLink
+                      className="btn btn-primary "
+                      data={data}
+                      headers={headers}
+                      cell={cell}
+                      filename={"appointments.csv"}
+                    >
+                      Export
+                    </CSVLink>
                   </div>
                   <div className="row">
                     <div className="col-md-12">
