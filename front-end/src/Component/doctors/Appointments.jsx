@@ -12,7 +12,7 @@ import { FaSpinner } from 'react-icons/fa';
 import { Modal, Form, Input, Button ,Dropdown, Menu} from 'antd';
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-
+import { CSVLink } from "react-csv";
 
 const MySwal = withReactContent(Swal);
 
@@ -37,7 +37,44 @@ const [selectedShift, setSelectedShift] = useState("")
 const [selectedDate, setSelectedDate] = useState("")
 
 
+const headers = [
+  { label: "Tên", key: "Tên" },
+  { label: "Số điện thoại", key: "Số điện thoại" },
+  { label: "Ca làm việc", key: "Ca làm việc" },
+  { label: "Giờ dự kiến", key: "Giờ dự kiến" },
+  { label: "Ngày", key: "Ngày" },
+  { label: "Trạng thái", key: "Trạng thái" },
+];
+const data = appointments.map((appointment) => ({
+  Tên: appointment.user.name,
+  "Số điện thoại": `"${appointment.user.phone}"`,
+  "Ca làm việc": appointment.shift_name,
+  "Giờ dự kiến": appointment.shift_name,
+  Ngày: appointment.date,
+  "Trạng thái":
+    appointment.status == 1
+      ? "Xác nhận"
+      : appointment.status == 2
+      ? " Đã xóa"
+      : appointment.status == 4
+      ? "Đã hoàn thành"
+      : appointment.status == 3
+      ? "Đã hủy"
+      : appointment.status == 6
+      ? "Yêu cầu hủy"
+      : appointment.status == 7
+      ? "Yêu cầu đổi lịch"
+      : "Không xác định",
+}));
 
+const cell = (row, col) => {
+  const style = {
+    width: col.label == "Tên" ? "400px" : "auto",
+    height: "auto",
+  };
+
+  return { style };
+};
 const handleFilterSubmit = (e) => {
   e.preventDefault();
   const filters = {
@@ -45,7 +82,7 @@ const handleFilterSubmit = (e) => {
     phone: searchPhone,
     name: searchName,
     status: selectedStatus,
-    shift_names: selectedShift,
+    shift_name: selectedShift,
   };
   fetchFilteredAppointments(filters);
 };
@@ -96,9 +133,15 @@ const handleResetFilter = () => {
           }
         );
         console.log(response.data.data);
-        setAppointment(response.data.data);
-        setLoading(false);
-        setError(false);
+        if (response.data.data.length === 0) {
+          // Không có dữ liệu phù hợp với bộ lọc
+          setError(true);
+        } else {
+          // Có dữ liệu phù hợp với bộ lọc
+          setAppointment(response.data.data);
+          setLoading(false);
+          setError(false);
+        }
       } catch (error) {
         console.error("Không có dữ liệu:", error);
         setAppointment([]);
@@ -272,196 +315,183 @@ const handleResetFilter = () => {
           )}
         </td>
         {appointment.status == 1 && (
-          <td>
-            <div className="table-action">
-              <Link
-                to={`/doctors/accept-detail-appointments/${appointment.id}`}
-                className="btn btn-sm bg-info-light"
-              >
-                <i className="far fa-eye" /> Lịch Hẹn
-              </Link>
-              <Link
-                to={
-                  appointment.bill[0]?.id
-                    ? `/doctors/detail-bill/${appointment.bill[0].id}`
-                    : "#"
-                }
-                className="btn btn-sm bg-info-light"
-              >
-                <i className="far fa-eye" /> Hóa Đơn
-              </Link>
-              <Link
-                to={
-                  appointment.bill[0]?.id
-                    ? `/doctors/edit-bill/${appointment.bill[0].id}`
-                    : "#"
-                }
-                className="btn btn-sm bg-success-light"
-              >
-                <i className="fas fa-edit" /> Sửa Hóa Đơn
-              </Link>
+     <td>
+     <div className="table-action">
+       <Dropdown
+         overlay={
+           <Menu>
+             <Menu.Item>
+               <Link to={`/doctors/accept-detail-appointments/${appointment.id}`} className="btn btn-sm bg-info-light" 
+                style={{width:"100%"}}
+                >
+                 <i className="far fa-eye" /> Lịch Hẹn
+               </Link>
+             </Menu.Item>
+             <Menu.Item>
+               <Link to={appointment.bill[0]?.id ? `/doctors/detail-bill/${appointment.bill[0].id}` : "#"} 
+                style={{width:"100%"}}
+                className="btn btn-sm bg-info-light">
+                 <i className="far fa-eye" /> Hóa Đơn
+               </Link>
+             </Menu.Item>
+             <Menu.Item>
+               <Link to={appointment.bill[0]?.id ? `/doctors/edit-bill/${appointment.bill[0].id}` : "#"} 
+                style={{width:"100%"}}
+                className="btn btn-sm bg-success-light">
+                 <i className="fas fa-edit" /> Sửa Hóa Đơn
+               </Link>
+             </Menu.Item>
+             <Menu.Item>
+               <div onClick={() => showModal(appointment.id)}
+                style={{width:"100%"}}
+                className="btn btn-sm bg-danger-light position-relative">
+                 {loadingIdd === appointment.id ? (
+                   <div className="loading-spinner">
+                     <FaSpinner className="spinner" /> Y/C Hủy
+                   </div>
+                 ) : (
+                   <>
+                     <i className="fas fa-times" /> Y/C Hủy
+                   </>
+                 )}
+               </div>
+             </Menu.Item>
+             <Menu.Item>
+               <div onClick={() => showModal(appointment.id)} 
+                style={{width:"100%"}}
+                className="btn btn-sm bg-success-light">
+                 {loadingIddd === appointment.id ? (
+                   <div className="loading-spinner">
+                     <FaSpinner className="spinner" /> Y/C Đổi Lịch
+                   </div>
+                 ) : (
+                   <>
+                     <i className="fas fa-edit" /> Y/C Đổi Lịch
+                   </>
+                 )}
+               </div>
+             </Menu.Item>
+             <Menu.Item>
+               <div className="btn btn-sm bg-success-light"
+                style={{width:"100%"}}
+                onClick={() => handleUpdate(appointment.id)}>
+                 {loadingId === appointment.id ? (
+                   <div className="loading-spinner">
+                     <FaSpinner className="spinner" /> Hoàn thành
+                   </div>
+                 ) : (
+                   <>
+                     <i className="fas fa-check me-2" /> Hoàn thành
+                   </>
+                 )}
+               </div>
+             </Menu.Item>
+           </Menu>
+         }
+       >
+         <a className="btn btn-sm bg-info-light" onClick={(e) => e.preventDefault()}>
+         Hành động
+         </a>
 
-              <Link>
-                <div
-                  onClick={() => showModal(appointment.id)}
-                  className="btn btn-sm bg-danger-light position-relative"
-                >
-                  {loadingIdd === appointment.id ? (
-                    <div className="loading-spinner">
-                      <FaSpinner className="spinner" /> Y/C Hủy
-                    </div>
-                  ) : (
-                    <>
-                      <i className="fas fa-times" /> Y/C Hủy
-                    </>
-                  )}
-                </div>
-              </Link>
-              <Link>
-                <div
-                  onClick={() => showModal(appointment.id)}
-                  className="btn btn-sm bg-success-light"
-                >
-                  {loadingIddd === appointment.id ? (
-                    <div className="loading-spinner">
-                      <FaSpinner className="spinner" /> Y/C Đổi Lịch
-                    </div>
-                  ) : (
-                    <>
-                      <i className="fas fa-edit" /> Y/C Đổi Lịch
-                    </>
-                  )}
-                </div>
-              </Link>
-              <Link>
-                <div
-                  className="btn btn-sm bg-success-light"
-                  onClick={() => handleUpdate(appointment.id)}
-                >
-                  {loadingId === appointment.id ? (
-                    <div className="loading-spinner">
-                      <FaSpinner className="spinner" /> Hoàn thành
-                    </div>
-                  ) : (
-                    <>
-                      <i className="fas fa-check me-2" /> Hoàn thành
-                    </>
-                  )}
-                </div>
-              </Link>
-            </div>
-            <Modal
-              title="Yêu cầu Hủy Lịch"
-              visible={isModalVisible}
-              onCancel={() => setIsModalVisible(false)}
-              footer={[
-                <Button key="cancel" onClick={() => setIsModalVisible(false)}>
-                  Cancel
-                </Button>,
-              ]}
-            >
-              <Form
-                onFinish={(values) => {
-                  handleCancelStatus(selectedAppointmentId, values.content);
-                  // console.log('Received values of form: ', reason,selectedAppointmentId);
-                }}
-              >
-                {/* Thêm các trường form tại đây */}
-                <Form.Item
-                  name="content"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Vui lòng nhập lí do hủy cuộc hẹn!",
-                    },
-                    {
-                      min: 6,
-                      message: "Lí do hủy phải có ít nhất 6 ký tự!",
-                    },
-                  ]}
-                >
-                  <Input.TextArea
-                    placeholder="Nhập lí do hủy cuộc hẹn tại đây"
-                    autoSize={{ minRows: 3, maxRows: 5 }}
-                    onChange={(e) => setReason(e.target.value)}
-                  />
-                </Form.Item>
-                <Form.Item>
-                  <Button type="primary" htmlType="submit">
-                    Gửi Yêu cầu
-                  </Button>
-                </Form.Item>
-              </Form>
-            </Modal>
-            <Modal
-              title="Yêu cầu Đổi Lịch"
-              visible={isModalVisible}
-              onCancel={() => setIsModalVisible(false)}
-              footer={[
-                <Button key="cancel" onClick={() => setIsModalVisible(false)}>
-                  Cancel
-                </Button>,
-              ]}
-            >
-              <Form
-                onFinish={(values) => {
-                  handleRescheduleStatus(selectedAppointmentId, values.content);
-                  // console.log('Received values of form: ', reason, selectedAppointmentId);
-                }}
-              >
-                {/* Thêm các trường form tại đây */}
-                <Form.Item
-                  name="content"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Vui lòng nhập lí do đổi lịch!",
-                    },
-                    {
-                      min: 6,
-                      message: "Lí do đổi lịch phải có ít nhất 6 ký tự!",
-                    },
-                  ]}
-                >
-                  <Input.TextArea
-                    placeholder="Nhập lí do đổi lịch tại đây"
-                    autoSize={{ minRows: 3, maxRows: 5 }}
-                    onChange={(e) => setReason(e.target.value)}
-                  />
-                </Form.Item>
-                <Form.Item>
-                  <Button type="primary" htmlType="submit">
-                    Gửi Yêu cầu
-                  </Button>
-                </Form.Item>
-              </Form>
-            </Modal>
-          </td>
+          </Dropdown>
+          </div>
+          <Modal title="Yêu cầu Hủy Lịch" visible={isModalVisible} onCancel={() => setIsModalVisible(false)} footer={[
+         <Button key="cancel" onClick={() => setIsModalVisible(false)}>
+           Cancel
+         </Button>
+       ]}>
+         <Form onFinish={(values) => { handleCancelStatus(selectedAppointmentId, values.content) }}>
+           <Form.Item
+             name="content"
+             rules={[
+               {
+                 required: true,
+                 message: 'Vui lòng nhập lí do hủy cuộc hẹn!',
+               },
+               {
+                 min: 6,
+                 message: 'Lí do hủy phải có ít nhất 6 ký tự!',
+               },
+             ]}
+           >
+             <Input.TextArea
+               placeholder="Nhập lí do hủy cuộc hẹn tại đây"
+               autoSize={{ minRows: 3, maxRows: 5 }}
+               onChange={(e) => setReason(e.target.value)}
+             />
+           </Form.Item>
+           <Form.Item>
+             <Button type="primary" htmlType="submit">
+               Gửi Yêu cầu
+             </Button>
+           </Form.Item>
+         </Form>
+       </Modal>
+       <Modal title="Yêu cầu Đổi Lịch" visible={isModalVisible} onCancel={() => setIsModalVisible(false)} footer={[
+         <Button key="cancel" onClick={() => setIsModalVisible(false)}>
+           Cancel
+         </Button>
+       ]}>
+         <Form onFinish={(values) => { handleRescheduleStatus(selectedAppointmentId, values.content) }}>
+           <Form.Item
+             name="content"
+             rules={[
+               {
+                 required: true,
+                 message: 'Vui lòng nhập lí do đổi lịch!',
+               },
+               {
+                 min: 6,
+                 message: 'Lí do đổi lịch phải có ít nhất 6 ký tự!',
+               },
+             ]}
+           >
+             <Input.TextArea
+               placeholder="Nhập lí do đổi lịch tại đây"
+               autoSize={{ minRows: 3, maxRows: 5 }}
+               onChange={(e) => setReason(e.target.value)}
+             />
+           </Form.Item>
+           <Form.Item>
+             <Button type="primary" htmlType="submit">
+               Gửi Yêu cầu
+             </Button>
+           </Form.Item>
+         </Form>
+       </Modal>
+     </td>
         )}
 
-        {appointment.status != 1 && (
-          <td>
-            <div className="table-action">
-              <Link
-                to={`/doctors/accept-detail-appointments/${appointment.id}`}
-                className="btn btn-sm bg-info-light"
-              >
+{appointment.status != 1 && (
+  <td>
+    <div className="table-action">
+      <Dropdown
+        overlay={
+          <Menu>
+            <Menu.Item>
+              <Link to={`/doctors/accept-detail-appointments/${appointment.id}`} 
+                  style={{width:"100%"}}
+                  className="btn btn-sm bg-info-light">
                 <i className="far fa-eye" /> Lịch Hẹn
               </Link>
-
-              <Link
-                to={
-                  appointment.bill[0]?.id
-                    ? `/doctors/detail-bill/${appointment.bill[0].id}`
-                    : "#"
-                }
-                className="btn btn-sm bg-info-light"
-              >
+            </Menu.Item>
+            <Menu.Item>
+              <Link to={appointment.bill[0]?.id ? `/doctors/detail-bill/${appointment.bill[0].id}` : "#"}
+                  style={{width:"100%"}}
+                  className="btn btn-sm bg-info-light">
                 <i className="far fa-eye" /> Hóa Đơn
               </Link>
-            </div>
-          </td>
-        )}
+            </Menu.Item>
+          </Menu>
+        }
+      >
+        <a className="btn btn-sm bg-info-light" onClick={(e) => e.preventDefault()}>
+        Hành động
+           </a>
+      </Dropdown>
+    </div>
+  </td>
+)}
       </tr>
     ));
 
@@ -532,8 +562,8 @@ const handleResetFilter = () => {
      >
        <option ></option>
        <option value="Ca 1">Ca 1</option>
-       <option value="Ca2">Ca 2</option>
-       <option value="3">Ca 3</option>
+       <option value="Ca 2">Ca 2</option>
+       <option value="Ca 3">Ca 3</option>
      </select>
    </div>
 
@@ -618,13 +648,22 @@ const handleResetFilter = () => {
                         ) : error ? (
                           <tr>
                             <td colSpan="5" className="empty-appointments">
-                              Hiện tại chưa có lịch hẹn nào đã xác nhận
+                              Hiện tại không có lịch hẹn nào 
                             </td>
                           </tr>
                         ) : (
                           displayAppointments
                         )}
                       </tbody>
+                      <CSVLink
+                      className="btn btn-primary "
+                      data={data}
+                      headers={headers}
+                      cell={cell}
+                      filename={"appointments.csv"}
+                    >
+                      Xuất ra Excel
+                    </CSVLink>
                     </table>
                     
                   </div>
