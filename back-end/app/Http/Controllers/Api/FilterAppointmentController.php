@@ -27,10 +27,27 @@ class FilterAppointmentController extends Controller
             if ($data->has('shift_name')) {
                 $data1 = $appointmentFilter->where('appointments.shift_name' , $data->shift_name);
             }
-            if(isset($data1)) {
+
+            $user = [];
+            $data1_2 = [];
+            foreach ($data1->get() as $appointment) {
+                $user = [
+                    'id' => $appointment->id,
+                    'status' => $appointment->status,
+                    'shift_name' => $appointment->shift_name,
+                    'date' => $appointment->date,
+                    'user' => [
+                        'nameUser' => $appointment->nameUser,
+                        'phoneUser' => $appointment->phoneUser,
+                        'avatar' => $appointment->avatar,
+                    ]
+                ];
+                $data1_2[] = $user;
+            }
+            if(!empty($data1_2)) {
                 return response()->json([
                     'msg' => 'lọc dữ liệu thành công',
-                    'data' => $data1->get()
+                    'data' => $data1_2
                 ] , 200);
             }
             else {
