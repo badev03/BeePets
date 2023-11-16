@@ -172,6 +172,7 @@ return [
         \App\Providers\ViewProviderAdmin::class,
         Brian2694\Toastr\ToastrServiceProvider::class,
         Mccarlosen\LaravelMpdf\LaravelMpdfServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 //        ConsoleTVs\Charts\ChartsServiceProvider::class,
     ])->toArray(),
 
@@ -192,6 +193,7 @@ return [
         'Pusher' => Pusher\Pusher::class,
         'Toastr'  => Brian2694\Toastr\Facades\Toastr::class,
         'PDF' => Mccarlosen\LaravelMpdf\Facades\LaravelMpdf::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 //        'Charts' => ConsoleTVs\Charts\Facades\Charts::class,
     ])->toArray(),
 ];

@@ -23,7 +23,6 @@ class Appointment extends Model
         'customer_name',
         'group_service_id',
         'user_id',
-        'created_at',
     ];
     public function user()
     {

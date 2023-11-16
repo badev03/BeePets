@@ -1,29 +1,30 @@
 <?php
 
-use App\Http\Controllers\Admin\AboutController;
-use App\Http\Controllers\Admin\CartController;
-use App\Http\Controllers\Admin\OrderController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
+use \App\Http\Controllers\Admin\NewController;
+use App\Http\Controllers\Admin\CartController;
+use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Api\ImportController;
 use \App\Http\Controllers\admin\RoleController;
+use App\Http\Controllers\Admin\AboutController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\DoctorController;
+use \App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TypePetController;
 use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\admin\PermissionController;
+use App\Http\Controllers\Admin\AppointmentController;
+use \App\Http\Controllers\Admin\NewCategorieController;
+use \App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\admin\PeopleAccountController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ServiceCategorieController;
-use App\Http\Controllers\Admin\AppointmentController;
-use \App\Http\Controllers\Admin\ReviewController;
-use \App\Http\Controllers\Admin\NewCategorieController;
-use \App\Http\Controllers\Admin\NewController;
 use App\Http\Controllers\Api\AuthController as ApiAuthController;
-use \App\Http\Controllers\Admin\NotificationController;
-use App\Http\Controllers\Admin\SettingController;
-use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -185,3 +186,5 @@ Route::get('upload-image' , function () {
 Route::post('upload-image' , [HomeController::class , 'upload'])->name('upload.image');
 Route::get('pusher-tester' , [HomeController::class , 'Pusher']);
 Route::get('queue-tester' , [HomeController::class , 'QueueTest']);
+
+

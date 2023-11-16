@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AboutController;
 use App\Http\Controllers\Api\InforController;
+use App\Http\Controllers\Api\ImportController;
 use \App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\BookingController;
 use \App\Http\Controllers\Api\ReviewsController;
@@ -17,9 +18,9 @@ use App\Http\Controllers\Api\statisticController;
 use App\Http\Controllers\Api\BookingHaiController;
 use \App\Http\Controllers\Api\DoctorUserController;
 use App\Http\Controllers\Api\BillControllerHistory;
+use \App\Http\Controllers\Api\NotificationController;
 use \App\Http\Controllers\Api\FilterAppointmentController;
 use \App\Http\Controllers\Api\StatisticsAppointmentController;
-use \App\Http\Controllers\Api\NotificationController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -169,7 +170,7 @@ Route::post('update-bill/{id}', [DoctorController::class, 'updateBill']);
     Route::post('filter-appointments',  [FilterAppointmentController::class, 'index']);
     Route::post('filter-appointments-statistics',  [StatisticsAppointmentController::class, 'index']);
 });
-
+Route::post('import-appointments',[ImportController::class,'import']);
 Route::get('statistic-type-pet', [statisticController::class, 'statisticPetType']);
 Route::post('statistic-type-pet', [statisticController::class, 'statisticPetTypeByDate']);
 
