@@ -19,6 +19,7 @@ const ForgotPassword = () => {
   function onCaptchVerify() {
     if (!window.recaptchaVerifier) {
       window.recaptchaVerifier = new RecaptchaVerifier(
+        auth,
         "recaptcha-container",
         {
           size: "invisible",
@@ -27,7 +28,7 @@ const ForgotPassword = () => {
           },
           "expired-callback": () => { },
         },
-        auth
+        
       );
     }
   }
