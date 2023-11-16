@@ -12,6 +12,8 @@ import { FaSpinner } from 'react-icons/fa';
 import { Modal, Form, Input, Button ,Dropdown, Menu} from 'antd';
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+
+
 const MySwal = withReactContent(Swal);
 
 const Appointments = () => {
@@ -28,7 +30,35 @@ const Appointments = () => {
   const appointmentsPerPage = 5;
   const pagesVisited = pageNumber * appointmentsPerPage;
   const token = localStorage.getItem("token");
-  
+  const [searchName, setSearchName] = useState("");
+const [searchPhone, setSearchPhone] = useState("")
+const [selectedStatus, setSelectedStatus] = useState("")
+const [selectedShift, setSelectedShift] = useState("")
+const [selectedDate, setSelectedDate] = useState("")
+
+
+
+const handleFilterSubmit = (e) => {
+  e.preventDefault();
+  const filters = {
+    date: selectedDate,
+    phone: searchPhone,
+    name: searchName,
+    status: selectedStatus,
+    shift_names: selectedShift,
+  };
+  fetchFilteredAppointments(filters);
+};
+
+const handleResetFilter = () => {
+  // Đặt lại giá trị của tất cả các trường lọc và gọi lại fetchAppointment
+  setSearchName("");
+  setSearchPhone("");
+  setSelectedStatus("all");
+  setSelectedShift("all");
+  setSelectedDate("");
+  fetchAppointment();
+};
   const fetchAppointment = async () => {
     try {
       const response = await appointmentsApi.getAll({
@@ -50,7 +80,31 @@ const Appointments = () => {
     useEffect(() => {
       fetchAppointment();
     }, []);
-  
+    const fetchFilteredAppointments = async (filters) => {
+      const filteredFilters = Object.fromEntries(
+        Object.entries(filters).filter(([_, value]) => value !== null && value !== "")
+      );
+      try {
+        const response = await axios.post(
+          "http://127.0.0.1:8000/api/filter-appointments",
+          filteredFilters,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log(response.data.data);
+        setAppointment(response.data.data);
+        setLoading(false);
+        setError(false);
+      } catch (error) {
+        console.error("Không có dữ liệu:", error);
+        setAppointment([]);
+        setLoading(false);
+        setError(true);
+      }
+    };
   const handleUpdate = async (id) => {
     setLoadingId(id);
     console.log(id)
@@ -431,10 +485,106 @@ const Appointments = () => {
               <Menudashboard />
             </div>
             <div className="col-md-7 col-lg-8 col-xl-9">
+            <div className="search-container">
+             
+             <form className="filter-form"  onSubmit={handleFilterSubmit}>
+ {/* <h2 className="filter-heading">Bộ lọc :</h2> */}
+
+ <div className="filter-section">
+   <div className="filter-item">
+     <label htmlFor="searchName" className="label-text">Lọc theo tên :</label>
+     <input
+       type="text"
+       id="searchName"
+       onChange={(e) => setSearchName(e.target.value)}
+       className="input-text"
+     />
+   </div>
+
+   <div className="filter-item">
+     <label htmlFor="searchPhone" className="label-text">Lọc theo số điện thoại :</label>
+     <input
+       type="number"
+       id="searchPhone"
+       onChange={(e) => setSearchPhone(e.target.value)}
+       className="input-text"
+     />
+   </div>
+
+   <div className="filter-item">
+     <label htmlFor="shift" className="label-text">Lọc theo ca :</label>
+     <select
+       onChange={(e) => setSelectedShift(e.target.value)}
+       className="select-dropdown"
+     >
+       <option ></option>
+       <option value="Ca 1">Ca 1</option>
+       <option value="Ca2">Ca 2</option>
+       <option value="3">Ca 3</option>
+     </select>
+   </div>
+
+   <div className="filter-item">
+     <label htmlFor="status" className="label-text">Lọc theo trạng thái:</label>
+     <select
+       onChange={(e) => setSelectedStatus(e.target.value)}
+       className="select-dropdown"
+     >
+       <option ></option>
+       <option value="1">Xác nhận</option>
+       <option value="2">Đã xóa</option>
+       <option value="4">Đã hoàn thành</option>
+       <option value="3">Đã hủy</option>
+       <option value="6">Yêu cầu hủy</option>
+       <option value="7">Yêu cầu đổi lịch</option>
+     </select>
+   </div>
+   <div className="filter-item">
+  <label htmlFor="date" className="label-text">Chọn ngày:</label>
+  <input
+    type="date"
+    id="date"
+    onChange={(e) => setSelectedDate(e.target.value)}
+    className="input-text"
+  />
+</div>
+{/* 
+<div className="filter-item">
+  <label htmlFor="timeRange" className="label-text">Khoảng thời gian:</label>
+  <select
+    onChange={(e) => handleTimeRangeChange(e.target.value)}
+    className="select-dropdown"
+  >
+       <option ></option>
+
+    <option value="7">7 ngày</option>
+    <option value="14">14 ngày</option>
+    <option value="30">30 ngày</option>
+    <option value="70">70 ngày</option>
+    <option value="90">90 ngày</option>
+  </select>
+</div> */}
+ </div>
+
+ <button type="submit" className="btn btn-sm bg-success-light" style={{ marginRight: "10px" }}>
+    Lọc dữ liệu
+  </button>
+  <button type="button" className="btn btn-sm bg-danger-light" onClick={handleResetFilter}>
+    Làm mới dữ liệu
+  </button>
+</form>
+
+  
+
+   
+  </div>
               <div className="card card-table mb-0">
+   
                 <div className="card-body">
+                  
                   <div className="table-responsive">
                     <table className="table table-hover table-center mb-0">
+                 
                       <thead>
                         <tr>
                           <th>Khách hàng</th>
