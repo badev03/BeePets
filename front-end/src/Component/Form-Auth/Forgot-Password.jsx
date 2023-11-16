@@ -37,16 +37,14 @@ const ForgotPassword = () => {
     const data = { phone: ph.replace(/^840/, '0') };
     axios.post('http://127.0.0.1:8000/api/forget-password', data)
       .then(response => {
-        if (response.data.exists) {
-          onSignup();
-        } else {
-          toast.success("OTP gửi về máy bạn");
-        }
+        onSignup()
       })
       .catch(error => {
         toast.error("Số điện thoại không tồn tại");
         console.error(error);
-      });
+        setShowOTP(false);
+    });
+    
   }
 
   function onSignup() {
@@ -150,7 +148,7 @@ const ForgotPassword = () => {
                       {showOTP ? (
                         <button className="btn btn-primary w-100 btn-lg login-btn" onClick={onOTPVerify} type="button"> Xác minh OTP</button>
                       ) : (
-                        <button className="btn btn-primary w-100 btn-lg login-btn" onClick={onSignup} type="button"> Gửi mã qua SMS</button>
+                        <button className="btn btn-primary w-100 btn-lg login-btn" onClick={checkPhoneNumberExistsAndSignup} type="button"> Gửi mã qua SMS</button>
                       )}
                     </form>
                     <div className="login-or"></div>

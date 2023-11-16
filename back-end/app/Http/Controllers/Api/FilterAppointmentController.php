@@ -27,10 +27,36 @@ class FilterAppointmentController extends Controller
             if ($data->has('shift_name')) {
                 $data1 = $appointmentFilter->where('appointments.shift_name' , $data->shift_name);
             }
+
+            $user = [];
+            $data1_2 = [];
             if(isset($data1)) {
+                foreach ($data1->get() as $appointment) {
+                    $user = [
+                        'id' => $appointment->id,
+                        'status' => $appointment->status,
+                        'shift_name' => $appointment->shift_name,
+                        'date' => $appointment->date,
+                        'user' => [
+                            'name' => $appointment->nameUser,
+                            'phone' => $appointment->phoneUser,
+                            'avatar' => $appointment->avatar,
+                        ]
+                        ,
+                        'bill' => [
+                            0 => [
+                                'appointment_id' => $appointment->id,
+                                'id' => $appointment->bill_id,
+                            ],
+                        ]
+                    ];
+                    $data1_2[] = $user;
+                }
+            }
+            if(!empty($data1_2)) {
                 return response()->json([
                     'msg' => 'lọc dữ liệu thành công',
-                    'data' => $data1->get()
+                    'data' => $data1_2
                 ] , 200);
             }
             else {
@@ -48,12 +74,13 @@ class FilterAppointmentController extends Controller
     }
 
     public function baseQuery($id) {
-        $query = Appointment::where('doctor_id' , $id)
+        $query = Appointment::where('appointments.doctor_id' , $id)
             ->whereIn('appointments.status' , [status_have_finish , status_request_change_work ,
                 status_request_cancel , status_have_delete , status_have_confirm])
             ->join('users' , 'users.id' , '=' , 'appointments.user_id' )
+            ->join('bills' , 'bills.appointment_id' , '=' , 'appointments.id' )
             ->select('appointments.status' , 'appointments.id' , 'users.name as nameUser' , 'users.phone as phoneUser' ,
-                'appointments.shift_name' , 'appointments.date' , 'users.avatar');
+                'appointments.shift_name' , 'appointments.date' , 'users.avatar' , 'bills.code' , 'bills.id as bill_id');
         return $query;
     }
 }
