@@ -7,13 +7,13 @@ import ReactPaginate from "react-paginate";
 import LoadingSkeleton from "../Loading";
 import axios from "axios";
 import { FaSpinner } from "react-icons/fa";
-import { Modal, Form, Input, Button } from "antd";
+import { Modal, Form, Input, Button,Dropdown,Menu } from "antd";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { CSVLink } from "react-csv";
 
 const MySwal = withReactContent(Swal);
-import { CSVLink } from "react-csv";
+
 
 const Appointments = () => {
   const [appointments, setAppointment] = useState([]);
