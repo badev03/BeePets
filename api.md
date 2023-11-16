@@ -82,3 +82,6 @@ check kiểm tra xem số điện thoaại đã tồn tại hay rồi mới ti�
 //đạt viết api cập nhật trạng thái notification 
 1. http://127.0.0.1:8000/api/update-read-notification khi click xem thông báo thì lập tức cập nhật lại từ chưa đọc sang
 đã đọc **GET**  
+
+//lọc appointment
+http://127.0.0.1:8000/api/appointments-filter?status=4&type_pet_id=1&service_id=1&date=2023-10-13&start_time=03:41:27&end_time=03:41:27
