@@ -85,6 +85,15 @@ const StatisticAppointment = () => {
         6: 'Yêu cầu hủy',
         7: 'Yêu cầu đổi lịch',
     };
+    const statusColors = {
+        'Chưa xác nhận': '#009efb',
+        'Đã xác nhận': '#00ff00', // Change this color accordingly
+        'Đã xóa': '#ffcc00',       // Change this color accordingly
+        'Đã hủy': '#ff0100',
+        'Đã hoàn thành': '#9900cc', // Change this color accordingly
+        'Yêu cầu hủy': '#ff6600',  // Change this color accordingly
+        'Yêu cầu đổi lịch': '#993333' // Change this color accordingly
+    };
 
     const getStatusLabel = (status) => statusLabels[status] || 'Không xác định';
 
@@ -204,6 +213,7 @@ const StatisticAppointment = () => {
                                                             <Tooltip />
                                                             <Legend />
                                                             <Bar dataKey="count" fill="#009efb" label={(props) => props.value} />
+                                                            <Bar dataKey="count" fill="#ff0100" label={(props) => props.value} />
                                                             
                                                         </BarChart>
 
