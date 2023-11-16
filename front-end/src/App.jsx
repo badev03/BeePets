@@ -45,7 +45,6 @@ import DetailPrescription from './Component/doctors/DetailPrescription'
 import CustomerInvoice from './Component/doctors/customer-invoice/Customer-invoice'
 import ChangePasswordUser from './Component/User/ChangePassword'
 import CreateRegister from './Component/Form-Auth/Create-Register'
-import Test from './Component/doctors/statistics/test'
 import StatisticAppointment from './Component/doctors/statistics/Statistic-Appointment'
 
 
@@ -107,7 +106,8 @@ function App() {
           <Route path='Reset-Password-Doctor' element={<ResetPasswordDoctor />} />
           <Route path='Create-Password' element={<CreatePassword />} />
           <Route path='Register-Password' element={<CreateRegister />} />
-          <Route path='test' element={<StatisticAppointment />} />
+
+          <Route path='loc' element={<StatisticAppointment />} />
 
 
 
