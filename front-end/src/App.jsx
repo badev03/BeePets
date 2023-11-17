@@ -96,6 +96,7 @@ function App() {
             <Route path='detail-appointments/:id' element={<DetailAppointment />} />
             <Route path='customer-invoice' element={<CustomerInvoice />} />
             <Route path='accept-detail-appointments/:id' element={<AcceptDetailAppointment />} />
+            <Route path='StatisticAppointment' element={<StatisticAppointment />} />
           </Route>
 
 
@@ -109,7 +110,6 @@ function App() {
           <Route path='Create-Password' element={<CreatePassword />} />
           <Route path='Register-Password' element={<CreateRegister />} />
 
-          <Route path='loc' element={<StatisticAppointment />} />
 
 
 
