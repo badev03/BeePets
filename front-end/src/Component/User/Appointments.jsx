@@ -76,7 +76,7 @@ const Appointments = () => {
         },
         params: {
           typePet,
-          shift,
+          shift_name: shift,
           status,
           date: selectedDate,
         },
@@ -243,7 +243,7 @@ const Appointments = () => {
                 >
                   <option></option>
                   <option value="Ca 1">Ca 1</option>
-                  <option value="Ca 2">Ca 2</option>
+                  <option value="Ca2">Ca 2</option>
                   <option value="Ca 3">Ca 3</option>
                 </select>
               </div>
