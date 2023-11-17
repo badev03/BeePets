@@ -23,6 +23,7 @@ const Appointments = () => {
   const [loadingIdd, setLoadingIdd] = useState(null);
   const [loadingId, setLoadingId] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalCancel, setIsModalCancel] = useState(false);
   const [reason, setReason] = useState("");
   const [error, setError] = useState(false);
   const [selectedAppointmentId, setSelectedAppointmentId] = useState(null);
@@ -177,6 +178,10 @@ const handleResetFilter = () => {
     setIsModalVisible(true);
   };
 
+  const showModalCancel = (id) => {
+    setSelectedAppointmentId(id);
+    setIsModalCancel(true);
+  };
   const handleCancelStatus = async (id, reason) => {
     try {
       setLoadingIdd(id);
@@ -190,7 +195,7 @@ const handleResetFilter = () => {
           },
         }
       );
-      setIsModalVisible(false);
+      setIsModalCancel(false);
 
       MySwal.fire({
         title: "Cập nhật trạng thái  thành công!",
@@ -333,7 +338,7 @@ const handleResetFilter = () => {
                </Link>
              </Menu.Item>
              <Menu.Item>
-               <div onClick={() => showModal(appointment.id)}
+               <div onClick={() => showModalCancel(appointment.id)}
                 style={{width:"100%"}}
                 className="btn btn-sm bg-danger-light position-relative">
                  {loadingIdd === appointment.id ? (
@@ -386,7 +391,7 @@ const handleResetFilter = () => {
 
           </Dropdown>
           </div>
-          <Modal title="Yêu cầu Hủy Lịch" visible={isModalVisible} onCancel={() => setIsModalVisible(false)} footer={[
+          <Modal title="Yêu cầu Hủy Lịch" visible={isModalCancel} onCancel={() => setIsModalCancel(false)} footer={[
          <Button key="cancel" onClick={() => setIsModalVisible(false)}>
            Cancel
          </Button>
@@ -645,29 +650,16 @@ const handleResetFilter = () => {
                           displayAppointments
                         )}
                       </tbody>
-                      <CSVLink
-                      className="btn btn-primary "
-                      data={data}
-                      headers={headers}
-                      cell={cell}
-                      filename={"appointments.csv"}
-                    >
-                      Xuất ra Excel
-                    </CSVLink>
+                      
+         
                     </table>
-                    <CSVLink
-                      className="btn btn-primary "
-                      data={data}
-                      headers={headers}
-                      cell={cell}
-                      filename={"appointments.csv"}
-                    >
-                      Export
-                    </CSVLink>
+                
                   </div>
                   <div className="row">
                     <div className="col-md-12">
+
                       <div className="pagination-doctor">
+                        
                         <ReactPaginate
                           nextLabel={<FaChevronRight />}
                           previousLabel={<FaChevronLeft />}
@@ -677,9 +669,26 @@ const handleResetFilter = () => {
                           previousLinkClassName={"previousBttn"}
                           activeClassName={"active"}
                         />
+                        
                       </div>
+                      <button
+      
+      className="btn btn-primary submit-btn"
+    style={{float:"right" ,margin:"10px 20px 20px 0px"}}
+    >
+     <CSVLink
+                  className="btn btn-primary submit-btn"
+                  data={data}
+                  headers={headers}
+                  cell={cell}
+                  filename={"appointments.csv"}  
+                >
+                  Xuất ra Excel
+                </CSVLink>
+    </button>
                     </div>
                   </div>
+           
                 </div>
               </div>
             </div>
