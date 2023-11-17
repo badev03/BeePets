@@ -178,7 +178,8 @@ const StatisticAppointment = () => {
                         </div>
                         <div className="col-md-7 col-lg-8 col-xl-9">
                             <div className="row">
-                                <br />
+                            <div class="shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+                            <br />
                                 <h2 className="mb-4 ">Thống kê lịch hẹn</h2>
                                 <br />
                                 <div className="search-container ">
@@ -227,6 +228,8 @@ const StatisticAppointment = () => {
 
                                     </div>
                                 </div>
+                            </div>
+                                
 
                                 <div className="card card-table mb-0">
 
