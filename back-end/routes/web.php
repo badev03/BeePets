@@ -24,6 +24,7 @@ use App\Http\Controllers\Api\AuthController as ApiAuthController;
 use \App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\AuthController;
+use \App\Http\Controllers\Admin\ExcelAppointmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,7 @@ use App\Http\Controllers\AuthController;
 
 
 //
+Route::get('admin/statistic', [\App\Http\Controllers\Admin\StatisticController::class, 'index'])->name('statistic.index');
 Route::middleware(['role:Admin|Staff|User'])->group(function () {
     Route::prefix('admin')->group(function () {
         $objects = [
@@ -79,6 +81,7 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
             Route::put('appointment-cart/{id}', [AppointmentController::class , 'billAppointmentAdd'])->name('appointments.add-appointments-bills');
             Route::get('appointment-clear-data/', [AppointmentController::class , 'clearAppointmentData'])->name('appointments.clear-appointment-data');
             // Route::get('profile', [AuthController::class , 'myProfile'])->name('myProfile');
+             Route::get('excel-appointments', [ExcelAppointmentController::class , 'excelAppointment'])->name('excel.appointments');
         });
         Route::get('dashboard', [HomeController::class , 'index'])->name('dashboard');
         Route::get('appointment/get-day/{day}/{id}', [AppointmentController::class , 'getDay'])->name('appointment.get-day');

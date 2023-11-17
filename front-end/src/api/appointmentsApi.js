@@ -31,7 +31,11 @@ const appointmentsApi = {
     const url = `/detail-prescription-doctor/${id}`;
     return instance.get(url, params);
   },
-
+  filterAppointments(params) {
+    const url = `/filter-appointments`;
+    return instance.post(url, params);
+  },
+  
 };
 
 export default appointmentsApi;

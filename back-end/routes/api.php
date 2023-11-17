@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AboutController;
 use App\Http\Controllers\Api\InforController;
 use \App\Http\Controllers\Api\DoctorController;
+use App\Http\Controllers\Api\AppointmentImport;
 use App\Http\Controllers\Api\BookingController;
 use \App\Http\Controllers\Api\ReviewsController;
 use \App\Http\Controllers\Api\ServiceController;
@@ -17,9 +18,9 @@ use App\Http\Controllers\Api\statisticController;
 use App\Http\Controllers\Api\BookingHaiController;
 use \App\Http\Controllers\Api\DoctorUserController;
 use App\Http\Controllers\Api\BillControllerHistory;
+use \App\Http\Controllers\Api\NotificationController;
 use \App\Http\Controllers\Api\FilterAppointmentController;
 use \App\Http\Controllers\Api\StatisticsAppointmentController;
-use \App\Http\Controllers\Api\NotificationController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -34,6 +35,7 @@ use \App\Http\Controllers\Api\NotificationController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 
 $objects = [
     'service' => ServiceController::class,
@@ -121,6 +123,7 @@ Route::post('update-bill/{id}', [DoctorController::class, 'updateBill']);
     Route::get('/history-user', [UserController::class, 'getHistoryByUser']);
 
 
+    Route::get('/appointments-filter', [UserController::class, 'filterAppointments']);
 
     //lấy ra các lịch khám trạng thái chưa xác nhận
     Route::get('/appoinments-status', [BookingController::class, 'getAppointmentByStatus']);
@@ -175,6 +178,7 @@ Route::post('statistic-type-pet', [statisticController::class, 'statisticPetType
 
 Route::get('statistic-service', [statisticController::class, 'statisticService']);
 Route::post('statistic-service', [statisticController::class, 'statisticServiceByDate']);
+Route::post('import-appointments',[AppointmentImport::class,'import']);
 
 
 // xem lich hen cua user tu ben bac si

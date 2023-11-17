@@ -224,33 +224,32 @@ class UserController extends Controller
     {
         $user_id = auth()->user()->id;
         $bill = DB::table('bills')
-        ->select('bills.id', 'bills.code', 'bills.created_at', 'bills.status', 'bills.payment_method', 'bills.total_amount', 'services.name as services_name', 'services.price as services_price')
-        ->join('services', 'bills.service_id', '=', 'services.id')
-        ->where('bills.user_id', $user_id)
-        ->where('bills.id', $id)
-        ->first();
+            ->select('bills.id', 'bills.code', 'bills.created_at', 'bills.status', 'bills.payment_method', 'bills.total_amount', 'services.name as services_name', 'services.price as services_price')
+            ->join('services', 'bills.service_id', '=', 'services.id')
+            ->where('bills.user_id', $user_id)
+            ->where('bills.id', $id)
+            ->first();
 
-    if (!$bill) {
+        if (!$bill) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Không tìm thấy đơn thuốc'
+            ]);
+        }
+
+        $products = DB::table('prescription_product')
+            ->select('products.name as product_name', 'prescription_product.quantity', 'prescription_product.price as product_price')
+            ->join('products', 'prescription_product.product_id', '=', 'products.id')
+            ->join('prescriptions', 'prescription_product.prescription_id', '=', 'prescriptions.id')
+            ->where('prescriptions.bill_id', $id)
+            ->get();
+
         return response()->json([
-            'success' => false,
-            'message' => 'Không tìm thấy đơn thuốc'
+            'success' => true,
+            'message' => 'Lấy chi tiết đơn thuốc thành công',
+            'bill' => $bill,
+            'products' => $products
         ]);
-    }
-
-    $products = DB::table('prescription_product')
-        ->select('products.name as product_name', 'prescription_product.quantity', 'prescription_product.price as product_price')
-        ->join('products', 'prescription_product.product_id', '=', 'products.id')
-        ->join('prescriptions', 'prescription_product.prescription_id', '=', 'prescriptions.id')
-        ->where('prescriptions.bill_id', $id)
-        ->get();
-
-    return response()->json([
-        'success' => true,
-        'message' => 'Lấy chi tiết đơn thuốc thành công',
-        'bill' => $bill,
-        'products' => $products
-    ]);
-
     }
     public function billByUser()
     {
@@ -263,7 +262,7 @@ class UserController extends Controller
             } else {
                 $id = auth()->user()->id;
                 $result = DB::table('bills')
-                    ->select('bills.id','bills.code', 'bills.created_at as order_date', 'doctors.name as created_by', 'bills.total_amount')
+                    ->select('bills.id', 'bills.code', 'bills.created_at as order_date', 'doctors.name as created_by', 'bills.total_amount')
                     ->join('appointments', 'bills.appointment_id', '=', 'appointments.id')
                     ->join('doctors', 'appointments.doctor_id', '=', 'doctors.id')
                     ->where('bills.user_id', $id)
@@ -312,7 +311,61 @@ class UserController extends Controller
     }
 
 
-    public function getDoctor(){
-         
+    public function getDoctor()
+    {
+    }
+    public function filterAppointments(Request $request)
+    {
+        //nếu chưa đăng nhập
+        if (!auth()->check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bạn chưa đăng nhập'
+            ]);
+        } else {
+            // Lọc theo trạng thái
+            $status = $request->input('status');
+            $query = Appointment::query();
+
+            if ($status) {
+                $query->where('status', $status);
+            }
+
+            // Lọc theo ngày
+            $date = $request->input('date');
+            if ($date) {
+                $query->whereDate('date', $date);
+            }
+            
+            $shift_name = $request->input('shift_name');
+
+            if ($shift_name) {
+                $query->where('shift_name', $shift_name);
+            }
+
+            // Lọc theo khoảng thời gian
+            $startTime = $request->input('start_time');
+            $endTime = $request->input('end_time');
+            if ($startTime && $endTime) {
+                $query->whereBetween('time', [$startTime, $endTime]);
+            }
+
+            // Lọc theo dịch vụ
+            $serviceId = $request->input('service_id');
+            if ($serviceId) {
+                $query->where('service_id', $serviceId);
+            }
+
+            // Lọc theo loại thú cưng
+            $petTypeId = $request->input('type_pet_id');
+            if ($petTypeId) {
+                $query->where('type_pet_id', $petTypeId);
+            }
+
+            // Thực hiện truy vấn và trả về kết quả
+            $appointments = $query->get();
+
+            return response()->json($appointments);
+        }
     }
 }
