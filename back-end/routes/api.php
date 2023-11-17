@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AboutController;
 use App\Http\Controllers\Api\InforController;
 use \App\Http\Controllers\Api\DoctorController;
+use App\Http\Controllers\Api\AppointmentImport;
 use App\Http\Controllers\Api\BookingController;
 use \App\Http\Controllers\Api\ReviewsController;
 use \App\Http\Controllers\Api\ServiceController;
@@ -17,9 +18,9 @@ use App\Http\Controllers\Api\statisticController;
 use App\Http\Controllers\Api\BookingHaiController;
 use \App\Http\Controllers\Api\DoctorUserController;
 use App\Http\Controllers\Api\BillControllerHistory;
+use \App\Http\Controllers\Api\NotificationController;
 use \App\Http\Controllers\Api\FilterAppointmentController;
 use \App\Http\Controllers\Api\StatisticsAppointmentController;
-use \App\Http\Controllers\Api\NotificationController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -177,6 +178,7 @@ Route::post('statistic-type-pet', [statisticController::class, 'statisticPetType
 
 Route::get('statistic-service', [statisticController::class, 'statisticService']);
 Route::post('statistic-service', [statisticController::class, 'statisticServiceByDate']);
+Route::post('import-appointments',[AppointmentImport::class,'import']);
 
 
 // xem lich hen cua user tu ben bac si

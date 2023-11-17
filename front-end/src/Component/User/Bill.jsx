@@ -64,44 +64,48 @@ const Bill = () => {
   };
 
   // Thay đổi mảng bills thành mảng bills trang hiện tại
-  const displayedBills = bills
-    .slice(pageNumber * itemsPerPage, (pageNumber + 1) * itemsPerPage)
-    .map(bill => (
-      <tr key={bill.code}>
-        <td>
-          <a href="#">{bill.code}</a>
-        </td>
-        <td>{formatDate(bill.order_date)}</td>
-        <td>{formatCurrency(bill.total_amount)} </td>
-        <td>
-          <h2 className="table-avatar">
-            <a href="doctor-profile.html" className="avatar avatar-sm me-2">
-              <img
-                className="avatar-img rounded-circle"
-                src="../src/assets/img/doctors/doctor-thumb-01.jpg"
-                alt="User Image"
-              />
-            </a>
-            <a href="doctor-profile.html">{bill.created_by}</a>
-          </h2>
-        </td>
-        <td>
-          <div className="table-action">
-            <button className="btn btn-sm bg-info-light">
-              <Link to={`/user/bill/${bill.id}`}>
-                <i className="far fa-eye" /> View
-              </Link>
-            </button>
-          </div>
-        </td>
-      </tr>
-    ));
+  // ... (existing code)
+
+const displayedBills = bills
+.slice(pageNumber * itemsPerPage, (pageNumber + 1) * itemsPerPage)
+.map(bill => (
+  <tr key={bill.code}>
+    <td className="text-start">
+      <a href="#">{bill.code}</a>
+    </td>
+    <td className="text-start">{formatDate(bill.order_date)}</td>
+    <td className="text-start">{formatCurrency(bill.total_amount)} </td>
+    <td className="text-start">
+      <h2 className="table-avatar">
+        <a href="doctor-profile.html" className="avatar avatar-sm me-2">
+          <img
+            className="avatar-img rounded-circle"
+            src="../src/assets/img/doctors/doctor-thumb-01.jpg"
+            alt="User Image"
+          />
+        </a>
+        <a href="doctor-profile.html">{bill.created_by}</a>
+      </h2>
+    </td>
+    <td className="text-start">
+      <div className="table-action">
+        <button className="btn btn-sm bg-info-light">
+          <Link to={`/user/bill/${bill.id}`}>
+            <i className="far fa-eye" /> View
+          </Link>
+        </button>
+      </div>
+    </td>
+  </tr>
+));
+
+// ... (existing code)
+
 
   return (
-    <div id="pat_medical_records" className="tab-pane fade">
-      <div className="card card-table mb-0">
-        <div className="card-body">
-          <div className="table-responsive">
+    <div className="card card-table mb-0">
+      <div className="card-body">
+        <div className="table-responsive">
             <table className="table table-hover table-center mb-0">
               <thead>
                 <tr>
@@ -126,7 +130,6 @@ const Bill = () => {
           />
         </div>
       </div>
-    </div>
   );
 };
 
