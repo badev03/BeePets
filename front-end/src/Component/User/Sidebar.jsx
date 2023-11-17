@@ -9,6 +9,7 @@ const Sidebar = () => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const { onLogout } = useAuth();
+  const [scrollPosition,setScrollPosition] = useState([])
 
 
   const handleLogout = async () => {
