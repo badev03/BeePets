@@ -13,6 +13,11 @@ const appointmentUsersApi = {
     const url = `/get-appointment-user/${id}`;
     return instance.get(url, params);
   },
+
+  filterAppoinment(params) {
+    const url = "/appointments-filter";
+    return instance.get(url, params);
+  },
 };
 
 
