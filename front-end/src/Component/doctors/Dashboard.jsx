@@ -40,7 +40,7 @@ const Dashboarddoctors = () => {
         },
       });
       setAppointment(response.data);
-      // console.log(response);
+      console.log(response);
       setLoading(false);
       setError(false);
     } catch (error) {
@@ -185,6 +185,33 @@ const Dashboarddoctors = () => {
         </td>
         <td>{appointment.service.name}</td>
         <td>{appointment.type_pet.name}</td>
+        <td>
+          {appointment.status == 1 ? (
+            <span className="badge rounded-pill bg-success-light">
+              Xác nhận
+            </span>
+          ) : appointment.status == 2 ? (
+            <span className="badge rounded-pill bg-danger-light">Đã xóa</span>
+          ) : appointment.status == 4 ? (
+            <span className="badge rounded-pill bg-primary-light">
+              Đã hoàn thành
+            </span>
+          ) : appointment.status == 3 ? (
+            <span className="badge rounded-pill bg-danger-light">Đã hủy</span>
+          ) : appointment.status == 6 ? (
+            <span className="badge rounded-pill bg-warning-light">
+              Yêu cầu hủy
+            </span>
+          ) : appointment.status == 0 ? (
+            <span className="badge rounded-pill bg-warning-light">
+              Chờ xác nhận
+            </span>
+          ) : (
+            <span className="badge rounded-pill bg-info-light">
+              Không xác định
+            </span>
+          )}
+        </td>
         <td>
       <div className="table-action">
         <Dropdown
@@ -375,10 +402,11 @@ const Dashboarddoctors = () => {
                                     <th>Dịch vụ</th>
                                     <th>Loại thú cưng</th>
                                     <th>Trạng thái</th>
+                                    <th>Hành động</th>
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {loading ? (
+                                {loading ? (
                                     <tr>
                                       <td colSpan="5">
                                         <LoadingSkeleton />
@@ -386,12 +414,14 @@ const Dashboarddoctors = () => {
                                     </tr>
                                   ) : error ? (
                                     <tr>
-                                      <td
-                                        colSpan="5"
-                                        className="empty-appointments"
-                                      >
-                                        Hiện tại chưa có lịch hẹn nào cần xác
-                                        nhận
+                                      <td colSpan="5" className="empty-appointments">
+                                        Hiện tại chưa có lịch hẹn nào cần xác nhận
+                                      </td>
+                                    </tr>
+                                  ) : filteredAppointments.length == 0 ? (
+                                    <tr>
+                                      <td colSpan="5" className="empty-appointments">
+                                        Không có dữ liệu phù hợp với tìm kiếm
                                       </td>
                                     </tr>
                                   ) : (
@@ -403,15 +433,17 @@ const Dashboarddoctors = () => {
                             <div className="row">
                               <div className="col-md-12">
                                 <div className="pagination-doctor">
-                                  <ReactPaginate
-                                    nextLabel={<FaChevronRight />}
-                                    previousLabel={<FaChevronLeft />}
-                                    pageCount={pageCount}
-                                    onPageChange={changePage}
-                                    containerClassName={"pagination"}
-                                    previousLinkClassName={"previousBttn"}
-                                    activeClassName={"active"}
-                                  />
+                                {filteredAppointments.length > 0 && (
+        <ReactPaginate
+          nextLabel={<FaChevronRight />}
+          previousLabel={<FaChevronLeft />}
+          pageCount={pageCount}
+          onPageChange={changePage}
+          containerClassName={"pagination"}
+          previousLinkClassName={"previousBttn"}
+          activeClassName={"active"}
+        />
+      )}
                                 </div>
                               </div>
                             </div>

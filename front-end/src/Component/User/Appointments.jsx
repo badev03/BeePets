@@ -116,7 +116,9 @@
               <span className="badge rounded-pill bg-success-light">
                 Xác nhận
               </span>
-            ) : appointment.status == 2 ? (
+            ) : appointment.status == 0 ? (
+              <span className="badge rounded-pill bg-warning-light">Chờ xác nhận</span>
+            ): appointment.status == 2 ? (
               <span className="badge rounded-pill bg-danger-light">Đã xóa</span>
             ) : appointment.status == 3 ? (
               <span className="badge rounded-pill bg-primary-light">Đã hoàn thành</span>
