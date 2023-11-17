@@ -1,125 +1,55 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from 'recharts';
-import axios from 'axios';
-import { Form, DatePicker, Button } from 'antd';
-import moment from 'moment';
+// src/components/PetStatsChart.js
+import React, { useEffect, useState } from 'react';
 import Menudashboard from './Menu-dashboard';
+import { Link } from 'react-router-dom'
+import { BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import axios from 'axios';
+import { DatePicker, Button } from 'antd';
+import moment from 'moment';
 
 const StatisticalPet = () => {
-  const [appointmentData, setAppointmentData] = useState([]);
+  const [petData, setPetData] = useState({});
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
-  const token = localStorage.getItem('token');
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const fetchDataAndSetLoading = async () => {
-      setLoading(true);
-      await fetchData(date || getCurrentDate());
-      setLoading(false);
-    };
+    fetchData();
+  }, [date]);
 
-    fetchDataAndSetLoading();
-  }, [date, token]);
-
-  const getCurrentDate = () => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+  const fetchData = () => {
+    axios.post(`http://127.0.0.1:8000/api/statistic-type-pet?date=${date}`)
+      .then(response => {
+        const data = response.data;
+        console.log(data);
+        const petDataObject = {};
+        data.forEach(item => {
+          petDataObject[item.name] = item.total;
+        });
+        setPetData(petDataObject);
+      })
+      .catch(error => {
+        console.error('Lỗi khi truy vấn dữ liệu thú cưng:', error);
+      });
   };
 
-  const fetchData = async (selectedDate) => {
-    try {
-      setLoading(true);
-      console.log('Bắt đầu tải dữ liệu...');
-
-      const response = await axios.post(
-        'http://127.0.0.1:8000/api/statistic-type-pet',
-        { date: selectedDate },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      console.log('Toàn bộ phản hồi:', response); // In toàn bộ đối tượng phản hồi
-
-      const result = response.data;
-      console.log('Kết quả:', result);
-      console.log(result.msg);
-
-      if (result.msg === 'Lọc dữ liệu thành công') {
-        setAppointmentData(result.data);
-      } else {
-        console.error('Lỗi khi lấy dữ liệu thống kê:', result ? result.msg : 'Không xác định');
-        setAppointmentData([])
-      }
-    } catch (error) {
-      console.error('Lỗi khi gọi API:', error);
-    } finally {
-      setLoading(false);
-      console.log('Kết thúc tải dữ liệu...');
-    }
-  };
-
-
-  const handleDateChange = (e) => {
-    const newDate = e.target.value;
-    console.log(newDate);
-    setDate(newDate);
+  const handleDateChange = (value) => {
+    setDate(value.format('YYYY-MM-DD'));
   };
 
   const handleFilterClick = () => {
-    fetchData(date || getCurrentDate());
+    fetchData();
   };
-
-  const statusLabels = {
-    0: 'Chưa xác nhận',
-    1: 'Đã xác nhận',
-    2: 'Đã xóa',
-    3: 'Đã hủy',
-    4: 'Đã hoàn thành',
-    6: 'Yêu cầu hủy',
-    7: 'Yêu cầu đổi lịch',
-  };
-
-  const getStatusLabel = (status) => statusLabels[status] || 'Không xác định';
 
   const prepareChartData = () => {
-    if (loading) {
-      return [];
-    }
-    if (appointmentData.length === 0) {
-      return [
-        {
-          status: 'Không có dữ liệu',
-          count: 0,
-        },
-      ];
-    }
-    return appointmentData.map((item) => ({
-      status: getStatusLabel(item.status),
-      count: item.count,
+    return Object.keys(petData).map(name => ({
+      name,
+      total: petData[name],
     }));
   };
 
   return (
     <div>
       {/* Phần breadcrumb */}
-      {/* ... (Assuming the breadcrumb part is correct) */}
+      {/* ... (Giả sử phần breadcrumb là đúng) */}
 
       {/* Phần nội dung */}
       <div className="content">
@@ -134,33 +64,31 @@ const StatisticalPet = () => {
                   <div className="card-body">
                     <div className="col-md-12">
                       <br />
-                      <h4 className="mb-4">Thống kê loại thú cưng</h4>
+                      <h4 className="mb-4">Thống kê thú cưng</h4>
                       <div className="appointment-tab">
                         <div className="search-container">
                           <div className="input-group mb-3">
                             <label className=" rounded-2" htmlFor="datePicker">
                               Chọn ngày:
                             </label>
-                            <input
-                              type="date"
+                            <DatePicker
                               id="datePicker"
-                              value={date}
+                              value={moment(date, 'YYYY-MM-DD')}
                               onChange={handleDateChange}
                               className="input-group-text rounded-2"
-                              max={new Date().toISOString().split('T')[0]}
+                              max={moment().format('YYYY-MM-DD')}
                             />
-                            <button
+                            <Button
                               className="btn btn-primary rounded-2"
                               onClick={handleFilterClick}
                             >
                               Lọc
-                            </button>
+                            </Button>
                           </div>
                         </div>
                         <div className="tab-content">
                           <ResponsiveContainer width="100%" aspect={3}>
                             <BarChart
-                              key={JSON.stringify(prepareChartData())}
                               width={500}
                               height={300}
                               data={prepareChartData()}
@@ -172,11 +100,11 @@ const StatisticalPet = () => {
                               }}
                             >
                               <CartesianGrid strokeDasharray="3 3" />
-                              <XAxis dataKey="status" />
+                              <XAxis dataKey="name" />
                               <YAxis />
                               <Tooltip />
                               <Legend />
-                              <Bar dataKey="Chó" fill="#009efb" label={(props) => props.value} />
+                              <Bar dataKey="total" fill="#009efb" label={(props) => props.value} />
                             </BarChart>
                           </ResponsiveContainer>
                         </div>
