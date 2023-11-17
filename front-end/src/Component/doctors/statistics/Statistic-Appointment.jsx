@@ -1,33 +1,36 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react';
 import Menudashboard from '../Menu-dashboard';
-import { Link } from 'react-router-dom'
-import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { Link } from 'react-router-dom';
+import { BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import axios from 'axios';
 import { Form, DatePicker, Button } from 'antd';
 import moment from 'moment';
+import LoadingSkeleton from '../../Loading';
+
 const StatisticAppointment = () => {
     const [appointmentData, setAppointmentData] = useState([]);
-    const [date, setDate] = useState(new Date().toISOString().split('T')[0]); // Lấy ngày hiện tại
+    const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
     const token = localStorage.getItem('token');
     const [loading, setLoading] = useState(false);
+    const [selectedDuration, setSelectedDuration] = useState(0);
+    const [isSelectOpen, setIsSelectOpen] = useState(false);
+    const selectRef = useRef(null);
 
     useEffect(() => {
         const fetchDataAndSetLoading = async () => {
             setLoading(true);
             await fetchData(date || getCurrentDate());
         };
-
+    
         fetchDataAndSetLoading();
-    }, [date, token]);
-
-
-
+    }, [date, token, selectedDuration]);
+    
 
     const getCurrentDate = () => {
         const today = new Date();
         const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0'); // Thêm '0' vào đầu nếu tháng chỉ có 1 chữ số
-        const day = String(today.getDate()).padStart(2, '0'); // Thêm '0' vào đầu nếu ngày chỉ có 1 chữ số
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
     };
 
@@ -35,25 +38,25 @@ const StatisticAppointment = () => {
         try {
             setLoading(true);
             console.log('Loading started...');
-
+    
             const response = await axios.post(
                 'http://127.0.0.1:8000/api/filter-appointments-statistics',
-                { date: selectedDate },
+                { date: selectedDate, period: selectedDuration }, // Thêm selectedDuration vào body
                 {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );
-
+    
             const result = response.data;
             console.log(result);
             if (result.msg === 'Lọc dữ liệu thành công') {
                 setAppointmentData(result.data);
             } else {
                 console.error('Lỗi khi lấy dữ liệu thống kê:', result.msg);
-                setAppointmentData([])
+                setAppointmentData([]);
             }
         } catch (error) {
             console.error('Lỗi khi gọi API:', error);
@@ -62,17 +65,44 @@ const StatisticAppointment = () => {
             console.log('Loading finished...');
         }
     };
-
+    
 
     const handleDateChange = (e) => {
-        const newDate = e.target.value;
-        console.log(newDate);
-        setDate(newDate);
+        const { value } = e.target;
+        console.log(value);
+        setDate(value);
+    };
+
+    useEffect(() => {
+        const handleBodyClick = (e) => {
+            if (isSelectOpen && selectRef.current && !selectRef.current.contains(e.target)) {
+                resetDurationSelect();
+            }
+        };
+
+        document.body.addEventListener('click', handleBodyClick);
+
+        return () => {
+            document.body.removeEventListener('click', handleBodyClick);
+        };
+    }, [isSelectOpen]);
+
+    const handleSelectClick = () => {
+        setIsSelectOpen(!isSelectOpen);
+    };
+
+    const handleDurationChange = (e) => {
+        const newDuration = e.target.value;
+        setSelectedDuration(isNaN(newDuration) ? 0 : Number(newDuration));
+    };
+
+    const resetDurationSelect = () => {
+        setSelectedDuration(0);
+        setIsSelectOpen(false);
     };
 
 
     const handleFilterClick = () => {
-        // Gọi fetchData với ngày đã chọn hoặc ngày hôm nay nếu chưa có ngày được chọn
         fetchData(date || getCurrentDate());
     };
 
@@ -87,12 +117,12 @@ const StatisticAppointment = () => {
     };
     const statusColors = {
         'Chưa xác nhận': '#009efb',
-        'Đã xác nhận': '#00ff00', // Change this color accordingly
-        'Đã xóa': '#ffcc00',       // Change this color accordingly
+        'Đã xác nhận': '#00ff00',
+        'Đã xóa': '#ffcc00',
         'Đã hủy': '#ff0100',
-        'Đã hoàn thành': '#9900cc', // Change this color accordingly
-        'Yêu cầu hủy': '#ff6600',  // Change this color accordingly
-        'Yêu cầu đổi lịch': '#993333' // Change this color accordingly
+        'Đã hoàn thành': '#9900cc',
+        'Yêu cầu hủy': '#ff6600',
+        'Yêu cầu đổi lịch': '#993333',
     };
 
     const getStatusLabel = (status) => statusLabels[status] || 'Không xác định';
@@ -151,36 +181,50 @@ const StatisticAppointment = () => {
                                 <br />
                                 <h2 className="mb-4 ">Thống kê lịch hẹn</h2>
                                 <br />
-                                <div className="search-container">
-                                    <div className="input-group mb-3">
-                                        <label className=" rounded-2" htmlFor="datePicker">
-                                            Chọn ngày:
-                                        </label>
-                                        <input
-                                            type="date"
-                                            id="datePicker"
-                                            value={date}
-                                            onChange={handleDateChange}
-                                            className="input-group-text rounded-1"
-                                            max={new Date().toISOString().split('T')[0]} // Chỉ cho phép chọn quá khứ và hiện tại
-                                        />
-                                        {/* <button className="btn btn-primary rounded-2" onClick={handleFilterClick}>
+                                <div className="search-container ">
+                                    <div className="input-group mb-3 row">
+                                        <div className="col-md-6">
+                                            <label className=" mb-2" htmlFor="datePicker">
+                                                Chọn ngày:
+                                            </label>
+                                            <input
+                                                type="date"
+                                                id="datePicker"
+                                                value={date}
+                                                onChange={handleDateChange}
+                                                className="input-group-text rounded-1"
+                                                max={new Date().toISOString().split('T')[0]} // Chỉ cho phép chọn quá khứ và hiện tại
+                                            />
+                                            {/* <button className="btn btn-primary rounded-2" onClick={handleFilterClick}>
                                                             Lọc
                                                         </button> */}
+                                        </div>
                                     </div>
-                                    <div className="input-group mb-3">
-                                        <label className=" rounded-2" htmlFor="datePicker">
-                                            Chọn ngày:
-                                        </label>
-                                        <input
-                                            type="date"
-                                            id="datePicker"
-                                            className="input-group-text rounded-1"
-                                            max={new Date().toISOString().split('T')[0]} // Chỉ cho phép chọn quá khứ và hiện tại
-                                        />
-                                        {/* <button className="btn btn-primary rounded-2" onClick={handleFilterClick}>
-                                                            Lọc
-                                                        </button> */}
+                                    <div className="input-group mb-3 row">
+                                        <div className="col-md-6">
+                                            <label className="mb-2" htmlFor="datePicker">
+                                                Chọn khoảng thời gian:
+                                            </label>
+                                            <select
+                                                id="datePicker"
+                                                className="form-select rounded-1"
+                                                onChange={handleDurationChange}
+                                                value={selectedDuration}
+                                                ref={selectRef}
+                                                onClick={handleSelectClick}
+                                            >
+                                                <option value="0" disabled hidden>
+                                                    Chọn khoảng thời gian
+                                                </option>
+                                                <option value="3">3 ngày trước</option>
+                                                <option value="5">5 ngày trước</option>
+                                                <option value="7">7 ngày trước</option>
+                                                <option value="9">9 ngày trước</option>
+                                                <option value="15">15 ngày trước</option>
+                                            </select>
+                                        </div>
+
+
                                     </div>
                                 </div>
 
@@ -194,31 +238,35 @@ const StatisticAppointment = () => {
                                             <div className="appointment-tab">
 
                                                 <div className="tab-content">
-                                                    <ResponsiveContainer width="100%" aspect={3}>
-                                                        <BarChart
-                                                            key={JSON.stringify(prepareChartData())} // Thêm key vào đây
-                                                            width={500}
-                                                            height={300}
-                                                            data={prepareChartData()}
-                                                            margin={{
-                                                                top: 5,
-                                                                right: 30,
-                                                                left: 20,
-                                                                bottom: 5,
-                                                            }}
-                                                        >
-                                                            <CartesianGrid strokeDasharray="3 3" />
-                                                            <XAxis dataKey="status" />
-                                                            <YAxis />
-                                                            <Tooltip />
-                                                            <Legend />
-                                                            
-                                                            <Bar dataKey="count" fill="#009efb" label={(props) => props.value} />
-                                                            <Bar dataKey="count" fill="#ff0100" label={(props) => props.value} />
-                                                            
-                                                        </BarChart>
+                                                    {loading ? (
+                                                        <LoadingSkeleton />
+                                                    ) : (
+                                                        <ResponsiveContainer width="100%" aspect={3}>
+                                                            <BarChart
+                                                                key={JSON.stringify(prepareChartData())} // Thêm key vào đây
+                                                                width={500}
+                                                                height={300}
+                                                                data={prepareChartData()}
+                                                                margin={{
+                                                                    top: 5,
+                                                                    right: 30,
+                                                                    left: 20,
+                                                                    bottom: 5,
+                                                                }}
+                                                            >
+                                                                <CartesianGrid strokeDasharray="3 3" />
+                                                                <XAxis dataKey="status" />
+                                                                <YAxis />
+                                                                <Tooltip />
+                                                                <Legend />
 
-                                                    </ResponsiveContainer>
+                                                                <Bar dataKey="count" fill="#009efb" label={(props) => props.value} />
+                                                                {/* <Bar dataKey="count" fill="#ff0100" label={(props) => props.value} /> */}
+
+                                                            </BarChart>
+
+                                                        </ResponsiveContainer>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
