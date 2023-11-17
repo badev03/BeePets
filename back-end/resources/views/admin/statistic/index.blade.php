@@ -2,7 +2,7 @@
 @section('title','hahaha')
 @push('style')
     <style>
-        .col-hover:hover{
+        .col-hover:hover {
             transition: 0.5s;
             margin-top: -10px;
         }
@@ -18,7 +18,7 @@
         </div>
 
         <div class="row mt-5">
-            <div class="col-lg-3 col-md-6 col-sm-6  mb-3 col-hover" >
+            <div class="col-lg-3 col-md-6 col-sm-6  mb-3 col-hover">
                 <div class="d-block" style="background: #00a65a">
                     <div class="rounded-2 shadow text-dark p-2 ">
                         <div class="d-flex justify-content-between p-2">
@@ -33,7 +33,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6  mb-3 col-hover" >
+            <div class="col-lg-3 col-md-6 col-sm-6  mb-3 col-hover">
                 <div class="d-block" style="background: #00c0ef">
                     <div class="rounded-2 shadow text-dark p-2 ">
                         <div class="d-flex justify-content-between p-2">
@@ -49,7 +49,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-6 col-sm-6  mb-3 col-hover" >
+            <div class="col-lg-3 col-md-6 col-sm-6  mb-3 col-hover">
                 <div class="d-block" style="background: #f39c12">
                     <div class="rounded-2 shadow text-dark p-2 ">
                         <div class="d-flex justify-content-between p-2">
@@ -64,7 +64,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6  mb-3 col-hover" >
+            <div class="col-lg-3 col-md-6 col-sm-6  mb-3 col-hover">
                 <div class="d-block" style="background: #dd4b39">
                     <div class="rounded-2 shadow text-dark p-2 ">
                         <div class="d-flex justify-content-between p-2">
@@ -103,110 +103,24 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-2">
+                    <form id="form-chart">
+                        <label for="date_chart"><h3>Chọn ngày</h3></label>
+                        <input type="date" id="date_chart" name="date_chart" class="form-control">
+                    </form>
+                </div>
+            </div>
+            <div class="col">
+                <canvas id="chartByDate" height="100px"></canvas>
+            </div>
+            <div class="col">
 
-            <div class="col-lg-3 col-md-6 col-sm-6  mb-3 col-hover" >
-                <div class="d-block">
-                    <div class="rounded-2 shadow text-dark p-2">
-                        <div class="d-flex justify-content-between p-2">
-                            <div>
-                                <h4>Đơn hàng</h4>
-                                <p class="mb-0">
-                                    Tổng đơn hàng  đã thanh toán
-                                </p>
-                            </div>
-                            <h5>{{ $totalOrder ?? 0 }}</h5>
-                        </div>
-                    </div>
-                </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6  mb-3 col-hover" >
-                <div class="d-block">
-                    <div class="rounded-2 shadow text-dark p-2">
-                        <div class="d-flex justify-content-between p-2">
-                            <div>
-                                <h4>Đơn hàng</h4>
-                                <p class="mb-0">
-                                    Tổng đơn hàng  chưa thanh toán
-                                </p>
-                            </div>
-                            <h5>{{ $totalOrderNeedPay ?? 0 }}</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6  mb-3 col-hover" >
-                <div class="d-block">
-                    <div class="rounded-2 shadow text-dark p-2">
-                        <div class="d-flex justify-content-between p-2">
-                            <div>
-                                <h4>Đơn hàng</h4>
-                                <p class="mb-0">
-                                    Tổng đơn hàng  đã hoàn trả
-                                </p>
-                            </div>
-                            <h5>{{ $totalOrderReturn ?? 0 }}</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6  mb-3 col-hover" >
-                <div class="d-block">
-                    <div class="rounded-2 shadow text-dark p-2">
-                        <div class="d-flex justify-content-between p-2">
-                            <div>
-                                <h4>Đơn hàng</h4>
-                                <p class="mb-0">
-                                    Tổng đơn hàng  đã hủy
-                                </p>
-                            </div>
-                            <h5>{{ $totalOrderCancel ?? 0 }}</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6  mb-3 col-hover" >
-                <div class="d-block">
-                    <div class="rounded-2 shadow text-dark p-2">
-                        <div class="d-flex justify-content-between p-2">
-                            <div>
-                                <h4>Sản phẩm</h4>
-                                <p class="mb-0">
-                                    Tổng tât cả sản phẩm
-                                </p>
-                            </div>
-                            <h5>{{ $totalProducts ?? 0 }}</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6  mb-3 col-hover" >
-                <div class="d-block">
-                    <div class="rounded-2 shadow text-dark p-2">
-                        <div class="d-flex justify-content-between p-2">
-                            <div>
-                                <h4>Sản phẩm</h4>
-                                <p class="mb-0">
-                                    Tổng tât cả danh mục sản phẩm
-                                </p>
-                            </div>
-                            <h5>{{ $totalProductCategory ?? 0 }}</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-5">
-                <div class="col">
-                    <div style="width: 50%;">
-                        <canvas id="myChart"></canvas>
-                    </div>
-                </div>
-            </div>
-
         </div>
+
     </div>
-
-
 
 @endsection
 
@@ -277,10 +191,10 @@
     <script>
         // biểu đồ line tổng doanh thu
         var ctx = document.getElementById('chartRevenue').getContext('2d');
-        var myChart = new Chart(ctx, {
+        var myChart1 = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4','Tháng 5','Tháng 6','Tháng 7','Tháng 8','Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+                labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
                 datasets: [{
                     label: 'Doanh thu năm nay',
                     data: [{{ $totalAmountMonth1 ?? 0 }}, {{ $totalAmountMonth2 ?? 0 }}, {{ $totalAmountMonth3 ?? 0 }}, {{ $totalAmountMonth4 ?? 0 }}, {{ $totalAmountMonth5 ?? 0 }}, {{ $totalAmountMonth6 ?? 0 }}, {{ $totalAmountMonth7 ?? 0 }}, {{ $totalAmountMonth8 ?? 0 }}, {{ $totalAmountMonth9 ?? 0 }}, {{ $totalAmountMonth10 ?? 0 }}, {{ $totalAmountMonth11 ?? 0 }}, {{ $totalAmountMonth12 ?? 0 }}],
@@ -315,12 +229,12 @@
         });
 
     </script>
-{{--    chartRevenueMonthly--}}
+    {{--    chartRevenueMonthly--}}
 
     <script>
         // biểu đồ line tổng doanh thu
         var ctx = document.getElementById('chartRevenueMonthly').getContext('2d');
-        var myChart = new Chart(ctx, {
+        var myChart2 = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: ['Tuần 1', 'Tuần 2', 'Tuần 3', 'Tuần 4'],
@@ -355,6 +269,86 @@
                     }
                 }
             },
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            function updateChart() {
+                var date = $('#date_chart').val();
+
+                if (date == '') {
+                    var today = new Date();
+                    var dd = today.getDate();
+                    var mm = today.getMonth() + 1;
+                    var yyyy = today.getFullYear();
+
+                    if (dd < 10) {
+                        dd = '0' + dd;
+                    }
+                    if (mm < 10) {
+                        mm = '0' + mm;
+                    }
+
+                    var today = yyyy + '-' + mm + '-' + dd;
+                    var date = today;
+                } else {
+                    var date = $('#date_chart').val();
+                }
+
+                // Hủy bỏ biểu đồ cũ
+                if (typeof myChart !== 'undefined') {
+                    myChart.destroy();
+                }
+
+                // Gửi yêu cầu Ajax để lấy dữ liệu mới
+                $.ajax({
+                    url: "{{ route('statistic.getByDate') }}",
+                    method: "GET",
+                    data: {
+                        date: date
+                    },
+                    success: function (data) {
+                        var labels = [];
+                        var totals = [];
+                        var dataFromLaravel = data;
+
+                        dataFromLaravel.forEach(function (item) {
+                            labels.push(item.date);
+                            totals.push(parseInt(item.total_amount));
+                        });
+
+                        var labelsForChart = [];
+                        dataFromLaravel.forEach(function (item) {
+                            labelsForChart.push(item.date);
+                        });
+
+                        var ctx = document.getElementById('chartByDate').getContext('2d');
+                        myChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: labelsForChart,
+                                datasets: [{
+                                    label: 'Doanh thu',
+                                    data: totals,
+                                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                    borderColor: 'rgb(255, 99, 132)',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+            $('#date_chart').on('change', updateChart);
+            updateChart();
         });
     </script>
 @endpush
