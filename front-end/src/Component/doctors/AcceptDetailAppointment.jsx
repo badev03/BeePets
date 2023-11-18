@@ -11,7 +11,6 @@ import LoadingSkeleton from '../Loading';
 const AcceptDetailAppointment = () => {
   const { id } = useParams();
   const [appointments, setAppointments] = useState(null);
-  console.log(appointments);
 
     const token = localStorage.getItem('token');
 
@@ -28,8 +27,7 @@ const AcceptDetailAppointment = () => {
           }
         );
         setAppointments(response.appointment);     
-     
-      
+
 
         } catch (error) {
           console.error("Không có dữ liệu:", error);
@@ -196,6 +194,15 @@ const AcceptDetailAppointment = () => {
                 {/* <div className="submit-section">
                   <button type="submit" className="btn btn-primary submit-btn">Lưu</button>
                 </div> */}
+                  <Link to={`/doctors/appointments`}>
+                      {" "}
+                      <button
+                          type="reset"
+                          className="btn btn-danger submit-btn"
+                      >
+                          Quay lại
+                      </button>
+                  </Link>
               </form>
             </div>
           </div>

@@ -41,10 +41,10 @@ const Dashboard = () => {
                         <a className={`nav-link ${activeTab === 'appointments' ? 'active' : ''}`}
                           onClick={() => handleTabChange('appointments')} data-bs-toggle="tab">Lịch khám</a>
                       </li>
-                      <li className="nav-item">
-                        <a className={`nav-link ${activeTab === 'prescriptions' ? 'active' : ''}`}
-                          onClick={() => handleTabChange('prescriptions')} href="#pat_prescriptions" data-bs-toggle="tab">Đơn thuốc</a>
-                      </li>
+                      {/*<li className="nav-item">*/}
+                      {/*  <a className={`nav-link ${activeTab === 'prescriptions' ? 'active' : ''}`}*/}
+                      {/*    onClick={() => handleTabChange('prescriptions')} href="#pat_prescriptions" data-bs-toggle="tab">Đơn thuốc</a>*/}
+                      {/*</li>*/}
                       <li className="nav-item">
                         <a className={`nav-link ${activeTab === 'bill' ? 'active' : ''}`}
                           onClick={() => handleTabChange('bill')} href="#pat_medical_records" data-bs-toggle="tab"><span className="med-records">Hóa đơn</span></a>

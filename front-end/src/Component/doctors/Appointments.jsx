@@ -153,7 +153,7 @@ const handleResetFilter = () => {
     console.log(id);
     try {
       const respon = await axios.put(
-        `http://127.0.0.1:8000/api/update-appointment/${id}?status=4`,
+        `http://127.0.0.1:8000/api/update-appointment/${id}?status=6`,
         {},
         {
           headers: {
@@ -613,14 +613,29 @@ const handleResetFilter = () => {
   </button>
 </form>
 
-  
+
 
    
   </div>
               <div className="card card-table mb-0">
-   
+   <div>
+     <button
+
+         className="btn btn-primary submit-btn"
+         style={{float:"right" ,margin:"10px 20px 0px 0px"}}
+     >
+       <CSVLink
+           data={data}
+           headers={headers}
+           cell={cell}
+           filename={"appointments.csv"}
+       >
+         Xuất ra Excel
+       </CSVLink>
+     </button>
+   </div>
                 <div className="card-body">
-                  
+
                   <div className="table-responsive">
                     <table className="table table-hover table-center mb-0">
                  
@@ -671,21 +686,6 @@ const handleResetFilter = () => {
                         />
                         
                       </div>
-                      <button
-      
-      className="btn btn-primary submit-btn"
-    style={{float:"right" ,margin:"10px 20px 20px 0px"}}
-    >
-     <CSVLink
-                  className="btn btn-primary submit-btn"
-                  data={data}
-                  headers={headers}
-                  cell={cell}
-                  filename={"appointments.csv"}  
-                >
-                  Xuất ra Excel
-                </CSVLink>
-    </button>
                     </div>
                   </div>
            

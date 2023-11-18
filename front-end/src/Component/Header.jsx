@@ -150,6 +150,7 @@ const Header = () => {
             name: data.name,
             avatar: data.avatar,
             id: data.id,
+            appointment_id: data.appointment_id,
           };
           return [newData, ...prevData];
         });
@@ -175,6 +176,7 @@ const Header = () => {
             name: data.name,
             avatar: data.avatar,
             id: data.id,
+            appointment_id: data.appointment_id,
           };
           return [newData, ...prevData];
         });
@@ -313,7 +315,7 @@ const Header = () => {
                                   <a href={
                                     handleCheckAccount(data)
                                         ? `/user/appointment/${notifications.appointment_id}`
-                                        : `/doctors/accept-detail-appointments/${notifications.appointment_id}`}>
+                                        : `/doctors/detail-appointments/${notifications.appointment_id}`}>
                                     {/* : `/doctors/doctors/detail-bill/${notifications.appointment_id}`}> */}
                                     <div className="notify-block d-flex">
                                 <span className="avatar">

@@ -90,7 +90,7 @@
                         </div>
                     </div>
                 </div>
-                     <a data-bs-toggle="modal" href="#huy_lich" class="btn btn-sm bg-success-light">Hủy lịch</a>'.$cancel.'
+                     <a href="#huy_lich" class="btn btn-sm bg-success-light" data-bs-toggle="modal">Hủy lịch</a>
                      <a href="'.$routes_edit.'" class="btn btn-sm bg-info-light">Edit</a>';
                 }
                 elseif ($data->status == 2) {
@@ -135,7 +135,11 @@
                             <h6>Ca khám bệnh  : <span>{{ $data->shift_name }}  {{$data->start_time}}h - {{$data->start_time}}h</span></h6>
                             <h6>Ngày khám  : <span>{{ $data->date }}</span></h6>
                             <h6>Dịch vụ  : <span>{{ $data->service_id }}</span></h6>
-                            <h6>Ghi chú  : <span>{{ $data->description }}</span></h6>
+                            <div class="d-flex">
+                                <div>Ghi chú  : </div>
+                                <div>{!! $data->description !!} </div>
+                            </div>
+
                         </div>
                         <div class="col-sm-4 ms-2 shadow-lg p-3 mb-5 bg-white rounded">
                             <img style="border-radius: 20px; width: 200px" src="{{ $data->image_doctor }}" alt="" srcset="">
@@ -155,16 +159,21 @@
                     <div class="form-content p-2 text-center">
                         <h4 class="modal-title">Xác nhận hủy lịch hẹn</h4>
                         <p class="mb-4">Bạn có chắc chắn muốn hủy cuộc hẹn này không</p>
-                        <div class="d-flex justify-content-center" style="gap: 1rem">
+                        <div class="row d-flex justify-content-center" style="gap: 1rem">
                             <form action="{{ route('appointment.destroy' , $data->id) }}" method="post">
                                 @csrf
                                 @method("DELETE")
-
-                                <button class="btn bg-success-light"
-                                        type="submit">Hủy
-                                </button>
+                                <div class="col-sm-12">
+                                    <p>Nhập lý do hủy lịch</p>
+                                    <input type="text" class="form-control" name="reason_cancel">
+                                </div>
+                                <div class="mt-2">
+                                    <button class="btn bg-success-light"
+                                            type="submit">Hủy
+                                    </button>
+                                    <button type="button" class="btn bg-danger-light" data-bs-dismiss="modal">Đóng</button>
+                                </div>
                             </form>
-                            <button type="button" class="btn bg-danger-light" data-bs-dismiss="modal">Đóng</button>
                         </div>
                     </div>
                 </div>

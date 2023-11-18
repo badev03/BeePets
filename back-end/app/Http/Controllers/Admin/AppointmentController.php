@@ -104,8 +104,11 @@ class AppointmentController extends Controller
             ]);
     }
 
-    public function ForConfirmationFinished($id) {
+    public function ForConfirmationFinished($id ,  MessageUser $message) {
         $this->findID($id , 4);
+        $appointments = Appointment::find($id);
+        $message->sendMessageNew($appointments->user_id , 'Đã xác nhận thành công'
+            , $appointments->doctor_id , 'Đã xác nhận thành công cho khách hàng' , $appointments->id);
         return back()->with(['success_delete' => 'Đã xác nhận hoàn thành lịch hẹn này ']);
     }
 
@@ -195,6 +198,7 @@ class AppointmentController extends Controller
         $model = $this->queryCommon()
             ->where('appointments.id' , $id)
             ->first();
+
         $user = $this->tableQuery('users')
             ->where('id' , '=' , $model->id_user)
             ->first();
@@ -489,12 +493,12 @@ class AppointmentController extends Controller
         return back()->with(['failed_delete' => 'Dữ liệu khôi phục không hợp lệ']);
     }
 
-    public function destroy(MessageUser $messageUser , string $id) {
+    public function destroy(MessageUser $messageUser , string $id , Request $request) {
         if (auth()->user()->can(['delete-appointment'])) {
             $model = Appointment::findOrFail($id);
             $userName = User::find($model->user_id);
-            $model->update(['status' => 3]);
-            $model->delete();
+            $model->update(['status' => 3 , 'reason_cancel' =>$request->reason_cancel ]);
+//            $model->delete();
             $messageUser->sendMessageNew($model->user_id, 'Chào '.$userName->name.
                 'Chúng tôi đã hủy lịch hẹn của bạn' , $model->doctor_id , 'UserName :'.$userName->name.'đã đạt lịch của bạn' , $id);
             return back()->with('success_delete', 'Đã xóa thành công');
@@ -612,7 +616,7 @@ class AppointmentController extends Controller
         $model = Appointment::findOrFail($id);
         $userName = User::find($model->user_id);
         $model->update([
-            'status' => 4
+            'status' => 3
         ]);
         $model->delete();
         $messageUser->sendMessage($model->user_id, 'Chào '.$userName->name.
@@ -803,7 +807,7 @@ class AppointmentController extends Controller
         $currentTime = now()->toTimeString();
         Appointment::whereIn('status', [0, 1, 6, 7])
             ->whereDate('date', '<', $currentDate)
-            ->update(['status' => 4]);
+            ->update(['status' => 3]);
 
         // Soft delete records
         Appointment::whereIn('status', [0, 1, 6, 7])

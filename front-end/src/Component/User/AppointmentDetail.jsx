@@ -19,6 +19,7 @@ const AppointmentDetail = () => {
             },
           });
           setAppointments(response.data.appointment);
+          console.log(response)
           setIsLoading(false); // Set isLoading to false when data is fetched
         } catch (error) {
           console.error('Không có dữ liệu:', error);
@@ -113,9 +114,21 @@ const AppointmentDetail = () => {
 
                       <div className="col-12 col-md-12">
                         <div className="mb-3">
-                          <label className="mb-2">Ghi chú</label>
+                          {appointments.status == 3 ? (
+                                  <>
+                                    <label className="mb-2"><strong>Lý do hủy</strong></label>
+                                    <div>
+                                      {appointments.reason_cancel}
+                                    </div>
+                                  </>
+                              ) :(
+                                  <>
+                                    <label className="mb-2">Ghi chú</label>
 
-                          <textarea type="text" className="form-control datetimepicker" value={appointments.description} readOnly />
+                                    <textarea type="text" className="form-control datetimepicker" value={appointments.description} readOnly />
+
+                                  </>
+                          )}
 
                         </div>
                       </div>
@@ -125,6 +138,15 @@ const AppointmentDetail = () => {
                     </div>
 
                   </form>
+                  <Link to={`/user/dashbroad`}>
+                    {" "}
+                    <button
+                        type="reset"
+                        className="btn btn-success submit-btn"
+                    >
+                      Quay lại
+                    </button>
+                  </Link>
                 </div>
               </div>
               )}

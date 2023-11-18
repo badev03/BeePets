@@ -1,13 +1,13 @@
 <div class="row mt-3">
     <h6 class="card-title text-danger">Bộ lọc</h6>
-    <div class="col-4 mt-3">
-        <label class="form-label">Loại thú cưng</label>
-        <select class="form-select" name="type_pet_id">
-            @foreach($dataTypePet as $key=>$value)
-                <option value="{{ $value->id }}">{{ $value->name }}</option>
-            @endforeach
-        </select>
-    </div>
+{{--    <div class="col-4 mt-3">--}}
+{{--        <label class="form-label">Loại thú cưng</label>--}}
+{{--        <select class="form-select" name="type_pet_id">--}}
+{{--            @foreach($dataTypePet as $key=>$value)--}}
+{{--                <option value="{{ $value->id }}">{{ $value->name }}</option>--}}
+{{--            @endforeach--}}
+{{--        </select>--}}
+{{--    </div>--}}
     <div class="col-4 mt-3">
         <label class="form-label">Chọn bác sĩ</label>
         <select class="form-select doctor_id_index" name="doctor_id">

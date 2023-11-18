@@ -81,7 +81,7 @@
             </div>
 
         </div>
-        <div class="row">
+        <div class="row mb-5">
             <div class="col">
                 <div class="">
                     <h4>
@@ -103,16 +103,16 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row mb-5">
             <div class="col-md-12">
                 <div class="col-2">
                     <form id="form-chart">
-                        <label for="date_chart"><h3>Chọn ngày</h3></label>
+                        <label for="date_chart"><h6>Chọn ngày</h6></label>
                         <input type="date" id="date_chart" name="date_chart" class="form-control">
                     </form>
                 </div>
             </div>
-            <div class="col">
+            <div class="col mb-5">
                 <canvas id="chartByDate" height="100px"></canvas>
             </div>
             <div class="col">

@@ -113,6 +113,7 @@ const Editbill = () => {
           },
         });
         setProducts(response.products);
+        console.log(1111);
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
@@ -126,22 +127,22 @@ const Editbill = () => {
     // const defaultQuantity = selectedProductDefault.length > 0 ? selectedProductDefault[0].quantity : 1;
 
     const selectedProductsInfo = selectedValues.map((value) => {
-        const selectedProduct = products.find((product) => product.id === value);
+      const selectedProduct = products.find((product) => product.id === value);
 
-        // Kiểm tra xem sản phẩm có tồn tại trong selectedProductDefault hay không
-        const existingProduct = selectedProductDefault.find((product) => product.value === selectedProduct.id);
+      // Kiểm tra xem sản phẩm có tồn tại trong selectedProductDefault hay không
+      const existingProduct = selectedProductDefault.find((product) => product.value === selectedProduct.id);
 
-        // Thiết lập giá trị quantity dựa trên việc sản phẩm đã tồn tại trong selectedProductDefault hay không
-        const defaultQuantity = existingProduct ? existingProduct.quantity : 1;
+      // Thiết lập giá trị quantity dựa trên việc sản phẩm đã tồn tại trong selectedProductDefault hay không
+      const defaultQuantity = existingProduct ? existingProduct.quantity : 1;
 
-        return {
-          label: selectedProduct.name,
-          value: selectedProduct.id,
-          price: selectedProduct.price,
-          quantity: defaultQuantity,
-          // Other properties...
-        };
-      });
+      return {
+        label: selectedProduct.name,
+        value: selectedProduct.id,
+        price: selectedProduct.price,
+        quantity: defaultQuantity,
+        // Other properties...
+      };
+    });
 
     setSelectedProductDefault(selectedProductsInfo);
     // setValuePropEnabled(false);
@@ -278,7 +279,7 @@ const Editbill = () => {
       services: services,
       description: description,
     };
-  console.log(data)
+    console.log(data)
     try {
       await billApi.updateBill(id, data, {
         headers: {
@@ -630,7 +631,7 @@ const Editbill = () => {
                                   nameError ? "is-invalid" : ""
                               }`}
                               type="text"
-                              value={editedName || 1}
+                              value={editedName}
                               onChange={(e) => {
                                 setEditedName(e.target.value);
                                 setNameError("");
@@ -841,6 +842,15 @@ const Editbill = () => {
                                 className="btn btn-secondary submit-btn"
                             >
                               Xem chi tiết
+                            </button>
+                          </Link>
+                          <Link to={`/doctors/appointments`}>
+                            {" "}
+                            <button
+                                type="reset"
+                                className="btn btn-danger submit-btn"
+                            >
+                              Quay lại
                             </button>
                           </Link>
                         </div>
