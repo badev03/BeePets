@@ -40,6 +40,7 @@ use \App\Http\Controllers\Admin\ExcelAppointmentController;
 
 //
 Route::get('admin/statistic', [\App\Http\Controllers\Admin\StatisticController::class, 'index'])->name('statistic.index');
+Route::get('admin/statistic/get-data', [\App\Http\Controllers\Admin\StatisticController::class, 'getByDate'])->name('statistic.getByDate');
 Route::middleware(['role:Admin|Staff|User'])->group(function () {
     Route::prefix('admin')->group(function () {
         $objects = [
