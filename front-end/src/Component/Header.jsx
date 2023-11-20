@@ -301,7 +301,7 @@ const Header = () => {
                       </a>
                       <div className="dropdown-menu notifications dropdown-menu-end ">
                         <div className="topnav-dropdown-header">
-                          <span className="notification-title">Notifications</span>
+                          <span className="notification-title">Thông báo</span>
                         </div>
                         <div className="noti-content">
                           <ul className="notification-list">
