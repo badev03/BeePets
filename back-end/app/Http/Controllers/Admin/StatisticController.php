@@ -65,9 +65,12 @@ class StatisticController extends Controller
         $totalAmountWeek3 = DB::table('bills')->whereBetween('created_at', [date('Y-m-d', strtotime('-3 week')), date('Y-m-d', strtotime('-2 week'))])->sum('total_amount');
         $totalAmountWeek4 = DB::table('bills')->whereBetween('created_at', [date('Y-m-d', strtotime('-4 week')), date('Y-m-d', strtotime('-3 week'))])->sum('total_amount');
 
+        //doanh thu theo $date
+        $totalAmountToday = DB::table('bills')->whereDate('created_at', date('Y-m-d'))->sum('total_amount');
         return view('admin.statistic.index',compact(
             'totalAmount',
             'totalAmountLastMonth',
+            'totalAmountToday',
             'totalAmountWeek1',
             'totalAmountWeek2',
             'totalAmountWeek3',
@@ -112,5 +115,21 @@ class StatisticController extends Controller
             'totalAmountMonth12',
             'totalAmountWeek1LastMonth',
         ));
+    }
+    public function getByDate(Request $request)
+    {
+        $date = $request->input('date');
+
+        if (!$date) {
+            $date = now()->toDateString();
+        }
+
+        $data = DB::table('bills')
+            ->select(DB::raw('DATE(created_at) as date'), DB::raw('SUM(total_amount) as total_amount'))
+            ->whereDate('created_at', $date)
+            ->groupBy('date')
+            ->get();
+
+        return response()->json($data);
     }
 }

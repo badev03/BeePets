@@ -30,7 +30,9 @@ class OrderController extends Controller
                 })
                 ->addColumn('action', function($row){
                     $btn = '<a href="'.route('purchase.show', $row->id).'" class="edit btn btn-primary btn-sm">Chi tiết</a>';
-                    $btn .= '&nbsp;&nbsp;&nbsp;<a href="'.route('print.order', $row->id).'" class="edit btn btn-success btn-sm">In hóa đơn</a>';
+                    if($row->status == 1) {
+                        $btn .= '&nbsp;&nbsp;&nbsp;<a href="'.route('print.order', $row->id).'" class="edit btn btn-success btn-sm">In hóa đơn</a>';
+                    }
                     if($row->status == 1) {
                         $btn .= '&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger btn-sm btn-return-order" data-id="'.$row->id.'">Hoàn trả</button>';
                     }
