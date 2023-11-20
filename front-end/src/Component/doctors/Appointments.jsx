@@ -91,8 +91,8 @@ const handleResetFilter = () => {
   // Đặt lại giá trị của tất cả các trường lọc và gọi lại fetchAppointment
   setSearchName("");
   setSearchPhone("");
-  setSelectedStatus("all");
-  setSelectedShift("all");
+  setSelectedStatus("");
+  setSelectedShift("");
   setSelectedDate("");
   fetchAppointment();
 };
@@ -148,6 +148,7 @@ const handleResetFilter = () => {
         setError(true);
       }
     };
+    
   const handleUpdate = async (id) => {
     setLoadingId(id);
     console.log(id);
