@@ -173,7 +173,6 @@ return [
         Brian2694\Toastr\ToastrServiceProvider::class,
         Mccarlosen\LaravelMpdf\LaravelMpdfServiceProvider::class,
 //        ConsoleTVs\Charts\ChartsServiceProvider::class,
-
     ])->toArray(),
 
     /*
@@ -194,6 +193,5 @@ return [
         'Toastr'  => Brian2694\Toastr\Facades\Toastr::class,
         'PDF' => Mccarlosen\LaravelMpdf\Facades\LaravelMpdf::class,
 //        'Charts' => ConsoleTVs\Charts\Facades\Charts::class,
-
     ])->toArray(),
 ];
