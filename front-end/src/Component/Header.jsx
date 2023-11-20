@@ -38,7 +38,8 @@ const Header = () => {
           }
         })
 
-        // console.log("🚀 ~ file: Header.jsx:60 ~ handleDeleteNotification ~ response1:", response)
+
+        console.log("🚀 ~ file: Header.jsx:60 ~ handleDeleteNotification ~ response1:", response)
         setNoti(response.data.notification);
       } else {
         console.error('Không có token xác thực trong Local Storage.');
@@ -310,7 +311,8 @@ const Header = () => {
                                   <a href={
                                     handleCheckAccount(data)
                                     ? `/user/appointment/${notifications.appointment_id}`
-                                    : `/doctors/accept-detail-appointments/${notifications.appointment_id}`}>
+                                    : `/doctors/accept-detail-appointments/${notifications.appointment_id}`
+                                }>
                                   {/* : `/doctors/doctors/detail-bill/${notifications.appointment_id}`}> */}
                                     <div className="notify-block d-flex">
                                 <span className="avatar">
@@ -331,18 +333,19 @@ const Header = () => {
                                           {notifications.message}
                                         </p>
                                       </div>
-                                      <button
-                                          className="custom-delete-button btn sm"
-                                          onClick={(e) => {
-                                            e.stopPropagation(); // Ngăn sự kiện lan truyền
-                                            handleDeleteNotification(notifications.id_notification, token);
-                                          }}
-                                      >
-                                        {/* <i className="custom-icon">&#10006;</i> */}
-                                        <i class="fa-solid fa-delete-left"></i>
-                                      </button>
+                                    
                                     </div>
-                                  </a>
+                                </a>
+                                <button
+                                  className="custom-delete-button btn sm "
+                                  onClick={(e) => {
+                                    e.stopPropagation(); // Ngăn sự kiện lan truyền
+                                    handleDeleteNotification(notifications.id_notification, token);
+                                  }}
+                                >
+                                  {/* <i className="custom-icon">&#10006;</i> */}
+                                  <i class="fa-solid fa-delete-left"></i>
+                                </button>
                                 </li>
                             ))}
                           </ul>
