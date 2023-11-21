@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Doctor;
-use App\Models\Work_schedule;
 use Illuminate\Http\Request;
+use App\Models\Work_schedule;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\ScheduleDoctorImport;
 
 class ScheduleController extends Controller
 {
@@ -20,6 +22,19 @@ class ScheduleController extends Controller
         //lấy ra tên và id của tất cả các bác sĩ
         $doctors = Doctor::all(['id', 'name']);
         return view('admin.schedules.create', compact('doctors'));
+    }
+    public function getForm()
+    {
+        return view('admin.schedules.import'); 
+    }
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv|max:2048',
+        ]);
+
+        Excel::import(new ScheduleDoctorImport, $request->file('file'));
+        return redirect()->route('schedules.index')->with('success', 'Thêm thành công');
     }
 
 
