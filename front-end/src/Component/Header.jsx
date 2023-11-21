@@ -307,10 +307,10 @@ const Header = () => {
                           <ul className="notification-list">
                             {noti.map((notifications) => (
                                 <li className="notification-message" key={noti.id}>
-                                  <a href={
+                                  <TopLink to={
                                     handleCheckAccount(data)
                                     ? `/user/appointment/${notifications.appointment_id}`
-                                    : `/doctors/accept-detail-appointments/${notifications.appointment_id}`}>
+                                    : `/doctors/detail-appointments/${notifications.appointment_id}`}>
                                   {/* : `/doctors/doctors/detail-bill/${notifications.appointment_id}`}> */}
                                     <div className="notify-block d-flex">
                                 <span className="avatar">
@@ -342,7 +342,7 @@ const Header = () => {
                                         <i class="fa-solid fa-delete-left"></i>
                                       </button>
                                     </div>
-                                  </a>
+                                  </TopLink>
                                 </li>
                             ))}
                           </ul>

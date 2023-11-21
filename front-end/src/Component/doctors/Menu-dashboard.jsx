@@ -6,10 +6,8 @@ import logoutDoctor from '../../api/logoutDoctor';
 import TopLink from '../../Link/TopLink';
 const Menudashboard = () => {
 
-  const [doctor, setDoctors] = useState(() => {
-    const savedData = localStorage.getItem("doctorData");
-    return savedData ? JSON.parse(savedData) : [];
-  });
+  const [doctor, setDoctors] = useState([]);
+  const [scrollPosition, setScrollPosition] = useState([]);
 
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
@@ -39,18 +37,22 @@ const Menudashboard = () => {
         },
       });
       setDoctors(response.doctor);
-      localStorage.setItem("doctorData", JSON.stringify(response.doctor));
+      // localStorage.setItem("doctorData", JSON.stringify(response.doctor));
     } catch (error) {
       console.error("Không có dữ liệu:", error);
     }
   };
-  useEffect(() => {
+  if (token) {
+    useEffect(() => {
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+      if (!storedUser || !storedUser.name) {
+        fetchDoctor();
+      } else {
+        setDoctors(storedUser);
+      }
+    }, [token]);
+  }
   
-
- 
-      fetchDoctor();
-    
-  }, [token, doctor]);
 
   const initialActiveItems = JSON.parse(localStorage.getItem("activeItems")) || ["Bộ điều khiển"];
   const [activeItems, setActiveItems] = useState(initialActiveItems);
