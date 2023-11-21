@@ -5,10 +5,23 @@
                 <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
                     <a href="{{ route('dashboard') }}"><i class="fe fe-home"></i> <span>Bảng điều khiển</span></a>
                 </li>
-                <li class="{{ request()->routeIs('statistic.index') ? 'active' : '' }}">
-                    <a href="{{ route('statistic.index') }}">
-                        <i class="fe fe-bar-chart"></i>
-                        <span>Thống kê</span></a>
+{{--                <li class="{{ request()->routeIs('statistic.index') ? 'active' : '' }}">--}}
+{{--                    <a href="{{ route('statistic.index') }}">--}}
+{{--                        <i class="fe fe-bar-chart"></i>--}}
+{{--                        <span>Thống kê</span></a>--}}
+{{--                </li>--}}
+                <li class="submenu">
+                    <a href="#">
+                        <i class="fe fe-layout"></i>
+                        <span> Thống kê</span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        <li>
+                            <a class="{{ request()->routeIs('statistic.index') ? 'active' : '' }}" href="{{ route('statistic.index') }}">
+{{--                                <i class="fe fe-bar-chart"></i>--}}
+                                <span>Thống kê doanh thu</span></a>
+                        </li>
+                        <li><a class="{{ request()->routeIs('appointments.statistics') ? 'active' : '' }}" href="{{ route('appointments.statistics') }}">Thống kế cuộc hẹn</a></li>
+                    </ul>
                 </li>
                 <li class="submenu">
                     <a href="#">
@@ -24,7 +37,7 @@
                         <li>
                             <a href="{{ route('appointments.history-appointment') }}" class="{{ request()->routeIs('appointments.history-appointment') ? 'active' : '' }}"> <span>Lịch sử cuộc hẹn</span></a>
                         </li>
-                        <li><a class="{{ request()->routeIs('appointments.statistics') ? 'active' : '' }}" href="{{ route('appointments.statistics') }}">Thống kế cuộc hẹn</a></li>
+{{--                        <li><a class="{{ request()->routeIs('appointments.statistics') ? 'active' : '' }}" href="{{ route('appointments.statistics') }}">Thống kế cuộc hẹn</a></li>--}}
                         <li><a class="{{ request()->routeIs('appointments.bills-appointment') ? 'active' : '' }}" href="{{ route('appointments.bills-appointment') }}">Hóa đơn cuộc hẹn</a></li>
                     </ul>
                 </li>
