@@ -164,14 +164,12 @@ class BookingController extends Controller
                         'user_id' => $user_id,
                         'status' => 0,
                         'customer_name' => $name,
-                        'group_service_id'=>$request->service_id
 
                     ]));
                 } else {
                     $model->fill(array_merge($request->all(), [
                         'user_id' => $user_id,
                         'status' => 0,
-                        'group_service_id'=>$request->service_id
                     ]));
                 }
                 $model->save();
@@ -188,7 +186,6 @@ class BookingController extends Controller
                 $model->fill(array_merge($request->all(), [
                     'user_id' => $user_id,
                     'status' => 0,
-                    'group_service_id'=>$request->service_id
                 ]));
                 $model->save();
             }
