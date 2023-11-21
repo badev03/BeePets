@@ -317,7 +317,7 @@ const Appointments = () => {
                 overlay={
                   <Menu>
                     <Menu.Item>
-                      <Link to={`/doctors/accept-detail-appointments/${appointment.id}`} className="btn btn-sm bg-info-light"
+                      <Link to={`/doctors/detail-appointments/${appointment.id}`} className="btn btn-sm bg-info-light"
                         style={{ width: "100%" }}
                       >
                         <i className="far fa-eye" /> Lịch Hẹn
@@ -402,7 +402,7 @@ const Appointments = () => {
                 overlay={
                   <Menu>
                     <Menu.Item>
-                      <Link to={`/doctors/accept-detail-appointments/${appointment.id}`}
+                      <Link to={`/doctors/detail-appointments/${appointment.id}`}
                         style={{ width: "100%" }}
                         className="btn btn-sm bg-info-light">
                         <i className="far fa-eye" /> Lịch Hẹn
