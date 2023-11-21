@@ -328,7 +328,6 @@ const BookingUser = () => {
                                     value={selectedName}
                                     name="name"
                                     onChange={handleChangeName}
-                                    disabled={!isNameEditable}
                                 />
                             </Form.Item>
                         </Col>
@@ -348,7 +347,6 @@ const BookingUser = () => {
                                     type=""
                                     value={selectedPhone}
                                     onChange={handleChangePhone}
-                                    disabled={!isPhoneEditable}
                                 />
                             </Form.Item>
                         </Col>

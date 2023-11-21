@@ -120,6 +120,16 @@ const Menudashboard = () => {
                 <span>Bảng điều khiển</span>
               </Link>
             </li>
+            <li
+              className={`has-submenu megamenu ${location.pathname === "/doctors/StatisticAppointment" ? "active" : ""
+                }`}
+              onClick={() => handleItemClick("Thống kê cuộc hẹn")}
+            >
+              <Link to={"/doctors/StatisticAppointment"}>
+                <i className="fas fa-columns" />
+                <span>Thống kê cuộc hẹn</span>
+              </Link>
+            </li>
 
             <li
               className={`has-submenu megamenu ${location.pathname === "/doctor/statisticalPet" ? "active" : ""
