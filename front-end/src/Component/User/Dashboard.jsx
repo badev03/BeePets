@@ -4,6 +4,7 @@ import Appointments from './Appointments';
 import Prescription from './Prescription';
 import Bill from './Bill';
 import Sidebar from './Sidebar';
+import TopLink from '../../Link/TopLink';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('appointments');
@@ -18,7 +19,7 @@ const Dashboard = () => {
             <h2 className="breadcrumb-title">Bảng điều khiển</h2>
             <nav aria-label="breadcrumb" className="page-breadcrumb">
               <ol className="breadcrumb">
-                <li className="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+                <li className="breadcrumb-item"><TopLink href="index.html">Trang chủ</TopLink></li>
                 <li className="breadcrumb-item" aria-current="page">Bảng điều khiển</li>
               </ol>
             </nav>

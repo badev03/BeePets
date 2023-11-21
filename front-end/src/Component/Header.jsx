@@ -308,11 +308,10 @@ const Header = () => {
                           <ul className="notification-list">
                             {noti.map((notifications) => (
                                 <li className="notification-message" key={noti.id}>
-                                  <a href={
+                                  <TopLink to={
                                     handleCheckAccount(data)
                                     ? `/user/appointment/${notifications.appointment_id}`
-                                    : `/doctors/accept-detail-appointments/${notifications.appointment_id}`
-                                }>
+                                    : `/doctors/detail-appointments/${notifications.appointment_id}`}>
                                   {/* : `/doctors/doctors/detail-bill/${notifications.appointment_id}`}> */}
                                     <div className="notify-block d-flex">
                                 <span className="avatar">
@@ -335,17 +334,7 @@ const Header = () => {
                                       </div>
                                     
                                     </div>
-                                </a>
-                                <button
-                                  className="custom-delete-button btn sm "
-                                  onClick={(e) => {
-                                    e.stopPropagation(); // Ngăn sự kiện lan truyền
-                                    handleDeleteNotification(notifications.id_notification, token);
-                                  }}
-                                >
-                                  {/* <i className="custom-icon">&#10006;</i> */}
-                                  <i class="fa-solid fa-delete-left"></i>
-                                </button>
+                                  </TopLink>
                                 </li>
                             ))}
                           </ul>

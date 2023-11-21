@@ -29,28 +29,28 @@ const AcceptDetailAppointment = () => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+  
 
-
-  if (token) {
-    useEffect(() => {
-      const fetchAppointment = async () => {
-        try {
-          const response = await appointmentsApi.getAcceptAppointment(id,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          setAppointments(response.appointment);
-
-
-
-        } catch (error) {
-          console.error("Không có dữ liệu:", error);
+  const fetchAppointment = async () => {
+    try {
+      const response = await appointmentsApi.getAcceptAppointment(id,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      };
+      );
+      setAppointments(response.appointment);
 
+
+
+    } catch (error) {
+      console.error("Không có dữ liệu:", error);
+    }
+  };
+  if (token) {
+    
+    useEffect(() => {
       fetchAppointment();
     }, []);
 
@@ -84,7 +84,6 @@ const AcceptDetailAppointment = () => {
     setSelectedAppointmentId(id);
     setIsModalVisible(true);
   };
-
   const handleCancelStatus = async (id, reason) => {
     console.log(reason);
     console.log(id);
@@ -100,6 +99,7 @@ const AcceptDetailAppointment = () => {
           },
         },
       );
+      
       setIsModalVisible(false);
 
       MySwal.fire({
@@ -278,106 +278,84 @@ const AcceptDetailAppointment = () => {
                           )}</span>
                           <br />
                           <div className="profile-item" style={{ marginTop: '20px' }}>
-                            <span className="profile-label">Hành động:</span>
-                            <span className="profile-value">
+                              <span className="profile-value">
                               <div className="table-action">
-                                <Dropdown
-                                  overlay={
-                                    <Menu>
-                                      <Menu.Item>
-                                        <Link to={`/doctors/detail-appointments/${appointments.id}`} className="btn btn-sm bg-info-light"
-                                          style={{ width: "100%" }}
-                                        >
-                                          <i className="far fa-eye" /> Xem Lịch Hẹn
-                                        </Link>
-                                      </Menu.Item>
-                                      <Menu.Item>
-                                        <div
-                                          onClick={() => handleUpdate(appointments.id)}
-                                          className="btn btn-sm bg-success-light position-relative"
-                                          style={{ width: "100%" }}
-                                        >
-                                          {loadingId === appointments.id ? (
-                                            <div className="loading-spinner">
-                                              <FaSpinner className="spinner" /> Chấp nhận
-                                            </div>
-                                          ) : (
-                                            <>
-                                              <i className="fas fa-check me-2" /> Chấp nhận
-                                            </>
-                                          )}
-                                        </div>
-                                      </Menu.Item>
-                                      <Menu.Item>
-                                        <div
-                                          onClick={() => showModal(appointments.id)}
-                                          className="btn btn-sm bg-danger-light position-relative"
-                                          style={{ width: "100%" }}
-
-                                        >
-                                          {loadingIdd === appointments.id ? (
-                                            <div className="loading-spinner">
-                                              <FaSpinner className="spinner" /> Y/C Hủy
-                                            </div>
-                                          ) : (
-                                            <>
-                                              <i className="fas fa-times" /> Y/C Hủy
-                                            </>
-                                          )}
-                                        </div>
-                                      </Menu.Item>
-                                    </Menu>
-                                  }
+                               
+                                <div
+                                  onClick={() => handleUpdate(appointments.id)}
+                                  className="btn btn-sm bg-success-light position-relative"
                                 >
-                                  <a className="btn btn-sm bg-info-light" onClick={(e) => e.preventDefault()}>
-                                    Hành động
-                                  </a>
-                                </Dropdown>
+                                  {loadingId === appointments.id ? (
+                                    <div className="loading-spinner ">
+                                      <FaSpinner className="spinner" /> Chấp nhận
+                                    </div>
+                                  ) : (
+                                    <>
+                                      <i className="fas fa-check me-2" /> Chấp nhận
+                                    </>
+                                  )}
+                                </div>
+                                <div
+                                  onClick={() => showModal(appointments.id)}
+                                  className="btn btn-sm bg-danger-light position-relative"
+
+                                >
+                                  {loadingIdd === appointments.id ? (
+                                    <div className="loading-spinner">
+                                      <FaSpinner className="spinner" /> Y/C Hủy
+                                    </div>
+                                  ) : (
+                                    <>
+                                      <i className="fas fa-times" /> Y/C Hủy
+                                    </>
+                                  )}
+                                </div>
+
                               </div>
                             </span>
                             <Modal
-          title="Yêu cầu Hủy Lịch"
-          visible={isModalVisible}
-          onCancel={() => setIsModalVisible(false)}
-          footer={[
-            <Button key="cancel" onClick={() => setIsModalVisible(false)}>
-              Cancel
-            </Button>,
-          ]}
-        >
-          <Form
-            onFinish={(values) => {
-              handleCancelStatus(selectedAppointmentId, values.content);
-              // console.log('Received values of form: ', reason,selectedAppointmentId);
-            }}
-          >
-            {/* Thêm các trường form tại đây */}
-            <Form.Item
-              name="content"
-              rules={[
-                {
-                  required: true,
-                  message: "Vui lòng nhập lí do hủy cuộc hẹn!",
-                },
-                {
-                  min: 6,
-                  message: "Lí do hủy phải có ít nhất 6 ký tự!",
-                },
-              ]}
-            >
-              <Input.TextArea
-                placeholder="Nhập lí do hủy cuộc hẹn tại đây"
-                autoSize={{ minRows: 3, maxRows: 5 }}
-                onChange={(e) => setReason(e.target.value)}
-              />
-            </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Gửi Yêu cầu
-              </Button>
-            </Form.Item>
-          </Form>
-        </Modal>
+                              title="Yêu cầu Hủy Lịch"
+                              visible={isModalVisible}
+                              onCancel={() => setIsModalVisible(false)}
+                              footer={[
+                                <Button key="cancel" onClick={() => setIsModalVisible(false)}>
+                                  Cancel
+                                </Button>,
+                              ]}
+                            >
+                              <Form
+                                onFinish={(values) => {
+                                  handleCancelStatus(selectedAppointmentId, values.content);
+                                  // console.log('Received values of form: ', reason,selectedAppointmentId);
+                                }}
+                              >
+                                {/* Thêm các trường form tại đây */}
+                                <Form.Item
+                                  name="content"
+                                  rules={[
+                                    {
+                                      required: true,
+                                      message: "Vui lòng nhập lí do hủy cuộc hẹn!",
+                                    },
+                                    {
+                                      min: 6,
+                                      message: "Lí do hủy phải có ít nhất 6 ký tự!",
+                                    },
+                                  ]}
+                                >
+                                  <Input.TextArea
+                                    placeholder="Nhập lí do hủy cuộc hẹn tại đây"
+                                    autoSize={{ minRows: 3, maxRows: 5 }}
+                                    onChange={(e) => setReason(e.target.value)}
+                                  />
+                                </Form.Item>
+                                <Form.Item>
+                                  <Button type="primary" htmlType="submit">
+                                    Gửi Yêu cầu
+                                  </Button>
+                                </Form.Item>
+                              </Form>
+                            </Modal>
                           </div>
 
                         </div>

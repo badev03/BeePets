@@ -93,9 +93,9 @@ function App() {
             <Route path='detail-bill/:id' element={<DetailBIll />} />
             <Route path='detail-prescription/:id' element={<DetailPrescription />} />
             <Route path='edit-bill/:id' element={<Editbill />} />
-            <Route path='detail-appointments/:id' element={<DetailAppointment />} />
+            <Route path='detail1-appointments/:id' element={<DetailAppointment />} />
             <Route path='customer-invoice' element={<CustomerInvoice />} />
-            <Route path='accept-detail-appointments/:id' element={<AcceptDetailAppointment />} />
+            <Route path='detail-appointments/:id' element={<AcceptDetailAppointment />} />
             <Route path='StatisticAppointment' element={<StatisticAppointment />} />
           </Route>
 
