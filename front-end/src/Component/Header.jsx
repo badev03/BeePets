@@ -38,7 +38,8 @@ const Header = () => {
           }
         })
 
-        // console.log("🚀 ~ file: Header.jsx:60 ~ handleDeleteNotification ~ response1:", response)
+
+        console.log("🚀 ~ file: Header.jsx:60 ~ handleDeleteNotification ~ response1:", response)
         setNoti(response.data.notification);
       } else {
         console.error('Không có token xác thực trong Local Storage.');
@@ -301,7 +302,7 @@ const Header = () => {
                       </a>
                       <div className="dropdown-menu notifications dropdown-menu-end ">
                         <div className="topnav-dropdown-header">
-                          <span className="notification-title">Notifications</span>
+                          <span className="notification-title">Thông báo</span>
                         </div>
                         <div className="noti-content">
                           <ul className="notification-list">
@@ -331,16 +332,7 @@ const Header = () => {
                                           {notifications.message}
                                         </p>
                                       </div>
-                                      <button
-                                          className="custom-delete-button btn sm"
-                                          onClick={(e) => {
-                                            e.stopPropagation(); // Ngăn sự kiện lan truyền
-                                            handleDeleteNotification(notifications.id_notification, token);
-                                          }}
-                                      >
-                                        {/* <i className="custom-icon">&#10006;</i> */}
-                                        <i class="fa-solid fa-delete-left"></i>
-                                      </button>
+                                    
                                     </div>
                                   </TopLink>
                                 </li>

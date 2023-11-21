@@ -18,7 +18,17 @@
   color: red;
   float: left;
 }
+.custom-delete-button {
+  /* Những kiểu dáng hiện tại cho nút */
+  color: #898888; /* Thay đổi màu văn bản theo ý muốn của bạn */
+  /* Thêm kiểu dáng khác nếu cần */
 
+  /* Kiểu dáng hiệu ứng hover */
+  &:hover {
+    background-color: #b0abab; /* Thay đổi màu nền khi hover */
+    /* Thêm kiểu dáng khác cho hiệu ứng hover */
+  }
+}
 
 #contenitore {
   position:relative;
