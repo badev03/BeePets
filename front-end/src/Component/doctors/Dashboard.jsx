@@ -268,49 +268,7 @@ const Dashboarddoctors = () => {
         </Dropdown>
       </div>
     </td>
-        <Modal
-          title="Yêu cầu Hủy Lịch"
-          visible={isModalVisible}
-          onCancel={() => setIsModalVisible(false)}
-          footer={[
-            <Button key="cancel" onClick={() => setIsModalVisible(false)}>
-              Cancel
-            </Button>,
-          ]}
-        >
-          <Form
-            onFinish={(values) => {
-              handleCancelStatus(selectedAppointmentId, values.content);
-              // console.log('Received values of form: ', reason,selectedAppointmentId);
-            }}
-          >
-            {/* Thêm các trường form tại đây */}
-            <Form.Item
-              name="content"
-              rules={[
-                {
-                  required: true,
-                  message: "Vui lòng nhập lí do hủy cuộc hẹn!",
-                },
-                {
-                  min: 6,
-                  message: "Lí do hủy phải có ít nhất 6 ký tự!",
-                },
-              ]}
-            >
-              <Input.TextArea
-                placeholder="Nhập lí do hủy cuộc hẹn tại đây"
-                autoSize={{ minRows: 3, maxRows: 5 }}
-                onChange={(e) => setReason(e.target.value)}
-              />
-            </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Gửi Yêu cầu
-              </Button>
-            </Form.Item>
-          </Form>
-        </Modal>
+      
       </tr>
     ));
   return (
@@ -444,6 +402,49 @@ const Dashboarddoctors = () => {
           activeClassName={"active"}
         />
       )}
+        <Modal
+          title="Yêu cầu Hủy Lịch"
+          visible={isModalVisible}
+          onCancel={() => setIsModalVisible(false)}
+          footer={[
+            <Button key="cancel" onClick={() => setIsModalVisible(false)}>
+              Cancel
+            </Button>,
+          ]}
+        >
+          <Form
+            onFinish={(values) => {
+              handleCancelStatus(selectedAppointmentId, values.content);
+              // console.log('Received values of form: ', reason,selectedAppointmentId);
+            }}
+          >
+            {/* Thêm các trường form tại đây */}
+            <Form.Item
+              name="content"
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng nhập lí do hủy cuộc hẹn!",
+                },
+                {
+                  min: 6,
+                  message: "Lí do hủy phải có ít nhất 6 ký tự!",
+                },
+              ]}
+            >
+              <Input.TextArea
+                placeholder="Nhập lí do hủy cuộc hẹn tại đây"
+                autoSize={{ minRows: 3, maxRows: 5 }}
+                onChange={(e) => setReason(e.target.value)}
+              />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Gửi Yêu cầu
+              </Button>
+            </Form.Item>
+          </Form>
+        </Modal>
                                 </div>
                               </div>
                             </div>

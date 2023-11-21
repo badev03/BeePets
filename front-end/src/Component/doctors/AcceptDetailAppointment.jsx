@@ -17,7 +17,6 @@ const MySwal = withReactContent(Swal);
 const AcceptDetailAppointment = () => {
   const { id } = useParams();
   const [appointments, setAppointments] = useState(null);
-  console.log(appointments);
 
   const token = localStorage.getItem('token');
   const [loadingId, setLoadingId] = useState(null);

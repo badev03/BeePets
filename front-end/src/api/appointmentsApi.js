@@ -11,7 +11,7 @@ const appointmentsApi = {
     const url = "/appoinments-status";
     return instance.get(url,  params );
   },
-  getAcceptAppointment(id,params ) {
+    getAcceptAppointment(id,params ) {
     const url = `/get-appiontment/${id}`;
     return instance.get(url,  params);
   },

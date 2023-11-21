@@ -187,7 +187,7 @@ const Appointments = () => {
       setLoadingIdd(id);
 
       const respon = await axios.put(
-        `http://127.0.0.1:8000/api/update-appointment/${id}?status=4&reason_cancel=${reason}`,
+        `http://127.0.0.1:8000/api/update-appointment/${id}?status=6&reason_cancel=${reason}`,
         {},
         {
           headers: {
@@ -317,7 +317,7 @@ const Appointments = () => {
                 overlay={
                   <Menu>
                     <Menu.Item>
-                      <Link to={`/doctors/accept-detail-appointments/${appointment.id}`} className="btn btn-sm bg-info-light"
+                      <Link to={`/doctors/detail-appointments/${appointment.id}`} className="btn btn-sm bg-info-light"
                         style={{ width: "100%" }}
                       >
                         <i className="far fa-eye" /> Lịch Hẹn
@@ -389,73 +389,10 @@ const Appointments = () => {
                   Hành động
                 </a>
 
-              </Dropdown>
-            </div>
-            <Modal title="Yêu cầu Hủy Lịch" visible={isModalCancel} onCancel={() => setIsModalCancel(false)} footer={[
-              <Button key="cancel" onClick={() => setIsModalVisible(false)}>
-                Cancel
-              </Button>
-            ]}>
-              <Form onFinish={(values) => { handleCancelStatus(selectedAppointmentId, values.content) }}>
-                <Form.Item
-                  name="content"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Vui lòng nhập lí do hủy cuộc hẹn!',
-                    },
-                    {
-                      min: 6,
-                      message: 'Lí do hủy phải có ít nhất 6 ký tự!',
-                    },
-                  ]}
-                >
-                  <Input.TextArea
-                    placeholder="Nhập lí do hủy cuộc hẹn tại đây"
-                    autoSize={{ minRows: 3, maxRows: 5 }}
-                    onChange={(e) => setReason(e.target.value)}
-                  />
-                </Form.Item>
-                <Form.Item>
-                  <Button type="primary" htmlType="submit">
-                    Gửi Yêu cầu
-                  </Button>
-                </Form.Item>
-              </Form>
-            </Modal>
-            <Modal title="Yêu cầu Đổi Lịch" visible={isModalVisible} onCancel={() => setIsModalVisible(false)} footer={[
-              <Button key="cancel" onClick={() => setIsModalVisible(false)}>
-                Cancel
-              </Button>
-            ]}>
-              <Form onFinish={(values) => { handleRescheduleStatus(selectedAppointmentId, values.content) }}>
-                <Form.Item
-                  name="content"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Vui lòng nhập lí do đổi lịch!',
-                    },
-                    {
-                      min: 6,
-                      message: 'Lí do đổi lịch phải có ít nhất 6 ký tự!',
-                    },
-                  ]}
-                >
-                  <Input.TextArea
-                    placeholder="Nhập lí do đổi lịch tại đây"
-                    autoSize={{ minRows: 3, maxRows: 5 }}
-                    onChange={(e) => setReason(e.target.value)}
-                  />
-                </Form.Item>
-                <Form.Item>
-                  <Button type="primary" htmlType="submit">
-                    Gửi Yêu cầu
-                  </Button>
-                </Form.Item>
-              </Form>
-            </Modal>
-          </td>
+          </Dropdown>
+          </div>
+     
+     </td>
         )}
 
         {appointment.status != 1 && (
@@ -465,7 +402,7 @@ const Appointments = () => {
                 overlay={
                   <Menu>
                     <Menu.Item>
-                      <Link to={`/doctors/accept-detail-appointments/${appointment.id}`}
+                      <Link to={`/doctors/detail-appointments/${appointment.id}`}
                         style={{ width: "100%" }}
                         className="btn btn-sm bg-info-light">
                         <i className="far fa-eye" /> Lịch Hẹn
@@ -650,8 +587,71 @@ const Appointments = () => {
                           displayAppointments
                         )}
                       </tbody>
-
-
+                      <Modal title="Yêu cầu Hủy Lịch" visible={isModalCancel} onCancel={() => setIsModalCancel(false)} footer={[
+         <Button key="cancel" onClick={() => setIsModalVisible(false)}>
+           Cancel
+         </Button>
+       ]}>
+         <Form onFinish={(values) => { handleCancelStatus(selectedAppointmentId, values.content) }}>
+           <Form.Item
+             name="content"
+             rules={[
+               {
+                 required: true,
+                 message: 'Vui lòng nhập lí do hủy cuộc hẹn!',
+               },
+               {
+                 min: 6,
+                 message: 'Lí do hủy phải có ít nhất 6 ký tự!',
+               },
+             ]}
+           >
+             <Input.TextArea
+               placeholder="Nhập lí do hủy cuộc hẹn tại đây"
+               autoSize={{ minRows: 3, maxRows: 5 }}
+               onChange={(e) => setReason(e.target.value)}
+             />
+           </Form.Item>
+           <Form.Item>
+             <Button type="primary" htmlType="submit">
+               Gửi Yêu cầu
+             </Button>
+           </Form.Item>
+         </Form>
+       </Modal>
+       <Modal title="Yêu cầu Đổi Lịch" visible={isModalVisible} onCancel={() => setIsModalVisible(false)} footer={[
+         <Button key="cancel" onClick={() => setIsModalVisible(false)}>
+           Cancel
+         </Button>
+       ]}>
+         <Form onFinish={(values) => { handleRescheduleStatus(selectedAppointmentId, values.content) }}>
+           <Form.Item
+             name="content"
+             rules={[
+               {
+                 required: true,
+                 message: 'Vui lòng nhập lí do đổi lịch!',
+               },
+               {
+                 min: 6,
+                 message: 'Lí do đổi lịch phải có ít nhất 6 ký tự!',
+               },
+             ]}
+           >
+             <Input.TextArea
+               placeholder="Nhập lí do đổi lịch tại đây"
+               autoSize={{ minRows: 3, maxRows: 5 }}
+               onChange={(e) => setReason(e.target.value)}
+             />
+           </Form.Item>
+           <Form.Item>
+             <Button type="primary" htmlType="submit">
+               Gửi Yêu cầu
+             </Button>
+           </Form.Item>
+         </Form>
+       </Modal>
+         
                     </table>
 
                   </div>

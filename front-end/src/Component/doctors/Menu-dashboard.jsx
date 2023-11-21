@@ -50,7 +50,7 @@ const Menudashboard = () => {
  
       fetchDoctor();
     
-  }, [token, doctor]);
+  }, []);
 
   const initialActiveItems = JSON.parse(localStorage.getItem("activeItems")) || ["Bộ điều khiển"];
   const [activeItems, setActiveItems] = useState(initialActiveItems);
