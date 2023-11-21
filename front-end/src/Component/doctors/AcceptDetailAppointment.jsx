@@ -5,8 +5,14 @@ import Menudashboard from './Menu-dashboard'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import appointmentsApi from '../../api/appointmentsApi';
-import LoadingSkeleton from '../Loading';
+import axios from "axios";
+import { FaSpinner } from "react-icons/fa";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import LoadingSkeleton from "../Loading";
+import { Modal, Form, Input, Button, Dropdown, Menu } from "antd";
 
+const MySwal = withReactContent(Swal);
 
 const AcceptDetailAppointment = () => {
   const { id } = useParams();
@@ -14,6 +20,16 @@ const AcceptDetailAppointment = () => {
   console.log(appointments);
 
   const token = localStorage.getItem('token');
+  const [loadingId, setLoadingId] = useState(null);
+  const [loadingIdd, setLoadingIdd] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [error, setError] = useState(false);
+  // const [cancelId, setCancelId] = useState(null);
+  const [reason, setReason] = useState("");
+  const [selectedAppointmentId, setSelectedAppointmentId] = useState(null);
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
 
   if (token) {
@@ -40,6 +56,64 @@ const AcceptDetailAppointment = () => {
     }, []);
 
   }
+  const handleUpdate = async (id) => {
+    setLoadingId(id);
+    try {
+      const respon = await axios.put(
+        `http://127.0.0.1:8000/api/update-appointment/${id}?status=1`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      MySwal.fire({
+        title: "Cập nhật trạng thái  thành công!",
+        icon: "success",
+      });
+      fetchAppointment();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingId(null);
+    }
+  };
+  const showModal = (id) => {
+    console.log(id);
+    setSelectedAppointmentId(id);
+    setIsModalVisible(true);
+  };
+
+  const handleCancelStatus = async (id, reason) => {
+    console.log(reason);
+    console.log(id);
+    try {
+      setLoadingIdd(id);
+
+      const respon = await axios.put(
+        `http://127.0.0.1:8000/api/update-appointment/${id}?status=6&reason_cancel=${reason}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      setIsModalVisible(false);
+
+      MySwal.fire({
+        title: "Cập nhật trạng thái  thành công!",
+        icon: "success",
+      });
+      fetchAppointment();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingIdd(null);
+    }
+  };
   function formatDate(dateString) {
     if (dateString) {
       const options = { year: "numeric", month: "long", day: "numeric" };
@@ -173,6 +247,140 @@ const AcceptDetailAppointment = () => {
                         <div className="profile-item">
                           <span className="profile-label">Ghi chú:</span>
                           <span className="profile-value">{appointments.description}</span>
+                        </div>
+                        <div className="profile-item">
+                          <span className="profile-label">Trạng thái:</span>
+                          <span className="profile-value">{appointments.appointment_status == 1 ? (
+                            <span className="badge rounded-pill bg-success-light">
+                              Xác nhận
+                            </span>
+                          ) : appointments.appointment_status == 0 ? (
+                            <span className="badge rounded-pill bg-warning-light">Chờ xác nhận</span>
+                          ) : appointments.appointment_status == 2 ? (
+                            <span className="badge rounded-pill bg-danger-light">Đã xóa</span>
+                          ) : appointments.appointment_status == 4 ? (
+                            <span className="badge rounded-pill bg-primary-light">
+                              Đã hoàn thành
+                            </span>
+                          ) : appointments.appointment_status == 3 ? (
+                            <span className="badge rounded-pill bg-danger-light">Đã hủy</span>
+                          ) : appointments.appointment_status == 6 ? (
+                            <span className="badge rounded-pill bg-warning-light">
+                              Yêu cầu hủy
+                            </span>
+                          ) : appointments.appointment_status == 7 ? (
+                            <span className="badge rounded-pill bg-info-light">
+                              Yêu cầu đổi lịch
+                            </span>
+                          ) : (
+                            <span className="badge rounded-pill bg-info-light">
+                              Không xác định
+                            </span>
+                          )}</span>
+                          <br />
+                          <div className="profile-item" style={{ marginTop: '20px' }}>
+                            <span className="profile-label">Hành động:</span>
+                            <span className="profile-value">
+                              <div className="table-action">
+                                <Dropdown
+                                  overlay={
+                                    <Menu>
+                                      <Menu.Item>
+                                        <Link to={`/doctors/detail-appointments/${appointments.id}`} className="btn btn-sm bg-info-light"
+                                          style={{ width: "100%" }}
+                                        >
+                                          <i className="far fa-eye" /> Xem Lịch Hẹn
+                                        </Link>
+                                      </Menu.Item>
+                                      <Menu.Item>
+                                        <div
+                                          onClick={() => handleUpdate(appointments.id)}
+                                          className="btn btn-sm bg-success-light position-relative"
+                                          style={{ width: "100%" }}
+                                        >
+                                          {loadingId === appointments.id ? (
+                                            <div className="loading-spinner">
+                                              <FaSpinner className="spinner" /> Chấp nhận
+                                            </div>
+                                          ) : (
+                                            <>
+                                              <i className="fas fa-check me-2" /> Chấp nhận
+                                            </>
+                                          )}
+                                        </div>
+                                      </Menu.Item>
+                                      <Menu.Item>
+                                        <div
+                                          onClick={() => showModal(appointments.id)}
+                                          className="btn btn-sm bg-danger-light position-relative"
+                                          style={{ width: "100%" }}
+
+                                        >
+                                          {loadingIdd === appointments.id ? (
+                                            <div className="loading-spinner">
+                                              <FaSpinner className="spinner" /> Y/C Hủy
+                                            </div>
+                                          ) : (
+                                            <>
+                                              <i className="fas fa-times" /> Y/C Hủy
+                                            </>
+                                          )}
+                                        </div>
+                                      </Menu.Item>
+                                    </Menu>
+                                  }
+                                >
+                                  <a className="btn btn-sm bg-info-light" onClick={(e) => e.preventDefault()}>
+                                    Hành động
+                                  </a>
+                                </Dropdown>
+                              </div>
+                            </span>
+                            <Modal
+          title="Yêu cầu Hủy Lịch"
+          visible={isModalVisible}
+          onCancel={() => setIsModalVisible(false)}
+          footer={[
+            <Button key="cancel" onClick={() => setIsModalVisible(false)}>
+              Cancel
+            </Button>,
+          ]}
+        >
+          <Form
+            onFinish={(values) => {
+              handleCancelStatus(selectedAppointmentId, values.content);
+              // console.log('Received values of form: ', reason,selectedAppointmentId);
+            }}
+          >
+            {/* Thêm các trường form tại đây */}
+            <Form.Item
+              name="content"
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng nhập lí do hủy cuộc hẹn!",
+                },
+                {
+                  min: 6,
+                  message: "Lí do hủy phải có ít nhất 6 ký tự!",
+                },
+              ]}
+            >
+              <Input.TextArea
+                placeholder="Nhập lí do hủy cuộc hẹn tại đây"
+                autoSize={{ minRows: 3, maxRows: 5 }}
+                onChange={(e) => setReason(e.target.value)}
+              />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Gửi Yêu cầu
+              </Button>
+            </Form.Item>
+          </Form>
+        </Modal>
+                          </div>
+
                         </div>
                       </div>
                       </div>

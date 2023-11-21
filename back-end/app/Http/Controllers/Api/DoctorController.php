@@ -161,7 +161,7 @@ class DoctorController extends Controller
             $appointment = Appointment::where('appointments.id', $id)
                 ->join('users', 'users.id', '=', 'appointments.user_id')
                 ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
-                ->join('bills', 'bills.appointment_id', '=', 'appointments.id')
+                ->leftJoin('bills', 'bills.appointment_id', '=', 'appointments.id')
                 ->join('services', 'services.id', '=', 'appointments.service_id')
                 ->select(
                     'appointments.id',
