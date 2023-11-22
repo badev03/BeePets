@@ -33,6 +33,7 @@ const Editbill = () => {
   const [selectedServices, setSelectedServices] = useState([]);
   const [selectedProductDefault, setSelectedProductDefault] = useState([]);
   const [selectedProductDefault2, setSelectedProductDefault2] = useState([]);
+  const [billDefault, setBillDefault] = useState(null);
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedQuantityState, setSelectedQuantityState] = useState(0);
   const [valuePropEnabled, setValuePropEnabled] = useState(true);
@@ -54,13 +55,14 @@ const Editbill = () => {
         console.log(response)
         if(response.bill.prescriptions.length === 0) {
           console.log('ko có dữ liệu');
+          setBillDefault(response.bill)
+
         }
         else {
           setBills(response.bill);
           setServices(response.services);
           setUserId(response.bill.user_id);
           setDoctorId(response.bill.doctor_id);
-          console.log(response.bill)
           const productdefault = response.bill.prescriptions.map((prescription) => {
             return prescription.productss.map((product) => {
               return {
@@ -77,20 +79,16 @@ const Editbill = () => {
           setSelectedProducts(productdefault);
           setEditedName(response.bill.prescriptions[0].name);
           setDescription(response.bill.description);
-
-          const servicedefault = response.services.map((service) => {
-            return {
-              label: service.name,
-              value: service.id,
-              price: service.price,
-            };
-          });
-          setSelectedServices(servicedefault);
         }
-        // setSelectedProductDefault2(productdefault);
-
-        // đêm xuống value của select để so sánh
-
+        const servicedefault = response.services.map((service) => {
+          return {
+            label: service.name,
+            value: service.id,
+            price: service.price,
+          };
+        });
+        setSelectedServices(servicedefault);
+        console.log(servicedefault)
 
       } catch (error) {
         console.error("Không có dữ liệu:", error);
@@ -123,39 +121,26 @@ const Editbill = () => {
   }, []);
 
   const handleSelectChange = (selectedValues) => {
-    console.log(selectedProductDefault);
-    // const defaultQuantity = selectedProductDefault.length > 0 ? selectedProductDefault[0].quantity : 1;
-
     const selectedProductsInfo = selectedValues.map((value) => {
       const selectedProduct = products.find((product) => product.id === value);
 
-      // Kiểm tra xem sản phẩm có tồn tại trong selectedProductDefault hay không
       const existingProduct = selectedProductDefault.find((product) => product.value === selectedProduct.id);
 
-      // Thiết lập giá trị quantity dựa trên việc sản phẩm đã tồn tại trong selectedProductDefault hay không
       const defaultQuantity = existingProduct ? existingProduct.quantity : 1;
+
+      const defaultInstruction = existingProduct ? existingProduct.instruction : '';
 
       return {
         label: selectedProduct.name,
         value: selectedProduct.id,
         price: selectedProduct.price,
         quantity: defaultQuantity,
+        instruction :  defaultInstruction
         // Other properties...
       };
     });
 
     setSelectedProductDefault(selectedProductsInfo);
-    // setValuePropEnabled(false);
-    // setSelectedItems(selectedProductsInfo);
-    // const productdefault = bills?.prescriptions.map((prescription) => {
-    //   return {
-    //     label: prescription.productss[0].name,
-    //     value: prescription.productss[0].id,
-    //     price: prescription.productss[0].price,
-    //     quantity: prescription.productss[0].pivot.quantity,
-    //     instructions: prescription.productss[0].pivot.instructions,
-    //   };
-    // });
 
     setSelectedProducts([...selectedProductsInfo]);
   };
@@ -184,11 +169,18 @@ const Editbill = () => {
     setSelectedServices(selectedServicesInfo);
   };
 
-  const handleInstructionChange = (e, prescriptionIndex, productIndex) => {
-    const updatedPrescriptions = [...bills.prescriptions];
-    updatedPrescriptions[prescriptionIndex].productss[
-        productIndex
-        ].pivot.instructions = e.target.value;
+  const handleInstructionChange = (e, productIndex) => {
+
+    if(bills.prescriptions.productss) {
+      const updatedPrescriptions = [...bills.prescriptions];
+      updatedPrescriptions[0].productss[
+          productIndex
+          ].pivot.instructions = e.target.value;
+      setBills((prevBills) => ({
+        ...prevBills,
+        prescriptions: updatedPrescriptions,
+      }));
+    }
     const newSelectedProducts = selectedProducts.map((product, index) => {
       if (index === productIndex) {
         return {
@@ -199,11 +191,9 @@ const Editbill = () => {
       return product;
     });
 
+
     setSelectedProducts(newSelectedProducts);
-    setBills((prevBills) => ({
-      ...prevBills,
-      prescriptions: updatedPrescriptions,
-    }));
+
   };
 
   const handleQuantityChange = (e, productIndex) => {
@@ -223,13 +213,11 @@ const Editbill = () => {
       setSelectedProducts(updatedSelectedProducts);
       setSelectedProductDefault(updatedSelectedProducts)
 
-      // console.log(selectedProducts);
     }
   };
 
   const handleSave = async () => {
 
-    console.log(selectedProductDefault);
     const trimmedName = editedName.trim();
     if (!trimmedName) {
       setNameError("Vui lòng nhập tên đơn thuốc");
@@ -245,7 +233,6 @@ const Editbill = () => {
     } else {
       setDescriptionError("");
     }
-
     const products = selectedProducts.map((selectedProduct) => ({
       product_id: selectedProduct.value,
       quantity: selectedProduct.quantity || 1,
@@ -494,7 +481,6 @@ const Editbill = () => {
                                                     onChange={(e) =>
                                                         handleInstructionChange(
                                                             e,
-                                                            prescriptionIndex,
                                                             productIndex
                                                         )
                                                     }
@@ -623,7 +609,7 @@ const Editbill = () => {
                       <div className="col-sm-6">
                         <div className="biller-info">
                           <h4 className="d-block">
-                            Tên khách hàng: {bills?.appointment.user.name}
+                            Tên khách hàng: {billDefault?.appointment.user.name}
                           </h4>
                           <label htmlFor="">Tên đơn thuốc:</label>
                           <input
@@ -647,10 +633,10 @@ const Editbill = () => {
                       <div className="col-sm-6 text-sm-end">
                         <div className="billing-info">
                           <h4 className="d-block">
-                            Ngày: {bills?.created_at}
+                            Ngày: {billDefault?.created_at}
                           </h4>
                           <span className="d-block text-muted">
-                              Mã hóa đơn: {bills?.code}
+                              Mã hóa đơn: {billDefault?.code}
                             </span>
                         </div>
                       </div>
@@ -734,10 +720,9 @@ const Editbill = () => {
                                             className="form-control"
                                             type="text"
                                             value={selectedProduct.instructions}
-                                            onChange={(e) =>
+                                            onChange={(e ) =>
                                                 handleInstructionChange(
                                                     e,
-                                                    prescriptionIndex,
                                                     productIndex
                                                 )
                                             }

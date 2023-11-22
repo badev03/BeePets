@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Bill;
-use App\Models\Bill_service;
 use App\Models\Doctor;
 use App\Models\Service;
 use App\Models\Products;
@@ -162,7 +161,7 @@ class DoctorController extends Controller
             $appointment = Appointment::where('appointments.id', $id)
                 ->join('users', 'users.id', '=', 'appointments.user_id')
                 ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
-                ->join('bills', 'bills.appointment_id', '=', 'appointments.id')
+                ->leftJoin('bills', 'bills.appointment_id', '=', 'appointments.id')
                 ->join('services', 'services.id', '=', 'appointments.service_id')
                 ->select(
                     'appointments.id',
@@ -341,7 +340,7 @@ class DoctorController extends Controller
 
     // tạo hóa đơn trống cho khách hàng
 
-    public function createBill($appointmentId, $doctorId, $userId, $service_price)
+    public function createBill($appointmentId, $doctorId, $userId)
     {
         try {
             if (Auth::guard('doctors')->check()) {
@@ -353,7 +352,7 @@ class DoctorController extends Controller
                 $bill->user_id = $userId;
                 $bill->status = 0;
                 $bill->payment_method = 1;
-                $bill->total_amount = $service_price;
+                $bill->total_amount = 0;
                 $bill->save();
 
                 return $bill;
@@ -373,10 +372,10 @@ class DoctorController extends Controller
     }
 
 
-
     // cập nhật các trường trong bill
     public function updateBill(Request $request, $id)
     {
+        // validate
         $validator = $this->validateUpdateBillRequest($request);
 
         if ($validator->fails()) {
@@ -385,9 +384,9 @@ class DoctorController extends Controller
                 'errors' => $validator->errors(),
             ], 400);
         }
+        // check guard doctor
         if (Auth::guard('doctors')->check()) {
-
-
+            // tìm bill
             $bill = Bill::query()->find($id);
 
             if (!$bill) {
@@ -396,192 +395,152 @@ class DoctorController extends Controller
                     'message' => 'Không tìm thấy hóa đơn',
                 ], 404);
             }
-            $existingPrescription = Prescription::where('bill_id', $bill->id)->first();
-            if ($existingPrescription) {
-                $prescription = $existingPrescription;
-                if($request->name != $existingPrescription->name) {
-                    $existingPrescription->update([
-                        'name' => $request->name,
-                    ]);
-                }
-            } else {
-                // Nếu không, tạo mới đơn thuốc
-                $prescription = $this->createPrescription($request->name, $request->price, $request->doctor_id, $request->user_id, $request->bill_id);
-            }
+            if ($request->products) {
+                // tìm đơn thuốc đã có trong hóa đơn
+                $existingPrescription = Prescription::where('bill_id', $bill->id)->first();
+                $total_amount = 0;
+
+                if ($existingPrescription) {
+
+                    $existingPreProducts = Prescription_product::where('prescription_id', $existingPrescription->id)->get();
+                    foreach ($existingPreProducts as $existingPreProduct) {
+                        $existingProduct = collect($request->products)->firstWhere('product_id', $existingPreProduct->product_id);
 
 
-            $prescription_id = $prescription->id;
+                        if ($existingProduct) {
+                            $existingPreProduct->update([
+                                'quantity' => $existingProduct['quantity'],
+                                'price' => $existingProduct['price_product'],
+                                'instructions' => $existingProduct['instructions'],
+                            ]);
+                        } else {
+                            Prescription_product::where('product_id', $existingPreProduct->product_id)->delete();
+                        }
+                    }
 
+                    foreach ($request->products as $product) {
+                        $existingProduct = $existingPreProducts->firstWhere('product_id', $product['product_id']);
+                        if (!$existingProduct) {
 
-//            $currentProductIDs = Prescription_product::where('prescription_id' , $prescription_id)->pluck('product_id')->toArray();;
-//            foreach ($request->products as $productsValue) {
-//                $arrayProducts = [$productsValue['product_id']];
-//            }
-//            foreach ($request->products as $product) {
-//                $newProductIDs = [$product['product_id']];
-//                $productsToAdd = array_diff($newProductIDs, $currentProductIDs); // Tìm ID sản phẩm mới cần thêm
-//                $productsToRemove = array_diff($currentProductIDs, $newProductIDs);
-////                return response()->json([
-////                        'success' => false,
-////                        'date' => $newProductIDs
-////                    ], 400);
-//                $checker = Prescription_product::where('product_id' , $product)->first();
-//                if($productsToRemove) {
-//                    Prescription_product::whereIn('product_id', $productsToRemove)
-//                        ->where('prescription_id', $prescription_id)
-//                        ->delete();
-//                }
-//                else {
-//                    $checker_continue = Prescription_product::create([
-//                        'prescription_id' => $prescription_id,
-//                        'product_id' => $product['product_id'],
-//                        'quantity' => $product['quantity'],
-//                        'price' => $product['price_product'],
-//                        'instructions' => $product['instructions'],
-//                    ]);
-//
-////                    return response()->json([
-////                        'success' => false,
-////                        'date' => $checker_continue
-////                    ], 400);
-//                }
-//            }
+                            Prescription_product::create([
+                                'prescription_id' => $existingPrescription->id,
+                                'product_id' => $product['product_id'],
+                                'quantity' => $product['quantity'],
+                                'price' => $product['price_product'],
+                                'instructions' => $product['instructions'],
+                            ]);
+                        }
+                    }
 
-
-            $currentProductIDs = Prescription_product::where('prescription_id', $prescription_id)->pluck('product_id')->toArray();
-
-            $productsToAdd = [];
-            $productsToRemove = [];
-
-            foreach ($request->products as $product) {
-                $newProductID = $product['product_id'];
-
-                if (!in_array($newProductID, $currentProductIDs)) {
-                    // Nếu sản phẩm không tồn tại, thêm vào danh sách sản phẩm cần thêm
-                    $productsToAdd[] = $newProductID;
-                }
-            }
-
-            foreach ($currentProductIDs as $currentProductID) {
-                if (!in_array($currentProductID, array_column($request->products, 'product_id'))) {
-                    // Nếu sản phẩm không có trong danh sách gửi lên, thêm vào danh sách sản phẩm cần xóa
-                    $productsToRemove[] = $currentProductID;
-                }
-            }
-
-// Xóa các sản phẩm không còn trong danh sách gửi lên
-            if (!empty($productsToRemove)) {
-                Prescription_product::whereIn('product_id', $productsToRemove)
-                    ->where('prescription_id', $prescription_id)
-                    ->delete();
-            }
-
-// Thêm các sản phẩm mới vào
-            foreach ($productsToAdd as $newProductID) {
-                $product = collect($request->products)->firstWhere('product_id', $newProductID);
-
-                Prescription_product::updateOrCreate([
-                    'prescription_id' => $prescription_id,
-                    'product_id' => $newProductID,
-                    'quantity' => $product['quantity'],
-                    'price' => $product['price_product'],
-                    'instructions' => $product['instructions'],
-                ]);
-            }
-
-            $total_amount = 0;
-            $currentServices = Bill_service::where('bill_id', $id)->pluck('service_id')->toArray();
-
-            $servicesToAdd = [];
-            $servicesToRemove = [];
-            $addedServices = []; // Mảng tạm thời lưu trữ các service_id đã được thêm vào
-
-            foreach ($currentServices as $currentServiceID) {
-                if (!in_array($currentServiceID, array_column($request->services, 'service_id'))) {
-                    $servicesToRemove[] = $currentServiceID;
-                }
-            }
-
-            if (!empty($servicesToRemove)) {
-                Bill_service::whereIn('service_id', $servicesToRemove)
-                    ->where('bill_id', $id)
-                    ->delete();
-//                return response()->json([
-//                    'success' => false,
-//                    'message' => 'Không tìm thấy cuộc hẹn',
-//                ], 400);
-            }
-
-            foreach ($request->services as $service) {
-                $selectedService = Service::find($service['service_id']);
-                if ($selectedService) {
-                    $appointment = Appointment::find($bill->appointment_id);
-
-                    if ($appointment) {
-                        // Kiểm tra trùng lặp trong trường group_service_id của bảng appointments
-//                        $groupServiceIds = explode(',', $appointment->group_service_id);
-//                        if (in_array($service['service_id'], $groupServiceIds)) {
-//                            return response()->json([
-//                                'success' => false,
-//                                'message' => 'Dịch vụ đã tồn tại trong cuộc hẹn',
-//                            ], 400);
-//                        }
-//
-//                        // Kiểm tra trùng lặp trong bảng bill_service
-//                        if ($bill->services()->where('service_id', $service['service_id'])->exists()) {
-//                            return response()->json([
-//                                'success' => false,
-//                                'message' => 'Dịch vụ đã tồn tại trong hóa đơn',
-//                            ], 400);
-//                        }
-
-                        // Cộng giá của dịch vụ vào total_amount
-
-//
-//                        if (!in_array($newProductID, $currentProductIDs)) {
-//                            // Nếu sản phẩm không tồn tại, thêm vào danh sách sản phẩm cần thêm
-//                            $productsToAdd[] = $newProductID;
-//                        }
-//
-
-
-                        $bill_service = Bill_service::updateOrCreate([
-                            'bill_id' => $id,
-                            'service_id' => $service['service_id'],
+                    if ($existingPrescription->name != $request->name) {
+                        $existingPrescription->name = $request->name;
+                    }
+                    $existingPrescription->price = $request->price;
+                    $existingPrescription->save();
+                    $total_amount = $request->price; // Cộng giá sản phẩm vào total_amount
+                    $bill->total_amount = $total_amount;
+                } else {
+                    // Nếu không, tạo mới đơn thuốc
+                    $prescription = $this->createPrescription($request->name, $request->price, $request->doctor_id, $request->user_id, $request->id);
+                    $prescription_id = $prescription->id;
+                    foreach ($request->products as $product) {
+                        Prescription_product::create([
+                            'prescription_id' => $prescription_id,
+                            'product_id' => $product['product_id'],
+                            'quantity' => $product['quantity'],
+                            'price' => $product['price_product'],
+                            'instructions' => $product['instructions'],
                         ]);
-//                        if (is_array($service['service_id'])) {
-//                            foreach ($service['service_id'] as $id) {
-//                                $bill->services()->attach($id); // Thêm dịch vụ vào hóa đơn
-//                                $total_amount += $selectedService->price;
-//                            }
-//                        } else {
-//                            $id = $service['service_id'];
-//                            $bill->services()->attach($id); // Thêm dịch vụ vào hóa đơn
-//                            $total_amount += $selectedService->price;
-//                        }
+                    }
+
+                    $total_amount = $request->price; // Cộng giá sản phẩm vào total_amount
+                    $bill->total_amount = $total_amount;
+                }
+            }
 
 
 
+            if ($request->services) {
+                $hasServiceChanges = false;
 
+                foreach ($request->services as $service) {
+                    $selectedService = Service::find($service['service_id']);
+                    if ($selectedService) {
+                        $appointment = Appointment::find($bill->appointment_id);
 
-                        // Cập nhật trường group_service_id trong bảng appointments
-                        $groupServiceIds[] = $service['service_id'];
-                        $appointment->group_service_id = implode(',', $groupServiceIds);
-                        $appointment->save();
-                    } else {
-                        return response()->json([
-                            'success' => false,
-                            'message' => 'Không tìm thấy cuộc hẹn',
-                        ], 404);
+                        if ($appointment) {
+                            // Kiểm tra trùng lặp trong trường group_service_id của bảng appointments
+                            $groupServiceIds = explode(',', $appointment->group_service_id);
+
+                            if ($hasServiceChanges && in_array($service['service_id'], $groupServiceIds)) {
+                                return response()->json([
+                                    'success' => false,
+                                    'message' => 'Dịch vụ đã tồn tại trong cuộc hẹn',
+                                ], 400);
+                            }
+
+                            // Kiểm tra trùng lặp trong bảng bill_service
+                            if ($hasServiceChanges && $bill->services()->where('service_id', $service['service_id'])->exists()) {
+                                return response()->json([
+                                    'success' => false,
+                                    'message' => 'Dịch vụ đã tồn tại trong hóa đơn',
+                                ], 400);
+                            }
+
+                            // Nếu dịch vụ chưa tồn tại, thêm vào hóa đơn
+                            $billService = $bill->services()->where('service_id', $service['service_id'])->first();
+
+                            if (!$billService) {
+                                $bill->services()->attach($service['service_id']);
+
+                                // Cập nhật trường group_service_id trong bảng appointments
+                                $groupServiceIds[] = $service['service_id'];
+                                $appointment->group_service_id = implode(',', $groupServiceIds);
+                                $appointment->save();
+
+                                // Đánh dấu có thay đổi trong dịch vụ
+                                $hasServiceChanges = true;
+                            }
+
+                            $total_amount += $selectedService->price;
+                        } else {
+                            return response()->json([
+                                'success' => false,
+                                'message' => 'Không tìm thấy cuộc hẹn',
+                            ], 404);
+                        }
                     }
                 }
+
+                foreach ($bill->services as $billService) {
+                    // Kiểm tra nếu dịch vụ không có trong danh sách gửi lên từ request
+                    if (!collect($request->services)->contains('service_id', $billService->id)) {
+                        // Trừ giá trị của dịch vụ khỏi total_amount trước khi xóa dịch vụ
+
+                        // Xóa dịch vụ ra khỏi hóa đơn
+                        $bill->services()->detach($billService->id);
+
+                        // Xóa dịch vụ khỏi group_service_id
+                        $groupServiceIds = explode(',', $appointment->group_service_id);
+                        $groupServiceIds = array_diff($groupServiceIds, [$billService->id]);
+                        $appointment->group_service_id = implode(',', $groupServiceIds);
+
+                        // Loại bỏ dấu phẩy ở đầu và cuối
+                        $appointment->group_service_id = trim($appointment->group_service_id, ',');
+
+                        $appointment->save();
+
+                        // Đánh dấu có thay đổi trong dịch vụ
+                        $hasServiceChanges = true;
+                    }
+                }
+
+                // Cập nhật giá trị total_amount sau khi xử lý tất cả các dịch vụ
+                if ($hasServiceChanges) {
+                    $bill->total_amount = $total_amount;
+                    $bill->save();
+                }
             }
-
-
-
-
-            $total_amount += $request->price; // Cộng giá sản phẩm vào total_amount
-            $bill->total_amount += $total_amount;
 
             $bill->description = $request->description;
             $bill->save();
@@ -599,6 +558,8 @@ class DoctorController extends Controller
     }
 
 
+
+
     // tạo đơn thuốc cho bảng prescription_product và lưu vào bảng perscription
     public function createPrescription($name, $price, $doctor_id, $user_id, $bill_id)
     {
@@ -613,7 +574,6 @@ class DoctorController extends Controller
 
         return $prescription;
     }
-
 
 
     public function getProducts()
@@ -660,11 +620,11 @@ class DoctorController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'price' => 'required',
+            'price' => 'required|numeric',
             // 'doctor_id' => 'required|exists:doctors,id',
             // 'user_id' => 'required|exists:users,id',
             // 'bill_id' => 'required|exists:bills,id',
-//            'services' => 'required|array',
+            'services' => 'required|array',
             'products' => 'required|array',
             'products.*.product_id' => 'required|exists:products,id',
             'products.*.quantity' => 'required|numeric',
@@ -714,24 +674,18 @@ class DoctorController extends Controller
 
                 $groupServiceIds = explode(',', $bill->appointment->group_service_id);
 
-//                $services = Service::select('id', 'name', 'price')
-//                    ->whereIn('id', $groupServiceIds)
-//                    ->get();
-
-                $services = Bill_service::select('name', 'price' , 'services.id')
-                    ->join('services' , 'services.id' , '=' , 'bill_service.service_id')
-                    ->where('bill_id' , $id)
+                $services = Service::select('id', 'name', 'price')
+                    ->whereIn('id', $groupServiceIds)
                     ->get();
 
-                $bill_service = Bill_service::where('bill_id' , $id)->get();
+
 
                 return response()->json([
                     'success' => true,
                     'message' => 'Lấy thông tin hóa đơn thành công',
                     'bill' => $bill,
-                    'services' => $services,
-                    'bill_service' => $bill_service
-                ] , 200);
+                    'services' => $services
+                ]);
             } else {
                 return response()->json([
                     'success' => false,
