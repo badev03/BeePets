@@ -9,6 +9,7 @@ class Prescription_product extends Model
 {
     use HasFactory;
     protected $table = 'prescription_product';
+    protected $primaryKey = 'product_id';
     protected $fillable = [
         'prescription_id', // Fixed the typo here
         'product_id',
