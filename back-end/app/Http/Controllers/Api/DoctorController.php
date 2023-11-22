@@ -395,29 +395,30 @@ class DoctorController extends Controller
                     'message' => 'Không tìm thấy hóa đơn',
                 ], 404);
             }
+
             if ($request->products) {
                 // tìm đơn thuốc đã có trong hóa đơn
                 $existingPrescription = Prescription::where('bill_id', $bill->id)->first();
-                $total_amount = 0;
+                $newTotalAmount = 0;
 
                 if ($existingPrescription) {
 
                     $existingPreProducts = Prescription_product::where('prescription_id', $existingPrescription->id)->get();
+
                     foreach ($existingPreProducts as $existingPreProduct) {
                         $existingProduct = collect($request->products)->firstWhere('product_id', $existingPreProduct->product_id);
-
-
+                        // dd($existingProduct);
                         if ($existingProduct) {
-                            $existingPreProduct->update([
-                                'quantity' => $existingProduct['quantity'],
-                                'price' => $existingProduct['price_product'],
-                                'instructions' => $existingProduct['instructions'],
-                            ]);
+                            
+                            $existingPreProduct->quantity = $existingProduct['quantity'];
+                            $existingPreProduct->price = $existingProduct['price_product'];
+                            $existingPreProduct->instructions = $existingProduct['instructions'];
+                            $existingPreProduct->save();
+                           
                         } else {
                             Prescription_product::where('product_id', $existingPreProduct->product_id)->delete();
                         }
                     }
-
                     foreach ($request->products as $product) {
                         $existingProduct = $existingPreProducts->firstWhere('product_id', $product['product_id']);
                         if (!$existingProduct) {
@@ -437,8 +438,6 @@ class DoctorController extends Controller
                     }
                     $existingPrescription->price = $request->price;
                     $existingPrescription->save();
-                    $total_amount = $request->price; // Cộng giá sản phẩm vào total_amount
-                    $bill->total_amount = $total_amount;
                 } else {
                     // Nếu không, tạo mới đơn thuốc
                     $prescription = $this->createPrescription($request->name, $request->price, $request->doctor_id, $request->user_id, $request->id);
@@ -452,10 +451,8 @@ class DoctorController extends Controller
                             'instructions' => $product['instructions'],
                         ]);
                     }
-
-                    $total_amount = $request->price; // Cộng giá sản phẩm vào total_amount
-                    $bill->total_amount = $total_amount;
                 }
+                $newTotalAmount = $request->price;
             }
 
 
@@ -501,21 +498,20 @@ class DoctorController extends Controller
                                 // Đánh dấu có thay đổi trong dịch vụ
                                 $hasServiceChanges = true;
                             }
-
-                            $total_amount += $selectedService->price;
                         } else {
                             return response()->json([
                                 'success' => false,
                                 'message' => 'Không tìm thấy cuộc hẹn',
                             ], 404);
                         }
+                        $newTotalAmount += $selectedService->price;
                     }
                 }
-
                 foreach ($bill->services as $billService) {
                     // Kiểm tra nếu dịch vụ không có trong danh sách gửi lên từ request
                     if (!collect($request->services)->contains('service_id', $billService->id)) {
                         // Trừ giá trị của dịch vụ khỏi total_amount trước khi xóa dịch vụ
+                        $bill->total_amount -= $billService->price;
 
                         // Xóa dịch vụ ra khỏi hóa đơn
                         $bill->services()->detach($billService->id);
@@ -537,11 +533,10 @@ class DoctorController extends Controller
 
                 // Cập nhật giá trị total_amount sau khi xử lý tất cả các dịch vụ
                 if ($hasServiceChanges) {
-                    $bill->total_amount = $total_amount;
                     $bill->save();
                 }
             }
-
+            $bill->total_amount = $newTotalAmount;
             $bill->description = $request->description;
             $bill->save();
             return response()->json([
@@ -700,6 +695,4 @@ class DoctorController extends Controller
             ]);
         }
     }
-
-
 }
