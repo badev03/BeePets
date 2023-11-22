@@ -86,77 +86,77 @@ const Appointments = () => {
     return '';
   }
 
-  
-    const displayedAppointments = appointments
-    .slice(pageNumber * itemsPerPage, (pageNumber + 1) * itemsPerPage)
-    .map((appointment) => (
-      <tr key={appointment.appointment_id}>
-        <td>
-          <h2 className="table-avatar">
-            <a href="doctor-profile.html" className="avatar avatar-sm me-2">
-              <img className="avatar-img rounded-circle" src={appointment.image} alt="User Image" />
-              <span>{appointment.doctor_name}</span>
-            </a>
-            <a href="doctor-profile.html">{appointment.doctor_id}</a>
-          </h2>
-        </td>
-        <td>
-          {/* <span className="d-block text-info">
+
+  const displayedAppointments = appointments
+      .slice(pageNumber * itemsPerPage, (pageNumber + 1) * itemsPerPage)
+      .map((appointment) => (
+          <tr key={appointment.appointment_id}>
+            <td>
+              <h2 className="table-avatar">
+                <a href="doctor-profile.html" className="avatar avatar-sm me-2">
+                  <img className="avatar-img rounded-circle" src={appointment.image} alt="User Image" />
+                  <span>{appointment.doctor_name}</span>
+                </a>
+                <a href="doctor-profile.html">{appointment.doctor_id}</a>
+              </h2>
+            </td>
+            <td>
+              {/* <span className="d-block text-info">
               {appointment.time ? formatTime(appointment.time) : ''}
             </span> */}
-          <span className="d-block text-info">
+              <span className="d-block text-info">
             {appointment.shift_name}
           </span>
-          <span className="d-block ">
+              <span className="d-block ">
             {formatShiftTime(appointment.shift_name)}
           </span>
-        </td>
-        
-          <td>{formatDate(appointment.date)}</td>
-          <td>
-            {appointment.status == 1 ? (
-              <span className="badge rounded-pill bg-success-light">
+            </td>
+
+            <td>{formatDate(appointment.date)}</td>
+            <td>
+              {appointment.status == 1 ? (
+                  <span className="badge rounded-pill bg-success-light">
                 Xác nhận
               </span>
-            ) : appointment.status == 0 ? (
-              <span className="badge rounded-pill bg-warning-light">Chờ xác nhận</span>
-            ): appointment.status == 2 ? (
-              <span className="badge rounded-pill bg-danger-light">Đã xóa</span>
-            ) : appointment.status == 3 ? (
-              <span className="badge rounded-pill bg-primary-light">Đã hoàn thành</span>
-            ) : appointment.status == 4 ? (
-              <span className="badge rounded-pill bg-danger-light">Đã hủy</span>
-            ) : appointment.status == 6 ? (
-              <span className="badge rounded-pill bg-warning-light">Yêu cầu hủy</span>
-            ) : appointment.status == 7 ? (
-              <span className="badge rounded-pill bg-info-light">Yêu cầu đổi lịch</span>
-            ) : (
-              // Default case
-              <span className="badge rounded-pill bg-info-light">
+              ) : appointment.status == 0 ? (
+                  <span className="badge rounded-pill bg-warning-light">Chờ xác nhận</span>
+              ): appointment.status == 2 ? (
+                  <span className="badge rounded-pill bg-danger-light">Đã xóa</span>
+              ) : appointment.status == 3 ? (
+                  <span className="badge rounded-pill bg-primary-light">Đã hoàn thành</span>
+              ) : appointment.status == 4 ? (
+                  <span className="badge rounded-pill bg-danger-light">Đã hủy</span>
+              ) : appointment.status == 6 ? (
+                  <span className="badge rounded-pill bg-warning-light">Yêu cầu hủy</span>
+              ) : appointment.status == 7 ? (
+                  <span className="badge rounded-pill bg-info-light">Yêu cầu đổi lịch</span>
+              ) : (
+                  // Default case
+                  <span className="badge rounded-pill bg-info-light">
                 Không xác định
               </span>
-            )}
+              )}
 
-        </td>
-        <td>
-          <div className="table-action">
-            <button className="btn btn-sm bg-info-light">
-              <Link to={`/user/appointment/${appointment.appointment_id}`}>
-                <i className="far fa-eye" /> View
-              </Link>
-            </button>
-          </div>
-        </td>
-      </tr>
-    ));
+            </td>
+            <td>
+              <div className="table-action">
+                <button className="btn btn-sm bg-info-light">
+                  <Link to={`/user/appointment/${appointment.appointment_id}`}>
+                    <i className="far fa-eye" /> View
+                  </Link>
+                </button>
+              </div>
+            </td>
+          </tr>
+      ));
 
   return (
-    <div id="pat_appointments" className="tab-pane fade show active">
-      <div className="card card-table mb-0">
-        <div className="card-body">
-          <div className="table-responsive">
-          <table className="table table-hover table-center mb-0">
-              <thead>
+      <div id="pat_appointments" className="tab-pane fade show active">
+        <div className="card card-table mb-0">
+          <div className="card-body">
+            <div className="table-responsive">
+              <table className="table table-hover table-center mb-0">
+                <thead>
                 <tr>
                   <th className="text-start">Bác sĩ</th>
                   <th className="text-start">Lịch khám</th>
@@ -164,22 +164,22 @@ const Appointments = () => {
                   <th className="text-start">Trạng thái</th>
                   <th className="text-start">Action</th>
                 </tr>
-              </thead>
-              <tbody>{displayedAppointments}</tbody>
-            </table>
+                </thead>
+                <tbody>{displayedAppointments}</tbody>
+              </table>
+            </div>
+            <ReactPaginate
+                nextLabel={<FaChevronRight />}
+                previousLabel={<FaChevronLeft />}
+                pageCount={pageCount}
+                onPageChange={changePage}
+                containerClassName={"pagination justify-content-end pr-3 pt-2 mr-4"}
+                previousLinkClassName={"previousBttn"}
+                activeClassName={"active"}
+            />
           </div>
-          <ReactPaginate
-            nextLabel={<FaChevronRight />}
-            previousLabel={<FaChevronLeft />}
-            pageCount={pageCount}
-            onPageChange={changePage}
-            containerClassName={"pagination justify-content-end pr-3 pt-2 mr-4"}
-            previousLinkClassName={"previousBttn"}
-            activeClassName={"active"}
-          />
         </div>
       </div>
-    </div>
   );
 };
 

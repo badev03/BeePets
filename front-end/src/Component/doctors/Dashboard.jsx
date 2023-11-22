@@ -183,7 +183,7 @@ const Dashboarddoctors = () => {
           {formatDate(appointment.date)}
           </span>
         </td>
-        <td>{appointment.service.name}</td>
+        {/*<td>{appointment.service.name}</td>*/}
         <td>{appointment.type_pet.name}</td>
         <td>
           {appointment.status == 1 ? (
@@ -334,15 +334,15 @@ const Dashboarddoctors = () => {
                         />
                       </div>
 
-                      <div className="input-group">
-                        <input
-                          type="text"
-                          id="searchService"
-                          placeholder="Lọc theo dịch vụ"
-                          onChange={(e) => setSearchService(e.target.value)}
-                          className="input-group-item"
-                        />
-                      </div>
+                      {/*<div className="input-group">*/}
+                      {/*  <input*/}
+                      {/*    type="text"*/}
+                      {/*    id="searchService"*/}
+                      {/*    placeholder="Lọc theo dịch vụ"*/}
+                      {/*    onChange={(e) => setSearchService(e.target.value)}*/}
+                      {/*    className="input-group-item"*/}
+                      {/*  />*/}
+                      {/*</div>*/}
                     </div>
                     <div className="tab-content">
                       <div
@@ -357,7 +357,7 @@ const Dashboarddoctors = () => {
                                   <tr>
                                     <th>Tên bệnh nhân</th>
                                     <th>Thời gian</th>
-                                    <th>Dịch vụ</th>
+                                    {/*<th>Dịch vụ</th>*/}
                                     <th>Loại thú cưng</th>
                                     <th>Trạng thái</th>
                                     <th>Hành động</th>

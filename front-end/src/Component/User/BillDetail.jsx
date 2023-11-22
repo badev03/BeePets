@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import Sidebar from './Sidebar';
 import axios from 'axios';
 import LoadingSkeleton from '../Loading';
 const BillDetail = () => {
   const [bill, setBill] = useState({});
   const [products, setProducts] = useState([]);
+  const [service, setService] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Khởi tạo isLoading
   const { id } = useParams();
   const token = localStorage.getItem('token');
@@ -21,6 +22,9 @@ const BillDetail = () => {
           });
           setBill(response.data.bill);
           setProducts(response.data.products);
+          setService(response.data.bill_service);
+          console.log(response)
+          setIsLoading(false)
         } catch (error) {
           console.error('Không có dữ liệu:', error);
         }
@@ -71,7 +75,7 @@ const BillDetail = () => {
                   <form>
                     <div className="row align-items-center mb-4">
                       <div className="col-6">
-                        <img src="../../src/assets/img/logo.jpg" className="img-fluid" style={{ width: '100px', height: 'auto' }} alt="Logo" />
+                        <img src={bill.image} className="img-fluid" style={{ width: '100px', height: 'auto' }} alt="Logo" />
                       </div>
                       <div className="col-12 col-md-6">
                         <div className="mb-3" style={{ marginLeft: '140px' }}>
@@ -91,15 +95,10 @@ const BillDetail = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>1</td>
-                            <td>{bill.services_name}</td>
-                            <td>1</td>
-                            <td>{formatCurrency(bill.services_price)}</td>
-                          </tr>
+
                           {products.map((product, index) => (
                             <tr key={index}>
-                              <td>{index + 2}</td>
+                              <td>{index + 1}</td>
                               <td>{product.product_name}</td>
                               <td>{product.quantity}</td>
                               <td>{formatCurrency(product.product_price)}</td>
@@ -115,12 +114,37 @@ const BillDetail = () => {
                     </div>
                     <div className="col-12 col-md-12 mt-5">
                       <div className="mb-3">
-                        <label className="mb-2"><strong>Ghi chú</strong></label>
-                        <textarea className="form-control" rows="4" />
+                        {bill.status === 3 ? (
+                            <>
+                              <label className="mb-2"><strong>Lý do hủy</strong></label>
+                              <textarea
+                                  className="form-control"
+                                  rows="4"
+                                  value={bill.cancelReason} // Giả sử lý do hủy được lưu trong thuộc tính cancelReason của đối tượng bill
+                                  readOnly // Nếu bạn muốn ô textarea chỉ đọc
+                              />
+                            </>
+                        ) : (
+                            <>
+                              <label className="mb-2"><strong>Ghi chú</strong></label>
+                              <textarea className="form-control" rows="4" value={bill.description}/>
+                            </>
+                          )}
                       </div>
                     </div>
                   </form>
+                  <Link to={`/user/dashbroad`}>
+                    {" "}
+                    <button
+                        type="reset"
+                        className="btn btn-success submit-btn"
+                    >
+                      Quay lại
+                    </button>
+                  </Link>
                 </div>
+
+
               </div>
               )}
             </div>
