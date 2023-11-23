@@ -104,20 +104,20 @@
                             var statusName = '';
 
                             if (stat.status == 0) {
-                                statusName = 'Hóa đơn chờ xác nhận';
+                                statusName = 'Cuộc hẹn chờ xác nhận';
                             } else if (stat.status == 1) {
-                                statusName = 'Hóa đơn đã xác nhận';
+                                statusName = 'Cuộc hẹn đã xác nhận';
                             } else if(stat.status == 3) {
-                                statusName = 'Hóa đơn đã hủy';
+                                statusName = 'Cuộc hẹn đã hủy';
                             }
                             else if(stat.status == 4) {
-                                statusName = 'Hóa đơn đã hoàn thành';
+                                statusName = 'Cuộc hẹn đã hoàn thành';
                             }
                             else if(stat.status == 7) {
-                                statusName = 'Hóa đơn yêu cầu đổi lịch';
+                                statusName = 'Cuộc hẹn yêu cầu đổi lịch';
                             }
                             else if(stat.status == 6) {
-                                statusName = 'Hóa đơn yêu cầu hủy lịch';
+                                statusName = 'Cuộc hẹn yêu cầu hủy lịch';
                             }
                             chartDatas.push({date: statusName, value: stat.count});
                         });
@@ -158,20 +158,20 @@
                             var statusName = '';
 
                             if (stat.status == 0) {
-                                statusName = 'Hóa đơn chờ xác nhận';
+                                statusName = 'Cuộc hẹn chờ xác nhận';
                             } else if (stat.status == 1) {
-                                statusName = 'Hóa đơn đã xác nhận';
+                                statusName = 'Cuộc hẹn đã xác nhận';
                             } else if(stat.status == 3) {
-                                statusName = 'Hóa đơn đã hủy';
+                                statusName = 'Cuộc hẹn đã hủy';
                             }
                             else if(stat.status == 4) {
-                                statusName = 'Hóa đơn đã hoàn thành';
+                                statusName = 'Cuộc hẹn đã hoàn thành';
                             }
                             else if(stat.status == 7) {
-                                statusName = 'Hóa đơn yêu cầu đổi lịch';
+                                statusName = 'Cuộc hẹn yêu cầu đổi lịch';
                             }
                             else if(stat.status == 6) {
-                                statusName = 'Hóa đơn yêu cầu hủy lịch';
+                                statusName = 'Cuộc hẹn yêu cầu hủy lịch';
                             }
                             chartData.push({date: statusName, value: stat.count});
                         });

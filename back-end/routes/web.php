@@ -112,6 +112,8 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
 
         Route::get('my-profile' , [HomeController::class , 'myProfile'])->name('myProfile');
 
+        Route::get('import-schedule-doctor',[ScheduleController::class , 'getForm'])->name('getForm');
+        Route::post('import-schedule-doctor',[ScheduleController::class , 'import'])->name('import');
 
         Route::post('my-profile/change-password' , [HomeController::class , 'changePassword'])->name('myProfile.changePassword');
 

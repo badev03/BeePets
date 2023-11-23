@@ -157,6 +157,9 @@
       <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/yajra/laravel-datatables-oracle" />
       <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/balping/json-raw-encoder" />
       <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/consoletvs/charts" />
+      <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/maatwebsite/excel" />
+      <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/phpoffice/phpexcel" />
+      <excludeFolder url="file://$MODULE_DIR$/back-end/vendor/twilio/sdk" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

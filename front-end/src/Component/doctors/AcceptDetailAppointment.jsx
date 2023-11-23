@@ -5,42 +5,115 @@ import Menudashboard from './Menu-dashboard'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import appointmentsApi from '../../api/appointmentsApi';
-import LoadingSkeleton from '../Loading';
+import axios from "axios";
+import { FaSpinner } from "react-icons/fa";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import LoadingSkeleton from "../Loading";
+import { Modal, Form, Input, Button, Dropdown, Menu } from "antd";
 
+const MySwal = withReactContent(Swal);
 
 const AcceptDetailAppointment = () => {
   const { id } = useParams();
   const [appointments, setAppointments] = useState(null);
-  console.log(appointments);
 
-    const token = localStorage.getItem('token');
+  const token = localStorage.getItem('token');
+  const [loadingId, setLoadingId] = useState(null);
+  const [loadingIdd, setLoadingIdd] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [error, setError] = useState(false);
+  // const [cancelId, setCancelId] = useState(null);
+  const [reason, setReason] = useState("");
+  const [selectedAppointmentId, setSelectedAppointmentId] = useState(null);
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
 
-   if(token){
-     useEffect(() => {
-      const fetchAppointment = async () => {
-        try {
-         const response = await appointmentsApi.getAcceptAppointment(id,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setAppointments(response.appointment);     
-     
-      
-
-        } catch (error) {
-          console.error("Không có dữ liệu:", error);
+  const fetchAppointment = async () => {
+    try {
+      const response = await appointmentsApi.getAcceptAppointment(id,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      };
-  
+      );
+      setAppointments(response.appointment);
+
+
+
+    } catch (error) {
+      console.error("Không có dữ liệu:", error);
+    }
+  };
+  if (token) {
+
+    useEffect(() => {
       fetchAppointment();
-    }, []); 
-    
-   }
-   function formatDate(dateString) {
+    }, []);
+
+  }
+  const handleUpdate = async (id) => {
+    setLoadingId(id);
+    try {
+      const respon = await axios.put(
+        `http://127.0.0.1:8000/api/update-appointment/${id}?status=1`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      MySwal.fire({
+        title: "Cập nhật trạng thái  thành công!",
+        icon: "success",
+      });
+      fetchAppointment();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingId(null);
+    }
+  };
+  const showModal = (id) => {
+    console.log(id);
+    setSelectedAppointmentId(id);
+    setIsModalVisible(true);
+  };
+  const handleCancelStatus = async (id, reason) => {
+    console.log(reason);
+    console.log(id);
+    try {
+      setLoadingIdd(id);
+
+      const respon = await axios.put(
+        `http://127.0.0.1:8000/api/update-appointment/${id}?status=6&reason_cancel=${reason}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setIsModalVisible(false);
+
+      MySwal.fire({
+        title: "Cập nhật trạng thái  thành công!",
+        icon: "success",
+      });
+      fetchAppointment();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingIdd(null);
+    }
+  };
+  function formatDate(dateString) {
     if (dateString) {
       const options = { year: "numeric", month: "long", day: "numeric" };
       const formattedDate = new Date(dateString).toLocaleDateString(
@@ -71,9 +144,9 @@ const AcceptDetailAppointment = () => {
       currency: "VND",
     });
   };
-    if (!appointments) {
-        return <LoadingSkeleton/>;
-    }
+  if (!appointments) {
+    return <LoadingSkeleton />;
+  }
   return (
     <div>    <div><div className="breadcrumb-bar-two">
     <div className="container">
@@ -191,20 +264,20 @@ const AcceptDetailAppointment = () => {
               // </div>
             )}
 
-</div>     
-                </div>
-                {/* <div className="submit-section">
+                      </div>
+                    </div>
+                    {/* <div className="submit-section">
                   <button type="submit" className="btn btn-primary submit-btn">Lưu</button>
                 </div> */}
-              </form>
+                  </form>
+                </div>
+              </div>
+
             </div>
           </div>
-          
         </div>
       </div>
-    </div>
-  </div>
-</div></div>
+    </div></div>
   )
 }
 

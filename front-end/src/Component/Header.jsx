@@ -38,7 +38,8 @@ const Header = () => {
           }
         })
 
-        // console.log("🚀 ~ file: Header.jsx:60 ~ handleDeleteNotification ~ response1:", response)
+
+        console.log("🚀 ~ file: Header.jsx:60 ~ handleDeleteNotification ~ response1:", response)
         setNoti(response.data.notification);
       } else {
         console.error('Không có token xác thực trong Local Storage.');
@@ -301,17 +302,17 @@ const Header = () => {
                       </a>
                       <div className="dropdown-menu notifications dropdown-menu-end ">
                         <div className="topnav-dropdown-header">
-                          <span className="notification-title">Notifications</span>
+                          <span className="notification-title">Thông báo</span>
                         </div>
                         <div className="noti-content">
                           <ul className="notification-list">
                             {noti.map((notifications) => (
                                 <li className="notification-message" key={noti.id}>
-                                  <a href={
+                                  <TopLink to={
                                     handleCheckAccount(data)
-                                    ? `/user/appointment/${notifications.appointment_id}`
-                                    : `/doctors/accept-detail-appointments/${notifications.appointment_id}`}>
-                                  {/* : `/doctors/doctors/detail-bill/${notifications.appointment_id}`}> */}
+                                        ? `/user/appointment/${notifications.appointment_id}`
+                                        : `/doctors/detail-appointments/${notifications.appointment_id}`}>
+                                    {/* : `/doctors/doctors/detail-bill/${notifications.appointment_id}`}> */}
                                     <div className="notify-block d-flex">
                                 <span className="avatar">
                                   <img
@@ -331,18 +332,9 @@ const Header = () => {
                                           {notifications.message}
                                         </p>
                                       </div>
-                                      <button
-                                          className="custom-delete-button btn sm"
-                                          onClick={(e) => {
-                                            e.stopPropagation(); // Ngăn sự kiện lan truyền
-                                            handleDeleteNotification(notifications.id_notification, token);
-                                          }}
-                                      >
-                                        {/* <i className="custom-icon">&#10006;</i> */}
-                                        <i class="fa-solid fa-delete-left"></i>
-                                      </button>
+
                                     </div>
-                                  </a>
+                                  </TopLink>
                                 </li>
                             ))}
                           </ul>

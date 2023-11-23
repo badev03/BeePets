@@ -79,12 +79,12 @@ const PatientBill = () => {
             <Link to={`/doctors/detail-bill/${bill.id}`} className="btn btn-sm bg-info-light">
               <i className="far fa-eye" /> Hóa Đơn
             </Link>
-            <Link
-              to={`/doctors/edit-bill/${bill.id}`}
-              className="btn btn-sm bg-success-light"
-            >
-              <i className="fas fa-edit" /> Sửa Hóa Đơn
-            </Link>
+            {/*<Link*/}
+            {/*  to={`/doctors/edit-bill/${bill.id}`}*/}
+            {/*  className="btn btn-sm bg-success-light"*/}
+            {/*>*/}
+            {/*  <i className="fas fa-edit" /> Sửa Hóa Đơn*/}
+            {/*</Link>*/}
             {/* <Link to="#" className="btn btn-sm bg-danger-light">
               <i className="far fa-trash-alt" /> Delete
             </Link> */}

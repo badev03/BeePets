@@ -92,7 +92,14 @@ const Mypatients = () => {
                                     <div className="pro-widget-content">
                                       <div className="profile-info-widget">
                                         <Link to={`/doctors/patient-profile/${customers.id}`} className="booking-doc-img">
-                                          <img src={customers.avatar} alt="User Image" />
+                                        {customers.avatar? (
+                                          <img src={customers.avatar} alt="User Image" />                 
+                                        ) : (
+                                          <div className="profile-img d-flex justify-content-center align-items-center">
+                                                    <img src="https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" alt="User Image" className="rounded-0"
+                                            />
+                                                  </div>                                      
+                                        )}
                                         </Link>
                                         <div className="profile-det-info">
                                           <h3><Link to={`/doctors/patient-profile/${customers.id}`}>{customers.name}</Link></h3>

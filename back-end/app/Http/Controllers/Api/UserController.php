@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use App\Models\Bill;
+use App\Models\Bill_service;
 use App\Models\Prescription;
 use App\Models\Prescription_product;
 use Illuminate\Http\Request;
@@ -144,7 +145,8 @@ class UserController extends Controller
                 'appointments.status',
                 'appointments.id as appointment_id',
                 'appointments.shift_name',
-                'appointments.description'
+                'appointments.description',
+                'appointments.reason_cancel',
             )
                 ->join('users', 'users.id', '=', 'appointments.user_id')
                 ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
@@ -224,12 +226,16 @@ class UserController extends Controller
     {
         $user_id = auth()->user()->id;
         $bill = DB::table('bills')
-            ->select('bills.id', 'bills.code', 'bills.created_at', 'bills.status', 'bills.payment_method', 'bills.total_amount', 'services.name as services_name', 'services.price as services_price')
-            ->join('services', 'bills.service_id', '=', 'services.id')
+            ->select('bills.id', 'bills.code', 'bills.created_at',
+                'bills.status', 'bills.payment_method', 'bills.total_amount' , 'appointments.description'
+            ,'doctors.image' , 'appointments.status')
+            ->join('appointments', 'appointments.id', '=', 'bills.appointment_id')
+            ->join('doctors', 'doctors.id', '=', 'bills.doctor_id')
             ->where('bills.user_id', $user_id)
             ->where('bills.id', $id)
             ->first();
-
+        $bill_service = Bill_service::where('bill_id' , $id)
+            ->join('services', 'services.id', '=', 'bill_service.service_id')->get();
         if (!$bill) {
             return response()->json([
                 'success' => false,
@@ -248,7 +254,8 @@ class UserController extends Controller
             'success' => true,
             'message' => 'Lấy chi tiết đơn thuốc thành công',
             'bill' => $bill,
-            'products' => $products
+            'products' => $products,
+            'bill_service' => $bill_service,
         ]);
     }
     public function billByUser()
@@ -262,10 +269,12 @@ class UserController extends Controller
             } else {
                 $id = auth()->user()->id;
                 $result = DB::table('bills')
-                    ->select('bills.id', 'bills.code', 'bills.created_at as order_date', 'doctors.name as created_by', 'bills.total_amount')
+                    ->select('bills.id', 'bills.code', 'bills.created_at as order_date',
+                        'doctors.name as created_by', 'bills.total_amount' , 'doctors.image')
                     ->join('appointments', 'bills.appointment_id', '=', 'appointments.id')
                     ->join('doctors', 'appointments.doctor_id', '=', 'doctors.id')
                     ->where('bills.user_id', $id)
+                    ->orderByDesc('appointments.date')
                     ->get();
                 return response()->json([
                     'success' => true,
@@ -328,7 +337,7 @@ class UserController extends Controller
             $query = Appointment::query();
 
             if ($status) {
-                $query->where('status', $status);
+                $query->where('appointments.status', $status);
             }
 
             // Lọc theo ngày
@@ -336,7 +345,7 @@ class UserController extends Controller
             if ($date) {
                 $query->whereDate('date', $date);
             }
-            
+
             $shift_name = $request->input('shift_name');
 
             if ($shift_name) {
@@ -363,7 +372,11 @@ class UserController extends Controller
             }
 
             // Thực hiện truy vấn và trả về kết quả
-            $appointments = $query->get();
+            $appointments = $query->select('doctors.name as doctor_name', 'doctors.image',
+                'appointments.date', 'appointments.shift_name',
+                'appointments.status', 'appointments.id as appointment_id')
+                ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')->get();
+
 
             return response()->json($appointments);
         }

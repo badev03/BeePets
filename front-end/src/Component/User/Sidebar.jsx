@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import usersApi from "../../api/usersApi";
 import logoutDoctor from "../../api/logoutDoctor";
 import { useAuth } from "../../Context/ContextAuth";
+import TopLink from "../../Link/TopLink";
 
 const Sidebar = () => {
   const [user, setUser] = useState([]);
@@ -30,27 +31,30 @@ const Sidebar = () => {
 
 
 
+  const fetchData = async () => {
+    try {
+      const response = await usersApi.getUser({
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUser(response.user);
+    } catch (error) {
+      console.error("Không có dữ liệu:", error);
+    }
+  };
+  
   if (token) {
     useEffect(() => {
-      const fetchUser = async () => {
-        try {
-          const response = await usersApi.getUser(
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          setUser(response.user);
-          // console.log(response.user);
-        } catch (error) {
-          console.error("Không có dữ liệu:", error);
-        }
-      };
-
-      fetchUser();
-    }, []);
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+      if (!storedUser || !storedUser.name) {
+        fetchData();
+      } else {
+        setUser(storedUser);
+      }
+    }, [token]);
   }
+  
   const initialActiveItems = JSON.parse(
     localStorage.getItem("activeItems")
   ) || ["Bộ điều khiển"];
@@ -116,10 +120,10 @@ const Sidebar = () => {
                   }`}
                 onClick={() => handleItemClick("Bảng điều khiển")}
               >
-                <Link to={"/user/dashbroad"}>
+                <TopLink to={"/user/dashbroad"}>
                   <i className="fas fa-columns" />
                   <span>Bảng điều khiển</span>
-                </Link>
+                </TopLink>
               </li>
 
               {/* Thêm các menu khác tương tự */}
@@ -128,20 +132,20 @@ const Sidebar = () => {
                   }`}
                 onClick={() => handleItemClick("Thông tin cá nhân")}
               >
-                <Link to={"/user/profilesetting"}>
+                <TopLink to={"/user/profilesetting"}>
                   <i className="fas fa-user-cog" />
                   <span>Thông Tin Cá Nhân</span>
-                </Link>
+                </TopLink>
               </li>
               <li
                 className={`has-submenu megamenu ${location.pathname === "/user/changepassword" ? "active" : ""
                   }`}
                 onClick={() => handleItemClick("Thay đổi mật khẩu")}
               >
-                <Link to={"/user/changepassword"}>
+                <TopLink to={"/user/changepassword"}>
                   <i className="fas fa-lock" />
                   <span>Thay Đổi Mật Khẩu</span>
-                </Link>
+                </TopLink>
               </li>
 
               <li
