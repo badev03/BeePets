@@ -22,7 +22,7 @@
                             </div>
                         </div>
                     </div>
-                    @include('admin.appointments.filter-data-module-appointments')
+{{--                    @include('admin.appointments.filter-data-module-appointments')--}}
 
                 </div>
                 <div class="card-body">

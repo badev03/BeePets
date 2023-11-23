@@ -310,9 +310,9 @@ const Header = () => {
                                 <li className="notification-message" key={noti.id}>
                                   <TopLink to={
                                     handleCheckAccount(data)
-                                    ? `/user/appointment/${notifications.appointment_id}`
-                                    : `/doctors/detail-appointments/${notifications.appointment_id}`}>
-                                  {/* : `/doctors/doctors/detail-bill/${notifications.appointment_id}`}> */}
+                                        ? `/user/appointment/${notifications.appointment_id}`
+                                        : `/doctors/detail-appointments/${notifications.appointment_id}`}>
+                                    {/* : `/doctors/doctors/detail-bill/${notifications.appointment_id}`}> */}
                                     <div className="notify-block d-flex">
                                 <span className="avatar">
                                   <img
@@ -332,7 +332,7 @@ const Header = () => {
                                           {notifications.message}
                                         </p>
                                       </div>
-                                    
+
                                     </div>
                                   </TopLink>
                                 </li>

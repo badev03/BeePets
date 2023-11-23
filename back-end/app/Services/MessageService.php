@@ -17,16 +17,19 @@ class MessageService implements MessageUser {
             'avatar' => $dataMessage->avatar,
             'id' => $dataMessage->id,
             'message' => $message,
+            'appointment_id' => $appointment_id
         ];
         $dataMessageDoctor = $this->tableQuery('doctors')->where('id' , $doctor_id)->first();
         $message_doctors = [
             'name' => $dataMessageDoctor->name,
             'avatar' => $dataMessageDoctor->image,
             'id' => $dataMessageDoctor->id,
-            'message' => $message_doctor
+            'message' => $message_doctor,
+            'appointment_id' => $appointment_id
         ];
         $this->pusherWeb()->trigger("user-notification-".$userId, 'notification-event-test', $messagess );
         $this->pusherWeb()->trigger("doctor-notification-".$doctor_id, 'notification-event-doctor', $message_doctors);
+        $this->pusherWeb()->trigger("admin-notification", 'notification-event-admin', $message_doctors);
         Notification::create([
             'user_id' => $userId,
             'message' => $message,
@@ -38,6 +41,7 @@ class MessageService implements MessageUser {
             'delete_user'=>0,
             'delete_doctor'=>0,
             'appointment_id' => $appointment_id,
+            'message_admin' => $message_doctor
         ]);
         return response()->json(['message' => 'Thông báo đã được gửi']);
     }
@@ -157,6 +161,7 @@ class MessageService implements MessageUser {
         ];
         $this->pusherWeb()->trigger("user-notification-".$userId, 'notification-event-test', $messagess );
         $this->pusherWeb()->trigger("doctor-notification-".$doctor_id, 'notification-event-doctor', $message_doctors);
+        $this->pusherWeb()->trigger("admin-notification", 'notification-event-admin', $message_doctors);
         Notification::create([
             'user_id' => $userId,
             'message' => $message,
@@ -165,6 +170,7 @@ class MessageService implements MessageUser {
             'read_user' => 0,
             'read_doctor' => 0,
             'appointment_id' => $appointment_id,
+            'message_admin' => $message_doctor
         ]);
         return response()->json(['message' => 'Thông báo đã được gửi']);
     }

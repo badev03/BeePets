@@ -80,7 +80,7 @@ const displayedBills = bills
         <a href="doctor-profile.html" className="avatar avatar-sm me-2">
           <img
             className="avatar-img rounded-circle"
-            src="../src/assets/img/doctors/doctor-thumb-01.jpg"
+            src={bill.image}
             alt="User Image"
           />
         </a>

@@ -31,6 +31,19 @@
             <a class="btn btn-sm bg-success-light" href="{{ route($urlbase . 'edit', $value->id) }}">
                 <i class="fe fe-pencil"></i> Edit
             </a>
+        @elseif(date('Y-m-d') < $value->date && $value->status == 0)
+            <a class="btn btn-sm bg-success-light" href="#xac_nhan_{{ $value->id }}" data-bs-toggle="modal">
+                <svg fill="#e63c3c" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" xml:space="preserve" width="19px" height="19px"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css"> .st0{fill:none;} </style> <path d="M19.3,5.3L9,15.6l-4.3-4.3l-1.4,1.4l5,5L9,18.4l0.7-0.7l11-11L19.3,5.3z"></path> <rect class="st0" width="24" height="24"></rect> </g></svg>
+                </i> Xác nhận
+            </a>
+
+            <a data-bs-toggle="modal" data-delete="{{ $value->id }}" href="#delete_modal_{{ $value->id }}" class="delete_data btn btn-sm bg-danger-light">
+                <i class="fe fe-trash"></i> Hủy lịch
+            </a>
+
+            <a class="btn btn-sm bg-success-light" href="{{ route($urlbase . 'edit', $value->id) }}">
+                <i class="fe fe-pencil"></i> Edit
+            </a>
         @elseif(date('Y-m-d') >= $value->date && $value->status == 6)
             <a data-bs-toggle="modal" data-delete="{{ $value->id }}" href="#huy_lich{{ $value->id }}" class="delete_data btn btn-sm bg-danger-light">
                 <i class="fe fe-trash"></i> Hủy lịch
@@ -55,18 +68,23 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="form-content p-2 text-center">
-                        <h4 class="modal-title">Delete</h4>
+                        <h4 class="modal-title">Hủy Lịch</h4>
                         <p class="mb-4">Bạn có chắc chắn muốn hủy lịch này</p>
-                        <div class="d-flex justify-content-center" style="gap: 1rem">
+                        <div class="row d-flex justify-content-center" style="gap: 1rem">
                             <form action="{{ route($urlbase . 'destroy', $value->id) }}" method="post">
                                 @csrf
                                 @method('DELETE')
-
-                                <button class="btn bg-success-light"
-                                        type="submit">Xóa
-                                </button>
+                                <div class="col-sm-12">
+                                    <p>Nhập lý do hủy lịch</p>
+                                    <input type="text" class="form-control" name="reason_cancel">
+                                </div>
+                                <div>
+                                    <button class="btn bg-success-light"
+                                            type="submit">Hủy
+                                    </button>
+                                    <button type="button" class="btn bg-danger-light" data-bs-dismiss="modal">Đóng</button>
+                                </div>
                             </form>
-                            <button type="button" class="btn bg-danger-light" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>

@@ -144,20 +144,28 @@
         var pusher = new Pusher('59deaefaec6129103d3d', {
             cluster: 'ap1'
         });
+        let currentTime = new Date();
 
+        // Định dạng thời gian hiện tại (ví dụ: "DD-MM-YYYY HH:MM:SS")
+        let formattedTime = `${currentTime.getDate()}-${currentTime.getMonth() + 1}-${currentTime.getFullYear()} ${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}`;
         var channel = pusher.subscribe('admin-notification');
         channel.bind('notification-event-admin', function(data) {
-
+        console.log(data);
+            let route = "{{ route('appointment.show', ':id') }}";
+            route = route.replace(':id', data.appointment_id);
             let notification = `
                 <li class="notification-message">
                     <a href="#">
                         <div class="notify-block d-flex">
                             <span class="avatar avatar-sm flex-shrink-0">
-                                <img class="avatar-img rounded-circle" alt="User Image" src="assets/img/doctors/doctor-thumb-01.jpg">
+                                <img class="avatar-img rounded-circle" alt="User Image" src="${data.avatar}">
                             </span>
                             <div class="media-body flex-grow-1">
                                 <p class="noti-details">${data.message}</p>
-                                <p class="noti-time"><span class="notification-time">${data.now}</span></p>
+                                            <p class="noti-time d-flex justify-content-center align-items-center">
+                                                <span class="notification-time">${formattedTime}</span>
+                                                <a href="${route}">xem chi tiết</a>
+                                            </p>
                             </div>
                         </div>
                     </a>

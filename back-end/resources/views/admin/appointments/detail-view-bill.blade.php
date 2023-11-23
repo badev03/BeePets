@@ -164,7 +164,7 @@
                                         {{--                                            </div>--}}
                                     </div>
                                 </div>
-                                <a href="{{ URL::previous() }}" class="btn btn-primary">Quay lại</a>
+                                <a href="{{ route('appointment.index') }}" class="btn btn-primary">Quay lại</a>
                                 @if($model->status != 4)
                                     <button href="" class="btn bg-danger-light">Lưu</button>
                                 @endif

@@ -65,7 +65,7 @@
                                                 <label class="mb-2" for="validationCustom01">Bác sĩ</label>
                                                 <select class="form-select" name="doctor_id" id="doctor_id">
                                                     @foreach($dataDoctor as $keyDataDoctor=>$valueDataDoctor )
-                                                        <option value="{{ $valueDataDoctor->id }}" @if($valueDataDoctor->id == $model->doctor_id) selected @endif>{{ $valueDataDoctor->name }}</option>
+                                                        <option value="{{ $valueDataDoctor->id }}" @if($valueDataDoctor->name == $model->doctor_id) selected @endif>{{ $valueDataDoctor->name }}</option>
                                                     @endforeach
                                                 </select>
                                                 @if($errors->has('doctor_id'))
