@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class StatisticController extends Controller
 {
+    public $title = 'Thông kê sản phẩm';
     public function index()
     {
         $totalAmount = DB::table('bills')->sum('total_amount');

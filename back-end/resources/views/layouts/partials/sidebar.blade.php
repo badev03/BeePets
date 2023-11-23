@@ -5,11 +5,6 @@
                 <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
                     <a href="{{ route('dashboard') }}"><i class="fe fe-home"></i> <span>Bảng điều khiển</span></a>
                 </li>
-{{--                <li class="{{ request()->routeIs('statistic.index') ? 'active' : '' }}">--}}
-{{--                    <a href="{{ route('statistic.index') }}">--}}
-{{--                        <i class="fe fe-bar-chart"></i>--}}
-{{--                        <span>Thống kê</span></a>--}}
-{{--                </li>--}}
                 <li class="submenu">
                     <a href="#">
                         <i class="fe fe-layout"></i>
@@ -79,17 +74,11 @@
                 <li class="{{ request()->routeIs('setting') ? 'active' : '' }}">
                     <a href="{{ route('setting') }}"><i class="fe fe-vector"></i> <span>Cấu hình</span></a>
                 </li>
-                {{--                <li class="submenu">--}}
-                {{--                    <a href="#"><i class="fe fe-document"></i> <span> Báo cáo</span> <span class="menu-arrow"></span></a>--}}
-                {{--                    <ul style="display: none;">--}}
-                {{--                        <li><a href="invoice-report.html">Báo cáo hóa đơn</a></li>--}}
-                {{--                    </ul>--}}
-                {{--                </li>--}}
                 @role('Admin')
                 <hr class="text-white"/>
-                <li>
-                    <a href="{{ route('setting') }}"><i class="fe fe-user-plus"></i> <span>Hồ sơ</span></a>
-                </li>
+{{--                <li>--}}
+{{--                    <a href="{{ route('setting') }}"><i class="fe fe-user-plus"></i> <span>Hồ sơ</span></a>--}}
+{{--                </li>--}}
                 <li class="submenu">
                     <a href="#"><i class="fe fe-user-plus"></i> <span> Tài khoản </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
