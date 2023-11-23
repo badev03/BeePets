@@ -409,13 +409,21 @@ const Appointments = () => {
                                 <i className="far fa-eye" /> Lịch Hẹn
                               </Link>
                             </Menu.Item>
-                            <Menu.Item>
-                              <Link to={appointment.bill[0]?.id ? `/doctors/detail-bill/${appointment.bill[0].id}` : "#"}
-                                    style={{ width: "100%" }}
-                                    className="btn btn-sm bg-info-light">
-                                <i className="far fa-eye" /> Hóa Đơn
-                              </Link>
-                            </Menu.Item>
+                            {appointment.status != 6 && (
+              <Menu.Item>
+                <Link
+                  to={
+                    appointment.bill[0]?.id
+                      ? `/doctors/detail-bill/${appointment.bill[0].id}`
+                      : "#"
+                  }
+                  style={{ width: "100%" }}
+                  className="btn btn-sm bg-info-light"
+                >
+                  <i className="far fa-eye" /> Hóa Đơn
+                </Link>
+              </Menu.Item>
+            )}
                           </Menu>
                         }
                     >

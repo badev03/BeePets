@@ -239,10 +239,12 @@ console.log(response.appointment);
     <span className="profile-value">{formatShiftTime(appointments.shift_name)}</span>
     <span className="profile-value">{formatDate(appointments.date)}</span>
   </div>
+  {appointments.total_amount ? (
   <div className="profile-item">
     <span className="profile-label">Tổng tiền:</span>
     <span className="profile-value">{formatCurrency(appointments.total_amount)}</span>
   </div>
+) : null}
   <div className="profile-item">
     <span className="profile-label">Ghi chú:</span>
     <span className="profile-value">{appointments.description}</span>
