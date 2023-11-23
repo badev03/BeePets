@@ -41,7 +41,7 @@ const AcceptDetailAppointment = () => {
         }
       );
       setAppointments(response.appointment);
-
+console.log(response.appointment);
 
 
     } catch (error) {
@@ -208,10 +208,12 @@ const AcceptDetailAppointment = () => {
                           <span className="profile-value">{formatShiftTime(appointments.shift_name)}</span>
                           <span className="profile-value">{formatDate(appointments.date)}</span>
                         </div>
-                        <div className="profile-item">
-                          <span className="profile-label">Tổng tiền:</span>
-                          <span className="profile-value">{formatCurrency(appointments.total_amount)}</span>
-                        </div>
+                        {appointments.total_amount ? (
+                            <div className="profile-item">
+                              <span className="profile-label">Tổng tiền:</span>
+                              <span className="profile-value">{formatCurrency(appointments.total_amount)}</span>
+                            </div>
+                          ) : null}
                         <div className="profile-item">
                           <span className="profile-label">Ghi chú:</span>
                           <span className="profile-value">{appointments.description}</span>
@@ -246,6 +248,7 @@ const AcceptDetailAppointment = () => {
                             </span>
                           )}</span>
                           <br />
+                          {appointments.appointment_status == 0 && (
                           <div className="profile-item" style={{ marginTop: '20px' }}>
                             <span className="profile-value">
                               <div className="table-action">
@@ -255,7 +258,7 @@ const AcceptDetailAppointment = () => {
                                   className={`btn btn-sm bg-success-light position-relative`}
                                   style={{
                                     marginRight: '10px',
-                                    display: appointments.appointment_status == 1 || appointments.appointment_status == 6 ? 'none' : 'inline-block'
+                                 
                                   }}
                                 >
                                   {loadingId === appointments.id ? (
@@ -273,9 +276,7 @@ const AcceptDetailAppointment = () => {
                                 <div
                                   onClick={() => showModal(appointments.id)}
                                   className={`btn btn-sm bg-danger-light position-relative`}
-                                  style={{
-                                    display: appointments.appointment_status == 6 ? 'none' : 'inline-block'
-                                  }}
+                                 
                                 >
                                   {loadingIdd === appointments.id ? (
                                     <div className="loading-spinner">
@@ -332,7 +333,7 @@ const AcceptDetailAppointment = () => {
                               </Form>
                             </Modal>
                           </div>
-
+                          )}
 
                         </div>
                       </div>
