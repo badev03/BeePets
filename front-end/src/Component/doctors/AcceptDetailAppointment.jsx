@@ -29,7 +29,7 @@ const AcceptDetailAppointment = () => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-  
+
 
   const fetchAppointment = async () => {
     try {
@@ -49,7 +49,7 @@ const AcceptDetailAppointment = () => {
     }
   };
   if (token) {
-    
+
     useEffect(() => {
       fetchAppointment();
     }, []);
@@ -99,7 +99,7 @@ const AcceptDetailAppointment = () => {
           },
         },
       );
-      
+
       setIsModalVisible(false);
 
       MySwal.fire({
@@ -173,37 +173,6 @@ const AcceptDetailAppointment = () => {
 
                 </div>
               </div>
-              {/* <div className="card">
-            <div className="card-header">
-              <h4 className="card-title">Lịch đặt gần đây</h4>
-            </div>
-            <ul className="list-group list-group-flush">
-              <li className="list-group-item">
-                <div className="notify-block align-items-center d-flex">
-                  <div className="me-3 flex-shrink-0">
-                    <img alt="Image placeholder" src="/img/doctors/doctor-thumb-02.jpg" className="avatar  rounded-circle" />
-                  </div>
-                  <div className="media-body flex-grow-1">
-                    <h5 className="d-block mb-0">Dr. Darren Elder </h5>
-                    <span className="d-block text-sm text-muted">Dentist</span>
-                    <span className="d-block text-sm text-muted">14 Nov 2023 5.00 PM</span>
-                  </div>
-                </div>
-              </li>
-              <li className="list-group-item">
-                <div className="notify-block align-items-center d-flex">
-                  <div className="me-3 flex-shrink-0">
-                    <img alt="Image placeholder" src="/img/doctors/doctor-thumb-02.jpg" className="avatar  rounded-circle" />
-                  </div>
-                  <div className="media-body flex-grow-1">
-                    <h5 className="d-block mb-0">Dr. Darren Elder </h5>
-                    <span className="d-block text-sm text-muted">Dentist</span>
-                    <span className="d-block text-sm text-muted">12 Nov 2023 11.00 AM</span>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div> */}
             </div>
             <div className="col-md-7 col-lg-8 col-xl-9">
 
@@ -278,12 +247,16 @@ const AcceptDetailAppointment = () => {
                           )}</span>
                           <br />
                           <div className="profile-item" style={{ marginTop: '20px' }}>
-                              <span className="profile-value">
+                            <span className="profile-value">
                               <div className="table-action">
-                               
+                                {/* Xác nhận Button */}
                                 <div
                                   onClick={() => handleUpdate(appointments.id)}
-                                  className="btn btn-sm bg-success-light position-relative"
+                                  className={`btn btn-sm bg-success-light position-relative`}
+                                  style={{
+                                    marginRight: '10px',
+                                    display: appointments.appointment_status == 1 || appointments.appointment_status == 6 ? 'none' : 'inline-block'
+                                  }}
                                 >
                                   {loadingId === appointments.id ? (
                                     <div className="loading-spinner ">
@@ -295,10 +268,14 @@ const AcceptDetailAppointment = () => {
                                     </>
                                   )}
                                 </div>
+
+                                {/* Nút Yêu cầu hủy */}
                                 <div
                                   onClick={() => showModal(appointments.id)}
-                                  className="btn btn-sm bg-danger-light position-relative"
-
+                                  className={`btn btn-sm bg-danger-light position-relative`}
+                                  style={{
+                                    display: appointments.appointment_status == 6 ? 'none' : 'inline-block'
+                                  }}
                                 >
                                   {loadingIdd === appointments.id ? (
                                     <div className="loading-spinner">
@@ -310,7 +287,6 @@ const AcceptDetailAppointment = () => {
                                     </>
                                   )}
                                 </div>
-
                               </div>
                             </span>
                             <Modal
@@ -319,14 +295,13 @@ const AcceptDetailAppointment = () => {
                               onCancel={() => setIsModalVisible(false)}
                               footer={[
                                 <Button key="cancel" onClick={() => setIsModalVisible(false)}>
-                                  Cancel
+                                  Huỷ
                                 </Button>,
                               ]}
                             >
                               <Form
                                 onFinish={(values) => {
                                   handleCancelStatus(selectedAppointmentId, values.content);
-                                  // console.log('Received values of form: ', reason,selectedAppointmentId);
                                 }}
                               >
                                 {/* Thêm các trường form tại đây */}
@@ -357,6 +332,7 @@ const AcceptDetailAppointment = () => {
                               </Form>
                             </Modal>
                           </div>
+
 
                         </div>
                       </div>
