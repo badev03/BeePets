@@ -104,6 +104,7 @@ const Appointments = () => {
         },
       });
       setAppointment(response.data);
+      console.log(response.data);
       setLoading(false);
       setError(false);
     } catch (error) {

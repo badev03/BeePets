@@ -41,7 +41,7 @@ const AcceptDetailAppointment = () => {
         }
       );
       setAppointments(response.appointment);
-
+console.log(response.appointment);
 
 
     } catch (error) {
