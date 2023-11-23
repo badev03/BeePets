@@ -409,12 +409,12 @@ class DoctorController extends Controller
                         $existingProduct = collect($request->products)->firstWhere('product_id', $existingPreProduct->product_id);
                         // dd($existingProduct);
                         if ($existingProduct) {
-                            
+
                             $existingPreProduct->quantity = $existingProduct['quantity'];
                             $existingPreProduct->price = $existingProduct['price_product'];
                             $existingPreProduct->instructions = $existingProduct['instructions'];
                             $existingPreProduct->save();
-                           
+
                         } else {
                             Prescription_product::where('product_id', $existingPreProduct->product_id)->delete();
                         }

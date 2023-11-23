@@ -36,6 +36,7 @@ const Editbill = () => {
   const [billDefault, setBillDefault] = useState(null);
   const [selectedItems, setSelectedItems] = useState([]);
   const [selectedQuantityState, setSelectedQuantityState] = useState(0);
+  const [selectedTotalPrice, setSelectedTotalPrice] = useState([]);
   const [valuePropEnabled, setValuePropEnabled] = useState(true);
 
 
@@ -74,7 +75,7 @@ const Editbill = () => {
               };
             });
           }).flat();
-
+          console.log(productdefault)
           setSelectedProductDefault(productdefault);
           setSelectedProducts(productdefault);
           setEditedName(response.bill.prescriptions[0].name);
@@ -128,21 +129,25 @@ const Editbill = () => {
 
       const defaultQuantity = existingProduct ? existingProduct.quantity : 1;
 
-      const defaultInstruction = existingProduct ? existingProduct.instruction : '';
+      const defaultInstruction = existingProduct ? existingProduct.instructions : '';
 
       return {
         label: selectedProduct.name,
         value: selectedProduct.id,
         price: selectedProduct.price,
         quantity: defaultQuantity,
-        instruction :  defaultInstruction
+        instructions :  defaultInstruction
         // Other properties...
       };
     });
-
+    console.log(selectedProductsInfo)
     setSelectedProductDefault(selectedProductsInfo);
 
     setSelectedProducts([...selectedProductsInfo]);
+
+    setSelectedTotalPrice([...selectedProductsInfo]);
+
+    // setBillDefault(selectedProductsInfo);
   };
 
   const handleServiceSelectChange = (selectedValues) => {
@@ -170,16 +175,32 @@ const Editbill = () => {
   };
 
   const handleInstructionChange = (e, productIndex) => {
-
-    if(bills.prescriptions.productss) {
-      const updatedPrescriptions = [...bills.prescriptions];
-      updatedPrescriptions[0].productss[
-          productIndex
-          ].pivot.instructions = e.target.value;
-      setBills((prevBills) => ({
-        ...prevBills,
-        prescriptions: updatedPrescriptions,
-      }));
+    console.log(billDefault)
+    // if(bills == null) {
+    //   // if(billDefault.prescriptions.productss) {
+    //   //   const updatedPrescriptions = [...billDefault.prescriptions];
+    //   //   updatedPrescriptions[0].productss[
+    //   //       productIndex
+    //   //       ].pivot.instructions = e.target.value;
+    //   //   setBills((prevBills) => ({
+    //   //     ...prevBills,
+    //   //     prescriptions: updatedPrescriptions,
+    //   //   }));
+    //
+    //     console.log(updatedPrescriptions);
+    //   // }
+    // }
+    if(bills != null) {
+      if(bills.prescriptions.productss) {
+        const updatedPrescriptions = [...bills.prescriptions];
+        updatedPrescriptions[0].productss[
+            productIndex
+            ].pivot.instructions = e.target.value;
+        setBills((prevBills) => ({
+          ...prevBills,
+          prescriptions: updatedPrescriptions,
+        }));
+      }
     }
     const newSelectedProducts = selectedProducts.map((product, index) => {
       if (index === productIndex) {
@@ -191,9 +212,8 @@ const Editbill = () => {
       return product;
     });
 
-
-    setSelectedProducts(newSelectedProducts);
-
+    console.log(newSelectedProducts)
+    setSelectedProducts([...newSelectedProducts]);
   };
 
   const handleQuantityChange = (e, productIndex) => {
@@ -210,9 +230,10 @@ const Editbill = () => {
         return product;
       });
 
-      setSelectedProducts(updatedSelectedProducts);
+      setSelectedProducts([...updatedSelectedProducts]);
       setSelectedProductDefault(updatedSelectedProducts)
-
+      setSelectedTotalPrice([...updatedSelectedProducts]);
+      // setBills([...updatedSelectedProducts]);
     }
   };
 
@@ -233,6 +254,8 @@ const Editbill = () => {
     } else {
       setDescriptionError("");
     }
+
+    console.log(selectedProducts);
     const products = selectedProducts.map((selectedProduct) => ({
       product_id: selectedProduct.value,
       quantity: selectedProduct.quantity || 1,
@@ -250,15 +273,22 @@ const Editbill = () => {
           0
       );
       return acc + productsTotal;
-    }, 0);
 
+    }, 0);
+    let totalPriceDefault = 0;
+    if (isNaN(totalPrice) || totalPrice === undefined || totalPrice === null) {
+      totalPriceDefault = selectedTotalPrice.reduce((acc, product) => {
+        const quantity = product.quantity || 0;
+        const price = product.price || 0;
+        return acc + quantity * price;
+      }, 0);
+    }
     const services = selectedServices.map((selectedService) => ({
       service_id: selectedService.value,
     }));
-
     const data = {
       name: editedName,
-      price: totalPrice || '111',
+      price: totalPrice || totalPriceDefault,
       bill_id: id,
       user_id: userId,
       doctor_id: doctorId,
@@ -267,6 +297,7 @@ const Editbill = () => {
       description: description,
     };
     console.log(data)
+
     try {
       await billApi.updateBill(id, data, {
         headers: {
@@ -820,7 +851,7 @@ const Editbill = () => {
                                 "Lưu"
                             )}
                           </button>
-                          <Link to="/doctors/patient-profile">
+                          <Link to={`/doctors/detail-bill/${id}`}>
                             {" "}
                             <button
                                 type="reset"
