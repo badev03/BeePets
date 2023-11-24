@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiUrl = 'https://beepets.id.vn/api/';
+const apiUrl = 'http://127.0.0.1:8000/api/';
 
 const DoctorInfoApi = {
     getAll(token) {

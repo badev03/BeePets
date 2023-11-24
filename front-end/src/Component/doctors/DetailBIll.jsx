@@ -83,7 +83,7 @@ const DetailBIll = () => {
     setLoadingId(id);
     try {
       const respon = await axios.put(
-        `https://beepets.id.vn/api/update-appointment/${id}?status=4`,
+        `http://127.0.0.1:8000/api/update-appointment/${id}?status=4`,
         {},
         {
           headers: {

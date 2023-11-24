@@ -16,7 +16,7 @@ const BillDetail = () => {
       const fetchBillDetail = async () => {
         try {
           const response = await axios.get(
-            `https://beepets.id.vn/api/detail-bill-user/${id}`,
+            `http://127.0.0.1:8000/api/detail-bill-user/${id}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,

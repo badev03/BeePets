@@ -206,7 +206,7 @@
             if (isLoading) return;
             let route = '{{ route('notification.new') }}';
             isLoading = true;
-
+            let routes = "{{ route('appointment.show', ':id') }}";
             $.ajax({
                 url: route + '?page=' + page,
                 method: 'GET',
@@ -215,6 +215,7 @@
                     console.log(response);
                     if (response && response.data && response.data.length > 0) {
                         response.data.forEach(function (notification) {
+                            routes = routes.replace(':id', notification.appointment_id);
                             let notificationHTML = `<a href="#">
                             <div class="notify-block d-flex">
                                 <span class="avatar avatar-sm flex-shrink-0">
@@ -226,7 +227,7 @@
                                     </p>
                                     <p class="noti-time d-flex justify-content-center align-items-center">
                                         <span class="notification-time">${notification.formatted_created_at}</span>
-                                        <a href="${notification.appointment_id}">xem chi tiết</a>
+                                        <a href="${routes}">xem chi tiết</a>
                                     </p>
                                 </div>
                             </div>
