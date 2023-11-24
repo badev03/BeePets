@@ -91,4 +91,32 @@ class NotificationController extends Controller
 
         return response()->json(['message' => $unreadNotifications]);
     }
+
+    public function NotificationNew(Request $request) {
+        $page = $request->get('page', 1); // Lấy giá trị của 'page' từ request, mặc định là 1 nếu không có
+
+        $notifications = Notification::select(
+            'notifications.id',
+            'users.name',
+            'users.avatar',
+            'message',
+            'notifications.created_at',
+            'notifications.appointment_id',
+            'notifications.message_admin'
+        )
+            ->join('users', 'users.id', '=', 'notifications.user_id')
+            ->whereNotNull('notifications.message_admin')
+            ->orderBy('notifications.appointment_id', 'desc')
+            ->paginate(5, ['*'], 'page', $page); // Phân trang với 5 bản ghi mỗi trang
+        foreach ($notifications as $notification) {
+            $notification->formatted_created_at = Carbon::parse($notification->created_at)->format('Y-m-d H:i:s');
+        }
+
+        return response()->json($notifications);
+    }
+
+    public function NotificationSms() {
+
+        return back()->with(['success' => 'Đã gửi thông báo thành công']);
+    }
 }

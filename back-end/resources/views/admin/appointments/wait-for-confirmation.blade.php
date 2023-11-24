@@ -24,14 +24,14 @@
                     </div>
                     <div class="row mt-3">
                         <h6 class="card-title text-danger">Bộ lọc</h6>
-                        <div class="col-4 mt-3">
-                            <label class="form-label">Loại thú cưng</label>
-                            <select class="form-select" name="type_pet_id">
-                                @foreach($dataTypePet as $key=>$value)
-                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+{{--                        <div class="col-4 mt-3">--}}
+{{--                            <label class="form-label">Loại thú cưng</label>--}}
+{{--                            <select class="form-select" name="type_pet_id">--}}
+{{--                                @foreach($dataTypePet as $key=>$value)--}}
+{{--                                    <option value="{{ $value->id }}">{{ $value->name }}</option>--}}
+{{--                                @endforeach--}}
+{{--                            </select>--}}
+{{--                        </div>--}}
                         <div class="col-4 mt-3">
                             <label class="form-label">Chọn bác sĩ</label>
                             <select class="form-select doctor_id_index" name="doctor_id">
@@ -60,13 +60,9 @@
                                 <option value="Ca 3">Ca 3</option>
                             </select>
                         </div>
-                        <div class="col-4 mt-3">
-                            <label class="form-label">Tên người dùng</label>
-                            <input style="height: 38px" id="search_input" name="name" type="text" class="form-control search_input">
-                        </div>
                     </div>
                     <button id="filter_searchName" class="btn me-2 btn-sm bg-success-light mt-3 filter_searchName">Lọc dữ liệu</button>
-                    <a href="{{ route($urlbase.'index') }}" class="btn btn-sm bg-danger-light mt-3">Làm mới bộ lọc</a>
+                    <a href="#" class="btn btn-sm bg-danger-light mt-3">Làm mới bộ lọc</a>
 
                 </div>
                 <div class="card-body">
@@ -485,15 +481,15 @@
 
         function action_status(status , id) {
             let html = '';
-            var Route = '{{ route('appointments.detail-bills-appointment', ":id") }}'
+            var Route = '{{ route('appointment.edit', ":id") }}'
             Route = Route.replace(':id', id);
             if (status == 0) {
                 html += '<td class="d-flex" style="grid-gap:1rem">' +
                     '<div class="d-flex" style="grid-gap:0.5rem">' +
                     '<a href="'+Route+'" class="delete_data btn btn-sm bg-info-light">' +
-                    'Xem chi tiết cuộc hẹn / bill' +
+                    'Edit' +
                     '</a>' +
-                    '<a class="btn btn-sm bg-success-light" href="#xac_nhan_118" data-bs-toggle="modal">' +
+                    '<a class="btn btn-sm bg-success-light" href="#xac_nhan_' + id + '" data-bs-toggle="modal">' +
                     '<svg fill="#e63c3c" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" xml:space="preserve" width="19px" height="19px">' +
                     '<g id="SVGRepo_bgCarrier" stroke-width="0"></g>' +
                     '<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>' +
@@ -505,31 +501,7 @@
                     '</svg>' +
                     'Xác nhận' +
                     '</a>' +
-                    '<a data-bs-toggle="modal" data-delete="118" href="#delete_modal_118" class="delete_data btn btn-sm bg-danger-light">' +
-                    '<i class="fe fe-trash"></i> Hủy lịch' +
-                    '</a>' +
-                    '</div>' +
-                    '</td>';
-            }
-            else if(status == 1){
-                html += '<td class="d-flex" style="grid-gap:1rem">' +
-                    '<div class="actions">' +
-                    '<a href="'+Route+'" class="delete_data btn btn-sm bg-info-light">' +
-                    'Xem chi tiết cuộc hẹn / bill' +
-                    '</a>' +
-                    '<a class="btn btn-sm bg-success-light" href="#xac_nhan_118" data-bs-toggle="modal">' +
-                    '<svg fill="#e63c3c" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" xml:space="preserve" width="19px" height="19px">' +
-                    '<g id="SVGRepo_bgCarrier" stroke-width="0"></g>' +
-                    '<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>' +
-                    '<g id="SVGRepo_iconCarrier"> ' +
-                    '<style type="text/css"> .st0{fill:none;} </style>' +
-                    '<path d="M19.3,5.3L9,15.6l-4.3-4.3l-1.4,1.4l5,5L9,18.4l0.7-0.7l11-11L19.3,5.3z"></path> ' +
-                    '<rect class="st0" width="24" height="24"></rect>' +
-                    '</g>' +
-                    '</svg>' +
-                    'Xác nhận' +
-                    '</a>' +
-                    '<a data-bs-toggle="modal" data-delete="118" href="#delete_modal_118" class="delete_data btn btn-sm bg-danger-light">' +
+                    '<a data-bs-toggle="modal" data-delete="118" href="#delete_modal_' + id + '" class="delete_data btn btn-sm bg-danger-light">' +
                     '<i class="fe fe-trash"></i> Hủy lịch' +
                     '</a>' +
                     '</div>' +

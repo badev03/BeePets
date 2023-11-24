@@ -6,10 +6,8 @@ import logoutDoctor from '../../api/logoutDoctor';
 import TopLink from '../../Link/TopLink';
 const Menudashboard = () => {
 
-  const [doctor, setDoctors] = useState(() => {
-    const savedData = localStorage.getItem("doctorData");
-    return savedData ? JSON.parse(savedData) : [];
-  });
+  const [doctor, setDoctors] = useState([]);
+  const [scrollPosition, setScrollPosition] = useState([]);
 
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
@@ -31,26 +29,30 @@ const Menudashboard = () => {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    const fetchDoctor = async () => {
-      try {
-        const response = await doctorsApi.getDoctor({
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setDoctors(response.doctor);
-        localStorage.setItem("doctorData", JSON.stringify(response.doctor));
-      } catch (error) {
-        console.error("Không có dữ liệu:", error);
-      }
-    };
-
-    if (token && !doctor.length) {
-      fetchDoctor();
+  const fetchDoctor = async () => {
+    try {
+      const response = await doctorsApi.getDoctor({
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setDoctors(response.doctor);
+      // localStorage.setItem("doctorData", JSON.stringify(response.doctor));
+    } catch (error) {
+      console.error("Không có dữ liệu:", error);
     }
-  }, [token, doctor]);
+  };
+  if (token) {
+    useEffect(() => {
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+      if (!storedUser || !storedUser.name) {
+        fetchDoctor();
+      } else {
+        setDoctors(storedUser);
+      }
+    }, [token]);
+  }
+  
 
   const initialActiveItems = JSON.parse(localStorage.getItem("activeItems")) || ["Bộ điều khiển"];
   const [activeItems, setActiveItems] = useState(initialActiveItems);
@@ -87,9 +89,17 @@ const Menudashboard = () => {
     <div className="profile-sidebar" >
       <div className="widget-profile pro-widget-content">
         <div className="profile-info-widget">
-          <Link to="#" className="booking-doc-img">
-            <img src={doctor.image} alt="User Image" />
-          </Link>
+        {doctor.image ? (
+             <div className="booking-doc-img">
+                         <img src={doctor.image} alt="User Image" />
+
+           </div>
+            ) : (
+             
+              <div className="default-avatar booking-doc-img">
+                <img src="https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg" alt="Default Avatar" />
+              </div>
+            )}
           <div className="profile-det-info">
             <h3>{doctor.name}</h3>
             <div className="patient-details">
@@ -112,6 +122,29 @@ const Menudashboard = () => {
                 <span>Bảng điều khiển</span>
               </Link>
             </li>
+            <li
+              className={`has-submenu megamenu ${location.pathname === "/doctors/StatisticAppointment" ? "active" : ""
+                }`}
+              onClick={() => handleItemClick("Thống kê cuộc hẹn")}
+            >
+              <Link to={"/doctors/StatisticAppointment"}>
+                <i className="fas fa-columns" />
+                <span>Thống kê cuộc hẹn</span>
+              </Link>
+            </li>
+
+            <li
+              className={`has-submenu megamenu ${location.pathname === "/doctor/statisticalPet" ? "active" : ""
+                }`}
+              onClick={() => handleItemClick("Thống kê thú cưng")}
+            >
+              <Link to={"/doctors/statisticalPet"}>
+                <i className="fas fa-columns" />
+                <span>Thống kê thú cưng</span>
+              </Link>
+            </li>
+
+
             <li
               className={`has-submenu megamenu ${location.pathname === "/doctors/appointments" ? "active" : ""
                 }`}

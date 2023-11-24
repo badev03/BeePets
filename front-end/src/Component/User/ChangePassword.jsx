@@ -1,49 +1,51 @@
 import React from 'react';
 import Sidebar from './Sidebar';
-import { useState } from "react";
+import { useState } from 'react';
 import axios from 'axios';
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 const MySwal = withReactContent(Swal);
-import { useAuth } from "../../Context/ContextAuth";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useAuth } from '../../Context/ContextAuth';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const ChangePasswordUser = () => {
   const { token } = useAuth();
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordNew, setShowPasswordNew] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
-  const [oldPasswordError, setOldPasswordError] = useState("");
-  const [newPasswordError, setNewPasswordError] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
-
+  const [oldPasswordError, setOldPasswordError] = useState('');
+  const [newPasswordError, setNewPasswordError] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const userString = localStorage.getItem('user')
+  const user = JSON.parse(userString)
+  // console.log(user.phone);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setOldPasswordError("");
-    setNewPasswordError("");
-    setConfirmPasswordError("");
+    setOldPasswordError('');
+    setNewPasswordError('');
+    setConfirmPasswordError('');
 
-    if (oldPassword === "") {
-      setOldPasswordError("Vui lòng nhập mật khẩu cũ.");
+    if (oldPassword === '') {
+      setOldPasswordError('Vui lòng nhập mật khẩu cũ.');
     }
-    if (newPassword === "") {
-      setNewPasswordError("Vui lòng nhập mật khẩu mới.");
+    if (newPassword === '') {
+      setNewPasswordError('Vui lòng nhập mật khẩu mới.');
     }
-    if (confirmPassword === "") {
-      setConfirmPasswordError("Vui lòng nhập lại mật khẩu mới.");
+    if (confirmPassword === '') {
+      setConfirmPasswordError('Vui lòng nhập lại mật khẩu mới.');
     }
 
     if (oldPasswordError || newPasswordError || confirmPasswordError) {
       return;
     }
-
+    
     try {
       const response = await axios.post(
-        `http://127.0.0.1:8000/api/change-password/0981608298`,
+        `http://127.0.0.1:8000/api/change-password/${user.phone}`,
         {
           old_password: oldPassword,
           new_password: newPassword,
@@ -57,11 +59,11 @@ const ChangePasswordUser = () => {
       );
 
       MySwal.fire({
-        title: "Đổi mật khẩu thành công!",
-        icon: "success",
+        title: 'Đổi mật khẩu thành công!',
+        icon: 'success',
       });
     } catch (error) {
-      console.error("Đổi mật khẩu thất bại:", error);
+      console.error('Đổi mật khẩu thất bại:', error);
     }
   };
 

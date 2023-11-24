@@ -10,7 +10,7 @@ import { FaSpinner } from "react-icons/fa";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import LoadingSkeleton from "../Loading";
-import { Modal, Form, Input, Button } from "antd";
+import { Modal, Form, Input, Button , Dropdown, Menu } from "antd";
 
 const MySwal = withReactContent(Swal);
 
@@ -40,6 +40,7 @@ const Dashboarddoctors = () => {
         },
       });
       setAppointment(response.data);
+      console.log(response);
       setLoading(false);
       setError(false);
     } catch (error) {
@@ -133,6 +134,30 @@ const Dashboarddoctors = () => {
       setLoadingIdd(null);
     }
   };
+  function formatDate(dateString) {
+    if (dateString) {
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      const formattedDate = new Date(dateString).toLocaleDateString(
+        "vi-VN",
+        options,
+      );
+      // Loại bỏ từ "lúc" từ chuỗi được định dạng
+      return formattedDate.replace("lúc", "").trim();
+    }
+    return "";
+  }
+  const formatShiftTime = (shiftName) => {
+    switch (shiftName) {
+      case "Ca 1":
+        return " 8:00h-12:00h";
+      case "Ca 2":
+        return "13:00h-17:00h";
+      case "Ca 3":
+        return "18:00h-20:00h";
+      default:
+        return "";
+    }
+  };
   const displayAppointments = filteredAppointments
     .slice(pagesVisited, pagesVisited + appointmentsPerPage)
     .map((appointment) => (
@@ -142,7 +167,7 @@ const Dashboarddoctors = () => {
             <Link to="patient-profile.html" className="avatar avatar-sm me-2">
               <img
                 className="avatar-img rounded-circle"
-                src="img/patients/patient.jpg"
+                src={appointment.user.avatar}
                 alt="User Image"
               />
             </Link>
@@ -150,92 +175,100 @@ const Dashboarddoctors = () => {
           </h2>
         </td>
         <td>
-          {appointment.date}
-          <span className="d-block text-info">{appointment.shift_name}</span>
+        <span className="d-block text-info">{appointment.shift_name}</span>
+          <span className="d-block ">
+            {formatShiftTime(appointment.shift_name)}
+          </span>
+          <span className="d-block ">
+          {formatDate(appointment.date)}
+          </span>
         </td>
-        <td>{appointment.service.name}</td>
+        {/*<td>{appointment.service.name}</td>*/}
         <td>{appointment.type_pet.name}</td>
         <td>
-          <div className="table-action">
-            <Link
-              to={`/doctors/detail-appointments/${appointment.id}`}
-              className="btn btn-sm bg-info-light"
-            >
-              <i className="far fa-eye" /> Xem Lịch Hẹn
-            </Link>
-            <div
-              onClick={() => handleUpdate(appointment.id)}
-              className="btn btn-sm bg-success-light position-relative"
-            >
-              {loadingId === appointment.id ? (
-                <div className="loading-spinner">
-                  <FaSpinner className="spinner" /> Chấp nhận
-                </div>
-              ) : (
-                <>
-                  <i className="fas fa-check me-2" /> Chấp nhận
-                </>
-              )}
-            </div>
-            <div
-              onClick={() => showModal(appointment.id)}
-              className="btn btn-sm bg-danger-light position-relative"
-            >
-              {loadingIdd === appointment.id ? (
-                <div className="loading-spinner">
-                  <FaSpinner className="spinner" /> Y/C Hủy
-                </div>
-              ) : (
-                <>
-                  <i className="fas fa-times" /> Y/C Hủy
-                </>
-              )}
-            </div>
-          </div>
+          {appointment.status == 1 ? (
+            <span className="badge rounded-pill bg-success-light">
+              Xác nhận
+            </span>
+          ) : appointment.status == 2 ? (
+            <span className="badge rounded-pill bg-danger-light">Đã xóa</span>
+          ) : appointment.status == 4 ? (
+            <span className="badge rounded-pill bg-primary-light">
+              Đã hoàn thành
+            </span>
+          ) : appointment.status == 3 ? (
+            <span className="badge rounded-pill bg-danger-light">Đã hủy</span>
+          ) : appointment.status == 6 ? (
+            <span className="badge rounded-pill bg-warning-light">
+              Yêu cầu hủy
+            </span>
+          ) : appointment.status == 0 ? (
+            <span className="badge rounded-pill bg-warning-light">
+              Chờ xác nhận
+            </span>
+          ) : (
+            <span className="badge rounded-pill bg-info-light">
+              Không xác định
+            </span>
+          )}
         </td>
-        <Modal
-          title="Yêu cầu Hủy Lịch"
-          visible={isModalVisible}
-          onCancel={() => setIsModalVisible(false)}
-          footer={[
-            <Button key="cancel" onClick={() => setIsModalVisible(false)}>
-              Cancel
-            </Button>,
-          ]}
+        <td>
+      <div className="table-action">
+        <Dropdown
+          overlay={
+            <Menu>
+              <Menu.Item>
+                <Link to={`/doctors/detail-appointments/${appointment.id}`} className="btn btn-sm bg-info-light" 
+                  style={{width:"100%"}}
+                  >
+                  <i className="far fa-eye" /> Xem Lịch Hẹn
+                </Link>
+              </Menu.Item>
+              <Menu.Item>
+                <div
+                  onClick={() => handleUpdate(appointment.id)}
+                  className="btn btn-sm bg-success-light position-relative"
+                  style={{width:"100%"}}
+                >
+                  {loadingId === appointment.id ? (
+                    <div className="loading-spinner">
+                      <FaSpinner className="spinner" /> Chấp nhận
+                    </div>
+                  ) : (
+                    <>
+                      <i className="fas fa-check me-2" /> Chấp nhận
+                    </>
+                  )}
+                </div>
+              </Menu.Item>
+              <Menu.Item>
+                <div
+                  onClick={() => showModal(appointment.id)}
+                  className="btn btn-sm bg-danger-light position-relative"
+                  style={{width:"100%"}}
+
+                >
+                  {loadingIdd === appointment.id ? (
+                    <div className="loading-spinner">
+                      <FaSpinner className="spinner" /> Y/C Hủy
+                    </div>
+                  ) : (
+                    <>
+                      <i className="fas fa-times" /> Y/C Hủy
+                    </>
+                  )}
+                </div>
+              </Menu.Item>
+            </Menu>
+          }
         >
-          <Form
-            onFinish={(values) => {
-              handleCancelStatus(selectedAppointmentId, values.content);
-              // console.log('Received values of form: ', reason,selectedAppointmentId);
-            }}
-          >
-            {/* Thêm các trường form tại đây */}
-            <Form.Item
-              name="content"
-              rules={[
-                {
-                  required: true,
-                  message: "Vui lòng nhập lí do hủy cuộc hẹn!",
-                },
-                {
-                  min: 6,
-                  message: "Lí do hủy phải có ít nhất 6 ký tự!",
-                },
-              ]}
-            >
-              <Input.TextArea
-                placeholder="Nhập lí do hủy cuộc hẹn tại đây"
-                autoSize={{ minRows: 3, maxRows: 5 }}
-                onChange={(e) => setReason(e.target.value)}
-              />
-            </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Gửi Yêu cầu
-              </Button>
-            </Form.Item>
-          </Form>
-        </Modal>
+         <a className="btn btn-sm bg-info-light" onClick={(e) => e.preventDefault()}>
+             Hành động
+           </a>
+        </Dropdown>
+      </div>
+    </td>
+      
       </tr>
     ));
   return (
@@ -301,15 +334,15 @@ const Dashboarddoctors = () => {
                         />
                       </div>
 
-                      <div className="input-group">
-                        <input
-                          type="text"
-                          id="searchService"
-                          placeholder="Lọc theo dịch vụ"
-                          onChange={(e) => setSearchService(e.target.value)}
-                          className="input-group-item"
-                        />
-                      </div>
+                      {/*<div className="input-group">*/}
+                      {/*  <input*/}
+                      {/*    type="text"*/}
+                      {/*    id="searchService"*/}
+                      {/*    placeholder="Lọc theo dịch vụ"*/}
+                      {/*    onChange={(e) => setSearchService(e.target.value)}*/}
+                      {/*    className="input-group-item"*/}
+                      {/*  />*/}
+                      {/*</div>*/}
                     </div>
                     <div className="tab-content">
                       <div
@@ -324,13 +357,14 @@ const Dashboarddoctors = () => {
                                   <tr>
                                     <th>Tên bệnh nhân</th>
                                     <th>Thời gian</th>
-                                    <th>Dịch vụ</th>
+                                    {/*<th>Dịch vụ</th>*/}
                                     <th>Loại thú cưng</th>
                                     <th>Trạng thái</th>
+                                    <th>Hành động</th>
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {loading ? (
+                                {loading ? (
                                     <tr>
                                       <td colSpan="5">
                                         <LoadingSkeleton />
@@ -338,12 +372,14 @@ const Dashboarddoctors = () => {
                                     </tr>
                                   ) : error ? (
                                     <tr>
-                                      <td
-                                        colSpan="5"
-                                        className="empty-appointments"
-                                      >
-                                        Hiện tại chưa có lịch hẹn nào cần xác
-                                        nhận
+                                      <td colSpan="5" className="empty-appointments">
+                                        Hiện tại chưa có lịch hẹn nào cần xác nhận
+                                      </td>
+                                    </tr>
+                                  ) : filteredAppointments.length == 0 ? (
+                                    <tr>
+                                      <td colSpan="5" className="empty-appointments">
+                                        Không có dữ liệu phù hợp với tìm kiếm
                                       </td>
                                     </tr>
                                   ) : (
@@ -355,15 +391,60 @@ const Dashboarddoctors = () => {
                             <div className="row">
                               <div className="col-md-12">
                                 <div className="pagination-doctor">
-                                  <ReactPaginate
-                                    nextLabel={<FaChevronRight />}
-                                    previousLabel={<FaChevronLeft />}
-                                    pageCount={pageCount}
-                                    onPageChange={changePage}
-                                    containerClassName={"pagination"}
-                                    previousLinkClassName={"previousBttn"}
-                                    activeClassName={"active"}
-                                  />
+                                {filteredAppointments.length > 0 && (
+        <ReactPaginate
+          nextLabel={<FaChevronRight />}
+          previousLabel={<FaChevronLeft />}
+          pageCount={pageCount}
+          onPageChange={changePage}
+          containerClassName={"pagination"}
+          previousLinkClassName={"previousBttn"}
+          activeClassName={"active"}
+        />
+      )}
+        <Modal
+          title="Yêu cầu Hủy Lịch"
+          visible={isModalVisible}
+          onCancel={() => setIsModalVisible(false)}
+          footer={[
+            <Button key="cancel" onClick={() => setIsModalVisible(false)}>
+              Cancel
+            </Button>,
+          ]}
+        >
+          <Form
+            onFinish={(values) => {
+              handleCancelStatus(selectedAppointmentId, values.content);
+              // console.log('Received values of form: ', reason,selectedAppointmentId);
+            }}
+          >
+            {/* Thêm các trường form tại đây */}
+            <Form.Item
+              name="content"
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng nhập lí do hủy cuộc hẹn!",
+                },
+                {
+                  min: 6,
+                  message: "Lí do hủy phải có ít nhất 6 ký tự!",
+                },
+              ]}
+            >
+              <Input.TextArea
+                placeholder="Nhập lí do hủy cuộc hẹn tại đây"
+                autoSize={{ minRows: 3, maxRows: 5 }}
+                onChange={(e) => setReason(e.target.value)}
+              />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Gửi Yêu cầu
+              </Button>
+            </Form.Item>
+          </Form>
+        </Modal>
                                 </div>
                               </div>
                             </div>

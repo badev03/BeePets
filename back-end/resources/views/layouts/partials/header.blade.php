@@ -83,34 +83,30 @@
             </a>
             <div class="dropdown-menu notifications">
                 <div class="topnav-dropdown-header">
-                    <span class="notification-title">Notifications</span>
-                    <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
+                    <span class="notification-title">Thông báo</span>
                 </div>
                 <div class="noti-content">
                     <ul class="notification-list">
+                        <li id="notification-container"></li>
                         @foreach($notification as $key=>$value)
-                        <li class="notification-message">
-                            <a href="#">
-                                <div class="notify-block d-flex">
+                            <li class="notification-message" id="noti-page">
+                                <a href="#">
+                                    <div class="notify-block d-flex">
                                     <span class="avatar avatar-sm flex-shrink-0">
                                     <img class="avatar-img rounded-circle" alt="Image" src="{{ $value->avatar }}">
                                     </span>
-                                    <div class="media-body flex-grow-1">
-                                        <p class="noti-details"><span class="noti-title"></span>{{ $value->message_admin }}</p>
-                                        <p class="noti-time d-flex justify-content-center align-items-center">
-                                            <span class="notification-time">{{ $value->created_at }}</span>
-                                            <a href="{{ route('appointments.cancel' , $value->appointment_id) }}">xem chi tiết</a>
-                                        </p>
+                                        <div class="media-body flex-grow-1">
+                                            <p class="noti-details"><span class="noti-title"></span>{{ $value->message_admin }}</p>
+                                            <p class="noti-time d-flex justify-content-center align-items-center">
+                                                <span class="notification-time">{{ $value->created_at }}</span>
+                                                <a href="{{ route('appointment.show' , $value->appointment_id) }}">xem chi tiết</a>
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
-                        </li>
+                                </a>
+                            </li>
                         @endforeach
-                        <li id="notification-container"></li>
                     </ul>
-                </div>
-                <div class="topnav-dropdown-footer">
-                    <a href="#">View all Notifications</a>
                 </div>
             </div>
         </li>
@@ -129,7 +125,7 @@
                         <h6>{{ Auth::user()->name }}</h6>
                     </div>
                 </div>
-                <a class="dropdown-item" href="{{ route('profile') }}">Hồ sơ</a>
+                <a class="dropdown-item" href="{{ route('myProfile') }}">Hồ sơ</a>
                 <a class="dropdown-item" href="{{ route('setting') }}">Cài đặt</a>
                 <a class="dropdown-item" href="{{ route('admin.logout') }}">Đăng xuất</a>
             </div>
@@ -144,20 +140,28 @@
         var pusher = new Pusher('59deaefaec6129103d3d', {
             cluster: 'ap1'
         });
+        let currentTime = new Date();
 
+        // Định dạng thời gian hiện tại (ví dụ: "DD-MM-YYYY HH:MM:SS")
+        let formattedTime = `${currentTime.getDate()}-${currentTime.getMonth() + 1}-${currentTime.getFullYear()} ${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}`;
         var channel = pusher.subscribe('admin-notification');
         channel.bind('notification-event-admin', function(data) {
-
+        console.log(data);
+            let route = "{{ route('appointment.show', ':id') }}";
+            route = route.replace(':id', data.appointment_id);
             let notification = `
                 <li class="notification-message">
                     <a href="#">
                         <div class="notify-block d-flex">
                             <span class="avatar avatar-sm flex-shrink-0">
-                                <img class="avatar-img rounded-circle" alt="User Image" src="assets/img/doctors/doctor-thumb-01.jpg">
+                                <img class="avatar-img rounded-circle" alt="User Image" src="${data.avatar}">
                             </span>
                             <div class="media-body flex-grow-1">
                                 <p class="noti-details">${data.message}</p>
-                                <p class="noti-time"><span class="notification-time">${data.now}</span></p>
+                                            <p class="noti-time d-flex justify-content-center align-items-center">
+                                                <span class="notification-time">${formattedTime}</span>
+                                                <a href="${route}">xem chi tiết</a>
+                                            </p>
                             </div>
                         </div>
                     </a>
@@ -167,7 +171,7 @@
             currentNotificationCount++;
             $('.badge.rounded-pill').text(currentNotificationCount);
             // Thêm thông báo mới vào giao diện
-            $('#notification-container').append(notification);
+            $('#notification-container').prepend(notification);
         });
     </script>
     <script>
@@ -175,19 +179,79 @@
             $('.badge.rounded-pill').remove();
             var newData = '<span class="badge rounded-pill">0</span>';
             $('#hehe-noti').append(newData);
-           $.ajax({
-               type:'PUT',
-               url: '{{ route('notification.update') }}',
-               headers: {
-                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-               },
-               success: function (data) {
+            $.ajax({
+                type:'PUT',
+                url: '{{ route('notification.update') }}',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (data) {
                     console.log(data)
-               },
-               error: function (error) {
+                },
+                error: function (error) {
 
-               }
-           })
+                }
+            })
         });
+
+        let page = 1;
+        let isLoading = false;
+        $('.noti-content').on('scroll', function () {
+            if (!isLoading && $(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight - 200) {
+                fetchNotifications();
+
+            }
+        });
+        function fetchNotifications() {
+            if (isLoading) return;
+            let route = '{{ route('notification.new') }}';
+            isLoading = true;
+
+            $.ajax({
+                url: route + '?page=' + page,
+                method: 'GET',
+                data: { page: page },
+                success: function (response) {
+                    console.log(response);
+                    if (response && response.data && response.data.length > 0) {
+                        response.data.forEach(function (notification) {
+                            let notificationHTML = `<a href="#">
+                            <div class="notify-block d-flex">
+                                <span class="avatar avatar-sm flex-shrink-0">
+                                    <img class="avatar-img rounded-circle" alt="Image" src="${notification.avatar}">
+                                </span>
+                                <div class="media-body flex-grow-1">
+                                    <p class="noti-details">
+                                        <span class="noti-title"></span>${notification.message_admin}
+                                    </p>
+                                    <p class="noti-time d-flex justify-content-center align-items-center">
+                                        <span class="notification-time">${notification.formatted_created_at}</span>
+                                        <a href="${notification.appointment_id}">xem chi tiết</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </a>`;
+                            $('#noti-page').append(notificationHTML);
+                        });
+                        page++;
+                        isLoading = false;
+                    }
+                    else {
+                        // Không có dữ liệu mới
+                        $(window).off('scroll'); // Tắt sự kiện scroll
+                    }
+                },
+                complete: function () {
+                    isLoading = false;
+                }
+            });
+        }
+
+        // Gắn sự kiện scroll vào #notification-list
+        $('#noti-page').empty();
+        setTimeout(function() {
+            fetchNotifications();
+        }, 100);
+        // Bắt đầu tải dữ liệu thông báo ban đầu khi trang được load
     </script>
 @endpush

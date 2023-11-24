@@ -15,6 +15,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
+use Twilio\Rest\Client;
 
 
 class BookingController extends Controller
@@ -163,14 +164,12 @@ class BookingController extends Controller
                         'user_id' => $user_id,
                         'status' => 0,
                         'customer_name' => $name,
-                        'group_service_id'=>$request->service_id
 
                     ]));
                 } else {
                     $model->fill(array_merge($request->all(), [
                         'user_id' => $user_id,
                         'status' => 0,
-                        'group_service_id'=>$request->service_id
                     ]));
                 }
                 $model->save();
@@ -187,7 +186,6 @@ class BookingController extends Controller
                 $model->fill(array_merge($request->all(), [
                     'user_id' => $user_id,
                     'status' => 0,
-                    'group_service_id'=>$request->service_id
                 ]));
                 $model->save();
             }
@@ -294,7 +292,6 @@ class BookingController extends Controller
             ->with('bill:id,appointment_id') // Load thông tin của Bills từ Appointment
             ->orderBy('created_at', 'desc')
             ->get();
-
         if ($data->isEmpty()) {
             return response()->json(['message' => 'Không có cuộc hẹn nào'], 400);
         } else {
@@ -327,6 +324,29 @@ class BookingController extends Controller
                 $appointment->save();
                 $bill = $this->doctorController->createBill($appointment->id, $doctor->id, $appointment->user_id,$service_price);
                 $messageInterface->sendMessage($appointment->user_id, 'Bác sĩ ' . $doctor->name . '  đã xác nhận cuộc hẹn của bạn', $doctor->id, 'Bạn đã xác nhận thành công cuộc hẹn của khách hàng ' . $appointment->user->name, $appointment->id);
+                $user = User::where('id', $appointment->user_id)->first();
+                $phone = $user->phone;
+                if($phone == '0981324706') {
+                    $phone = ltrim($phone, '0');
+                    $phone = '+84' . $phone;
+                    $sid = getenv("TWILIO_SID");
+                    $token = getenv("TWILIO_TOKEN");
+                    $number = getenv("TWILIO_FROM");
+                    $twilio = new Client($sid, $token);
+                    $message = $twilio->messages
+                        ->create($phone, // to
+                            array(
+                                "from" => $number,
+                                "body" => "Bác sĩ " . $doctor->name . " đã xác nhận cuộc hẹn của bạn vào lúc " . $appointment->date . " " . $appointment->shift_name . " tại phòng khám thú y BeePets. Vui lòng đến đúng giờ. Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi."
+                            )
+                        );
+                    if($message->sid) {
+                        return response()->json([
+                            'message' => 'Cập nhật trạng thái thành công', 'bill' => $bill
+                        ], 200);
+                    }
+                }
+
             }
             if ($request->status == 6) {
                 $reasonCancel = $request->input('reason_cancel');

@@ -89,7 +89,7 @@ class AppointmentController extends Controller
     }
 
     public function ForHistoryAppointment() {
-        $data = $this->QuerySpecialIndex()->whereIn('appointments.status' , [3])->get();
+        $data = $this->QuerySpecialIndex()->whereIn('appointments.status' , [4 , 3])->get();
         $dataDoctor = $this->tableSelect('doctors')->get();
         $dataService = $this->tableSelect('services')->get();
         $dataTypePet = $this->tableSelect('type_pets')->get();
@@ -104,8 +104,11 @@ class AppointmentController extends Controller
             ]);
     }
 
-    public function ForConfirmationFinished($id) {
-        $this->findID($id , 3);
+    public function ForConfirmationFinished($id ,  MessageUser $message) {
+        $this->findID($id , 4);
+        $appointments = Appointment::find($id);
+        $message->sendMessageNew($appointments->user_id , 'Đã xác nhận thành công'
+            , $appointments->doctor_id , 'Đã xác nhận thành công cho khách hàng' , $appointments->id);
         return back()->with(['success_delete' => 'Đã xác nhận hoàn thành lịch hẹn này ']);
     }
 
@@ -116,7 +119,7 @@ class AppointmentController extends Controller
     public function ForConfirmation($id , MessageUser $message) {
         $this->findID($id , 1);
         $appointments = Appointment::find($id);
-            $this->createBill($appointments->id , $appointments->doctor_id , $appointments->user_id
+        $this->createBill($appointments->id , $appointments->doctor_id , $appointments->user_id
             , 0);
         $message->sendMessageNew($appointments->user_id , 'Đã xác nhận thành công'
             , $appointments->doctor_id , 'Đã xác nhận thành công cho khách hàng' , $appointments->id);
@@ -140,7 +143,7 @@ class AppointmentController extends Controller
 
 
     public function FinishedConfirmation($id) {
-        $this->findID($id , 3);
+        $this->findID($id , 4);
         return back()->with(['success_delete' => 'Đã xác nhận lịch hẹn này ']);
     }
 
@@ -169,7 +172,7 @@ class AppointmentController extends Controller
         if($checkPhone) {
             $data['user_id'] = $checkPhone->id;
             $id_appointments = $this->tableQuery('appointments')->insertGetId(array_merge($request->except('_token' , 'user_id') , $data));
-            $messageUser->sendMessage($checkPhone->id, 'Chào '.$checkPhone->name.'Chúng tôi đã tạo thành công lịch khám cho bạn' , $request->doctor_id , 'UserName :'.$checkPhone->name.'đã đạt lịch của bạn');
+            $messageUser->sendMessage($checkPhone->id, 'Chào '.$checkPhone->name.'Chúng tôi đã tạo thành công lịch khám cho bạn' , $request->doctor_id , 'UserName :'.$checkPhone->name.'đã đạt lịch của bạn' , $id_appointments);
             if($request->status == 1) {
                 $this->createBill($id_appointments, $request->doctor_id , $data['user_id']
                     , 0);
@@ -180,7 +183,7 @@ class AppointmentController extends Controller
             $data['user_id'] = $this->createUserAuto($request->user_id);
             $checkPhone = $this->checkIdAppointment($request->user_id);
             $id_appointments = $this->tableQuery('appointments')->insertGetId(array_merge($request->except('_token') , $data));
-            $messageUser->sendMessage($data['user_id'], 'Chào '.$checkPhone->name.'Chúng tôi đã tạo thành công lịch khám cho bạn' , 'UserName :'.$checkPhone->name.'đã đạt lịch của bạn');
+            $messageUser->sendMessage($data['user_id'], 'Chào '.$checkPhone->name.'Chúng tôi đã tạo thành công lịch khám cho bạn' , 'UserName :'.$checkPhone->name.'đã đạt lịch của bạn' , $id_appointments);
             if($request->status == 1) {
                 $this->createBill($id_appointments, $request->doctor_id , $data['user_id']
                     ,  0);
@@ -195,6 +198,7 @@ class AppointmentController extends Controller
         $model = $this->queryCommon()
             ->where('appointments.id' , $id)
             ->first();
+
         $user = $this->tableQuery('users')
             ->where('id' , '=' , $model->id_user)
             ->first();
@@ -258,8 +262,8 @@ class AppointmentController extends Controller
 
     public function getDay($day , $id){
         $time_work_shift = DB::table('work_schedules')
-        ->where('doctor_id' , '=' , $id)
-        ->where('date' , '=' ,$day)->get();
+            ->where('doctor_id' , '=' , $id)
+            ->where('date' , '=' ,$day)->get();
         return response()->json([
             'time_work_shift' => $time_work_shift
         ] , '200');
@@ -280,8 +284,8 @@ class AppointmentController extends Controller
             ->join('services', 'services.id', '=', 'appointments.service_id')
             ->select('appointments.description' , 'doctors.name as doctor_id' , 'users.name as user_id',
                 'type_pets.name as type_pet_id' , 'services.name as service_id' , 'appointments.id',
-                 'appointments.doctor_id as id_doctor'  , 'appointments.date'
-                )
+                'appointments.doctor_id as id_doctor'  , 'appointments.date'
+            )
             ->addSelect('w.start_time' , 'w.end_time')
             ->addSelect('appointments.status')
             ->join('work_schedules as w', function ($join) {
@@ -489,12 +493,12 @@ class AppointmentController extends Controller
         return back()->with(['failed_delete' => 'Dữ liệu khôi phục không hợp lệ']);
     }
 
-    public function destroy(MessageUser $messageUser , string $id) {
+    public function destroy(MessageUser $messageUser , string $id , Request $request) {
         if (auth()->user()->can(['delete-appointment'])) {
             $model = Appointment::findOrFail($id);
             $userName = User::find($model->user_id);
-            $model->update(['status' => 4]);
-            $model->delete();
+            $model->update(['status' => 3 , 'reason_cancel' =>$request->reason_cancel ]);
+//            $model->delete();
             $messageUser->sendMessageNew($model->user_id, 'Chào '.$userName->name.
                 'Chúng tôi đã hủy lịch hẹn của bạn' , $model->doctor_id , 'UserName :'.$userName->name.'đã đạt lịch của bạn' , $id);
             return back()->with('success_delete', 'Đã xóa thành công');
@@ -537,7 +541,8 @@ class AppointmentController extends Controller
             ->where('created_at', '>=', $range)
             ->groupBy('status')
             ->get();
-        return view('admin.appointments.statistics' , compact('statistics'));
+        $doctor = Doctor::select('name' , 'id')->get();
+        return view('admin.appointments.statistics' , compact('statistics' , 'doctor'));
     }
 
     public function StatisticsDay($day) {
@@ -612,7 +617,7 @@ class AppointmentController extends Controller
         $model = Appointment::findOrFail($id);
         $userName = User::find($model->user_id);
         $model->update([
-            'status' => 4
+            'status' => 3
         ]);
         $model->delete();
         $messageUser->sendMessage($model->user_id, 'Chào '.$userName->name.
@@ -658,6 +663,9 @@ class AppointmentController extends Controller
         $products = Products::query()->get();
         $model = $this->billCommon($id)->first();
         $services = Service::query()->get();
+        if(!$model) {
+            return back();
+        }
         $services_bills = $this->tableQuery('bill_service')
             ->where('bill_id' , $model->id)
             ->get();
@@ -671,7 +679,7 @@ class AppointmentController extends Controller
         if (!$products_prescription) {
             $products_prescription = $this->tableQuery('prescriptions')
                 ->join('prescription_product' ,'prescription_product.prescription_id' , '='
-                , 'prescriptions.id' )
+                    , 'prescriptions.id' )
                 ->join('products' ,'products.id' , '='
                     , 'prescription_product.product_id' )
                 ->select('prescription_product.product_id')
@@ -685,13 +693,13 @@ class AppointmentController extends Controller
             $model = $this->billCommon($id)
                 ->join('prescriptions', 'prescriptions.bill_id', '=', 'bills.id')
                 ->addSelect(
-                DB::raw('COALESCE(prescriptions.name, "n/a") as prescriptions_name'),
-                DB::raw('COALESCE(prescriptions.price, "n/a") as prescriptions_price'),
-                DB::raw('COALESCE(services.name, "n/a") as service_name'),
-                'appointments.date', 'appointments.time', 'appointments.shift_name', 'appointments.shift_name' ,
-                DB::raw('COALESCE(appointments.description, "n/a") as description'),
-                'doctors.id as doctor_id', 'users.id as user_id')
-            ->first();
+                    DB::raw('COALESCE(prescriptions.name, "n/a") as prescriptions_name'),
+                    DB::raw('COALESCE(prescriptions.price, "n/a") as prescriptions_price'),
+                    DB::raw('COALESCE(services.name, "n/a") as service_name'),
+                    'appointments.date', 'appointments.time', 'appointments.shift_name', 'appointments.shift_name' ,
+                    DB::raw('COALESCE(appointments.description, "n/a") as description'),
+                    'doctors.id as doctor_id', 'users.id as user_id')
+                ->first();
             $services = Service::query()->get();
             $services = $services->filter(function ($service) use ($model) {
                 return $service->name !== $model->service_name;
@@ -778,7 +786,7 @@ class AppointmentController extends Controller
             })
             ->addSelect('w.start_time' , 'w.end_time')
             ->addSelect('appointments.status')
-            ->where('appointments.status' , 3)
+            ->where('appointments.status' , 4)
             ->get();
         $dataDoctor = $this->tableSelect('doctors')->get();
         $dataService = $this->tableSelect('services')->get();
@@ -803,7 +811,7 @@ class AppointmentController extends Controller
         $currentTime = now()->toTimeString();
         Appointment::whereIn('status', [0, 1, 6, 7])
             ->whereDate('date', '<', $currentDate)
-            ->update(['status' => 4]);
+            ->update(['status' => 3]);
 
         // Soft delete records
         Appointment::whereIn('status', [0, 1, 6, 7])
@@ -825,5 +833,61 @@ class AppointmentController extends Controller
             })->delete();
 
         return back()->with(['success' => 'Đã hủy thành công']);
+    }
+
+    public function show(string $id) {
+        $data = $this->queryCommon()->where('appointments.id' , $id)
+            ->addSelect('w.start_time' , 'w.end_time' , 'users.avatar as image_user'
+                , 'doctors.image as image_doctor' , 'appointments.status')
+            ->join('work_schedules as w', function ($join) {
+                $join->on('appointments.date', '=', 'w.date')
+                    ->on('appointments.doctor_id', '=', 'w.doctor_id')
+                    ->on('appointments.shift_name', '=', 'w.shift_name');
+            })
+            ->first();
+        return view($this->pathView.'show' , compact('data'));
+    }
+
+    public function statisticsFilter(Request $request) {
+        $start_time = $request->get('start_time_web');
+        $end_time = $request->get('end_time_web');
+        $doctor = $request->get('doctor_id_choose');
+        $statistics = '';
+        if(isset($start_time) && isset($end_time) && isset($doctor) && $doctor!= 'all') {
+            $statistics = DB::table('appointments')
+                ->select('status', DB::raw('COUNT(*) as count'))
+                ->whereBetween('date', [$start_time, $end_time])
+                ->where('doctor_id' ,$doctor )
+                ->groupBy('status')
+                ->get();
+            return response()->json(['filter' => $statistics]);
+        }
+        elseif(isset($start_time) && isset($end_time)) {
+            $statistics = DB::table('appointments')
+                ->select('status', DB::raw('COUNT(*) as count'))
+                ->whereBetween('date', [$start_time, $end_time])
+                ->groupBy('status')
+                ->get();
+            return response()->json(['filter' => $statistics]);
+        }
+        elseif(isset($end_time)) {
+            $statistics = DB::table('appointments')
+                ->select('status', DB::raw('COUNT(*) as count'))
+                ->where('date', '=', $end_time)
+                ->groupBy('status')
+                ->get();
+            return response()->json(['filter' => $statistics]);
+        }
+        elseif(isset($start_time)) {
+            $statistics = DB::table('appointments')
+                ->select('status', DB::raw('COUNT(*) as count'))
+                ->where('date', '=', $start_time)
+                ->groupBy('status')
+                ->get();
+            return response()->json(['filter' => $statistics]);
+        }
+        else {
+            return response()->json(['filter' => $statistics]);
+        }
     }
 }
