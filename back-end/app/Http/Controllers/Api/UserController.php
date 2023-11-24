@@ -147,9 +147,13 @@ class UserController extends Controller
                 'appointments.shift_name',
                 'appointments.description',
                 'appointments.reason_cancel',
+                'type_pets.name as type_pet_name',
+                'services.name as service_name',
             )
                 ->join('users', 'users.id', '=', 'appointments.user_id')
+                ->join('type_pets', 'type_pets.id', '=', 'appointments.type_pet_id')
                 ->join('doctors', 'doctors.id', '=', 'appointments.doctor_id')
+                ->join('services', 'services.id', '=', 'appointments.service_id')
 
                 ->where('appointments.id', $id)
                 ->first();

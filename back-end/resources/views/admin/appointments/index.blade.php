@@ -12,6 +12,11 @@
                     {{ session('success_delete') }}
                 </div>
             @endif
+            @if(session()->has('success'))
+                <div class="alert-success alert">
+                    {{ session('success') }}
+                </div>
+            @endif
             <div class="card">
                 <div class="card-header">
                     <div class="row">
@@ -474,7 +479,6 @@
             let html = '';
             var Route = '{{ route('appointments.detail-bills-appointment', ":id") }}'
             Route = Route.replace(':id', id);
-
              if (status == 1) {
                 html += '<td class="d-flex" style="grid-gap:1rem">' +
                     '<div class="d-flex" style="grid-gap:0.5rem">' +

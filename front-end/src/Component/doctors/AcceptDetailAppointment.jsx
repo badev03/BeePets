@@ -155,7 +155,7 @@ const AcceptDetailAppointment = () => {
             <h2 className="breadcrumb-title">Chi tiết lịch khám</h2>
             <nav aria-label="breadcrumb" className="page-breadcrumb">
               <ol className="breadcrumb">
-                <li className="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+                <li className="breadcrumb-item"><Link to="/">Trang chủ</Link></li>
                 <li className="breadcrumb-item" aria-current="page">Chi tiết lịch khám</li>
               </ol>
             </nav>
@@ -246,97 +246,12 @@ const AcceptDetailAppointment = () => {
                             </span>
                           )}</span>
                           <br />
-                          <div className="profile-item" style={{ marginTop: '20px' }}>
-                            <span className="profile-value">
-                              <div className="table-action">
-                                {/* Xác nhận Button */}
-                                <div
-                                  onClick={() => handleUpdate(appointments.id)}
-                                  className={`btn btn-sm bg-success-light position-relative`}
-                                  style={{
-                                    marginRight: '10px',
-                                    display: appointments.appointment_status == 1 || appointments.appointment_status == 6 ? 'none' : 'inline-block'
-                                  }}
-                                >
-                                  {loadingId === appointments.id ? (
-                                    <div className="loading-spinner ">
-                                      <FaSpinner className="spinner" /> Chấp nhận
-                                    </div>
-                                  ) : (
-                                    <>
-                                      <i className="fas fa-check me-2" /> Chấp nhận
-                                    </>
-                                  )}
-                                </div>
-
-                                {/* Nút Yêu cầu hủy */}
-                                <div
-                                  onClick={() => showModal(appointments.id)}
-                                  className={`btn btn-sm bg-danger-light position-relative`}
-                                  style={{
-                                    display: appointments.appointment_status == 6 ? 'none' : 'inline-block'
-                                  }}
-                                >
-                                  {loadingIdd === appointments.id ? (
-                                    <div className="loading-spinner">
-                                      <FaSpinner className="spinner" /> Y/C Hủy
-                                    </div>
-                                  ) : (
-                                    <>
-                                      <i className="fas fa-times" /> Y/C Hủy
-                                    </>
-                                  )}
-                                </div>
-                              </div>
-                            </span>
-                            <Modal
-                              title="Yêu cầu Hủy Lịch"
-                              visible={isModalVisible}
-                              onCancel={() => setIsModalVisible(false)}
-                              footer={[
-                                <Button key="cancel" onClick={() => setIsModalVisible(false)}>
-                                  Huỷ
-                                </Button>,
-                              ]}
-                            >
-                              <Form
-                                onFinish={(values) => {
-                                  handleCancelStatus(selectedAppointmentId, values.content);
-                                }}
-                              >
-                                {/* Thêm các trường form tại đây */}
-                                <Form.Item
-                                  name="content"
-                                  rules={[
-                                    {
-                                      required: true,
-                                      message: "Vui lòng nhập lí do hủy cuộc hẹn!",
-                                    },
-                                    {
-                                      min: 6,
-                                      message: "Lí do hủy phải có ít nhất 6 ký tự!",
-                                    },
-                                  ]}
-                                >
-                                  <Input.TextArea
-                                    placeholder="Nhập lí do hủy cuộc hẹn tại đây"
-                                    autoSize={{ minRows: 3, maxRows: 5 }}
-                                    onChange={(e) => setReason(e.target.value)}
-                                  />
-                                </Form.Item>
-                                <Form.Item>
-                                  <Button type="primary" htmlType="submit">
-                                    Gửi Yêu cầu
-                                  </Button>
-                                </Form.Item>
-                              </Form>
-                            </Modal>
-                          </div>
 
 
                         </div>
                       </div>
                       </div>
+
                       <div className="col-xl-6">     {appointments.doctor_image ? (
                         <div className="profile-img d-flex justify-content-center align-items-center">
                           <img src={appointments.doctor_image} alt="User Image" className="rounded-0"
@@ -353,6 +268,146 @@ const AcceptDetailAppointment = () => {
                       )}
 
                       </div>
+
+                      <div className="profile-item" style={{ marginTop: '20px' }}>
+                            <span className="profile-value ms-0" style={{ width: '100%' }}>
+                              <div className="table-action d-flex">
+                                {/* Xác nhận Button */}
+                                <Link
+                                    style={{ color: "white", marginRight: "10px" }}
+                                    to={`/doctors/appointments`}
+                                >
+                                      <button type="submit" className="btn btn-sm bg-success-light position-relative">
+                                        Quay Lại
+                                      </button>
+                                    </Link>
+                                { appointments.appointment_status == 1 ? (
+                                    <>
+                                      <div
+                                          onClick={() => showModal(appointments.id)}
+                                          className={`btn btn-sm bg-danger-light position-relative`}
+                                      >
+                                        {loadingIdd === appointments.id ? (
+                                            <div className="loading-spinner">
+                                              <FaSpinner className="spinner" /> Y/C Hủy
+                                            </div>
+                                        ) : (
+                                            <>
+                                              <i className="fas fa-times" /> Y/C Hủy
+                                            </>
+                                        )}
+                                      </div>
+
+                                      <div
+                                          onClick={() => handleUpdate(appointments.id)}
+                                          className={`btn btn-sm bg-info-light position-relative ms-2`}
+                                          style={{
+                                            marginRight: '10px',
+                                            display: 'inline-block'
+                                          }}
+                                      >
+                                        {loadingId === appointments.id ? (
+                                            <div className="loading-spinner ">
+                                              <FaSpinner className="spinner" /> Hoàn thành
+                                            </div>
+                                        ) : (
+                                            <>
+                                              <i className="fas fa-check me-2" /> Hoàn thành
+                                            </>
+                                        )}
+                                      </div>
+                                      <Link to={`/doctors/edit-bill/${id}`}
+                                            className="btn btn-sm bg-info-light">
+                                        <i className="far fa-eye" /> Sửa Hóa Đơn
+                                      </Link>
+
+                                    </>
+
+                                ) : appointments.appointment_status == 0 ? (
+                                    <>
+
+                                      <div
+                                          onClick={() => handleUpdate(appointments.id)}
+                                          className={`btn btn-sm bg-info-light position-relative`}
+                                          style={{
+                                            marginRight: '10px',
+                                          }}
+                                      >
+                                        {loadingId === appointments.id ? (
+                                            <div className="loading-spinner ">
+                                              <FaSpinner className="spinner" /> Xác nhận
+                                            </div>
+                                        ) : (
+                                            <>
+                                              <i className="fas fa-check me-2" /> Xác nhận
+                                            </>
+                                        )}
+                                      </div>
+                                      <div
+                                          onClick={() => showModal(appointments.id)}
+                                          className={`btn btn-sm bg-danger-light position-relative`}
+                                      >
+                                        {loadingIdd === appointments.id ? (
+                                            <div className="loading-spinner">
+                                              <FaSpinner className="spinner" /> Y/C Hủy
+                                            </div>
+                                        ) : (
+                                            <>
+                                              <i className="fas fa-times" /> Y/C Hủy
+                                            </>
+                                        )}
+                                      </div>
+                                    </>
+                                ) : (
+                                    <></>
+                                )}
+
+                              </div>
+                            </span>
+                        <Modal
+                            title="Yêu cầu Hủy Lịch"
+                            visible={isModalVisible}
+                            onCancel={() => setIsModalVisible(false)}
+                            footer={[
+                              <Button key="cancel" onClick={() => setIsModalVisible(false)}>
+                                Huỷ
+                              </Button>,
+                            ]}
+                        >
+                          <Form
+                              onFinish={(values) => {
+                                handleCancelStatus(selectedAppointmentId, values.content);
+                              }}
+                          >
+                            {/* Thêm các trường form tại đây */}
+                            <Form.Item
+                                name="content"
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: "Vui lòng nhập lí do hủy cuộc hẹn!",
+                                  },
+                                  {
+                                    min: 6,
+                                    message: "Lí do hủy phải có ít nhất 6 ký tự!",
+                                  },
+                                ]}
+                            >
+                              <Input.TextArea
+                                  placeholder="Nhập lí do hủy cuộc hẹn tại đây"
+                                  autoSize={{ minRows: 3, maxRows: 5 }}
+                                  onChange={(e) => setReason(e.target.value)}
+                              />
+                            </Form.Item>
+                            <Form.Item>
+                              <Button type="primary" htmlType="submit">
+                                Gửi Yêu cầu
+                              </Button>
+                            </Form.Item>
+                          </Form>
+                        </Modal>
+                      </div>
+
                     </div>
                     {/* <div className="submit-section">
                   <button type="submit" className="btn btn-primary submit-btn">Lưu</button>

@@ -83,13 +83,13 @@
             </a>
             <div class="dropdown-menu notifications">
                 <div class="topnav-dropdown-header">
-                    <span class="notification-title">Notifications</span>
-                    <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
+                    <span class="notification-title">Thông báo</span>
                 </div>
                 <div class="noti-content">
                     <ul class="notification-list">
+                        <li id="notification-container"></li>
                         @foreach($notification as $key=>$value)
-                            <li class="notification-message">
+                            <li class="notification-message" id="noti-page">
                                 <a href="#">
                                     <div class="notify-block d-flex">
                                     <span class="avatar avatar-sm flex-shrink-0">
@@ -106,11 +106,7 @@
                                 </a>
                             </li>
                         @endforeach
-                        <li id="notification-container"></li>
                     </ul>
-                </div>
-                <div class="topnav-dropdown-footer">
-                    <a href="#">View all Notifications</a>
                 </div>
             </div>
         </li>
@@ -175,7 +171,7 @@
             currentNotificationCount++;
             $('.badge.rounded-pill').text(currentNotificationCount);
             // Thêm thông báo mới vào giao diện
-            $('#notification-container').append(notification);
+            $('#notification-container').prepend(notification);
         });
     </script>
     <script>
@@ -197,5 +193,65 @@
                 }
             })
         });
+
+        let page = 1;
+        let isLoading = false;
+        $('.noti-content').on('scroll', function () {
+            if (!isLoading && $(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight - 200) {
+                fetchNotifications();
+
+            }
+        });
+        function fetchNotifications() {
+            if (isLoading) return;
+            let route = '{{ route('notification.new') }}';
+            isLoading = true;
+
+            $.ajax({
+                url: route + '?page=' + page,
+                method: 'GET',
+                data: { page: page },
+                success: function (response) {
+                    console.log(response);
+                    if (response && response.data && response.data.length > 0) {
+                        response.data.forEach(function (notification) {
+                            let notificationHTML = `<a href="#">
+                            <div class="notify-block d-flex">
+                                <span class="avatar avatar-sm flex-shrink-0">
+                                    <img class="avatar-img rounded-circle" alt="Image" src="${notification.avatar}">
+                                </span>
+                                <div class="media-body flex-grow-1">
+                                    <p class="noti-details">
+                                        <span class="noti-title"></span>${notification.message_admin}
+                                    </p>
+                                    <p class="noti-time d-flex justify-content-center align-items-center">
+                                        <span class="notification-time">${notification.formatted_created_at}</span>
+                                        <a href="${notification.appointment_id}">xem chi tiết</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </a>`;
+                            $('#noti-page').append(notificationHTML);
+                        });
+                        page++;
+                        isLoading = false;
+                    }
+                    else {
+                        // Không có dữ liệu mới
+                        $(window).off('scroll'); // Tắt sự kiện scroll
+                    }
+                },
+                complete: function () {
+                    isLoading = false;
+                }
+            });
+        }
+
+        // Gắn sự kiện scroll vào #notification-list
+        $('#noti-page').empty();
+        setTimeout(function() {
+            fetchNotifications();
+        }, 100);
+        // Bắt đầu tải dữ liệu thông báo ban đầu khi trang được load
     </script>
 @endpush

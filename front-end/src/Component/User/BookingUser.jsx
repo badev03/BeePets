@@ -284,6 +284,7 @@ const BookingUser = () => {
                   placeholder="Ngày"
                   onChange={handleChangeDate}
                   disabledDate={disabledDate}
+                  style={{ width: "100%" }}
                 />
               </Form.Item>
             </Col>
