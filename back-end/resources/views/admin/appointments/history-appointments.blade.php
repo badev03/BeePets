@@ -67,7 +67,12 @@
                                                 <span class="text-primary d-block">{{ $value->start_time }}
                                                     - {{ $value->end_time }} AM</span>
                                     </td>
-                                    @include('admin.components.button.action-index-status')
+                                    <td>
+                                        <a href="{{ route('appointments.detail-bills-appointment' , $value->id) }}" class="delete_data btn btn-sm bg-info-light">
+                                            Xem chi tiết cuộc hẹn / bill
+                                        </a>
+                                    </td>
+{{--                                    @include('admin.components.button.action-index-status')--}}
                                 </tr>
                             @endforeach
                             </tbody>

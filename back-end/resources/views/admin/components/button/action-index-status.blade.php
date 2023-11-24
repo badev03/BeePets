@@ -4,6 +4,9 @@
             <a href="{{ route('appointments.detail-bills-appointment' , $value->id) }}" class="delete_data btn btn-sm bg-info-light">
                 Xem chi tiết cuộc hẹn / bill
             </a>
+            <a href="#notification_appointments_{{ $value->id }}" class="delete_data btn btn-sm bg-success-light" data-bs-toggle="modal">
+                Thông báo
+            </a>
         @endif
         @if($value->date < date('Y-m-d') && !request()->routeIs('appointments.bills-appointment'))
             <a class="btn btn-sm bg-success-light" href="#">
@@ -53,11 +56,11 @@
                     </i> In Hóa Đơn
                 </a>
         @else
-                @can('delete-'.$permission_crud)
-                    <a data-bs-toggle="modal" data-delete="{{ $value->id }}" href="#delete_modal_{{ $value->id }}" class="delete_data btn btn-sm bg-danger-light">
-                        <i class="fe fe-trash"></i> Delete
-                    </a>
-                @endcan
+{{--                @can('delete-'.$permission_crud)--}}
+{{--                    <a data-bs-toggle="modal" data-delete="{{ $value->id }}" href="#delete_modal_{{ $value->id }}" class="delete_data btn btn-sm bg-danger-light">--}}
+{{--                        <i class="fe fe-trash"></i> Delete--}}
+{{--                    </a>--}}
+{{--                @endcan--}}
         @endif
     </div>
 </td>
@@ -158,6 +161,35 @@
                                 </button>
                             </form>
                             <button type="button" class="btn bg-danger-light" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+@endif
+
+@if(count($data)>0)
+    <div class="modal fade" id="notification_appointments_{{ $value->id }}" aria-hidden="true" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-content p-2 text-center">
+                        <h4 class="modal-title">Thông báo cho {{ $value->user_id }}</h4>
+                        <div class="row d-flex justify-content-center" style="gap: 1rem">
+                            <form action="{{ route('notification.sms') }}" method="post">
+                                @csrf
+                                <div class="col-sm-12">
+                                    <textarea name="notification-sms" class="form-control" placeholder="Nhập tin nhắn cho khách" id="floatingTextarea"></textarea>
+                                </div>
+                                <div>
+                                    <button class="btn bg-success-light"
+                                            type="submit">Gửi thông báo
+                                    </button>
+                                    <button type="button" class="btn bg-danger-light" data-bs-dismiss="modal">Đóng</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

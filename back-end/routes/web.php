@@ -83,6 +83,7 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
             Route::get('appointment-clear-data/', [AppointmentController::class , 'clearAppointmentData'])->name('appointments.clear-appointment-data');
             // Route::get('profile', [AuthController::class , 'myProfile'])->name('myProfile');
              Route::get('excel-appointments', [ExcelAppointmentController::class , 'excelAppointment'])->name('excel.appointments');
+             Route::post('notification-sms', [NotificationController::class , 'NotificationSms'])->name('notification.sms');
         });
         Route::get('dashboard', [HomeController::class , 'index'])->name('dashboard');
         Route::get('appointment/get-day/{day}/{id}', [AppointmentController::class , 'getDay'])->name('appointment.get-day');
@@ -156,6 +157,8 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
         Route::post('update-order-vnpay',[OrderController::class, 'updateByVnpay'])->name('purchase.updateByVnpay');
         //return-vnpay
         Route::get('return-vnpay',[OrderController::class, 'returnVnpay'])->name('purchase.returnVnpay');
+        Route::get('notification-new',[NotificationController::class, 'NotificationNew'])->name('notification.new');
+        Route::get('statistics-filter-data',[AppointmentController::class, 'statisticsFilter'])->name('statistics.filter-data');
     });
 
 });

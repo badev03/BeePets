@@ -171,10 +171,10 @@ const Appointments = () => {
             <span className="badge rounded-pill bg-danger-light">Đã xóa</span>
           ) : appointment.status == 3 ? (
             <span className="badge rounded-pill bg-primary-light">
-              Đã hoàn thành
+              Đã hủy
             </span>
           ) : appointment.status == 4 ? (
-            <span className="badge rounded-pill bg-danger-light">Đã hủy</span>
+            <span className="badge rounded-pill bg-danger-light">Đã hoàn thành</span>
           ) : appointment.status == 6 ? (
             <span className="badge rounded-pill bg-warning-light">
               Yêu cầu hủy
@@ -260,8 +260,8 @@ const Appointments = () => {
                   <option></option>
                   <option value="1">Xác nhận</option>
                   <option value="2">Đã xóa</option>
-                  <option value="3">Đã hoàn thành</option>
-                  <option value="4">Đã hủy</option>
+                  <option value="4">Đã hoàn thành</option>
+                  <option value="3">Đã hủy</option>
                   <option value="6">Yêu cầu hủy</option>
                   <option value="7">Yêu cầu đổi lịch</option>
                   <option value="8">Không xác định</option>

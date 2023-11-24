@@ -76,56 +76,57 @@ const AppointmentDetail = () => {
               ) : (
 
               <div className="card">
-                <div className="card-body">
+                <div className="card-body pb-0">
                   <form>
 
                     <div className="row">
 
-                      <div className="profile-img d-flex justify-content-center align-items-center">
-                        <img src={appointments.doctor_image} alt="User Image" className="rounded-0"
-                          style={{ width: '25%', border: 'none', marginBottom: '20px' }} />
-                      </div>
-
-
-                      <div className="col-12 col-md-6">
-                        <div className="mb-3">
-                          <label className="mb-2">Tên bác sĩ</label>
-                          <input type="text" className="form-control" value={appointments.doctor_name} readOnly />
+                      <div className="col-12">
+                        <div className='row ms-0'>
+                          <div className='col-sm-6 ms-0 px-lg-0'>
+                            <div className="mb-3 d-flex">
+                              <span className="mb-2 fw-bolder">Tên bác sĩ : </span>
+                              <div className='ms-1'>{ appointments.doctor_name }</div>
+                            </div>
+                            <div className="mb-3 d-flex">
+                              <span className="mb-2 fw-bolder">Dịch vụ : </span>
+                              <div className='ms-1'>{ appointments.service_name}</div>
+                            </div>
+                            <div className="mb-3 d-flex">
+                              <span className="mb-2 fw-bolder">Loại thú cưng : </span>
+                              <div className='ms-1'>{ appointments.type_pet_name}</div>
+                            </div>
+                            <div className="mb-3 d-flex">
+                              <span className="mb-2 fw-bolder">Ngày đặt lịch :</span>
+                              <div className='ms-1'>{ appointments.date}</div>
+                            </div>
+                            <div className="mb-3 d-flex">
+                              <span className="mb-2 fw-bolder">Lịch khám : </span>
+                              <div className='ms-1'>{formatShiftTime(appointments.shift_name)}</div>
+                            </div>
+                          </div>
+                          <div className='col-sm-6 d-flex' style={{ gap:'1rem' }}>
+                            <span className="mb-2 fw-bolder ">Ảnh bác sĩ : </span>
+                            <img src={appointments.doctor_image} alt="User Image" className="rounded-0"
+                                 style={{ width: '40%', border: 'none', marginBottom: '20px' }} />
+                          </div>
                         </div>
                       </div>
-                      <div className="col-12 col-md-6">
-                        <div className="mb-3">
-                          <label className="mb-2">Loại thú cưng</label>
-                          <input type="text" className="form-control" value={appointments.doctor_name} readOnly />
-                        </div>
-                      </div>
-                      <div className="col-12 col-md-6">
-                        <div className="mb-3">
-                          <label className="mb-2">Ngày đặt lịch</label>
-                          <input type="text" className="form-control" value={formatDate(appointments.date)} readOnly />
-                        </div>
-                      </div>
-                      <div className="col-12 col-md-6">
-                        <div className="mb-3">
-                          <label className="mb-2">Lịch khám</label>
-                          <input type="text" className="form-control" value={formatShiftTime(appointments.shift_name)} readOnly />
-                        </div>
-                      </div>
-
-                      <div className="col-12 col-md-12">
-                        <div className="mb-3">
+                      <div className="col-12 col-md-12 ms-0">
+                        <div className="mb-3 ">
                           {appointments.status == 3 ? (
-                                  <>
-                                    <label className="mb-2"><strong>Lý do hủy</strong></label>
-                                    <div>
+                                  <div >
+                                    <span className="mb-2 fw-bolder"><strong>Lý do hủy</strong></span>
+                                    <div className="alert alert-danger" role="alert">
                                       {appointments.reason_cancel}
                                     </div>
-                                  </>
+                                  </div>
                               ) :(
                                   <>
-                                    <label className="mb-2">Ghi chú</label>
-
-                                    <textarea type="text" className="form-control datetimepicker" value={appointments.description} readOnly />
+                                    <span className="mb-2 fw-bolder">Ghi chú :</span>
+                                    <div className="alert alert-danger" role="alert">
+                                      {appointments.description}
+                                    </div>
 
                                   </>
                           )}
@@ -138,11 +139,13 @@ const AppointmentDetail = () => {
                     </div>
 
                   </form>
+                </div>
+                <div className='row ms-2 mb-3'>
                   <Link to={`/user/dashbroad`}>
                     {" "}
                     <button
                         type="reset"
-                        className="btn btn-success submit-btn"
+                        className="btn btn-success"
                     >
                       Quay lại
                     </button>

@@ -12,6 +12,8 @@ class SettingController extends Controller
 {
 
     public $path_view = 'admin.setting.';
+
+    public $title = 'Cấu hình';
     public function index(Request $request) {
         $data_first = Setting::first();
         if ($request->isMethod('GET')) {
