@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Queue;
+use Twilio\Rest\Client;
 
 class NotificationController extends Controller
 {
@@ -115,8 +116,22 @@ class NotificationController extends Controller
         return response()->json($notifications);
     }
 
-    public function NotificationSms() {
-
-        return back()->with(['success' => 'Đã gửi thông báo thành công']);
+    public function NotificationSms(Request $request) {
+        $phone = ltrim('0981324706', '0');
+        $phone = '+84' . $phone;
+        $sid = getenv("TWILIO_SID");
+        $token = getenv("TWILIO_TOKEN");
+        $number = getenv("TWILIO_FROM");
+        $twilio = new Client($sid, $token);
+        $message = $twilio->messages
+            ->create($phone, // to
+                array(
+                    "from" => $number,
+                    "body" => "Admin hệ thống Beepets thông báo " . $request->notificationSms
+                )
+            );
+        if($message->sid) {
+            return back()->with(['success' => 'Đã gửi thông báo thành công']);
+        }
     }
 }

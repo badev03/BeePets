@@ -25,58 +25,58 @@
     </a>
 
     {{--thông báo--}}
-    @php
-        $carts = session()->get('carts',[]);
-        $total = 0;
-    @endphp
+{{--    @php--}}
+{{--        $carts = session()->get('carts',[]);--}}
+{{--        $total = 0;--}}
+{{--    @endphp--}}
     <ul class="nav user-menu">
-        <li class="nav-item dropdown noti-dropdown">
-            <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                <i class="fe fe-cart"></i> <span class="badge badge-pill">{{ count($carts) ?? 0 }}</span>
-            </a>
-            <div class="dropdown-menu notifications">
-                <div class="topnav-dropdown-header">
-                    <span class="notification-title">My Carts</span>
-                </div>
-                <div class="noti-content">
-                    <ul class="notification-list">
-                        @if(count($carts) > 0)
-                            @foreach($carts as $key=>$cart)
-                                <div class="cart-item p-3">
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <img src="{{ asset($cart['image']) }}" alt="" width="60">
-                                        </div>
-                                        <div class="col-9">
-                                            <div class="d-flex justify-content-between">
-                                                <h6>{{ $cart['name'] }}</h6>
-                                                <a href="javascript:void(0)" class="remove-cart btn-remove" data-id="{{ $key }}"><i
-                                                        class="fa fa-trash"></i></a>
-                                            </div>
-                                            <div class="d-flex justify-content-between">
-                                                <p>{{ $cart['quantity'] }} x {{ $cart['price'] }}</p>
-                                                <p>{{ $cart['quantity'] * $cart['price'] }}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
+{{--        <li class="nav-item dropdown noti-dropdown">--}}
+{{--            <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">--}}
+{{--                <i class="fe fe-cart"></i> <span class="badge badge-pill">{{ count($carts) ?? 0 }}</span>--}}
+{{--            </a>--}}
+{{--            <div class="dropdown-menu notifications">--}}
+{{--                <div class="topnav-dropdown-header">--}}
+{{--                    <span class="notification-title">My Carts</span>--}}
+{{--                </div>--}}
+{{--                <div class="noti-content">--}}
+{{--                    <ul class="notification-list">--}}
+{{--                        @if(count($carts) > 0)--}}
+{{--                            @foreach($carts as $key=>$cart)--}}
+{{--                                <div class="cart-item p-3">--}}
+{{--                                    <div class="row">--}}
+{{--                                        <div class="col-3">--}}
+{{--                                            <img src="{{ asset($cart['image']) }}" alt="" width="60">--}}
+{{--                                        </div>--}}
+{{--                                        <div class="col-9">--}}
+{{--                                            <div class="d-flex justify-content-between">--}}
+{{--                                                <h6>{{ $cart['name'] }}</h6>--}}
+{{--                                                <a href="javascript:void(0)" class="remove-cart btn-remove" data-id="{{ $key }}"><i--}}
+{{--                                                        class="fa fa-trash"></i></a>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="d-flex justify-content-between">--}}
+{{--                                                <p>{{ $cart['quantity'] }} x {{ $cart['price'] }}</p>--}}
+{{--                                                <p>{{ $cart['quantity'] * $cart['price'] }}</p>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            @endforeach--}}
 
-                        @else
-                            <p class="text-center">No product in cart</p>
-                        @endif
-                    </ul>
-                </div>
-                <hr>
-                <div class="topnav-dropdown-footer">
-                    <div class="d-flex justify-content-center">
-                        <a href="{{ route('carts.getCarts') }}" class="btn btn-primary text-white mx-2">Cart</a>
-                        <a href="{{ route('order.index') }}" class="btn btn-primary text-white mx-2">Checkout</a>
-                    </div>
-                </div>
-            </div>
+{{--                        @else--}}
+{{--                            <p class="text-center">No product in cart</p>--}}
+{{--                        @endif--}}
+{{--                    </ul>--}}
+{{--                </div>--}}
+{{--                <hr>--}}
+{{--                <div class="topnav-dropdown-footer">--}}
+{{--                    <div class="d-flex justify-content-center">--}}
+{{--                        <a href="{{ route('carts.getCarts') }}" class="btn btn-primary text-white mx-2">Cart</a>--}}
+{{--                        <a href="{{ route('order.index') }}" class="btn btn-primary text-white mx-2">Checkout</a>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
-        </li>
+{{--        </li>--}}
         <li class="nav-item dropdown noti-dropdown" id="noti_update">
             <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                 <i class="fe fe-bell" id="hehe-noti"></i> <span class="badge rounded-pill">{{ $unreadNotificationCount }}</span>
