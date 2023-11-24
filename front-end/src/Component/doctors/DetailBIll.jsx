@@ -27,8 +27,8 @@ const DetailBIll = () => {
 
   const styles = {
     maxTdWidth: {
-      maxWidth: '100px',
-      wordBreak: 'break-all',
+      maxWidth: "100px",
+      wordBreak: "break-all",
     },
   };
 
@@ -83,7 +83,7 @@ const DetailBIll = () => {
     setLoadingId(id);
     try {
       const respon = await axios.put(
-        `http://127.0.0.1:8000/api/update-appointment/${id}?status=4`,
+        `https://beepets.id.vn/api/update-appointment/${id}?status=4`,
         {},
         {
           headers: {
@@ -178,7 +178,7 @@ const DetailBIll = () => {
                               <span className="badge rounded-pill bg-danger-light">
                                 Đã xóa
                               </span>
-                              ) : bill.appointment.status == 3 ? (
+                            ) : bill.appointment.status == 3 ? (
                               <span className="badge rounded-pill bg-danger-light">
                                 Đã hủy
                               </span>
@@ -232,7 +232,7 @@ const DetailBIll = () => {
                                               Tên loại thuốc
                                             </th>
                                             <th>Số lượng</th>
-                                            <th >Giá tiền</th>
+                                            <th>Giá tiền</th>
                                             <th>Tổng tiền</th>
                                             <th className="table-name">
                                               Hướng dẫn sử dụng
@@ -244,7 +244,9 @@ const DetailBIll = () => {
                                             (pres, index) => (
                                               <tr className="test" key={index}>
                                                 <td>{index + 1}</td>
-                                                <td style={styles.maxTdWidth}>{pres.name}</td>
+                                                <td style={styles.maxTdWidth}>
+                                                  {pres.name}
+                                                </td>
                                                 <td>{pres.pivot.quantity}</td>
                                                 <td>
                                                   {formatCurrency(
