@@ -31,7 +31,7 @@ const Header = () => {
 
     try {
       if (token) {
-        const response = await axios.delete(`http://127.0.0.1:8000/api/delete-read-notification/${id}`, {
+        const response = await axios.delete(`https://beepets.id.vn/api/delete-read-notification/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           }
@@ -395,7 +395,7 @@ const Header = () => {
                             }
                             className="dropdown-item"
                         >
-                          Dashboard
+                          Bảng điều khiển
                         </Link>
                         <Link
                             to={
@@ -406,11 +406,11 @@ const Header = () => {
                             className="dropdown-item"
                             href="doctor-profile-settings.html"
                         >
-                          Profile Settings
+                          Thông tin cá nhân
                         </Link>
                         <button className="dropdown-item" onClick={handleLogout}>
                           {" "}
-                          Logout{" "}
+                          Đăng xuất{" "}
                         </button>
                       </div>
                     </li>

@@ -1,32 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import {Link, useParams} from 'react-router-dom';
-import Sidebar from './Sidebar';
-import axios from 'axios';
-import LoadingSkeleton from '../Loading';
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import Sidebar from "./Sidebar";
+import axios from "axios";
+import LoadingSkeleton from "../Loading";
 const BillDetail = () => {
   const [bill, setBill] = useState({});
   const [products, setProducts] = useState([]);
   const [service, setService] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Khởi tạo isLoading
   const { id } = useParams();
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     if (token) {
       const fetchBillDetail = async () => {
         try {
-          const response = await axios.get(`http://127.0.0.1:8000/api/detail-bill-user/${id}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+          const response = await axios.get(
+            `https://beepets.id.vn/api/detail-bill-user/${id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
           setBill(response.data.bill);
           setProducts(response.data.products);
           setService(response.data.bill_service);
-          console.log(response)
-          setIsLoading(false)
+          console.log(response);
+          setIsLoading(false);
         } catch (error) {
-          console.error('Không có dữ liệu:', error);
+          console.error("Không có dữ liệu:", error);
         }
       };
       fetchBillDetail();
@@ -34,16 +37,28 @@ const BillDetail = () => {
   }, [id, token]);
   function formatDate(dateString) {
     if (dateString) {
-      const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-      const formattedDate = new Date(dateString).toLocaleDateString('vi-VN', options);
+      const options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      };
+      const formattedDate = new Date(dateString).toLocaleDateString(
+        "vi-VN",
+        options
+      );
       // Loại bỏ từ "lúc" từ chuỗi được định dạng
-      return formattedDate.replace('lúc', '').trim();
+      return formattedDate.replace("lúc", "").trim();
     }
-    return '';
+    return "";
   }
   const formatCurrency = (value) => {
     const numberValue = parseFloat(value);
-    return numberValue.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    return numberValue.toLocaleString("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    });
   };
   return (
     <div>
@@ -54,8 +69,12 @@ const BillDetail = () => {
               <h2 className="breadcrumb-title">Chi tiết hóa đơn</h2>
               <nav aria-label="breadcrumb" className="page-breadcrumb">
                 <ol className="breadcrumb">
-                  <li className="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
-                  <li className="breadcrumb-item" aria-current="page">Chi tiết hóa đơn</li>
+                  <li className="breadcrumb-item">
+                    <a href="index.html">Trang chủ</a>
+                  </li>
+                  <li className="breadcrumb-item" aria-current="page">
+                    Chi tiết hóa đơn
+                  </li>
                 </ol>
               </nav>
             </div>
@@ -67,85 +86,105 @@ const BillDetail = () => {
           <div className="row">
             <Sidebar />
             <div className="col-md-7 col-lg-8 col-xl-9">
-            {isLoading ? (
+              {isLoading ? (
                 <LoadingSkeleton />
               ) : (
-              <div className="card">
-                <div className="card-body">
-                  <form>
-                    <div className="row align-items-center mb-4">
-                      <div className="col-6">
-                        <img src={bill.image} className="img-fluid" style={{ width: '100px', height: 'auto' }} alt="Logo" />
-                      </div>
-                      <div className="col-12 col-md-6">
-                        <div className="mb-3" style={{ marginLeft: '140px' }}>
-                          <label className="mb-2">Mã hóa đơn: {bill.code}</label><br />
-                          <label className="mb-2">Thời gian tạo: {formatDate(bill.created_at)}</label>
+                <div className="card">
+                  <div className="card-body">
+                    <form>
+                      <div className="row align-items-center mb-4">
+                        <div className="col-6">
+                          <img
+                            src={bill.image}
+                            className="img-fluid"
+                            style={{ width: "100px", height: "auto" }}
+                            alt="Logo"
+                          />
+                        </div>
+                        <div className="col-12 col-md-6">
+                          <div className="mb-3" style={{ marginLeft: "140px" }}>
+                            <label className="mb-2">
+                              Mã hóa đơn: {bill.code}
+                            </label>
+                            <br />
+                            <label className="mb-2">
+                              Thời gian tạo: {formatDate(bill.created_at)}
+                            </label>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="table-responsive">
-                      <table className="table table-hover table-center mb-0" style={{marginTop: '20px'}}>
-                        <thead>
-                          <tr>
-                            <th>Số thứ tự</th>
-                            <th>Tên sản phẩm</th>
-                            <th>Số lượng</th>
-                            <th>Đơn giá</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-
-                          {products.map((product, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>{product.product_name}</td>
-                              <td>{product.quantity}</td>
-                              <td>{formatCurrency(product.product_price)}</td>
+                      <div className="table-responsive">
+                        <table
+                          className="table table-hover table-center mb-0"
+                          style={{ marginTop: "20px" }}
+                        >
+                          <thead>
+                            <tr>
+                              <th>Số thứ tự</th>
+                              <th>Tên sản phẩm</th>
+                              <th>Số lượng</th>
+                              <th>Đơn giá</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                    <div className="col-12 col-md-12 text-end mt-4">
-                      <label className="mb-2">
-                        <strong>Tổng tiền: {formatCurrency(bill.total_amount)} </strong>
-                      </label>
-                    </div>
-                    <div className="col-12 col-md-12 mt-5">
-                      <div className="mb-3">
-                        {bill.status === 3 ? (
+                          </thead>
+                          <tbody>
+                            {products.map((product, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>{product.product_name}</td>
+                                <td>{product.quantity}</td>
+                                <td>{formatCurrency(product.product_price)}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                      <div className="col-12 col-md-12 text-end mt-4">
+                        <label className="mb-2">
+                          <strong>
+                            Tổng tiền: {formatCurrency(bill.total_amount)}{" "}
+                          </strong>
+                        </label>
+                      </div>
+                      <div className="col-12 col-md-12 mt-5">
+                        <div className="mb-3">
+                          {bill.status === 3 ? (
                             <>
-                              <label className="mb-2"><strong>Lý do hủy</strong></label>
+                              <label className="mb-2">
+                                <strong>Lý do hủy</strong>
+                              </label>
                               <textarea
-                                  className="form-control"
-                                  rows="4"
-                                  value={bill.cancelReason} // Giả sử lý do hủy được lưu trong thuộc tính cancelReason của đối tượng bill
-                                  readOnly // Nếu bạn muốn ô textarea chỉ đọc
+                                className="form-control"
+                                rows="4"
+                                value={bill.cancelReason} // Giả sử lý do hủy được lưu trong thuộc tính cancelReason của đối tượng bill
+                                readOnly // Nếu bạn muốn ô textarea chỉ đọc
                               />
                             </>
-                        ) : (
+                          ) : (
                             <>
-                              <label className="mb-2"><strong>Ghi chú</strong></label>
-                              <textarea className="form-control" rows="4" value={bill.description}/>
+                              <label className="mb-2">
+                                <strong>Ghi chú</strong>
+                              </label>
+                              <textarea
+                                className="form-control"
+                                rows="4"
+                                value={bill.description}
+                              />
                             </>
                           )}
+                        </div>
                       </div>
-                    </div>
-                  </form>
-                  <Link to={`/user/dashbroad`}>
-                    {" "}
-                    <button
+                    </form>
+                    <Link to={`/user/dashbroad`}>
+                      {" "}
+                      <button
                         type="reset"
                         className="btn btn-success submit-btn"
-                    >
-                      Quay lại
-                    </button>
-                  </Link>
+                      >
+                        Quay lại
+                      </button>
+                    </Link>
+                  </div>
                 </div>
-
-
-              </div>
               )}
             </div>
           </div>
