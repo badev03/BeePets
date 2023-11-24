@@ -245,12 +245,12 @@ const AcceptDetailAppointment = () => {
                                 {formatDate(appointments.date)}
                               </span>
                             </div>
+                            {appointments.total_amount ? (
                             <div className="profile-item">
                               <span className="profile-label">Tổng tiền:</span>
-                              <span className="profile-value">
-                                {formatCurrency(appointments.total_amount)}
-                              </span>
+                              <span className="profile-value">{formatCurrency(appointments.total_amount)}</span>
                             </div>
+                          ) : null}
                             <div className="profile-item">
                               <span className="profile-label">Ghi chú:</span>
                               <span className="profile-value">

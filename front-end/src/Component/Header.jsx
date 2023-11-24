@@ -395,7 +395,7 @@ const Header = () => {
                             }
                             className="dropdown-item"
                         >
-                          Dashboard
+                          Bảng điều khiển
                         </Link>
                         <Link
                             to={
@@ -406,11 +406,11 @@ const Header = () => {
                             className="dropdown-item"
                             href="doctor-profile-settings.html"
                         >
-                          Profile Settings
+                          Thông tin cá nhân
                         </Link>
                         <button className="dropdown-item" onClick={handleLogout}>
                           {" "}
-                          Logout{" "}
+                          Đăng xuất{" "}
                         </button>
                       </div>
                     </li>
