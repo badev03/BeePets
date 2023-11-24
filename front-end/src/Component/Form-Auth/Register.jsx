@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 import React, { useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
@@ -6,8 +6,7 @@ import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
 import { auth } from "../../firebase/config";
 import OtpInput from "otp-input-react";
-import axios from 'axios';
-
+import axios from "axios";
 
 const Register = () => {
   const [otp, setOtp] = useState("");
@@ -27,19 +26,20 @@ const Register = () => {
           callback: (response) => {
             checkPhoneNumberExistsAndSignup();
           },
-          "expired-callback": () => { },
-        },
+          "expired-callback": () => {},
+        }
       );
     }
   }
 
   function checkPhoneNumberExistsAndSignup() {
-    const data = { phone: ph.replace(/^840/, '0') };
-    axios.post('http://127.0.0.1:8000/api/check-verify-register', data)
-    .then(response => {
-      onSignup()
-    })
-      .catch(error => {
+    const data = { phone: ph.replace(/^840/, "0") };
+    axios
+      .post("https://beepets.id.vn/api/check-verify-register", data)
+      .then((response) => {
+        onSignup();
+      })
+      .catch((error) => {
         toast.error("Số điện thoại đã đăng ký");
         console.error(error);
         setShowOTP(false);
@@ -75,7 +75,6 @@ const Register = () => {
       });
   }
 
-
   function onOTPVerify() {
     const formatPh = "+" + ph;
     const formattedPh = formatPh.replace("+84", "");
@@ -86,7 +85,9 @@ const Register = () => {
         console.log(res);
         setUser(res.user);
         setLoading(false);
-        window.location.href = `/Register-password?phone=${encodeURIComponent(formattedPh)}`;
+        window.location.href = `/Register-password?phone=${encodeURIComponent(
+          formattedPh
+        )}`;
         toast.success("OTP chính xác!"); // Hiển thị thông báo khi OTP chính xác
       })
       .catch((err) => {
@@ -107,53 +108,79 @@ const Register = () => {
               <div className="account-content">
                 <div className="row align-items-center justify-content-center">
                   <div className="col-md-7 col-lg-6 login-left">
-                    <img src="src/assets/img/login-banner.png" className="img-fluid" alt="Doccure Register" />
+                    <img
+                      src="src/assets/img/login-banner.png"
+                      className="img-fluid"
+                      alt="Doccure Register"
+                    />
                   </div>
                   <div className="col-md-12 col-lg-6 login-right">
-                    
                     <form action="https://doccure.dreamguystech.com/html/template/patient-register-step1.html">
                       {showOTP ? (
                         <div>
                           <div className="login-header">
-                            <h2>Xác minh OTP <a href="doctor-register.html"></a></h2>
+                            <h2>
+                              Xác minh OTP <a href="doctor-register.html"></a>
+                            </h2>
                             <p>Nhập OTP của bạn để đặt đăng ký</p>
                           </div>
                           <div className="mb-3 form-focus">
-                          <OtpInput
-                            value={otp}
-                            onChange={setOtp}
-                            OTPLength={6}
-                            otpType="number"
-                            disabled={false}
-                            autoFocus
-                            className="opt-container "
-                          ></OtpInput>
-                        </div>
+                            <OtpInput
+                              value={otp}
+                              onChange={setOtp}
+                              OTPLength={6}
+                              otpType="number"
+                              disabled={false}
+                              autoFocus
+                              className="opt-container "
+                            ></OtpInput>
+                          </div>
                         </div>
                       ) : (
                         <div>
                           <div className="login-header">
-                            <h2>Đăng ký ? <a href="doctor-register.html"></a></h2>
+                            <h2>
+                              Đăng ký ? <a href="doctor-register.html"></a>
+                            </h2>
                             <p>Nhập SĐT của bạn để nhận link đặt mật khẩu</p>
                           </div>
                           <div className="mb-3 form-focus">
-                            <PhoneInput country={"vn"} value={ph} onChange={setPh} countryCodeEditable={false} />
+                            <PhoneInput
+                              country={"vn"}
+                              value={ph}
+                              onChange={setPh}
+                              countryCodeEditable={false}
+                            />
                           </div>
                         </div>
-
                       )}
                       <div className="text-end">
-                        <Link className="forgot-link" to="/login">Đăng nhập nếu bạn đã có tài khoản ?</Link>
+                        <Link className="forgot-link" to="/login">
+                          Đăng nhập nếu bạn đã có tài khoản ?
+                        </Link>
                       </div>
                       {showOTP ? (
-                        <button className="btn btn-primary w-100 btn-lg login-btn" onClick={onOTPVerify} type="button"> Xác minh OTP</button>
+                        <button
+                          className="btn btn-primary w-100 btn-lg login-btn"
+                          onClick={onOTPVerify}
+                          type="button"
+                        >
+                          {" "}
+                          Xác minh OTP
+                        </button>
                       ) : (
-                        <button className="btn btn-primary w-100 btn-lg login-btn" onClick={checkPhoneNumberExistsAndSignup} type="button"> Gửi mã qua SMS</button>
+                        <button
+                          className="btn btn-primary w-100 btn-lg login-btn"
+                          onClick={checkPhoneNumberExistsAndSignup}
+                          type="button"
+                        >
+                          {" "}
+                          Gửi mã qua SMS
+                        </button>
                       )}
                     </form>
                     <div className="login-or"></div>
-                    <div className="login-or">
-                    </div>
+                    <div className="login-or"></div>
                   </div>
                 </div>
               </div>
@@ -162,7 +189,7 @@ const Register = () => {
         </div>
       </div>
     </section>
-  )
+  );
 };
 
 export default Register;

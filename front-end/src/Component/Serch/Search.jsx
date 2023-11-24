@@ -36,11 +36,10 @@ const Search = ({ data }) => {
     const fetchDoctorService = async () => {
       try {
         const response = await axios.post(
-          `http://127.0.0.1:8000/api/service-filter-doctor`,
-          { service: data },
+          `https://beepets.id.vn/api/service-filter-doctor`,
+          { service: data }
         );
         setDoctors(response.data.service);
-     
       } catch (error) {
         console.error("Không có dữ liệu:", error);
       }
@@ -92,7 +91,7 @@ const Search = ({ data }) => {
                     { length: 5 - doctor.average_score },
                     (_, index) => (
                       <i key={index} className="fas fa-star" />
-                    ),
+                    )
                   )}
                   <span className="d-inline-block average-rating">
                     ( {doctor.review_count} )
@@ -100,7 +99,10 @@ const Search = ({ data }) => {
                 </div>
                 <div className="clinic-details">
                   <p className="doc-location">
-                    <i className="fas fa-map-marker-alt" style={{marginRight:"10px"}} />
+                    <i
+                      className="fas fa-map-marker-alt"
+                      style={{ marginRight: "10px" }}
+                    />
                     {doctor.address ? doctor.address : "Hà Nội"}
                   </p>
                   {doctor?.images?.length > 0 && (
@@ -156,18 +158,21 @@ const Search = ({ data }) => {
                 >
                   Xem hồ sơ
                 </Link>
-              {role !== "doctor" && (
-                <CustomButton handleBookingg={handleBookingg} doctorId={doctor.id} />
-              )}
+                {role !== "doctor" && (
+                  <CustomButton
+                    handleBookingg={handleBookingg}
+                    doctorId={doctor.id}
+                  />
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
     ));
-    if (loading) {
-      return <LoadingSkeleton/>
-    }
+  if (loading) {
+    return <LoadingSkeleton />;
+  }
   return (
     <div>
       {displayDoctors}

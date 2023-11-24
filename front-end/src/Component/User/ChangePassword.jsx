@@ -1,51 +1,51 @@
-import React from 'react';
-import Sidebar from './Sidebar';
-import { useState } from 'react';
-import axios from 'axios';
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
+import React from "react";
+import Sidebar from "./Sidebar";
+import { useState } from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal);
-import { useAuth } from '../../Context/ContextAuth';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { useAuth } from "../../Context/ContextAuth";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const ChangePasswordUser = () => {
   const { token } = useAuth();
-  const [oldPassword, setOldPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordNew, setShowPasswordNew] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
-  const [oldPasswordError, setOldPasswordError] = useState('');
-  const [newPasswordError, setNewPasswordError] = useState('');
-  const [confirmPasswordError, setConfirmPasswordError] = useState('');
-  const userString = localStorage.getItem('user')
-  const user = JSON.parse(userString)
+  const [oldPasswordError, setOldPasswordError] = useState("");
+  const [newPasswordError, setNewPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const userString = localStorage.getItem("user");
+  const user = JSON.parse(userString);
   // console.log(user.phone);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setOldPasswordError('');
-    setNewPasswordError('');
-    setConfirmPasswordError('');
+    setOldPasswordError("");
+    setNewPasswordError("");
+    setConfirmPasswordError("");
 
-    if (oldPassword === '') {
-      setOldPasswordError('Vui lòng nhập mật khẩu cũ.');
+    if (oldPassword === "") {
+      setOldPasswordError("Vui lòng nhập mật khẩu cũ.");
     }
-    if (newPassword === '') {
-      setNewPasswordError('Vui lòng nhập mật khẩu mới.');
+    if (newPassword === "") {
+      setNewPasswordError("Vui lòng nhập mật khẩu mới.");
     }
-    if (confirmPassword === '') {
-      setConfirmPasswordError('Vui lòng nhập lại mật khẩu mới.');
+    if (confirmPassword === "") {
+      setConfirmPasswordError("Vui lòng nhập lại mật khẩu mới.");
     }
 
     if (oldPasswordError || newPasswordError || confirmPasswordError) {
       return;
     }
-    
+
     try {
       const response = await axios.post(
-        `http://127.0.0.1:8000/api/change-password/${user.phone}`,
+        `https://beepets.id.vn/api/change-password/${user.phone}`,
         {
           old_password: oldPassword,
           new_password: newPassword,
@@ -59,19 +59,17 @@ const ChangePasswordUser = () => {
       );
 
       MySwal.fire({
-        title: 'Đổi mật khẩu thành công!',
-        icon: 'success',
+        title: "Đổi mật khẩu thành công!",
+        icon: "success",
       });
     } catch (error) {
-      console.error('Đổi mật khẩu thất bại:', error);
+      console.error("Đổi mật khẩu thất bại:", error);
     }
   };
 
   return (
     <div>
-      <div className="breadcrumb-bar-two">
-        {/* Breadcrumb code */}
-      </div>
+      <div className="breadcrumb-bar-two">{/* Breadcrumb code */}</div>
       <div className="content">
         <div className="container">
           <div className="row">
@@ -81,7 +79,7 @@ const ChangePasswordUser = () => {
                 <div className="card-body">
                   <div className="row">
                     <div className="col-md-12 col-lg-6">
-                    <form onSubmit={handleSubmit}>
+                      <form onSubmit={handleSubmit}>
                         <div className="mb-3">
                           <label className="mb-2">Mật khẩu cũ</label>
                           <div className="input-group">
@@ -162,7 +160,9 @@ const ChangePasswordUser = () => {
                               </span>
                             </div>
                           </div>
-                          <div className="text-danger">{confirmPasswordError}</div>
+                          <div className="text-danger">
+                            {confirmPasswordError}
+                          </div>
                         </div>
                         <div className="submit-section">
                           <button
