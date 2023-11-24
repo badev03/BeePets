@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Exports\AppointmentExcelExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
+// use Maatwebsite\Excel\Facades\Excel;
 
 class ExcelAppointmentController extends Controller
 {
