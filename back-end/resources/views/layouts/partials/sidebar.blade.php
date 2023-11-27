@@ -54,6 +54,9 @@
                         <li><a class="{{ request()->routeIs('new.*') ? 'active' : '' }}" href="{{ route('new.index') }}">Tin tức</a></li>
                     </ul>
                 </li>
+                <li>
+                    <a class="{{ request()->routeIs('type-pet.*') ? 'active' : '' }}" href="{{ route('type-pet.index') }}"><i class="fe fe-user-plus"></i> <span>Thú cưng</span> </a>
+                </li>
                 @role('Admin')
                 <li>
                     <a class="{{ request()->routeIs('doctors.*') ? 'active' : '' }}" href="{{ route('doctors.index') }}"><i class="fe fe-user-plus"></i> <span>Bác sĩ</span> </a>
