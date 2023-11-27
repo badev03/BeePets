@@ -181,7 +181,7 @@
                             <form action="{{ route('notification.sms') }}" method="post">
                                 @csrf
                                 <div class="col-sm-12">
-                                    <textarea name="notification-sms" class="form-control" placeholder="Nhập tin nhắn cho khách" id="floatingTextarea"></textarea>
+                                    <textarea name="notificationSms" class="form-control" placeholder="Nhập tin nhắn cho khách" id="floatingTextarea"></textarea>
                                 </div>
                                 <div>
                                     <button class="btn bg-success-light"

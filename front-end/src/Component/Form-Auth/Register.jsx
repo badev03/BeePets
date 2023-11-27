@@ -35,7 +35,7 @@ const Register = () => {
   function checkPhoneNumberExistsAndSignup() {
     const data = { phone: ph.replace(/^840/, "0") };
     axios
-      .post("https://beepets.id.vn/api/check-verify-register", data)
+      .post("http://127.0.0.1:8000/api/check-verify-register", data)
       .then((response) => {
         onSignup();
       })

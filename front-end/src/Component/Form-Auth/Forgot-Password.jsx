@@ -34,7 +34,7 @@ const ForgotPassword = () => {
   function checkPhoneNumberExistsAndSignup() {
     const data = { phone: ph.replace(/^840/, "0") };
     axios
-      .post("https://beepets.id.vn/api/forget-password", data)
+      .post("http://127.0.0.1:8000/api/forget-password", data)
       .then((response) => {
         onSignup();
       })

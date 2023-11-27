@@ -90,7 +90,7 @@ const ProfileSetting = () => {
       // Call the API with user data to update the user information
       try {
         const response = await axios.post(
-          `https://beepets.id.vn/api/save-infor-user`,
+          `http://127.0.0.1:8000/api/save-infor-user`,
           {
             ...user,
             // formData

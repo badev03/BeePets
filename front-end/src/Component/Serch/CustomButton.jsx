@@ -51,7 +51,7 @@ const CustomButton = ({ doctorId, handleBookingg }) => {
       try {
         setLoadingService(true);
         const response = await axios.post(
-          `https://beepets.id.vn/api/doctor-service?doctor_id=${doctorId}`,
+          `http://127.0.0.1:8000/api/doctor-service?doctor_id=${doctorId}`,
           {}
         );
         // console.log(response.data);

@@ -175,6 +175,8 @@ const Appointments = () => {
             </span>
           ) : appointment.status == 4 ? (
             <span className="badge rounded-pill bg-danger-light">Đã hoàn thành</span>
+          ) : appointment.status == 0 ? (
+              <span className="badge rounded-pill bg-danger-light">Chờ xác nhận</span>
           ) : appointment.status == 6 ? (
             <span className="badge rounded-pill bg-warning-light">
               Yêu cầu hủy

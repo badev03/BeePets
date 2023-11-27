@@ -76,9 +76,9 @@
                 </li>
                 @role('Admin')
                 <hr class="text-white"/>
-{{--                <li>--}}
-{{--                    <a href="{{ route('setting') }}"><i class="fe fe-user-plus"></i> <span>Hồ sơ</span></a>--}}
-{{--                </li>--}}
+                <li>
+                    <a href="{{ route('myProfile') }}"><i class="fe fe-user-plus"></i> <span>Hồ sơ</span></a>
+                </li>
                 <li class="submenu">
                     <a href="#"><i class="fe fe-user-plus"></i> <span> Tài khoản </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
