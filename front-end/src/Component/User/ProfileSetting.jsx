@@ -1,30 +1,28 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import Sidebar from './Sidebar'
-import usersApi from '../../api/usersApi';
+import React from "react";
+import { Link } from "react-router-dom";
+import Sidebar from "./Sidebar";
+import usersApi from "../../api/usersApi";
 import { useEffect, useState } from "react";
-import axios from 'axios';
-import { FaSpinner } from 'react-icons/fa';
+import axios from "axios";
+import { FaSpinner } from "react-icons/fa";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal);
 const ProfileSetting = () => {
   const [previewImage, setPreviewImage] = useState("");
-  const [reloadSidebar, setReloadSidebar] = useState(false); 
+  const [reloadSidebar, setReloadSidebar] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState(
-    {
-      name: "",
-      address: "",
-      avatar: "",
-      // birthday: "",
-      phone: "",
-      email: "",
-      gender: "",
-    }
-  );
+  const [user, setUser] = useState({
+    name: "",
+    address: "",
+    avatar: "",
+    // birthday: "",
+    phone: "",
+    email: "",
+    gender: "",
+  });
 
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   // const handleGenderChange = (event) => {
   //   setUser({ ...user, gender: event.target.value });
   // };
@@ -33,13 +31,11 @@ const ProfileSetting = () => {
     useEffect(() => {
       const fetchUser = async () => {
         try {
-          const response = await usersApi.getUser(
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
+          const response = await usersApi.getUser({
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
           setUser(response.user);
           // console.log(response.user);
         } catch (error) {
@@ -93,7 +89,6 @@ const ProfileSetting = () => {
     if (validateForm()) {
       // Call the API with user data to update the user information
       try {
-
         const response = await axios.post(
           `http://127.0.0.1:8000/api/save-infor-user`,
           {
@@ -103,8 +98,7 @@ const ProfileSetting = () => {
           {
             headers: {
               Authorization: `Bearer ${token}`,
-              'Content-Type': 'multipart/form-data'
-
+              "Content-Type": "multipart/form-data",
             },
           }
         );
@@ -129,13 +123,11 @@ const ProfileSetting = () => {
             } else if (errorMsg.includes("email")) {
               errorsCopy.email = errorMsg;
               console.log(errorMsg);
-
             }
             setErrors(errorsCopy);
           }
         }
       }
-     
     }
   };
   useEffect(() => {
@@ -151,49 +143,65 @@ const ProfileSetting = () => {
     setPreviewImage(URL.createObjectURL(e.target.files[0]));
   };
 
-
   return (
-    <div><div className="breadcrumb-bar-two">
-      <div className="container">
-        <div className="row align-items-center inner-banner">
-          <div className="col-md-12 col-12 text-center">
-            <h2 className="breadcrumb-title">Thông tin cá nhân</h2>
-            <nav aria-label="breadcrumb" className="page-breadcrumb">
-              <ol className="breadcrumb">
-                <li className="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
-                <li className="breadcrumb-item" aria-current="page">Thông tin cá nhân</li>
-              </ol>
-            </nav>
+    <div>
+      <div className="breadcrumb-bar-two">
+        <div className="container">
+          <div className="row align-items-center inner-banner">
+            <div className="col-md-12 col-12 text-center">
+              <h2 className="breadcrumb-title">Thông tin cá nhân</h2>
+              <nav aria-label="breadcrumb" className="page-breadcrumb">
+                <ol className="breadcrumb">
+                  <li className="breadcrumb-item">
+                    <a href="index.html">Trang chủ</a>
+                  </li>
+                  <li className="breadcrumb-item" aria-current="page">
+                    Thông tin cá nhân
+                  </li>
+                </ol>
+              </nav>
+            </div>
           </div>
         </div>
       </div>
-    </div>
       <div className="content">
         <div className="container">
           <div className="row">
-          <Sidebar key={reloadSidebar ? "reload" : "normal"} />
+            <Sidebar key={reloadSidebar ? "reload" : "normal"} />
 
             <div className="col-md-7 col-lg-8 col-xl-9">
-
               {/* {Object.keys(errors).map((key, index) => (
         <Alert key={index} message={errors[key]} type="error" showIcon style={{marginBottom: "5px"}} />
       ))} */}
-              <div className="card" >
+              <div className="card">
                 <div className="card-body">
-                  <form onSubmit={handleFormSubmit} enctype="multipart/form-data" >
+                  <form
+                    onSubmit={handleFormSubmit}
+                    enctype="multipart/form-data"
+                  >
                     <div className="row">
                       <div className="col-12 col-md-12">
                         <div className="mb-3">
                           <div className="change-avatar">
                             <div className="profile-img">
-                              <img src={previewImage || user.avatar} alt="User Image" />
+                              <img
+                                src={previewImage || user.avatar}
+                                alt="User Image"
+                              />
                             </div>
                             <div className="upload-img">
                               <div className="change-photo-btn">
-                                <span><i className="fa fa-upload" />Tải ảnh lên</span>
-                                <input type="file" className="upload" name="avatar" onChange={(e) => handleFileUpload(e)} />
+                                <span>
+                                  <i className="fa fa-upload" />
+                                  Tải ảnh lên
+                                </span>
+                                <input
+                                  type="file"
+                                  className="upload"
+                                  name="avatar"
+                                  onChange={(e) => handleFileUpload(e)}
+                                />
                               </div>
-
                             </div>
                           </div>
                         </div>
@@ -201,14 +209,30 @@ const ProfileSetting = () => {
                       <div className="col-12 col-md-6">
                         <div className="mb-3">
                           <label className="mb-2">Họ Tên</label>
-                          <input type="text" className="form-control" name="name" value={user.name} onChange={(e) => setUser({ ...user, name: e.target.value })} />
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="name"
+                            value={user.name}
+                            onChange={(e) =>
+                              setUser({ ...user, name: e.target.value })
+                            }
+                          />
                           <p style={{ color: "red" }}>{errors["name"]}</p>
                         </div>
                       </div>
                       <div className="col-12 col-md-6">
                         <div className="mb-3">
                           <label className="mb-2">Địa chỉ</label>
-                          <input type="text" className="form-control" name="address" value={user.address} onChange={(e) => setUser({ ...user, address: e.target.value })} />
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="address"
+                            value={user.address}
+                            onChange={(e) =>
+                              setUser({ ...user, address: e.target.value })
+                            }
+                          />
                           <p style={{ color: "red" }}>{errors["address"]}</p>
                         </div>
                       </div>
@@ -223,17 +247,31 @@ const ProfileSetting = () => {
                       <div className="col-12 col-md-6">
                         <div className="mb-3">
                           <label className="mb-2">Số điện thoại</label>
-                          <input type="text" className="form-control" name="phone" value={user.phone} onChange={(e) => setUser({ ...user, phone: e.target.value })} />
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="phone"
+                            value={user.phone}
+                            onChange={(e) =>
+                              setUser({ ...user, phone: e.target.value })
+                            }
+                          />
                           <p style={{ color: "red" }}>{errors["phone"]}</p>
-
                         </div>
                       </div>
                       <div className="col-12 col-md-6">
                         <div className="mb-3">
                           <label className="mb-2">Email</label>
-                          <input type="text" className="form-control" name="email" value={user.email} onChange={(e) => setUser({ ...user, email: e.target.value })} />
+                          <input
+                            type="text"
+                            className="form-control"
+                            name="email"
+                            value={user.email}
+                            onChange={(e) =>
+                              setUser({ ...user, email: e.target.value })
+                            }
+                          />
                           <p style={{ color: "red" }}>{errors["email"]}</p>
-
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -242,38 +280,42 @@ const ProfileSetting = () => {
                           <select
                             className="form-select form-control"
                             value={user.gender}
-                            onChange={(e) => setUser({ ...user, gender: e.target.value })}
+                            onChange={(e) =>
+                              setUser({ ...user, gender: e.target.value })
+                            }
                             name="gender"
                           >
                             <option value="Nữ">Nữ</option>
                             <option value="Nam">Nam</option>
                           </select>
                           <p style={{ color: "red" }}>{errors["gender"]}</p>
-
                         </div>
                       </div>
                     </div>
                     <div className="submit-section">
-                        <button type="submit" className="btn btn-primary submit-btn" onClick={handleFormSubmit}>
-                          {loading ? (
-                            <div className="loading-spinner">
-                              <FaSpinner className="spinner" />
-                            </div>
-                          ) : (
-                            'Lưu'
-                          )}
-                        </button>
-                      </div>
-
+                      <button
+                        type="submit"
+                        className="btn btn-primary submit-btn"
+                        onClick={handleFormSubmit}
+                      >
+                        {loading ? (
+                          <div className="loading-spinner">
+                            <FaSpinner className="spinner" />
+                          </div>
+                        ) : (
+                          "Lưu"
+                        )}
+                      </button>
+                    </div>
                   </form>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div></div>
+      </div>
+    </div>
+  );
+};
 
-  )
-}
-
-export default ProfileSetting
+export default ProfileSetting;

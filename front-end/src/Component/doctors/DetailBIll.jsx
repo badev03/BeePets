@@ -9,7 +9,7 @@ import LoadingSkeleton from "../Loading";
 import { useReactToPrint } from "react-to-print";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { FaSpinner } from 'react-icons/fa';
+import { FaSpinner } from "react-icons/fa";
 const MySwal = withReactContent(Swal);
 const DetailBIll = () => {
   const { id } = useParams();
@@ -25,6 +25,13 @@ const DetailBIll = () => {
     onAfterPrint: () => alert("Dữ liệu đã được lưu vào PDF"),
   });
 
+  const styles = {
+    maxTdWidth: {
+      maxWidth: "100px",
+      wordBreak: "break-all",
+    },
+  };
+
   const token = localStorage.getItem("token");
 
   const fetchBill = async () => {
@@ -34,7 +41,6 @@ const DetailBIll = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response);
       setBill(response.bill);
       setService(response.services);
 
@@ -65,7 +71,7 @@ const DetailBIll = () => {
       };
       const formattedDate = new Date(dateString).toLocaleDateString(
         "vi-VN",
-        options,
+        options
       );
       // Loại bỏ từ "lúc" từ chuỗi được định dạng
       return formattedDate.replace("lúc", "").trim();
@@ -77,25 +83,23 @@ const DetailBIll = () => {
     setLoadingId(id);
     try {
       const respon = await axios.put(
-        `http://127.0.0.1:8000/api/update-appointment/${id}?status=3`,
+        `http://127.0.0.1:8000/api/update-appointment/${id}?status=4`,
         {},
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
-    fetchBill();
-     
+      fetchBill();
+
       MySwal.fire({
         title: "Cuộc hẹn đã hoàn thành!",
         icon: "success",
       });
-   
-
     } catch (error) {
       console.log(error);
-    }finally {
+    } finally {
       setLoadingId(null);
     }
   };
@@ -175,6 +179,10 @@ const DetailBIll = () => {
                                 Đã xóa
                               </span>
                             ) : bill.appointment.status == 3 ? (
+                              <span className="badge rounded-pill bg-danger-light">
+                                Đã hủy
+                              </span>
+                            ) : bill.appointment.status == 4 ? (
                               <span className="badge rounded-pill bg-primary-light">
                                 Đã hoàn thành
                               </span>
@@ -194,103 +202,132 @@ const DetailBIll = () => {
                             )}
                           </h4>
                         </div>
-
-                        
                       </div>
                     </div>
-                    
-                    {bill.prescriptions &&
-  bill.prescriptions.length > 0 &&
-  bill.prescriptions.map((prescription, prescriptionIndex) => (
-    <div className="col-sm-12" style={{ marginTop: "30px" }} key={prescriptionIndex}>
-      <div className="biller-info">
-        <h4 className="d-block">Tên đơn thuốc : {prescription.name}</h4>
-      </div>
-      {prescription.productss && prescription.productss.length > 0 && (
-        <div className="card card-table">
-          <div className="card-body">
-            <div className="table-responsive">
-              <table className="table table-hover table-center add-table-prescription">
-                <thead>
-                  <tr>
-                    <th >Stt</th>
-                    <th className="table-name">Tên loại thuốc</th>
-                    <th>Số lượng</th>
-                    <th>Giá tiền</th>
-                    <th>Tổng tiền</th>
-                    <th className="table-name">Hướng dẫn sử dụng</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {prescription.productss.map((pres, index) => (
-                    <tr className="test" key={index}>
-                      <td>{index + 1}</td>
-                      <td>{pres.name}</td>
-                      <td>{pres.pivot.quantity}</td>
-                      <td>{formatCurrency(pres.pivot.price)}</td>
-                      <td>{formatCurrency(pres.pivot.quantity * pres.price)}</td>
-                      <td>{pres.pivot.instructions}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      )}
-      {prescription.productss && prescription.productss.length > 0 && (
-        <div className="add-more-item text-end">
-          <div className="biller-info">
-            <h4 className="d-block">
-              Tổng tiền đơn thuốc : {formatCurrency(prescription.price)}{" "}
-            </h4>
-          </div>
-        </div>
-      )}
-    </div>
-  ))}
 
-{service && service.length > 0 && (
-  <div className="card card-table">
-    <div className="card-body">
-      <div className="table-responsive">
-        <table className="table table-hover table-center add-table-prescription">
-          <thead>
-            <tr>
-            <th className="table-name">Stt</th>
-              <th className="table-name">Tên dịch vụ</th>
-              <th className="table-name">Giá tiền</th>
-            </tr>
-          </thead>
-          <tbody>
-            {service.map((ser, index) => (
-              <tr className="test" key={index}>
-                              <td>{index + 1}</td>
-                <td>{ser.name}</td>
-                <td>{formatCurrency(ser.price)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-)}
+                    {bill.prescriptions &&
+                      bill.prescriptions.length > 0 &&
+                      bill.prescriptions.map(
+                        (prescription, prescriptionIndex) => (
+                          <div
+                            className="col-sm-12"
+                            style={{ marginTop: "30px" }}
+                            key={prescriptionIndex}
+                          >
+                            <div className="biller-info">
+                              <h4 className="d-block">
+                                Tên đơn thuốc : {prescription.name}
+                              </h4>
+                            </div>
+                            {prescription.productss &&
+                              prescription.productss.length > 0 && (
+                                <div className="card card-table1">
+                                  <div className="card-body">
+                                    <div className="table-responsive">
+                                      <table className="table table-hover table-center add-table-prescription">
+                                        <thead>
+                                          <tr>
+                                            <th>Stt</th>
+                                            <th className="table-name">
+                                              Tên loại thuốc
+                                            </th>
+                                            <th>Số lượng</th>
+                                            <th>Giá tiền</th>
+                                            <th>Tổng tiền</th>
+                                            <th className="table-name">
+                                              Hướng dẫn sử dụng
+                                            </th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          {prescription.productss.map(
+                                            (pres, index) => (
+                                              <tr className="test" key={index}>
+                                                <td>{index + 1}</td>
+                                                <td style={styles.maxTdWidth}>
+                                                  {pres.name}
+                                                </td>
+                                                <td>{pres.pivot.quantity}</td>
+                                                <td>
+                                                  {formatCurrency(
+                                                    pres.pivot.price
+                                                  )}
+                                                </td>
+                                                <td>
+                                                  {formatCurrency(
+                                                    pres.pivot.quantity *
+                                                      pres.price
+                                                  )}
+                                                </td>
+                                                <td style={styles.maxTdWidth}>
+                                                  {pres.pivot.instructions}
+                                                </td>
+                                              </tr>
+                                            )
+                                          )}
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                            {prescription.productss &&
+                              prescription.productss.length > 0 && (
+                                <div className="add-more-item text-end">
+                                  <div className="biller-info">
+                                    <h4 className="d-block">
+                                      Tổng tiền đơn thuốc :{" "}
+                                      {formatCurrency(prescription.price)}{" "}
+                                    </h4>
+                                  </div>
+                                </div>
+                              )}
+                          </div>
+                        )
+                      )}
+
+                    {service && service.length > 0 && (
+                      <div className="card card-table">
+                        <div className="card-body">
+                          <div className="table-responsive">
+                            <table className="table table-hover table-center add-table-prescription">
+                              <thead>
+                                <tr>
+                                  <th className="table-name">Stt</th>
+                                  <th className="table-name">Tên dịch vụ</th>
+                                  <th className="table-name">Giá tiền</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {service.map((ser, index) => (
+                                  <tr className="test" key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>{ser.name}</td>
+                                    <td>{formatCurrency(ser.price)}</td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                     <div className="row">
-  <div >
-    <div className="card-body">
-      <h3 className="card-title">Ghi chú : {bill.description}</h3>
-    
-    </div>
-  </div>
-  <div className="add-more-item text-end">
-    <div className="biller-info">
-      <h2 className="d-block">
-        Tổng tiền : {formatCurrency(bill.total_amount)}
-      </h2>
-    </div>
-  </div>
-</div>
+                      <div>
+                        <div className="card-body">
+                          <h3 className="card-title">
+                            Ghi chú : {bill.description}
+                          </h3>
+                        </div>
+                      </div>
+                      <div className="add-more-item text-end">
+                        <div className="biller-info">
+                          <h2 className="d-block">
+                            Tổng tiền : {formatCurrency(bill.total_amount)}
+                          </h2>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -298,54 +335,48 @@ const DetailBIll = () => {
           </div>
         </div>
       </div>
- 
-     
-                 <div className="submit-section submit-section2">
 
-                 
-              <Link style={{color:"white" ,marginRight:"10px"}} to={`/doctors/appointments`}>
-              <button
-              type="submit"
-              className="btn btn-secondary submit-btn"
-              
-            >
-              Quay Lại
-            </button>
-
-              </Link>
-            {bill.appointment.status == 1 && (
-       
-            <button
-              type="submit"
-              className="btn btn-primary submit-btn"
-              onClick={() => handleUpdate(bill.appointment.id) }
-            >
-            
-              {loadingId === bill.id ? (
-                <div className="loading-spinner">
-                <FaSpinner className="spinner" /> 
+      <div className="submit-section submit-section2">
+        <Link
+          style={{ color: "white", marginRight: "10px" }}
+          to={`/doctors/appointments`}
+        >
+          <button type="submit" className="btn btn-secondary submit-btn">
+            Quay Lại
+          </button>
+        </Link>
+        <button
+          type="submit"
+          className="btn btn-primary submit-btn"
+          onClick={generatePDF}
+        >
+          In
+        </button>
+        {bill.appointment.status == 1 && (
+          <button
+            type="submit"
+            className="btn btn-primary submit-btn"
+            onClick={() => handleUpdate(bill.appointment.id)}
+          >
+            {loadingId === bill.id ? (
+              <div className="loading-spinner">
+                <FaSpinner className="spinner" />
               </div>
-              ) : (
-                <>
-                   Hoàn thành
-                </>
-              )}
-            </button>
-        
-          
+            ) : (
+              <>Hoàn thành</>
+            )}
+          </button>
         )}
-             {bill.appointment.status == 3 && (
-      
-            <button
-              type="submit"
-              className="btn btn-primary submit-btn"
-              onClick={generatePDF}
-            >
-              In
-            </button>
-        
+        {bill.appointment.status == 3 && (
+          <button
+            type="submit"
+            className="btn btn-primary submit-btn"
+            onClick={generatePDF}
+          >
+            In
+          </button>
         )}
-            </div>
+      </div>
     </div>
   );
 };

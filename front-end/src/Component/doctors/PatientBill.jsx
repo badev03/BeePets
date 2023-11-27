@@ -77,17 +77,17 @@ const PatientBill = () => {
         <td>
           <div className="table-action">
             <Link to={`/doctors/detail-bill/${bill.id}`} className="btn btn-sm bg-info-light">
-              <i className="far fa-eye" /> View
+              <i className="far fa-eye" /> Hóa Đơn
             </Link>
-            <Link
-              to={`/doctors/edit-bill/${bill.id}`}
-              className="btn btn-sm bg-success-light"
-            >
-              <i className="fas fa-edit" /> Edit
-            </Link>
-            <Link to="#" className="btn btn-sm bg-danger-light">
+            {/*<Link*/}
+            {/*  to={`/doctors/edit-bill/${bill.id}`}*/}
+            {/*  className="btn btn-sm bg-success-light"*/}
+            {/*>*/}
+            {/*  <i className="fas fa-edit" /> Sửa Hóa Đơn*/}
+            {/*</Link>*/}
+            {/* <Link to="#" className="btn btn-sm bg-danger-light">
               <i className="far fa-trash-alt" /> Delete
-            </Link>
+            </Link> */}
           </div>
         </td>
       </tr>
@@ -101,11 +101,11 @@ const PatientBill = () => {
 
   return (
     <div className="tab-pane" id="billing">
-      <div>
+      {/* <div>
         <Link className="add-new-btn" to="/doctors/add-bill">
           Tạo hóa đơn
         </Link>
-      </div>
+      </div> */}
       <div className="card card-table mb-0">
         <div className="card-body">
           <div className="table-responsive">

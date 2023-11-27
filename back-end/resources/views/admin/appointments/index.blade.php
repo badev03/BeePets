@@ -6,11 +6,15 @@
 @section('heading','đ')
 @section('content')
     <div class="row">
-    
         <div class="col-sm-12">
             @if(session()->has('success_delete'))
                 <div class="alert-success alert">
                     {{ session('success_delete') }}
+                </div>
+            @endif
+            @if(session()->has('success'))
+                <div class="alert-success alert">
+                    {{ session('success') }}
                 </div>
             @endif
             <div class="card">
@@ -35,7 +39,7 @@
                                         <p class="mb-4">Bạn có chắc chắn xóa không</p>
                                         <div class="d-flex justify-content-center" style="gap: 1rem">
                                             <a href="{{ route('appointments.clear-appointment-data') }}" class="btn bg-success-light"
-                                                    type="submit">Xóa
+                                               type="submit">Xóa
                                             </a>
                                             <button type="button" class="btn bg-danger-light" data-bs-dismiss="modal">Đóng</button>
                                         </div>
@@ -47,50 +51,56 @@
 
                 </div>
                 <div class="card-body">
+                    <div class="d-flex justify-content-end">
+{{--                        <a href="{{ route('excel.appointments') }}" class="btn btn-sm bg-info-light mb-3 d-flex align-items-center" style="gap: 0.5rem">--}}
+{{--                            <svg height="25px" width="25px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 309.267 309.267" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path style="fill:#3DB39E;" d="M38.658,0h164.23l87.049,86.711v203.227c0,10.679-8.659,19.329-19.329,19.329H38.658 c-10.67,0-19.329-8.65-19.329-19.329V19.329C19.329,8.65,27.989,0,38.658,0z"></path> <path style="fill:#2F8A78;" d="M289.658,86.981h-67.372c-10.67,0-19.329-8.659-19.329-19.329V0.193L289.658,86.981z"></path> <path style="fill:#8BD1C5;" d="M77.317,125.64v125.64H231.95V125.64H77.317z M193.292,135.304v19.329h-19.329v-19.329H193.292z M135.304,183.627h-19.329v-19.32h19.329V183.627z M144.969,164.308h19.329v19.32h-19.329V164.308z M135.304,193.302v19.32h-19.329 v-19.32H135.304z M144.969,193.302h19.329v19.32h-19.329V193.302z M173.963,193.302h19.329v19.32h-19.329V193.302z M173.963,183.627v-19.32h19.329v19.32L173.963,183.627L173.963,183.627z M164.298,135.304v19.329h-19.329v-19.329H164.298z M135.304,135.304v19.329h-19.329v-19.329H135.304z M86.981,135.304h19.329v19.329H86.981V135.304z M86.981,164.308h19.329v19.32 H86.981V164.308z M86.981,193.302h19.329v19.32H86.981V193.302z M86.981,241.625v-19.339h19.329v19.339H86.981z M115.975,241.625 v-19.339h19.329v19.339H115.975z M144.969,241.625v-19.339h19.329v19.339H144.969z M173.963,241.625v-19.339h19.329v19.339H173.963 z M222.286,241.625h-19.329v-19.339h19.329V241.625z M222.286,212.621h-19.329v-19.32h19.329V212.621z M222.286,183.627h-19.329 v-19.32h19.329V183.627z M222.286,154.634h-19.329v-19.329h19.329V154.634z"></path> </g> </g></svg>--}}
+{{--                            Xuất dữ liệu--}}
+{{--                        </a>--}}
+                    </div>
                     <div class="table-responsive">
                         <table class="datatable table table-stripped">
                             <thead id="thead_table">
-                                <td>#ID</td>
-                                @foreach ($colums as $colum=>$name)
-                                    <td>{{$name}}</td>
-                                @endforeach
-                                <td>Trạng thái</td>
-                                <td>Ngày hẹn</td>
-                                <td>Thời gian cuộc hẹn</td>
-                                <td>Hành động</td>
+                            <td>#ID</td>
+                            @foreach ($colums as $colum=>$name)
+                                <td>{{$name}}</td>
+                            @endforeach
+                            <td>Trạng thái</td>
+                            <td>Ngày hẹn</td>
+                            <td>Thời gian cuộc hẹn</td>
+                            <td>Hành động</td>
                             </thead>
                             <tbody id="tbody_table">
-                                    @foreach($data as $key=>$value)
-                                        <tr>
-                                            <td>{{ $key + 1 }}</td>
-                                            <td>{{ $value->doctor_id }}</td>
-                                            <td>{{ $value->user_id }}</td>
-                                            <td>{{ $value->type_pet_id }}</td>
-                                            <td>{{ $value->service_id }}</td>
-                                            <td>{!! $value->description !!}</td>
-                                            <td>
-                                                @if($value->status == 6)
-                                                    <button class="btn btn-sm bg-info-light">
-                                                        {{ 'Yêu cầu hủy' }}
-                                                    </button>
-                                                @elseif($value->status == 1)
-                                                    <button class="btn btn-sm bg-success-light">
-                                                        {{ 'Xác nhận' }}
-                                                    </button>
-                                                @elseif($value->status == 3)
-                                                    <button class="btn btn-sm bg-danger-light">
-                                                        {{ 'Hoàn thành' }}
-                                                    </button>
-                                                @endif
-                                            </td>
-                                            <td>{!! $value->date !!}</td>
-                                            <td>
+                            @foreach($data as $key=>$value)
+                                <tr>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td>{{ $value->doctor_id }}</td>
+                                    <td>{{ $value->user_id }}</td>
+                                    <td>{{ $value->type_pet_id }}</td>
+                                    <td>{{ $value->service_id }}</td>
+                                    <td>{!! $value->description !!}</td>
+                                    <td>
+                                        @if($value->status == 6)
+                                            <button class="btn btn-sm bg-info-light">
+                                                {{ 'Yêu cầu hủy' }}
+                                            </button>
+                                        @elseif($value->status == 1)
+                                            <button class="btn btn-sm bg-success-light">
+                                                {{ 'Xác nhận' }}
+                                            </button>
+                                        @elseif($value->status == 4)
+                                            <button class="btn btn-sm bg-danger-light">
+                                                {{ 'Hoàn thành' }}
+                                            </button>
+                                        @endif
+                                    </td>
+                                    <td>{!! $value->date !!}</td>
+                                    <td>
                                                 <span class="text-primary d-block">{{ $value->start_time }}
                                                     - {{ $value->end_time }} AM</span>
-                                            </td>
-                                        @include('admin.components.button.action-index-status')
-                                        </tr>
-                                    @endforeach
+                                    </td>
+                                    @include('admin.components.button.action-index-status')
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -469,31 +479,7 @@
             let html = '';
             var Route = '{{ route('appointments.detail-bills-appointment', ":id") }}'
             Route = Route.replace(':id', id);
-            if (status == 0) {
-                html += '<td class="d-flex" style="grid-gap:1rem">' +
-                    '<div class="d-flex" style="grid-gap:0.5rem">' +
-                    '<a href="'+Route+'" class="delete_data btn btn-sm bg-info-light">' +
-                    'Xem chi tiết cuộc hẹn / bill' +
-                    '</a>' +
-                    '<a class="btn btn-sm bg-success-light" href="#xac_nhan_'+id+'" data-bs-toggle="modal">' +
-                    '<svg fill="#e63c3c" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" xml:space="preserve" width="19px" height="19px">' +
-                    '<g id="SVGRepo_bgCarrier" stroke-width="0"></g>' +
-                    '<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>' +
-                    '<g id="SVGRepo_iconCarrier"> ' +
-                    '<style type="text/css"> .st0{fill:none;} </style>' +
-                    '<path d="M19.3,5.3L9,15.6l-4.3-4.3l-1.4,1.4l5,5L9,18.4l0.7-0.7l11-11L19.3,5.3z"></path> ' +
-                    '<rect class="st0" width="24" height="24"></rect>' +
-                    '</g>' +
-                    '</svg>' +
-                    'Xác nhận' +
-                    '</a>' +
-                    '<a data-bs-toggle="modal" data-delete="' + id + '" href="#delete_modal_' + id + '" class="delete_data btn btn-sm bg-danger-light">' +
-                    '<i class="fe fe-trash"></i> Hủy lịch' +
-                    '</a>' +
-                    '</div>' +
-                    '</td>';
-            }
-            else if (status == 1) {
+             if (status == 1) {
                 html += '<td class="d-flex" style="grid-gap:1rem">' +
                     '<div class="d-flex" style="grid-gap:0.5rem">' +
                     '<a href="' + Route + '" class="delete_data btn btn-sm bg-info-light">' +
@@ -513,4 +499,3 @@
 
     </script>
 @endpush
-

@@ -18,6 +18,114 @@
   color: red;
   float: left;
 }
+.custom-delete-button {
+  /* Những kiểu dáng hiện tại cho nút */
+  color: #898888; /* Thay đổi màu văn bản theo ý muốn của bạn */
+  /* Thêm kiểu dáng khác nếu cần */
+
+  /* Kiểu dáng hiệu ứng hover */
+  &:hover {
+    background-color: #b0abab; /* Thay đổi màu nền khi hover */
+    /* Thêm kiểu dáng khác cho hiệu ứng hover */
+  }
+}
+
+#contenitore {
+  position:relative;
+  width: 800px;
+  margin: 100px auto;
+  text-align: center;
+  overflow: hidden;
+  font: 14px 'Trebuchet MS', sans serif;
+}
+
+.left {
+  float: left;
+  width: 48%;
+}
+
+#grafico {
+  position: relative;
+  height: 300px;
+  border-left: 2px solid #000000;
+  border-bottom: 2px solid #000000;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.riga {
+  position: absolute;
+  left: 0;
+  height: 1px;
+  background-color: gray;
+  width: 100%;
+}
+
+.riga div {
+  float: left;
+  margin: -8px 0 0 -40px;
+}
+
+.canc {
+  clear: both;
+}
+
+table {
+  width: 60%;
+  background-color: white;
+  color: #000;
+  margin: 1em auto;
+}
+
+table caption {
+  background-color: #D8EED8;
+  color: #004156;
+  text-align: left;
+}
+
+table tr:nth-child(2n) {
+  background-color: #D8EED8;
+}
+
+table tr:nth-child(2n+1) {
+  background-color: #BFDFFF;
+}
+
+table td {
+  /* text-align: center; */
+  border-bottom: 1px solid #CDCDCD;
+  padding: 6px;
+}
+
+.column {
+  position: absolute;
+  width: 16%;
+  bottom: 0;
+  background-color: #003366;
+  margin-left: 5%;
+}
+
+div.button {
+  margin: 0 auto;
+  text-align: center;
+  width: 100px;
+  background-color: #003366;
+  border: 1px solid #003366;
+  border-radius: 5px;
+  padding: 8px;
+  color: #E1E2CF;
+  cursor: pointer;
+}
+
+.column div {
+  margin-top: -20px;
+  height: 20px;
+}
+
+
+
+
+
 /* .custom-delete-button {
   background-color: transparent;
   border: none;
@@ -3806,6 +3914,13 @@ table .table-hover tbody tr:hover td {
   white-space: nowrap;
   padding: 1rem 0.75rem;
 }
+
+.card-table1 .card-body .table tr th,
+.card-table1 .card-body .table tr td {
+  border-top: 1px solid #e2e5e8;
+  padding: 1rem 0.75rem;
+}
+
 .card-table .card-body .table tr th:first-child,
 .card-table .card-body .table tr td:first-child {
   padding-left: 1.5rem;
@@ -36363,9 +36478,78 @@ input:checked + .tog-slider:before {
 .table-action a {
     margin-right: 5px;
 }
+.profile-info {
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.profile-item {
+  margin-bottom: 1.5rem;
+}
+
+.profile-label {
+  font-weight: bold;
+  display: inline-block;
+  min-width: 150px;
+}
+
+.profile-value {
+  display: inline-block;
+  margin-left: 20px;
+}
 
 .custom-button:hover{
   background-color: #1677ff;
   border: none;
   color: #fff !important;
 }
+.filter-form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.filter-heading {
+  text-align: center;
+  color: #333;
+}
+
+.filter-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filter-item {
+  flex: 1 1 calc(33.33% - 10px);
+  margin-bottom: 10px;
+}
+
+.label-text {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.input-text,
+.select-dropdown {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+
+.select-dropdown {
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23555555" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 30px;
+}
+

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import doctorsApi from '../../api/doctorsApi';
 import ReviewsDoctor from './ReviewsDoctor';
 import CustomButton from '../Serch/CustomButton';
@@ -17,7 +17,7 @@ const DoctorProfile = () => {
         const response = await doctorsApi.get(id);
         setDoctors(response.doctor);
         // setDoctors(response.review);
-        console.log(response);
+        console.log(response.doctor);
       
       } catch (error) {
         console.error("Không có dữ liệu:", error);
@@ -42,7 +42,7 @@ const DoctorProfile = () => {
           <h2 className="breadcrumb-title">Hồ sơ bác sĩ</h2>
           <nav aria-label="breadcrumb" className="page-breadcrumb">
             <ol className="breadcrumb">
-              <li className="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+              <li className="breadcrumb-item"><Link to={`/`}>Trang chủ</Link></li>
               <li className="breadcrumb-item" aria-current="page">Hồ sơ bác sĩ</li>
             </ol>
           </nav>
@@ -61,7 +61,7 @@ const DoctorProfile = () => {
               </div>
               <div className="doc-info-cont">
                 <h4 className="doc-name">{doctor.name}</h4>
-                <p className="doc-speciality">{doctor.description.service}</p>
+                {/* <p className="doc-speciality">{doctor.description.service}</p> */}
                 <div className="rating">
                 {Array.from({ length: doctor.average_score }, (_, index) => (
                         <i key={index} className="fas fa-star filled" />

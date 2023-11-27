@@ -24,6 +24,7 @@ use App\Http\Controllers\Api\AuthController as ApiAuthController;
 use \App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\AuthController;
+use \App\Http\Controllers\Admin\ExcelAppointmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,8 @@ use App\Http\Controllers\AuthController;
 
 
 //
+Route::get('admin/statistic', [\App\Http\Controllers\Admin\StatisticController::class, 'index'])->name('statistic.index');
+Route::get('admin/statistic/get-data', [\App\Http\Controllers\Admin\StatisticController::class, 'getByDate'])->name('statistic.getByDate');
 Route::middleware(['role:Admin|Staff|User'])->group(function () {
     Route::prefix('admin')->group(function () {
         $objects = [
@@ -79,6 +82,8 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
             Route::put('appointment-cart/{id}', [AppointmentController::class , 'billAppointmentAdd'])->name('appointments.add-appointments-bills');
             Route::get('appointment-clear-data/', [AppointmentController::class , 'clearAppointmentData'])->name('appointments.clear-appointment-data');
             // Route::get('profile', [AuthController::class , 'myProfile'])->name('myProfile');
+             Route::get('excel-appointments', [ExcelAppointmentController::class , 'excelAppointment'])->name('excel.appointments');
+             Route::post('notification-sms', [NotificationController::class , 'NotificationSms'])->name('notification.sms');
         });
         Route::get('dashboard', [HomeController::class , 'index'])->name('dashboard');
         Route::get('appointment/get-day/{day}/{id}', [AppointmentController::class , 'getDay'])->name('appointment.get-day');
@@ -106,7 +111,12 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
         Route::post('send-notifications-doctor' , [NotificationController::class , 'SendNotificationDoctor'])->name('notifications.send-notifications-doctor');
         Route::match(['put' , 'get'] , 'setting' , [SettingController::class , 'index'])->name('setting');
 
+        Route::get('my-profile' , [HomeController::class , 'myProfile'])->name('myProfile');
 
+        Route::get('import-schedule-doctor',[ScheduleController::class , 'getForm'])->name('getForm');
+        Route::post('import-schedule-doctor',[ScheduleController::class , 'import'])->name('import');
+
+        Route::post('my-profile/change-password' , [HomeController::class , 'changePassword'])->name('myProfile.changePassword');
 
         Route::get('create-service/{id}' , [AppointmentController::class , 'getDoctor'])->name('get.doctor');
         Route::get('create-doctor-shift/{id}/{day}' , [AppointmentController::class , 'getShiftDoctor'])->name('get.shift.doctor');
@@ -147,6 +157,8 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
         Route::post('update-order-vnpay',[OrderController::class, 'updateByVnpay'])->name('purchase.updateByVnpay');
         //return-vnpay
         Route::get('return-vnpay',[OrderController::class, 'returnVnpay'])->name('purchase.returnVnpay');
+        Route::get('notification-new',[NotificationController::class, 'NotificationNew'])->name('notification.new');
+        Route::get('statistics-filter-data',[AppointmentController::class, 'statisticsFilter'])->name('statistics.filter-data');
     });
 
 });

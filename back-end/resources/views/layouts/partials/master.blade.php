@@ -20,7 +20,15 @@
     <meta name="twitter:title" content="Doctors Appointment HTML Website Templates | Doccure">
     <meta name="twitter:description" content="The responsive professional Doccure template offers many features, like scheduling appointments with  top doctors, clinics, and hospitals via voice, video call & chat.">
     <meta name="twitter:image" content="assets/img/preview-banner.html">
-    <title>{{ $title ?? "Dashboard" }}</title>
+    <title>
+        @if(isset($title))
+            {{ $title }}
+        @elseif(isset($title_web))
+            {{ $title_web }}
+        @else
+            {{ 'Dashboard' }}
+        @endif
+    </title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('backend/assets/img/favicon.png')}}">
     <link rel="stylesheet" href="{{asset('backend/assets/css/bootstrap.min.css')}}">

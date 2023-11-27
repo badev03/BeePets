@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';  // Add these imports
 import ReactPaginate from 'react-paginate';
 import prescriptionUsersApi from '../../api/prescription';
 import LoadingSkeleton from '../Loading';
@@ -48,15 +49,19 @@ const Prescription = () => {
 
   const displayedPrescriptions = prescription
     .slice(pageNumber * itemsPerPage, (pageNumber + 1) * itemsPerPage)
-    .map(prescriptionItem => (
+    .map((prescriptionItem) => (
       <tr key={prescriptionItem.prescription_id}>
-        <td>{prescriptionItem.prescription_id}</td>
-        <td>{formatDate(prescriptionItem.created_at)}</td>
-        <td>{prescriptionItem.name}</td>
-        <td>
+        <td className="text-start">{prescriptionItem.prescription_id}</td>
+        <td className="text-start">{formatDate(prescriptionItem.created_at)}</td>
+        <td className="text-start">{prescriptionItem.name}</td>
+        <td className="text-start">
           <h2 className="table-avatar">
             <a href="doctor-profile.html" className="avatar avatar-sm me-2">
-              <img className="avatar-img rounded-circle" src={prescriptionItem.doctor_image} alt="User Image" />
+              <img
+                className="avatar-img rounded-circle"
+                src={prescriptionItem.doctor_image}
+                alt="User Image"
+              />
             </a>
             <a href="doctor-profile.html">
               {prescriptionItem.created_by}
@@ -64,7 +69,7 @@ const Prescription = () => {
             </a>
           </h2>
         </td>
-        <td>
+        <td className="text-start">
           <div className="table-action">
             <button className="btn btn-sm bg-info-light">
               <Link to={`/user/prescription/${prescriptionItem.prescription_id}`}>
@@ -75,46 +80,52 @@ const Prescription = () => {
         </td>
       </tr>
     ));
-    if (isLoading) {
-      return <LoadingSkeleton />;
-    }
-  
-    if (prescription.length === 0) {
-      return <div colSpan="5" className="empty-appointments">Hiện tại chưa có lịch hẹn nào </div>;
-    }
-    
+
+  if (isLoading) {
+    return <LoadingSkeleton />;
+  }
+
+  if (prescription.length === 0) {
+    return <div colSpan="5" className="empty-appointments">Hiện tại chưa có đơn thuốc nào </div>;
+  }
 
   return (
-    <div className="tab-pane fade" id="pat_prescriptions">
-      <div className="card card-table mb-0">
-        <div className="card-body">
-          <div className="table-responsive">
-            <table className="table table-hover table-center mb-0">
-              <thead>
-                <tr>
-                  <th>Mã thuốc</th>
-                  <th>Ngày</th>
-                  <th>Tên đơn thuốc</th>
-                  <th>Người tạo</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>{displayedPrescriptions}</tbody>
-            </table>
+
+    <div className="card card-table mb-0">
+      <div className="card-body">
+        <div className="table-responsive">
+          <table className="table table-hover table-center mb-0">
+            <thead>
+              <tr>
+                <th className="text-start">Mã thuốc</th>
+                <th className="text-start">Ngày</th>
+                <th className="text-start">Tên đơn thuốc</th>
+                <th className="text-start">Người tạo</th>
+                <th className="text-start">Action</th>
+              </tr>
+            </thead>
+            <tbody>{displayedPrescriptions}</tbody>
+          </table>
+        </div>
+        <div className="row">
+          <div className="col-md-12">
+            <div className="pagination-doctor">
+            <ReactPaginate
+                nextLabel={<FaChevronRight />}
+                previousLabel={<FaChevronLeft />}
+                pageCount={pageCount}
+                onPageChange={changePage}
+                containerClassName={"pagination justify-content-end pr-3 pt-2 mr-4"}
+                previousLinkClassName={"previousBttn"}
+                activeClassName={"active"}
+              />
+            </div>
           </div>
         </div>
-        <ReactPaginate
-          nextLabel={'>'}
-          previousLabel={'<'}
-          pageCount={pageCount}
-          onPageChange={changePage}
-          containerClassName={'pagination justify-content-end pr-3 pt-2 mr-4'}
-          previousLinkClassName={'previousBttn'}
-          nextLinkClassName={'nextBttn'}
-          activeClassName={'active'}
-        />
       </div>
     </div>
+
+
   );
 };
 

@@ -96,7 +96,7 @@ class ServiceController extends BaseResponseApiController
         //  $service = json_decode($service, true);
         if($service) {
             $checkService = $this->tableQuery('doctor_service')
-                ->select('doctors.id' , 'doctors.name' , 'doctors.address' , 'doctors.image' , DB::raw('GROUP_CONCAT(services.name) AS chuyenkhoa'))
+                ->select('doctors.id' , 'doctors.name' , 'doctors.slug' , 'doctors.address' , 'doctors.image' , DB::raw('GROUP_CONCAT(services.name) AS chuyenkhoa'))
                 ->join('services' , 'services.id' , '=' , 'doctor_service.service_id')
                 ->join('doctors' , 'doctors.id' , '=' , 'doctor_service.doctor_id')
                 ->join('service_categories' , 'service_categories.id' , '=' , 'services.service_categorie_id')

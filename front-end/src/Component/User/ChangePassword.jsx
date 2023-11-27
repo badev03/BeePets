@@ -1,7 +1,7 @@
-import React from 'react';
-import Sidebar from './Sidebar';
+import React from "react";
+import Sidebar from "./Sidebar";
 import { useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal);
@@ -19,7 +19,9 @@ const ChangePasswordUser = () => {
   const [oldPasswordError, setOldPasswordError] = useState("");
   const [newPasswordError, setNewPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
-
+  const userString = localStorage.getItem("user");
+  const user = JSON.parse(userString);
+  // console.log(user.phone);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -43,7 +45,7 @@ const ChangePasswordUser = () => {
 
     try {
       const response = await axios.post(
-        `http://127.0.0.1:8000/api/change-password/0981608298`,
+        `http://127.0.0.1:8000/api/change-password/${user.phone}`,
         {
           old_password: oldPassword,
           new_password: newPassword,
@@ -67,9 +69,7 @@ const ChangePasswordUser = () => {
 
   return (
     <div>
-      <div className="breadcrumb-bar-two">
-        {/* Breadcrumb code */}
-      </div>
+      <div className="breadcrumb-bar-two">{/* Breadcrumb code */}</div>
       <div className="content">
         <div className="container">
           <div className="row">
@@ -79,7 +79,7 @@ const ChangePasswordUser = () => {
                 <div className="card-body">
                   <div className="row">
                     <div className="col-md-12 col-lg-6">
-                    <form onSubmit={handleSubmit}>
+                      <form onSubmit={handleSubmit}>
                         <div className="mb-3">
                           <label className="mb-2">Mật khẩu cũ</label>
                           <div className="input-group">
@@ -160,7 +160,9 @@ const ChangePasswordUser = () => {
                               </span>
                             </div>
                           </div>
-                          <div className="text-danger">{confirmPasswordError}</div>
+                          <div className="text-danger">
+                            {confirmPasswordError}
+                          </div>
                         </div>
                         <div className="submit-section">
                           <button

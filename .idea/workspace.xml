@@ -5,16 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="45a53ba9-6ef3-41ae-87f6-4b989cb527d7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/BeePets.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/BeePets.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/phpspec.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpspec.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Admin/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Admin/HomeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/resources/views/admin/dashboard/dashboard.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/resources/views/admin/dashboard/dashboard.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/.env.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/BookingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/BookingController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/config/app.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/back-end/composer.json</pharConfigPath>
     <execution />
   </component>
@@ -292,6 +298,9 @@
       <path value="$PROJECT_DIR$/back-end/vendor/yajra/laravel-datatables-oracle" />
       <path value="$PROJECT_DIR$/back-end/vendor/consoletvs/charts" />
       <path value="$PROJECT_DIR$/back-end/vendor/balping/json-raw-encoder" />
+      <path value="$PROJECT_DIR$/back-end/vendor/maatwebsite/excel" />
+      <path value="$PROJECT_DIR$/back-end/vendor/phpoffice/phpexcel" />
+      <path value="$PROJECT_DIR$/back-end/vendor/twilio/sdk" />
     </include_path>
   </component>
   <component name="ProjectId" id="2VuhhQXDza3ZsemU1n74U22XaJR" />
@@ -308,7 +317,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/laragon/www/speed_sms&quot;,
+    &quot;last_opened_file_path&quot;: &quot;F:/BeePets&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -383,6 +392,16 @@
       <workItem from="1699028353685" duration="838000" />
       <workItem from="1699060198386" duration="12000" />
       <workItem from="1699063119008" duration="647000" />
+      <workItem from="1699840383565" duration="46000" />
+      <workItem from="1700137111643" duration="779000" />
+      <workItem from="1700139013647" duration="2421000" />
+      <workItem from="1700149264457" duration="2619000" />
+      <workItem from="1700272899875" duration="478000" />
+      <workItem from="1700273938907" duration="524000" />
+      <workItem from="1700296132051" duration="946000" />
+      <workItem from="1700403588688" duration="8000" />
+      <workItem from="1700447308685" duration="632000" />
+      <workItem from="1700458371143" duration="1222000" />
     </task>
     <servers />
   </component>

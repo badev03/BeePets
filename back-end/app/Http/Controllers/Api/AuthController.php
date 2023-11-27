@@ -123,10 +123,45 @@ class AuthController extends BaseResponseApiController
         $phone_number = $request->input('phone');
         $existingUser = $this->checkPhone($phone_number);
         if($existingUser) {
-            return response()->json(['msg' => 'Số điện thoại này đã được đăng ký'], 400);
+            return response()->json(['msg' => 'Số điện thoại này đã được đăng ký'], 403);
         }
         else {
             return response()->json(['msg' => 'oki đến verify'], 200);
+        }
+    }
+
+    public function RegisterUserOtp(Request $request , $phone) {
+        $check_str_len= strlen($phone);
+        $existingUser = $this->checkPhone($phone);
+        $data_validate = $request->all();
+        $data_validate['phone'] = $phone;
+        $password = $request->input('password');
+        $password_again = $request->input('password_confirmation');
+        if($existingUser) {
+            return response()->json(['msg' => 'Số điện thoại này đã được đăng ký'], 403);
+        }
+        else {
+            $validator = $this->validateForm($data_validate , 'createPass');
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 400);
+            }
+            if($check_str_len>10) {
+                return response()->json(['errors' => 'Số điện thoại không được quá 10 số'], 400);
+            }
+            if ($password === $password_again) {
+                $this->tableQuery('users')->insert([
+                    'name' => $phone,
+                    'email' => $phone.'@gmail.com',
+                    'password' => Hash::make($password),
+                    'role_id' => 4,
+                    'status' => 1,
+                    'phone' => $phone,
+                ]);
+
+                return response()->json(['msg' => 'Đặt mật khẩu mới thành công'], 200);
+            } else {
+                return response()->json(['msg' => 'Xác nhận mật khẩu không khớp'], 400);
+            }
         }
     }
 
@@ -140,7 +175,7 @@ class AuthController extends BaseResponseApiController
         $existingUser = $this->checkPhone($phone_number);
         if($phone_number) {
             if($existingUser) {
-                return response()->json(['msg' => 'Số điện thoại này đã được đăng ký'], 400);
+                return response()->json(['msg' => 'Số điện thoại này đã được đăng ký'], 403);
             }
             else {
                 return response()->json(['msg' => 'Đi đến tạo mật khẩu'], 200);
@@ -324,9 +359,11 @@ class AuthController extends BaseResponseApiController
                 break;
             case 'createPass':
                 $validator = Validator::make($data, [
+                    'phone' => 'required|numeric|',
                     'password' => 'required|min:6|confirmed',
                     'password_confirmation' => 'required|min:6'
                 ] , [
+                    'phone.required' => 'Trường phone không được để trống',
                     'password.required' => 'Trường password không được để trống',
                     'password.min' => 'Trường password phải nhập ít nhất 6 ký tự',
                     'password_confirmation.required' => 'Trường password_confirmation không được để trống',

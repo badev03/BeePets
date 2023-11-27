@@ -11,14 +11,13 @@ import TopLink from "../Link/TopLink";
 import deleteNoti from "../api/deleteNoti";
 import axios from "axios";
 import { UserOutlined } from "@ant-design/icons"
-
+import {Dropdown} from "bootstrap";
 
 
 const Header = () => {
   const { isLoggedIn, onLogout, token, role } = useAuth();
   const navigate = useNavigate();
   const [noti, setNoti] = useState([]);
-  console.log(noti)
   const [countNotification , setCountNotification] = useState(0);
   const imgDefault =
       "https://dvdn247.net/wp-content/uploads/2020/07/avatar-mac-dinh-1.png";
@@ -37,8 +36,9 @@ const Header = () => {
             Authorization: `Bearer ${token}`,
           }
         })
-  
-        // console.log("🚀 ~ file: Header.jsx:60 ~ handleDeleteNotification ~ response1:", response)
+
+
+        console.log("🚀 ~ file: Header.jsx:60 ~ handleDeleteNotification ~ response1:", response)
         setNoti(response.data.notification);
       } else {
         console.error('Không có token xác thực trong Local Storage.');
@@ -46,21 +46,18 @@ const Header = () => {
     } catch (error) {
       console.error("Lỗi khi xóa thông báo:", error);
     }
-};
+  };
 
   const handleNotificationClick = async () => {
     try {
-      // console.log(123);
-        // console.log(setIsLoading);
-        const response = await notification.getUpdate(
+      const response = await notification.getUpdate(
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
       );
-      // console.log(notification);
-        setCountNotification(0);
+      setCountNotification(0);
     } catch (error) {
       console.error("Không có dữ liệu:", error);
     }
@@ -132,11 +129,13 @@ const Header = () => {
       });
       setNoti(response.notifications);
       console.log(response.notifications);
-      setCountNotification(response.count);
-      const pusher = new Pusher("2798806e868dbe640e2e", {
+
+      // Tăng giá trị countNotification dựa trên số lượng thông báo mới
+      setCountNotification((prevCount) => prevCount + response.count);
+
+      const pusher = new Pusher("59deaefaec6129103d3d", {
         cluster: "ap1",
       });
-
       const channel = pusher.subscribe("user-notification-" + data.id);
 
       channel.bind("notification-event-test", function (data) {
@@ -146,9 +145,11 @@ const Header = () => {
             name: data.name,
             avatar: data.avatar,
             id: data.id,
+            appointment_id: data.appointment_id,
           };
           return [newData, ...prevData];
         });
+        setCountNotification((prevCount) => prevCount + 1);
       });
     } else {
       const response = await notification.getDoctor({
@@ -170,9 +171,11 @@ const Header = () => {
             name: data.name,
             avatar: data.avatar,
             id: data.id,
+            appointment_id: data.appointment_id,
           };
           return [newData, ...prevData];
         });
+        setCountNotification((prevCount) => prevCount + 1);
       });
     }
   };
@@ -289,32 +292,33 @@ const Header = () => {
                     <li className="nav-item dropdown noti-nav me-3 pe-0">
                       <a
                           href="#"
-                    className="dropdown-toggle nav-link p-0" onClick={handleNotificationClick}
+                          className="dropdown-toggle nav-link p-0" onClick={handleNotificationClick}
                           data-bs-toggle="dropdown"
-                  
+
                       >
                         <i className="fa-solid fa-bell" />{" "}
                         <span className="badge">{countNotification}</span>
                       </a>
                       <div className="dropdown-menu notifications dropdown-menu-end ">
                         <div className="topnav-dropdown-header">
-                          <span className="notification-title">Notifications</span>
+                          <span className="notification-title">Thông báo</span>
                         </div>
                         <div className="noti-content">
                           <ul className="notification-list">
-                        {noti.map((notifications) => (
+                            {noti.map((notifications) => (
                                 <li className="notification-message" key={noti.id}>
-                            <a href={
-                            handleCheckAccount(data)
-                                ? `/user/appointment/${195}`
-                                : `/doctors/accept-detail-appointments/${134}`}>
+                                  <TopLink to={
+                                    handleCheckAccount(data)
+                                        ? `/user/appointment/${notifications.appointment_id}`
+                                        : `/doctors/detail-appointments/${notifications.appointment_id}`}>
+                                    {/* : `/doctors/doctors/detail-bill/${notifications.appointment_id}`}> */}
                                     <div className="notify-block d-flex">
                                 <span className="avatar">
                                   <img
                                       className="avatar-img"
                                       alt="Ruby perin"
                                       src={notifications.avatar}
-                                  />s
+                                  />
                                 </span>
                                       <div className="media-body">
                                         <h6>
@@ -326,19 +330,10 @@ const Header = () => {
                                         <p className="noti-details">
                                           {notifications.message}
                                         </p>
+                                      </div>
+
                                     </div>
-                                    <button
-                                      className="custom-delete-button btn sm"
-                                  onClick={(e) => {
-                                    e.stopPropagation(); // Ngăn sự kiện lan truyền
-                                    handleDeleteNotification(notifications.id_notification, token);
-                                  }}
-                                    >
-                                      {/* <i className="custom-icon">&#10006;</i> */}
-                                      <i class="fa-solid fa-delete-left"></i>
-                                    </button>
-                                    </div>
-                                  </a>
+                                  </TopLink>
                                 </li>
                             ))}
                           </ul>
@@ -400,7 +395,7 @@ const Header = () => {
                             }
                             className="dropdown-item"
                         >
-                          Dashboard
+                          Bảng điều khiển
                         </Link>
                         <Link
                             to={
@@ -411,11 +406,11 @@ const Header = () => {
                             className="dropdown-item"
                             href="doctor-profile-settings.html"
                         >
-                          Profile Settings
+                          Thông tin cá nhân
                         </Link>
                         <button className="dropdown-item" onClick={handleLogout}>
                           {" "}
-                          Logout{" "}
+                          Đăng xuất{" "}
                         </button>
                       </div>
                     </li>
@@ -424,23 +419,23 @@ const Header = () => {
                   <>
                     <li className="login-in-fourteen">
                       <TopLink to= "login">
-                        <Button 
-                          icon={<UserOutlined />} 
-                          type="default"
-                          size="large"
-                          style={{ height: 45, border: 'none' }}
-                          className="custom-button"
+                        <Button
+                            icon={<UserOutlined />}
+                            type="default"
+                            size="large"
+                            style={{ height: 45, border: 'none', boxShadow: "none" }}
+                            className="custom-button"
                         >Đăng nhập</Button>
                       </TopLink>
                     </li>
                     <li className="login-in-fourteen">
                       <TopLink to= "register">
-                        <Button 
-                          icon={<UserOutlined />} 
-                          type="primary"
-                          size="large"
-                          style={{ height: 45 }}
-                          className="custom-button"
+                        <Button
+                            icon={<UserOutlined />}
+                            type="primary"
+                            size="large"
+                            style={{ height: 45 }}
+                            className="custom-button"
                         >Đăng kí</Button>
                       </TopLink>
                     </li>

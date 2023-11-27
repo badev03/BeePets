@@ -8,6 +8,19 @@
                 <li class="submenu">
                     <a href="#">
                         <i class="fe fe-layout"></i>
+                        <span> Thống kê</span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        <li>
+                            <a class="{{ request()->routeIs('statistic.index') ? 'active' : '' }}" href="{{ route('statistic.index') }}">
+{{--                                <i class="fe fe-bar-chart"></i>--}}
+                                <span>Thống kê doanh thu</span></a>
+                        </li>
+                        <li><a class="{{ request()->routeIs('appointments.statistics') ? 'active' : '' }}" href="{{ route('appointments.statistics') }}">Thống kế cuộc hẹn</a></li>
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="#">
+                        <i class="fe fe-layout"></i>
                         <span> Cuộc hẹn</span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a class="{{ request()->routeIs(['appointments.add-appointments', 'create-data.appointments']) ? 'active' : '' }}
@@ -19,10 +32,7 @@
                         <li>
                             <a href="{{ route('appointments.history-appointment') }}" class="{{ request()->routeIs('appointments.history-appointment') ? 'active' : '' }}"> <span>Lịch sử cuộc hẹn</span></a>
                         </li>
-                        <li><a class="{{ request()->routeIs('appointments.trash-can') ? 'active' : '' }}" href="{{ route('appointments.trash-can') }}">Lịch Đã Hủy</a></li>
-                        <li><a class="{{ request()->routeIs('appointments.statistics') ? 'active' : '' }}" href="{{ route('appointments.statistics') }}">Thống kế cuộc hẹn</a></li>
-                        <li><a class="{{ request()->routeIs('appointments.cancel.requirements') ? 'active' : '' }}" href="{{ route('appointments.cancel.requirements') }}">Cuộc hẹn yêu cầu hủy</a></li>
-                        <li><a class="{{ request()->routeIs('appointments.cancel.requirements') ? 'active' : '' }}" href="{{ route('appointments.cancel.requirements') }}">Cuộc hẹn yêu cầu đổi</a></li>
+{{--                        <li><a class="{{ request()->routeIs('appointments.statistics') ? 'active' : '' }}" href="{{ route('appointments.statistics') }}">Thống kế cuộc hẹn</a></li>--}}
                         <li><a class="{{ request()->routeIs('appointments.bills-appointment') ? 'active' : '' }}" href="{{ route('appointments.bills-appointment') }}">Hóa đơn cuộc hẹn</a></li>
                     </ul>
                 </li>
@@ -44,6 +54,9 @@
                         <li><a class="{{ request()->routeIs('new.*') ? 'active' : '' }}" href="{{ route('new.index') }}">Tin tức</a></li>
                     </ul>
                 </li>
+                <li>
+                    <a class="{{ request()->routeIs('type-pet.*') ? 'active' : '' }}" href="{{ route('type-pet.index') }}"><i class="fe fe-user-plus"></i> <span>Thú cưng</span> </a>
+                </li>
                 @role('Admin')
                 <li>
                     <a class="{{ request()->routeIs('doctors.*') ? 'active' : '' }}" href="{{ route('doctors.index') }}"><i class="fe fe-user-plus"></i> <span>Bác sĩ</span> </a>
@@ -64,16 +77,10 @@
                 <li class="{{ request()->routeIs('setting') ? 'active' : '' }}">
                     <a href="{{ route('setting') }}"><i class="fe fe-vector"></i> <span>Cấu hình</span></a>
                 </li>
-{{--                <li class="submenu">--}}
-{{--                    <a href="#"><i class="fe fe-document"></i> <span> Báo cáo</span> <span class="menu-arrow"></span></a>--}}
-{{--                    <ul style="display: none;">--}}
-{{--                        <li><a href="invoice-report.html">Báo cáo hóa đơn</a></li>--}}
-{{--                    </ul>--}}
-{{--                </li>--}}
                 @role('Admin')
                 <hr class="text-white"/>
                 <li>
-                    <a href="{{ route('setting') }}"><i class="fe fe-user-plus"></i> <span>Hồ sơ</span></a>
+                    <a href="{{ route('myProfile') }}"><i class="fe fe-user-plus"></i> <span>Hồ sơ</span></a>
                 </li>
                 <li class="submenu">
                     <a href="#"><i class="fe fe-user-plus"></i> <span> Tài khoản </span> <span class="menu-arrow"></span></a>
