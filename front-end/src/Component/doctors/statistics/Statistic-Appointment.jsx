@@ -48,7 +48,7 @@ const StatisticAppointment = () => {
       console.log("Loading started...");
 
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/filter-appointments-statistics",
+        "https://beepets.id.vn/api/filter-appointments-statistics",
         { date: selectedDate, period: selectedDuration }, // Thêm selectedDuration vào body
         {
           headers: {

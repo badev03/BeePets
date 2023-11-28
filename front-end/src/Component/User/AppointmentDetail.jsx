@@ -14,7 +14,7 @@ const AppointmentDetail = () => {
       const fetchAppointmentDetail = async () => {
         try {
           const response = await axios.get(
-            `http://127.0.0.1:8000/api/get-appointment-user/${id}`,
+            `https://beepets.id.vn/api/get-appointment-user/${id}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
