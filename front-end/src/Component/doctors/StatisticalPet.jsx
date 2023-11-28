@@ -26,7 +26,7 @@ const StatisticalPet = () => {
 
   const fetchData = () => {
     axios
-      .post(`http://127.0.0.1:8000/api/statistic-type-pet?date=${date}`)
+      .post(`https://beepets.id.vn/api/statistic-type-pet?date=${date}`)
       .then((response) => {
         const data = response.data;
         console.log(data);

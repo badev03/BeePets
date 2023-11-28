@@ -124,7 +124,7 @@ const Appointments = () => {
     );
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/filter-appointments",
+        "https://beepets.id.vn/api/filter-appointments",
         filteredFilters,
         {
           headers: {
@@ -154,7 +154,7 @@ const Appointments = () => {
     console.log(id);
     try {
       const respon = await axios.put(
-        `http://127.0.0.1:8000/api/update-appointment/${id}?status=4`,
+        `https://beepets.id.vn/api/update-appointment/${id}?status=4`,
         {},
         {
           headers: {
@@ -188,7 +188,7 @@ const Appointments = () => {
       setLoadingIdd(id);
 
       const respon = await axios.put(
-        `http://127.0.0.1:8000/api/update-appointment/${id}?status=6&reason_cancel=${reason}`,
+        `https://beepets.id.vn/api/update-appointment/${id}?status=6&reason_cancel=${reason}`,
         {},
         {
           headers: {
@@ -214,7 +214,7 @@ const Appointments = () => {
       setLoadingIddd(id);
 
       const respon = await axios.put(
-        `http://127.0.0.1:8000/api/update-appointment/${id}?status=7&reason_change=${reason}`,
+        `https://beepets.id.vn/api/update-appointment/${id}?status=7&reason_change=${reason}`,
         {},
         {
           headers: {
