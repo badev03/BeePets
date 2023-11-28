@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import axios from "axios";
 import LoadingSkeleton from "../Loading";
+import TopLink from "../../Link/TopLink";
 const AppointmentDetail = () => {
   const [appointments, setAppointments] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Khởi tạo isLoading
@@ -88,7 +89,54 @@ const AppointmentDetail = () => {
                   <LoadingSkeleton />
                 ) : (
                   <div className="card">
+
                     <div className="card-body pb-0">
+                      <div className="d-flex">
+                        <img
+                          src="https://res.cloudinary.com/dgr1k5tf5/image/upload/v1697884317/tgaqy9cgyffuneqzysjb.png"
+                          alt=""
+                          className="img-fluid"
+                          style={{ width: '15%' }}
+                        />
+
+                        {/* <div className="footer-contact-info">
+                                  <div className="footer-address">
+                                    <p><i className="feather-map-pin"></i> Cao đẳng fpt</p>
+                                  </div>
+                                  <div className="footer-address">
+                                    <p><i className="feather-phone-call"></i>108101910</p>
+                                  </div>
+                                  <div className="footer-address mb-0">
+                                    <p><i className="feather-mail"></i> <TopLink to="https://doccure.dreamguystech.com/cdn-cgi/l/email-protection" className="__cf_email__" data-cfemail="ee8a818d8d9b9c8bae8b968f839e828bc08d8183">BeePets@fpt.edu.vn</TopLink></p>
+                                  </div>
+                                </div> */}
+                        <div className=" d-flex" style={{ marginLeft: '600px' }}>
+                          <span className="mb-2 fw-bolder">
+                            Mã cuộc hẹn :{" "}
+                          </span>
+                          <div className="ms-1">
+                            {appointments.appointment_id}
+                          </div>
+                        </div>
+                        {/* <div className="footer-contact-info">
+                                  <div className="footer-address">
+                                    <p><i className="feather-map-pin"></i> Cao đẳng fpt</p>
+                                  </div>
+                                  <div className="footer-address">
+                                    <p><i className="feather-phone-call"></i>108101910</p>
+                                  </div>
+                                  <div className="footer-address mb-0">
+                                    <p><i className="feather-mail"></i> <TopLink to="https://doccure.dreamguystech.com/cdn-cgi/l/email-protection" className="__cf_email__" data-cfemail="ee8a818d8d9b9c8bae8b968f839e828bc08d8183">BeePets@fpt.edu.vn</TopLink></p>
+                                  </div>
+                                </div> */}
+                      </div>
+
+
+                      <br />
+                      <hr />
+                      <h2 className="breadcrumb-title text-center mx-auto">Chi tiết cuộc hẹn</h2>
+
+                      <br />
                       <form>
                         <div className="row">
                           <div className="col-12">
@@ -141,36 +189,41 @@ const AppointmentDetail = () => {
                                   </span>
                                   <div className="ms-1">
                                     {
-                                      appointments.status == 0 ? (
-                                          <div className="ms-1">
+                                      <span className="profile-value">
+                                        {appointments.status == 1 ? (
+                                          <span className="badge rounded-pill bg-success-light">
+                                            Xác nhận
+                                          </span>
+                                        ) : appointments.status == 0 ? (
+                                          <span className="badge rounded-pill bg-warning-light">
                                             Chờ xác nhận
-                                          </div>
-                                        ) : appointments.status == 1 ? (
-                                          <div className="ms-1">
-                                             Xác nhận
-                                          </div>
-                                      ) : appointments.status == 3 ? (
-                                              <div className="ms-1">
-                                                Đã Hủy
-                                              </div>
-                                          ) : appointments.status == 4 ? (
-                                              <div className="ms-1">
-                                                Đã Hoàn Thành
-                                              </div>
-                                          ) : appointments.status == 6 ? (
-                                              <div className="ms-1">
-                                                Yêu cầu hủy
-                                              </div>
-                                          ) : appointments.status == 7 ? (
-                                              <div className="ms-1">
-                                                Yêu cầu đổi lịch
-                                              </div>
-                                          )
-                                          : (
-                                          <div className="ms-1">
-                                            Không xác nhận
-                                          </div>
-                                      )
+                                          </span>
+                                        ) : appointments.status == 2 ? (
+                                          <span className="badge rounded-pill bg-danger-light">
+                                            Đã xóa
+                                          </span>
+                                        ) : appointments.status == 4 ? (
+                                          <span className="badge rounded-pill bg-primary-light">
+                                            Đã hoàn thành
+                                          </span>
+                                        ) : appointments.status == 3 ? (
+                                          <span className="badge rounded-pill bg-danger-light">
+                                            Đã hủy
+                                          </span>
+                                        ) : appointments.status == 6 ? (
+                                          <span className="badge rounded-pill bg-warning-light">
+                                            Yêu cầu hủy
+                                          </span>
+                                        ) : appointments.status == 7 ? (
+                                          <span className="badge rounded-pill bg-info-light">
+                                            Yêu cầu đổi lịch
+                                          </span>
+                                        ) : (
+                                          <span className="badge rounded-pill bg-info-light">
+                                            Không xác định
+                                          </span>
+                                        )}
+                                      </span>
                                     }
                                   </div>
                                 </div>
@@ -178,22 +231,29 @@ const AppointmentDetail = () => {
 
                               </div>
                               <div
-                                className="col-sm-6 d-flex"
+                                className="col-sm-6 profile-img d-flex justify-content-center align-items-center"
                                 style={{ gap: "1rem" }}
                               >
-                                <span className="mb-2 fw-bolder ">
+                                {/* <span className="mb-2 fw-bolder ">
                                   Ảnh bác sĩ :{" "}
-                                </span>
+                                </span> */}
                                 <img
                                   src={appointments.doctor_image}
                                   alt="User Image"
                                   className="rounded-0"
-                                  style={{
-                                    width: "40%",
-                                    border: "none",
-                                    marginBottom: "20px",
-                                  }}
+                                  style={{ width: '50%', border: 'none', marginBottom: '20px' }}
                                 />
+                                {/* <div className="footer-contact-info">
+                                  <div className="footer-address">
+                                    <p><i className="feather-map-pin"></i> Cao đẳng fpt</p>
+                                  </div>
+                                  <div className="footer-address">
+                                    <p><i className="feather-phone-call"></i>108101910</p>
+                                  </div>
+                                  <div className="footer-address mb-0">
+                                    <p><i className="feather-mail"></i> <TopLink to="https://doccure.dreamguystech.com/cdn-cgi/l/email-protection" className="__cf_email__" data-cfemail="ee8a818d8d9b9c8bae8b968f839e828bc08d8183">BeePets@fpt.edu.vn</TopLink></p>
+                                  </div>
+                                </div> */}
                               </div>
                             </div>
                           </div>
@@ -216,12 +276,9 @@ const AppointmentDetail = () => {
                                   <span className="mb-2 fw-bolder">
                                     Ghi chú :
                                   </span>
-                                  <div
-                                    className="alert alert-danger"
-                                    role="alert"
-                                  >
+                                  <span className="profile-value">
                                     {appointments.description}
-                                  </div>
+                                  </span>
                                 </>
                               )}
                             </div>
