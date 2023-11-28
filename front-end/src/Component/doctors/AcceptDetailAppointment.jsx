@@ -45,7 +45,7 @@ const AcceptDetailAppointment = () => {
     setLoadingId(id);
     try {
       const respon = await axios.put(
-        `http://127.0.0.1:8000/api/update-appointment/${id}?status=1`,
+        `https://beepets.id.vn/api/update-appointment/${id}?status=1`,
         {},
         {
           headers: {
@@ -70,7 +70,7 @@ const AcceptDetailAppointment = () => {
     setLoadingId(id);
     try {
       const respon = await axios.put(
-        `http://127.0.0.1:8000/api/update-appointment/${id}?status=4`,
+        `https://beepets.id.vn/api/update-appointment/${id}?status=4`,
         {},
         {
           headers: {
@@ -103,7 +103,7 @@ const AcceptDetailAppointment = () => {
       setLoadingIdd(id);
 
       const respon = await axios.put(
-        `http://127.0.0.1:8000/api/update-appointment/${id}?status=6&reason_cancel=${reason}`,
+        `https://beepets.id.vn/api/update-appointment/${id}?status=6&reason_cancel=${reason}`,
         {},
         {
           headers: {
@@ -246,11 +246,15 @@ const AcceptDetailAppointment = () => {
                               </span>
                             </div>
                             {appointments.total_amount ? (
-                            <div className="profile-item">
-                              <span className="profile-label">Tổng tiền:</span>
-                              <span className="profile-value">{formatCurrency(appointments.total_amount)}</span>
-                            </div>
-                          ) : null}
+                              <div className="profile-item">
+                                <span className="profile-label">
+                                  Tổng tiền:
+                                </span>
+                                <span className="profile-value">
+                                  {formatCurrency(appointments.total_amount)}
+                                </span>
+                              </div>
+                            ) : null}
                             <div className="profile-item">
                               <span className="profile-label">Ghi chú:</span>
                               <span className="profile-value">
