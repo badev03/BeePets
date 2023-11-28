@@ -36,7 +36,7 @@ const Search = ({ data }) => {
     const fetchDoctorService = async () => {
       try {
         const response = await axios.post(
-          `http://127.0.0.1:8000/api/service-filter-doctor`,
+          `https://beepets.id.vn/api/service-filter-doctor`,
           { service: data }
         );
         setDoctors(response.data.service);

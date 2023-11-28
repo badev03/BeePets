@@ -80,7 +80,7 @@ const Dashboarddoctors = () => {
     setLoadingId(id);
     try {
       const respon = await axios.put(
-        `http://127.0.0.1:8000/api/update-appointment/${id}?status=1`,
+        `https://beepets.id.vn/api/update-appointment/${id}?status=1`,
         {},
         {
           headers: {
@@ -113,7 +113,7 @@ const Dashboarddoctors = () => {
       setLoadingIdd(id);
 
       const respon = await axios.put(
-        `http://127.0.0.1:8000/api/update-appointment/${id}?status=6&reason_cancel=${reason}`,
+        `https://beepets.id.vn/api/update-appointment/${id}?status=6&reason_cancel=${reason}`,
         {},
         {
           headers: {

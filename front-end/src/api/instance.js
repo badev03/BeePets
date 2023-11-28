@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Tạo một instance của Axios với cấu hình cơ sở URL
 const instance = axios.create({
-  baseURL: 'https://beepets.id.vn/api/',
+    baseURL: 'https://beepets.id.vn/api/',
 
 })
 
