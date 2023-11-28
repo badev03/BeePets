@@ -14,7 +14,7 @@ const AppointmentDetail = () => {
       const fetchAppointmentDetail = async () => {
         try {
           const response = await axios.get(
-            `http://127.0.0.1:8000/api/get-appointment-user/${id}`,
+            `https://beepets.id.vn/api/get-appointment-user/${id}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -140,42 +140,25 @@ const AppointmentDetail = () => {
                                     Trạng thái :{" "}
                                   </span>
                                   <div className="ms-1">
-                                    {
-                                      appointments.status == 0 ? (
-                                          <div className="ms-1">
-                                            Chờ xác nhận
-                                          </div>
-                                        ) : appointments.status == 1 ? (
-                                          <div className="ms-1">
-                                             Xác nhận
-                                          </div>
-                                      ) : appointments.status == 3 ? (
-                                              <div className="ms-1">
-                                                Đã Hủy
-                                              </div>
-                                          ) : appointments.status == 4 ? (
-                                              <div className="ms-1">
-                                                Đã Hoàn Thành
-                                              </div>
-                                          ) : appointments.status == 6 ? (
-                                              <div className="ms-1">
-                                                Yêu cầu hủy
-                                              </div>
-                                          ) : appointments.status == 7 ? (
-                                              <div className="ms-1">
-                                                Yêu cầu đổi lịch
-                                              </div>
-                                          )
-                                          : (
-                                          <div className="ms-1">
-                                            Không xác nhận
-                                          </div>
-                                      )
-                                    }
+                                    {appointments.status == 0 ? (
+                                      <div className="ms-1">Chờ xác nhận</div>
+                                    ) : appointments.status == 1 ? (
+                                      <div className="ms-1">Xác nhận</div>
+                                    ) : appointments.status == 3 ? (
+                                      <div className="ms-1">Đã Hủy</div>
+                                    ) : appointments.status == 4 ? (
+                                      <div className="ms-1">Đã Hoàn Thành</div>
+                                    ) : appointments.status == 6 ? (
+                                      <div className="ms-1">Yêu cầu hủy</div>
+                                    ) : appointments.status == 7 ? (
+                                      <div className="ms-1">
+                                        Yêu cầu đổi lịch
+                                      </div>
+                                    ) : (
+                                      <div className="ms-1">Không xác nhận</div>
+                                    )}
                                   </div>
                                 </div>
-
-
                               </div>
                               <div
                                 className="col-sm-6 d-flex"

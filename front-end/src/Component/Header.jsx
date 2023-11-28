@@ -10,17 +10,16 @@ import LoadingSkeleton from "./Loading";
 import TopLink from "../Link/TopLink";
 import deleteNoti from "../api/deleteNoti";
 import axios from "axios";
-import { UserOutlined } from "@ant-design/icons"
-import {Dropdown} from "bootstrap";
-
+import { UserOutlined } from "@ant-design/icons";
+import { Dropdown } from "bootstrap";
 
 const Header = () => {
   const { isLoggedIn, onLogout, token, role } = useAuth();
   const navigate = useNavigate();
   const [noti, setNoti] = useState([]);
-  const [countNotification , setCountNotification] = useState(0);
+  const [countNotification, setCountNotification] = useState(0);
   const imgDefault =
-      "https://dvdn247.net/wp-content/uploads/2020/07/avatar-mac-dinh-1.png";
+    "https://dvdn247.net/wp-content/uploads/2020/07/avatar-mac-dinh-1.png";
   let userLocal = localStorage.getItem("user");
   const [setting, setSetting] = useState([]);
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -28,20 +27,24 @@ const Header = () => {
   const [notifications, setNotifications] = useState([]);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const handleDeleteNotification = async (id, token) => {
-
     try {
       if (token) {
-        const response = await axios.delete(`http://127.0.0.1:8000/api/delete-read-notification/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
+        const response = await axios.delete(
+          `https://beepets.id.vn/api/delete-read-notification/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
-        })
+        );
 
-
-        console.log("🚀 ~ file: Header.jsx:60 ~ handleDeleteNotification ~ response1:", response)
+        console.log(
+          "🚀 ~ file: Header.jsx:60 ~ handleDeleteNotification ~ response1:",
+          response
+        );
         setNoti(response.data.notification);
       } else {
-        console.error('Không có token xác thực trong Local Storage.');
+        console.error("Không có token xác thực trong Local Storage.");
       }
     } catch (error) {
       console.error("Lỗi khi xóa thông báo:", error);
@@ -50,13 +53,11 @@ const Header = () => {
 
   const handleNotificationClick = async () => {
     try {
-      const response = await notification.getUpdate(
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-      );
+      const response = await notification.getUpdate({
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setCountNotification(0);
     } catch (error) {
       console.error("Không có dữ liệu:", error);
@@ -76,7 +77,7 @@ const Header = () => {
     fetchBlog();
   }, []);
   if (!setting) {
-    return <LoadingSkeleton/>;
+    return <LoadingSkeleton />;
   }
 
   const handleLogout = async () => {
@@ -180,8 +181,6 @@ const Header = () => {
     }
   };
 
-
-
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
 
@@ -192,259 +191,265 @@ const Header = () => {
 
   const isActive = (pathsToExclude) => {
     return !pathsToExclude.some(
-        (path) => location.pathname === path || location.pathname.startsWith(path)
+      (path) => location.pathname === path || location.pathname.startsWith(path)
     );
   };
 
   return (
-      <header
-          id="page-header"
-          className="header header-fixed header-fourteen header-twelve"
-          style={{
-            backgroundColor: scrollPosition > 40 ? "#fff" : "transparent",
-            boxShadow:
-                scrollPosition > 40 ? "rgba(0, 0, 0, 0.35) 0px 5px 15px" : "",
-          }}
-      >
-        <div className="container">
-          <nav className="navbar navbar-expand-lg header-nav">
-            <div className="navbar-header">
-              <a id="mobile_btn" href="#">
+    <header
+      id="page-header"
+      className="header header-fixed header-fourteen header-twelve"
+      style={{
+        backgroundColor: scrollPosition > 40 ? "#fff" : "transparent",
+        boxShadow:
+          scrollPosition > 40 ? "rgba(0, 0, 0, 0.35) 0px 5px 15px" : "",
+      }}
+    >
+      <div className="container">
+        <nav className="navbar navbar-expand-lg header-nav">
+          <div className="navbar-header">
+            <a id="mobile_btn" href="#">
               <span className="bar-icon">
                 <span></span>
                 <span></span>
                 <span></span>
               </span>
-              </a>
-              <TopLink to={"/"} className="navbar-brand logo">
+            </a>
+            <TopLink to={"/"} className="navbar-brand logo">
+              <img
+                src={setting.image_header}
+                className="img-fluid"
+                alt="Logo"
+              />
+            </TopLink>
+          </div>
+          <div className="main-menu-wrapper" role="list">
+            <div className="menu-header">
+              <TopLink to="/" className="menu-logo">
                 <img
-                    src={setting.image_header}
-                    className="img-fluid"
-                    alt="Logo"
+                  src="../src/assets/img/logo.png"
+                  className="img-fluid"
+                  alt="Logo"
                 />
               </TopLink>
+              <a id="menu_close" className="menu-close" href="#">
+                <i className="fas fa-times"></i>
+              </a>
             </div>
-            <div className="main-menu-wrapper" role="list">
-              <div className="menu-header">
-                <TopLink to="/" className="menu-logo">
-                  <img
-                      src="../src/assets/img/logo.png"
-                      className="img-fluid"
-                      alt="Logo"
-                  />
-                </TopLink>
-                <a id="menu_close" className="menu-close" href="#">
-                  <i className="fas fa-times"></i>
-                </a>
-              </div>
 
-              <ul className="main-nav">
-                <li
-                    className={`has-submenu megamenu ${
-                        isActive(["/doctor", "/doctors", "/abouts", "/blog"])
-                            ? "active"
-                            : ""
-                    }`}
+            <ul className="main-nav">
+              <li
+                className={`has-submenu megamenu ${
+                  isActive(["/doctor", "/doctors", "/abouts", "/blog"])
+                    ? "active"
+                    : ""
+                }`}
+              >
+                <TopLink to="/">TRANG CHỦ</TopLink>
+              </li>
+              <li
+                className={`has-submenu ${
+                  location.pathname.startsWith("/doctor", "/doctors")
+                    ? "active"
+                    : ""
+                }`}
+              >
+                <TopLink to="/doctor">BÁC SĨ </TopLink>
+              </li>
+              <li
+                className={`has-submenu ${
+                  location.pathname.startsWith("/abouts") ? "active" : ""
+                }`}
+              >
+                <TopLink to="/abouts">GIỚI THIỆU </TopLink>
+              </li>
+              <li
+                className={`has-submenu ${
+                  location.pathname.startsWith("/blog") ? "active" : ""
+                }`}
+              >
+                <TopLink to="/blog">TIN TỨC </TopLink>
+              </li>
+              {role !== "doctor" && (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    color: "white",
+                  }}
                 >
-                  <TopLink to="/">TRANG CHỦ</TopLink>
-                </li>
-                <li
-                    className={`has-submenu ${
-                        location.pathname.startsWith("/doctor", "/doctors")
-                            ? "active"
-                            : ""
-                    }`}
-                >
-                  <TopLink to="/doctor">BÁC SĨ </TopLink>
-                </li>
-                <li
-                    className={`has-submenu ${
-                        location.pathname.startsWith("/abouts") ? "active" : ""
-                    }`}
-                >
-                  <TopLink to="/abouts">GIỚI THIỆU </TopLink>
-                </li>
-                <li
-                    className={`has-submenu ${
-                        location.pathname.startsWith("/blog") ? "active" : ""
-                    }`}
-                >
-                  <TopLink to="/blog">TIN TỨC </TopLink>
-                </li>
-                {role !== "doctor" && (
-                    <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          color: "white",
-                        }}
-                    >
-                      <Button style={{ color: "white" }} type="primary">
-                        <BookingUser />
-                      </Button>
-                    </div>
-                )}
-              </ul>
-            </div>
-            <ul className="nav header-navbar-rht">
-              {isLoggedIn ? (
-                  <>
-                    <li className="nav-item dropdown noti-nav me-3 pe-0">
-                      <a
-                          href="#"
-                          className="dropdown-toggle nav-link p-0" onClick={handleNotificationClick}
-                          data-bs-toggle="dropdown"
-
-                      >
-                        <i className="fa-solid fa-bell" />{" "}
-                        <span className="badge">{countNotification}</span>
-                      </a>
-                      <div className="dropdown-menu notifications dropdown-menu-end ">
-                        <div className="topnav-dropdown-header">
-                          <span className="notification-title">Thông báo</span>
-                        </div>
-                        <div className="noti-content">
-                          <ul className="notification-list">
-                            {noti.map((notifications) => (
-                                <li className="notification-message" key={noti.id}>
-                                  <TopLink to={
-                                    handleCheckAccount(data)
-                                        ? `/user/appointment/${notifications.appointment_id}`
-                                        : `/doctors/detail-appointments/${notifications.appointment_id}`}>
-                                    {/* : `/doctors/doctors/detail-bill/${notifications.appointment_id}`}> */}
-                                    <div className="notify-block d-flex">
-                                <span className="avatar">
-                                  <img
-                                      className="avatar-img"
-                                      alt="Ruby perin"
-                                      src={notifications.avatar}
-                                  />
-                                </span>
-                                      <div className="media-body">
-                                        <h6>
-                                          {notifications.name}
-                                          <span className="notification-time">
-                                      {notifications.created_at}
-                                    </span>
-                                        </h6>
-                                        <p className="noti-details">
-                                          {notifications.message}
-                                        </p>
-                                      </div>
-
-                                    </div>
-                                  </TopLink>
-                                </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
-                    </li>
-                    <li className="nav-item dropdown has-arrow logged-item">
-                      <a
-                          href="#"
-                          className="dropdown-toggle nav-link"
-                          data-bs-toggle="dropdown"
-                      >
-                    <span className="user-img">
-                      <img
-                          className="rounded-circle"
-                          src={
-                            handleCheckAccount(data)
-                                ? data?.avatar
-                                    ? data?.avatar
-                                    : imgDefault
-                                : data?.image
-                                    ? data?.image
-                                    : imgDefault
-                          }
-                          width={31}
-                      />
-                    </span>
-                      </a>
-                      <div className="dropdown-menu dropdown-menu-end">
-                        <div className="user-header">
-                          <div className="avatar avatar-sm">
-                            <img
-                                src={
-                                  handleCheckAccount(data)
-                                      ? data?.avatar
-                                          ? data?.avatar
-                                          : imgDefault
-                                      : data?.image
-                                          ? data?.image
-                                          : imgDefault
-                                }
-                                alt="User Image"
-                                className="avatar-img rounded-circle"
-                            />
-                          </div>
-                          <div className="user-text">
-                            <h6>{data?.name}</h6>
-                            <p className="text-muted mb-0">
-                              {handleCheckAccount(data) ? "User" : "Doctor"}
-                            </p>
-                          </div>
-                        </div>
-
-                        <Link
-                            to={
-                              handleCheckAccount(data)
-                                  ? "/user/dashbroad"
-                                  : "/doctors"
-                            }
-                            className="dropdown-item"
-                        >
-                          Bảng điều khiển
-                        </Link>
-                        <Link
-                            to={
-                              handleCheckAccount(data)
-                                  ? "/user/profilesetting"
-                                  : "/doctors/profile"
-                            }
-                            className="dropdown-item"
-                            href="doctor-profile-settings.html"
-                        >
-                          Thông tin cá nhân
-                        </Link>
-                        <button className="dropdown-item" onClick={handleLogout}>
-                          {" "}
-                          Đăng xuất{" "}
-                        </button>
-                      </div>
-                    </li>
-                  </>
-              ) : (
-                  <>
-                    <li className="login-in-fourteen">
-                      <TopLink to= "login">
-                        <Button
-                            icon={<UserOutlined />}
-                            type="default"
-                            size="large"
-                            style={{ height: 45, border: 'none', boxShadow: "none" }}
-                            className="custom-button"
-                        >Đăng nhập</Button>
-                      </TopLink>
-                    </li>
-                    <li className="login-in-fourteen">
-                      <TopLink to= "register">
-                        <Button
-                            icon={<UserOutlined />}
-                            type="primary"
-                            size="large"
-                            style={{ height: 45 }}
-                            className="custom-button"
-                        >Đăng kí</Button>
-                      </TopLink>
-                    </li>
-                  </>
+                  <Button style={{ color: "white" }} type="primary">
+                    <BookingUser />
+                  </Button>
+                </div>
               )}
             </ul>
-          </nav>
-        </div>
-      </header>
+          </div>
+          <ul className="nav header-navbar-rht">
+            {isLoggedIn ? (
+              <>
+                <li className="nav-item dropdown noti-nav me-3 pe-0">
+                  <a
+                    href="#"
+                    className="dropdown-toggle nav-link p-0"
+                    onClick={handleNotificationClick}
+                    data-bs-toggle="dropdown"
+                  >
+                    <i className="fa-solid fa-bell" />{" "}
+                    <span className="badge">{countNotification}</span>
+                  </a>
+                  <div className="dropdown-menu notifications dropdown-menu-end ">
+                    <div className="topnav-dropdown-header">
+                      <span className="notification-title">Thông báo</span>
+                    </div>
+                    <div className="noti-content">
+                      <ul className="notification-list">
+                        {noti.map((notifications) => (
+                          <li className="notification-message" key={noti.id}>
+                            <TopLink
+                              to={
+                                handleCheckAccount(data)
+                                  ? `/user/appointment/${notifications.appointment_id}`
+                                  : `/doctors/detail-appointments/${notifications.appointment_id}`
+                              }
+                            >
+                              {/* : `/doctors/doctors/detail-bill/${notifications.appointment_id}`}> */}
+                              <div className="notify-block d-flex">
+                                <span className="avatar">
+                                  <img
+                                    className="avatar-img"
+                                    alt="Ruby perin"
+                                    src={notifications.avatar}
+                                  />
+                                </span>
+                                <div className="media-body">
+                                  <h6>
+                                    {notifications.name}
+                                    <span className="notification-time">
+                                      {notifications.created_at}
+                                    </span>
+                                  </h6>
+                                  <p className="noti-details">
+                                    {notifications.message}
+                                  </p>
+                                </div>
+                              </div>
+                            </TopLink>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <li className="nav-item dropdown has-arrow logged-item">
+                  <a
+                    href="#"
+                    className="dropdown-toggle nav-link"
+                    data-bs-toggle="dropdown"
+                  >
+                    <span className="user-img">
+                      <img
+                        className="rounded-circle"
+                        src={
+                          handleCheckAccount(data)
+                            ? data?.avatar
+                              ? data?.avatar
+                              : imgDefault
+                            : data?.image
+                            ? data?.image
+                            : imgDefault
+                        }
+                        width={31}
+                      />
+                    </span>
+                  </a>
+                  <div className="dropdown-menu dropdown-menu-end">
+                    <div className="user-header">
+                      <div className="avatar avatar-sm">
+                        <img
+                          src={
+                            handleCheckAccount(data)
+                              ? data?.avatar
+                                ? data?.avatar
+                                : imgDefault
+                              : data?.image
+                              ? data?.image
+                              : imgDefault
+                          }
+                          alt="User Image"
+                          className="avatar-img rounded-circle"
+                        />
+                      </div>
+                      <div className="user-text">
+                        <h6>{data?.name}</h6>
+                        <p className="text-muted mb-0">
+                          {handleCheckAccount(data) ? "User" : "Doctor"}
+                        </p>
+                      </div>
+                    </div>
+
+                    <Link
+                      to={
+                        handleCheckAccount(data)
+                          ? "/user/dashbroad"
+                          : "/doctors"
+                      }
+                      className="dropdown-item"
+                    >
+                      Bảng điều khiển
+                    </Link>
+                    <Link
+                      to={
+                        handleCheckAccount(data)
+                          ? "/user/profilesetting"
+                          : "/doctors/profile"
+                      }
+                      className="dropdown-item"
+                      href="doctor-profile-settings.html"
+                    >
+                      Thông tin cá nhân
+                    </Link>
+                    <button className="dropdown-item" onClick={handleLogout}>
+                      {" "}
+                      Đăng xuất{" "}
+                    </button>
+                  </div>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="login-in-fourteen">
+                  <TopLink to="login">
+                    <Button
+                      icon={<UserOutlined />}
+                      type="default"
+                      size="large"
+                      style={{ height: 45, border: "none", boxShadow: "none" }}
+                      className="custom-button"
+                    >
+                      Đăng nhập
+                    </Button>
+                  </TopLink>
+                </li>
+                <li className="login-in-fourteen">
+                  <TopLink to="register">
+                    <Button
+                      icon={<UserOutlined />}
+                      type="primary"
+                      size="large"
+                      style={{ height: 45 }}
+                      className="custom-button"
+                    >
+                      Đăng kí
+                    </Button>
+                  </TopLink>
+                </li>
+              </>
+            )}
+          </ul>
+        </nav>
+      </div>
+    </header>
   );
 };
 
