@@ -16,6 +16,7 @@ import {Dropdown} from "bootstrap";
 
 const Header = () => {
   const { isLoggedIn, onLogout, token, role } = useAuth();
+
   const navigate = useNavigate();
   const [noti, setNoti] = useState([]);
   const [countNotification , setCountNotification] = useState(0);
@@ -113,7 +114,7 @@ const Header = () => {
   }, [data]);
 
   const handleCheckAccount = (data) => {
-    if (data?.role_id === 4) {
+    if (data?.role_id == 4) {
       return true;
     } else {
       return false;

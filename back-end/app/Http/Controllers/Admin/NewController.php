@@ -23,7 +23,7 @@ class NewController extends BaseAdminController
         'image' => 'ảnh',
         'new_categorie_id' => 'Danh mục tin tức'
     ];
-    protected $removeColumns = ['slug'];
+    protected $removeColumns = ['slug' , 'content'];
     protected $FIELD_SELECT_CUSTOM_CONTROLLER = ['new_categorie_id'];
     public $listIndex = ['Categories'];
 

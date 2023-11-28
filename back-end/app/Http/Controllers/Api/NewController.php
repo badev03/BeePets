@@ -56,7 +56,7 @@ class NewController extends BaseResponseApiController
             $data = $query->limit(5)->get();
         }
         if($data->isEmpty()) {
-            return response()->json(['message' => $this->title.'không có dữ liệu'], 404);
+            return response()->json(['message' => $this->title.'không có dữ liệu' , 'new' => []] , 200);
         }
         else {
             return response()->json([
@@ -67,7 +67,7 @@ class NewController extends BaseResponseApiController
 
     public function categoriesNew() {
         $categoriesNew = $this->tableQuery('new_categories')
-            ->select('new_categories.id', 'new_categories.name')
+            ->select('new_categories.id', 'new_categories.name' ,'new_categories.slug')
             ->where('new_categories.status', '=', 1)
             ->get();
         if($categoriesNew->isEmpty()) {
@@ -81,6 +81,8 @@ class NewController extends BaseResponseApiController
             $data[] = [
                 'id' => $category->id,
                 'new' => $newItems,
+                'name' => $category->name,
+                'slug' => $category->slug
             ];
         }
         return response()->json([

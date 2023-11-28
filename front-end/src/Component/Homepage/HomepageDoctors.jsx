@@ -60,6 +60,8 @@ const HomepageDoctors = () => {
                                                 </Link>
                                                 <div className="blog-inner-top-content">
                                                     <span><div dangerouslySetInnerHTML={{ __html: doctor.description }} /></span>
+                                                    {/*<span>Bác sĩ</span>*/}
+
                                                 </div>
                                             </div>
                                         </a>

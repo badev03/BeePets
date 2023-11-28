@@ -10,7 +10,7 @@ class Service extends Model
 {
     use HasFactory;
     protected $fillable=[
-        'name','slug','description','price' , 'image' ,'icon_svg' ,'service_categorie_id'
+        'name','slug','description','price' , 'image' ,'icon_svg' ,'service_categorie_id' , 'is_trash'
     ];
     public function bills()
     {
@@ -19,12 +19,12 @@ class Service extends Model
     public function serviceCategorie(){
         return $this->belongsTo(Service_categorie::class,'service_categorie_id');
     }
-   
-    
+
+
     public function Categories(){
         return $this->belongsTo(Service_categorie::class,'service_categorie_id');
     }
-   
+
     public function appointments()
     {
         return $this->hasMany(Appointment::class);

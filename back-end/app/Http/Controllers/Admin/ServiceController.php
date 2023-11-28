@@ -7,6 +7,7 @@ use App\Models\Service;
 use App\Models\Service_categorie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
 
 class ServiceController extends BaseAdminController
@@ -16,7 +17,7 @@ class ServiceController extends BaseAdminController
     public $urlbase = 'service.';
     public $fieldImage = 'image';
     public $folderImage = 'image/service';
-
+    protected $validateUpdateNew = true;
 
 
 
@@ -44,12 +45,13 @@ class ServiceController extends BaseAdminController
     public function validateStore($request , $id=null)
     {
         $this->validate($request,[
-            'name' => 'required',
+            'name' => 'required|unique:services',
             'description' => 'required' ,
             'price' => 'required|numeric|min:1'
         ],
             [
                 'name.required' => 'Tên danh mục dịch vụ không được để trống',
+                'name.unique' => 'Tên danh mục dịch vụ không được trùng nhau',
                 'description.required' => 'Mô tả danh mục dịch vụ không được để trống',
                 'price.required' => 'Giá danh mục dịch vụ không được để trống',
                 'price.numeric' => 'Giá phải là số',
@@ -65,10 +67,43 @@ class ServiceController extends BaseAdminController
         return $dataForMergeArray;
     }
 
+    public function validateUpdateNew($request , $id) {
+        $this->validate($request,[
+            'name' => 'required|unique:services,name,' . $id . ',id',
+            'description' => 'required' ,
+            'price' => 'required|numeric|min:1'
+        ],
+            [
+                'name.required' => 'Tên danh mục dịch vụ không được để trống',
+                'name.unique' => 'Tên danh mục dịch vụ không được trùng nhau',
+                'description.required' => 'Mô tả danh mục dịch vụ không được để trống',
+                'price.required' => 'Giá danh mục dịch vụ không được để trống',
+                'price.numeric' => 'Giá phải là số',
+                'price.min' => 'Giá phải lớn hơn 0',
+            ]
+        );
+    }
+
     /**
      * select mặc định phải gán với tên là ids and name
     */
 
-    public $removeColumns = ['icon_svg'];
+    public $removeColumns = ['icon_svg' , 'description'];
+    protected $delete_trash = 'is_trash';
+    public function destroy(string $id)
+    {
+        if (auth()->user()->can(['delete-'.$this->permissionCheckCrud])) {
+            $model = $this->model->findOrFail($id);
 
+            $model->update(['is_trash' => 1]);
+            if ($model->image) {
+                $image = str_replace('storage/', '', $model->{$this->fieldImage});
+                Storage::delete($image);
+            }
+            return back()->with('success_delete', 'Đã xóa thành công');
+        }
+        else {
+            return view(admin_403);
+        }
+    }
 }
