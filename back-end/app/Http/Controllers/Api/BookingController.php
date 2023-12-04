@@ -292,7 +292,6 @@ class BookingController extends Controller
             ->with('bill:id,appointment_id') // Load thông tin của Bills từ Appointment
             ->orderBy('created_at', 'desc')
             ->get();
-
         if ($data->isEmpty()) {
             return response()->json(['message' => 'Không có cuộc hẹn nào'], 400);
         } else {

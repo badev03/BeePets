@@ -18,7 +18,6 @@ const Header = () => {
   const { isLoggedIn, onLogout, token, role } = useAuth();
   const navigate = useNavigate();
   const [noti, setNoti] = useState([]);
-  // console.log(noti);
   const [countNotification , setCountNotification] = useState(0);
   const imgDefault =
       "https://dvdn247.net/wp-content/uploads/2020/07/avatar-mac-dinh-1.png";
@@ -32,7 +31,7 @@ const Header = () => {
 
     try {
       if (token) {
-        const response = await axios.delete(`http://127.0.0.1:8000/api/delete-read-notification/${id}`, {
+        const response = await axios.delete(`https://beepets.id.vn/api/delete-read-notification/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           }
@@ -51,8 +50,6 @@ const Header = () => {
 
   const handleNotificationClick = async () => {
     try {
-      // console.log(123);
-      // console.log(setIsLoading);
       const response = await notification.getUpdate(
           {
             headers: {
@@ -60,7 +57,6 @@ const Header = () => {
             },
           }
       );
-      // console.log(notification);
       setCountNotification(0);
     } catch (error) {
       console.error("Không có dữ liệu:", error);
@@ -137,7 +133,7 @@ const Header = () => {
       // Tăng giá trị countNotification dựa trên số lượng thông báo mới
       setCountNotification((prevCount) => prevCount + response.count);
 
-      const pusher = new Pusher("2798806e868dbe640e2e", {
+      const pusher = new Pusher("59deaefaec6129103d3d", {
         cluster: "ap1",
       });
       const channel = pusher.subscribe("user-notification-" + data.id);
@@ -149,6 +145,7 @@ const Header = () => {
             name: data.name,
             avatar: data.avatar,
             id: data.id,
+            appointment_id: data.appointment_id,
           };
           return [newData, ...prevData];
         });
@@ -174,9 +171,11 @@ const Header = () => {
             name: data.name,
             avatar: data.avatar,
             id: data.id,
+            appointment_id: data.appointment_id,
           };
           return [newData, ...prevData];
         });
+        setCountNotification((prevCount) => prevCount + 1);
       });
     }
   };
@@ -396,7 +395,7 @@ const Header = () => {
                             }
                             className="dropdown-item"
                         >
-                          Dashboard
+                          Bảng điều khiển
                         </Link>
                         <Link
                             to={
@@ -407,11 +406,11 @@ const Header = () => {
                             className="dropdown-item"
                             href="doctor-profile-settings.html"
                         >
-                          Profile Settings
+                          Thông tin cá nhân
                         </Link>
                         <button className="dropdown-item" onClick={handleLogout}>
                           {" "}
-                          Logout{" "}
+                          Đăng xuất{" "}
                         </button>
                       </div>
                     </li>

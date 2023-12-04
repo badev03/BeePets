@@ -143,7 +143,7 @@ class AppointmentController extends Controller
 
 
     public function FinishedConfirmation($id) {
-        $this->findID($id , 3);
+        $this->findID($id , 4);
         return back()->with(['success_delete' => 'Đã xác nhận lịch hẹn này ']);
     }
 
@@ -541,7 +541,8 @@ class AppointmentController extends Controller
             ->where('created_at', '>=', $range)
             ->groupBy('status')
             ->get();
-        return view('admin.appointments.statistics' , compact('statistics'));
+        $doctor = Doctor::select('name' , 'id')->get();
+        return view('admin.appointments.statistics' , compact('statistics' , 'doctor'));
     }
 
     public function StatisticsDay($day) {
@@ -662,6 +663,9 @@ class AppointmentController extends Controller
         $products = Products::query()->get();
         $model = $this->billCommon($id)->first();
         $services = Service::query()->get();
+        if(!$model) {
+            return back();
+        }
         $services_bills = $this->tableQuery('bill_service')
             ->where('bill_id' , $model->id)
             ->get();
@@ -842,5 +846,48 @@ class AppointmentController extends Controller
             })
             ->first();
         return view($this->pathView.'show' , compact('data'));
+    }
+
+    public function statisticsFilter(Request $request) {
+        $start_time = $request->get('start_time_web');
+        $end_time = $request->get('end_time_web');
+        $doctor = $request->get('doctor_id_choose');
+        $statistics = '';
+        if(isset($start_time) && isset($end_time) && isset($doctor) && $doctor!= 'all') {
+            $statistics = DB::table('appointments')
+                ->select('status', DB::raw('COUNT(*) as count'))
+                ->whereBetween('date', [$start_time, $end_time])
+                ->where('doctor_id' ,$doctor )
+                ->groupBy('status')
+                ->get();
+            return response()->json(['filter' => $statistics]);
+        }
+        elseif(isset($start_time) && isset($end_time)) {
+            $statistics = DB::table('appointments')
+                ->select('status', DB::raw('COUNT(*) as count'))
+                ->whereBetween('date', [$start_time, $end_time])
+                ->groupBy('status')
+                ->get();
+            return response()->json(['filter' => $statistics]);
+        }
+        elseif(isset($end_time)) {
+            $statistics = DB::table('appointments')
+                ->select('status', DB::raw('COUNT(*) as count'))
+                ->where('date', '=', $end_time)
+                ->groupBy('status')
+                ->get();
+            return response()->json(['filter' => $statistics]);
+        }
+        elseif(isset($start_time)) {
+            $statistics = DB::table('appointments')
+                ->select('status', DB::raw('COUNT(*) as count'))
+                ->where('date', '=', $start_time)
+                ->groupBy('status')
+                ->get();
+            return response()->json(['filter' => $statistics]);
+        }
+        else {
+            return response()->json(['filter' => $statistics]);
+        }
     }
 }

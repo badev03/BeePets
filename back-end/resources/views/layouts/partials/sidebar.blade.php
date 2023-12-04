@@ -5,7 +5,7 @@
                 <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
                     <a href="{{ route('dashboard') }}"><i class="fe fe-home"></i> <span>Bảng điều khiển</span></a>
                 </li>
- 
+
                 <li class="submenu">
                     <a href="#">
                         <i class="fe fe-layout"></i>
@@ -75,11 +75,11 @@
                 <li class="{{ request()->routeIs('setting') ? 'active' : '' }}">
                     <a href="{{ route('setting') }}"><i class="fe fe-vector"></i> <span>Cấu hình</span></a>
                 </li>
-    
+
                 @role('Admin')
                 <hr class="text-white"/>
                 <li>
-                    <a href="{{ route('setting') }}"><i class="fe fe-user-plus"></i> <span>Hồ sơ</span></a>
+                    <a href="{{ route('myProfile') }}"><i class="fe fe-user-plus"></i> <span>Hồ sơ</span></a>
                 </li>
                 <li class="submenu">
                     <a href="#"><i class="fe fe-user-plus"></i> <span> Tài khoản </span> <span class="menu-arrow"></span></a>
