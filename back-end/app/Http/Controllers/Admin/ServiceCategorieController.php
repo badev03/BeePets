@@ -26,6 +26,7 @@ class ServiceCategorieController extends BaseAdminController
         'name' => 'Tên dịch vụ',
         'slug' => 'Slug',
         'description' => 'mô tả',
+        'status'=>'Trạng thái',
         // 'image'=>'Ảnh'
     ];
 
@@ -33,11 +34,14 @@ class ServiceCategorieController extends BaseAdminController
     {
         $this->validate($request,[
             'name' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'status'=>'required'
         ],
             [
                 'name.required' => 'Tên danh mục dịch vụ không được để trống',
-                'description.required' => 'Mô tả danh mục dịch vụ không được để trống'
+                'description.required' => 'Mô tả danh mục dịch vụ không được để trống',
+                'status.required' => 'Trang thai danh mục dịch vụ không được để trống'
+
             ]
         );
     }

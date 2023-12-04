@@ -33,6 +33,8 @@
                             <thead>
                             <td>#ID</td>
                             @foreach ($colums as $colum=>$name)
+
+
                                 <td>{{$name}}</td>
                             @endforeach
                             <td>Hành động</td>
@@ -46,7 +48,7 @@
                                             @if(in_array($colum, FIELD_IMAGE))
                                                 <img src="{{ asset($item->$colum)?? '123'}}" width="100px" alt="">
                                             @elseif(in_array($colum , FIELD_DESC))
-                                                {!! $item->$colum !!}
+                                                   {!! $item->$colum !!}
                                             @elseif(in_array($colum , $FIELD_SELECT_CUSTOM_CONTROLLER))
                                                 @foreach($listIndex as $keyListIndex=>$valueListIndex)
                                                     {!! $item->$valueListIndex->name !!}
@@ -71,14 +73,11 @@
                                                     <i class="far fa-eye"></i> Xem
                                                 </button>
                                             @endif
-                                                @if (route('products.index')==url()->current())
-                                                    <a href="javascript:void(0)" data-id="{{ $item->id }}" class="btn btn-sm btn-success add-to-cart">Add to cart</a>
-                                                @endif
                                             <a class="btn btn-sm bg-success-light" href="{{ route($urlbase . 'edit', $item) }}">
-                                                <i class="fe fe-pencil"></i> Edit
+                                                <i class="fe fe-pencil"></i> Sửa
                                             </a>
                                             <a data-bs-toggle="modal" href="#delete_modal_{{$item->id}}" class="btn btn-sm bg-danger-light">
-                                                <i class="fe fe-trash"></i> Delete
+                                                <i class="fe fe-trash"></i> Xóa
                                             </a>
                                                 @if(count($data)>0)
                                                     <div class="modal fade" id="delete_modal_{{ $item->id }}" aria-hidden="true" role="dialog">
@@ -86,18 +85,18 @@
                                                             <div class="modal-content">
                                                                 <div class="modal-body">
                                                                     <div class="form-content p-2 text-center">
-                                                                        <h4 class="modal-title">Delete</h4>
+                                                                        <h4 class="modal-title">Xóa</h4>
                                                                         <p class="mb-4">Bạn có chắc chắn muốn xóa {{ $item->id }}</p>
                                                                         <div class="d-flex justify-content-center" style="gap: 1rem">
-                                                                            <form action="{{ route($urlbase . 'destroy', $item) }}" method="post">
+                                                                            <form action="{{ route($urlbase . 'update', $item) }}" method="post">
                                                                                 @csrf
-                                                                                @method('DELETE')
-
+                                                                                @method('PUT')
+                                                                                <input hidden type="text" name="status" value="2">
                                                                                 <button class="btn bg-success-light"
                                                                                         type="submit">Xóa
                                                                                 </button>
                                                                             </form>
-                                                                            <button type="button" class="btn bg-danger-light" data-bs-dismiss="modal">Close</button>
+                                                                            <button type="button" class="btn bg-danger-light" data-bs-dismiss="modal">Đóng</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -109,9 +108,7 @@
                                         </div>
                                     </td>
                                 </tr>
-
                             @endforeach
-
                             </tbody>
                         </table>
                     </div>

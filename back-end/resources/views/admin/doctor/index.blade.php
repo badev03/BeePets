@@ -13,11 +13,11 @@
                     <div class="d-flex flex-wrap justify-content-between align-items-center">
                         <h4 class="card-title">Danh sách {{ $title_web }}</h4>
                         <div class='d-flex flex-wrap'>
-                           <a href="{{route('doctors.create')}}" class="btn btn-info btn-sm mx-3 text-white">Thêm bác sĩ</a> 
-                        
-                            
+                           <a href="{{route('doctors.create')}}" class="btn btn-info btn-sm mx-3 text-white">Thêm bác sĩ</a>
+
+
                             @if (route('doctors.index')==url()->current())
-                           <a href="{{route('schedules.index')}}" class="btn btn-info btn-sm mx-3 text-white">Lịch Làm việc</a> 
+                           <a href="{{route('schedules.index')}}" class="btn btn-info btn-sm mx-3 text-white">Lịch Làm việc</a>
                             @endif
                         </div>
                     </div>
@@ -35,7 +35,7 @@
                         <td>Hành động</td>
                         </thead>
                         <tbody>
-                        
+
 
                             @foreach ($doctors as $key=>$item)
                             <tr>
@@ -46,7 +46,7 @@
                                             <img src="{{ asset($item->$colum)?? '123'}}" width="100px" alt="">
                                         @elseif(in_array($colum , FIELD_DESC))
                                             {!! $item->$colum !!}
-                                        
+
                                         @elseif(array_key_exists($colum , FIELD_SELECT_CUSTOM))
                                             @foreach(FIELD_SELECT_CUSTOM[$colum] as $keyCustom=>$valueCustom)
                                                 @if($keyCustom==$item->$colum)
@@ -58,13 +58,13 @@
                                         @endif
 
                                     </td>
-                                    
+
                                 @endforeach
                                 <td class="d-flex" style="grid-gap:1rem">
                                     <div class="actions">
-                                       
-                                            
-                                                
+
+
+
                                                 <a class="btn btn-sm bg-success-light" href="{{route('doctors.show', $item)}}">
                                                     <i class="far fa-eye"></i> Xem
                                                 </a>
@@ -87,10 +87,10 @@
                                                     <h4 class="modal-title">Delete</h4>
                                                     <p class="mb-4">Bạn có chắc chắn muốn xóa</p>
                                                     <div class="d-flex justify-content-center" style="gap: 1rem">
-                                                        <form action="{{ route('doctors.destroy', $item) }}" method="post">
+                                                        <form action="{{ route('doctors.update', $item) }}" method="post">
                                                             @csrf
-                                                            @method('DELETE')
-                        
+                                                            @method('PUT')
+                                                            <input hidden type="text" name="status" value="2">
                                                             <button class="btn bg-success-light"
                                                                     type="submit">Xóa
                                                             </button>
@@ -103,7 +103,7 @@
                                     </div>
                                 </div>
                                 @endif
-            
+
 
                         </tbody>
                     </table>

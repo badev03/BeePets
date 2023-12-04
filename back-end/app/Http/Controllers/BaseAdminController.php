@@ -60,6 +60,8 @@ class BaseAdminController extends Controller
                 }
                 $selectedColumns = '`' . implode('`,`', $selectedColumns) . '`';
                 $data = $this->model->select('id', DB::raw($selectedColumns))
+                //thay doi
+                    ->where('status',1)
                     ->orderBy('id', 'DESC')
                     ->get();
                 if($this->removeColumns) {
@@ -127,41 +129,56 @@ class BaseAdminController extends Controller
      */
     public function store(Request $request)
     {
-        $model = new $this->model;
-        $validateStore = $this->validateStore($request);
-        if($validateStore) {
-            return back()->withErrors($validateStore)->withInput();
-        }
-        $model->fill($request->except([$this->fieldImage,$this->slug]));
-        if ($request->hasFile($this->fieldImage)) {
-//            $tmpPath = Storage::put('public/'.$this->folderImage, $request->{$this->fieldImage});
-//            $path = str_replace('public/','',  $tmpPath);
-//            $model->{$this->fieldImage} = 'storage/' . $path;
-            $image = $request->{$this->fieldImage};
-            $cloudinaryResponse = Cloudinary::upload($request->file($this->fieldImage)->getRealPath())->getSecurePath();
+        try {
+            $model = new $this->model;
+            $validateStore = $this->validateStore($request);
+            if ($validateStore) {
+                return back()->withErrors($validateStore)->withInput();
+            }
 
-            $model->{$this->fieldImage} = $cloudinaryResponse;
-        }
-        if($request->has('name') && $this->checkerNameSlug == true) {
-            $model->slug = $this->createSlug($request->name);
-        }
-        $dataModel = $request->all();
-        if($this->dataStoreAndUpdate($dataModel)) {
-            $currentDate = today();
-            $model->public_date =$currentDate->format('Y-m-d');
-        }
-        $this->createAndUpdatePassWord($request->password);
-        $model->save();
-        if($this->checkRolePermission==false) {
-            $model->assignRole($request->role);
-        }
+            $model->status = $request->status;
+            $model->fill($request->except([$this->fieldImage, $this->slug]));
 
-        if ($this->permissionCheckCrud === 'PeopleAccount') {
-            $model->assignRole($request->role_id);
-        }
+            if ($request->hasFile($this->fieldImage)) {
+                $image = $request->{$this->fieldImage};
 
-        return back()->with('success', 'Thao tác thành công');
+                try {
+                    $cloudinaryResponse = Cloudinary::upload($request->file($this->fieldImage)->getRealPath())->getSecurePath();
+                    $model->{$this->fieldImage} = $cloudinaryResponse;
+                } catch (\Exception $e) {
+                    // Handle the exception, you may want to log it or show a specific error message
+                    return back()->with('error', 'Thêm mới không thành công! Xin vui lòng thử lại.');
+                }
+            }
+
+            if ($request->has('name') && $this->checkerNameSlug == true) {
+                $model->slug = $this->createSlug($request->name);
+            }
+
+            $dataModel = $request->all();
+
+            if ($this->dataStoreAndUpdate($dataModel)) {
+                $currentDate = today();
+                $model->public_date = $currentDate->format('Y-m-d');
+            }
+
+            $this->createAndUpdatePassWord($request->password);
+            $model->save();
+
+            if ($this->checkRolePermission == false) {
+                $model->assignRole($request->role);
+            }
+
+            if ($this->permissionCheckCrud === 'PeopleAccount') {
+                $model->assignRole($request->role_id);
+            }
+
+            return back()->with('success', 'Thao tác thành công');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Thêm mới không thành công! Xin vui lòng thử lại.');
+        }
     }
+
 
     /**
      * Display the specified resource.
@@ -214,70 +231,83 @@ class BaseAdminController extends Controller
     }
 
 
+    
+
+
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        if (auth()->user()->can(['update-'.$this->permissionCheckCrud])) {
-            $model = $this->model->findOrFail($id);
-            if ($model->avatar || $model->image) {
-                $this->removeColumns = ['image', 'avatar'];
+        try {
+            if (auth()->user()->can(['update-' . $this->permissionCheckCrud])) {
+                $model = $this->model->findOrFail($id);
+
+                if ($model->avatar || $model->image) {
+                    $this->removeColumns = ['image', 'avatar'];
+                }
+
+                $model->status = $request->status;
+                $model->save();
+
+                $validator = $this->validateStore($request);
+
+                if ($validator) {
+                    return back()->withErrors($validator)->withInput();
+                }
+
+                $model->status = $request->status;
+
+                $check = $model->fill($request->except([$this->fieldImage]));
+
+                if ($request->hasFile($this->fieldImage)) {
+                    $oldImage = $model->{$this->fieldImage};
+                    $image = $request->{$this->fieldImage};
+
+                    try {
+                        $cloudinaryResponse = Cloudinary::upload($request->file($this->fieldImage)->getRealPath())->getSecurePath();
+                        $model->{$this->fieldImage} = $cloudinaryResponse;
+                    } catch (\Exception $e) {
+                        return back()->with('error', 'Thêm mới không thành công! Xin vui lòng thử lại.');
+                    }
+                }
+
+                if ($request->has('name') && $this->checkerNameSlug == true) {
+                    $model->slug = $this->createSlug($request->name);
+                }
+
+                $this->createAndUpdatePassWord($request->password);
+
+                $model->save();
+
+                if ($request->hasFile($this->fieldImage)) {
+                    $oldImage = $model->{$this->fieldImage};
+
+                    // Tải lên hình ảnh lên Cloudinary và nhận URL
+                    $image = $request->{$this->fieldImage};
+                    $cloudinaryResponse = Cloudinary::upload($image->getPathname());
+                    $cloudinaryUrl = $cloudinaryResponse->getSecurePath();
+
+                    $model->{$this->fieldImage} = $cloudinaryUrl;
+                }
+
+                if ($this->permissionCheckCrud === 'PeopleAccount') {
+                    $role = Role::where('id', $request->role_id)->first();
+                    $user = User::find($id);
+                    User::find($id)->syncPermissions($request->permissions);
+                    $user->syncRoles([$role]);
+                }
+
+                return back()->with('success', 'Thao tác thành công');
+            } else {
+                return view(admin_403);
             }
-            $validator = $this->validateStore($request);
-            if ($validator) {
-                return back()->withErrors($validator)->withInput();
-            }
-
-
-            $check = $model->fill($request->except([$this->fieldImage]));
-
-            if ($request->hasFile($this->fieldImage)) {
-                $oldImage = $model->{$this->fieldImage};
-
-//                $tmpPath = Storage::put('public/' . $this->folderImage, $request->{$this->fieldImage});
-//                $path = str_replace('public/', '', $tmpPath);
-//                $model->{$this->fieldImage} = 'storage/' . $path;
-
-                $image = $request->{$this->fieldImage};
-                $cloudinaryResponse = Cloudinary::upload($request->file($this->fieldImage)->getRealPath())->getSecurePath();
-                $model->{$this->fieldImage} = $cloudinaryResponse;
-
-//                Cloudinary::destroy($oldImage);
-            }
-            if ($request->has('name') && $this->checkerNameSlug == true) {
-                $model->slug = $this->createSlug($request->name);
-            }
-            $this->createAndUpdatePassWord($request->password);
-            $model->save();
-
-            if ($request->hasFile($this->fieldImage)) {
-//                $oldImage = str_replace('storage/', '', $oldImage);
-//                Storage::delete($oldImage);
-
-                $oldImage = $model->{$this->fieldImage};
-
-                // Tải lên hình ảnh lên Cloudinary và nhận URL
-                $image = $request->{$this->fieldImage};
-                $cloudinaryResponse = Cloudinary::upload($image->getPathname());
-                $cloudinaryUrl = $cloudinaryResponse->getSecurePath();
-
-                $model->{$this->fieldImage} = $cloudinaryUrl;
-            }
-
-            if ($this->permissionCheckCrud === 'PeopleAccount') {
-                $role = Role::where('id', $request->role_id)->first();
-                $user = User::find($id);
-                User::find($id)->syncPermissions($request->permissions);
-                $user->syncRoles([$role]);
-            }
-
-            return back()->with('success', 'Thao tác thành công');
-        }
-        else {
-            return view(admin_403);
+        } catch (\Exception $e) {
+            // Handle the main exception, you may want to log it or show a specific error message
+            return back()->with('error', 'Cập nhật không thành công! Xin vui lòng thử lại.');
         }
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -309,7 +339,7 @@ class BaseAdminController extends Controller
 
     }
 
-    public function validateStore($request , $id = null)
+    public function validateStore(Request $request , $id = null)
     {
         $rules = [];
         $keyForErrorMessage = [];
