@@ -5,11 +5,6 @@
                 <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
                     <a href="{{ route('dashboard') }}"><i class="fe fe-home"></i> <span>Bảng điều khiển</span></a>
                 </li>
-                {{--                <li class="{{ request()->routeIs('statistic.index') ? 'active' : '' }}">--}}
-                {{--                    <a href="{{ route('statistic.index') }}">--}}
-                {{--                        <i class="fe fe-bar-chart"></i>--}}
-                {{--                        <span>Thống kê</span></a>--}}
-                {{--                </li>--}}
                 <li class="submenu">
                     <a href="#">
                         <i class="fe fe-layout"></i>
@@ -37,7 +32,7 @@
                         <li>
                             <a href="{{ route('appointments.history-appointment') }}" class="{{ request()->routeIs('appointments.history-appointment') ? 'active' : '' }}"> <span>Lịch sử cuộc hẹn</span></a>
                         </li>
-                        {{--                        <li><a class="{{ request()->routeIs('appointments.statistics') ? 'active' : '' }}" href="{{ route('appointments.statistics') }}">Thống kế cuộc hẹn</a></li>--}}
+                        
                         <li><a class="{{ request()->routeIs('appointments.bills-appointment') ? 'active' : '' }}" href="{{ route('appointments.bills-appointment') }}">Hóa đơn cuộc hẹn</a></li>
                     </ul>
                 </li>
@@ -52,9 +47,7 @@
                 </li>
 
                 @role('Admin')
-                {{-- <li>
-                    <a class="{{ request()->routeIs('doctors.*') ? 'active' : '' }}" href="{{ route('doctors.index') }}"><i class="fe fe-user-plus"></i> <span>Bác sĩ</span> </a>
-                </li> --}}
+               
                 <li class="submenu">
                     <a href="#">
                         <i class="fa-solid fa-user-doctor"></i>
@@ -81,12 +74,7 @@
                 <li class="{{ request()->routeIs('setting') ? 'active' : '' }}">
                     <a href="{{ route('setting') }}"><i class="fe fe-vector"></i> <span>Cấu hình</span></a>
                 </li>
-                {{--                <li class="submenu">--}}
-                {{--                    <a href="#"><i class="fe fe-document"></i> <span> Báo cáo</span> <span class="menu-arrow"></span></a>--}}
-                {{--                    <ul style="display: none;">--}}
-                {{--                        <li><a href="invoice-report.html">Báo cáo hóa đơn</a></li>--}}
-                {{--                    </ul>--}}
-                {{--                </li>--}}
+            
                 @role('Admin')
                 <hr class="text-white"/>
                 <li>
