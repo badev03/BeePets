@@ -23,6 +23,7 @@ class Appointment extends Model
         'customer_name',
         'group_service_id',
         'user_id',
+        'stt',
         'created_at',
     ];
     public function user()
@@ -48,4 +49,5 @@ class Appointment extends Model
     public function work_schedule(){
         return $this->belongsTo(Work_schedule::class,'shift_name','shift_name');
     }
+  
 }

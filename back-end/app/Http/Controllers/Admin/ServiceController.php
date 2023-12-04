@@ -45,12 +45,12 @@ class ServiceController extends BaseAdminController
     {
         $this->validate($request,[
             'name' => 'required',
-            'description' => 'required' ,
+
             'price' => 'required|numeric|min:1'
         ],
             [
                 'name.required' => 'Tên danh mục dịch vụ không được để trống',
-                'description.required' => 'Mô tả danh mục dịch vụ không được để trống',
+
                 'price.required' => 'Giá danh mục dịch vụ không được để trống',
                 'price.numeric' => 'Giá phải là số',
                 'price.min' => 'Giá phải lớn hơn 0',
@@ -58,7 +58,7 @@ class ServiceController extends BaseAdminController
         );
     }
     public function addDataSelect() {
-        $serviceCategorie = DB::table('service_categories')->select('id' , 'name')->get();
+        $serviceCategorie = DB::table('service_categories')->select('id' , 'name')->where('status',2)->get();
         $dataForMergeArray = [
             'service_categorie_id' => $serviceCategorie,
         ];

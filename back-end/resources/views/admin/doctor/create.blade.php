@@ -103,7 +103,7 @@
                                             <div class="row">
                                                 <div class="col-md-8 mb-3">
                                                     <label class="mb-2"
-                                                        for="validationCustom01">{{ $item }}</label>
+                                                        for="validationCustom01d">{{ $item }}</label>
                                                     <select class="form-select" name="{{ $key }}">
                                                         @foreach (FIELD_SELECT_CUSTOM[$key] as $keyCustom => $itemCustom)
                                                             <option value="{{ $keyCustom }}">{{ $itemCustom }}
@@ -111,9 +111,10 @@
                                                         @endforeach
                                                     </select>
                                                     @if ($errors->has($key))
-                                                        <div class="error text-danger mt-2">{{ $errors->first($key) }}
-                                                        </div>
-                                                    @endif
+                                                    <div class="error text-danger mt-2">{{ $errors->first($key) }}
+                                                    </div>
+                                                @endif
+                                                  
                                                 </div>
                                             </div>
                                         @elseif(in_array($key, FIELD_DATE))

@@ -10,7 +10,7 @@ class Service_categorie extends Model
 {
     use HasFactory;
     protected $fillable=[
-        'name','slug','description','cate_image'
+        'name','slug','description','cate_image','status'
     ];
     public function service(){
         return $this->hasMany(Service::class);

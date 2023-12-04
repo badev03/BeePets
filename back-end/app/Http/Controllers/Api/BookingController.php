@@ -123,7 +123,7 @@ class BookingController extends Controller
         $date = $request->input('date');
         $work_schedule = Work_schedule::where('doctor_id', $doctor_id)->where('date', $date)->get();
         if ($work_schedule->isEmpty()) {
-            return response()->json(['message' => 'Không có lịch làm việc của bác sĩ này',[]],200);
+            return response()->json(['message' => 'Không có lịch làm việc của bác sĩ này', []], 200);
         }
         return response()->json(['message' => 'Lấy danh sách lịch làm việc thành công', 'data' => $work_schedule], 200);
     }
@@ -193,7 +193,7 @@ class BookingController extends Controller
 
 
 
-            $messageInterface->sendMessage($user_id, 'Vui lòng chờ xác nhận của bác sĩ', $request->doctor_id, 'Có cuộc hẹn mới cần xác nhận ', $model->id );
+            $messageInterface->sendMessage($user_id, 'Vui lòng chờ xác nhận của bác sĩ', $request->doctor_id, 'Có cuộc hẹn mới cần xác nhận ', $model->id);
 
 
             return response()->json(['message' => $request->all()], 201);
@@ -281,9 +281,9 @@ class BookingController extends Controller
                 $query->where(function ($query) use ($currentDate) {
                     $query->where('status', 1)
                         ->whereDate('date', '>=', $currentDate); // Lọc lịch hẹn từ ngày hiện tại trở đi
-                        // ->whereHas('work_schedule', function ($query) use ($currentDate) {
-                        //     $query->where('end_time', '>', $currentDate);
-                        // });
+                    // ->whereHas('work_schedule', function ($query) use ($currentDate) {
+                    //     $query->where('end_time', '>', $currentDate);
+                    // });
                 })->orWhereNotIn('status', [0, 1]);
             })
             ->with('user:id,name,phone,avatar')
@@ -322,12 +322,26 @@ class BookingController extends Controller
             $service_price = floatval($service_price->price);
             $appointment->status = $request->input('status');
             if ($request->status == 1) {
+                //lay so thu tu
+
+                $existingAppointments = Appointment::where('status','!=',0)->where('date', $appointment->date)->orderBy('created_at')->count();
+                // dd($existingAppointments);
+       
+                if ($existingAppointments == 0) {
+                    $appointment->stt = 1;
+                } else {
+                    $appointment->stt = $existingAppointments + 1;
+                }
+
+              
+           
+
                 $appointment->save();
-                $bill = $this->doctorController->createBill($appointment->id, $doctor->id, $appointment->user_id,$service_price);
+                $bill = $this->doctorController->createBill($appointment->id, $doctor->id, $appointment->user_id, $service_price);
                 $messageInterface->sendMessage($appointment->user_id, 'Bác sĩ ' . $doctor->name . '  đã xác nhận cuộc hẹn của bạn', $doctor->id, 'Bạn đã xác nhận thành công cuộc hẹn của khách hàng ' . $appointment->user->name, $appointment->id);
                 $user = User::where('id', $appointment->user_id)->first();
                 $phone = $user->phone;
-                if($phone == '0981324706') {
+                if ($phone == '0981324706') {
                     $phone = ltrim($phone, '0');
                     $phone = '+84' . $phone;
                     $sid = getenv("TWILIO_SID");
@@ -335,19 +349,19 @@ class BookingController extends Controller
                     $number = getenv("TWILIO_FROM");
                     $twilio = new Client($sid, $token);
                     $message = $twilio->messages
-                        ->create($phone, // to
+                        ->create(
+                            $phone, // to
                             array(
                                 "from" => $number,
                                 "body" => "Bác sĩ " . $doctor->name . " đã xác nhận cuộc hẹn của bạn vào lúc " . $appointment->date . " " . $appointment->shift_name . " tại phòng khám thú y BeePets. Vui lòng đến đúng giờ. Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi."
                             )
                         );
-                    if($message->sid) {
+                    if ($message->sid) {
                         return response()->json([
                             'message' => 'Cập nhật trạng thái thành công', 'bill' => $bill
                         ], 200);
                     }
                 }
-
             }
             if ($request->status == 6) {
                 $reasonCancel = $request->input('reason_cancel');
@@ -375,7 +389,7 @@ class BookingController extends Controller
                 $appointment->reason_change = $reasonChange;
                 $appointment->status = 7;
                 $appointment->save();
-                $messageInterface->sendDoctorToAdmin($doctor->id, 'bạn đã gửi yêu cầu đổi lịch hẹn của khách hàng' . $appointment->user->name, 1, 'bác sĩ ' . $doctor->name . ' đã gửi yêu cầu đổi lịch hẹn của khách hàng ' . $appointment->user->name,$appointment->id);
+                $messageInterface->sendDoctorToAdmin($doctor->id, 'bạn đã gửi yêu cầu đổi lịch hẹn của khách hàng' . $appointment->user->name, 1, 'bác sĩ ' . $doctor->name . ' đã gửi yêu cầu đổi lịch hẹn của khách hàng ' . $appointment->user->name, $appointment->id);
                 return response()->json(['message' => 'Bạn đã yêu cầu đổi cuộc hẹn'], 200);
             }
             return response()->json([
