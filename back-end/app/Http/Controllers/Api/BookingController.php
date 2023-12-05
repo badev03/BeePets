@@ -31,6 +31,7 @@ class BookingController extends Controller
     public function services()
     {
         $data = Service::select('id', 'name', 'price')
+        ->where('status', 1)
             ->with(['doctors:id,name'])
             ->get()
             ->map(function ($service) {
@@ -99,6 +100,7 @@ class BookingController extends Controller
         $now = Carbon::now();
         $work_schedule = Work_schedule::where('doctor_id', $doctor)
             ->where('date', $date)
+            ->where('status', 1)
             ->where(function ($query) use ($now) {
                 $query->where('date', '>', $now->toDateString())
                     ->orWhere(function ($q) use ($now) {

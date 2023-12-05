@@ -597,6 +597,7 @@ class DoctorController extends Controller
                 ->join('doctor_service', 'doctor_service.doctor_id', '=', 'doctors.id')
                 ->join('services', 'services.id', '=', 'doctor_service.service_id')
                 ->select('services.id', 'services.name', 'services.price')
+                ->where('services.status', 1)
                 ->get();
             return response()->json([
                 'success' => true,
