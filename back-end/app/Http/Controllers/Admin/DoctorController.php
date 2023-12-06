@@ -263,32 +263,6 @@ class DoctorController extends Controller
 
 
 
-    public function destroy(string $id)
-    {
-        if (auth()->user()->can(['delete-' . $this->permissionCheckCrud])) {
-            $model = Doctor::findOrFail($id);
-
-
-            if ($model->image) {
-                Cloudinary::destroy($model->image);
-            }
-
-            // Xóa ảnh từ bảng doctor_images
-            $doctorImages = Doctor_image::where('doctor_id', $id)->get();
-            foreach ($doctorImages as $doctorImage) {
-                if ($doctorImage->image_path) {
-                    Cloudinary::destroy($doctorImage->image_path);
-                }
-                $doctorImage->delete();
-            }
-
-            $model->delete(); // Xóa bác sĩ
-
-            return back()->with('success_delete', 'Đã xóa thành công');
-        } else {
-            return view('admin_403');
-        }
-    }
 
     public function show($id)
     {

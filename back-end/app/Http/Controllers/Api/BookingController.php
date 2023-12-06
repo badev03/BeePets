@@ -82,40 +82,54 @@ class BookingController extends Controller
         return response()->json(['message' => 'Lấy danh sách loại thú cưng thành công', 'data' => $data], 200);
     }
 
-    public function doctors(Request $request)
+    ublic function doctors(Request $request)
     {
-        // validate doctors request và date
-        $this->validate($request, [
-            'doctor_id' => 'required|exists:doctors,id',
-            'date' => 'required|date_format:Y-m-d',
-        ], [
-            'required' => ':attribute không được để trống',
-            'exists' => ':attribute không tồn tại',
-            'date_format' => ':attribute không đúng định dạng',
-        ]);
+        try {
+            $this->validate($request, [
+                'doctor_id' => 'required|exists:doctors,id',
+                'date' => 'required|date_format:Y-m-d',
+            ], [
+                'required' => ':attribute không được để trống',
+                'exists' => ':attribute không tồn tại',
+                'date_format' => ':attribute không đúng định dạng',
+            ]);
+    
+            $maxAppointments = 3;
+            $doctor = $request->input('doctor_id');
+            $date = $request->input('date');
+            $now = Carbon::now();
+    
+            // Lấy danh sách lịch làm việc của bác sĩ trong ngày
+            $work_schedule = Work_schedule::where('doctor_id', $doctor)
+                ->whereDate('date', '>=', $now->toDateString())
+                ->where(function ($query) use ($now) {
+                    $query->whereDate('date', '>', $now->toDateString())
+                        ->orWhere(function ($q) use ($now) {
+                            $q->whereDate('date', $now->toDateString())
+                                ->where('end_time', '>', $now->toTimeString());
+                        });
+                })
+                ->get();
+    
+            if ($work_schedule->isEmpty()) {
+                return response()->json(['message' => 'Không có lịch làm việc của bác sĩ này'], 200);
+            }
+    
+            // Lấy số lượng cuộc hẹn của bác sĩ trong ngày
+            $appointmentsCount = Appointment::where('doctor_id', $doctor)
+                ->whereDate('date', $date)
+                ->count();
+            if ($appointmentsCount >= $maxAppointments) {
+                return response()->json(['message' => 'Số lượng lịch hẹn đã đủ', 'data' => []], 200);
 
-        $doctor = $request->input('doctor_id');
-        $date = $request->input('date');
-        // lấy ra lịch làm việc của bác sĩ theo ngày
-        $now = Carbon::now();
-        $work_schedule = Work_schedule::where('doctor_id', $doctor)
-            ->where('date', $date)
-            ->where('status', 1)
-            ->where(function ($query) use ($now) {
-                $query->where('date', '>', $now->toDateString())
-                    ->orWhere(function ($q) use ($now) {
-                        $q->where('date', $now->toDateString())
-                            ->where('end_time', '>', $now->toTimeString());
-                    });
-            })
-            ->get();
-
-        if ($work_schedule->isEmpty()) {
-            return response()->json(['message' => 'Không có lịch làm việc của bác sĩ này',], 200);
-        } else {
-            return response()->json(['message' => 'Lấy danh sách lịch làm việc thành công', 'data' => $work_schedule], 200);
+            } else {
+                return response()->json(['message' => 'Lấy danh sách lịch làm việc thành công', 'data' => $work_schedule], 200);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Internal Server Error', 'message' => $e->getMessage()], 500);
         }
     }
+
 
 
     // lấy ra lịch làm việc của bác sĩ theo ngày
