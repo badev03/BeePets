@@ -47,6 +47,7 @@ import ChangePasswordUser from './Component/User/ChangePassword'
 import CreateRegister from './Component/Form-Auth/Create-Register'
 import StatisticAppointment from './Component/doctors/statistics/Statistic-Appointment'
 import StatisticalPet from './Component/doctors/statisticalPet'
+import ListServices from './Component/Servicer/ListServices'
 
 
 function App() {
@@ -65,6 +66,7 @@ function App() {
 
           <Route path='doctor/profile/:id' element={<DoctorProfile />} />
           <Route path='blog' element={<BlogList />} />
+          <Route path='services' element={<ListServices />} />
           <Route path='blog/:slug' element={<BlogDetails />} />
           <Route path="blog/category/:id" element={<BlogList />} />
           <Route path='service-detail/:slug' element={<ServiceDetails />} />

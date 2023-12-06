@@ -270,6 +270,15 @@ const Header = () => {
                     }`}
                 >
                   <TopLink to="/blog">TIN TỨC </TopLink>
+                  
+                </li>
+                <li
+                    className={`has-submenu ${
+                        location.pathname.startsWith("/services") ? "active" : ""
+                    }`}
+                >
+                  <TopLink to="/services">DỊCH VỤ </TopLink>
+                  
                 </li>
                 {role !== "doctor" && (
                     <div
@@ -279,6 +288,7 @@ const Header = () => {
                           color: "white",
                         }}
                     >
+                      
                       <Button style={{ color: "white" }} type="primary">
                         <BookingUser />
                       </Button>
