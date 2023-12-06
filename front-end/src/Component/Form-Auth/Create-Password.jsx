@@ -15,7 +15,7 @@ const CreatePassword = () => {
     const formattedPh = ph.startsWith("0") ? ph : "" + ph.replace(/^84/, "");
     axios
       .post(
-        `https://beepets.id.vn/api/give-password-new/${encodeURIComponent(
+        `http://127.0.0.1:8000/api/give-password-new/${encodeURIComponent(
           formattedPh
         )}`,
         data

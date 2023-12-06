@@ -28,7 +28,6 @@ class ProductController extends BaseAdminController
 
     public $colums = [
         'name' => 'Tên sản phẩm',
-        'description' => 'Mô tả',
         'price' => 'Giá',
         'quantity' => 'Số lượng',
         'image' => 'Ảnh',
@@ -42,34 +41,35 @@ class ProductController extends BaseAdminController
         ];
         return $dataForMergeArray;
     }
-    public function validateStore($request,$id = null)
-    {
-        if($id){
-            $rules = [
-                'name' => 'required|unique:products,name,'.$id,
-                'price' => 'required',
-                'quantity' => 'required',
-                'image' => 'required',
-                'product_categorie_id' => 'required',
-            ];
-        }else{
-            $rules = [
-                'name' => 'required|unique:products,name',
-                'price' => 'required',
-                'quantity' => 'required',
-                'image' => 'required',
-                'product_categorie_id' => 'required',
-            ];
-        }
-        $messages = [
-            'name.required' => 'Tên sản phẩm không được để trống',
-            'name.unique' => 'Tên sản phẩm đã tồn tại',
-            'price.required' => 'Giá sản phẩm không được để trống',
-            'quantity.required' => 'Số lượng sản phẩm không được để trống',
-            'image.required' => 'Ảnh sản phẩm không được để trống',
-            'product_categorie_id.required' => 'Danh mục sản phẩm không được để trống',
-        ];
-    }
+//    public function validateStore($request,$id = null)
+//    {
+//        if($id){
+//            $rules = [
+//                'name' => 'required|unique:products,name,'.$id,
+//                'price' => 'required',
+//                'quantity' => 'required',
+//                'image' => 'required',
+//                'product_categorie_id' => 'required',
+//            ];
+//        }else{
+//            $rules = [
+//                'name' => 'required|unique:products,name',
+//                'price' => 'required',
+//                'quantity' => 'required',
+//                'image' => 'required',
+//                'product_categorie_id' => 'required',
+//            ];
+//        }
+//        $messages = [
+//            'name.required' => 'Tên sản phẩm không được để trống',
+//            'name.unique' => 'Tên sản phẩm đã tồn tại',
+//            'price.required' => 'Giá sản phẩm không được để trống',
+//            'quantity.required' => 'Số lượng sản phẩm không được để trống',
+//            'image.required' => 'Ảnh sản phẩm không được để trống',
+//            'product_categorie_id.required' => 'Danh mục sản phẩm không được để trống',
+//        ];
+//        return $this->validate($request, $rules,$messages);
+//    }
 
 
 

@@ -51,6 +51,8 @@ class DoctorUserController extends BaseResponseApiController
                  , 'users.id as users_id')
             ->where('users.role_id' , '=' , 4)
             ->where('doctor_id' , '=' , $doctor->id)
+            ->where('reviews.status' , '=' ,1)
+            ->where('reviews.is_trash' , '=' ,null)
             ->get();
         if($doctor) {
             return response()->json([

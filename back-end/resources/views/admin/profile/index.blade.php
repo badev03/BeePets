@@ -1,5 +1,8 @@
 
 @extends('layouts.partials.master')
+@push('style')
+    <link rel="stylesheet" href="{{asset('backend/assets/plugins/datatables/datatables.min.css')}}">
+@endpush
 @section('content')
     <div class="row">
         @if(session()->has('success'))
@@ -17,17 +20,12 @@
                     </div>
                     <div class="col ml-md-n2 profile-user-info">
                         <h4 class="user-name mb-0">{{$user->name}}</h4>
-             
+
                         <div class="user-Location"><i class="fa-solid fa-location-dot"></i>{{$user->address?:' Chưa cập nhật...'}}</div>
-           
-       
+
+
                         <div class="about-text">{{$user->description?:' Chưa cập nhật...'}}</div>
-      
-                    </div>
-                    <div class="col-auto profile-btn">
-                        <a href="" class="btn btn-primary">
-                            Sửa
-                        </a>
+
                     </div>
                 </div>
             </div>
@@ -37,13 +35,9 @@
                         <a class="nav-link active"
                             data-bs-toggle="tab" href="#per_details_tab">Về Tôi</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link"
-                            data-bs-toggle="tab" href="#password_tab">Mật Khẩu</a>
-                    </li>
                 </ul>
             </div>
-            
+
             <div class="tab-content profile-tab-cont">
 
                 <div class="tab-pane fade show active" id="per_details_tab">
@@ -54,7 +48,6 @@
                                 <div class="card-body">
                                     <h5 class="card-title d-flex justify-content-between">
                                         <span>Thông tin chi tiết</span>
-                                        <a class="edit-link" data-bs-toggle="modal" href="#edit_personal_details"><i class="fa fa-edit me-1"></i>Sửa</a>
                                     </h5>
                                     <div class="row">
                                         <p class="col-sm-2 text-muted">Name</p>
@@ -77,7 +70,7 @@
                                         <p class="col-sm-10 mb-0">{{$user->address ?: 'Chưa cập nhật...'}}<br></p>
                                     </div>
                                 </div>
-                                
+
                             </div>
 
                             <div class="modal fade" id="edit_personal_details" aria-hidden="true" role="dialog">
@@ -215,6 +208,13 @@
         </div>
     </div>
 @endsection
+
+@push('script')
+
+    <script src="{{asset('backend/assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('backend/assets/plugins/datatables/datatables.min.js')}}"></script>
+
+@endpush
 
 
 

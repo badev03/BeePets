@@ -13,6 +13,8 @@ class Review extends Model
         'doctor_id' ,
         'user_id',
         'content',
-        'score'
+        'score',
+        'status',
+        'is_trash'
     ];
 }

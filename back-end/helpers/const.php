@@ -39,6 +39,8 @@ const FIELD_SELECT_CUSTOM = [
 
 const admin_403 = 'admin.components.errors.403';
 
+const admin_500 = 'admin.components.errors.500';
+
 
 const errors_notification = 'admin.components.errors.errors_notification';
 

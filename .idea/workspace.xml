@@ -5,19 +5,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="45a53ba9-6ef3-41ae-87f6-4b989cb527d7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/resources/views/admin/components/errors/errors_common.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-end/src/Component/globalSrc.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Admin/NewController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Admin/NewController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Admin/ServiceCategorieController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Admin/ServiceCategorieController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Admin/ServiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Admin/ServiceController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/NewController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/NewController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Exceptions/Handler.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Exceptions/Handler.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Admin/ProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Admin/ProductController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/BookingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/Api/BookingController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/app/Http/Controllers/BaseAdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Http/Controllers/BaseAdminController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/app/Models/Service.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Models/Service.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/app/Models/Service_categorie.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/app/Models/Service_categorie.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/resources/views/admin/baseCrud/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/resources/views/admin/baseCrud/create.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/resources/views/admin/baseCrud/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/resources/views/admin/baseCrud/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/resources/views/admin/schedules/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/resources/views/admin/schedules/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/resources/views/layouts/partials/sidebar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/resources/views/layouts/partials/sidebar.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Component/Form-Auth/Create-Password.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/Form-Auth/Create-Password.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Component/Form-Auth/Create-Register.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/Form-Auth/Create-Register.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Component/Form-Auth/Forgot-Password.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/Form-Auth/Forgot-Password.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Component/Form-Auth/Register.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/Form-Auth/Register.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/Component/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/Header.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/src/Component/Homepage/HomepageDoctors.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/Homepage/HomepageDoctors.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Component/LayoutWebsite.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/LayoutWebsite.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Component/Serch/CustomButton.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/Serch/CustomButton.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Component/Serch/Search.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/Serch/Search.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Component/User/AppointmentDetail.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/User/AppointmentDetail.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Component/User/BillDetail.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/User/BillDetail.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Component/User/ChangePassword.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/User/ChangePassword.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Component/User/PrescriptionDetails.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/User/PrescriptionDetails.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Component/User/ProfileSetting.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/User/ProfileSetting.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Component/doctors/AcceptDetailAppointment.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/doctors/AcceptDetailAppointment.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Component/doctors/Appointments.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/doctors/Appointments.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Component/doctors/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/doctors/Dashboard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Component/doctors/DetailBIll.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/doctors/DetailBIll.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Component/doctors/StatisticalPet.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/doctors/StatisticalPet.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Component/doctors/customer-invoice/Bill-user.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/doctors/customer-invoice/Bill-user.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/Component/doctors/statistics/Statistic-Appointment.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Component/doctors/statistics/Statistic-Appointment.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/src/Context/ContextAuth.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/Context/ContextAuth.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/api/doctorInfoApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/api/doctorInfoApi.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/src/api/reviews-doctor.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/src/api/reviews-doctor.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -317,21 +340,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "develop",
-    "last_opened_file_path": "C:/Users/lehuy/OneDrive/Desktop/project_graduate/BeePets",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/lehuy/OneDrive/Desktop/project_graduate/BeePets&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\lehuy\OneDrive\Desktop\project_graduate\BeePets\BackEnd\resources\views\layouts\partials" />
@@ -409,6 +432,7 @@
       <workItem from="1700447308685" duration="632000" />
       <workItem from="1700458371143" duration="1222000" />
       <workItem from="1701168617402" duration="1022000" />
+      <workItem from="1701754704249" duration="347000" />
     </task>
     <servers />
   </component>

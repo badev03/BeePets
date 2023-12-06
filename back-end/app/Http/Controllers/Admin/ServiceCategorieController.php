@@ -64,7 +64,6 @@ class ServiceCategorieController extends BaseAdminController
     {
         if (auth()->user()->can(['delete-'.$this->permissionCheckCrud])) {
             $model = $this->model->findOrFail($id);
-
             $model->update(['is_trash' => 1]);
             if ($model->image) {
                 $image = str_replace('storage/', '', $model->{$this->fieldImage});

@@ -26,7 +26,7 @@ class DoctorController extends Controller
 
 
     public $titleIndex = 'Danh sách bác sĩ';
-    protected $removeColumns = [];
+    protected $removeColumns = ['description'];
     public $titleShow = 'Xem chi tiết  bác sĩ';
     public $titleEdit = 'Cập nhật  bác sĩ';
     protected $checkerNameSlug = true;
@@ -51,7 +51,8 @@ class DoctorController extends Controller
     public function index()
     {
 
-        $doctors = Doctor::all();
+        $doctors = Doctor::select('id' ,'name' , 'email' , 'phone' , 'address' , 'image' , 'status' ,
+        'birthday' , 'gender')->get();
         return view('admin.doctor.index', compact('doctors'))
             ->with('title', $this->titleIndex)
             ->with('title_web', $this->title)

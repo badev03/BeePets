@@ -13,7 +13,7 @@ class ScheduleController extends Controller
 {
     public function index()
     {
-        $schedules = Work_schedule::all();
+        $schedules = Work_schedule::select('id' , 'date' , 'shift_name' , 'start_time' , 'end_time' , 'doctor_id')->get();
         return view('admin.schedules.index', compact('schedules'));
     }
 
@@ -25,7 +25,7 @@ class ScheduleController extends Controller
     }
     public function getForm()
     {
-        return view('admin.schedules.import'); 
+        return view('admin.schedules.import');
     }
     public function import(Request $request)
     {
@@ -40,7 +40,7 @@ class ScheduleController extends Controller
 
     public function store(Request $request)
 {
-   
+
     $selectedDoctors = $request->input('doctor_id');
     $date = $request->input('date');
     $shifts = $request->input('shift_name');

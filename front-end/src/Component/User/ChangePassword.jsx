@@ -45,7 +45,7 @@ const ChangePasswordUser = () => {
 
     try {
       const response = await axios.post(
-        `https://beepets.id.vn/api/change-password/${user.phone}`,
+        `http://127.0.0.1:8000/api/change-password/${user.phone}`,
         {
           old_password: oldPassword,
           new_password: newPassword,

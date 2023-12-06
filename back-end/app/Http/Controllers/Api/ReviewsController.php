@@ -22,6 +22,7 @@ class ReviewsController extends BaseResponseApiController
             ->select('reviews.*' , 'users.name as user_name' , 'users.avatar'
                 , 'doctors.name as doctor_name' , 'doctors.id as doctors_id' , 'users.id as users_id')
             ->where('users.role_id' , '=' , 4)
+            ->where('status' , 1)
             ->get();
         return response()->json(
             [

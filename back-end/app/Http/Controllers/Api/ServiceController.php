@@ -18,6 +18,7 @@ class ServiceController extends BaseResponseApiController
     {
         $data = Service::select('services.id' , 'services.name' , 'services.slug' , 'services.description' ,  'services.image')
             ->join('service_categories' , 'service_categories.id' , '=' , 'services.service_categorie_id')
+            ->where('services.is_trash' , '=' , null)
             ->where('service_categories.status' , '=' , 1)
             ->get();
         if(!$data) {

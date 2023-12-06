@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -26,5 +27,15 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    protected function getHttpExceptionView(HttpExceptionInterface $e)
+    {
+        // In debug mode we do not want to show our custom error views
+        if (config('app.debug')) {
+            return null;
+        }
+        return response()->view('errors.500', [], 500);
+//        return parent::getHttpExceptionView($e);
     }
 }

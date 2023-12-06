@@ -7,11 +7,7 @@
 @section('content')
     <div class="row">
         <div class="col-sm-12">
-            @if(session()->has('success_delete'))
-                <div class="alert-success alert">
-                    {{ session('success_delete') }}
-                </div>
-            @endif
+            @include('admin.components.errors.errors_common')
             <div class="card">
                 <div class="card-header">
                     <div class="row">

@@ -6,14 +6,14 @@ use App\Http\Controllers\Admin\OrderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\BookingController;
-use \App\Http\Controllers\admin\RoleController;
+use \App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\DoctorController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\TypePetController;
 use App\Http\Controllers\Admin\ScheduleController;
-use App\Http\Controllers\admin\PermissionController;
-use App\Http\Controllers\admin\PeopleAccountController;
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\PeopleAccountController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ServiceCategorieController;
 use App\Http\Controllers\Admin\AppointmentController;
@@ -39,9 +39,11 @@ use \App\Http\Controllers\Admin\ExcelAppointmentController;
 
 
 //
+
 Route::get('admin/statistic', [\App\Http\Controllers\Admin\StatisticController::class, 'index'])->name('statistic.index');
 Route::get('admin/statistic/get-data', [\App\Http\Controllers\Admin\StatisticController::class, 'getByDate'])->name('statistic.getByDate');
-Route::middleware(['role:Admin|Staff|User'])->group(function () {
+Route::middleware(['role:Admin|Staff|User',
+])->group(function () {
     Route::prefix('admin')->group(function () {
         $objects = [
             'service-categories' => ServiceCategorieController::class,
@@ -82,8 +84,8 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
             Route::put('appointment-cart/{id}', [AppointmentController::class , 'billAppointmentAdd'])->name('appointments.add-appointments-bills');
             Route::get('appointment-clear-data/', [AppointmentController::class , 'clearAppointmentData'])->name('appointments.clear-appointment-data');
             // Route::get('profile', [AuthController::class , 'myProfile'])->name('myProfile');
-             Route::get('excel-appointments', [ExcelAppointmentController::class , 'excelAppointment'])->name('excel.appointments');
-             Route::post('notification-sms', [NotificationController::class , 'NotificationSms'])->name('notification.sms');
+            Route::get('excel-appointments', [ExcelAppointmentController::class , 'excelAppointment'])->name('excel.appointments');
+            Route::post('notification-sms', [NotificationController::class , 'NotificationSms'])->name('notification.sms');
         });
         Route::get('dashboard', [HomeController::class , 'index'])->name('dashboard');
         Route::get('appointment/get-day/{day}/{id}', [AppointmentController::class , 'getDay'])->name('appointment.get-day');
@@ -162,7 +164,9 @@ Route::middleware(['role:Admin|Staff|User'])->group(function () {
     });
 
 });
-Route::get('/', [BookingController::class, 'index'])->name('index');
+Route::get('/', [BookingController::class, 'index'])
+    ->middleware('redirectAdmin')
+    ->name('index');
 
 Route::post('/booking', [BookingController::class, 'showForm'])->name('show.form');
 Route::post('/booking-save', [BookingController::class, 'save'])->name('booking.store');
@@ -194,3 +198,4 @@ Route::get('upload-image' , function () {
 Route::post('upload-image' , [HomeController::class , 'upload'])->name('upload.image');
 Route::get('pusher-tester' , [HomeController::class , 'Pusher']);
 Route::get('queue-tester' , [HomeController::class , 'QueueTest']);
+

@@ -6,11 +6,7 @@
 @section('heading', 'hihihi')
 @section('content')
     <div class="content container-fluid">
-        @if (session()->has('success'))
-            <div class="alert-success alert">
-                {{ session('success') }}
-            </div>
-        @endif
+       @include('admin.components.errors.errors_common')
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">

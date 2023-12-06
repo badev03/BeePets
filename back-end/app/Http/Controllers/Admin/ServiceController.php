@@ -60,7 +60,9 @@ class ServiceController extends BaseAdminController
         );
     }
     public function addDataSelect() {
-        $serviceCategorie = DB::table('service_categories')->select('id' , 'name')->get();
+        $serviceCategorie = DB::table('service_categories')->select('id' , 'name')
+            ->where('is_trash' , '=' , null)
+            ->get();
         $dataForMergeArray = [
             'service_categorie_id' => $serviceCategorie,
         ];

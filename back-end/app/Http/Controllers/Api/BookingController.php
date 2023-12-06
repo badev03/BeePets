@@ -30,7 +30,7 @@ class BookingController extends Controller
     // lấy ra tên vaz tất cả dịch vụ và các bác sĩ làm được dịch vụ đó
     public function services()
     {
-        $data = Service::select('id', 'name', 'price')
+        $data = Service::select('id', 'name', 'price')->where('is_trash' , '=' , null)
             ->with(['doctors:id,name'])
             ->get()
             ->map(function ($service) {
@@ -84,6 +84,7 @@ class BookingController extends Controller
     public function doctors(Request $request)
     {
         // validate doctors request và date
+
         $this->validate($request, [
             'doctor_id' => 'required|exists:doctors,id',
             'date' => 'required|date_format:Y-m-d',
@@ -92,7 +93,6 @@ class BookingController extends Controller
             'exists' => ':attribute không tồn tại',
             'date_format' => ':attribute không đúng định dạng',
         ]);
-
         $doctor = $request->input('doctor_id');
         $date = $request->input('date');
         // lấy ra lịch làm việc của bác sĩ theo ngày
@@ -107,7 +107,9 @@ class BookingController extends Controller
                     });
             })
             ->get();
-
+//        if (true) {
+//            return response()->json(['message' => $work_schedule], 400);
+//        }
         if ($work_schedule->isEmpty()) {
             return response()->json(['message' => 'Không có lịch làm việc của bác sĩ này',], 200);
         } else {

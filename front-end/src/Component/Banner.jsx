@@ -9,11 +9,11 @@ const Banner = () => {
         <section className="banner-section-fourteen banner-section-twelve">
           <div className="banner-section-twelve-bg">
             <img
-              src="../src/assets/img/bg/home-12-banner-bg-1.png"
+              src="/assets/img/bg/home-12-banner-bg-1.png"
               alt="design-image"
             />
             <img
-              src="../src/assets/img/bg/home-12-banner-bg-2.png"
+              src="/assets/img/bg/home-12-banner-bg-2.png"
               alt="design-image"
             />
           </div>
@@ -22,7 +22,7 @@ const Banner = () => {
               <div className="col-lg-6">
                 <div className="banner-img banner-img-twelve aos">
                   <img
-                    src="../src/assets/img/bg/home-12-banner-1.png"
+                    src="/assets/img/bg/home-12-banner-1.png"
                     className="img-fluid"
                     alt="dog-image"
                   />
@@ -32,14 +32,14 @@ const Banner = () => {
                     alt="cat-image"
                   />
                   <div className="banner-banner-img-twelve-bg">
-                    <img src="../src/assets/img/bg/dot-1.png" alt="dot-icon" />
-                    <img src="../src/assets/img/bg/dot-2.png" alt="dot-icon" />
+                    <img src="/assets/img/bg/dot-1.png" alt="dot-icon" />
+                    <img src="/assets/img/bg/dot-2.png" alt="dot-icon" />
                     <img
-                      src="../src/assets/img/bg/ring-1.png"
+                      src="/assets/img/bg/ring-1.png"
                       alt="ring-icon"
                     />
                     <img
-                      src="../src/assets/img/bg/ring-2.png"
+                      src="/assets/img/bg/ring-2.png"
                       alt="ring-icon"
                     />
                   </div>
