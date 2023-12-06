@@ -102,7 +102,7 @@ const ServiceDetails = () => {
                                             <li>
                                                 <div className="post-thumb">
                                                     <a href="blog-details.html">
-                                                        <img className="img-fluslug" src="../src/assets/img/blog/blog-thumb-01.jpg" alt="blog-image" />
+                                                        <img className="img-fluslug" src={service.image} alt="blog-image" />
                                                     </a>
                                                 </div>
                                                 <div className="post-info">
