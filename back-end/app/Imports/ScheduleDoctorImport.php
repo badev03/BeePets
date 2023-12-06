@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use Brian2694\Toastr\Facades\Toastr;
 use Log;
 use App\Models\Doctor;
 use App\Models\Work_schedule;
@@ -19,13 +20,25 @@ class ScheduleDoctorImport implements ToCollection, WithHeadingRow
      */
     public function collection(Collection $rows)
     {
+        $doctor_ids = [];
         foreach ($rows as $row) {
+            $doctors = Doctor::where('name', $row['doctor_id'])->first();
+            if ($doctors) {
+                $doctor_ids[] = $doctors->id;
+            }
+        }
+        $doctor_ids = array_unique($doctor_ids);
+        dd($doctor_ids);
+
+        foreach ($rows as $row) {
+
+
             $data = [
                 'date' => Date::excelToDateTimeObject($row['date'])->format('Y-m-d'),
                 'shift_name' => $row['shift_name'],
                 'start_time' => Carbon::createFromFormat('H', $row['start_time'])->toTimeString(),
                 'end_time' => Carbon::createFromFormat('H', $row['end_time'])->toTimeString(),
-                'doctor_id' => $row['doctor_id'],
+                'doctor_id' => $row['doctor_id']
             ];
 
             $doctor = Doctor::where('id', $data['doctor_id'])->first();
@@ -59,8 +72,8 @@ class ScheduleDoctorImport implements ToCollection, WithHeadingRow
             'start_time.required' => 'Hãy nhập giờ bắt đầu.',
             'end_time.required' => 'Hãy nhập giờ kết thúc.',
             'doctor_id.exists' => 'Bác sĩ không tồn tại.',
-            
-      
+
+
         ];
     }
 }

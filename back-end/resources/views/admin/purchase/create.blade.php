@@ -55,12 +55,13 @@
                     <form action="{{ route('checkout.cash') }}" method="post" id="form-payment">
                         @csrf
                         <div class="row">
-                            <div class="col">
-                                <div class="mb-3">
-                                    <label for="code" class="form-label">Mã đơn hàng</label>
-                                    <input type="text" class="form-control" id="code" name="code" value="{{ $code ?? old('code') }}">
-                                </div>
-                            </div>
+{{--                            <div class="col">--}}
+{{--                                <div class="mb-3">--}}
+{{--                                    <label for="code" class="form-label">Mã đơn hàng</label>--}}
+{{--                                    <input type="text" class="form-control" id="code" name="code" value="{{ $code ?? old('code') }}">--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+                            <input type="hidden" class="form-control" id="code" name="code" value="{{ $code ?? old('code') }}">
                             <div class="col">
                                 <div class="mb-3">
                                     <label for="user_id" class="form-label">Số điện thoại</label>
@@ -70,6 +71,7 @@
                                             <option value="{{ $customer->phone }}">{{ $customer->phone }} / {{ $customer->name }}</option>
                                         @endforeach
                                     </select>
+                                    <span class="error_phone text-danger"></span>
                                 </div>
                             </div>
                             <div class="col">
@@ -78,6 +80,7 @@
                                         Tên khách hàng <span class="text-danger ">*</span>
                                     </label>
                                     <input type="text" class="form-control" id="name" name="customer_name" value="{{ old('customer_name') }}">
+                                    <span class="error_name text-danger"></span>
                                 </div>
                             </div>
                         </div>
@@ -279,6 +282,22 @@
                 }
             });
 
+            $('.btn-checkout').click(function () {
+                var phone = $('#user_id').val();
+                var name = $('#name').val();
+                if(phone === '') {
+                    $('.error_phone').text('Số điện thoại không được để trống');
+                    return false;
+                } else {
+                    $('.error_phone').text('');
+                }
+                if(name === '') {
+                    $('.error_name').text('Tên khách hàng không được để trống');
+                    return false;
+                } else {
+                    $('.error_name').text('');
+                }
+            });
 
 
         });

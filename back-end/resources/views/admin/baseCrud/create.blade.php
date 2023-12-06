@@ -11,6 +11,11 @@
                 {{ session('success') }}
             </div>
         @endif
+        @if(session()->has('error'))
+            <div class="alert-danger alert">
+                {{ session('error') }}
+            </div>
+        @endif
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
@@ -30,6 +35,7 @@
                                 <form action="{{ route($urlbase . 'store') }}" class="needs-validation" novalidate=""
                                     enctype="multipart/form-data" method="POST">
                                     @csrf
+                                    <input hidden type="text" name="status" value="1">
                                     @foreach ($colums as $key => $item)
                                         @if (in_array($key, FIELD_IMAGE))
                                             <div class="row">

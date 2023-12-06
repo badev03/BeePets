@@ -115,8 +115,9 @@
                                             <div class="col-12">
                                                 <div class="mb-3">
                                                     <label for="products" class="form-label">Sản phẩm</label>
-                                                    <select class="form-control products  select" id="products" multiple="multiple"
-                                                            name="product_id[]">
+                                                    <select
+                                                    class="form-control products  select" id="products" multiple="multiple"
+                                                            name="product_id[]" @if($model->status == 4 || $model->status == 3) disabled @endif>
                                                         @foreach($products as $key=>$value)
                                                             <option @if(in_array($value->id, $products_prescription)) selected @endif value="{{ $value->id }}">{{ $value->name }}</option>
                                                         @endforeach
@@ -147,25 +148,10 @@
                                                 </th>
                                             </tr>
                                         </table>
-                                        {{--                                            <div class="row d-none" id="payment_method_handle">--}}
-                                        {{--                                                <label for="payment_method" class="form-label">Phương thức thanh toán</label>--}}
-                                        {{--                                                <div class="mb-3">--}}
-                                        {{--                                                    <label for="cash" class="form-label">--}}
-                                        {{--                                                        <input type="radio" name="payment_method" id="cash" value="1" checked>--}}
-                                        {{--                                                        Tiền mặt--}}
-                                        {{--                                                    </label>--}}
-                                        {{--                                                </div>--}}
-                                        {{--                                                <div class="mb-3 ">--}}
-                                        {{--                                                    <label for="vnpay" class="form-label">--}}
-                                        {{--                                                        <input type="radio" name="payment_method" id="vnpay" value="2">--}}
-                                        {{--                                                        Thanh toán qua VNPAY--}}
-                                        {{--                                                    </label>--}}
-                                        {{--                                                </div>--}}
-                                        {{--                                            </div>--}}
                                     </div>
                                 </div>
                                 <a href="{{route('appointment.index') }}" class="btn btn-primary">Quay lại</a>
-                                @if($model->status != 4)
+                                @if($model->status != 4 && $model->status != 3)
                                     <button href="" class="btn bg-danger-light">Lưu</button>
                                 @endif
                             </form>

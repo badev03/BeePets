@@ -21,7 +21,7 @@ class OrderController extends Controller
      */
     public function getData(Request $request) {
         if($request->ajax()){
-            $data = Bill::query()->where('transaction_type', 2)->orderBy('id', 'desc')->get();
+            $data = Bill::query()->where('transaction_type', 2)->orderBy('id', 'asc')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('total_amount', function($row){
@@ -53,6 +53,10 @@ class OrderController extends Controller
                     }
                     return $status;
                 })
+                ->addColumn('created_at', function($row){
+                    $created_at = date('d-m-Y', strtotime($row->created_at));
+                    return $created_at;
+                })
                 ->addColumn('payment_method', function($row){
                     if($row->payment_method == 1) {
                         $payment_method = '<span class="badge badge-success">Thanh toán tại quầy (Tiền mặt)</span>';
@@ -63,7 +67,7 @@ class OrderController extends Controller
                     }
                     return $payment_method;
                 })
-                ->rawColumns(['action', 'status', 'payment_method', 'total_amount'])
+                ->rawColumns(['action', 'status', 'payment_method', 'total_amount', 'created_at'])
                 ->make(true);
         }
     }
@@ -114,12 +118,13 @@ class OrderController extends Controller
     public function createOrder(Request $request) {
         $title = 'Tạo đơn hàng';
         $code = 'DH' . rand(100000, 999999);
-        $products = Products::query()->get();
+        $products = Products::where('status', 1)->get();
         $users = User::query()->where('role_id', 4)->get();
         return view('admin.purchase.create', compact('title', 'users', 'code', 'products'));
     }
     public function getProduct($id) {
-        $product = Products::query()->find($id);
+        $product = Products::query()
+            ->find($id);
         return response()->json([
             'code' => 200,
             'message' => 'Lấy thông tin sản phẩm thành công!',

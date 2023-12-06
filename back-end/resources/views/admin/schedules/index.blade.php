@@ -15,8 +15,19 @@
                     <div class="col">
                         <h3>Lịch làm việc</h3>
                     </div>
-                    <div class="col">
-                        <a href="{{route('schedules.create')}}" class="btn btn-info btn-sm mx-3 text-white float-end">Thêm lịch làm việc</a>
+                    <div class="col ">
+                        <div class="row">
+                            <div class="col float-end">
+                                <form action="{{ route('import') }}" method="post" enctype="multipart/form-data"  id="form-import">
+                                    @csrf
+                                       <label class="btn btn-primary btn-sm float-end form-label" for="file">Import Excel</label>
+                                       <input type="file" hidden="hidden"  name="file" id="file">
+                                </form>
+                            </div>
+                            <div class="col ">
+                                <a href="{{route('schedules.create')}}" class="btn btn-info btn-sm mx-3 text-white float-start">Thêm lịch làm việc</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -29,7 +40,6 @@
                             <th>Giờ bắt đầu</th>
                             <th>Giờ kết thúc</th>
                             <th>Bác sĩ</th>
-                            <th>Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,16 +50,6 @@
                                 <td>{{ $value->start_time }}</td>
                                 <td>{{ $value->end_time }}</td>
                                 <td>{{ $value->doctor->name }}</td>
-                                <td>
-                                    <a href="" class="btn btn-success btn-sm">Sửa</a>
-                                    <form action="{{ route('schedules.destroy',$value->id) }}" class="d-inline" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Bạn có chắc chắn muốn xóa không?')">
-                                        Xóa</button>
-                                    </form>
-                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -58,7 +58,6 @@
         </div>
     </div>
 </div>
-
 
 @endsection
 
@@ -100,6 +99,13 @@
                             });
                     } );
                 }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#file').change(function () {
+                $('#form-import').submit();
             });
         });
     </script>

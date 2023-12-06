@@ -18,13 +18,16 @@ class AboutController extends BaseAdminController
 
     public $title = 'Giới thiệu';
     protected $permissionCheckCrud = 'about';
+    public $removeColumns = ['content'];
     public $colums = [
         'image' => 'Hình Ảnh',
 
-       
+
         'title' => 'Tiêu đề',
         'content'=>'Nội dung',
         'status' => 'Trạng thái',
     ];
+
+
 }
 

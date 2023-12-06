@@ -11,8 +11,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+
 use Illuminate\Support\Facades\Storage;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Twilio\Rest\Trunking;
 
 
 class DoctorController extends Controller
@@ -37,13 +40,11 @@ class DoctorController extends Controller
         'image' => 'Ảnh',
         'name' => 'Tên bác sĩ',
         'phone' => 'Số điện thoại',
-        'description' => 'Mô tả',
+         'description' => 'Mô tả',
         'address' => 'Địa chỉ',
         'gender' => 'Giới tính',
         'birthday' => 'Ngày Sinh',
         'status' => 'Trạng thái',
-
-
     ];
 
 
@@ -51,7 +52,7 @@ class DoctorController extends Controller
     public function index()
     {
 
-        $doctors = Doctor::all();
+        $doctors = Doctor::where('status',1)->get();
         return view('admin.doctor.index', compact('doctors'))
             ->with('title', $this->titleIndex)
             ->with('title_web', $this->title)
@@ -61,7 +62,7 @@ class DoctorController extends Controller
 
     public function create()
     {
-        $services = Service::all();
+        $services = Service::where('status',2)->get();
 
         return view('admin.doctor.create', compact('services'))
             ->with('colums', $this->colums)
@@ -73,56 +74,58 @@ class DoctorController extends Controller
     }
     public function store(Request $request)
     {
+        try {
+            $model = new Doctor();
+            $validator = $this->validateStore($request);
 
-
-        $model = new Doctor();
-        $validateStore = $this->validateStore($request);
-
-        if ($validateStore) {
-            return back()->withErrors($validateStore)->withInput();
-        }
-
-        $model->fill($request->except(['image', 'image_path', 'slug']));
-
-        if ($request->hasFile('image')) {
-            $image = $request->image;
-            $cloudinaryResponse = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
-            $model->image = $cloudinaryResponse;
-        }
-
-        if ($request->has('name') && $this->checkerNameSlug == true) {
-            $model->slug = $this->createSlug($request->name);
-        }
-
-        if ($this->dataStoreAndUpdate($request->all())) {
-            $currentDate = today();
-            $model->public_date = $currentDate->format('Y-m-d');
-        }
-        if ($request->birthday) {
-            $model->birthday = Carbon::createFromFormat('d/m/Y', $request->birthday)->format('Y-m-d');
-        }
-
-        $this->createAndUpdatePassWord($request->password);
-
-        $model->save();
-        if ($request->hasFile('image_path')) {
-            $imagePaths = $request->file('image_path');
-            foreach ($imagePaths as $image) {
-                $cloudinaryResponse = Cloudinary::upload($image->getRealPath())->getSecurePath();
-                $doctorImage = new Doctor_image();
-                $doctorImage->image_path = $cloudinaryResponse;
-                $doctorImage->doctor_id = $model->id;
-                $doctorImage->save();
+            if ($validator->fails()) {
+                return back()->withErrors($validator)->withInput();
             }
-        }
 
-        $selectedServices = $request->input('service_id', []);
-        $model->services()->attach($selectedServices);
-        if ($this->checkRolePermission == false) {
-            $model->assignRole($request->role);
-        }
+            $model->status = 1;
 
-        return back()->with('success', 'Thao tác thành công');
+            $model->fill($request->except(['image', 'image_path', 'slug']));
+            if ($request->hasFile('image')) {
+                $image = $request->image;
+                $cloudinaryResponse = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
+                $model->image = $cloudinaryResponse;
+            }
+            if ($request->has('name') && $this->checkerNameSlug == true) {
+                $model->slug = $this->createSlug($request->name);
+            }
+            if ($this->dataStoreAndUpdate($request->all())) {
+                $currentDate = today();
+                $model->public_date = $currentDate->format('Y-m-d');
+            }
+            if ($request->birthday) {
+                $model->birthday = Carbon::createFromFormat('d/m/Y', $request->birthday)->format('Y-m-d');
+            }
+
+            $this->createAndUpdatePassWord($request->password);
+
+            if ($request->hasFile('image_path')) {
+                $imagePaths = $request->file('image_path');
+                foreach ($imagePaths as $image) {
+                    $cloudinaryResponse = Cloudinary::upload($image->getRealPath())->getSecurePath();
+                    $doctorImage = new Doctor_image();
+                    $doctorImage->image_path = $cloudinaryResponse;
+                    $doctorImage->doctor_id = $model->id;
+                    $doctorImage->save();
+                }
+            }
+
+            $selectedServices = $request->input('service_id', []);
+            $model->save();
+            $model->services()->attach($selectedServices);
+            if ($this->checkRolePermission == false) {
+                $model->assignRole($request->role);
+            }
+            $model->save();
+
+            return back()->with('success', 'Thao tác thành công');
+        }catch (\Exception $e) {
+            return back()->with('error', 'Thao tác thất bại');
+        }
     }
 
 
@@ -138,7 +141,7 @@ class DoctorController extends Controller
         $images = []; // Đổi tên biến này thành $images
         $doctor = Doctor::findOrFail($id);
         $doctorImages = Doctor_image::where('doctor_id', $id)->get();
-        $services = Service::select('id', 'name')->get();
+        $services = Service::select('id', 'name')->where('status',2)->get();
         $doctor->birthday = Carbon::createFromFormat('Y-m-d', $doctor->birthday)->format('d-m-Y');
         foreach ($doctorImages as $image) {
             $images[] = $image->image_path; // Thay đổi thành $images
@@ -287,7 +290,8 @@ class DoctorController extends Controller
         }
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $doctor = Doctor::findOrFail($id);
         $doctorImages = Doctor_image::where('doctor_id', $id)->get();
         $services = Service::select('id', 'name')->get();
@@ -308,20 +312,35 @@ class DoctorController extends Controller
 
 
 
-    public function validateStore($request, $id = null)
+    public function validateStore(Request $request)
     {
-        $rules = [];
-        $keyForErrorMessage = [];
-        foreach ($this->colums as $key => $item) {
-            $rules[$key] = 'required';
-        }
-        if ($this->removeColumns) {
-            $rules = array_diff_key($rules, array_flip($this->removeColumns));
-        }
-        foreach ($rules as $keyForError => $value) {
-            $keyForErrorMessage[$keyForError . '.required'] = 'Trường ' . $keyForError . ' không được để trống';
-        }
-        $this->validate($request, $rules, $keyForErrorMessage);
+
+            $validator = Validator::make($request->all(), [
+                'name' => 'required',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                // khong trung so dien thoai
+                'phone' => 'required|max:10|unique:doctors',
+                'address' => 'required|max:255',
+                'status' => 'required',
+                'service_id' => 'required',
+
+            ],[
+                'name'=>'Tên bác sĩ không được để trống',
+                'image.required'=>'Ảnh không được để trống',
+                'image.image'=>'Ảnh không đúng định dạng',
+                'image.mimes'=>'Ảnh không đúng định dạng',
+                'image.max'=>'Ảnh không được quá 2MB',
+                'phone.required'=>'Số điện thoại không được để trống',
+                'phone.max'=>'Số điện thoại không được quá 10 số',
+                'address.required'=>'Địa chỉ không được để trống',
+                'service_id.required'=>'Dịch vụ không được để trống',
+
+
+
+            ]);
+            return $validator;
+
+
     }
 
     public function validateUpdate($request)

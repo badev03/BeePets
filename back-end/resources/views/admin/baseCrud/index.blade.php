@@ -7,11 +7,7 @@
 @section('content')
     <div class="row">
         <div class="col-sm-12">
-            @if(session()->has('success_delete'))
-                <div class="alert-success alert">
-                    {{ session('success_delete') }}
-                </div>
-            @endif
+            @include('admin.components.errors.errors_common')
             <div class="card">
                 <div class="card-header">
                     <div class="row">
@@ -87,7 +83,7 @@
                                                                 <div class="modal-body">
                                                                     <div class="form-content p-2 text-center">
                                                                         <h4 class="modal-title">Delete</h4>
-                                                                        <p class="mb-4">Bạn có chắc chắn muốn xóa {{ $item->id }}</p>
+                                                                        <p class="mb-4">Bạn có chắc chắn muốn xóa </p>
                                                                         <div class="d-flex justify-content-center" style="gap: 1rem">
                                                                             <form action="{{ route($urlbase . 'destroy', $item) }}" method="post">
                                                                                 @csrf

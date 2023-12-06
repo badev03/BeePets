@@ -15,7 +15,6 @@ use Illuminate\Support\Str;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
-
 class BaseAdminController extends Controller
 {
 
@@ -45,6 +44,8 @@ class BaseAdminController extends Controller
     protected $permissionCheckCrud = '';
     private $teseterr = '111';
     protected $special = [];
+    protected $delete_trash = '';
+    protected $validateUpdateNew = false;
 
     public function __construct()
     {
@@ -60,8 +61,13 @@ class BaseAdminController extends Controller
                 }
                 $selectedColumns = '`' . implode('`,`', $selectedColumns) . '`';
                 $data = $this->model->select('id', DB::raw($selectedColumns))
-                    ->orderBy('id', 'DESC')
-                    ->get();
+                    ->orderBy('id', 'DESC');
+                if($this->delete_trash == 'is_trash') {
+                    $data = $data->where('is_trash' , '=' , null)->get();
+                }
+                else {
+                    $data = $data->get();
+                }
                 if($this->removeColumns) {
                     $this->colums = array_diff_key($this->colums, array_flip($this->removeColumns));
                 }
@@ -127,40 +133,47 @@ class BaseAdminController extends Controller
      */
     public function store(Request $request)
     {
-        $model = new $this->model;
         $validateStore = $this->validateStore($request);
         if($validateStore) {
             return back()->withErrors($validateStore)->withInput();
         }
-        $model->fill($request->except([$this->fieldImage,$this->slug]));
-        if ($request->hasFile($this->fieldImage)) {
+        try {
+            $model = new $this->model;
+            $model->fill($request->except([$this->fieldImage,$this->slug]));
+            if ($request->hasFile($this->fieldImage)) {
 //            $tmpPath = Storage::put('public/'.$this->folderImage, $request->{$this->fieldImage});
 //            $path = str_replace('public/','',  $tmpPath);
 //            $model->{$this->fieldImage} = 'storage/' . $path;
-            $image = $request->{$this->fieldImage};
-            $cloudinaryResponse = Cloudinary::upload($request->file($this->fieldImage)->getRealPath())->getSecurePath();
+                $image = $request->{$this->fieldImage};
+                $cloudinaryResponse = Cloudinary::upload($request->file($this->fieldImage)->getRealPath())->getSecurePath();
 
-            $model->{$this->fieldImage} = $cloudinaryResponse;
-        }
-        if($request->has('name') && $this->checkerNameSlug == true) {
-            $model->slug = $this->createSlug($request->name);
-        }
-        $dataModel = $request->all();
-        if($this->dataStoreAndUpdate($dataModel)) {
-            $currentDate = today();
-            $model->public_date =$currentDate->format('Y-m-d');
-        }
-        $this->createAndUpdatePassWord($request->password);
-        $model->save();
-        if($this->checkRolePermission==false) {
-            $model->assignRole($request->role);
-        }
+                $model->{$this->fieldImage} = $cloudinaryResponse;
+            }
+            if($request->has('slug') && $this->checkerNameSlug == true) {
+                $model->slug = $this->createSlug($request->slug);
+            }
+            if($request->slug == '' && $request->has('name') && $this->checkerNameSlug == true) {
+                $model->slug = $this->createSlug($request->name);
+            }
+            $dataModel = $request->all();
+            if($this->dataStoreAndUpdate($dataModel)) {
+                $currentDate = today();
+                $model->public_date =$currentDate->format('Y-m-d');
+            }
+            $this->createAndUpdatePassWord($request->password);
+            $model->save();
+            if($this->checkRolePermission==false) {
+                $model->assignRole($request->role);
+            }
 
-        if ($this->permissionCheckCrud === 'PeopleAccount') {
-            $model->assignRole($request->role_id);
+            if ($this->permissionCheckCrud === 'PeopleAccount') {
+                $model->assignRole($request->role_id);
+            }
+            return back()->with('success', 'Thao tác thành công');
         }
-
-        return back()->with('success', 'Thao tác thành công');
+        catch (\Throwable $e) {
+            return back()->with('fails', 'Không thể thêm dữ liệu');
+        }
     }
 
     /**
@@ -224,7 +237,12 @@ class BaseAdminController extends Controller
             if ($model->avatar || $model->image) {
                 $this->removeColumns = ['image', 'avatar'];
             }
-            $validator = $this->validateStore($request);
+            if($this->validateUpdateNew == true) {
+                $validator = $this->validateUpdateNew($request ,$id );
+            }
+            else{
+                $validator = $this->validateStore($request);
+            }
             if ($validator) {
                 return back()->withErrors($validator)->withInput();
             }
@@ -245,11 +263,15 @@ class BaseAdminController extends Controller
 
 //                Cloudinary::destroy($oldImage);
             }
-            if ($request->has('name') && $this->checkerNameSlug == true) {
+            if($request->has('slug') && $this->checkerNameSlug == true && $request->slug != '') {
+                $model->slug = $this->createSlug($request->slug);
+            }
+            if($request->slug == '' && $request->has('name') && $this->checkerNameSlug == true) {
                 $model->slug = $this->createSlug($request->name);
             }
-            $this->createAndUpdatePassWord($request->password);
             $model->save();
+            $this->createAndUpdatePassWord($request->password);
+
 
             if ($request->hasFile($this->fieldImage)) {
 //                $oldImage = str_replace('storage/', '', $oldImage);
@@ -284,18 +306,23 @@ class BaseAdminController extends Controller
      */
     public function destroy(string $id)
     {
-        if (auth()->user()->can(['delete-'.$this->permissionCheckCrud])) {
-            $model = $this->model->findOrFail($id);
+        try {
+            if (auth()->user()->can(['delete-'.$this->permissionCheckCrud])) {
+                $model = $this->model->findOrFail($id);
 
-            $model->delete();
-            if ($model->image) {
-                $image = str_replace('storage/', '', $model->{$this->fieldImage});
-                Storage::delete($image);
+                $model->delete();
+                if ($model->image) {
+                    $image = str_replace('storage/', '', $model->{$this->fieldImage});
+                    Storage::delete($image);
+                }
+                return back()->with('success_delete', 'Đã xóa thành công');
             }
-            return back()->with('success_delete', 'Đã xóa thành công');
+            else {
+                return view(admin_403);
+            }
         }
-        else {
-            return view(admin_403);
+        catch (\Throwable $e) {
+            return back()->with('fails', 'Không thể xóa dữ liệu');
         }
     }
 
@@ -368,6 +395,10 @@ class BaseAdminController extends Controller
     }
 
     public function dataStoreAndUpdate($data) {
+
+    }
+
+    public function validateUpdateNew($request , $id) {
 
     }
 

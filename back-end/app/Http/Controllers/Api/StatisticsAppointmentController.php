@@ -83,4 +83,6 @@ class StatisticsAppointmentController extends Controller
                 'appointments.shift_name' , 'appointments.date' );
         return $query;
     }
+
+
 }

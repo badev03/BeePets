@@ -24,11 +24,18 @@
                     <table class="table table-bordered" id="myDataTable">
                         <thead>
                         <tr>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                Ngày tạo
+                            </th>
                             <th>Mã đơn hàng</th>
                             <th>Tên người mua</th>
                             <th>Đơn giá</th>
                             <th>Hình thức thanh toán</th>
                             <th>Trạng thái</th>
+
                             <th>Hành động</th>
                         </tr>
                         </thead>
@@ -139,6 +146,8 @@
                     "type": "GET",
                 },
                 "columns": [
+                    {"data": "id"},
+                    {"data": "created_at"},
                     {"data": "code"},
                     {"data": "customer_name"},
                     {"data": "total_amount"},
@@ -159,6 +168,9 @@
                     "info": "Hiển thị từ _START_ đến _END_ của _TOTAL_ bản ghi",
 
                 },
+                //th ID của cột trong database tự động active sort
+                "order": [[0, "desc"]]
+
             })
             $('body').on('click', '.btn-return-order', function () {
                 $('#modal-handle-order').modal('show');

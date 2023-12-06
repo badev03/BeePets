@@ -80,7 +80,8 @@ class FilterAppointmentController extends Controller
             ->join('users' , 'users.id' , '=' , 'appointments.user_id' )
             ->join('bills' , 'bills.appointment_id' , '=' , 'appointments.id' )
             ->select('appointments.status' , 'appointments.id' , 'users.name as nameUser' , 'users.phone as phoneUser' ,
-                'appointments.shift_name' , 'appointments.date' , 'users.avatar' , 'bills.code' , 'bills.id as bill_id');
+                'appointments.shift_name' , 'appointments.date' , 'users.avatar' , 'bills.code' , 'bills.id as bill_id')
+            ->orderBy('bills.id', 'desc');
         return $query;
     }
 }

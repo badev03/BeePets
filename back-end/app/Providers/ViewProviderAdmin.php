@@ -29,8 +29,8 @@ class ViewProviderAdmin extends ServiceProvider
                 'message' , 'notifications.created_at' , 'notifications.appointment_id' , 'notifications.message_admin')
                 ->join('users' , 'users.id' , '=' , 'notifications.user_id')
                 ->whereNotNull('notifications.message_admin')
-                ->orderBy('id','desc')
-                ->get();
+                ->orderBy('notifications.id','desc')
+                ->limit(5)->get();
             $unreadNotificationCount = Notification::where('read', 0)
                 ->count();
             $view->with('notification', $notification);

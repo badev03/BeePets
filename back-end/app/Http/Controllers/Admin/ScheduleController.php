@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Doctor;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use App\Models\Work_schedule;
 use App\Http\Controllers\Controller;
@@ -25,7 +26,7 @@ class ScheduleController extends Controller
     }
     public function getForm()
     {
-        return view('admin.schedules.import'); 
+        return view('admin.schedules.import');
     }
     public function import(Request $request)
     {
@@ -34,13 +35,14 @@ class ScheduleController extends Controller
         ]);
 
         Excel::import(new ScheduleDoctorImport, $request->file('file'));
+        Toastr::success('Thêm thành công', 'Success');
         return redirect()->route('schedules.index')->with('success', 'Thêm thành công');
     }
 
 
     public function store(Request $request)
 {
-   
+
     $selectedDoctors = $request->input('doctor_id');
     $date = $request->input('date');
     $shifts = $request->input('shift_name');
