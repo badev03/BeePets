@@ -21,9 +21,9 @@ const ListServices = () => {
     const [service, setService] = useState(null);
     const [services, setServices] = useState([]);
 
-   
 
-    
+
+
 
     useEffect(() => {
         const fetchService = async () => {
@@ -81,37 +81,41 @@ const ListServices = () => {
                     <div className="row">
                         <div className="col-lg-12 col-md-12">
                             <div className="row blog-grid-row">
-                            {services.map((service, index) => (
-                                            <div key={service.id} className="col-md-3 col-sm-12">
-                                                <div className="blog grid-blog">
-                                                    <div className="blog-image">
-                                                        <Link to={`/service-detail/${service.slug}`}>
-                                                            <img
-                                                                className="img-fluid"
-                                                                src={service.image}
-                                                                alt="Post Image"
-                                                            />
-                                                        </Link>
-                                                    </div>
-                                                    <div className="blog-content">
-                                                        <ul className="entry-meta meta-item">
-                                                            {/* <li>
+                                {services.map((service, index) => (
+                                    <div key={service.id} className="col-md-3 col-sm-12">
+                                        <div className="blog grid-blog">
+                                            <div className="blog-image">
+                                                <Link to={`/service-detail/${service.slug}`}>
+                                                    <img
+                                                        className="img-fluid"
+                                                        src={service.image}
+                                                        alt="Post Image"
+                                                        style={{ width: '290px', height: '200px' }}
+                                                    />
+                                                </Link>
+                                            </div>
+
+                                            <div className="blog-content">
+                                                <ul className="entry-meta meta-item">
+                                                    {/* <li>
                                                                 <i style={{ marginRight: 8 }} className="far fa-clock" />
                                                                 {blog.public_date}
                                                             </li> */}
-                                                        </ul>
-                                                        <h3 className="blog-title">
-                                                            <Link to={`/service-detail/${service.slug}`}>{service.name}</Link>
-                                                        </h3>
-                                                        <div
-                                                            dangerouslySetInnerHTML={{
-                                                                __html: truncateText(service.description, 2),
-                                                            }}
-                                                        />
-                                                    </div>
+                                                </ul>
+                                                <h3 className="blog-title">
+                                                    <Link to={`/service-detail/${service.slug}`}>{service.name}</Link>
+                                                </h3>
+                                                <div
+                                                    // dangerouslySetInnerHTML={{
+                                                    //     __html: truncateText(service.description, 2),
+                                                    // }}
+                                                    
+                                                ><Link to={`/service-detail/${service.slug}`}><h6 class="text-danger">Click để xem chi tiết</h6></Link>
                                                 </div>
                                             </div>
-                                  ))}
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                             <div className="row">
                                 <div className="col-md-12">
@@ -136,7 +140,7 @@ const ListServices = () => {
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
