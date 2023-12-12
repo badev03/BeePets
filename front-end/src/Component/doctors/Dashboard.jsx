@@ -80,7 +80,7 @@ const Dashboarddoctors = () => {
     setLoadingId(id);
     try {
       const respon = await axios.put(
-        `http://127.0.0.1:8000/api/update-appointment/${id}?status=1`,
+        `https://beepets.id.vn/api/update-appointment/${id}?status=1`,
         {},
         {
           headers: {
@@ -113,7 +113,7 @@ const Dashboarddoctors = () => {
       setLoadingIdd(id);
 
       const respon = await axios.put(
-        `http://127.0.0.1:8000/api/update-appointment/${id}?status=6&reason_cancel=${reason}`,
+        `https://beepets.id.vn/api/update-appointment/${id}?status=6&reason_cancel=${reason}`,
         {},
         {
           headers: {
@@ -164,7 +164,7 @@ const Dashboarddoctors = () => {
       <tr key={appointment.id}>
         <td>
           <h2 className="table-avatar">
-            <Link to="patient-profile.html" className="avatar avatar-sm me-2">
+            <Link to={`/doctors/patient-profile/${appointment.user.id}`} className="avatar avatar-sm me-2">
               <img
                 className="avatar-img rounded-circle"
                 src={
@@ -175,7 +175,7 @@ const Dashboarddoctors = () => {
                 alt="User Image"
               />
             </Link>
-            <Link to="patient-profile.html">{appointment.user.name} </Link>
+            <Link to={`/doctors/patient-profile/${appointment.user.id}`}>{appointment.user.name} </Link>
           </h2>
         </td>
         <td>
@@ -265,12 +265,12 @@ const Dashboarddoctors = () => {
                 </Menu>
               }
             >
-              <a
+              <Link
                 className="btn btn-sm bg-info-light"
                 onClick={(e) => e.preventDefault()}
               >
                 Hành động
-              </a>
+              </Link>
             </Dropdown>
           </div>
         </td>

@@ -15,7 +15,7 @@ const CreateRegister = () => {
     const formattedPh = ph.startsWith("0") ? ph : "" + ph.replace(/^84/, "");
     axios
       .post(
-        `http://127.0.0.1:8000/api/register-password-new/${encodeURIComponent(
+        `https://beepets.id.vn/api/register-password-new/${encodeURIComponent(
           formattedPh
         )}`,
         data
@@ -43,7 +43,7 @@ const CreateRegister = () => {
               <div className="row align-items-center justify-content-center">
                 <div className="col-md-7 col-lg-6 login-left">
                   <img
-                    src="src/assets/img/login-banner.png"
+                    src="/assets/img/login-banner.png"
                     className="img-fluid"
                     alt="Doccure Register"
                   />

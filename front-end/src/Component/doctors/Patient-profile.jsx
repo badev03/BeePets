@@ -216,10 +216,10 @@ const Patientprofile = () => {
                             }`}
                           onClick={() => handleLogout("Đăng xuất")}
                         >
-                          <a>
+                          <Link>
                             <i className="fas fa-sign-out-alt" />
                             <span>Đăng Xuất</span>
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </nav>

@@ -5,9 +5,10 @@ import BlogSideBar from "./BlogSideBar";
 import blogApi from "../../api/blogApi";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import TopLink from "../../Link/TopLink";
+import LoadingSkeleton from "../Loading";
 
 const BlogList = () => {
-  const [blogs, setBlogs] = useState([]);
+  const [blogs, setBlogs] = useState("");
   const { id } = useParams()
   const [currentPage, setCurrentPage] = useState(0);
   const [postsPerPage] = useState(2);
@@ -37,8 +38,9 @@ const BlogList = () => {
       try {
         const response = await blogApi.getAll();
         if (id) {
+          console.log(response.new.data);
           const categoryBlogs = response.new.data.filter(
-            (blog) => console.log(blog.nameCategories) === id
+            (blog) => console.log(blog.categories_id) == id
           );
           setBlogs(categoryBlogs);
         } else {
@@ -64,7 +66,9 @@ const BlogList = () => {
   const indexOfLastPost = (currentPage + 1) * postsPerPage;
   const indexOfFirstPost = currentPage * postsPerPage;
   const currentPosts = blogs.slice(indexOfFirstPost, indexOfLastPost);
-
+  if (!blogs) {
+    return <LoadingSkeleton />;
+}
   const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
   };

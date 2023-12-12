@@ -16,7 +16,7 @@ const BillDetail = () => {
       const fetchBillDetail = async () => {
         try {
           const response = await axios.get(
-            `http://127.0.0.1:8000/api/detail-bill-user/${id}`,
+            `https://beepets.id.vn/api/detail-bill-user/${id}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -70,7 +70,7 @@ const BillDetail = () => {
               <nav aria-label="breadcrumb" className="page-breadcrumb">
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
-                    <a href="index.html">Trang chủ</a>
+                  <Link to={`/`} >Trang chủ</Link>
                   </li>
                   <li className="breadcrumb-item" aria-current="page">
                     Chi tiết hóa đơn
@@ -94,12 +94,11 @@ const BillDetail = () => {
                     <form>
                       <div className="row align-items-center mb-4">
                         <div className="col-6">
-                          <img
-                            src={bill.image}
-                            className="img-fluid"
-                            style={{ width: "100px", height: "auto" }}
-                            alt="Logo"
-                          />
+                        <img
+                      src="/assets/img/logo.png"
+                      className="img-fluid"
+                      alt="Logo"
+                  />
                         </div>
                         <div className="col-12 col-md-6">
                           <div className="mb-3" style={{ marginLeft: "140px" }}>

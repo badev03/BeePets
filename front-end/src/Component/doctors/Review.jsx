@@ -26,7 +26,7 @@ import LoadingSkeleton from '../Loading'
 // }, []);
 
 const Review = () => {
-  const [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState("");
   const token = localStorage.getItem('token');
   useEffect(() => {
     getReview();
@@ -40,9 +40,7 @@ const Review = () => {
       console.error("Không có dữ liệu:", error);
     }
   }
-  if (!reviews) {
-    return <LoadingSkeleton/>;
-  }
+  
 
 
   return (
@@ -70,7 +68,8 @@ const Review = () => {
             </div>
             <div className="col-md-7 col-lg-8 col-xl-9">
               <div className="doc-review review-listing">
-                {reviews.length > 0 ? (
+                {!reviews ? ( <div> <LoadingSkeleton/></div>) 
+                : reviews.length > 0 ? (
 
                   reviews.map((item, index) => {
                     return (<ul className="comments-list" key={index}>
@@ -104,7 +103,7 @@ const Review = () => {
                     </ul>)
                   })
 
-                ) : (<p>Không có đánh giá nào ở đây !</p>)
+                )  : (<p>Không có đánh giá nào ở đây !</p>)
                 }
 
               </div>

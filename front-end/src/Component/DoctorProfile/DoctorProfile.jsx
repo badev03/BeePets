@@ -69,33 +69,43 @@ const DoctorProfile = () => {
                       {Array.from({ length: 5 - doctor.average_score }, (_, index) => (
                         <i key={index} className="fas fa-star" />
                       ))}
-                  <span className="d-inline-block average-rating">( {doctor.review_count} )</span>
+                  {/* <span className="d-inline-block average-rating">( {doctor.review_count} )</span> */}
                 </div>
                 <div className="clinic-details">
                   <p className="doc-location"> <i className="fas fa-map-marker-alt" style={{marginRight:"10px"}} />
                     {doctor.address ? doctor.address : "Hà Nội"}</p>
-                  <ul className="clinic-gallery">
-                  <li>
-                          <a href={doctor.image.anh1} data-fancybox="gallery">
-                            <img src={doctor.image.anh1} alt="Feature" />
-                          </a>
-                        </li>
+                    {doctor?.images?.length > 0 && (
+                    <ul className="clinic-gallery">
+                      {doctor.images[0] && (
                         <li>
-                          <a href={doctor.image.anh2} data-fancybox="gallery">
-                            <img src={doctor.image.anh2} alt="Feature" />
+                          <a href={doctor.images[0]} data-fancybox="gallery">
+                            <img src={doctor.images[0]} alt="Feature" />
                           </a>
                         </li>
+                      )}
+                      {doctor.images[1] && (
                         <li>
-                          <a href={doctor.image.anh3} data-fancybox="gallery">
-                            <img src={doctor.image.anh3} alt="Feature" />
+                          <a href={doctor.images[1]} data-fancybox="gallery">
+                            <img src={doctor.images[1]} alt="Feature" />
                           </a>
                         </li>
+                      )}
+                      {doctor.images[2] && (
                         <li>
-                          <a href={doctor.image.anh4} data-fancybox="gallery">
-                            <img src={doctor.image.anh4} alt="Feature" />
+                          <a href={doctor.images[2]} data-fancybox="gallery">
+                            <img src={doctor.images[2]} alt="Feature" />
                           </a>
                         </li>
-                  </ul>
+                      )}
+                      {doctor.images[3] && (
+                        <li>
+                          <a href={doctor.images[3]} data-fancybox="gallery">
+                            <img src={doctor.images[3]} alt="Feature" />
+                          </a>
+                        </li>
+                      )}
+                    </ul>
+                  )}
                 </div>
                 
               </div>

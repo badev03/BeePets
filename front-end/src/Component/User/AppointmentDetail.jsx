@@ -15,7 +15,7 @@ const AppointmentDetail = () => {
       const fetchAppointmentDetail = async () => {
         try {
           const response = await axios.get(
-            `http://127.0.0.1:8000/api/get-appointment-user/${id}`,
+            `https://beepets.id.vn/api/get-appointment-user/${id}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -69,7 +69,7 @@ const AppointmentDetail = () => {
                 <nav aria-label="breadcrumb" className="page-breadcrumb">
                   <ol className="breadcrumb">
                     <li className="breadcrumb-item">
-                      <a href="index.html">Trang chủ</a>
+                    <Link to={`/`} >Trang chủ</Link>
                     </li>
                     <li className="breadcrumb-item" aria-current="page">
                       Chi tiết lịch khám

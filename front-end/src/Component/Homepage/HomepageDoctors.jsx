@@ -27,8 +27,8 @@ const HomepageDoctors = () => {
     return (
         <div className="blog-section-fourteen our-doctor-twelve">
             <div className="floating-bg">
-                <img src="../src/assets/img/bg/small-paw.png" alt="paw-image" />
-                <img src="../src/assets/img/bg/big-paw.png" alt="paw-image" />
+                <img src="/assets/img/bg/small-paw.png" alt="paw-image" />
+                <img src="/assets/img/bg/big-paw.png" alt="paw-image" />
             </div>
             {/* <Homepage_doctors /> */}
             <div className="container">
@@ -53,20 +53,20 @@ const HomepageDoctors = () => {
 
                                 <div className="card-body blog-inner-fourt-main">
                                     <div className="blog-inner-right-fourt">
-                                        <a href="doctor-profile.html">
+                                        <Link to="doctor-profile.html">
                                             <div className="blog-inner-right-img">
                                                 <Link to={`/doctor/profile/${doctor.slug}`}>
                                                     <img className="img-fluid" style={{ height: '268px', width: '278px' }} src={doctor.image} alt="image" />
                                                 </Link>
                                                 <div className="blog-inner-top-content">
-                                                    <span><div dangerouslySetInnerHTML={{ __html: doctor.description }} /></span>
-                                                    {/*<span>Bác sĩ</span>*/}
+                                                    {/* <span><div dangerouslySetInnerHTML={{ __html: doctor.description }} /></span> */}
+                                                    <span>Bác sĩ</span>
 
                                                 </div>
                                             </div>
-                                        </a>
+                                        </Link>
                                         <h4 className="blog-inner-right-fourt-care">
-                                            <a href={`/doctor/profile/${doctor.slug}`} >{doctor.name}</a>
+                                            <Link to={`/doctor/profile/${doctor.slug}`} >{doctor.name}</Link>
                                         </h4>
                                         <ul className="articles-list nav blog-articles-list">
                                             <li>
@@ -85,9 +85,9 @@ const HomepageDoctors = () => {
                                             {Array.from({ length: 5 - doctor.average_score }, (_, index) => (
                                                 <i key={index} className="fas fa-star" />
                                             ))}
-                                            <span>({doctor.review_count})</span>
+                                            {/* <span>({doctor.review_count})</span> */}
                                         </div>
-                                        <a href={`/doctor/profile/${doctor.slug}`} className="btn btn-primary">Xem chi tiết</a>
+                                        <Link to={`/doctor/profile/${doctor.slug}`} className="btn btn-primary">Xem chi tiết</Link>
                                     </div>
                                 </div>
                             </div>
@@ -99,7 +99,6 @@ const HomepageDoctors = () => {
 
                 <div className="blog-btn-sec text-center aos aos-init aos-animate" >
                     <Link to="/doctor" className="btn btn-primary btn-view">Tất Cả Bác Sĩ</Link>
-                    {/* <a href="/doctor" className="btn btn-primary btn-view">Tất Cả Bác Sĩ</a> */}
                 </div>
             </div>
         </div>

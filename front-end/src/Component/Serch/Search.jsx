@@ -36,7 +36,7 @@ const Search = ({ data }) => {
     const fetchDoctorService = async () => {
       try {
         const response = await axios.post(
-          `http://127.0.0.1:8000/api/service-filter-doctor`,
+          `https://beepets.id.vn/api/service-filter-doctor`,
           { service: data }
         );
         setDoctors(response.data.service);
@@ -66,13 +66,13 @@ const Search = ({ data }) => {
           <div className="doctor-widget">
             <div className="doc-info-left">
               <div className="doctor-img">
-                <a href="doctor-profile.html">
+              <Link to={`/doctor/profile/${doctor.slug}`}>
                   <img
                     src={doctor.image}
                     className="img-fluid"
                     alt="User Image"
                   />
-                </a>
+                </Link>
               </div>
               <div className="doc-info-cont">
                 <h4 className="doc-name">
@@ -93,9 +93,9 @@ const Search = ({ data }) => {
                       <i key={index} className="fas fa-star" />
                     )
                   )}
-                  <span className="d-inline-block average-rating">
+                  {/* <span className="d-inline-block average-rating">
                     ( {doctor.review_count} )
-                  </span>
+                  </span> */}
                 </div>
                 <div className="clinic-details">
                   <p className="doc-location">

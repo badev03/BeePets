@@ -10,7 +10,7 @@ const ForgotPasswordDoctor = () => {
                         <div className="account-content">
                             <div className="row align-items-center justify-content-center">
                                 <div className="col-md-7 col-lg-6 login-left">
-                                    <img src="src/assets/img/login-banner.png" className="img-fluid" alt="Doccure Register" />
+                                    <img src="/assets/img/login-banner.png" className="img-fluid" alt="Doccure Register" />
                                 </div>
                                 <div className="col-md-12 col-lg-6 login-right">
                                     <div className="login-header">

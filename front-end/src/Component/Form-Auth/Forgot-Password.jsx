@@ -34,7 +34,7 @@ const ForgotPassword = () => {
   function checkPhoneNumberExistsAndSignup() {
     const data = { phone: ph.replace(/^840/, "0") };
     axios
-      .post("http://127.0.0.1:8000/api/forget-password", data)
+      .post("https://beepets.id.vn/api/forget-password", data)
       .then((response) => {
         onSignup();
       })
@@ -107,7 +107,7 @@ const ForgotPassword = () => {
                 <div className="row align-items-center justify-content-center">
                   <div className="col-md-7 col-lg-6 login-left">
                     <img
-                      src="src/assets/img/login-banner.png"
+                      src="/assets/img/login-banner.png"
                       className="img-fluid"
                       alt="Doccure Register"
                     />

@@ -1,30 +1,31 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import servicesDetailApi from '../../api/serviceApi';
 import LoadingSkeleton from '../Loading';
 import serviceApi from '../../api/serviceApi';
 
 const ServiceDetails = () => {
     const { slug } = useParams();
-    const [service, setService] = useState(null);
+    const [service, setService] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [currentDate, setCurrentDate] = useState('');
 
     useEffect(() => {
-        const fetchBlog = async () => {
-            try {
-                const response = await servicesDetailApi.get(slug);
-                setService(response);
-                setIsLoading(false);
-            } catch (error) {
-                console.error('Không có dữ liệu:', error);
-                setIsLoading(false);
-            }
-        };
+     
+    const fetchBlog = async () => {
+        try {
+            const response = await servicesDetailApi.get(slug);
+            setService(response);
+            setIsLoading(false);
+        } catch (error) {
+            console.error('Không có dữ liệu:', error);
+            setIsLoading(false);
+        }
+    };  
 
         fetchBlog();
-    }, []);
+    }, [slug]);
     const [services, setServices] = useState([]);
 
     useEffect(() => {
@@ -54,7 +55,7 @@ const ServiceDetails = () => {
                             <h2 className="breadcrumb-title">CHI TIẾT DỊCH VỤ</h2>
                             <nav aria-label="breadcrumb" className="page-breadcrumb">
                                 <ol className="breadcrumb">
-                                    <li className="breadcrumb-item"><a href="/">Trang Chủ</a></li>
+                                    <li className="breadcrumb-item"><Link to={`/`}>Trang Chủ</Link></li>
                                     <li className="breadcrumb-item" aria-current="page">Tiêm chủng</li>
                                 </ol>
                             </nav>
@@ -70,9 +71,9 @@ const ServiceDetails = () => {
                                 <div className="blog blog-single-post">
                                     <h3 className="blog-title">{service['service-detail'].name}</h3>
                                     <div className="blog-image">
-                                        <a href="">
+                                  
                                             <img alt="blog-image" src={service['service-detail'].image} className="img-fluid" />
-                                        </a>
+                                     
                                     </div>
                                     <div className="blog-info clearfix"></div>
                                     {service && service['service-detail'] && (
@@ -97,24 +98,26 @@ const ServiceDetails = () => {
                                     <h4 className="card-title">Dịch vụ liên quan</h4>
                                 </div>
                                 <div className="card-body">
-                                    {services.map((service, index) => (
-                                        <ul className="latest-posts" key={index}>
-                                            <li>
+                                        <ul className="latest-posts" >
+                                    {services.map((service) => (
+
+                                            <li key={service.id}>
                                                 <div className="post-thumb">
-                                                    <a href="blog-details.html">
-                                                        <img className="img-fluslug" src="../src/assets/img/blog/blog-thumb-01.jpg" alt="blog-image" />
-                                                    </a>
+                                                    <Link to={`/services/${service.slug}`}>
+                                                    <img className="img-fluslug" src={service.image} alt="blog-image" />
+                                                    </Link>
                                                 </div>
                                                 <div className="post-info">
                                                     <h4>
-                                                        <a href="blog-details.html">{service.name}</a>
+                                                    <Link to={`/services/${service.slug}`}>{service.name}</Link>
                                                     </h4>
                                                     <p><div>Ngày hôm nay: {currentDate}</div></p>
                                                 </div>
                                             </li>
-                                            <br />
-                                        </ul>
                                     ))}
+
+                                     
+                                        </ul>
 
                                 </div>
                             </div>

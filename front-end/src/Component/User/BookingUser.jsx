@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Modal, Button, DatePicker, Form, Input, Row, Col, Select } from "antd";
+import { Modal, Button, DatePicker, Form, Input, Row, Col, Select, Result } from "antd";
 const { TextArea } = Input;
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -11,7 +11,7 @@ import BookingApi from "../../api/bookingApi";
 
 
 const BookingUser = () => {
- const { user } = useAuth();
+  const { user } = useAuth();
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [typePet, setTypePet] = useState([]);
@@ -63,13 +63,33 @@ const BookingUser = () => {
 
   useEffect(() => {
     if (selectedService) {
-      const selectedServiceData = serviceDoctor.find(
-        (service) => service.id === selectedService
+      console.log(selectedService);
+      console.log(serviceDoctor)
+      // const selectedServiceData = serviceDoctor.find(
+      //   (service) => service.id === selectedService
+      // );
+
+      const selectedServiceData = selectedService.map(id =>
+          serviceDoctor.find(service => service.id === id)
       );
+      let mergedDoctors = [];
+
 
       if (selectedServiceData) {
-        const doctorsForService = selectedServiceData.doctors || [];
-        setDoctorOptions([...doctorsForService]);
+
+        selectedServiceData.forEach(record => {
+          const doctorsInRecord = record.doctors;
+
+          if (mergedDoctors.length === 0) {
+            mergedDoctors = [...doctorsInRecord];
+          } else {
+            mergedDoctors = mergedDoctors.filter(doctor =>
+                doctorsInRecord.some(item => item.id === doctor.id)
+            );
+          }
+        });
+        const doctorsForService = selectedServiceData.map(doctor => (doctor.doctors))  || [];
+        setDoctorOptions([...mergedDoctors]);
       }
     }
   }, [selectedService, serviceDoctor, selectedDoctor]);
@@ -93,8 +113,8 @@ const BookingUser = () => {
     try {
       setLoadingShift(true);
       const response = await BookingApi.getWorkingHours(
-        selectedDoctor,
-        selectedDate
+          selectedDoctor,
+          selectedDate
       );
       setSelectedWorkingHours(response);
     } catch (error) {
@@ -112,8 +132,8 @@ const BookingUser = () => {
     if (selectedService && selectedDoctor) {
       try {
         const response = await BookingApi.getWorkingHours(
-          selectedDoctor,
-          dateString
+            selectedDoctor,
+            dateString
         );
         setSelectedWorkingHours(response);
       } catch (error) {
@@ -202,9 +222,45 @@ const BookingUser = () => {
     const oneWeekFromNow = today.clone().add(1, "week");
 
     return (
-      current && (current < today.startOf("day") || current >= oneWeekFromNow)
+        current && (current < today.startOf("day") || current >= oneWeekFromNow)
     );
   };
+  const CustomNotFoundDoctor = (
+      <Result
+
+          style={{ height: '50px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}
+          title="Không tìm thấy bác sĩ"
+          icon={null}
+          subTitle="Rất tiếc, không có bác sĩ nào khớp với tìm kiếm của bạn."
+      />
+  );
+  const CustomNotFoundService = (
+      <Result
+
+          style={{ height: '50px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}
+          title="Không tìm thấy dịch vụ"
+          icon={null}
+          subTitle="Rất tiếc, không có dịch vụ nào khớp với tìm kiếm của bạn."
+      />
+  );
+  const CustomNotFoundPets = (
+      <Result
+
+          style={{ height: '50px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}
+          title="Không tìm thấy thú cưng"
+          icon={null}
+          subTitle="Rất tiếc, không có thú cưng nào khớp với tìm kiếm của bạn."
+      />
+  );
+  const CustomNotFoundTime = (
+      <Result
+
+          style={{ height: '50px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}
+          title="Không tìm thấy ca làm việc"
+          icon={null}
+          subTitle="Rất tiếc, không có ca làm việc nào khớp với tìm kiếm của bạn."
+      />
+  );
 
   return (
     <>
@@ -213,25 +269,32 @@ const BookingUser = () => {
             >
                 ĐẶT LỊCH NHANH
             </a>
-      <Modal
-        title="Hãy Điền Thông Tin"
-        open={isModalOpen}
-        onOk={handleBooking}
-        onCancel={handleCancel}
-        width={1000}
-        okButtonProps={{ style: { display: "none" } }}
-        cancelButtonProps={{ style: { display: "none" } }}
-      >
-        <Form layout="vertical" form={form} onFinish={handleBooking}>
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item
+            <Modal
+            title="Hãy Điền Thông Tin"
+            open={isModalOpen}
+            onOk={handleBooking}
+            onCancel={handleCancel}
+            width={1000}
+            okButtonProps={{ style: { display: "none" } }}
+            cancelButtonProps={{ style: { display: "none" } }}
+        >
+          <Form layout="vertical" form={form} onFinish={handleBooking}>
+            <Form.Item
+           
                 label="Chọn Dịch Vụ"
                 name="Chọn Dịch Vụ"
+                mode="multiple"
+         
+                allowClear
                 rules={[{ required: true, message: "Vui lòng nhập dịch vụ" }]}
-              >
-                <Select
+            >
+              <Select
+               style={{height:33}}
+                  notFoundContent={CustomNotFoundService}
                   placeholder="Dịch Vụ"
+                  mode="multiple"
+           
+                  allowClear
                   value={selectedService}
                   onChange={handleChangeService}
                   options={serviceDoctor.map((service) => ({
@@ -239,157 +302,170 @@ const BookingUser = () => {
                     label: service.name,
                   }))}
                   loading={loadingService}
-                />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                label="Chọn Bác Sĩ"
-                name="Chọn Bác Sĩ"
-                rules={[
-                  { required: true, message: "Vui lòng nhập chọn bác sĩ" },
-                  {
-                    validator: (_, value) => {
-                      if (value === 'Bác sĩ') { 
-                        return Promise.reject(new Error("Vui lòng chọn bác sĩ"));
-                      }
-                      return Promise.resolve();
-                    },
-                  },
-                ]}
-                loading={loadingDoctors}
-              >
-                <Select
-                  placeholder="Bác Sĩ"
-                  value={selectedDoctor}
-                  onChange={handleDoctorChange}
-                  options={doctorOptions.map((doctor) => ({
-                    value: doctor.id,
-                    label: doctor.name,
-                  }))}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item
-                label="Chọn Ngày"
-                name="Chọn Ngày"
-                rules={[
-                  { required: true, message: "Vui lòng nhập chọn ngày" },
-                ]}
-              >
-                <DatePicker
-                  placeholder="Ngày"
-                  onChange={handleChangeDate}
-                  disabledDate={disabledDate}
-                  style={{ width: "100%" }}
-                />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                label="Chọn Thời Gian"
-                name="Chọn Thời Gian"
-                rules={[
-                  { required: true, message: "Vui lòng nhập chọn ca" },
-                  {
-                    validator: (_, value) => {
-                      if (value === 'Ca làm việc') { 
-                        return Promise.reject(new Error("Vui lòng chọn ca"));
-                      }
-                      return Promise.resolve();
-                    },
-                  },
-                ]}
-              >
-                <Select
-                  placeholder="Ca làm việc"
-                  onChange={(value) => handleChangeShift(value)} 
-                  options={
-                    selectedWorkingHours
-                      ? selectedWorkingHours.map((hour) => ({
-                          value: hour.shift_name,
-                          label: loadingShift
-                            ? ""
-                            : `${hour.shift_name} (${hour.start_time} - ${hour.end_time})`,
-                        }))
-                      : []
-                  }
-                  loading={loadingShift}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Form.Item
-            label="Chọn loại thú cưng"
-            name="Chọn loại thú cưng "
-            rules={[
-              { required: true, message: "Vui lòng nhập chọn loại thú cưng" },
-            ]}
-          >
-            <Select
-              placeholder="Thú cưng"
-              onChange={handleChangePet}
-              options={typePet.map((pet) => ({
-                value: pet.id,
-                label: pet.name,
-              }))}
-            />
-          </Form.Item>
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item
-                label="Họ và Tên"
-                name="name"
-                initialValue={user ? user.name : selectedName}
-                rules={[
-                  { required: true, message: "Vui lòng nhập tên của bạn" },
-                  { min: 5, message: "Tên phải lớn hơn 5 kí tự" },
-                ]}
-              >
-                <Input name="name" onChange={handleChangeName} />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                label="Số Điện Thoại"
-                name="phone"
-                initialValue={user ? user.phone : selectedPhone}
-                rules={[
-                  { required: true, message: "Vui lòng nhập số điện thoại" },
-                  {
-                    validator: (_, value) => {
-                      if (/^\d+$/.test(value)) {
-                        if (value.length === 10) {
+              />
+            </Form.Item>
+            <Row gutter={16}>
+              <Col span={12}>
+                <Form.Item
+                    label="Chọn Bác Sĩ"
+                    name="Chọn Bác Sĩ"
+                    rules={[
+                      { required: true, message: "Vui lòng nhập chọn bác sĩ" },
+                      {
+                        validator: (_, value) => {
+                          if (value === 'Bác sĩ') {
+                            return Promise.reject(new Error("Vui lòng chọn bác sĩ"));
+                          }
                           return Promise.resolve();
-                        }
-                        return Promise.reject(
-                          "Số điện thoại phải có 10 chữ số"
-                        );
+                        },
+                      },
+                    ]}
+                    loading={loadingDoctors}
+                >
+                  <Select
+                      notFoundContent={CustomNotFoundDoctor}
+                      placeholder="Bác Sĩ"
+                      value={selectedDoctor}
+                      onChange={handleDoctorChange}
+                      options={doctorOptions.map((doctor) => ({
+                        value: doctor.id,
+                        label: doctor.name,
+                      }))}
+                  />
+                </Form.Item>
+              </Col>
+
+              <Col span={12}>
+                <Form.Item
+                    label="Chọn Ngày"
+                    name="Chọn Ngày"
+                    rules={[
+                      { required: true, message: "Vui lòng nhập chọn ngày" },
+                    ]}
+                >
+                  <DatePicker
+                      placeholder="Ngày"
+                      onChange={handleChangeDate}
+                      disabledDate={disabledDate}
+                      style={{ width: "100%" }}
+                  />
+                </Form.Item>
+              </Col>
+
+            </Row>
+            <Row gutter={16}>
+
+              <Col span={12}>
+                <Form.Item
+                    label="Chọn Thời Gian"
+                    name="Chọn Thời Gian"
+                    rules={[
+                      { required: true, message: "Vui lòng nhập chọn ca" },
+                      {
+                        validator: (_, value) => {
+                          if (value === 'Ca làm việc') {
+                            return Promise.reject(new Error("Vui lòng chọn ca"));
+                          }
+                          return Promise.resolve();
+                        },
+                      },
+                    ]}
+                >
+                  <Select
+                      notFoundContent={CustomNotFoundTime}
+                      placeholder="Ca làm việc"
+                      onChange={(value) => handleChangeShift(value)}
+                      options={
+                        selectedWorkingHours
+                            ? selectedWorkingHours.map((hour) => ({
+                              value: hour.shift_name,
+                              label: loadingShift
+                                  ? ""
+                                  : `${hour.shift_name} (${hour.start_time} - ${hour.end_time})`,
+                            }))
+                            : []
                       }
-                      return Promise.reject("Số điện thoại phải là chữ số");
-                    },
-                  },
-                ]}
-              >
-                <Input name="phone" onChange={handleChangePhone} />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Form.Item
-            label="Ghi Chú"
-            name="Ghi Chú"
-            rules={[{ required: true, message: "Vui lòng nhập ghi chú" }]}
-          >
-            <TextArea rows={3} onChange={handleChangeDescription} />
-          </Form.Item>
-          <Button type="primary" htmlType="submit">
-            Đặt lịch
-          </Button>
-        </Form>
-      </Modal>
+                      loading={loadingShift}
+                  />
+                </Form.Item>
+              </Col>
+
+              <Col span={12}>
+                <Form.Item
+                    label="Chọn loại thú cưng"
+                    name="Chọn loại thú cưng "
+                    rules={[
+                      { required: true, message: "Vui lòng nhập chọn loại thú cưng" },
+                    ]}
+                >
+                  <Select
+               style={{height:33}}
+                      notFoundContent={CustomNotFoundPets}
+                      placeholder="Thú cưng"
+                      mode="multiple"
+                 
+                      allowClear
+                      onChange={handleChangePet}
+                      options={typePet.map((pet) => ({
+                        value: pet.id,
+                        label: pet.name,
+                      }))}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col span={12}>
+                <Form.Item
+                    label="Họ và Tên"
+                    name="name"
+                    initialValue={user ? user.name : selectedName}
+                    rules={[
+                      { required: true, message: "Vui lòng nhập tên của bạn" },
+                      { min: 5, message: "Tên phải lớn hơn 5 kí tự" },
+                    ]}
+                >
+                  <Input name="name" onChange={handleChangeName} />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item
+                    label="Số Điện Thoại"
+                    name="phone"
+                    initialValue={user ? user.phone : selectedPhone}
+                    rules={[
+                      { required: true, message: "Vui lòng nhập số điện thoại" },
+                      {
+                        validator: (_, value) => {
+                          if (/^\d+$/.test(value)) {
+                            if (value.length === 10) {
+                              return Promise.resolve();
+                            }
+                            return Promise.reject(
+                                "Số điện thoại phải có 10 chữ số"
+                            );
+                          }
+                          return Promise.reject("Số điện thoại phải là chữ số");
+                        },
+                      },
+                    ]}
+                >
+                  <Input name="phone" onChange={handleChangePhone} />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Form.Item
+                label="Ghi Chú"
+                name="Ghi Chú"
+                rules={[{ required: true, message: "Vui lòng nhập ghi chú" }]}
+            >
+              <TextArea rows={3} onChange={handleChangeDescription} />
+            </Form.Item>
+            <Button type="primary" htmlType="submit">
+              Đặt lịch
+            </Button>
+          </Form>
+        </Modal>
     </>
   );
 };

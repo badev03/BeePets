@@ -71,20 +71,20 @@ const displayedBills = bills
 .map(bill => (
   <tr key={bill.code}>
     <td className="text-start">
-      <a href="#">{bill.code}</a>
+      <p>{bill.code}</p>
     </td>
     <td className="text-start">{formatDate(bill.order_date)}</td>
     <td className="text-start">{formatCurrency(bill.total_amount)} </td>
     <td className="text-start">
       <h2 className="table-avatar">
-        <a href="doctor-profile.html" className="avatar avatar-sm me-2">
+        <Link to={`/doctor/profile/vu-anh-ba`} className="avatar avatar-sm me-2">
           <img
             className="avatar-img rounded-circle"
             src={bill.image}
             alt="User Image"
           />
-        </a>
-        <a href="doctor-profile.html">{bill.created_by}</a>
+        </Link>
+        <Link to={`/doctor/profile/vu-anh-ba`}>{bill.created_by}</Link>
       </h2>
     </td>
     <td className="text-start">

@@ -10,8 +10,8 @@ const Content = () => {
       <Banner />
       <section className="services-section-fourteen">
         <div className="floating-bg">
-          <img src="../src/assets/img/bg/big-paw.png" alt="paw-image" />
-          <img src="../src/assets/img/bg/small-paw.png" alt="paw-image" />
+          <img src="/assets/img/bg/big-paw.png" alt="paw-image" />
+          <img src="/assets/img/bg/small-paw.png" alt="paw-image" />
         </div>
         <Services />
       </section>

@@ -27,7 +27,7 @@ const Banner = () => {
                     alt="dog-image"
                   />
                   <img
-                    src="../src/assets/img/bg/home-12-banner-2.png"
+                    src="/assets/img/bg/home-12-banner-2.png"
                     className="img-fluid"
                     alt="cat-image"
                   />

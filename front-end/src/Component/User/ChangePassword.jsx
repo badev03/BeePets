@@ -7,6 +7,7 @@ import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal);
 import { useAuth } from "../../Context/ContextAuth";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const ChangePasswordUser = () => {
   const { token } = useAuth();
@@ -45,7 +46,7 @@ const ChangePasswordUser = () => {
 
     try {
       const response = await axios.post(
-        `http://127.0.0.1:8000/api/change-password/${user.phone}`,
+        `https://beepets.id.vn/api/change-password/${user.phone}`,
         {
           old_password: oldPassword,
           new_password: newPassword,
@@ -69,7 +70,19 @@ const ChangePasswordUser = () => {
 
   return (
     <div>
-      <div className="breadcrumb-bar-two">{/* Breadcrumb code */}</div>
+      <div className="breadcrumb-bar-two"> <div className="container">
+        <div className="row align-items-center inner-banner">
+          <div className="col-md-12 col-12 text-center">
+            <h2 className="breadcrumb-title">Thay đổi mật khẩu</h2>
+            <nav aria-label="breadcrumb" className="page-breadcrumb">
+              <ol className="breadcrumb">
+                <li className="breadcrumb-item"><Link to={`/`} >Trang chủ</Link></li>
+                <li className="breadcrumb-item" aria-current="page">Thay đổi mật khẩu</li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div></div>
       <div className="content">
         <div className="container">
           <div className="row">

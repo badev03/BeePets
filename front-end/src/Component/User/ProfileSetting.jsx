@@ -90,7 +90,7 @@ const ProfileSetting = () => {
       // Call the API with user data to update the user information
       try {
         const response = await axios.post(
-          `http://127.0.0.1:8000/api/save-infor-user`,
+          `https://beepets.id.vn/api/save-infor-user`,
           {
             ...user,
             // formData
@@ -153,7 +153,7 @@ const ProfileSetting = () => {
               <nav aria-label="breadcrumb" className="page-breadcrumb">
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
-                    <a href="index.html">Trang chủ</a>
+                    <Link to={`/`} >Trang chủ</Link>
                   </li>
                   <li className="breadcrumb-item" aria-current="page">
                     Thông tin cá nhân
