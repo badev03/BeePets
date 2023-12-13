@@ -8,7 +8,7 @@ import TopLink from "../../Link/TopLink";
 
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
-  const { id } = useParams()
+  const { id } = useParams();
   const [currentPage, setCurrentPage] = useState(0);
   const [postsPerPage] = useState(2);
   const [searchTerm, setSearchTerm] = useState("");
@@ -26,7 +26,7 @@ const BlogList = () => {
       setNoSearchResults(true);
     } else {
       setSearchedBlogs(searchResults);
-      setBlogs([]); 
+      setBlogs([]);
       setShowPagination(false);
       setNoSearchResults(false);
     }
@@ -97,96 +97,102 @@ const BlogList = () => {
               <div className="row blog-grid-row">
                 {noSearchResults ? (
                   <p>Không có tin tức</p>
+                ) : searchedBlogs.length > 0 ? (
+                  searchedBlogs.map((blog) => (
+                    <div key={blog.id} className="col-md-6 col-sm-12">
+                      <div className="blog grid-blog">
+                        <div className="blog-image">
+                          <Link to={`/blog/${blog.slug}`}>
+                            <img
+                              className="img-fluid"
+                              src={blog.image}
+                              alt="Post Image"
+                            />
+                          </Link>
+                        </div>
+                        <div className="blog-content">
+                          <ul className="entry-meta meta-item">
+                            <li>
+                              <i
+                                style={{ marginRight: 8 }}
+                                className="far fa-clock"
+                              />
+                              {blog.public_date}
+                            </li>
+                          </ul>
+                          <h3 className="blog-title">
+                            <Link to={`/blog/${blog.slug}`}>{blog.name}</Link>
+                          </h3>
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html: truncateText(blog.content, 2),
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))
                 ) : (
-                  searchedBlogs.length > 0
-                    ? searchedBlogs.map((blog) => (
-                        <div key={blog.id} className="col-md-6 col-sm-12">
-                          <div className="blog grid-blog">
-                            <div className="blog-image">
-                              <Link to={`/blog/${blog.slug}`}>
-                                <img
-                                  className="img-fluid"
-                                  src={blog.image}
-                                  alt="Post Image"
-                                />
-                              </Link>
-                            </div>
-                            <div className="blog-content">
-                              <ul className="entry-meta meta-item">
-                                <li>
-                                  <i style={{ marginRight: 8}} className="far fa-clock" />
-                                  {blog.public_date}
-                                </li>
-                              </ul>
-                              <h3 className="blog-title">
-                                <Link to={`/blog/${blog.slug}`}>{blog.name}</Link>
-                              </h3>
-                              <div
-                                dangerouslySetInnerHTML={{
-                                  __html: truncateText(blog.content, 2),
-                                }}
-                              />
-                            </div>
-                          </div>
+                  currentPosts.map((blog) => (
+                    <div key={blog.id} className="col-md-6 col-sm-12">
+                      <div className="blog grid-blog">
+                        <div className="blog-image">
+                          <Link to={`/blog/${blog.slug}`}>
+                            <img
+                              className="img-fluid"
+                              src={blog.image}
+                              alt="Post Image"
+                            />
+                          </Link>
                         </div>
-                      ))
-                    : currentPosts.map((blog) => (
-                        <div key={blog.id} className="col-md-6 col-sm-12">
-                          <div className="blog grid-blog">
-                            <div className="blog-image">
-                              <Link to={`/blog/${blog.slug}`}>
-                                <img
-                                  className="img-fluid"
-                                  src={blog.image}
-                                  alt="Post Image"
-                                />
-                              </Link>
-                            </div>
-                            <div className="blog-content">
-                              <ul className="entry-meta meta-item">
-                                <li>
-                                  <i style={{ marginRight: 8}} className="far fa-clock" />
-                                  {blog.public_date}
-                                </li>
-                              </ul>
-                              <h3 className="blog-title">
-                                <Link to={`/blog/${blog.slug}`}>{blog.name}</Link>
-                              </h3>
-                              <div
-                                dangerouslySetInnerHTML={{
-                                  __html: truncateText(blog.content, 2),
-                                }}
+                        <div className="blog-content">
+                          <ul className="entry-meta meta-item">
+                            <li>
+                              <i
+                                style={{ marginRight: 8 }}
+                                className="far fa-clock"
                               />
-                            </div>
-                          </div>
+                              {blog.public_date}
+                            </li>
+                          </ul>
+                          <h3 className="blog-title">
+                            <Link to={`/blog/${blog.slug}`}>{blog.name}</Link>
+                          </h3>
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html: truncateText(blog.content, 2),
+                            }}
+                          />
                         </div>
-                      ))
-
+                      </div>
+                    </div>
+                  ))
                 )}
-
               </div>
-              <div className="row">
-                <div className="col-md-12">
-                  <div className="blog-pagination">
-                    {showPagination && (
-                      <ReactPaginate
-                        pageCount={Math.ceil(
-                          searchedBlogs.length > 0
-                            ? searchedBlogs.length / postsPerPage
-                            : blogs.length / postsPerPage
-                        )}
-                        pageRangeDisplayed={3}
-                        marginPagesDisplayed={1}
-                        onPageChange={handlePageClick}
-                        containerClassName={"pagination"}
-                        activeClassName={"active"}
-                        nextLabel={<FaChevronRight />}
-                        previousLabel={<FaChevronLeft />}
-                      />
-                    )}
+              {!noSearchResults && (
+                <div className="row">
+                  <div className="col-md-12">
+                    <div className="blog-pagination">
+                      {showPagination && (
+                        <ReactPaginate
+                          pageCount={Math.ceil(
+                            searchedBlogs.length > 0
+                              ? searchedBlogs.length / postsPerPage
+                              : blogs.length / postsPerPage
+                          )}
+                          pageRangeDisplayed={3}
+                          marginPagesDisplayed={1}
+                          onPageChange={handlePageClick}
+                          containerClassName={"pagination"}
+                          activeClassName={"active"}
+                          nextLabel={<FaChevronRight />}
+                          previousLabel={<FaChevronLeft />}
+                        />
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
             <BlogSideBar
               searchTerm={searchTerm}
