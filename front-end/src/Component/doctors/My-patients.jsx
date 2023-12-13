@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import listCustomersApi from '../../api/listCustomers'
 import LoadingSkeleton from '../Loading';
+import BreadcrumbBar from '../BreadcrumbBar'
 
 
 const Mypatients = () => {
@@ -44,21 +45,8 @@ const Mypatients = () => {
     );
   return (
     <div>
-  <div className="breadcrumb-bar-two">
-    <div className="container">
-      <div className="row align-items-center inner-banner">
-        <div className="col-md-12 col-12 text-center">
-          <h2 className="breadcrumb-title">Khách hàng của tôi</h2>
-          <nav aria-label="breadcrumb" className="page-breadcrumb">
-            <ol className="breadcrumb">
-              <li className="breadcrumb-item"><Link to="/">Trang chủ</Link></li>
-              <li className="breadcrumb-item" aria-current="page">Khách hàng của tôi</li>
-            </ol>
-          </nav>
-        </div>
-      </div>
-    </div>
-  </div>
+               <BreadcrumbBar title="KHÁCH HÀNG CỦA TÔI" lable="Khách hàng của tôi" />
+
   <div className="content">
     <div className="container">
       <div className="row">

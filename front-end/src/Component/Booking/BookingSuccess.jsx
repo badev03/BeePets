@@ -1,4 +1,5 @@
 import React from 'react'
+import BreadcrumbBar from '../BreadcrumbBar'
 
 
 
@@ -7,21 +8,8 @@ const BookingSuccess = () => {
     <div>
         
 <div>
-  <div className="breadcrumb-bar-two">
-    <div className="container">
-      <div className="row align-items-center inner-banner">
-        <div className="col-md-12 col-12 text-center">
-          <h2 className="breadcrumb-title">Thông báo</h2>
-          <nav aria-label="breadcrumb" className="page-breadcrumb">
-            <ol className="breadcrumb">
-              <li className="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
-              <li className="breadcrumb-item" aria-current="page">Thông báo</li>
-            </ol>
-          </nav>
-        </div>
-      </div>
-    </div>
-  </div>
+<BreadcrumbBar title="THÔNG BÁO" lable="Thông báo" />
+
   <div className="content success-page-cont">
     <div className="container">
       <div className="row justify-content-center">

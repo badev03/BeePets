@@ -7,6 +7,7 @@ import billApi from "../../api/bill";
 import LoadingSkeleton from "../Loading";
 import { useReactToPrint } from "react-to-print";
 import appointmentsApi from "../../api/appointmentsApi";
+import BreadcrumbBar from "../BreadcrumbBar";
 const DetailPrescription = () => {
     const { id } = useParams();
     const [bill, setBill] = useState({});
@@ -79,25 +80,8 @@ const DetailPrescription = () => {
     }
     return (
         <div>
-          <div className="breadcrumb-bar-two">
-            <div className="container">
-              <div className="row align-items-center inner-banner">
-                <div className="col-md-12 col-12 text-center">
-                  <h2 className="breadcrumb-title">Chi tiết hóa đơn</h2>
-                  <nav aria-label="breadcrumb" className="page-breadcrumb">
-                    <ol className="breadcrumb">
-                      <li className="breadcrumb-item">
-                        <Link to="/">Trang chủ</Link>
-                      </li>
-                      <li className="breadcrumb-item" aria-current="page">
-                        Chi tiết hóa đơn
-                      </li>
-                    </ol>
-                  </nav>
-                </div>
-              </div>
-            </div>
-          </div>
+                      <BreadcrumbBar title="CHI TIẾT ĐƠN THUỐC" lable="Chi tiết đơn thuốc" />
+
           <div className="content" >
             <div ref={componetPDF}>
               <div className="container">

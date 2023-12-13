@@ -6,6 +6,7 @@ import ReviewsDoctor from './ReviewsDoctor';
 import CustomButton from '../Serch/CustomButton';
 import LoadingSkeleton from '../Loading';
 import { useAuth } from '../../Context/ContextAuth';
+import BreadcrumbBar from '../BreadcrumbBar';
 const DoctorProfile = () => {
   const { id } = useParams();
   const [doctor, setDoctors] = useState(null);
@@ -35,21 +36,8 @@ const DoctorProfile = () => {
   return (
     <div>
 <div>
-  <div className="breadcrumb-bar-two">
-    <div className="container">
-      <div className="row align-items-center inner-banner">
-        <div className="col-md-12 col-12 text-center">
-          <h2 className="breadcrumb-title">Hồ sơ bác sĩ</h2>
-          <nav aria-label="breadcrumb" className="page-breadcrumb">
-            <ol className="breadcrumb">
-              <li className="breadcrumb-item"><Link to={`/`}>Trang chủ</Link></li>
-              <li className="breadcrumb-item" aria-current="page">Hồ sơ bác sĩ</li>
-            </ol>
-          </nav>
-        </div>
-      </div>
-    </div>
-  </div>
+<BreadcrumbBar title="HỒ SƠ BÁC SĨ" lable="Hồ sơ bác sĩ" />
+
   <div className="content">
     <div className="container">
       <div className="card">

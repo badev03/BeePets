@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import axios from "axios";
 import LoadingSkeleton from "../Loading";
+import BreadcrumbBar from "../BreadcrumbBar";
 const BillDetail = () => {
   const [bill, setBill] = useState({});
   const [products, setProducts] = useState([]);
@@ -62,25 +63,8 @@ const BillDetail = () => {
   };
   return (
     <div>
-      <div className="breadcrumb-bar-two">
-        <div className="container">
-          <div className="row align-items-center inner-banner">
-            <div className="col-md-12 col-12 text-center">
-              <h2 className="breadcrumb-title">Chi tiết hóa đơn</h2>
-              <nav aria-label="breadcrumb" className="page-breadcrumb">
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item">
-                  <Link to={`/`} >Trang chủ</Link>
-                  </li>
-                  <li className="breadcrumb-item" aria-current="page">
-                    Chi tiết hóa đơn
-                  </li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div>
+                  <BreadcrumbBar title="CHI TIẾT HÓA ĐƠN" lable="Chi tiết hóa đơn" />
+
       <div className="content">
         <div className="container">
           <div className="row">
@@ -163,11 +147,8 @@ const BillDetail = () => {
                               <label className="mb-2">
                                 <strong>Ghi chú</strong>
                               </label>
-                              <textarea
-                                className="form-control"
-                                rows="4"
-                                value={bill.description}
-                              />
+                              <div dangerouslySetInnerHTML={{ __html: bill.description }} />
+
                             </>
                           )}
                         </div>

@@ -4,6 +4,7 @@ import Sidebar from "./Sidebar";
 import axios from "axios";
 import LoadingSkeleton from "../Loading";
 import TopLink from "../../Link/TopLink";
+import BreadcrumbBar from "../BreadcrumbBar";
 const AppointmentDetail = () => {
   const [appointments, setAppointments] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Khởi tạo isLoading
@@ -61,25 +62,8 @@ const AppointmentDetail = () => {
     <div>
       {" "}
       <div>
-        <div className="breadcrumb-bar-two">
-          <div className="container">
-            <div className="row align-items-center inner-banner">
-              <div className="col-md-12 col-12 text-center">
-                <h2 className="breadcrumb-title">Chi tiết lịch khám</h2>
-                <nav aria-label="breadcrumb" className="page-breadcrumb">
-                  <ol className="breadcrumb">
-                    <li className="breadcrumb-item">
-                    <Link to={`/`} >Trang chủ</Link>
-                    </li>
-                    <li className="breadcrumb-item" aria-current="page">
-                      Chi tiết lịch khám
-                    </li>
-                  </ol>
-                </nav>
-              </div>
-            </div>
-          </div>
-        </div>
+      <BreadcrumbBar title="CHI TIẾT LỊCH KHÁM" lable="Chi tiết lịch khám" />
+
         <div className="content">
           <div className="container">
             <div className="row">
@@ -277,7 +261,8 @@ const AppointmentDetail = () => {
                                     Ghi chú :
                                   </span>
                                   <span className="profile-value">
-                                    {appointments.description}
+                                  <div dangerouslySetInnerHTML={{ __html: appointments.description }} />
+
                                   </span>
                                 </>
                               )}

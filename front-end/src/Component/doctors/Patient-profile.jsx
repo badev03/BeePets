@@ -9,6 +9,7 @@ import logoutDoctor from '../../api/logoutDoctor';
 import PatientBill from './PatientBill';
 import LoadingSkeleton from '../Loading';
 import Prescription from './Prescription';
+import BreadcrumbBar from '../BreadcrumbBar';
 
 const Patientprofile = () => {
   const { id } = useParams();
@@ -96,21 +97,8 @@ const Patientprofile = () => {
   }
   return (
     <div>
-      <div className="breadcrumb-bar-two">
-        <div className="container">
-          <div className="row align-items-center inner-banner">
-            <div className="col-md-12 col-12 text-center">
-              <h2 className="breadcrumb-title">Chi tiết bệnh nhân</h2>
-              <nav aria-label="breadcrumb" className="page-breadcrumb">
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item"><Link to="/">Trang chủ</Link></li>
-                  <li className="breadcrumb-item" aria-current="page">Chi tiết bệnh nhân</li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div>
+             <BreadcrumbBar title="CHI TIẾT KHÁCH HÀNG" lable="Chi tiết khách hàng" />
+
       <div className="content">
         <div className="container">
           <div className="row">

@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import servicesDetailApi from '../../api/serviceApi';
 import LoadingSkeleton from '../Loading';
 import serviceApi from '../../api/serviceApi';
+import BreadcrumbBar from '../BreadcrumbBar';
 
 const ServiceDetails = () => {
     const { slug } = useParams();
@@ -48,21 +49,8 @@ const ServiceDetails = () => {
 
     return (
         <>
-            <div className="breadcrumb-bar-two">
-                <div className="container">
-                    <div className="row align-items-center inner-banner">
-                        <div className="col-md-12 col-12 text-center">
-                            <h2 className="breadcrumb-title">CHI TIẾT DỊCH VỤ</h2>
-                            <nav aria-label="breadcrumb" className="page-breadcrumb">
-                                <ol className="breadcrumb">
-                                    <li className="breadcrumb-item"><Link to={`/`}>Trang Chủ</Link></li>
-                                    <li className="breadcrumb-item" aria-current="page">Tiêm chủng</li>
-                                </ol>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        <BreadcrumbBar title="CHI TIẾT DỊCH VỤ" lable="CHi tiết dịch vụ" />
+
             <div className="content">
                 <div className="container">
                     <div className="row">

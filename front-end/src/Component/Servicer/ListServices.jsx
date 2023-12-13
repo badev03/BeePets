@@ -7,6 +7,7 @@ import serviceApi from '../../api/serviceApi';
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import TopLink from "../../Link/TopLink";
 import LoadingSkeleton from '../Loading';
+import BreadcrumbBar from '../BreadcrumbBar';
 
 const ListServices = () => {
     const [blogs, setBlogs] = useState([]);
@@ -59,25 +60,8 @@ const ListServices = () => {
     };
     return (
         <>
-            <div className="breadcrumb-bar-two">
-                <div className="container">
-                    <div className="row align-items-center inner-banner">
-                        <div className="col-md-12 col-12 text-center">
-                            <h2 className="breadcrumb-title">DỊCH VỤ</h2>
-                            <nav aria-label="breadcrumb" className="page-breadcrumb">
-                                <ol className="breadcrumb">
-                                    <li className="breadcrumb-item">
-                                        <TopLink to="/">Trang Chủ</TopLink>
-                                    </li>
-                                    <li className="breadcrumb-item" aria-current="page">
-                                        Dịch Vụ
-                                    </li>
-                                </ol>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        <BreadcrumbBar title="DỊCH VỤ" lable="Dịch vụ" />
+
             <div className="content">
                 <div className="container">
                     <div className="row">

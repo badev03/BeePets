@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import doctorsApi from '../../api/doctorsApi'
 import LoadingSkeleton from '../Loading';
+import BreadcrumbBar from '../BreadcrumbBar';
 
 const Profile = () => {
    const [doctor, setDoctors] = useState("");
@@ -35,21 +36,8 @@ const Profile = () => {
 
     return (
         <div>
-            <div className="breadcrumb-bar-two">
-                <div className="container">
-                    <div className="row align-items-center inner-banner">
-                        <div className="col-md-12 col-12 text-center">
-                            <h2 className="breadcrumb-title">Thông tin bác sĩ</h2>
-                            <nav aria-label="breadcrumb" className="page-breadcrumb">
-                                <ol className="breadcrumb">
-                                    <li className="breadcrumb-item"><Link to="/">Trang chủ</Link></li>
-                                    <li className="breadcrumb-item" aria-current="page">Thông tin bác sĩ</li>
-                                </ol>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                         <BreadcrumbBar title="THÔNG TIN BÁC SĨ" lable="Thông tin bác sĩ" />
+
             <div className="content">
                 <div className="container">
                     <div className="row">

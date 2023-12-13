@@ -5,6 +5,7 @@ import { useState } from 'react'
 import reviewsDoctorApi from '../../api/reviews-doctor'
 import axios from 'axios'
 import LoadingSkeleton from '../Loading'
+import BreadcrumbBar from '../BreadcrumbBar'
 
 
 
@@ -45,21 +46,8 @@ const Review = () => {
 
   return (
     <div>
-      <div className="breadcrumb-bar-two">
-        <div className="container">
-          <div className="row align-items-center inner-banner">
-            <div className="col-md-12 col-12 text-center">
-              <h2 className="breadcrumb-title">Đánh giá</h2>
-              <nav aria-label="breadcrumb" className="page-breadcrumb">
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item"><Link to="/">Trang chủ</Link></li>
-                  <li className="breadcrumb-item" aria-current="page">Đánh giá</li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div>
+                 <BreadcrumbBar title="ĐÁNH GIÁ" lable="Dánh giá" />
+
       <div className="content">
         <div className="container">
           <div className="row">

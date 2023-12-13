@@ -6,6 +6,7 @@ import blogApi from "../../api/blogApi";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import TopLink from "../../Link/TopLink";
 import LoadingSkeleton from "../Loading";
+import BreadcrumbBar from "../BreadcrumbBar";
 
 const BlogList = () => {
   const [blogs, setBlogs] = useState("");
@@ -75,25 +76,8 @@ const BlogList = () => {
 
   return (
     <>
-      <div className="breadcrumb-bar-two">
-        <div className="container">
-          <div className="row align-items-center inner-banner">
-            <div className="col-md-12 col-12 text-center">
-              <h2 className="breadcrumb-title">TIN TỨC</h2>
-              <nav aria-label="breadcrumb" className="page-breadcrumb">
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item">
-                    <TopLink to="/">Trang Chủ</TopLink>
-                  </li>
-                  <li className="breadcrumb-item" aria-current="page">
-                    Tin Tức
-                  </li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div>
+               <BreadcrumbBar title="TIN TỨC" lable="Tin tức" />
+
       <div className="content">
         <div className="container">
           <div className="row">
@@ -112,6 +96,7 @@ const BlogList = () => {
                                   className="img-fluid"
                                   src={blog.image}
                                   alt="Post Image"
+                        
                                 />
                               </Link>
                             </div>

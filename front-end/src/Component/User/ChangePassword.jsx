@@ -70,19 +70,8 @@ const ChangePasswordUser = () => {
 
   return (
     <div>
-      <div className="breadcrumb-bar-two"> <div className="container">
-        <div className="row align-items-center inner-banner">
-          <div className="col-md-12 col-12 text-center">
-            <h2 className="breadcrumb-title">Thay đổi mật khẩu</h2>
-            <nav aria-label="breadcrumb" className="page-breadcrumb">
-              <ol className="breadcrumb">
-                <li className="breadcrumb-item"><Link to={`/`} >Trang chủ</Link></li>
-                <li className="breadcrumb-item" aria-current="page">Thay đổi mật khẩu</li>
-              </ol>
-            </nav>
-          </div>
-        </div>
-      </div></div>
+                 <BreadcrumbBar title="THAY ĐỔI MẬT KHẨU" lable="Thay đổi mật khẩu" />
+
       <div className="content">
         <div className="container">
           <div className="row">

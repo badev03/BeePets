@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import LoadingSkeleton from "../Loading";
 import { Modal, Form, Input, Button, Dropdown, Menu } from "antd";
+import BreadcrumbBar from "../BreadcrumbBar";
 
 const MySwal = withReactContent(Swal);
 
@@ -278,25 +279,8 @@ const Dashboarddoctors = () => {
     ));
   return (
     <div>
-      <div className="breadcrumb-bar-two">
-        <div className="container">
-          <div className="row align-items-center inner-banner">
-            <div className="col-md-12 col-12 text-center">
-              <h2 className="breadcrumb-title">Bảng điều khiển</h2>
-              <nav aria-label="breadcrumb" className="page-breadcrumb">
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item">
-                    <Link to="/">Trang chủ</Link>
-                  </li>
-                  <li className="breadcrumb-item" aria-current="page">
-                    Bảng điều khiển
-                  </li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div>
+                 <BreadcrumbBar title="BẢNG ĐIỀU KHIỂN" lable="Bảng điều khiển" />
+
       <div className="content">
         <div className="container">
           <div className="row">

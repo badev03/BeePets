@@ -7,6 +7,7 @@ import axios from "axios";
 import { FaSpinner } from "react-icons/fa";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import BreadcrumbBar from "../BreadcrumbBar";
 const MySwal = withReactContent(Swal);
 const ProfileSetting = () => {
   const [previewImage, setPreviewImage] = useState("");
@@ -145,25 +146,8 @@ const ProfileSetting = () => {
 
   return (
     <div>
-      <div className="breadcrumb-bar-two">
-        <div className="container">
-          <div className="row align-items-center inner-banner">
-            <div className="col-md-12 col-12 text-center">
-              <h2 className="breadcrumb-title">Thông tin cá nhân</h2>
-              <nav aria-label="breadcrumb" className="page-breadcrumb">
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item">
-                    <Link to={`/`} >Trang chủ</Link>
-                  </li>
-                  <li className="breadcrumb-item" aria-current="page">
-                    Thông tin cá nhân
-                  </li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div>
+                   <BreadcrumbBar title="THÔNG TIN CÁ NHÂN" lable="Thông tin cá nhân" />
+
       <div className="content">
         <div className="container">
           <div className="row">

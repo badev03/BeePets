@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import axios from "axios";
 import LoadingSkeleton from "../Loading";
+import BreadcrumbBar from "../BreadcrumbBar";
 
 const PrescriptionDetails = () => {
   const [prescriptions, setPrescriptions] = useState([]);
@@ -51,25 +52,8 @@ const PrescriptionDetails = () => {
     <div>
       {" "}
       <div>
-        <div className="breadcrumb-bar-two">
-          <div className="container">
-            <div className="row align-items-center inner-banner">
-              <div className="col-md-12 col-12 text-center">
-                <h2 className="breadcrumb-title">Chi tiết đơn thuốc</h2>
-                <nav aria-label="breadcrumb" className="page-breadcrumb">
-                  <ol className="breadcrumb">
-                    <li className="breadcrumb-item">
-                      <a href="index.html">Trang chủ</a>
-                    </li>
-                    <li className="breadcrumb-item" aria-current="page">
-                      Chi tiết đơn thuốc
-                    </li>
-                  </ol>
-                </nav>
-              </div>
-            </div>
-          </div>
-        </div>
+      <BreadcrumbBar title="CHI TIẾT ĐƠN THUỐC" lable="Chi tiết đơn thuốc" />
+
         <div className="content">
           <div className="container">
             <div className="row">
