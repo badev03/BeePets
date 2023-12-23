@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import LoadingSkeleton from "../Loading";
 import { Modal, Form, Input, Button } from "antd";
+import BreadcrumbBar from "../BreadcrumbBar";
 
 const MySwal = withReactContent(Swal);
 
@@ -39,7 +40,7 @@ const AcceptDetailAppointment = () => {
   if (token) {
     useEffect(() => {
       fetchAppointment();
-    }, []);
+    }, [appointments]);
   }
   const handleUpdate = async (id) => {
     setLoadingId(id);
@@ -156,6 +157,7 @@ const AcceptDetailAppointment = () => {
       currency: "VND",
     });
   };
+  console.log(appointments);
   if (!appointments) {
     return <LoadingSkeleton />;
   }
@@ -163,25 +165,8 @@ const AcceptDetailAppointment = () => {
     <div>
       {" "}
       <div>
-        <div className="breadcrumb-bar-two">
-          <div className="container">
-            <div className="row align-items-center inner-banner">
-              <div className="col-md-12 col-12 text-center">
-                <h2 className="breadcrumb-title">Chi tiết lịch khám</h2>
-                <nav aria-label="breadcrumb" className="page-breadcrumb">
-                  <ol className="breadcrumb">
-                    <li className="breadcrumb-item">
-                      <Link to="/">Trang chủ</Link>
-                    </li>
-                    <li className="breadcrumb-item" aria-current="page">
-                      Chi tiết lịch khám
-                    </li>
-                  </ol>
-                </nav>
-              </div>
-            </div>
-          </div>
-        </div>
+      <BreadcrumbBar title="CHI TIẾT LỊCH KHÁM" lable="Chi tiết lịch khám" />
+    
         <div className="content">
           <div className="container">
             <div className="row">
@@ -197,7 +182,7 @@ const AcceptDetailAppointment = () => {
                   <div className="card-body">
                     <form>
                       <div className="row">
-                        <div className="col-xl-6">
+                        <div className="col-xl-8">
                           {" "}
                           <div className="profile-info">
                             <div className="profile-item">
@@ -214,10 +199,16 @@ const AcceptDetailAppointment = () => {
                                 {appointments.doctor_name}
                               </span>
                             </div>
-                            <div className="profile-item">
+                            <div className=" profile-item">
                               <span className="profile-label">Dịch vụ:</span>
                               <span className="profile-value">
                                 {appointments.service_name}
+                              </span>
+                            </div>    
+                            <div className="profile-item">
+                              <span className="profile-label">Loại thú cưng:</span>
+                              <span className="profile-value">
+                                {appointments.type_pet_name}
                               </span>
                             </div>
                             <div className="profile-item">
@@ -253,8 +244,7 @@ const AcceptDetailAppointment = () => {
                           ) : null}
                             <div className="profile-item">
                               <span className="profile-label">Ghi chú:</span>
-                              <span className="profile-value">
-                                {appointments.description}
+                              <span className="profile-value" dangerouslySetInnerHTML={{ __html: appointments.description }}>
                               </span>
                             </div>
                             <div className="profile-item">
@@ -299,7 +289,7 @@ const AcceptDetailAppointment = () => {
                           </div>
                         </div>
 
-                        <div className="col-xl-6">
+                        <div className="col-xl-4">
                           {" "}
                           {appointments.doctor_image ? (
                             <div className="profile-img d-flex justify-content-center align-items-center">
@@ -308,7 +298,7 @@ const AcceptDetailAppointment = () => {
                                 alt="User Image"
                                 className="rounded-0"
                                 style={{
-                                  width: "50%",
+                                  width: "100%",
                                   border: "none",
                                   marginBottom: "20px",
                                 }}

@@ -4,6 +4,7 @@ import blogApi from "../../api/BlogApi";
 import BlogSideBar from "./BlogSideBar";
 import LoadingSkeleton from "../Loading";
 import TopLink from "../../Link/TopLink";
+import BreadcrumbBar from "../BreadcrumbBar";
 
 
 const BlogDetails = () => {
@@ -29,25 +30,8 @@ const BlogDetails = () => {
 
   return (
     <>
-      <div className="breadcrumb-bar-two">
-        <div className="container">
-          <div className="row align-items-center inner-banner">
-            <div className="col-md-12 col-12 text-center">
-              <h2 className="breadcrumb-title">CHI TIẾT TIN TỨC</h2>
-              <nav aria-label="breadcrumb" className="page-breadcrumb">
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item">
-                    <TopLink to="/">Trang Chủ</TopLink>
-                  </li>
-                  <li className="breadcrumb-item" aria-current="page">
-                    Chi tiết tin tức
-                  </li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div>
+          <BreadcrumbBar title="CHI TIẾT TIN TỨC" lable="Chi tiết tin tức" />
+
       <div className="content">
         <div className="container">
           <div className="row">

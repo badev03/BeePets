@@ -11,6 +11,7 @@ import LoadingSkeleton from "../Loading";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import BreadcrumbBar from "../BreadcrumbBar";
 const MySwal = withReactContent(Swal);
 
 const Editbill = () => {
@@ -357,25 +358,8 @@ const Editbill = () => {
 
   return (
       <div>
-        <div className="breadcrumb-bar-two">
-          <div className="container">
-            <div className="row align-items-center inner-banner">
-              <div className="col-md-12 col-12 text-center">
-                <h2 className="breadcrumb-title">Sửa hóa đơn</h2>
-                <nav aria-label="breadcrumb" className="page-breadcrumb">
-                  <ol className="breadcrumb">
-                    <li className="breadcrumb-item">
-                      <Link to="/">Trang chủ</Link>
-                    </li>
-                    <li className="breadcrumb-item" aria-current="page">
-                      Thêm hóa đơn
-                    </li>
-                  </ol>
-                </nav>
-              </div>
-            </div>
-          </div>
-        </div>
+                    <BreadcrumbBar title="SỬA HÓA ĐƠN" lable="Sửa hóa đơn" />
+
         <div className="content">
           <div className="container">
             <div className="row">

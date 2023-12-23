@@ -4,6 +4,7 @@ import serviceApi from '../../api/serviceApi';
 import Search from './Search';
 import LoadingSkeleton from '../Loading';
 import { Link } from 'react-router-dom';
+import BreadcrumbBar from '../BreadcrumbBar';
 const FilterService = () => {
   const [services, setServices] = useState(null);
   const [selectedServices, setSelectedServices] = useState([]);
@@ -43,21 +44,8 @@ const FilterService = () => {
   }
   return (
     <div>
-  <div className="breadcrumb-bar-two">
-    <div className="container">
-      <div className="row align-items-center inner-banner">
-        <div className="col-md-12 col-12 text-center">
-          <h2 className="breadcrumb-title">BÁC SĨ</h2>
-          <nav aria-label="breadcrumb" className="page-breadcrumb">
-            <ol className="breadcrumb">
-            <li className="breadcrumb-item"><Link to={`/`}>Trang chủ</Link></li>
-              <li className="breadcrumb-item" aria-current="page"> Bác Sĩ</li>
-            </ol>
-          </nav>
-        </div>
-      </div>
-    </div>
-  </div>
+              <BreadcrumbBar title="BÁC SĨ" lable="Bác sĩ" />
+
   <div className="content">
     <div className="container">
       <div className="row">

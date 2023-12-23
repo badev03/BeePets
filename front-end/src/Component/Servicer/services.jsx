@@ -48,12 +48,12 @@ const Services = () => {
     {services.map((service, index) => (
         <div className="col-lg-3 col-md-4 col-sm-12 d-flex" key={service.id}>
             <div className="our-services-list w-100">
-                <Link to={`/service-detail/${service.slug}`}>
+                <Link to={`/services/${service.slug}`}>
                     <div className="service-icon">
-                        {index === 0 && <img src="../src/assets/img/icons/injection.svg" alt="injection-icon" />}
-                        {index === 1 && <img src="../src/assets/img/icons/pet-doctor.svg" alt="injection-icon" />}
-                        {index === 2 && <img src="../src/assets/img/icons/bath-tub.svg" alt="injection-icon" />}
-                        {index === 3 && <img src="../src/assets/img/icons/bottel.svg" alt="injection-icon" />}
+                        {index === 0 && <img src="/assets/img/icons/injection.svg" alt="injection-icon" />}
+                        {index === 1 && <img src="/assets/img/icons/pet-doctor.svg" alt="injection-icon" />}
+                        {index === 2 && <img src="/assets/img/icons/bath-tub.svg" alt="injection-icon" />}
+                        {index === 3 && <img src="/assets/img/icons/bottel.svg" alt="injection-icon" />}
                     </div>
                     <h4>{limitWords(service.name, 5)}</h4>
                 </Link>

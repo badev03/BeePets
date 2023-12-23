@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import LoadingSkeleton from "../Loading";
 import { Modal, Form, Input, Button, Dropdown, Menu } from "antd";
+import BreadcrumbBar from "../BreadcrumbBar";
 
 const MySwal = withReactContent(Swal);
 
@@ -164,7 +165,7 @@ const Dashboarddoctors = () => {
       <tr key={appointment.id}>
         <td>
           <h2 className="table-avatar">
-            <Link to="patient-profile.html" className="avatar avatar-sm me-2">
+            <Link to={`/doctors/patient-profile/${appointment.user.id}`} className="avatar avatar-sm me-2">
               <img
                 className="avatar-img rounded-circle"
                 src={
@@ -175,7 +176,7 @@ const Dashboarddoctors = () => {
                 alt="User Image"
               />
             </Link>
-            <Link to="patient-profile.html">{appointment.user.name} </Link>
+            <Link to={`/doctors/patient-profile/${appointment.user.id}`}>{appointment.user.name} </Link>
           </h2>
         </td>
         <td>
@@ -265,12 +266,12 @@ const Dashboarddoctors = () => {
                 </Menu>
               }
             >
-              <a
+              <Link
                 className="btn btn-sm bg-info-light"
                 onClick={(e) => e.preventDefault()}
               >
                 Hành động
-              </a>
+              </Link>
             </Dropdown>
           </div>
         </td>
@@ -278,25 +279,8 @@ const Dashboarddoctors = () => {
     ));
   return (
     <div>
-      <div className="breadcrumb-bar-two">
-        <div className="container">
-          <div className="row align-items-center inner-banner">
-            <div className="col-md-12 col-12 text-center">
-              <h2 className="breadcrumb-title">Bảng điều khiển</h2>
-              <nav aria-label="breadcrumb" className="page-breadcrumb">
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item">
-                    <Link to="/">Trang chủ</Link>
-                  </li>
-                  <li className="breadcrumb-item" aria-current="page">
-                    Bảng điều khiển
-                  </li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div>
+                 <BreadcrumbBar title="BẢNG ĐIỀU KHIỂN" lable="Bảng điều khiển" />
+
       <div className="content">
         <div className="container">
           <div className="row">

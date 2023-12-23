@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
       try {
         const parsedUser = JSON.parse(savedUser);
         setUser(parsedUser);
-        setRole(parsedUser.role_id === 4 ? 'user' : 'doctor');
+        setRole(parsedUser.role_id == 4 ? 'user' : 'doctor');
       } catch (error) {
         console.error("Lỗi khi parse dữ liệu từ localStorage:", error);
       }
@@ -50,3 +50,4 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+

@@ -16,6 +16,7 @@ import {Dropdown} from "bootstrap";
 
 const Header = () => {
   const { isLoggedIn, onLogout, token, role } = useAuth();
+
   const navigate = useNavigate();
   const [noti, setNoti] = useState([]);
   const [countNotification , setCountNotification] = useState(0);
@@ -113,7 +114,7 @@ const Header = () => {
   }, [data]);
 
   const handleCheckAccount = (data) => {
-    if (data?.role_id === 4) {
+    if (data?.role_id == 4) {
       return true;
     } else {
       return false;
@@ -121,7 +122,7 @@ const Header = () => {
   };
 
   const handleGetNotice = async (data) => {
-    if (data?.role_id === 4) {
+    if (data?.role_id == 4) {
       const response = await notification.getUser({
         headers: {
           Authorization: `Bearer ${token}`,
@@ -228,7 +229,7 @@ const Header = () => {
               <div className="menu-header">
                 <TopLink to="/" className="menu-logo">
                   <img
-                      src="../src/assets/img/logo.png"
+                      src="/assets/img/logo.png"
                       className="img-fluid"
                       alt="Logo"
                   />
@@ -241,7 +242,7 @@ const Header = () => {
               <ul className="main-nav">
                 <li
                     className={`has-submenu megamenu ${
-                        isActive(["/doctor", "/doctors", "/abouts", "/blog"])
+                        isActive(["/doctor", "/doctors", "/abouts", "/blog","/services"])
                             ? "active"
                             : ""
                     }`}
@@ -270,15 +271,14 @@ const Header = () => {
                     }`}
                 >
                   <TopLink to="/blog">TIN TỨC </TopLink>
-                  
-                </li>
+                  </li>
                 <li
                     className={`has-submenu ${
                         location.pathname.startsWith("/services") ? "active" : ""
                     }`}
                 >
                   <TopLink to="/services">DỊCH VỤ </TopLink>
-                  
+
                 </li>
                 {role !== "doctor" && (
                     <div
@@ -288,7 +288,6 @@ const Header = () => {
                           color: "white",
                         }}
                     >
-                      
                       <Button style={{ color: "white" }} type="primary">
                         <BookingUser />
                       </Button>
@@ -392,7 +391,7 @@ const Header = () => {
                           <div className="user-text">
                             <h6>{data?.name}</h6>
                             <p className="text-muted mb-0">
-                              {handleCheckAccount(data) ? "User" : "Doctor"}
+                              {handleCheckAccount(data) ? "Khách Hàng" : "Bác Sĩ"}
                             </p>
                           </div>
                         </div>

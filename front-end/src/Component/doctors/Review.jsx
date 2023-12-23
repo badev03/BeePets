@@ -5,6 +5,7 @@ import { useState } from 'react'
 import reviewsDoctorApi from '../../api/reviews-doctor'
 import axios from 'axios'
 import LoadingSkeleton from '../Loading'
+import BreadcrumbBar from '../BreadcrumbBar'
 
 
 
@@ -26,7 +27,7 @@ import LoadingSkeleton from '../Loading'
 // }, []);
 
 const Review = () => {
-  const [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState("");
   const token = localStorage.getItem('token');
   useEffect(() => {
     getReview();
@@ -40,28 +41,13 @@ const Review = () => {
       console.error("Không có dữ liệu:", error);
     }
   }
-  if (!reviews) {
-    return <LoadingSkeleton/>;
-  }
+  
 
 
   return (
     <div>
-      <div className="breadcrumb-bar-two">
-        <div className="container">
-          <div className="row align-items-center inner-banner">
-            <div className="col-md-12 col-12 text-center">
-              <h2 className="breadcrumb-title">Đánh giá</h2>
-              <nav aria-label="breadcrumb" className="page-breadcrumb">
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item"><Link to="/">Trang chủ</Link></li>
-                  <li className="breadcrumb-item" aria-current="page">Đánh giá</li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div>
+                 <BreadcrumbBar title="ĐÁNH GIÁ" lable="Dánh giá" />
+
       <div className="content">
         <div className="container">
           <div className="row">
@@ -70,7 +56,8 @@ const Review = () => {
             </div>
             <div className="col-md-7 col-lg-8 col-xl-9">
               <div className="doc-review review-listing">
-                {reviews.length > 0 ? (
+                {!reviews ? ( <div> <LoadingSkeleton/></div>) 
+                : reviews.length > 0 ? (
 
                   reviews.map((item, index) => {
                     return (<ul className="comments-list" key={index}>
@@ -104,7 +91,7 @@ const Review = () => {
                     </ul>)
                   })
 
-                ) : (<p>Không có đánh giá nào ở đây !</p>)
+                )  : (<p>Không có đánh giá nào ở đây !</p>)
                 }
 
               </div>

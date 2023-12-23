@@ -7,6 +7,7 @@ import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal);
 import { useAuth } from "../../Context/ContextAuth";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const ChangePasswordUser = () => {
   const { token } = useAuth();
@@ -69,7 +70,8 @@ const ChangePasswordUser = () => {
 
   return (
     <div>
-      <div className="breadcrumb-bar-two">{/* Breadcrumb code */}</div>
+                 <BreadcrumbBar title="THAY ĐỔI MẬT KHẨU" lable="Thay đổi mật khẩu" />
+
       <div className="content">
         <div className="container">
           <div className="row">

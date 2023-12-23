@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Menudashboard from '../Menu-dashboard'
 import BillUser from './Bill-user';
 import CancellationInvoice from './Cancellation-invoice';
+import BreadcrumbBar from '../../BreadcrumbBar';
 
 const CustomerInvoice = () => {
     const [activeTab, setActiveTab] = useState('bill');
@@ -9,21 +10,9 @@ const CustomerInvoice = () => {
         setActiveTab(tab);
     };
     return (
-        <div><div className="breadcrumb-bar-two">
-            <div className="container">
-                <div className="row align-items-center inner-banner">
-                    <div className="col-md-12 col-12 text-center">
-                        <h2 className="breadcrumb-title">Hóa đơn khách hàng</h2>
-                        <nav aria-label="breadcrumb" className="page-breadcrumb">
-                            <ol className="breadcrumb">
-                                <li className="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
-                                <li className="breadcrumb-item" aria-current="page">Hóa đơn khách hàng</li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div>
+                     <BreadcrumbBar title="HÓA ĐƠN KHÁCH HÀNG" lable="Hóa đơn khách hàng" />
+
             <div className="content">
                 <div className="container">
                     <div className="row">

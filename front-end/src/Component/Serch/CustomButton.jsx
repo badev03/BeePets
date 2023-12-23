@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Modal, Button, DatePicker, Form, Input, Row, Col, Select } from "antd";
+import { Modal, Button, DatePicker, Form, Input, Row, Col, Select, Result } from "antd";
 import BookingApi from "../../api/bookingApi";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -228,7 +228,42 @@ const CustomButton = ({ doctorId, handleBookingg }) => {
       setSelectedPhone(user.phone);
     }
   }, [user]);
-
+  const CustomNotFoundDoctor = (
+    <Result
+    
+    style={{ height: '50px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}
+      title="Không tìm thấy bác sĩ"
+      icon={null}
+      subTitle="Rất tiếc, không có bác sĩ nào khớp với tìm kiếm của bạn."
+    />
+  );
+  const CustomNotFoundService = (
+    <Result
+    
+    style={{ height: '50px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}
+      title="Không tìm thấy dịch vụ"
+      icon={null}
+      subTitle="Rất tiếc, không có dịch vụ nào khớp với tìm kiếm của bạn."
+    />
+  );
+  const CustomNotFoundPets = (
+    <Result
+    
+    style={{ height: '50px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}
+      title="Không tìm thấy thú cưng"
+      icon={null}
+      subTitle="Rất tiếc, không có thú cưng nào khớp với tìm kiếm của bạn."
+    />
+  );
+  const CustomNotFoundTime = (
+    <Result
+    
+    style={{ height: '50px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}
+      title="Không tìm thấy ca làm việc"
+      icon={null}
+      subTitle="Rất tiếc, không có ca làm việc nào khớp với tìm kiếm của bạn."
+    />
+    )
   const disabledDate = (current) => {
     const today = moment();
     return current && current < today.startOf("day");
@@ -256,6 +291,34 @@ const CustomButton = ({ doctorId, handleBookingg }) => {
         cancelButtonProps={{ style: { display: "none" } }}
       >
         <Form layout="vertical" form={form} onFinish={handleBooking}>
+        {fetchedData &&
+                fetchedData.data &&
+                fetchedData.data[0].services && (
+                  <Form.Item
+                  label="Chọn Dịch Vụ"
+                  name="Chọn Dịch Vụ"
+                  mode="multiple"
+          
+                  allowClear
+                  rules={[{ required: true, message: "Vui lòng nhập dịch vụ" }]}
+              >
+                    <Select
+                      style={{height:33}}
+                      notFoundContent={CustomNotFoundService}
+                      placeholder="Dịch Vụ"
+                      mode="multiple"
+                     
+                      allowClear
+                      value={selectedService}
+                      onChange={handleChangeService}
+                      options={fetchedData.data[0].services.map((service) => ({
+                        value: service.id,
+                        label: service.name,
+                      }))}
+                      loading={loadingService}
+                    />
+                  </Form.Item>
+                )}
           <Row gutter={16}>
             <Col span={12}>
               {fetchedData &&
@@ -277,44 +340,22 @@ const CustomButton = ({ doctorId, handleBookingg }) => {
                 )}
             </Col>
             <Col span={12}>
-              {fetchedData &&
-                fetchedData.data &&
-                fetchedData.data[0].services && (
-                  <Form.Item
-                    label="Chọn Dịch Vụ"
-                    name="Chọn Dịch Vụ"
-                    rules={[
-                      { required: true, message: "Vui lòng nhập dịch vụ" },
-                    ]}
-                  >
-                    <Select
-                      // key={selectedService}
-                      placeholder="Dịch Vụ"
-                      value={selectedService}
-                      onChange={handleChangeService}
-                      options={fetchedData.data[0].services.map((service) => ({
-                        value: service.id,
-                        label: service.name,
-                      }))}
-                      loading={loadingService}
-                    />
-                  </Form.Item>
-                )}
-            </Col>
-          </Row>
-          <Row gutter={16}>
-            <Col span={12}>
               <Form.Item
+              
                 label="Chọn Ngày"
                 name="Chọn Ngày"
                 rules={[{ required: true, message: "Vui lòng nhập chọn ngày" }]}
               >
                 <DatePicker
+                style={{width:'100%'}}
                   onChange={handleChangeDate}
                   disabledDate={disabledDate}
                 />
               </Form.Item>
             </Col>
+          </Row>
+          <Row gutter={16}>
+        
             <Col span={12}>
               <Form.Item
                 label="Chọn Thời Gian"
@@ -322,6 +363,8 @@ const CustomButton = ({ doctorId, handleBookingg }) => {
                 rules={[{ required: true, message: "Vui lòng nhập chọn ca" }]}
               >
                 <Select
+                      notFoundContent={CustomNotFoundTime}
+
                   placeholder="Ca làm việc"
                   onChange={(value) => handleChangeShift(value)}
                   options={
@@ -336,23 +379,31 @@ const CustomButton = ({ doctorId, handleBookingg }) => {
                 />
               </Form.Item>
             </Col>
+            <Col span={12}>
+                <Form.Item
+                    label="Chọn loại thú cưng"
+                    name="Chọn loại thú cưng "
+                    rules={[
+                      { required: true, message: "Vui lòng nhập chọn loại thú cưng" },
+                    ]}
+                >
+                  <Select
+               style={{height:33}}
+                      notFoundContent={CustomNotFoundPets}
+                      placeholder="Thú cưng"
+                      mode="multiple"
+                
+                      allowClear
+                      onChange={handleChangePet}
+                      options={typePet.map((pet) => ({
+                        value: pet.id,
+                        label: pet.name,
+                      }))}
+                  />
+                </Form.Item>
+              </Col>
           </Row>
-          <Form.Item
-            label="Chọn loại thú cưng"
-            name="Chọn loại thú cưng "
-            rules={[
-              { required: true, message: "Vui lòng nhập chọn loại thú cưng" },
-            ]}
-          >
-            <Select
-              placeholder="Thú cưng"
-              onChange={handleChangePet}
-              options={typePet.map((pet) => ({
-                value: pet.id,
-                label: pet.name,
-              }))}
-            />
-          </Form.Item>
+         
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item

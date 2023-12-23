@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import ReactPaginate from "react-paginate";
-import BlogSideBar from "./BlogSideBar";
-import blogApi from "../../api/blogApi";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import TopLink from "../../Link/TopLink";
+import LoadingSkeleton from "../Loading";
+import BreadcrumbBar from "../BreadcrumbBar";
+import BlogSideBar from "./BlogSideBar";
+import blogApi from "../../api/blogApi";
 
 const BlogList = () => {
-  const [blogs, setBlogs] = useState([]);
-  const { id } = useParams()
+  const [blogs, setBlogs] = useState("");
+  const { id } = useParams();
   const [currentPage, setCurrentPage] = useState(0);
-  const [postsPerPage] = useState(2);
+  const [postsPerPage] = useState(4);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchedBlogs, setSearchedBlogs] = useState([]);
   const [showPagination, setShowPagination] = useState(true);
@@ -26,7 +28,7 @@ const BlogList = () => {
       setNoSearchResults(true);
     } else {
       setSearchedBlogs(searchResults);
-      setBlogs([]); 
+      setBlogs([]);
       setShowPagination(false);
       setNoSearchResults(false);
     }
@@ -37,8 +39,9 @@ const BlogList = () => {
       try {
         const response = await blogApi.getAll();
         if (id) {
+          console.log(response.new.data);
           const categoryBlogs = response.new.data.filter(
-            (blog) => console.log(blog.nameCategories) === id
+            (blog) => console.log(blog.categories_id) == id
           );
           setBlogs(categoryBlogs);
         } else {
@@ -65,49 +68,39 @@ const BlogList = () => {
   const indexOfFirstPost = currentPage * postsPerPage;
   const currentPosts = blogs.slice(indexOfFirstPost, indexOfLastPost);
 
+  if (!blogs) {
+    return <LoadingSkeleton />;
+  }
+
   const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
   };
 
   return (
     <>
-      <div className="breadcrumb-bar-two">
-        <div className="container">
-          <div className="row align-items-center inner-banner">
-            <div className="col-md-12 col-12 text-center">
-              <h2 className="breadcrumb-title">TIN TỨC</h2>
-              <nav aria-label="breadcrumb" className="page-breadcrumb">
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item">
-                    <TopLink to="/">Trang Chủ</TopLink>
-                  </li>
-                  <li className="breadcrumb-item" aria-current="page">
-                    Tin Tức
-                  </li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div>
+      <BreadcrumbBar title="TIN TỨC" lable="Tin tức" />
+
       <div className="content">
         <div className="container">
           <div className="row">
             <div className="col-lg-8 col-md-12">
-              <div className="row blog-grid-row">
-                {noSearchResults ? (
-                  <p>Không có tin tức</p>
-                ) : (
-                  searchedBlogs.length > 0
-                    ? searchedBlogs.map((blog) => (
-                        <div key={blog.id} className="col-md-6 col-sm-12">
-                          <div className="blog grid-blog">
+              {noSearchResults ? (
+                <h2 style={{textAlign:"center",paddingTop:"50px"}}>Không có tin tức mà bạn đang tìm kiếm !</h2>
+              ) : (
+                (searchedBlogs.length > 0 || blogs.length > 0) && (
+                  <>
+                    <div className="row blog-grid-row">
+                      {searchedBlogs.length > 0
+                        ? searchedBlogs.map((blog) => (
+                            <div key={blog.id} className="col-md-6 col-sm-12">
+                                <div className="blog grid-blog">
                             <div className="blog-image">
                               <Link to={`/blog/${blog.slug}`}>
                                 <img
                                   className="img-fluid"
                                   src={blog.image}
                                   alt="Post Image"
+                        
                                 />
                               </Link>
                             </div>
@@ -128,17 +121,18 @@ const BlogList = () => {
                               />
                             </div>
                           </div>
-                        </div>
-                      ))
-                    : currentPosts.map((blog) => (
-                        <div key={blog.id} className="col-md-6 col-sm-12">
-                          <div className="blog grid-blog">
+                            </div>
+                          ))
+                        : currentPosts.map((blog) => (
+                            <div key={blog.id} className="col-md-6 col-sm-12">
+                               <div className="blog grid-blog">
                             <div className="blog-image">
                               <Link to={`/blog/${blog.slug}`}>
                                 <img
                                   className="img-fluid"
                                   src={blog.image}
                                   alt="Post Image"
+                        
                                 />
                               </Link>
                             </div>
@@ -159,34 +153,34 @@ const BlogList = () => {
                               />
                             </div>
                           </div>
+                            </div>
+                          ))}
+                    </div>
+                    <div className="row">
+                      <div className="col-md-12">
+                        <div className="blog-pagination">
+                          {showPagination && (
+                            <ReactPaginate
+                              pageCount={Math.ceil(
+                                searchedBlogs.length > 0
+                                  ? searchedBlogs.length / postsPerPage
+                                  : blogs.length / postsPerPage
+                              )}
+                              pageRangeDisplayed={3}
+                              marginPagesDisplayed={1}
+                              onPageChange={handlePageClick}
+                              containerClassName={"pagination"}
+                              activeClassName={"active"}
+                              nextLabel={<FaChevronRight />}
+                              previousLabel={<FaChevronLeft />}
+                            />
+                          )}
                         </div>
-                      ))
-
-                )}
-
-              </div>
-              <div className="row">
-                <div className="col-md-12">
-                  <div className="blog-pagination">
-                    {showPagination && (
-                      <ReactPaginate
-                        pageCount={Math.ceil(
-                          searchedBlogs.length > 0
-                            ? searchedBlogs.length / postsPerPage
-                            : blogs.length / postsPerPage
-                        )}
-                        pageRangeDisplayed={3}
-                        marginPagesDisplayed={1}
-                        onPageChange={handlePageClick}
-                        containerClassName={"pagination"}
-                        activeClassName={"active"}
-                        nextLabel={<FaChevronRight />}
-                        previousLabel={<FaChevronLeft />}
-                      />
-                    )}
-                  </div>
-                </div>
-              </div>
+                      </div>
+                    </div>
+                  </>
+                )
+              )}
             </div>
             <BlogSideBar
               searchTerm={searchTerm}

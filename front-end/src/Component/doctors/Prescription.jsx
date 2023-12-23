@@ -72,14 +72,14 @@ const Prescription = () => {
           
           <td>
             <h2 className="table-avatar">
-              <a href="doctor-profile.html" className="avatar avatar-sm me-2">
+              <Link to={`/doctor/profile/vu-anh-ba`} className="avatar avatar-sm me-2">
                 <img
                   className="avatar-img rounded-circle"
                   src={appointment.doctor_image}
                   alt="User Image"
                 />
-              </a>
-              <a href="doctor-profile.html">{appointment.doctor_name} </a>
+              </Link>
+              <Link to={`/doctor/profile/vu-anh-ba`}>{appointment.doctor_name} </Link>
             </h2>
           </td>
           <td>

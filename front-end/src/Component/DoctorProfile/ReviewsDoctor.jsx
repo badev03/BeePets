@@ -152,7 +152,7 @@ const ReviewsDoctor = () => {
         </ul>
 
       </div>
-      {role !== "doctor" && ( 
+      {/* {role !== "doctor" && ( 
                  <div className="write-review">
                  <h4>Viết đánh giá cho <strong>Bác sĩ {doctor.name}</strong></h4>
                  <form onSubmit={handleAddReview}>
@@ -193,7 +193,7 @@ const ReviewsDoctor = () => {
                      </div>
                  </form>
                </div>
-              )}
+              )} */}
     
     </div>
 

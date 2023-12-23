@@ -26,7 +26,7 @@ const BlogSideBar = ({ onSearchChange, onSearchSubmit, searchTerm }) => {
         onSearchChange={onSearchChange}
         onSearchSubmit={onSearchSubmit}
       />
-      <div className="card category-widget">
+      {/* <div className="card category-widget">
         <div className="card-header">
           <h4 className="card-title">Danh mục</h4>
         </div>
@@ -42,7 +42,7 @@ const BlogSideBar = ({ onSearchChange, onSearchSubmit, searchTerm }) => {
             ))}
           </ul>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -15,6 +15,7 @@ import {
 import axios from "axios";
 import { DatePicker, Button } from "antd";
 import moment from "moment";
+import BreadcrumbBar from "../BreadcrumbBar";
 
 const StatisticalPet = () => {
   const [petData, setPetData] = useState({});
@@ -58,10 +59,8 @@ const StatisticalPet = () => {
 
   return (
     <div>
-      {/* Phần breadcrumb */}
-      {/* ... (Giả sử phần breadcrumb là đúng) */}
+                 <BreadcrumbBar title="THỐNG KÊ THÚ CƯNG" lable="Thống kê thú cưng" />
 
-      {/* Phần nội dung */}
       <div className="content">
         <div className="container">
           <div className="row">

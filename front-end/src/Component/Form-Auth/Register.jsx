@@ -7,14 +7,13 @@ import { toast, Toaster } from "react-hot-toast";
 import { auth } from "../../firebase/config";
 import OtpInput from "otp-input-react";
 import axios from "axios";
-
+import {linkSrc} from "../globalSrc.jsx";
 const Register = () => {
   const [otp, setOtp] = useState("");
   const [ph, setPh] = useState("");
   const [loading, setLoading] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
   const [user, setUser] = useState(null);
-
   function onCaptchVerify() {
     if (!window.recaptchaVerifier) {
       window.recaptchaVerifier = new RecaptchaVerifier(
@@ -109,7 +108,7 @@ const Register = () => {
                 <div className="row align-items-center justify-content-center">
                   <div className="col-md-7 col-lg-6 login-left">
                     <img
-                      src="src/assets/img/login-banner.png"
+                      src={linkSrc + "/assets/img/login-banner.png"}
                       className="img-fluid"
                       alt="Doccure Register"
                     />

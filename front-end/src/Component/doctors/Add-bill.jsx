@@ -7,6 +7,7 @@ import billApi from "../../api/bill";
 import { useAuth } from "../../Context/ContextAuth";
 import { useParams } from 'react-router-dom';
 import LoadingSkeleton from "../Loading";
+import BreadcrumbBar from "../BreadcrumbBar";
 
 const Addbill = () => {
   const { token } = useAuth();
@@ -118,25 +119,8 @@ const Addbill = () => {
       }
 return (
 <div>
-    <div className="breadcrumb-bar-two">
-      <div className="container">
-        <div className="row align-items-center inner-banner">
-          <div className="col-md-12 col-12 text-center">
-            <h2 className="breadcrumb-title">Thêm hóa đơn</h2>
-            <nav aria-label="breadcrumb" className="page-breadcrumb">
-              <ol className="breadcrumb">
-                <li className="breadcrumb-item">
-                  <Link to="/">Trang chủ</Link>
-                </li>
-                <li className="breadcrumb-item" aria-current="page">
-                  Thêm hóa đơn
-                </li>
-              </ol>
-            </nav>
-          </div>
-        </div>
-      </div>
-    </div>
+<BreadcrumbBar title="THÊM HÓA ĐƠN" lable="Thêm hóa đơn" />
+
     <div className="content">
       <div className="container">
         <div className="row">

@@ -15,6 +15,7 @@ import axios from "axios";
 import { Form, DatePicker, Button } from "antd";
 import moment from "moment";
 import LoadingSkeleton from "../../Loading";
+import BreadcrumbBar from "../../BreadcrumbBar";
 
 const StatisticAppointment = () => {
   const [appointmentData, setAppointmentData] = useState([]);
@@ -159,25 +160,8 @@ const StatisticAppointment = () => {
   return (
     <div>
       {/* Phần breadcrumb */}
-      <div className="breadcrumb-bar-two">
-        <div className="container">
-          <div className="row align-items-center inner-banner">
-            <div className="col-md-12 col-12 text-center">
-              <h2 className="breadcrumb-title">Bảng điều khiển</h2>
-              <nav aria-label="breadcrumb" className="page-breadcrumb">
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item">
-                    <Link to="/">Trang chủ</Link>
-                  </li>
-                  <li className="breadcrumb-item" aria-current="page">
-                    Bảng điều khiển
-                  </li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div>
+      <BreadcrumbBar title="THỐNG KÊ CUỘC HẸN" lable="Thống kê cuộc hẹn" />
+
 
       {/* Phần nội dung */}
       <div className="content">

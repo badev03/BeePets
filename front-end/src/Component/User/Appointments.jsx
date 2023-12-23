@@ -144,15 +144,15 @@ const Appointments = () => {
       <tr key={appointment.appointment_id}>
         <td>
           <h2 className="table-avatar">
-            <a href="doctor-profile.html" className="avatar avatar-sm me-2">
+            <Link to={`/doctor/profile/vu-anh-ba`} className="avatar avatar-sm me-2">
               <img
                 className="avatar-img rounded-circle"
                 src={appointment.image}
                 alt="User Image"
               />
               <span>{appointment.doctor_name}</span>
-            </a>
-            <a href="doctor-profile.html">{appointment.doctor_id}</a>
+            </Link>
+            <Link to={`/doctor/profile/vu-anh-ba`}>{appointment.doctor_id}</Link>
           </h2>
         </td>
         <td>
@@ -163,20 +163,20 @@ const Appointments = () => {
         </td>
         <td>{formatDate(appointment.date)}</td>
         <td>
-          {appointment.status == 1 ? (
+        {appointment.status == 1 ? (
             <span className="badge rounded-pill bg-success-light">
               Xác nhận
             </span>
           ) : appointment.status == 2 ? (
             <span className="badge rounded-pill bg-danger-light">Đã xóa</span>
-          ) : appointment.status == 3 ? (
-            <span className="badge rounded-pill bg-primary-light">
-              Đã hủy
-            </span>
+          ): appointment.status == 0 ? (
+            <span className="badge rounded-pill bg-warning-light">Chờ xác nhận</span>
           ) : appointment.status == 4 ? (
-            <span className="badge rounded-pill bg-danger-light">Đã hoàn thành</span>
-          ) : appointment.status == 0 ? (
-              <span className="badge rounded-pill bg-danger-light">Chờ xác nhận</span>
+            <span className="badge rounded-pill bg-primary-light">
+              Đã hoàn thành
+            </span>
+          ) : appointment.status == 3 ? (
+            <span className="badge rounded-pill bg-danger-light">Đã hủy</span>
           ) : appointment.status == 6 ? (
             <span className="badge rounded-pill bg-warning-light">
               Yêu cầu hủy

@@ -1,25 +1,13 @@
 import React from 'react'
 import Menudashboard from './Menu-dashboard'
 import {Link} from 'react-router-dom'
+import BreadcrumbBar from '../BreadcrumbBar'
 
 const Editprescription = () => {
     return (
         <div>
-            <div className="breadcrumb-bar-two">
-                <div className="container">
-                    <div className="row align-items-center inner-banner">
-                        <div className="col-md-12 col-12 text-center">
-                            <h2 className="breadcrumb-title">Thêm đơn thuốc</h2>
-                            <nav aria-label="breadcrumb" className="page-breadcrumb">
-                                <ol className="breadcrumb">
-                                    <li className="breadcrumb-item"><Link to="/">Trang chủ</Link></li>
-                                    <li className="breadcrumb-item" aria-current="page">Thêm đơn thuốc</li>
-                                </ol>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                       <BreadcrumbBar title="THÊM ĐƠN THUỐC" lable="Thêm đơn thuốc" />
+
             <div className="content">
                 <div className="container">
                     <div className="row">

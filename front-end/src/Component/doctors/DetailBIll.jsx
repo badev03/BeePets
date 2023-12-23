@@ -10,6 +10,7 @@ import { useReactToPrint } from "react-to-print";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { FaSpinner } from "react-icons/fa";
+import BreadcrumbBar from "../BreadcrumbBar";
 const MySwal = withReactContent(Swal);
 const DetailBIll = () => {
   const { id } = useParams();
@@ -114,25 +115,8 @@ const DetailBIll = () => {
 
   return (
     <div>
-      <div className="breadcrumb-bar-two">
-        <div className="container">
-          <div className="row align-items-center inner-banner">
-            <div className="col-md-12 col-12 text-center">
-              <h2 className="breadcrumb-title">Chi tiết hóa đơn</h2>
-              <nav aria-label="breadcrumb" className="page-breadcrumb">
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item">
-                    <Link to="/">Trang chủ</Link>
-                  </li>
-                  <li className="breadcrumb-item" aria-current="page">
-                    Chi tiết hóa đơn
-                  </li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div>
+               <BreadcrumbBar title="CHI TIẾT HÓA ĐƠN" lable="Chi tiết hóa đơn" />
+
       <div className="content">
         <div ref={componetPDF}>
           <div className="container">
@@ -316,7 +300,8 @@ const DetailBIll = () => {
                       <div>
                         <div className="card-body">
                           <h3 className="card-title">
-                            Ghi chú : {bill.description}
+                            Ghi chú :<div dangerouslySetInnerHTML={{ __html: bill.description }} />
+
                           </h3>
                         </div>
                       </div>

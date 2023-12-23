@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import axios from "axios";
 import LoadingSkeleton from "../Loading";
+import BreadcrumbBar from "../BreadcrumbBar";
 const BillDetail = () => {
   const [bill, setBill] = useState({});
   const [products, setProducts] = useState([]);
@@ -25,7 +26,7 @@ const BillDetail = () => {
           );
           setBill(response.data.bill);
           setProducts(response.data.products);
-          setService(response.data.bill_service);
+          setService(response.data.service);
           console.log(response);
           setIsLoading(false);
         } catch (error) {
@@ -62,25 +63,8 @@ const BillDetail = () => {
   };
   return (
     <div>
-      <div className="breadcrumb-bar-two">
-        <div className="container">
-          <div className="row align-items-center inner-banner">
-            <div className="col-md-12 col-12 text-center">
-              <h2 className="breadcrumb-title">Chi tiết hóa đơn</h2>
-              <nav aria-label="breadcrumb" className="page-breadcrumb">
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item">
-                    <a href="index.html">Trang chủ</a>
-                  </li>
-                  <li className="breadcrumb-item" aria-current="page">
-                    Chi tiết hóa đơn
-                  </li>
-                </ol>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div>
+                  <BreadcrumbBar title="CHI TIẾT HÓA ĐƠN" lable="Chi tiết hóa đơn" />
+
       <div className="content">
         <div className="container">
           <div className="row">
@@ -94,12 +78,11 @@ const BillDetail = () => {
                     <form>
                       <div className="row align-items-center mb-4">
                         <div className="col-6">
-                          <img
-                            src={bill.image}
-                            className="img-fluid"
-                            style={{ width: "100px", height: "auto" }}
-                            alt="Logo"
-                          />
+                        <img
+                      src="/assets/img/logo.png"
+                      className="img-fluid"
+                      alt="Logo"
+                  />
                         </div>
                         <div className="col-12 col-md-6">
                           <div className="mb-3" style={{ marginLeft: "140px" }}>
@@ -138,15 +121,39 @@ const BillDetail = () => {
                           </tbody>
                         </table>
                       </div>
-                      <div className="col-12 col-md-12 text-end mt-4">
-                        <label className="mb-2">
-                          <strong>
-                            Tổng tiền: {formatCurrency(bill.total_amount)}{" "}
-                          </strong>
-                        </label>
+                      <div className="table-responsive">
+                        <table
+                          className="table table-hover table-center mb-0"
+                          style={{ marginTop: "20px" }}
+                        >
+                          <thead>
+                            <tr>
+                              <th>Số thứ tự</th>
+                              <th>Tên Dịch vụ</th>
+                            
+                              <th>Đơn giá</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {service.map((product, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>{product.service_name}</td>
+                                
+                                <td>{formatCurrency(product.service_price)}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
+                   
                       <div className="col-12 col-md-12 mt-5">
+                        <div className="mb-3"> <label className="mb-2">
+                                <strong>Loại thú cưng :</strong>
+                              </label>
+                              <span style={{marginLeft:"10px"}} >{bill.type_pet_name}</span></div>
                         <div className="mb-3">
+                       
                           {bill.status === 3 ? (
                             <>
                               <label className="mb-2">
@@ -162,16 +169,20 @@ const BillDetail = () => {
                           ) : (
                             <>
                               <label className="mb-2">
-                                <strong>Ghi chú</strong>
+                                <strong>Ghi chú :</strong>
                               </label>
-                              <textarea
-                                className="form-control"
-                                rows="4"
-                                value={bill.description}
-                              />
+                              <span style={{marginLeft:"10px"}} dangerouslySetInnerHTML={{ __html: bill.description }} />
+
                             </>
                           )}
                         </div>
+                      </div>
+                      <div className="col-12 col-md-12 text-end mt-4">
+                        <label className="mb-2">
+                          <strong>
+                            Tổng tiền: {formatCurrency(bill.total_amount)}{" "}
+                          </strong>
+                        </label>
                       </div>
                     </form>
                     <Link to={`/user/dashbroad`}>

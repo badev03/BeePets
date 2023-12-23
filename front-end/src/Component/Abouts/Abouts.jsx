@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import aboutsApi from "../../api/aboutApi";
-import Services from "../Servicer/services";
 import Servicer from "../Servicer/service";
 import DoctorAbout from "../Homepage/DoctorAbout";
 import { Link } from "react-router-dom";
+import LoadingSkeleton from "../Loading";
 
 const Abouts = () => {
-  const [abouts, setAbouts] = useState([]);
+  const [abouts, setAbouts] = useState("");
   useEffect(() => {
     const fetchAbout = async () => {
       try {
@@ -21,7 +21,7 @@ const Abouts = () => {
     fetchAbout();
   }, []);
   if (!abouts) {
-    return <div>Loading...</div>;
+    return <div><LoadingSkeleton/></div>;
   }
   return (
     <>
@@ -103,7 +103,7 @@ const Abouts = () => {
                     <div className="about-contact-icon">
                       <span>
                         <img
-                          src="../src/assets/img/icons/phone-icon.svg"
+                          src="/assets/img/icons/phone-icon.svg"
                           alt="phone-image"
                         />
                       </span>
@@ -120,8 +120,8 @@ const Abouts = () => {
         </section>
         <section className="services-section-fourteen">
           <div className="floating-bg">
-            <img src="../src/assets/img/bg/big-paw.png" alt="paw-image" />
-            <img src="../src/assets/img/bg/small-paw.png" alt="paw-image" />
+            <img src="/assets/img/bg/big-paw.png" alt="paw-image" />
+            <img src="/assets/img/bg/small-paw.png" alt="paw-image" />
           </div>
           <Servicer />
         </section>
